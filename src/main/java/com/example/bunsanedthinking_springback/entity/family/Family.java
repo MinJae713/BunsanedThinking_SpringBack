@@ -17,12 +17,12 @@ public class Family implements Cloneable{
 	private int id;
 	private String name;
 	private RelationshipType relationship;
-	private boolean survial;
+	private boolean survival;
 
-	public Family(RelationshipType relationshipType, String familyName, boolean survial, Date date){
+	public Family(RelationshipType relationshipType, String familyName, boolean survival, Date date){
 		this.setRelationship(relationshipType);
 		this.setName(familyName);
-		this.setSurvial(survial);
+		this.setSurvival(survival);
 		this.setBirthDate(date);
 		
 	}
@@ -68,16 +68,16 @@ public class Family implements Cloneable{
 		this.relationship = relationship;
 	}
 
-	public boolean isSurvial() {
-		return survial;
+	public boolean isSurvival() {
+		return survival;
 	}
 
-	public void setSurvial(boolean survial) {
-		this.survial = survial;
+	public void setSurvival(boolean survival) {
+		this.survival = survival;
 	}
 	
 	public Family clone() {
-		Family cloneFamily =  new Family(getRelationship(),getName(), isSurvial(), this.birthDate);
+		Family cloneFamily =  new Family(getRelationship(),getName(), isSurvival(), this.birthDate);
 		cloneFamily.setId(getId());
 		return cloneFamily;
 	}
