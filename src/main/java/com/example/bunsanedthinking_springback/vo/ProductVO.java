@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ProductVO {
 	private int id;
 	private String name;
-	private String maximum_money;
+	private int maximum_money;
 }
