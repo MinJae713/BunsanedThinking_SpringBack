@@ -4,10 +4,14 @@ import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
 import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ManagementPlanningModel {
+	@Autowired
+	public DepartmentMapper departmentMapper;
 
 	public void addDepartment(String name, String task, String purpose, String headName, DepartmentList departmentList) throws DuplicateDepartmentException{
 		for (Department department : departmentList.getAll()) {
@@ -21,6 +25,7 @@ public class ManagementPlanningModel {
 
 	public void deleteDepartment(DepartmentList departmentList, int id) throws NotExistException{
 		try {
+			departmentMapper.delete_managementPlanning(id);
 			departmentList.delete(id);
 		} catch (NotExistException e) {
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다."); 
