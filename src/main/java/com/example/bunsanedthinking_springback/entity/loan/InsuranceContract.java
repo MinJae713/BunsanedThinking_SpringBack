@@ -19,14 +19,14 @@ public class InsuranceContract extends Loan {
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
 		this.setProductID(parameter);
 	}
 
 	@Override
 	public Product clone() {
-		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getLimit(), getMinimumAsset(),getProductID());
+		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),getProductID());
 		insuranceContractLoan.setId(getId());
 		return insuranceContractLoan;
 	}

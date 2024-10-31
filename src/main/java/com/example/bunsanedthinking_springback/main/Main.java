@@ -1037,7 +1037,7 @@ public class Main {
 			for (Loan loan : loanList) {
 				System.out.println("대출 상품 번호 : " + loan.getId() + " 대출 상품 이름 : " + loan.getName() + " 대출 상품 종류 : "
 						+ loan.getLoanType().getName() + " 이자율 : " + loan.getInterestRate() + " 대출 가능 최대 금액 : "
-						+ loan.getLimit());
+						+ loan.getMaximumMoney());
 			}
 			System.out.println("1. 대출 종류 콤보박스 2. 검색 3. 더블 클릭");
 			try {
@@ -1114,7 +1114,7 @@ public class Main {
 	private void selectLoan(Customer customer, Loan loan) {
 		System.out.print("대출 상품 번호 : " + loan.getId() + " 대출 상품 이름 : " + loan.getName() + " 대출 상품 종류 : "
 				+ loan.getLoanType().getName() + " 이자율 : " + loan.getInterestRate() + " 대출 가능 최대 금액 : "
-				+ loan.getLimit());
+				+ loan.getMaximumMoney());
 		switch (loan.getLoanType()) {
 		case Collateral:
 			System.out.println(" 담보 종류 : " + ((Collateral) loan).getCollateralType().getName() + " 담보 최소 가치 : "
@@ -1160,7 +1160,7 @@ public class Main {
 					Insurance product = customerController.getInsurance(productList, contract.getProduct().getId());
 					System.out.println("<보험 상품 정보>");
 					System.out.println("계약 아이디 : " + contract.getId() + "\n보험 상품 이름 : " + product.getName() + " | 보험 종류 : "
-							+ product.getInsuranceType().getName() + " | 한도 : " + product.getLimit() + " | 연령대 : "
+							+ product.getInsuranceType().getName() + " | 한도 : " + product.getMaximumMoney() + " | 연령대 : "
 							+ product.getAgeRange() + "\n보장 내용 : " + product.getCoverage() + " | 월 보험료 : "
 							+ product.getMonthlyPremium() + "\n계약 기간(년): " + product.getContractPeriod() 
 							+ " | 만기일 : " + contract.getExpirationDate() + " | 가입일 : " + contract.getDate() 
@@ -1749,7 +1749,7 @@ public class Main {
 		System.out.print(
 				"3. 재고 수량: " + officeSupply.getInventory() + " ");
 		System.out.print("4. 총 재고 수량: " + administrativeController.getTotalInventory(this.officeSupplyList) + " ");
-		System.out.println("5. 비품 설명: " + officeSupply.getExplain());
+		System.out.println("5. 비품 설명: " + officeSupply.getDescription());
 
 		System.out.println("1. 수정 2. 삭제");
 		input = scanner.next();
@@ -1779,7 +1779,7 @@ public class Main {
 
 		System.out.println("비품 번호: " + officeSupply.getId());
 		System.out.println("1. 비품 이름: " + officeSupply.getName());
-		System.out.println("2. 비품 설명: " + officeSupply.getExplain());
+		System.out.println("2. 비품 설명: " + officeSupply.getDescription());
 		System.out.println("3. 비품 재고: " + officeSupply.getInventory());
 
 		try {
@@ -4464,7 +4464,7 @@ public class Main {
 					System.out.print("대출 상품 이름: " + ((Loan) e).getName() + " | ");
 					System.out.print("대출 종류: " + ((Loan) e).getLoanType().getName() + " | ");
 					System.out.print("이자율: " + ((Loan) e).getInterestRate() + " | ");
-					System.out.println("대출 가능 최대 금액: " + ((Loan) e).getLimit() + " | ");
+					System.out.println("대출 가능 최대 금액: " + ((Loan) e).getMaximumMoney() + " | ");
 					System.out.println("-----------------");
 				}
 			}
@@ -4528,7 +4528,7 @@ public class Main {
 			System.out.print("대출 종류: " + loan.getLoanType().getName() + " ");
 			System.out.print("대출 상품 번호: " + loan.getId() + " ");
 			System.out.print("이자율: " + loan.getInterestRate() + " ");
-			System.out.println("대출 가능 최대 금액: " + loan.getLimit() + " ");	
+			System.out.println("대출 가능 최대 금액: " + loan.getMaximumMoney() + " ");
 		}
 
 		private void doubleClickLoanSales(Employee employee) throws ParseException {
@@ -4542,7 +4542,7 @@ public class Main {
 					System.out.println("2. 대출 종류: " + salesController.getLoanProduct(productList, id).getLoanType().getName() + " ");
 					System.out.println("3. 대출 상품 번호: " + salesController.getLoanProduct(productList, id).getId() + " ");
 					System.out.println("4. 이자율: " + salesController.getLoanProduct(productList, id).getInterestRate() + " ");
-					System.out.println("5. 대출 가능 최대 금액: " + salesController.getLoanProduct(productList, id).getLimit() + " ");
+					System.out.println("5. 대출 가능 최대 금액: " + salesController.getLoanProduct(productList, id).getMaximumMoney() + " ");
 					System.out.println("6. 최소 자산: " + salesController.getLoanProduct(productList, id).getMinimumAsset());
 					if (salesController.getLoanProduct(productList, id) instanceof Collateral) {
 						Collateral collateralLoan = (Collateral) salesController.getLoanProduct(productList, id);
@@ -4754,7 +4754,7 @@ public class Main {
 				System.out.print("대출 종류: " + loan.getLoanType().getName() + " ");
 				System.out.print("대출 상품 번호: " + loan.getId() + " ");
 				System.out.print("이자율: " + loan.getInterestRate() + " ");
-				System.out.println("대출 가능 최대 금액: " + loan.getLimit());
+				System.out.println("대출 가능 최대 금액: " + loan.getMaximumMoney());
 				// System.out.println("대출 상태: " + ((Loan) e).get() + " ");
 			}
 		}
@@ -4767,7 +4767,7 @@ public class Main {
 				System.out.print("대출 종류: " + loan.getLoanType().getName() + " ");
 				System.out.print("대출 상품 번호: " + loan.getId() + " ");
 				System.out.print("이자율: " + loan.getInterestRate() + " ");
-				System.out.println("대출 가능 최대 금액: " + loan.getLimit());
+				System.out.println("대출 가능 최대 금액: " + loan.getMaximumMoney());
 				// System.out.println("대출 상태: " + ((Loan) e).get() + " ");
 			}
 		}
@@ -4780,7 +4780,7 @@ public class Main {
 				System.out.print("대출 종류: " + loan.getLoanType().getName() + " ");
 				System.out.print("대출 상품 번호: " + loan.getId() + " ");
 				System.out.print("이자율: " + loan.getInterestRate() + " ");
-				System.out.println("대출 가능 최대 금액: " + loan.getLimit());
+				System.out.println("대출 가능 최대 금액: " + loan.getMaximumMoney());
 				// System.out.println("대출 상태: " + ((Loan) e).get() + " ");
 			}
 		}
@@ -6946,7 +6946,7 @@ public class Main {
 		System.out.print("계약 번호 : " + contract.getId() + " 처리 상태 : " + contract.getContractStatus().getText()
 				+ " 상품 번호 : " + product.getId() + " 상품 이름 : " + product.getName() + " 대출 종류 : "
 				+ product.getLoanType().getName() + " 이자율 : " + product.getInterestRate() + " 대출 가능 최대 금액 : "
-				+ product.getLimit() + " 최소 자산 : " + product.getMinimumAsset());
+				+ product.getMaximumMoney() + " 최소 자산 : " + product.getMinimumAsset());
 		if (product instanceof Collateral) {
 			System.out.println(" 담보 종류 : " + ((Collateral) product).getCollateralType().getName() + " 담보 최소 가치 : "
 					+ ((Collateral) product).getMinimumValue());
@@ -7009,7 +7009,7 @@ public class Main {
 				System.out.print("대출 종류: " + ((Loan) e).getLoanType().getName() + " ");
 				System.out.print("대출 상품 번호: " + ((Loan) e).getId() + " ");
 				System.out.print("이자율: " + ((Loan) e).getInterestRate() + " ");
-				System.out.println("대출 가능 최대 금액: " + ((Loan) e).getLimit());
+				System.out.println("대출 가능 최대 금액: " + ((Loan) e).getMaximumMoney());
 			}
 		}
 
@@ -7251,7 +7251,7 @@ public class Main {
 		System.out.print("대출 종류: " + loan.getLoanType().getName() + " ");
 		System.out.print("대출 상품 번호: " + loan.getId() + " ");
 		System.out.print("이자율: " + loan.getInterestRate() + " ");
-		System.out.println("대출 가능 최대 금액: " + loan.getLimit());
+		System.out.println("대출 가능 최대 금액: " + loan.getMaximumMoney());
 	}
 
 //	2024-06-02 김대현
@@ -7272,7 +7272,7 @@ public class Main {
 		System.out.println("2. 대출 종류: " + loan.getLoanType().getName());
 		System.out.println("3. 대출 상품 번호: " + loan.getId());
 		System.out.println("4. 이자율: " + loan.getInterestRate());
-		System.out.println("5. 대출 가능 최대 금액: " + loan.getLimit());
+		System.out.println("5. 대출 가능 최대 금액: " + loan.getMaximumMoney());
 		System.out.println("6. 최소 자산: " + loan.getMinimumAsset());
 		if (loan instanceof Collateral) {
 			Collateral collateralLoan = (Collateral) loan;
@@ -7312,7 +7312,7 @@ public class Main {
 
 			System.out.println("1. 대출 상품 이름: " + loan.getName());
 			System.out.println("2. 이자율: " + loan.getInterestRate());
-			System.out.println("3. 대출 가능 최대 금액: " + loan.getLimit());
+			System.out.println("3. 대출 가능 최대 금액: " + loan.getMaximumMoney());
 			System.out.println("4. 최소 자산: " + loan.getMinimumAsset());
 
 			if (loan instanceof Collateral) {

@@ -21,7 +21,7 @@ public class Disease extends Insurance {
 			int monthlyPremium, int contractPeriod, String diseaseName, int diseaseLimit, int surgeriesLimit) {
 		this.setInsuranceType(insuranceType);
 		this.setName(name);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setAgeRange(ageRange);
 		this.setCoverage(coverage);
 		this.setMonthlyPremium(monthlyPremium);
@@ -57,7 +57,7 @@ public class Disease extends Insurance {
 
 	@Override
 	public Product clone() {
-		Disease cloneDisease = new Disease(getInsuranceType(), getName(), getLimit(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(),getDiseaseName(),getDiseaseLimit(), getSurgeriesLimit());
+		Disease cloneDisease = new Disease(getInsuranceType(), getName(), getMaximumMoney(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(),getDiseaseName(),getDiseaseLimit(), getSurgeriesLimit());
 		cloneDisease.setId(getId());
 		return cloneDisease;
 	}

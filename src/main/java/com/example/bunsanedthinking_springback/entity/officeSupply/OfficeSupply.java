@@ -14,13 +14,13 @@ public class OfficeSupply implements Cloneable {
 	private int inventory;
 	private String name;
 	private int totalInventory;
-	private String explain;
+	private String description;
 	public static final int OFFICESUPPLY_SERIAL_NUMBER = 920;
 	
 	
-	public OfficeSupply(String name, String explain, int inventory){
+	public OfficeSupply(String name, String description, int inventory){
 		this.setName(name);
-		this.setExplain(explain);
+		this.setDescription(description);
 		this.setInventory(inventory);
 	}
 
@@ -56,16 +56,16 @@ public class OfficeSupply implements Cloneable {
 		this.totalInventory = totalInventory;
 	}
 
-	public String getExplain() {
-		return explain;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public OfficeSupply clone() {
-		OfficeSupply officeSupply = new OfficeSupply(getName(), getExplain(), getInventory());
+		OfficeSupply officeSupply = new OfficeSupply(getName(), getDescription(), getInventory());
 		officeSupply.setId(getId());
 		officeSupply.setTotalInventory(getTotalInventory());
 		return officeSupply;

@@ -18,7 +18,7 @@ public class FixedDeposit extends Loan {
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
 		this.setMinimumAmount(minimumAsset);
 	}
@@ -33,7 +33,7 @@ public class FixedDeposit extends Loan {
 	
 	@Override
 	public Product clone() {
-		FixedDeposit fixedDepositLoan = new FixedDeposit(getLoanType(), getName(),getInterestRate(), getLimit(), getMinimumAsset(), getMinimumAmount());
+		FixedDeposit fixedDepositLoan = new FixedDeposit(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getMinimumAmount());
 		fixedDepositLoan.setId(getId());
 		return fixedDepositLoan;
 	}

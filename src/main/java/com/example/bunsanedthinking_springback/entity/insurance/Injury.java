@@ -19,7 +19,7 @@ public class Injury extends Insurance {
 	public Injury(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium, int contractPeriod, InjuryType injuryType, int surgeriesLimit) {
 		this.setInsuranceType(insuranceType);
 		this.setName(name);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setAgeRange(ageRange);
 		this.setCoverage(coverage);
 		this.setMonthlyPremium(monthlyPremium);
@@ -46,7 +46,7 @@ public class Injury extends Insurance {
 
 	@Override
 	public Product clone() {
-		Injury cloneInjury = new Injury(getInsuranceType(), getName(), getLimit(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getInjuryType(), getSurgeriesLimit());
+		Injury cloneInjury = new Injury(getInsuranceType(), getName(), getMaximumMoney(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getInjuryType(), getSurgeriesLimit());
 		cloneInjury.setId(getId());
 		return cloneInjury;
 	}

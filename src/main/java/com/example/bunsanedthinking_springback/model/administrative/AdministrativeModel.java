@@ -52,7 +52,7 @@ public class AdministrativeModel {
 				officeSupplyList.update(officeSupply);
 				break;
 			case 2:
-				officeSupply.setExplain(input);
+				officeSupply.setDescription(input);
 				officeSupplyList.update(officeSupply);
 				break;
 			case 3:

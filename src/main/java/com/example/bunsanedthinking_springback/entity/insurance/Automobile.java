@@ -26,7 +26,7 @@ public class Automobile extends Insurance {
 			ArrayList<ServiceType> serviceTypeList) {
 		this.setInsuranceType(insuranceType);
 		this.setName(name);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setAgeRange(ageRange);
 		this.setCoverage(coverage);
 		this.setMonthlyPremium(monthlyPremium);
@@ -63,7 +63,7 @@ public class Automobile extends Insurance {
 	@Override
 	public Product clone() {
 		
-		Automobile cloneAutomobile =  new Automobile(getInsuranceType(),getName(), getLimit(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getAccidentLimit(), getVehicleType(), getServiceList());
+		Automobile cloneAutomobile =  new Automobile(getInsuranceType(),getName(), getMaximumMoney(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getAccidentLimit(), getVehicleType(), getServiceList());
 		cloneAutomobile.setId(getId());
 		return cloneAutomobile;
 	}

@@ -14,7 +14,7 @@ public abstract class Product implements Cloneable {
 	public static final int PRODUCT_SERIAL_NUMBER = 700;
 	
 	private int id;
-	private int limit;
+	private int maximumMoney;
 	private String name;
 	
 
@@ -31,12 +31,12 @@ public abstract class Product implements Cloneable {
 		this.id = id;
 	}
 
-	public int getLimit() {
-		return limit;
+	public int getMaximumMoney() {
+		return maximumMoney;
 	}
 
-	public void setLimit(int limit) {
-		this.limit = limit;
+	public void setMaximumMoney(int maximumMoney) {
+		this.maximumMoney = maximumMoney;
 	}
 
 	public String getName() {

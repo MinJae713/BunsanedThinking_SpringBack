@@ -104,7 +104,7 @@ public class LoanManagementModel {
 			productList.update(collateralLoan);
 			break;
 		case 3:
-			collateralLoan.setLimit(Integer.parseInt(input));
+			collateralLoan.setMaximumMoney(Integer.parseInt(input));
 			productList.update(collateralLoan);
 			break;
 		case 4:
@@ -147,7 +147,7 @@ public class LoanManagementModel {
 				productList.update(fixedDepositLoan);
 				break;
 			case 3:
-				fixedDepositLoan.setLimit(Integer.parseInt(input));
+				fixedDepositLoan.setMaximumMoney(Integer.parseInt(input));
 				productList.update(fixedDepositLoan);
 				break;
 			case 4:
@@ -179,7 +179,7 @@ public class LoanManagementModel {
 				productList.update(lnsuranceContractLoan);
 				break;
 			case 3:
-				lnsuranceContractLoan.setLimit(Integer.parseInt(input));
+				lnsuranceContractLoan.setMaximumMoney(Integer.parseInt(input));
 				productList.update(lnsuranceContractLoan);
 				break;
 			case 4:

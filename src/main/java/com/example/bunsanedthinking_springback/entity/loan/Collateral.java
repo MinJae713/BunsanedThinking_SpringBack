@@ -18,7 +18,7 @@ public class Collateral extends Loan {
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
-		this.setLimit(limit);
+		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
 		this.setCollateralType(collateralType);
 		this.setMinimumValue(minimumValue);
@@ -42,7 +42,7 @@ public class Collateral extends Loan {
 	
 	@Override
 	public Product clone() {
-		Collateral collateralLoan = new Collateral(getLoanType(), getName(),getInterestRate(), getLimit(), getMinimumAsset(), getCollateralType() ,getMinimumValue());
+		Collateral collateralLoan = new Collateral(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getCollateralType() ,getMinimumValue());
 		collateralLoan.setId(getId());
 		return collateralLoan;
 	}
