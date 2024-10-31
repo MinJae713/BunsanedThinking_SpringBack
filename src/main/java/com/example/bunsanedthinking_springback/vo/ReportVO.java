@@ -1,8 +1,12 @@
 package com.example.bunsanedthinking_springback.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportVO {
 	private int accident_id;
 	private String damage_assessment_detail;
