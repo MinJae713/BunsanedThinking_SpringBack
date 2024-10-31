@@ -5,11 +5,15 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class AccidentVO {
+public class ComplaintVO {
     private int id;
+    private int complaint_type;
+    private String content;
     private LocalDate date;
-    private String location;
+    private String employee_name;
+    private LocalDate processing_date;
     private int process_status;
-    private int service_type;
+    private String result;
+    private String title;
     private int customer_id;
 }

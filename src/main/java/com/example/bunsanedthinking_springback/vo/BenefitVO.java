@@ -3,7 +3,7 @@ package com.example.bunsanedthinking_springback.vo;
 import lombok.Data;
 
 @Data
-public class AdditionalAllowanceVO {
+public class BenefitVO {
     private int payment_detail_id;
-    private int type;
+    private int benefit_type;
 }
