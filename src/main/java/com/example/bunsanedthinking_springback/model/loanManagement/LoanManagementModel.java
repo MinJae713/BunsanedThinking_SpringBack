@@ -16,46 +16,85 @@ import com.example.bunsanedthinking_springback.exception.AlreadyProcessedExcepti
 import com.example.bunsanedthinking_springback.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.repository.CollateralMapper;
+import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
+import com.example.bunsanedthinking_springback.repository.LoanMapper;
+import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.vo.CollateralVO;
+import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
+import com.example.bunsanedthinking_springback.vo.LoanVO;
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
 public class LoanManagementModel {
+	private static int index = 0;
+
+	@Autowired
+	private ProductMapper productMapper;
+	@Autowired
+	private LoanMapper loanMapper;
+	@Autowired
+	private CollateralMapper collateralMapper;
+	@Autowired
+	private FixedDepositMapper fixedDepositMapper;
+	@Autowired
+	private InsuranceContractMapper insuranceContractMapper;
 
 	public void addLoanProduct(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
-							   CollateralType collateralType, int minimumValue, ProductList productList) throws DuplicateLoanException {
-		for (Product product : productList.getAll()) {
+							   CollateralType collateralType, int minimumValue, int monthlyIncome) throws DuplicateLoanException {
+		checkLoanName(name);
+		ProductVO productVO = createProductVO(name, limit);
+		LoanVO loanVO = createLoanVO(productVO.getId(), loanType.ordinal(), minimumAsset, monthlyIncome, interestRate);
+
+		CollateralVO collateralVO = new CollateralVO(productVO.getId(), collateralType.ordinal(), minimumValue);
+		productMapper.insert_LoanManagement(productVO);
+		loanMapper.insert_LoanManagement(loanVO);
+		collateralMapper.insert_LoanManagement(collateralVO);
+	}
+
+	public void addLoanProduct(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
+			int parameter, int monthlyIncome) throws DuplicateLoanException {
+		checkLoanName(name);
+		ProductVO productVO = createProductVO(name, limit);
+		LoanVO loanVO = createLoanVO(productVO.getId(), loanType.ordinal(), minimumAsset, monthlyIncome, interestRate);
+
+		productMapper.insert_LoanManagement(productVO);
+		loanMapper.insert_LoanManagement(loanVO);
+
+		if (loanType == LoanType.FixedDeposit) {
+			FixedDepositVO fixedDepositVO = new FixedDepositVO(productVO.getId(), parameter);
+			fixedDepositMapper.insert_LoanManagement(fixedDepositVO);
+
+		} else if (loanType == LoanType.InsuranceContract) {
+			InsuranceContractVO insuranceContractVO = new InsuranceContractVO(productVO.getId(), parameter);
+			insuranceContractMapper.insert_LoanManagement(insuranceContractVO);
+		}
+	}
+
+	private void checkLoanName(String name) throws DuplicateLoanException {
+		for (Product product : productMapper.getAll_LoanManagement()) {
 			if (product.getName().equals(name)) {
 				throw new DuplicateLoanException();
 			}
 		}
-		Collateral collateralLoan = new Collateral(loanType, name, interestRate, limit, minimumAsset, collateralType,
-				minimumValue);
-		productList.add(collateralLoan);
 	}
 
-	public void addLoanProduct(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
-			int parameter, ProductList productList) throws DuplicateLoanException {
-		if (loanType == LoanType.FixedDeposit) {
-			for (Product product : productList.getAll()) {
-				if (product.getName().equals(name)) {
-					throw new DuplicateLoanException();
-				}
-			}
-			FixedDeposit fixedDepositLoan = new FixedDeposit(loanType, name, interestRate, limit, minimumAsset,
-					parameter);
-			productList.add(fixedDepositLoan);
-		} else if (loanType == LoanType.InsuranceContract) {
-			for (Product product : productList.getAll()) {
-				if (product.getName().equals(name)) {
-					throw new DuplicateLoanException();
-				}
-			}
-			InsuranceContract insuranceContractLoan = new InsuranceContract(loanType, name, interestRate, limit,
-					minimumAsset, parameter);
-			productList.add(insuranceContractLoan);
-		}
+	private ProductVO createProductVO(String name, int limit) {
+		index++;
+		String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Loan.LOAN_SERIAL_NUMBER + index;
+		int productId = Integer.parseInt(compound);
+		return new ProductVO(productId, name, limit);
+	}
+
+	private LoanVO createLoanVO(int id, int ordinal, int minimumAsset, int monthlyIncome, int interestRate) {
+		return new LoanVO(id, ordinal, minimumAsset, monthlyIncome, interestRate);
 	}
 
 	public Loan getLoanProduct(ProductList productList, int id) throws NotExistException {
