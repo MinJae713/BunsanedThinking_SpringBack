@@ -19,4 +19,30 @@
                    #{employee_id}
                )
     </insert>
+    <update id="update_FinancialAccountant" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        update paymentdetail
+        set account_holder=#{account_holder},
+            bank=#{bank},
+            bank_account=#{bank_account},
+            money=#{money},
+            payment_type=#{payment_type},
+            process_status=#{process_status},
+            contract_id=#{contract_id},
+            employee_id=#{employee_id}
+        where id=#{id}
+    </update>
+    <select id="getAll_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+    </select>
+    <select id="findByProcessStatus_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+        where process_status=#{param1}
+    </select>
+    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+        where id=#{param1}
+    </select>
 </mapper>
