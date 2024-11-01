@@ -15,6 +15,6 @@ public class PaymentDetailVO {
 	private int money;
 	private int payment_type;
 	private int process_status;
-	private int contract_id;
-	private int employee_id;
+	private Integer contract_id;
+	private Integer employee_id;
 }

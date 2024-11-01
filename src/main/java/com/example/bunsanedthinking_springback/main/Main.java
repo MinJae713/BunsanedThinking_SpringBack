@@ -1124,7 +1124,7 @@ public class Main {
 			System.out.println(" 최소 예치 금액 : " + ((FixedDeposit) loan).getMinimumAmount());
 			break;
 		case InsuranceContract:
-			System.out.println(" 대상 상품 ID : " + ((InsuranceContract) loan).getProductID());
+			System.out.println(" 대상 상품 ID : " + ((InsuranceContract) loan).getInsuranceId());
 			break;
 		}
 		System.out.println("1. 대출 가입 신청");
@@ -4553,7 +4553,7 @@ public class Main {
 						System.out.println("7. 최대 예치 금액: " + fixedDepositLoan.getMinimumAmount());
 					} else if (salesController.getLoanProduct(productList, id) instanceof InsuranceContract) {
 						InsuranceContract insuranceContractLoan = (InsuranceContract) salesController.getLoanProduct(productList, id);
-						System.out.println("7. 보험 상품 번호: " + insuranceContractLoan.getProductID());
+						System.out.println("7. 보험 상품 번호: " + insuranceContractLoan.getInsuranceId());
 					}
 				} else {
 					throw new Exception();
@@ -6953,7 +6953,7 @@ public class Main {
 		} else if (product instanceof FixedDeposit) {
 			System.out.println(" 최소 예치 금액 : " + ((FixedDeposit) product).getMinimumAmount());
 		} else if (product instanceof InsuranceContract) {
-			System.out.println(" 대상 상품 ID : " + ((InsuranceContract) product).getProductID());
+			System.out.println(" 대상 상품 ID : " + ((InsuranceContract) product).getInsuranceId());
 		}
 		String surgeryHistory = "";
 		for (SurgeryHistory surgery : customer.getSurgeryHistoryList()) {
@@ -7283,7 +7283,7 @@ public class Main {
 			System.out.println("7. 최대 예치 금액: " + fixedDepositLoan.getMinimumAmount());
 		} else if (loan instanceof InsuranceContract) {
 			InsuranceContract lnsuranceContractLoan = (InsuranceContract) loan;
-			System.out.println("7. 보험 상품 번호: " + lnsuranceContractLoan.getProductID());
+			System.out.println("7. 보험 상품 번호: " + lnsuranceContractLoan.getInsuranceId());
 		}
 
 		System.out.println("1. 수정 2. 삭제");
@@ -7447,7 +7447,7 @@ public class Main {
 	private void updateInsuranceContract(Employee employee, Loan loan) {
 		// LoanManagementModel employee
 		InsuranceContract lnsuranceContractLoan = (InsuranceContract) loan;
-		System.out.println("5. 보험 상품 번호: " + lnsuranceContractLoan.getProductID());
+		System.out.println("5. 보험 상품 번호: " + lnsuranceContractLoan.getInsuranceId());
 
 		try {
 			int inputIndex = 0;

@@ -22,5 +22,13 @@ public enum LoanType {
 	public String getName() {
 		return this.name;
 	}
-	
+
+	public static LoanType indexOf(int index) {
+		for (LoanType type : LoanType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Loan Type이 전달되었습니다.");
+	}
 }

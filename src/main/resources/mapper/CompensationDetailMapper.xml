@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CompensationDetailMapper">
+    <select id="getMaxId_LoanManagement" resultType="Integer">
+        select max(id)
+        from compensationdetail
+    </select>
+    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        insert into compensationdetail(id, money, payment_date, contract_id)
+        values (
+                   #{id},
+                   #{money},
+                   #{payment_date},
+                   #{contract_id}
+               )
+    </insert>
 </mapper>

@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PaymentDetailMapper">
+    <select id="getCount_LoanManagement" resultType="Integer">
+        select max(id)
+        from paymentdetail
+    </select>
+    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        insert into paymentdetail(id, account_holder, bank, bank_account, money, payment_type, process_status, contract_id, employee_id)
+        values (
+                   #{id},
+                   #{account_holder},
+                   #{bank},
+                   #{bank_account},
+                   #{money},
+                   #{payment_type},
+                   #{process_status},
+                   #{contract_id},
+                   #{employee_id}
+               )
+    </insert>
 </mapper>
