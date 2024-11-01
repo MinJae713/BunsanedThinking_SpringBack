@@ -10,4 +10,9 @@
                 #{loan.interest_rate}
                )
     </insert>
+
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
+        select * from loan
+        where product_id = #{id}
+    </select>
 </mapper>

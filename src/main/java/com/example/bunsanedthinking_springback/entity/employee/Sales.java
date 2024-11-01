@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.entity.employee;
 
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author     환
  * @version 1.0
@@ -9,6 +11,7 @@ import java.util.Date;
  */
 //2024-05-31 紐⑥��솚
 //2024-06-06 源����쁽
+@NoArgsConstructor
 public class Sales extends Employee {
 	
 	private int evaluate;

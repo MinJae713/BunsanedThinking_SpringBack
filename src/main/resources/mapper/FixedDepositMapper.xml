@@ -8,4 +8,8 @@
                 #{fixedDeposit.minimum_amount}
                )
     </insert>
+
+    <select id="getAllFixedDepositLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
+        select * from fixeddeposit
+    </select>
 </mapper>

@@ -8,4 +8,8 @@
                 #{insuranceContract.insurance_id}
                )
     </insert>
+
+    <select id="getAllInsuranceContractLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
+        select * from insurancecontract
+    </select>
 </mapper>

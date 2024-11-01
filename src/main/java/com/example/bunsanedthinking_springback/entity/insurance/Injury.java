@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
@@ -11,6 +13,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 //2024-05-29 김대현
 //2024-05-31 김대현
 //2024-06-02 김대현
+@NoArgsConstructor
 public class Injury extends Insurance {
 
 	private InjuryType injuryType;

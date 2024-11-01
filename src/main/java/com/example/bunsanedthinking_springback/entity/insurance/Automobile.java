@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 //2024-05-29 김대현
 //2024-05-31 김대현
 //2024-06-02 김대현
+@NoArgsConstructor
 public class Automobile extends Insurance {
 
 	private int accidentLimit;

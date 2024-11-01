@@ -13,4 +13,9 @@
         select *
         from product
     </select>
+
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        select * from product
+        where id = #{id}
+    </select>
 </mapper>

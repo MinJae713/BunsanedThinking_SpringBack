@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
@@ -10,6 +12,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 
 //2024-06-02 김대현
 //2024-06-04 김대현
+@NoArgsConstructor
 public class FixedDeposit extends Loan {
 
 	private int minimumAmount;

@@ -2,12 +2,15 @@ package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:40
  */
 //2024-06-02 김대현
+@NoArgsConstructor
 public class Collateral extends Loan {
 
 	private CollateralType collateralType;

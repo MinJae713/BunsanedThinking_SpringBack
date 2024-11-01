@@ -7,11 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:41
  */
+@NoArgsConstructor
 public class Employee implements Cloneable {
 
 	public static final int EMPLOYEE_SERIAL_NUMBER = 600;

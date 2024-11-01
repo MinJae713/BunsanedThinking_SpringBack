@@ -10,6 +10,8 @@ import com.example.bunsanedthinking_springback.vo.ProductVO;
 
 @Mapper
 public interface ProductMapper {
+	ProductVO get_SalesModel(int id);
+
 	void insert_LoanManagement(@Param("product") ProductVO productVO);
 
 	List<Product> getAll_LoanManagement();
