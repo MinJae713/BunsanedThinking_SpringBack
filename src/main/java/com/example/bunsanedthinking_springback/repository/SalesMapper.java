@@ -10,4 +10,6 @@ import com.example.bunsanedthinking_springback.vo.SalesVO;
 @Mapper
 public interface SalesMapper {
 	SalesVO get_SalesModel(int id);
+
+	void updateEvaluate_SalesModel(int id, int evaluate);
 }

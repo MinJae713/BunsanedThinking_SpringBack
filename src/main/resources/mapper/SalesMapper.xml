@@ -6,5 +6,10 @@
                 where employee_id = #{id}
     </select>
 
+    <update id="updateEvaluate_SalesModel" parameterType="map">
+        UPDATE Sales
+        SET evaluate = #{evaluate}
+        WHERE employee_id = #{id}
+    </update>
 
 </mapper>

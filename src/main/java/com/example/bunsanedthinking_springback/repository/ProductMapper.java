@@ -15,4 +15,6 @@ public interface ProductMapper {
 	void insert_LoanManagement(@Param("product") ProductVO productVO);
 
 	List<Product> getAll_LoanManagement();
+
+	void delete_ProductManagementModel(int id);
 }
