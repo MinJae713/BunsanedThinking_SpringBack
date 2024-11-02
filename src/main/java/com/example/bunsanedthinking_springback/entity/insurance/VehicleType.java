@@ -17,8 +17,17 @@ public enum VehicleType {
 	VehicleType(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
+	}
+
+	public static VehicleType indexOf(int verhicleType) {
+		for (VehicleType vehicleType : VehicleType.values()) {
+			if (vehicleType.ordinal() == verhicleType) {
+				return vehicleType;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Vehicle Type이 입력되었습니다.");
 	}
 }

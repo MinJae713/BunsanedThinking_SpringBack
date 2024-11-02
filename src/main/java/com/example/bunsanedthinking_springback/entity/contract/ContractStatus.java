@@ -22,10 +22,20 @@ public enum ContractStatus {
 	private ContractStatus(String text) {
 		this.setText(text);
 	}
+
 	public String getText() {
 		return text;
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public static ContractStatus indexOf(int contractStatus) {
+		for (ContractStatus status : ContractStatus.values()) {
+			if (status.ordinal() == contractStatus) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Contract Status가 입력되었습니다.");
 	}
 }

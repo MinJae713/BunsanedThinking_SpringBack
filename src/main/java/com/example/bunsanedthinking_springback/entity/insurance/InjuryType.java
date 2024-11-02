@@ -15,9 +15,18 @@ public enum InjuryType {
 	InjuryType(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
+	}
+
+	public static InjuryType indexOf(int index) {
+		for (InjuryType type : InjuryType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Injury Type이 입력되었습니다.");
 	}
 	
 }

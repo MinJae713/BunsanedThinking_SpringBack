@@ -21,4 +21,13 @@ public enum ServiceType {
 		return this.name;
 	}
 
+	public static ServiceType indexOf(int index) {
+		for (ServiceType service : ServiceType.values()) {
+			if (service.ordinal() == index) {
+				return service;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Service Type이 입력되었습니다.");
+	}
+
 }

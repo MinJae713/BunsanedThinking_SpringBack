@@ -18,9 +18,18 @@ public enum InsuranceType {
 	InsuranceType(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
+	}
+
+	public static InsuranceType indexOf(int index) {
+		for (InsuranceType type : InsuranceType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Insurance Type이 입력되었습니다.");
 	}
 	
 }

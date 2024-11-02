@@ -14,4 +14,9 @@
                    #{contract_id}
                )
     </insert>
+    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        select *
+        from compensationdetail
+        where contract_id=#{param1}
+    </select>
 </mapper>

@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +16,7 @@ public class InsuranceMoneyVO {
 	private String receipt;
 	private String medical_certificate;
 	private int contract_id;
+	private String bank_name;
+	private int process_status;
+	private LocalDate apply_date;
 }

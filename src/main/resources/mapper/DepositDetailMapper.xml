@@ -5,4 +5,9 @@
         select *
         from depositdetail
     </select>
+    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select *
+        from depositdetail
+        where contract_id=#{param1}
+    </select>
 </mapper>
