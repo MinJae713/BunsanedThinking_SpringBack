@@ -4,4 +4,22 @@
     <select id="getAllAutomobileInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
         select * from Automobile
     </select>
+
+    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
+        insert into Automobile(product_id, vehicle_type, accident_limit)
+        values (
+                   #{product_id},
+                   #{vehicle_type},
+                   #{accident_limit}
+               )
+    </insert>
+
+    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
+        UPDATE Automobile
+        SET
+            vehicle_type = #{vehicle_type},
+            accident_limit = #{accident_limit}
+        WHERE product_id = #{product_id}
+    </update>
+
 </mapper>

@@ -17,4 +17,6 @@ public interface ProductMapper {
 	List<Product> getAll_LoanManagement();
 
 	void delete_ProductManagementModel(int id);
+
+	void update_ProductManagementModel(ProductVO productVO);
 }

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AutomobileVO {
     private int product_id;
-    private int verhicle_type;
+    private int vehicle_type;
     private int accident_limit;
 }

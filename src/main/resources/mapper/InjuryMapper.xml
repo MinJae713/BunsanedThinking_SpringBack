@@ -4,4 +4,22 @@
     <select id="getAllInjuryInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.InjuryVO">
         select * from Injury
     </select>
+
+    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.InjuryVO">
+        insert into Injury(product_id, injury_type, surgeries_limit)
+        values (
+                   #{product_id},
+                   #{injury_type},
+                   #{surgeries_limit}
+               )
+    </insert>
+
+    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.InjuryVO">
+        UPDATE Injury
+        SET
+            injury_type = #{injury_type},
+            surgeries_limit = #{surgeries_limit}
+        WHERE product_id = #{product_id}
+    </update>
+
 </mapper>

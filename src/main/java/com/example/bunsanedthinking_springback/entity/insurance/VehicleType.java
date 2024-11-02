@@ -33,4 +33,18 @@ public enum VehicleType {
 				throw new IllegalArgumentException("Unknown VehicleType number: " + number);
 		}
 	}
+
+	// VehicleType에 대한 번호를 반환하는 메서드
+	public int getValue() {
+		switch (this) {
+			case Small:
+				return 1;
+			case Medium:
+				return 2;
+			case Large:
+				return 3;
+			default:
+				throw new IllegalArgumentException("Unknown VehicleType: " + this);
+		}
+	}
 }

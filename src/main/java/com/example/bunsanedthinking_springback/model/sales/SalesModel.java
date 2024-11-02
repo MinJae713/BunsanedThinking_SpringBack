@@ -29,7 +29,6 @@ import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
@@ -211,7 +210,7 @@ public class SalesModel {
 				automobile.setContractPeriod(insuranceVO.getContract_period());
 
 				automobile.setAccidentLimit(automobileVO.getAccident_limit());
-				automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVerhicle_type()));
+				automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 				ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 				ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(id);
 				for (ServiceVO serviceVO :serviceVOs)
@@ -353,7 +352,6 @@ public class SalesModel {
 	}
 
 	public ArrayList<Product> getAll(ProductList productList) {
-
 		ArrayList<Product> products = new ArrayList<>();
 
 		ArrayList<Insurance> insurances = new ArrayList<>();

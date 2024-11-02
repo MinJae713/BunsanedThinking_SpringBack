@@ -22,4 +22,11 @@
     <delete id="delete_ProductManagementModel" parameterType="int">
         delete from product where id = #{id}
     </delete>
+
+    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        UPDATE product
+        SET name = #{name}, maximum_money= #{maximum_money}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

@@ -14,7 +14,7 @@ public enum ServiceType {
 	EngineOverheatingRepair("엔진과열 수리"),
 	TirepunkRepair("타이어펑크 수리");
 
-	private String name;
+	private final String name;
 
 	ServiceType(String name) {
 		this.name = name;
@@ -40,6 +40,25 @@ public enum ServiceType {
 				return TirepunkRepair;
 			default:
 				throw new IllegalArgumentException("Unknown ServiceType number: " + number);
+		}
+	}
+
+	public int getValue() {
+		switch (this) {
+			case EmergencyTowing:
+				return 1;
+			case EmergencyStart:
+				return 2;
+			case EmergencyRefueling:
+				return 3;
+			case BatteryCharging:
+				return 4;
+			case EngineOverheatingRepair:
+				return 5;
+			case TirepunkRepair:
+				return 6;
+			default:
+				throw new AssertionError("Unknown ServiceType: " + this);
 		}
 	}
 }
