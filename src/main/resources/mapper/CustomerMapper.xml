@@ -1,4 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CustomerMapper">
+    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        SELECT
+            id,
+            name,
+            phone_number,
+            job,
+            age,
+            gender,
+            resident_registration_number,
+            address,
+            bank_account,
+            bank_name
+        FROM
+            Customer
+        WHERE
+            id = #{id}
+    </select>
+
+    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        INSERT INTO Customer (
+            id, address, age, bank_account, bank_name, gender, job, name, phone_number, property, resident_registration_number
+        ) VALUES (
+                     #{id},
+                     #{address},
+                     #{age},
+                     #{bank_account},
+                     #{bank_name},
+                     #{gender},
+                     #{job},
+                     #{name},
+                     #{phone_number},
+                     #{property},
+                     #{resident_registration_number}
+                 )
+    </insert>
+
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        select * from Customer
+        where id = #{id}
+    </select>
 </mapper>

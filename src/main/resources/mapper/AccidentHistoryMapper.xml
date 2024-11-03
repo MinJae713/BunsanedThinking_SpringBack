@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper">
+    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        SELECT id, date, details_of_accident, customer_id
+        FROM AccidentHistory
+        WHERE customer_id = #{id}
+    </select>
+
+    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        INSERT INTO AccidentHistory (id, date, details_of_accident, customer_id)
+        VALUES (#{id}, #{date}, #{details_of_accident}, #{customer_id})
+    </insert>
+
 </mapper>

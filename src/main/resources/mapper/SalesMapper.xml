@@ -6,10 +6,25 @@
                 where employee_id = #{id}
     </select>
 
+    <select id="getAll_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.SalesVO">
+        SELECT
+            employee_id,
+            evaluate,
+            contract_count
+        FROM
+            Sales
+    </select>
+
     <update id="updateEvaluate_SalesModel" parameterType="map">
         UPDATE Sales
         SET evaluate = #{evaluate}
         WHERE employee_id = #{id}
+    </update>
+
+    <update id="update_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.SalesVO">
+        UPDATE Sales
+        SET evaluate = #{evaluate}, contract_count = #{contract_count}
+        WHERE employee_id = #{employee_id}
     </update>
 
 </mapper>

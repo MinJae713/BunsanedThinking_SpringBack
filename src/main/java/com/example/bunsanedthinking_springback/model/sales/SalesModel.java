@@ -15,6 +15,7 @@ import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHist
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeeList;
+import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
@@ -34,9 +35,15 @@ import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
 import com.example.bunsanedthinking_springback.repository.CollateralMapper;
+import com.example.bunsanedthinking_springback.repository.ContractMapper;
+import com.example.bunsanedthinking_springback.repository.CounselMapper;
+import com.example.bunsanedthinking_springback.repository.CustomerMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
+import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
 import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
 import com.example.bunsanedthinking_springback.repository.InjuryMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
@@ -45,9 +52,17 @@ import com.example.bunsanedthinking_springback.repository.LoanMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.repository.SalesMapper;
 import com.example.bunsanedthinking_springback.repository.ServiceMapper;
+import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import com.example.bunsanedthinking_springback.vo.AutomobileVO;
 import com.example.bunsanedthinking_springback.vo.CollateralVO;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import com.example.bunsanedthinking_springback.vo.CounselVO;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 import com.example.bunsanedthinking_springback.vo.DiseaseVO;
+import com.example.bunsanedthinking_springback.vo.EmployeeVO;
 import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.InjuryVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
@@ -56,18 +71,23 @@ import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 import com.example.bunsanedthinking_springback.vo.SalesVO;
 import com.example.bunsanedthinking_springback.vo.ServiceVO;
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class SalesModel {
 
 	@Autowired
 	ProductMapper productMapper;
-
 	@Autowired
 	InsuranceMapper insuranceMapper;
 	@Autowired
@@ -78,7 +98,6 @@ public class SalesModel {
 	ServiceMapper serviceMapper;
 	@Autowired
 	InjuryMapper injuryMapper;
-
 	@Autowired
 	LoanMapper loanMapper;
 	@Autowired
@@ -90,6 +109,24 @@ public class SalesModel {
 
 	@Autowired
 	SalesMapper salesMapper;
+
+	@Autowired
+	CustomerMapper customerMapper;
+	@Autowired
+	AccidentHistoryMapper accidentHistoryMapper;
+	@Autowired
+	SurgeryHistoryMapper surgeryHistoryMapper;
+	@Autowired
+	DiseaseHistoryMapper diseaseHistoryMapper;
+
+	@Autowired
+	ContractMapper contractMapper;
+
+	@Autowired
+	CounselMapper counselMapper;
+
+	@Autowired
+	EmployeeMapper employeeMapper;
 
 	public void evaluateSalesPerformance(int evaluate, Sales sales, EmployeeList employeeList) throws
 		NotExistException {
@@ -105,7 +142,14 @@ public class SalesModel {
 			throw new AlreadyProcessedException();
 		}
 		counsel.handle();
-		counselList.update(counsel);
+		CounselVO counselVO = new CounselVO();
+		counselVO.setId(counsel.getId());
+		counselVO.setCounsel_date(LocalDate.parse(counsel.getCounselDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		counselVO.setProcess_status(counsel.getProcessStatus().getValue());
+		counselVO.setCustomer_id(counsel.getCustomerID());
+		counselVO.setProduct_id(counsel.getProductID());
+		counselMapper.update_SalesModel(counselVO);
+		// counselList.update(counsel);
 	}
 
 	public Customer induceInsuranceProduct(String name, String address, String bankAccount, String bankName,
@@ -117,31 +161,86 @@ public class SalesModel {
 
 		Customer customer = new Customer(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
 			property, bankName, bankAccount);
-		customerList.add(customer);
+		CustomerVO customerVO = new CustomerVO();
+		customerVO.setId(customer.getId());
+		customerVO.setAddress(customer.getAddress());
+		customerVO.setAge(customer.getAge());
+		customerVO.setBank_account(customer.getBankAccount());
+		customerVO.setBank_name(customer.getBankName());
+		customerVO.setGender(customer.getGender().getValue());
+		customerVO.setJob(customer.getJob());
+		customerVO.setName(customer.getName());
+		customerVO.setPhone_number(customer.getPhoneNumber());
+		customerVO.setProperty(customer.getProperty());
+		customerVO.setResident_registration_number(customer.getResidentRegistrationNumber());
+		customerMapper.insert_SalesModel(customerVO);
+		// customerList.add(customer);
+
 		if (accidentHistoryList != null) {
 			for (AccidentHistory e : accidentHistoryList) {
 				e.setCustomerID(customer.getId());
 				customer.setAccidentHistoryList(accidentHistoryList);
-				accidentHistoryList.add(e);
+
+				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO();
+				accidentHistoryVO.setId(e.getId());
+				accidentHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				accidentHistoryVO.setDetails_of_accident(e.getAccidentDetail());
+				accidentHistoryVO.setCustomer_id(e.getCustomerID());
+				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
+				// accidentHistoryList.add(e);
 			}
 		}
 		if (surgeryHistoryList != null) {
 			for (SurgeryHistory e : surgeryHistoryList) {
 				e.setCustomerID(customer.getId());
 				customer.setSurgeryHistoryList(surgeryHistoryList);
-				surgeryHistoryList.add(e);
+
+				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO();
+				surgeryHistoryVO.setId(e.getId());
+				surgeryHistoryVO.setHospital_name(e.getHospitalName());
+				surgeryHistoryVO.setName(e.getName());
+				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
+				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+				// surgeryHistoryList.add(e);
 			}
 		}
 		if (diseaseHistoryList != null) {
 			for (DiseaseHistory e : diseaseHistoryList) {
 				e.setCustomer_id(customer.getId());
 				customer.setDiseaseHistoryList(diseaseHistoryList);
-				diseaseHistoryList.add(e);
+
+				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
+				diseaseHistoryVO.setId(e.getId());
+				diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				diseaseHistoryVO.setName(e.getName());
+				diseaseHistoryVO.setCustomer_id(e.getCustomer_id());
+				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+				// diseaseHistoryList.add(e);
 			}
 		}
 
 		Contract contract = new Contract(customer.getId(), product);
-		contractList.add(contract);
+		ContractVO contractVO = new ContractVO();
+		contractVO.setId(contract.getId());
+		contractVO.setDate(LocalDate.parse(contract.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		if (contract.getExpirationDate() != null) {
+			contractVO.setExpiration_date(LocalDate.parse(contract.getExpirationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		} else {
+			contractVO.setExpiration_date(null);
+		}
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		contractVO.setPayment_date(LocalDate.parse(String.valueOf(contract.getPaymentDate()), formatter));
+
+		contractVO.setTermination_date(LocalDate.parse(contract.getTerminationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		contractVO.setContract_status(contract.getContractStatus().getValue());
+		contractVO.setCustomer_id(contract.getCustomerID());
+		contractVO.setEmployee_id(contract.getEmployeeID());
+		contractVO.setProduct_id(contract.getProduct().getId());
+		contractVO.setLastpaid_date(contract.getLastPaidDate() != null ? LocalDate.parse(contract.getLastPaidDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		contractMapper.insert_SalesModel(contractVO);
+		// contractList.add(contract);
 
 		return customer;
 	}
@@ -234,31 +333,86 @@ public class SalesModel {
 
 		Customer customer = new Customer(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
 			property, bankName, bankAccount);
-		customerList.add(customer);
+		CustomerVO customerVO = new CustomerVO();
+		customerVO.setId(customer.getId());
+		customerVO.setAddress(customer.getAddress());
+		customerVO.setAge(customer.getAge());
+		customerVO.setBank_account(customer.getBankAccount());
+		customerVO.setBank_name(customer.getBankName());
+		customerVO.setGender(customer.getGender().getValue());
+		customerVO.setJob(customer.getJob());
+		customerVO.setName(customer.getName());
+		customerVO.setPhone_number(customer.getPhoneNumber());
+		customerVO.setProperty(customer.getProperty());
+		customerVO.setResident_registration_number(customer.getResidentRegistrationNumber());
+		customerMapper.insert_SalesModel(customerVO);
+		// customerList.add(customer);
+
 		if (accidentHistoryList != null) {
 			for (AccidentHistory e : accidentHistoryList) {
 				e.setCustomerID(customer.getId());
 				customer.setAccidentHistoryList(accidentHistoryList);
-				accidentHistoryList.add(e);
+
+				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO();
+				accidentHistoryVO.setId(e.getId());
+				accidentHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				accidentHistoryVO.setDetails_of_accident(e.getAccidentDetail());
+				accidentHistoryVO.setCustomer_id(e.getCustomerID());
+				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
+				// accidentHistoryList.add(e);
 			}
 		}
 		if (surgeryHistoryList != null) {
 			for (SurgeryHistory e : surgeryHistoryList) {
 				e.setCustomerID(customer.getId());
 				customer.setSurgeryHistoryList(surgeryHistoryList);
-				surgeryHistoryList.add(e);
+
+				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO();
+				surgeryHistoryVO.setId(e.getId());
+				surgeryHistoryVO.setHospital_name(e.getHospitalName());
+				surgeryHistoryVO.setName(e.getName());
+				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
+				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+				// surgeryHistoryList.add(e);
 			}
 		}
 		if (diseaseHistoryList != null) {
 			for (DiseaseHistory e : diseaseHistoryList) {
 				e.setCustomer_id(customer.getId());
 				customer.setDiseaseHistoryList(diseaseHistoryList);
-				diseaseHistoryList.add(e);
+
+				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
+				diseaseHistoryVO.setId(e.getId());
+				diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				diseaseHistoryVO.setName(e.getName());
+				diseaseHistoryVO.setCustomer_id(e.getCustomer_id());
+				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+				// diseaseHistoryList.add(e);
 			}
 		}
 
 		Contract contract = new Contract(customer.getId(), product);
-		contractList.add(contract);
+		ContractVO contractVO = new ContractVO();
+		contractVO.setId(contract.getId());
+		contractVO.setDate(LocalDate.parse(contract.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		if (contract.getExpirationDate() != null) {
+			contractVO.setExpiration_date(LocalDate.parse(contract.getExpirationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		} else {
+			contractVO.setExpiration_date(null);
+		}
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		contractVO.setPayment_date(LocalDate.parse(String.valueOf(contract.getPaymentDate()), formatter));
+
+		contractVO.setTermination_date(LocalDate.parse(contract.getTerminationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		contractVO.setContract_status(contract.getContractStatus().getValue());
+		contractVO.setCustomer_id(contract.getCustomerID());
+		contractVO.setEmployee_id(contract.getEmployeeID());
+		contractVO.setProduct_id(contract.getProduct().getId());
+		contractVO.setLastpaid_date(contract.getLastPaidDate() != null ? LocalDate.parse(contract.getLastPaidDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		contractMapper.insert_SalesModel(contractVO);
+		// contractList.add(contract);
 
 		return customer;
 
@@ -329,26 +483,131 @@ public class SalesModel {
 	}
 
 	public ArrayList<Employee> getAll(EmployeeList employeeList) {
-		return employeeList.getAll();
+
+		ArrayList<SalesVO> salesVOs = salesMapper.getAll_SalesModel();
+		ArrayList<Sales> salesList = new ArrayList<>();
+		for(SalesVO salesVO : salesVOs){
+			Sales sales = new Sales();
+			sales.setId(salesVO.getEmployee_id());
+			sales.setEvaluate(salesVO.getEvaluate());
+			sales.setContractCount(salesVO.getContract_count());
+			salesList.add(sales);
+		}
+
+		for(Sales sales :salesList){
+			EmployeeVO employeeVO = employeeMapper.get_SalesModel(sales.getId());
+			sales.setAddress(employeeVO.getAddress());
+			sales.setBankName(employeeVO.getBank_name());
+			sales.setBankAccount(employeeVO.getBank_account());
+			sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			sales.setName(employeeVO.getName());
+			sales.setPhoneNumber(employeeVO.getPhone_number());
+			sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
+			sales.setResidentRegistrationNumber(employeeVO.getResident_registration_number());
+			sales.setSalary(employeeVO.getSalary());
+			sales.setDepartmentID(employeeVO.getDepartment_id());
+		}
+
+		return new ArrayList<>(salesList);
+		// return employeeList.getAll();
 	}
 
 	public Employee get(EmployeeList employeeList, int id) throws NotExistException {
-		return employeeList.get(id);
+		Sales sales = new Sales();
+		EmployeeVO employeeVO = employeeMapper.get_SalesModel(id);
+		sales.setId(employeeVO.getId());
+		sales.setAddress(employeeVO.getAddress());
+		sales.setBankName(employeeVO.getBank_name());
+		sales.setBankAccount(employeeVO.getBank_account());
+		sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		sales.setName(employeeVO.getName());
+		sales.setPhoneNumber(employeeVO.getPhone_number());
+		sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
+		sales.setResidentRegistrationNumber(employeeVO.getResident_registration_number());
+		sales.setSalary(employeeVO.getSalary());
+		sales.setDepartmentID(employeeVO.getDepartment_id());
+
+		SalesVO salesVO = salesMapper.get_SalesModel(id);
+		sales.setId(salesVO.getEmployee_id());
+		sales.setEvaluate(salesVO.getEvaluate());
+		sales.setContractCount(salesVO.getContract_count());
+
+		return sales;
+		// return employeeList.get(id);
 	}
 
 	public Sales getSales(EmployeeList employeeList, int id) throws NotExistException {
 
-		return employeeList.getSales(id);
+		Sales sales = new Sales();
+		EmployeeVO employeeVO = employeeMapper.get_SalesModel(id);
+		sales.setId(employeeVO.getId());
+		sales.setAddress(employeeVO.getAddress());
+		sales.setBankName(employeeVO.getBank_name());
+		sales.setBankAccount(employeeVO.getBank_account());
+		sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		sales.setName(employeeVO.getName());
+		sales.setPhoneNumber(employeeVO.getPhone_number());
+		sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
+		sales.setResidentRegistrationNumber(employeeVO.getResident_registration_number());
+		sales.setSalary(employeeVO.getSalary());
+		sales.setDepartmentID(employeeVO.getDepartment_id());
+
+		SalesVO salesVO = salesMapper.get_SalesModel(id);
+		sales.setId(salesVO.getEmployee_id());
+		sales.setEvaluate(salesVO.getEvaluate());
+		sales.setContractCount(salesVO.getContract_count());
+
+		return sales;
+		// return employeeList.getSales(id);
 	}
 
 	public ArrayList<Counsel> getAll(CounselList counselList) {
+		ArrayList<Counsel> counsels = new ArrayList<>();
 
-		return counselList.getAll();
+		ArrayList<CounselVO> counselVOs = counselMapper.getAll_SalesModel();
+		for(CounselVO counselVO :counselVOs){
+			Counsel counsel = new Counsel();
+
+			counsel.setId(counselVO.getId());
+			counsel.setCounselDate(Date.from(counselVO.getCounsel_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			counsel.setProcessStatus(CounselProcessStatus.fromInt(counselVO.getProcess_status()));
+			counsel.setCustomerID(counselVO.getCustomer_id());
+			counsel.setProductID(counselVO.getProduct_id());
+
+			CustomerVO customerVO = customerMapper.get_SalesModel(counselVO.getCustomer_id());
+			counsel.setName(customerVO.getName());
+			counsel.setPhoneNumber(customerVO.getPhone_number());
+			counsel.setJob(customerVO.getJob());
+			counsel.setAge(customerVO.getAge());
+			counsel.setGender(Gender.fromInt(customerVO.getGender()));
+
+			counsels.add(counsel);
+		}
+
+		return counsels;
+		// return counselList.getAll();
 	}
 
 	public Counsel get(CounselList counselList, int id) throws NotExistException {
 
-		return counselList.get(id);
+		Counsel counsel = new Counsel();
+
+		CounselVO counselVO = counselMapper.get_SalesModel(id);
+		counsel.setId(counselVO.getId());
+		counsel.setCounselDate(Date.from(counselVO.getCounsel_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		counsel.setProcessStatus(CounselProcessStatus.fromInt(counselVO.getProcess_status()));
+		counsel.setCustomerID(counselVO.getCustomer_id());
+		counsel.setProductID(counselVO.getProduct_id());
+
+		CustomerVO customerVO = customerMapper.get_SalesModel(counselVO.getCustomer_id());
+		counsel.setName(customerVO.getName());
+		counsel.setPhoneNumber(customerVO.getPhone_number());
+		counsel.setJob(customerVO.getJob());
+		counsel.setAge(customerVO.getAge());
+		counsel.setGender(Gender.fromInt(customerVO.getGender()));
+
+		return counsel;
+		// return counselList.get(id);
 	}
 
 	public ArrayList<Product> getAll(ProductList productList) {
@@ -435,11 +694,24 @@ public class SalesModel {
 	}
 
 	public void add(DiseaseHistoryList diseaseHistoryList, DiseaseHistory diseaseHistory) {
-		diseaseHistoryList.add(diseaseHistory);
+		DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
+		diseaseHistoryVO.setId(diseaseHistory.getId());
+		diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(diseaseHistory.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		diseaseHistoryVO.setName(diseaseHistory.getName());
+		diseaseHistoryVO.setCustomer_id(diseaseHistory.getCustomer_id());
+		diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+		// diseaseHistoryList.add(diseaseHistory);
 	}
 
 	public void update(EmployeeList employeeList, Sales sales) throws NotExistException {
-		employeeList.update(sales);
+		SalesVO salesVO = new SalesVO();
+
+		salesVO.setEmployee_id(sales.getId());
+		salesVO.setEvaluate(sales.getEvaluate());
+		salesVO.setContract_count(sales.getContractCount());
+
+		salesMapper.update_SalesModel(salesVO);
+		// employeeList.update(sales);
 	}
 
 	public ArrayList<Insurance> getAllDiseaseInsurance(ProductList productList) {

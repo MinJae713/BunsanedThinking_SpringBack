@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ContractMapper">
+    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        INSERT INTO Contract (
+            id,
+            date,
+            expiration_date,
+            payment_date,
+            termination_date,
+            contract_status,
+            customer_id,
+            employee_id,
+            product_id,
+            lastpaid_date
+        ) VALUES (
+                     #{id},
+                     #{date},
+                     #{expiration_date},
+                     #{payment_date},
+                     #{termination_date},
+                     #{contract_status},
+                     #{customer_id},
+                     #{employee_id},
+                     #{product_id},
+                     #{lastpaid_date}
+                 )
+    </insert>
+
 </mapper>

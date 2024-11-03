@@ -3,12 +3,15 @@ package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:41
  */
 //2024-06-04 김대현
+@NoArgsConstructor
 public class DiseaseHistory implements Cloneable{
 	public static final int DISEASE_HISTORY_SERIAL_NUMBER = 510;
 

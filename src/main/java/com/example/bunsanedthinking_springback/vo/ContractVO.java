@@ -15,6 +15,7 @@ public class ContractVO {
     private LocalDate expiration_date;
     private LocalDate payment_date;
     private LocalDate termination_date;
+    private LocalDate lastpaid_date;
     private int contract_status;
     private int customer_id;
     private int employee_id;

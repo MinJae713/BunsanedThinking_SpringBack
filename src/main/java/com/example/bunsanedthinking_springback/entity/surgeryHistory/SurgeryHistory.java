@@ -3,12 +3,15 @@ package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:44
  */
 //2024-06-04 김대현
+@NoArgsConstructor
 public class SurgeryHistory implements Cloneable {
 
 	public static final int SURGERYHISTORY_SERIAL_NUMBER = 610;

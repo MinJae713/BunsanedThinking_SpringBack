@@ -3,6 +3,8 @@ package com.example.bunsanedthinking_springback.entity.accidentHistory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
@@ -10,6 +12,7 @@ import java.util.Date;
  */
 
 //2024-06-04 김대현
+@NoArgsConstructor
 public class AccidentHistory implements Cloneable{
 	public static final int ACCIDENT_HISTORY_SERIAL_NUMBER = 410;
 	
