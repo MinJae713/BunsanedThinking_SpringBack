@@ -21,4 +21,13 @@ public enum ComplaintType {
 	public String getName() {
 		return this.name;
 	}
+
+	public static ComplaintType indexOf(int index) {
+		for (ComplaintType type : ComplaintType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Complaint Type이 입력되었습니다.");
+	}
 }

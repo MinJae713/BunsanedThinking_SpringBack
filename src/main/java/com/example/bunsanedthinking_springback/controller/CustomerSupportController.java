@@ -51,10 +51,10 @@ public class CustomerSupportController {
 		return customerSupportModel.getAll(accidentList);
 	}
 	public ArrayList<Accident> getAllUnprocessedReport(AccidentList accidentList) {
-		return customerSupportModel.getAllUnprocessedReport(accidentList);
+		return customerSupportModel.getAllUnprocessedAccident(accidentList);
 	}
 	public ArrayList<Accident> getAllCompletedReport(AccidentList accidentList) {
-		return customerSupportModel.getAllCompletedReport(accidentList);
+		return customerSupportModel.getAllCompletedAccident(accidentList);
 	}
 	public Accident get(AccidentList accidentList, int id) throws NotExistException {
 		return customerSupportModel.get(accidentList, id);

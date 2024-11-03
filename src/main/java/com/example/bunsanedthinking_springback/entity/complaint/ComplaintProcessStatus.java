@@ -13,7 +13,7 @@ public enum ComplaintProcessStatus {
 	
 	private String text;
 	
-	private ComplaintProcessStatus(String text) {
+	ComplaintProcessStatus(String text) {
 		this.setText(text);
 	}
 
@@ -23,5 +23,14 @@ public enum ComplaintProcessStatus {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public static ComplaintProcessStatus indexOf(int index) {
+		for (ComplaintProcessStatus status : ComplaintProcessStatus.values()) {
+			if (status.ordinal() == index) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Complaint Process Status가 입력되었습니다.");
 	}
 }

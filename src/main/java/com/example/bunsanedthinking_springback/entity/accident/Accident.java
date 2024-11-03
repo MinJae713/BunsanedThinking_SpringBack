@@ -5,12 +5,15 @@ import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:39
  */
 //05.31 ����
+@AllArgsConstructor
 public class Accident {
 
 	public static final int ACCIDENT_SERIAL = 400;
