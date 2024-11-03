@@ -20,4 +20,6 @@ public interface PaymentDetailMapper {
 	List<PaymentDetailVO> findByProcessStatus_FinancialAccountant(int status);
 
 	Optional<PaymentDetailVO> findById_FinancialAccountant(int id);
+
+	List<PaymentDetailVO> findByEmployeeId_HumanResource(int id);
 }

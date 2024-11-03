@@ -45,4 +45,9 @@
         from paymentdetail
         where id=#{param1}
     </select>
+    <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+        where employee_id=#{param1}
+    </select>
 </mapper>

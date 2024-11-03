@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class EmployeeVO {
     private int id;
     private String address;
+    private String bank_name;
     private String bank_account;
     private LocalDate employment_date;
     private String name;

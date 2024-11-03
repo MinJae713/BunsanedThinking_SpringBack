@@ -5,12 +5,15 @@ import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupplyL
 
 import java.util.ArrayList;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author 占쏙옙占쏙옙환
  * @version 1.0
  * @created 27-5-2024 占쏙옙占쏙옙 4:40:41
  */
 //2024-06-02 源����쁽
+@NoArgsConstructor
 public class Department implements Cloneable {
 
 	private String headName;

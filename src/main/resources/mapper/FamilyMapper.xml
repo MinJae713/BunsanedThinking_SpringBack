@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.FamilyMapper">
+    <select id="getMaxId_HumanResource" resultType="Integer">
+        select max(id)
+        from family
+    </select>
+    <insert id="insert_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.FamilyVO">
+        insert into family (id, birth_date, name, relationship, survival, employee_id)
+        values (
+                   #{id},
+                   #{birth_date},
+                   #{name},
+                   #{relationship},
+                   #{survival},
+                   #{employee_id}
+               )
+    </insert>
+    <delete id="deleteByEmployeeId_HumanResource">
+        delete from family
+        where id=#{param1}
+    </delete>
+    <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.FamilyVO">
+        select *
+        from family
+        where employee_id=#{param1}
+    </select>
 </mapper>
