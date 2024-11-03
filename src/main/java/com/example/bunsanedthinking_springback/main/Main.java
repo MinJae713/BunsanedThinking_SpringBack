@@ -5575,12 +5575,16 @@ public class Main {
 					}
 				} catch (NumberFormatException e) {
 					System.out.println("잘못된 정보를 입력하였습니다. 다시 입력해주세요.");
+				} catch (NotExistException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
 				}
 			}
 			index = -1;
 		}
 
-		private void viewRequestingContract(Employee employee) {
+		private void viewRequestingContract(Employee employee) throws NotExistException, IOException {
 			// UnderwritingModel employee
 			ArrayList<Contract> contractList = underWritingController.getAllRequestingInsurance(this.contractList);
 			// 여기
@@ -5706,11 +5710,13 @@ public class Main {
 				//
 			} catch (NotExistContractException e) {
 				System.out.println(e.getMessage());
+			} catch (NotExistException | IOException e) {
+				throw new RuntimeException(e);
 			}
 			return result;
 		}
 
-		private ArrayList<Contract> getRequestingStatusContract() {
+		private ArrayList<Contract> getRequestingStatusContract() throws NotExistException, IOException {
 			ArrayList<Contract> result = underWritingController.getAllRequestingInsurance(this.contractList);
 			System.out.println("1. 미처리 2. 처리완료");
 			try {

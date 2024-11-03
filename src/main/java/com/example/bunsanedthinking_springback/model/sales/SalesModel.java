@@ -87,46 +87,46 @@ import java.util.Date;
 public class SalesModel {
 
 	@Autowired
-	ProductMapper productMapper;
+	private ProductMapper productMapper;
 	@Autowired
-	InsuranceMapper insuranceMapper;
+	private InsuranceMapper insuranceMapper;
 	@Autowired
-	DiseaseMapper diseaseMapper;
+	private DiseaseMapper diseaseMapper;
 	@Autowired
-	AutomobileMapper automobileMapper;
+	private AutomobileMapper automobileMapper;
 	@Autowired
-	ServiceMapper serviceMapper;
+	private ServiceMapper serviceMapper;
 	@Autowired
-	InjuryMapper injuryMapper;
+	private InjuryMapper injuryMapper;
 	@Autowired
-	LoanMapper loanMapper;
+	private LoanMapper loanMapper;
 	@Autowired
-	CollateralMapper collateralMapper;
+	private CollateralMapper collateralMapper;
 	@Autowired
-	FixedDepositMapper fixedDepositMapper;
+	private FixedDepositMapper fixedDepositMapper;
 	@Autowired
-	InsuranceContractMapper insuranceContractMapper;
+	private InsuranceContractMapper insuranceContractMapper;
 
 	@Autowired
-	SalesMapper salesMapper;
+	private SalesMapper salesMapper;
 
 	@Autowired
-	CustomerMapper customerMapper;
+	private CustomerMapper customerMapper;
 	@Autowired
-	AccidentHistoryMapper accidentHistoryMapper;
+	private AccidentHistoryMapper accidentHistoryMapper;
 	@Autowired
-	SurgeryHistoryMapper surgeryHistoryMapper;
+	private SurgeryHistoryMapper surgeryHistoryMapper;
 	@Autowired
-	DiseaseHistoryMapper diseaseHistoryMapper;
+	private DiseaseHistoryMapper diseaseHistoryMapper;
 
 	@Autowired
-	ContractMapper contractMapper;
+	private ContractMapper contractMapper;
 
 	@Autowired
-	CounselMapper counselMapper;
+	private CounselMapper counselMapper;
 
 	@Autowired
-	EmployeeMapper employeeMapper;
+	private EmployeeMapper employeeMapper;
 
 	public void evaluateSalesPerformance(int evaluate, Sales sales, EmployeeList employeeList) throws
 		NotExistException {

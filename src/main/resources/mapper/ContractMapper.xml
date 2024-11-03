@@ -27,4 +27,28 @@
                  )
     </insert>
 
+    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from Contract
+        where id = #{id}
+    </select>
+
+    <select id="getAll_UnderWritingModel" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from Contract
+    </select>
+
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        UPDATE Contract
+        SET
+            date = #{date},
+            expiration_date = #{expiration_date},
+            payment_date = #{payment_date},
+            termination_date = #{termination_date},
+            contract_status = #{contract_status},
+            customer_id = #{customer_id},
+            employee_id = #{employee_id},
+            product_id = #{product_id},
+            lastpaid_date = #{lastpaid_date}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

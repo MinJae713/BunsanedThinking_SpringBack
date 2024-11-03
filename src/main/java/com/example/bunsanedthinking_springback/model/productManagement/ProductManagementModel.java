@@ -34,18 +34,18 @@ import java.util.stream.Collectors;
 public class ProductManagementModel {
 
 	@Autowired
-	ProductMapper productMapper;
+	private ProductMapper productMapper;
 
 	@Autowired
-	InsuranceMapper insuranceMapper;
+	private InsuranceMapper insuranceMapper;
 	@Autowired
-	DiseaseMapper diseaseMapper;
+	private DiseaseMapper diseaseMapper;
 	@Autowired
-	AutomobileMapper automobileMapper;
+	private AutomobileMapper automobileMapper;
 	@Autowired
-	ServiceMapper serviceMapper;
+	private ServiceMapper serviceMapper;
 	@Autowired
-	InjuryMapper injuryMapper;
+	private InjuryMapper injuryMapper;
 
 	public static String serialNumber = "090";
 

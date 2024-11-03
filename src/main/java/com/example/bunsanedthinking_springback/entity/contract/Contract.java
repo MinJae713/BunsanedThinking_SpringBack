@@ -15,11 +15,14 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ȯ
  * @version 1.0
  * @created 27-5-2024 4:40:40
  */
+@NoArgsConstructor
 public class Contract {
 
 	public static final int CONTRACT_SERIAL_NUMBER = 100;
