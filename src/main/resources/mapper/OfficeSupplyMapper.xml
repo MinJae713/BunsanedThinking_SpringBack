@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper">
-    <insert id="insert_OfficeSupply" parameterType="OfficeSupply">
+    <insert id="insert_OfficeSupply" parameterType="com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply">
         INSERT INTO officesupply (name, description, inventory)
         VALUES (#{officeSupply.name},
                 #{officeSupply.description},
@@ -11,22 +11,22 @@
         DELETE FROM officesupply
         WHERE id = #{id}
     </delete>
-    <select id="findById_OfficeSupply" parameterType="int" resultType="OfficeSupply">
+    <select id="findById_OfficeSupply" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply">
         SELECT * FROM officesupply
         WHERE id = #{id}
     </select>
-    <select id="findByName_OfficeSupply" parameterType="String" resultType="OfficeSupply">
+    <select id="findByName_OfficeSupply" parameterType="String" resultType="com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply">
         SELECT * FROM officesupply
         WHERE name = #{name}
     </select>
-    <update id="update_OfficeSupply" parameterType="OfficeSupply">
+    <update id="update_OfficeSupply" parameterType="com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply">
         UPDATE officesupply
         SET name = #{officeSupply.name},
             description = #{officeSupply.description},
             inventory = #{officeSupply.inventory}
         WHERE id = #{officeSupply.id}
     </update>
-    <select id="getAll_OfficeSupply" resultType="OfficeSupply">
+    <select id="getAll_OfficeSupply" resultType="com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply">
         SELECT * FROM officesupply
     </select>
     <select id="getTotalInventory_OfficeSupply" resultType="int">
