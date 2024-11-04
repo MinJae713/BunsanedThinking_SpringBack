@@ -89,40 +89,42 @@ public class UnderWritingModel {
 
 	}
 
-	public boolean reviewAcquisition(Contract contract, boolean result, ContractList contractList)
-		throws AlreadyProcessedException {
-		if (contract.getContractStatus() != ContractStatus.ContractRequesting) {
+	public boolean reviewAcquisition(int contractId, boolean result) throws AlreadyProcessedException {
+
+		ContractVO contractVO = contractMapper.get_UnderWritingModel(contractId);
+
+		if (ContractStatus.fromInt(contractVO.getContract_status()) != ContractStatus.ContractRequesting) {
 			throw new AlreadyProcessedException();
 		}
 
-		ArrayList<ContractVO> contractVOS = contractMapper.getAll_UnderWritingModel();
-		for (ContractVO contractVO : contractVOS) {
-			if (result) {
+		Insurance insurance = null;
 
-				Insurance insurance = null;
+		if (result) {
+			ArrayList<DiseaseVO> diseaseVOs = diseaseMapper.getAllDiseaseInsurance_SalesModel();
+			for (DiseaseVO diseaseVO : diseaseVOs) {
+				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(diseaseVO.getProduct_id());
+				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
+				if (productVO.getId() == contractVO.getProduct_id()) {
+					Disease disease = new Disease();
 
-				ArrayList<DiseaseVO> diseaseVOs = diseaseMapper.getAllDiseaseInsurance_SalesModel();
-				for (DiseaseVO diseaseVO : diseaseVOs) {
-					InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(diseaseVO.getProduct_id());
-					ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-					if (productVO.getId() == contractVO.getProduct_id()) {
-						Disease disease = new Disease();
+					disease.setId(insuranceVO.getProduct_id());
+					disease.setName(productVO.getName());
+					disease.setInsuranceType(InsuranceType.fromInt(insuranceVO.getInsurance_type()));
+					disease.setAgeRange(insuranceVO.getAge_range());
+					disease.setCoverage(insuranceVO.getCoverage());
+					disease.setMonthlyPremium(insuranceVO.getMonthly_premium());
+					disease.setContractPeriod(insuranceVO.getContract_period());
 
-						disease.setId(insuranceVO.getProduct_id());
-						disease.setName(productVO.getName());
-						disease.setInsuranceType(InsuranceType.fromInt(insuranceVO.getInsurance_type()));
-						disease.setAgeRange(insuranceVO.getAge_range());
-						disease.setCoverage(insuranceVO.getCoverage());
-						disease.setMonthlyPremium(insuranceVO.getMonthly_premium());
-						disease.setContractPeriod(insuranceVO.getContract_period());
+					disease.setDiseaseLimit(diseaseVO.getDisease_limit());
+					disease.setDiseaseName(diseaseVO.getDisease_name());
+					disease.setSurgeriesLimit(diseaseVO.getSurgeries_limit());
 
-						disease.setDiseaseLimit(diseaseVO.getDisease_limit());
-						disease.setDiseaseName(diseaseVO.getDisease_name());
-						disease.setSurgeriesLimit(diseaseVO.getSurgeries_limit());
-
-						insurance = disease;
-					}
+					insurance = disease;
+					break;
 				}
+			}
+
+			if (insurance == null) {
 				ArrayList<InjuryVO> injuryVOs = injuryMapper.getAllInjuryInsurance_SalesModel();
 				for (InjuryVO injuryVO : injuryVOs) {
 					InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(injuryVO.getProduct_id());
@@ -142,10 +144,14 @@ public class UnderWritingModel {
 						injury.setSurgeriesLimit(injuryVO.getSurgeries_limit());
 
 						insurance = injury;
+						break;
 					}
 				}
-				ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-				for (AutoMobileVO automobileVO : AutomobileVOs) {
+			}
+
+			if (insurance == null) {
+				ArrayList<AutoMobileVO> automobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+				for (AutoMobileVO automobileVO : automobileVOs) {
 					InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 					ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -164,34 +170,35 @@ public class UnderWritingModel {
 						automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 						ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 						ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(contractVO.getProduct_id());
-						for (ServiceVO serviceVO : serviceVOs)
+						for (ServiceVO serviceVO : serviceVOs) {
 							serviceTypes.add(ServiceType.fromInt(serviceVO.getService()));
+						}
 						automobile.setServiceList(serviceTypes);
 
 						insurance = automobile;
+						break;
 					}
 				}
-
-				if (insurance != null) {
-					contractVO.setExpiration_date(LocalDate.now());
-				}
-				contractVO.setDate(LocalDate.now());
-				contractVO.setContract_status(ContractStatus.Maintaining.getValue());
-				contractMapper.update(contractVO);
-				// contractList.update(this);
-			} else {
-				contractVO.setContract_status(ContractStatus.Terminating.getValue());
-				contractMapper.update(contractVO);
-				// contractList.update(this);
 			}
+
+			if (insurance != null) {
+				contractVO.setExpiration_date(LocalDate.now().plusYears(insurance.getContractPeriod()));
+			}
+			contractVO.setDate(LocalDate.now());
+			contractVO.setContract_status(ContractStatus.Maintaining.getValue());
+		} else {
+			contractVO.setContract_status(ContractStatus.Terminating.getValue());
 		}
 
-		// contract.review(result, contractList);
+		contractMapper.update(contractVO);
 
 		return result;
+		// contract.review(result, contractList);
 	}
 
-	public ArrayList<Contract> getAllRequestingInsurance(ContractList contractList) throws
+
+
+	public ArrayList<Contract> getAllRequestingInsurance() throws
 		NotExistException,
 		IOException {
 
@@ -209,8 +216,10 @@ public class UnderWritingModel {
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setPaymentDate(
 					Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
-				contract.setTerminationDate(
-					Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+				if(contractVO.getTermination_date() != null){
+					contract.setTerminationDate(
+						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+				}
 				contract.setContractStatus(ContractStatus.fromInt(contractVO.getContract_status()));
 				if (contractVO.getCustomer_id() != null) {
 					contract.setCustomerID(contractVO.getCustomer_id());
@@ -260,15 +269,17 @@ public class UnderWritingModel {
 						InsuranceMoney insuranceMoney = new InsuranceMoney();
 						insuranceMoney.setId(insuranceMoneyVO.getId());
 						insuranceMoney.setBankAccount(insuranceMoneyVO.getBank_account());
-						insuranceMoney.setResidentRegistrationCard(
-							ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
-						insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
-						insuranceMoney.setMedicalCertificate(
-							ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
+						// insuranceMoney.setResidentRegistrationCard(
+						// 	ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
+						// insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
+						// insuranceMoney.setMedicalCertificate(
+						// 	ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
 						insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 						insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
 						insuranceMoney.setProcessStatus(
-							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
+							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
 						insuranceMoney.setApplyDate(Date.from(
 							insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 						insuranceMoneys.add(insuranceMoney);
@@ -340,7 +351,7 @@ public class UnderWritingModel {
 							automobile.setContractPeriod(insuranceVO.getContract_period());
 
 							automobile.setAccidentLimit(automobileVO.getAccident_limit());
-							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
+							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
 							ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 							ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(e.getProduct_id());
 							for (ServiceVO serviceVO : serviceVOs)
@@ -421,9 +432,8 @@ public class UnderWritingModel {
 		// return contractList.getAllRequestingInsurance();
 	}
 
-	public ArrayList<Contract> getAllNotRequestingInsurance(ContractList contractList) throws
-		NotExistException,
-		IOException {
+	public ArrayList<Contract> getAllNotRequestingInsurance() throws
+		NotExistException{
 
 		ArrayList<Contract> contracts = new ArrayList<>();
 		ArrayList<ContractVO> contractVOs = contractMapper.getAll_UnderWritingModel();
@@ -439,8 +449,10 @@ public class UnderWritingModel {
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setPaymentDate(
 					Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
-				contract.setTerminationDate(
-					Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+				if(contractVO.getTermination_date() != null){
+					contract.setTerminationDate(
+						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+				}
 				contract.setContractStatus(ContractStatus.fromInt(contractVO.getContract_status()));
 				if (contractVO.getCustomer_id() != null) {
 					contract.setCustomerID(contractVO.getCustomer_id());
@@ -490,15 +502,17 @@ public class UnderWritingModel {
 						InsuranceMoney insuranceMoney = new InsuranceMoney();
 						insuranceMoney.setId(insuranceMoneyVO.getId());
 						insuranceMoney.setBankAccount(insuranceMoneyVO.getBank_account());
-						insuranceMoney.setResidentRegistrationCard(
-							ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
-						insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
-						insuranceMoney.setMedicalCertificate(
-							ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
+						// insuranceMoney.setResidentRegistrationCard(
+						// 	ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
+						// insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
+						// insuranceMoney.setMedicalCertificate(
+						// 	ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
 						insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 						insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
 						insuranceMoney.setProcessStatus(
-							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
+							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
 						insuranceMoney.setApplyDate(Date.from(
 							insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 						insuranceMoneys.add(insuranceMoney);
@@ -570,7 +584,7 @@ public class UnderWritingModel {
 							automobile.setContractPeriod(insuranceVO.getContract_period());
 
 							automobile.setAccidentLimit(automobileVO.getAccident_limit());
-							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
+							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
 							ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 							ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(e.getProduct_id());
 							for (ServiceVO serviceVO : serviceVOs)
@@ -650,7 +664,7 @@ public class UnderWritingModel {
 		// return contractList.getAllNotRequestingInsurance();
 	}
 
-	public Customer get(CustomerList customerList, int id) throws NotExistException {
+	public Customer getCustomer(int id){
 
 		CustomerVO customerVO = customerMapper.get_UnderWritingModel(id);
 		Customer customer = new Customer();
@@ -707,10 +721,8 @@ public class UnderWritingModel {
 		// return customerList.get(id);
 	}
 
-	public Contract get(ContractList contractList, int id) throws
-		NotExistContractException,
-		NotExistException,
-		IOException {
+	public Contract getContract(int id) throws
+		NotExistException{
 
 		Contract contract = new Contract();
 
@@ -721,8 +733,10 @@ public class UnderWritingModel {
 			Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		contract.setPaymentDate(
 			Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
-		contract.setTerminationDate(
-			Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		if(contractVO.getTermination_date() != null){
+			contract.setTerminationDate(
+				Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		}
 		contract.setContractStatus(ContractStatus.fromInt(contractVO.getContract_status()));
 		if (contractVO.getCustomer_id() != null) {
 			contract.setCustomerID(contractVO.getCustomer_id());
@@ -772,13 +786,15 @@ public class UnderWritingModel {
 				InsuranceMoney insuranceMoney = new InsuranceMoney();
 				insuranceMoney.setId(insuranceMoneyVO.getId());
 				insuranceMoney.setBankAccount(insuranceMoneyVO.getBank_account());
-				insuranceMoney.setResidentRegistrationCard(
-					ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
-				insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
-				insuranceMoney.setMedicalCertificate(ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
+				// insuranceMoney.setResidentRegistrationCard(
+				// 	ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card())));
+				// insuranceMoney.setReceipt(ImageIO.read(new File(insuranceMoneyVO.getReceipt())));
+				// insuranceMoney.setMedicalCertificate(ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())));
+
 				insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 				insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
-				insuranceMoney.setProcessStatus(InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
+				insuranceMoney.setProcessStatus(InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
 				insuranceMoney.setApplyDate(
 					Date.from(insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				insuranceMoneys.add(insuranceMoney);
@@ -794,7 +810,7 @@ public class UnderWritingModel {
 			for (DiseaseVO diseaseVO : diseaseVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(diseaseVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-				if (productVO.getId() == id) {
+				if (productVO.getId() == contractVO.getProduct_id()) {
 					Disease disease = new Disease();
 
 					disease.setId(insuranceVO.getProduct_id());
@@ -816,7 +832,7 @@ public class UnderWritingModel {
 			for (InjuryVO injuryVO : injuryVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(injuryVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-				if (productVO.getId() == id) {
+				if (productVO.getId() == contractVO.getProduct_id()) {
 					Injury injury = new Injury();
 
 					injury.setId(insuranceVO.getProduct_id());
@@ -838,7 +854,7 @@ public class UnderWritingModel {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
-				if (productVO.getId() == id) {
+				if (productVO.getId() == contractVO.getProduct_id()) {
 					Automobile automobile = new Automobile();
 
 					automobile.setId(insuranceVO.getProduct_id());
@@ -850,7 +866,7 @@ public class UnderWritingModel {
 					automobile.setContractPeriod(insuranceVO.getContract_period());
 
 					automobile.setAccidentLimit(automobileVO.getAccident_limit());
-					automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
+					automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
 					ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 					ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(insuranceVO.getProduct_id());
 					for (ServiceVO serviceVO : serviceVOs)
@@ -865,7 +881,7 @@ public class UnderWritingModel {
 			for (CollateralVO collateralVO : collateralVOs) {
 				LoanVO loanVO = loanMapper.get_SalesModel(collateralVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(loanVO.getProduct_id());
-				if (id == productVO.getId()) {
+				if (contractVO.getProduct_id() == productVO.getId()) {
 					Collateral collateral = new Collateral();
 
 					collateral.setName(productVO.getName());
@@ -884,7 +900,7 @@ public class UnderWritingModel {
 			for (FixedDepositVO fixedDepositVO : fixedDepositVOs) {
 				LoanVO loanVO = loanMapper.get_SalesModel(fixedDepositVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(loanVO.getProduct_id());
-				if (id == productVO.getId()) {
+				if (contractVO.getProduct_id() == productVO.getId()) {
 					FixedDeposit fixedDeposit = new FixedDeposit();
 
 					fixedDeposit.setName(productVO.getName());
@@ -902,7 +918,7 @@ public class UnderWritingModel {
 			for (InsuranceContractVO insuranceContractVO : insuranceContractVOs) {
 				LoanVO loanVO = loanMapper.get_SalesModel(insuranceContractVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(loanVO.getProduct_id());
-				if (id == productVO.getId()) {
+				if (contractVO.getProduct_id() == productVO.getId()) {
 					com.example.bunsanedthinking_springback.entity.loan.InsuranceContract insuranceContract = new InsuranceContract();
 
 					insuranceContract.setName(productVO.getName());
