@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.model.compensation;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
+import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -19,10 +19,10 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.report.Report;
-import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
@@ -84,19 +84,40 @@ public class CompensationModel {
 	private InsuranceContractMapper insuranceContractMapper;
 	@Autowired
 	private ReportMapper reportMapper;
+	@Autowired
+	private PaymentDetailMapper paymentDetailMapper;
 
+	// report의 processStatus 확인 - reportVO 정보 받아오기
+	// paymentDetailVO - 테이블에 추가
+	// reportVO - processStatus를 Complete으로 테이블 수정
+	// accidentVO - processStatus를 Complete으로 테이블 수정(어떤 accident인지는 report가 갖는 accident id 확인)
 	public void requestCompensation(String accountHolder, String bank, String bankAccount, int money,
-									PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList, Report report, ReportList reportList, AccidentList accidentList)
+									int paymentType, int contractId, int reportId)
 					throws NotExistException, AlreadyProcessedException{
-		if (report.getProcessStatus() == ReportProcessStatus.Completed) {
+		ReportVO reportVO = reportMapper.getById_Compensation(reportId).orElse(null);
+		if (reportVO == null) throw new NotExistException();
+		if (reportVO.getProcess_status() == ReportProcessStatus.Completed.ordinal())
 			throw new AlreadyProcessedException();
-		}
-		PaymentDetail payment = new PaymentDetail(accountHolder, bank, bankAccount, money, paymentType, contractId);
-		paymentDetailList.add(payment);
-		report.setProcessStatus(ReportProcessStatus.Completed);
-		reportList.update(report);
-		report.getAccident().complete();
-		accidentList.update(report.getAccident());
+		int paymentId = paymentDetailMapper.getCount_Compensation() == 0 ?
+				9001 : paymentDetailMapper.getLastId_Compensation();
+		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(
+				paymentId, accountHolder, bank, bankAccount,
+				money, paymentType, PaymentProcessStatus.Unprocessed.ordinal(),
+				contractId, 6001101);
+		// employeeId 임의 지정 - 이거 직원 아이디 어떻게 받죠...
+		paymentDetailMapper.add_Compensation(paymentDetailVO);
+		reportMapper.updateStatus_Compensation(ReportProcessStatus.Completed.ordinal(), reportId);
+		int accidentId = reportVO.getAccident_id();
+		accidentMapper.updateStatus_Compensation(AccidentProcessStatus.Completed.ordinal(), accidentId);
+//		if (report.getProcessStatus() == ReportProcessStatus.Completed) {
+//			throw new AlreadyProcessedException();
+//		}
+//		PaymentDetail payment = new PaymentDetail(accountHolder, bank, bankAccount, money, paymentType, contractId);
+//		paymentDetailList.add(payment);
+//		report.setProcessStatus(ReportProcessStatus.Completed);
+//		reportList.update(report);
+//		report.getAccident().complete(); - accident의 processStatus를 Complete 변경
+//		accidentList.update(report.getAccident());
 	}
 	
 	public void requestInsuranceMoney(Customer customer, int money, InsuranceMoney insuranceMoney, InsuranceMoneyList insuranceMoneyList,

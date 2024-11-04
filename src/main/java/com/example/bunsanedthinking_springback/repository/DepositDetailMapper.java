@@ -8,4 +8,7 @@ import java.util.List;
 @Mapper
 public interface DepositDetailMapper {
     public List<DepositDetailVO> getAllDepositByContractId_Customer(int id);
+    public int getLastId_Customer();
+    public int getCount_Customer();
+    public void add_Customer(DepositDetailVO depositDetailVO);
 }

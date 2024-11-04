@@ -16,10 +16,15 @@
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
         select * from contract
     </select>
-    <update id="updateStatus_paymentDate_Customer">
+    <update id="updateStatus_Customer">
         update contract
-        set contract_status = #{m_contractStatus}, payment_date = #{m_paymentDate}
-        where id = #{m_contractId}
+        set contract_status = #{contractStatus}
+        where id = #{contractId}
+    </update>
+    <update id="updatePaymentDate_Customer">
+        update contract
+        set payment_date = #{paymentDate}
+        where id = #{contractId}
     </update>
 
     <select id="getAllByCustomerId_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">

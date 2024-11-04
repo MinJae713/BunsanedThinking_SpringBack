@@ -8,4 +8,9 @@
         select * from report
         where accident_id = #{id}
     </select>
+    <update id="updateStatus_Compensation">
+        update report
+        set process_status = #{processStatus}
+        where accident_id = #{reportId}
+    </update>
 </mapper>

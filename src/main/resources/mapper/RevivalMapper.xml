@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.RevivalMapper">
+    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.RevivalVO">
+        select * from revival
+        where contract_id = #{id}
+    </select>
+    <insert id="addById_Customer">
+        insert into revival(contract_id, origin_contract_id, revival_status)
+        values (#{contractId}, #{contractId}, 1)
+    </insert>
+
     <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.RevivalVO">
         select * from revival
         where contract_id = #{id}

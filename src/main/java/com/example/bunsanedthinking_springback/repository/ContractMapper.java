@@ -14,7 +14,8 @@ public interface ContractMapper {
     public List<ContractVO> getAllByCustomerId_Customer(int id);
     public List<ContractVO> getAll_Customer();
 
-    public void updateStatus_paymentDate_Customer(int m_contractStatus, LocalDate m_paymentDate, int m_contractId);
+    public void updateStatus_Customer(int contractStatus, int contractId);
+    public void updatePaymentDate_Customer(LocalDate paymentDate, int contractId);
 
     public List<ContractVO> getAllByCustomerId_Compensation(int id);
 }

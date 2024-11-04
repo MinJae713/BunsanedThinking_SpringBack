@@ -12,4 +12,5 @@ public interface AccidentMapper {
     public List<AccidentVO> getAllByCustomerId_Customer(int id);
 
     public Optional<AccidentVO> getAccidentById_Compensation(int id);
+    public void updateStatus_Compensation(int processStatus, int accidentId);
 }

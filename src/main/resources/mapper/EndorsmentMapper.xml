@@ -6,8 +6,8 @@
         where contract_id = #{id}
     </select>
     <insert id="addById_Customer">
-        insert into endorsement(contract_id)
-        values (#{contractId})
+        insert into endorsement(contract_id, endorsement_status)
+        values (#{contractId}, 1)
     </insert>
 
     <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">

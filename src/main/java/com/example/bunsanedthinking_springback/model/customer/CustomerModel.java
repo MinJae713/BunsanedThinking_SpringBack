@@ -5,27 +5,18 @@ import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHi
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetailList;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
-import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
-import com.example.bunsanedthinking_springback.entity.recontract.RecontractList;
-import com.example.bunsanedthinking_springback.entity.revival.Revival;
-import com.example.bunsanedthinking_springback.entity.revival.RevivalList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.entity.termination.Termination;
-import com.example.bunsanedthinking_springback.entity.termination.TerminationList;
 import com.example.bunsanedthinking_springback.exception.*;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
@@ -35,9 +26,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CustomerModel {
@@ -85,16 +74,25 @@ public class CustomerModel {
 	private InsuranceContractMapper insuranceContractMapper;
 	@Autowired
 	private EndorsmentMapper endorsmentMapper;
+	@Autowired
+	private RevivalMapper revivalMapper;
+	@Autowired
+	private TerminationMapper terminationMapper;
+	@Autowired
+	private RecontractMapper recontractMapper;
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경, 배서 하나 추가됨
 		// 타입이 contractVO, endorsementVO인거 주의
-		Contract contract = getContractById(contractId);
-		if (contract == null) throw new NotExistException();
-		Map<String, Object> paramMap = new HashMap<String, Object>();
+		/**
+		 * contract status 상관 없이 해당 contract가 있다면 실행 ㄱㄴ
+		 * paymentDate를 입력받은 날짜로 변경
+		 * endorsement 테이블에 없다면 endorsement 하나 추가
+		 */
+		if (contractMapper.getById_Customer(contractId).orElse(null) == null) throw new NotExistContractException();
 		LocalDate localDate = contractMapper.getById_Customer(contractId).orElse(null).getPayment_date();
 		localDate = localDate.plusDays(index-localDate.getDayOfMonth());
-		contractMapper.updateStatus_paymentDate_Customer(
-				ContractStatus.EndorsementRequesting.ordinal(), localDate, contractId);
+		contractMapper.updatePaymentDate_Customer(localDate, contractId);
+		contractMapper.updateStatus_Customer(ContractStatus.EndorsementRequesting.ordinal(), contractId);
 		EndorsementVO endorsementVO = endorsmentMapper.getById_Customer(contractId).orElse(null);
 		if (endorsementVO == null) endorsmentMapper.addById_Customer(contractId);
 		// contract엔 있는데 endorsement가 없는 경우라면 endorsement를 하나 추가하기로 했수다 - 잘됨
@@ -105,46 +103,100 @@ public class CustomerModel {
 //		endorsementList.add(endorsement);
 	}
 
-	public void applyInsuranceRevival(ContractList contractList, RevivalList revivalList, Contract contract,
-									  Customer customer) throws NotExistContractException, NotExistTerminatedContract {
-		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
-			contract.setContractStatus(ContractStatus.RevivalRequesting);
-			contractList.update(contract);
-			Revival revival = new Revival(contract);
-			revivalList.add(revival);
+	public void applyInsuranceRevival(int contractId, Date expirationDate)
+            throws NotExistContractException, NotExistTerminatedContract, NotExistException {
+		// 일단 status 받는건 정수로 받아서 비교하기로 - 이건 다시 상의해봅시다(뷰에서 뭐로 전달받을지 문제임)
+		// 안받고 DB 정보와 비교하는 방법이 맞는거 같기도?
+		/**
+		 * contract status가 Terminating이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
+		 * contract status를 RevivalRequesting로 변경
+		 * Revival 테이블에 없다면 Revival 하나 추가
+		 */
+		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
+		if (contractVO == null) throw new NotExistContractException();
+		if (contractVO.getContract_status() == ContractStatus.Terminating.ordinal() && expirationDate != null) {
+			contractMapper.updateStatus_Customer(ContractStatus.RevivalRequesting.ordinal(), contractId);
+			RevivalVO revivalVO = revivalMapper.getById_Customer(contractId).orElse(null);
+			if (revivalVO == null) revivalMapper.addById_Customer(contractId);
 		} else {
 			throw new NotExistTerminatedContract();
 		}
+
+//		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
+//			contract.setContractStatus(ContractStatus.RevivalRequesting);
+//			contractList.update(contract);
+//			Revival revival = new Revival(contract);
+//			revivalList.add(revival);
+//		} else {
+//			throw new NotExistTerminatedContract();
+//		}
 	}
 
-	public void applyInsuranceTermination(ContractList contractList, TerminationList terminationList, Contract contract,
-										  Customer customer) throws NotExistContractException, NotExistMaintainedContract {
-		if (contract.getContractStatus() == ContractStatus.Maintaining) {
-			contract.setContractStatus(ContractStatus.TerminationRequesting);
-			contractList.update(contract);
-			Termination termination = new Termination(contract);
-			terminationList.add(termination);
+	public void applyInsuranceTermination(int contractId)
+			throws NotExistContractException, NotExistMaintainedContract, NotExistException {
+		/**
+		 * contract status가 Maintaining이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
+		 * contract status를 TerminationRequesting로 변경
+		 * Termination 테이블에 없다면 Termination 하나 추가
+		 */
+		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
+		if (contractVO == null) throw new NotExistContractException();
+		if (contractVO.getContract_status() == ContractStatus.Maintaining.ordinal()) {
+			contractMapper.updateStatus_Customer(ContractStatus.TerminationRequesting.ordinal(), contractId);
+			TerminationVO terminationVO = terminationMapper.getById_Customer(contractId).orElse(null);
+			if (terminationVO == null) terminationMapper.addById_Customer(contractId);
 		} else {
 			throw new NotExistMaintainedContract();
 		}
+
+//		if (contract.getContractStatus() == ContractStatus.Maintaining) {
+//			contract.setContractStatus(ContractStatus.TerminationRequesting);
+//			contractList.update(contract);
+//			Termination termination = new Termination(contract);
+//			terminationList.add(termination);
+//		} else {
+//			throw new NotExistMaintainedContract();
+//		}
 	}
 
-	public void applyRecontract(ContractList contractList, RecontractList recontractList, Contract contract,
-								Customer customer) throws NotExistContractException, NotExistExpiredContract {
-		if (contract.getContractStatus() == ContractStatus.Maturing) {
-			contract.setContractStatus(ContractStatus.RecontractRequesting);
-			contractList.update(contract);
-			Recontract recontract = new Recontract(contract);
-			recontractList.add(recontract);
+	public void applyRecontract(int contractId) throws NotExistContractException, NotExistExpiredContract, NotExistException {
+		/**
+		 * contract status가 Maturing이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
+		 * contract status를 RecontractRequesting로 변경
+		 * Recontract 테이블에 없다면 Recontract 하나 추가
+		 */
+		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
+		if (contractVO == null) throw new NotExistContractException();
+		if (contractVO.getContract_status() == ContractStatus.Maturing.ordinal()) {
+			contractMapper.updateStatus_Customer(ContractStatus.RecontractRequesting.ordinal(), contractId);
+			RecontractVO recontractVO = recontractMapper.getById_Customer(contractId).orElse(null);
+			if (recontractVO == null) recontractMapper.addById_Customer(contractId);
 		} else {
 			throw new NotExistExpiredContract();
 		}
+
+//		if (contract.getContractStatus() == ContractStatus.Maturing) {
+//			contract.setContractStatus(ContractStatus.RecontractRequesting);
+//			contractList.update(contract);
+//			Recontract recontract = new Recontract(contract);
+//			recontractList.add(recontract);
+//		} else {
+//			throw new NotExistExpiredContract();
+//		}
 	}
-	public void payInsurancefee(Customer customer, Contract contract, int money, DepositPath path,
-			DepositDetailList depositDetailList) {
-		DepositDetail depositDetail = new DepositDetail(customer.getName(), contract.getId(), money, path);
-		depositDetailList.add(depositDetail);
-		contract.getDepositDetailList().add(depositDetail);
+	public void payInsurancefee(String depositorName, int contractId, int money, int depositPath)
+			throws NotExistContractException, NotExistException {
+		if (contractMapper.getById_Customer(contractId).orElse(null) == null)
+			throw new NotExistContractException();
+		int depositId = depositDetailMapper.getCount_Customer() == 0 ?
+				8101 : depositDetailMapper.getLastId_Customer()+1;
+		depositDetailMapper.add_Customer(new DepositDetailVO(
+				depositId, depositorName, LocalDate.now(),
+				money, depositPath, contractId
+		));
+//		DepositDetail depositDetail = new DepositDetail(customer.getName(), contract.getId(), money, path);
+//		depositDetailList.add(depositDetail);
+//		contract.getDepositDetailList().add(depositDetail);
 	}
 
 

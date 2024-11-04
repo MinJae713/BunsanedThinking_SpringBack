@@ -5,4 +5,14 @@
         select * from depositdetail
         where contract_id = #{id}
     </select>
+    <select id="getLastId_Customer" resultType="int">
+        select max(id) from depositdetail
+    </select>
+    <select id="getCount_Customer" resultType="int">
+        select count(*) from depositdetail
+    </select>
+    <insert id="add_Customer" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        insert into depositdetail (id, depositor_name, date, money, path, contract_id)
+        values (#{id}, #{depositor_name}, #{date}, #{money}, #{path}, #{contract_id})
+    </insert>
 </mapper>

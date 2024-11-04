@@ -8,7 +8,9 @@ import java.util.Optional;
 
 @Mapper
 public interface TerminationMapper {
-    public Optional<TerminationVO> getById_ContractManagement(int id);
+    public Optional<TerminationVO> getById_Customer(int id);
+    public void addById_Customer(int contractId);
 
+    public Optional<TerminationVO> getById_ContractManagement(int id);
     public List<TerminationVO> getAll_ContractManagement();
 }

@@ -3,20 +3,15 @@ package com.example.bunsanedthinking_springback.controller;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetailList;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.recontract.RecontractList;
-import com.example.bunsanedthinking_springback.entity.revival.RevivalList;
-import com.example.bunsanedthinking_springback.entity.termination.TerminationList;
 import com.example.bunsanedthinking_springback.exception.*;
 import com.example.bunsanedthinking_springback.model.customer.CustomerModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 @RestController
@@ -30,27 +25,22 @@ public class CustomerController {
 //								 Contract contract) throws NotExistContractException {
 //		customerModel.applyEndorsement(contractList, endorsementList, index, contract);
 //	}
-	@PatchMapping("/applyEndorsement")
-	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
-		customerModel.applyEndorsement(index, contractId);
-	}
-	public void applyInsuranceRevival(ContractList contractList, RevivalList revivalList, Contract contract,
-									  Customer customer) throws NotExistContractException, NotExistTerminatedContract {
-		customerModel.applyInsuranceRevival(contractList, revivalList, contract, customer);
-	}
-	public void applyInsuranceTermination(ContractList contractList, TerminationList terminationList, Contract contract,
-										  Customer customer) throws NotExistContractException, NotExistMaintainedContract {
-		customerModel.applyInsuranceTermination(contractList, terminationList, contract, customer);
-	}
-	public void applyRecontract(ContractList contractList, RecontractList recontractList, Contract contract,
-								Customer customer) throws NotExistContractException, NotExistExpiredContract {
-		customerModel.applyRecontract(contractList, recontractList, contract, customer);
-	}
-	public void payInsurancefee(Customer customer, Contract contract, int money, DepositPath path,
-			DepositDetailList depositDetailList) {
-		customerModel.payInsurancefee(customer, contract, money, path, depositDetailList);
-	}
-//	public Customer getCustomerById(CustomerList customerList, int id) throws NotExistException {
+// 	public void applyInsuranceRevival(ContractList contractList, RevivalList revivalList, Contract contract,
+//									  Customer customer) throws NotExistContractException, NotExistTerminatedContract {
+//		customerModel.applyInsuranceRevival(contractList, revivalList, contract, customer);
+//	}//	public void applyInsuranceTermination(ContractList contractList, TerminationList terminationList, Contract contract,
+//										  Customer customer) throws NotExistContractException, NotExistMaintainedContract {
+//		customerModel.applyInsuranceTermination(contractList, terminationList, contract, customer);
+//	}
+//	public void applyRecontract(ContractList contractList, RecontractList recontractList, Contract contract,
+//								Customer customer) throws NotExistContractException, NotExistExpiredContract {
+//		customerModel.applyRecontract(contractList, recontractList, contract, customer);
+//	}
+// 	public void payInsurancefee(Customer customer, Contract contract, int money, DepositPath path,
+//								DepositDetailList depositDetailList) {
+//		customerModel.payInsurancefee(customer, contract, money, path, depositDetailList);
+//	}
+// 	public Customer getCustomerById(CustomerList customerList, int id) throws NotExistException {
 //		return customerModel.getCustomerById(customerList, id);
 //	}
 //	public ArrayList<Insurance> getAllInsurance(ProductList productList) {
@@ -130,6 +120,31 @@ public class CustomerController {
 //	public Complaint getComplaintById(ComplaintList complaintList, int id) throws NotExistException {
 //		return customerModel.getComplaintById(complaintList, id);
 //	}
+	@PatchMapping("/applyEndorsement")
+	public void applyEndorsement(@RequestParam int index, @RequestParam int contractId)
+				throws NotExistContractException, NotExistException {
+		customerModel.applyEndorsement(index, contractId);
+	}
+	@PatchMapping("/applyInsuranceRevival")
+	public void applyInsuranceRevival(@RequestParam int contractId, @RequestParam Date expirationDate)
+            	throws NotExistContractException, NotExistTerminatedContract, NotExistException {
+		customerModel.applyInsuranceRevival(contractId, expirationDate);
+	}
+	@PatchMapping("/applyInsuranceTermination")
+	public void applyInsuranceTermination(@RequestParam int contractId)
+				throws NotExistContractException, NotExistMaintainedContract, NotExistException {
+		customerModel.applyInsuranceTermination(contractId);
+	}
+	@PatchMapping("/applyInsuranceRecontract")
+	public void applyInsuranceRecontract(@RequestParam int contractId)
+				throws NotExistContractException, NotExistExpiredContract, NotExistException {
+		customerModel.applyRecontract(contractId);
+	}
+	@PostMapping("/payInsurancefee")
+	public void payInsurancefee(String depositorName, int contractId, int money, int depositPath)
+			throws NotExistContractException, NotExistException {
+		customerModel.payInsurancefee(depositorName, contractId, money, depositPath);
+	}
 	@GetMapping("/getCustomerById")
 	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
 		return customerModel.getCustomerById(id);

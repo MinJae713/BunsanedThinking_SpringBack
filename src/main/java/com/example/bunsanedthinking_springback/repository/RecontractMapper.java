@@ -8,6 +8,9 @@ import java.util.Optional;
 
 @Mapper
 public interface RecontractMapper {
+    public Optional<RecontractVO> getById_Customer(int id);
+    public void addById_Customer(int contractId);
+
     public Optional<RecontractVO> getById_ContractManagement(int id);
     public List<RecontractVO> getAll_ContractManagement();
 }
