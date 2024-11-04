@@ -12,4 +12,14 @@ public interface PartnerCompanyMapper {
 	List<PartnerCompanyVO> findByPartnerType_CustomerSupport(int partnerType);
 
 	Optional<PartnerCompanyVO> findById_CustomerSupport(int id);
+
+	void insert_CompensationPlanning(PartnerCompanyVO partnerCompanyVO);
+
+	void update_CompensationPlanning(PartnerCompanyVO partnerCompanyVO);
+
+	List<PartnerCompanyVO> getAll_CompensationPlanning();
+
+	void delete_CompensationPlanning(int id);
+
+	Integer getMaxId_CompensationPlanning();
 }

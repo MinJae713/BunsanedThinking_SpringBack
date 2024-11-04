@@ -15,5 +15,4 @@ public class PartnerCompanyVO {
 	private String name;
 	private int partner_company_type;
 	private String phone_number;
-
 }

@@ -100,7 +100,8 @@ public class CompensationModel {
 		Integer maxId = paymentDetailMapper.getMaxId_LoanManagement();
 		int id;
 		if (maxId == null) {
-			id = 1;
+			String compound = PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "1";
+			id = Integer.parseInt(compound);
 		} else {
 			int paymentSerialLength = (PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "").length();
 			int index = Integer.parseInt(maxId.toString().substring(paymentSerialLength));
