@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepartmentMapper">
-    <delete id="delete_managementPlanning" >
-        delete from department
-        where id = {id}
-    </delete>
-    <delete id="delete_humanResource" >
-        delete from department
-        where id = {id}
+    <insert id="insert_managementPlanning" parameterType="Department">
+        INSERT INTO department (name, task, purpose, head_name)
+        VALUES (#{department.name}, #{department.task}, #{department.purpose}, #{department.headName});
+    </insert>
+    <delete id="delete_managementPlanning" parameterType="int">
+        DELETE FROM department
+        WHERE id = #{id};
     </delete>
     <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         select *
@@ -18,4 +18,20 @@
         from department
         where id=#{param1}
     </select>
+    <select id="findById_managementPlanning" parameterType="int" resultType="Department">
+        SELECT * FROM department
+        WHERE id = #{id};
+    </select>
+    <select id="findByName_managementPlanning" parameterType="string" resultType="Department">
+        SELECT * FROM department
+        WHERE name = #{name};
+    </select>
+    <update id="update_managementPlanning" parameterType="Department">
+        UPDATE department
+        SET name = #{department.name},
+            task = #{department.task},
+            purpose = #{department.purpose},
+            head_name = #{department.headName}
+        WHERE id = #{department.id};
+    </update>
 </mapper>

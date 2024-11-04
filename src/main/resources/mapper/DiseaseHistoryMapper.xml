@@ -25,4 +25,28 @@
                    #{customer_id}
                )
     </insert>
+
+    <insert id="insert_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
+        INSERT INTO disease_history (customer_id, description, date, cost)
+        VALUES (#{diseaseHistory.customerId},
+                #{diseaseHistory.description},
+                #{diseaseHistory.date},
+                #{diseaseHistory.cost});
+    </insert>
+    <select id="findDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
+        SELECT * FROM disease_history
+        WHERE customer_id = #{customerId};
+    </select>
+    <delete id="deleteDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int">
+        DELETE FROM disease_history
+        WHERE customer_id = #{customerId};
+    </delete>
+    <update id="update_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
+        UPDATE disease_history
+        SET description = #{diseaseHistory.description},
+            date = #{diseaseHistory.date},
+            cost = #{diseaseHistory.cost}
+        WHERE id = #{diseaseHistory.id};
+    </update>
+
 </mapper>

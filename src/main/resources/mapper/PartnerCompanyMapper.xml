@@ -11,4 +11,9 @@
         from partnercompany
         where id=#{param1}
     </select>
+    <select id="findById_PartnerCompany" parameterType="int" resultType="PartnerCompany">
+        SELECT * FROM partnercompany
+        WHERE id = #{id}
+    </select>
+
 </mapper>

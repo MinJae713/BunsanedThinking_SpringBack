@@ -17,24 +17,24 @@ public class AdministrativeController {
 	@Autowired
 	private AdministrativeModel administrativeModel;
 
-	public void addOfficeSupply(String name, String explain, int inventory, OfficeSupplyList officeSupplyList) throws DuplicateOfficeSupplyException {
-		administrativeModel.addOfficeSupply(name, explain, inventory, officeSupplyList);
+	public void addOfficeSupply(String name, String description, int inventory) throws DuplicateOfficeSupplyException {
+		administrativeModel.addOfficeSupply(name, description, inventory);
 	}
 
-	public void deleteOfficeSupply(OfficeSupplyList officeSupplyList, int id) throws NotExistException {
-		administrativeModel.deleteOfficeSupply(officeSupplyList, id);
+	public void deleteOfficeSupply(int id) throws NotExistException {
+		administrativeModel.deleteOfficeSupply(id);
 	}
-	public OfficeSupply getOfficeSupply(OfficeSupplyList officeSupplyList, int id) throws NotExistException{
-		return administrativeModel.getOfficeSupply(officeSupplyList, id);
+	public OfficeSupply getOfficeSupply(int id) throws NotExistException{
+		return administrativeModel.getOfficeSupply(id);
 	}
-	public void updateDepartment(int index, String input, OfficeSupply officeSupply,
-			OfficeSupplyList officeSupplyList) throws DuplicateOfficeSupplyException, NotExistException {
-		administrativeModel.updateDepartment(index, input, officeSupply, officeSupplyList);
+	public void updateOfficeSupply(int index, String input, int id) throws NotExistException {
+		administrativeModel.updateOfficeSupply(index, input, id);
 	}
-	public ArrayList<OfficeSupply> getAll(OfficeSupplyList officeSupplyList) {
-		return administrativeModel.getAll(officeSupplyList);
+
+	public ArrayList<OfficeSupply> getAll() {
+		return administrativeModel.getAllOfficeSupplies();
 	}
-	public int getTotalInventory(OfficeSupplyList officeSupplyList) {
-		return administrativeModel.getTotalInventory(officeSupplyList);
+	public int getTotalInventory() {
+		return administrativeModel.getTotalInventory();
 	}
 }

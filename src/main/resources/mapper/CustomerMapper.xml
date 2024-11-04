@@ -66,4 +66,45 @@
         from customer
         where id=#{param1}
     </select>
+    <insert id="insert_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+        INSERT INTO customer (name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
+        VALUES (#{customer.name},
+                #{customer.phoneNumber},
+                #{customer.job},
+                #{customer.age},
+                #{customer.gender},
+                #{customer.residentRegistrationNumber},
+                #{customer.address},
+                #{customer.property},
+                #{customer.bankName},
+                #{customer.bankAccount});
+    </insert>
+    <delete id="delete_customerInformationManagement" parameterType="int">
+        DELETE FROM customer
+        WHERE id = #{id};
+    </delete>
+    <select id="findById_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+        SELECT * FROM customer
+        WHERE id = #{id};
+    </select>
+    <select id="findByResidentRegistrationNumber_customerInformationManagement" parameterType="string" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+        SELECT * FROM customer
+        WHERE resident_registration_number = #{residentRegistrationNumber};
+    </select>
+    <update id="update_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+        UPDATE customer
+        SET name = #{customer.name},
+            phone_number = #{customer.phoneNumber},
+            job = #{customer.job},
+            age = #{customer.age},
+            gender = #{customer.gender},
+            address = #{customer.address},
+            property = #{customer.property},
+            bank_name = #{customer.bankName},
+            bank_account = #{customer.bankAccount}
+        WHERE id = #{customer.id};
+    </update>
+    <select id="getAll_customerInformationManagement" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+        SELECT * FROM customer;
+    </select>
 </mapper>

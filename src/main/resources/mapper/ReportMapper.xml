@@ -23,4 +23,20 @@
                 #{damage_assessment_company_id}
                )
     </insert>
+    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int" resultType="Report">
+        SELECT * FROM report
+        WHERE damage_assessment_company_id = #{id}
+    </select>
+
+    <select id="findById_PartnerCompany" parameterType="int" resultType="Report">
+        SELECT * FROM report
+        WHERE id = #{id}
+    </select>
+
+    <update id="update_PartnerCompany" parameterType="Report">
+        UPDATE report
+        SET column1 = #{property1}, column2 = #{property2}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

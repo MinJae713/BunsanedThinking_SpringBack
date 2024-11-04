@@ -18,16 +18,16 @@ public class PartnerCompanyController {
 	@Autowired
 	private PartnerCompanyModel partnerCompanyModel;
 
-	public PartnerCompany get(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
-		return partnerCompanyModel.get(partnerCompanyList, id);
+	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
+		return partnerCompanyModel.getPartnerCompany(id);
 	}
-	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(ReportList reportList, int id) {
-		return partnerCompanyModel.getAllReportByDamageAssessmentCompanyID(reportList, id);
+	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(int id) {
+		return partnerCompanyModel.getAllReportByDamageAssessmentCompanyID(id);
 	}
-	public Report get(ReportList reportList, int id) throws NotExistException {
-		return partnerCompanyModel.get(reportList, id);
+	public Report getReport(int id) throws NotExistException {
+		return partnerCompanyModel.getReport(id);
 	}
-	public void update(ReportList reportList, Report report) throws NotExistException {
-		partnerCompanyModel.update(reportList, report);
+	public void update(Report report) throws NotExistException {
+		partnerCompanyModel.update(report);
 	}
 }

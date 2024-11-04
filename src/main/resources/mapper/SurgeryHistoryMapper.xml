@@ -14,4 +14,28 @@
         INSERT INTO surgery_history (id, hospital_name, name, date, customer_id)
         VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
     </insert>
+
+    <insert id="insert_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
+        INSERT INTO surgery_history (customer_id, description, date, cost)
+        VALUES (#{surgeryHistory.customerId},
+                #{surgeryHistory.description},
+                #{surgeryHistory.date},
+                #{surgeryHistory.cost});
+    </insert>
+    <select id="findSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
+        SELECT * FROM surgery_history
+        WHERE customer_id = #{customerId};
+    </select>
+    <delete id="deleteSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int">
+        DELETE FROM surgery_history
+        WHERE customer_id = #{customerId};
+    </delete>
+    <update id="update_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
+        UPDATE surgery_history
+        SET description = #{surgeryHistory.description},
+            date = #{surgeryHistory.date},
+            cost = #{surgeryHistory.cost}
+        WHERE id = #{surgeryHistory.id};
+    </update>
+
 </mapper>

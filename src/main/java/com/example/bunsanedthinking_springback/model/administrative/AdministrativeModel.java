@@ -4,6 +4,8 @@ import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupplyList;
 import com.example.bunsanedthinking_springback.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,68 +13,60 @@ import java.util.ArrayList;
 @Service
 public class AdministrativeModel {
 
-	public void addOfficeSupply(String name, String explain, int inventory, OfficeSupplyList officeSupplyList) throws DuplicateOfficeSupplyException {
-		for (OfficeSupply officeSupply : officeSupplyList.getAll()) {
-			if (officeSupply.getName().equals(name)) {
-				throw new DuplicateOfficeSupplyException();
-			}
+	@Autowired
+	private OfficeSupplyMapper officeSupplyMapper;
+
+	public void addOfficeSupply(String name, String description, int inventory) throws DuplicateOfficeSupplyException {
+		OfficeSupply existingSupply = officeSupplyMapper.findByName_OfficeSupply(name);
+		if (existingSupply != null) {
+			throw new DuplicateOfficeSupplyException();
 		}
-		OfficeSupply officeSupply = new OfficeSupply(name, explain, inventory);
-		officeSupplyList.add(officeSupply);
-		
+		OfficeSupply officeSupply = new OfficeSupply(name, description, inventory);
+		officeSupplyMapper.insert_OfficeSupply(officeSupply);
 	}
 
-	public void deleteOfficeSupply(OfficeSupplyList officeSupplyList, int id) throws NotExistException{
-		try {
-			officeSupplyList.delete(id);
-		} catch (NotExistException e) {
+	public void deleteOfficeSupply(int id) throws NotExistException{
+		OfficeSupply officeSupply = officeSupplyMapper.findById_OfficeSupply(id);
+		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
+		officeSupplyMapper.delete_OfficeSupply(id);
 	}
 
-	public OfficeSupply getOfficeSupply(OfficeSupplyList officeSupplyList, int id) throws NotExistException {
-		try {
-			return officeSupplyList.get(id);
-		} catch (NotExistException e) {
+	public OfficeSupply getOfficeSupply(int id) throws NotExistException {
+		OfficeSupply officeSupply = officeSupplyMapper.findById_OfficeSupply(id);
+		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
+		return officeSupply;
 	}
 
-	public void updateDepartment(int index, String input, OfficeSupply officeSupply,
-			OfficeSupplyList officeSupplyList) throws DuplicateOfficeSupplyException, NotExistException {
-		try {
-			switch (index) {
+	public void updateOfficeSupply(int index, String input, int id) throws NotExistException {
+		OfficeSupply officeSupply = getOfficeSupply(id);
+		if (officeSupply == null) {
+			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+		}
+		switch (index) {
 			case 1:
-				for (OfficeSupply e : officeSupplyList.getAll()) {
-					if (e.getName().equals(input)) {
-						throw new DuplicateOfficeSupplyException();
-					}
-				}
 				officeSupply.setName(input);
-				officeSupplyList.update(officeSupply);
 				break;
 			case 2:
 				officeSupply.setDescription(input);
-				officeSupplyList.update(officeSupply);
 				break;
-			case 3:
+			case 3: 
 				officeSupply.setInventory(Integer.parseInt(input));
-				officeSupplyList.update(officeSupply);
 				break;
 			default:
-				break;
-			}
-		} catch (NotExistException e) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+				throw new IllegalArgumentException("잘못된 선택입니다. 다시 선택해주세요.");
 		}
-		
+		officeSupplyMapper.update_OfficeSupply(officeSupply);
 	}
 	// 메소드는 아래에 적어주셔유! (MVC 적용)
-	public ArrayList<OfficeSupply> getAll(OfficeSupplyList officeSupplyList) {
-		return officeSupplyList.getAll();
+	public ArrayList<OfficeSupply> getAllOfficeSupplies() {
+		return new ArrayList<>(officeSupplyMapper.getAll_OfficeSupply());
 	}
 
-	public int getTotalInventory(OfficeSupplyList officeSupplyList) {
-		return officeSupplyList.getTotalInventory();
+	public int getTotalInventory() {
+		return officeSupplyMapper.getTotalInventory_OfficeSupply();
 	}
 }

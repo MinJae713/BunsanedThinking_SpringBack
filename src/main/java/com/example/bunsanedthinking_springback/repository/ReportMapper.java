@@ -1,7 +1,11 @@
 package com.example.bunsanedthinking_springback.repository;
 
 import com.example.bunsanedthinking_springback.vo.ReportVO;
+import com.example.bunsanedthinking_springback.entity.report.Report;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +16,8 @@ public interface ReportMapper {
     public Optional<ReportVO> getById_Compensation(int id);
     public void updateStatus_Compensation(int processStatus, int reportId);
 	void insert_CustomerSupport(ReportVO reportVO);
+    List<Report> findAllByDamageAssessmentCompanyID_PartnerCompany(@Param("id") int id);
+    Report findById_PartnerCompany(@Param("id") int id);
+    void update_PartnerCompany(Report report);
 }
+
