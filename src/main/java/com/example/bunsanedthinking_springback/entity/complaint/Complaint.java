@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.complaint;
 
+import com.example.bunsanedthinking_springback.vo.ComplaintVO;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +37,19 @@ public class Complaint {
 		this.content = content;
 		this.customerID = customerId;
 		this.title = title;
+	}
+
+	public Complaint(ComplaintVO complaintVO) {
+		id = complaintVO.getId();
+		complaintType = ComplaintType.values()[complaintVO.getComplaint_type()];
+		content = complaintVO.getContent();
+		customerID = complaintVO.getCustomer_id();
+		employeeName = complaintVO.getEmployee_name();
+		postDate = java.sql.Date.valueOf(complaintVO.getDate());
+		processingDate = java.sql.Date.valueOf(complaintVO.getProcessing_date());
+		processStatus = ComplaintProcessStatus.values()[complaintVO.getProcess_status()];
+		title = complaintVO.getTitle();
+		result = complaintVO.getResult();
 	}
 	
 	public Complaint(Complaint complaint) {

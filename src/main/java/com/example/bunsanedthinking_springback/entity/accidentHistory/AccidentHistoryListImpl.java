@@ -56,8 +56,7 @@ public class AccidentHistoryListImpl implements AccidentHistoryList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 */
 	public void update(AccidentHistory accidentHistory){
 		for (int i = 0; i < accidentHistoryList.size(); i++) {

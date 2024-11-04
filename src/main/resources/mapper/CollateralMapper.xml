@@ -9,4 +9,11 @@
                 #{collateral.minimum_value}
                )
     </insert>
+    <select id="getCollateralById_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+        select * from collateral
+        where product_id = #{id}
+    </select>
+    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+        select * from collateral
+    </select>
 </mapper>

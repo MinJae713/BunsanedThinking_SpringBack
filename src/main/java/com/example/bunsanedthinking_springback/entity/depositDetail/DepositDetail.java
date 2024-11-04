@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
+import lombok.NoArgsConstructor;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,6 +10,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:41
  */
+@NoArgsConstructor
 public class DepositDetail {
 
 	public static final int DEPOSIT_DETAIL_SERIAL = 810;
@@ -67,5 +70,25 @@ public class DepositDetail {
 	
 	public DepositPath getPath() {
 		return this.path;
+	}
+
+	public void setContractID(int contractID) {
+		this.contractID = contractID;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setDepositorName(String depositorName) {
+		this.depositorName = depositorName;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void setPath(DepositPath path) {
+		this.path = path;
 	}
 }

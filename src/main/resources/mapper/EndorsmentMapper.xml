@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.EndorsmentMapper">
+    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
+        select * from endorsement
+        where contract_id = #{id}
+    </select>
+    <insert id="addById_Customer">
+        insert into endorsement(contract_id)
+        values (#{contractId})
+    </insert>
+
+    <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
+        select * from endorsement
+        where contract_id = #{id}
+    </select>
+    <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
+        select * from endorsement
+    </select>
 </mapper>

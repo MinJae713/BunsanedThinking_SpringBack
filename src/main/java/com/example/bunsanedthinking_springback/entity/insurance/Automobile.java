@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+import com.example.bunsanedthinking_springback.vo.ProductVO;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -34,6 +36,35 @@ public class Automobile extends Insurance {
 		this.setAccidentLimit(accidentLimit);
 		this.setVehicleType(vehicleType);
 		this.setServiceList((ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList()));
+	}
+
+	public Automobile(ProductVO productVO, InsuranceVO insuranceVO,
+					  int accidentLimit, VehicleType vehicleType,
+					  ArrayList<ServiceType> serviceTypeList) {
+		int productID = productVO.getId();
+		String name = productVO.getName();
+		int maximum_money = productVO.getMaximum_money();
+
+		int insurance_type_ordinal = insuranceVO.getInsurance_type();
+		InsuranceType insurance_type = InsuranceType.values()[insurance_type_ordinal];
+		int age_range = insuranceVO.getAge_range();
+		int monthly_premium = insuranceVO.getMonthly_premium();
+		int contract_period = insuranceVO.getContract_period();
+		String coverage = insuranceVO.getCoverage();
+
+		this.setId(productID);
+		this.setName(name);
+		this.setMaximumMoney(maximum_money);
+
+		this.setInsuranceType(insurance_type);
+		this.setAgeRange(age_range);
+		this.setMonthlyPremium(monthly_premium);
+		this.setContractPeriod(contract_period);
+		this.setCoverage(coverage);
+
+		this.setAccidentLimit(accidentLimit);
+		this.setServiceList((ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList()));
+		this.setVehicleType(vehicleType);
 	}
 	
 	public int getAccidentLimit() {

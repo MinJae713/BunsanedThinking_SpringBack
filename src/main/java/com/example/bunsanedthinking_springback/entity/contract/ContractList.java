@@ -38,7 +38,7 @@ public interface ContractList {
 	public void update(Contract contract) throws NotExistContractException;
 
 	public ArrayList<Contract> getAllByCustomer(int id) throws NotExistContractException;
-	public Contract getAutomobileByMember(int customerID) throws NotExistContractException;
+	public Contract getContractByOneAutomobileId(int customerID) throws NotExistContractException;
 	
 	public ArrayList<Contract> getAllRequestingInsurance();
 	public ArrayList<Contract> getAllNotRequestingInsurance();
@@ -47,7 +47,7 @@ public interface ContractList {
 	public ArrayList<Contract> getAllAutomobileInsuranceContract();
 	public ArrayList<Contract> getAllInjuryInsuranceContract();
 	public ArrayList<Contract> getAllDiseaseInsuranceContract();
-	public ArrayList<Contract> getContractByproductId(int id);
+	public ArrayList<Contract> getContractByProductId(int id);
 	public ArrayList<Contract> getAllDefaultContract();
 
 	

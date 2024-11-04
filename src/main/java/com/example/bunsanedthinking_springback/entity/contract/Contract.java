@@ -7,6 +7,7 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
+import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 4:40:40
  */
+@NoArgsConstructor
 public class Contract {
 
 	public static final int CONTRACT_SERIAL_NUMBER = 100;

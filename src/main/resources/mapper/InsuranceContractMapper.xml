@@ -8,4 +8,11 @@
                 #{insuranceContract.insurance_id}
                )
     </insert>
+    <select id="getInsuranceContractById_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
+        select * from insurancecontract
+        where product_id = #{id}
+    </select>
+    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
+        select * from insurancecontract
+    </select>
 </mapper>

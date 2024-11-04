@@ -64,8 +64,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 * @throws NotExistContractException
 	 */
 	public void update(Contract contract) throws NotExistContractException {
@@ -79,7 +78,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 ////怨좉컼////
-	public ArrayList<Contract> getContractByproductId(int id) {
+	public ArrayList<Contract> getContractByProductId(int id) {
 		ArrayList<Contract> contractList = new ArrayList<>();
 		for (Contract contract : this.contractList) {
 			if (contract.getProduct().getId() == id) {
@@ -135,7 +134,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	@Override
-	public Contract getAutomobileByMember(int customerID) throws NotExistContractException{
+	public Contract getContractByOneAutomobileId(int customerID) throws NotExistContractException{
 		for (Contract contract : contractList) {
 			if (contract.getCustomerID() != customerID) {
 				continue;

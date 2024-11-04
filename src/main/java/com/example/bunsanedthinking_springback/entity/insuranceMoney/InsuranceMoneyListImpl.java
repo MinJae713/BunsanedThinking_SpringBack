@@ -55,8 +55,7 @@ public class InsuranceMoneyListImpl implements InsuranceMoneyList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 * @throws NotExistException 
 	 */
 	public void update(InsuranceMoney insuranceMoney) throws NotExistException{

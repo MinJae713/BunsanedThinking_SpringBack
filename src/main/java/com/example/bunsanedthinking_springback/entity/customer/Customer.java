@@ -24,6 +24,7 @@ import com.example.bunsanedthinking_springback.exception.AlreadyRequestingExcept
 import com.example.bunsanedthinking_springback.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
 
 import java.awt.*;
 import java.io.IOException;
@@ -76,6 +77,26 @@ public class Customer implements Cloneable {
 		this.phoneNumber = phoneNumber;
 		this.property = property;
 		this.residentRegistrationNumber = residentRegistrationNumber;
+		this.accidentHistoryList = new ArrayList<>();
+		this.diseaseHistoryList = new ArrayList<>();
+		this.surgeryHistoryList = new ArrayList<>();
+	}
+	public Customer(CustomerVO customerVO) {
+		this.id = customerVO.getId();
+		this.accidentList = new ArrayList<>();
+		this.address = customerVO.getAddress();
+		this.age = customerVO.getAge();
+		this.bankAccount = customerVO.getBank_account();
+		this.bankName = customerVO.getBank_name();
+		this.complaintList = new ArrayList<>();
+		this.contractList = new ArrayList<>();
+		this.counselList = new ArrayList<>();
+		this.gender = Gender.values()[customerVO.getGender()];
+		this.job = customerVO.getJob();
+		this.name = customerVO.getName();
+		this.phoneNumber = customerVO.getPhone_number();
+		this.property = customerVO.getProperty();
+		this.residentRegistrationNumber = customerVO.getResident_registration_number();
 		this.accidentHistoryList = new ArrayList<>();
 		this.diseaseHistoryList = new ArrayList<>();
 		this.surgeryHistoryList = new ArrayList<>();

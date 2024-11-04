@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.compensationDetail;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:40
  */
+@NoArgsConstructor
 public class CompensationDetail {
 
 	private int contractID;
@@ -51,4 +54,15 @@ public class CompensationDetail {
 		return this.money;
 	}
 
+	public void setContractID(int contractID) {
+		this.contractID = contractID;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
 }

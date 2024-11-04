@@ -55,8 +55,7 @@ public class ReportListImpl implements ReportList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 */
 	public void update(Report report) throws NotExistException{
 		for (int i = 0; i < reportList.size(); i++) {

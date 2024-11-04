@@ -51,8 +51,7 @@ public class AccidentListImpl implements AccidentList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 */
 	public void update(Accident accident) throws NotExistException {
 

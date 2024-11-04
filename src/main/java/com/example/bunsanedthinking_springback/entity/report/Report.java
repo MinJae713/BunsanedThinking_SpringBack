@@ -2,12 +2,14 @@ package com.example.bunsanedthinking_springback.entity.report;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:44
  */
+@NoArgsConstructor
 public class Report {
 
 	public static final int REPORT_SERIAL_NUMBER = 500;
@@ -67,4 +69,15 @@ public class Report {
 		return damageAssessmentCompanyID;
 	}
 
+	public void setAccident(Accident accident) {
+		this.accident = accident;
+	}
+
+	public void setRoadsideAssistanceCompanyID(int roadsideAssistanceCompanyID) {
+		this.roadsideAssistanceCompanyID = roadsideAssistanceCompanyID;
+	}
+
+	public void setDamageAssessmentCompanyID(int damageAssessmentCompanyID) {
+		this.damageAssessmentCompanyID = damageAssessmentCompanyID;
+	}
 }

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InsuranceContractVO {
-	private int contract_id;
+	private int product_id; // 테이블 이름 따라갑니다 - 수정함
 	private int insurance_id;
 }

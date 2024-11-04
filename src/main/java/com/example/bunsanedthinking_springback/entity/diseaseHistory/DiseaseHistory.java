@@ -1,6 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -22,6 +25,16 @@ public class DiseaseHistory implements Cloneable{
 	public DiseaseHistory(String name, Date date) {
 		this.setName(name);
 		this.setDate_of_diagnosis(date);
+	}
+	public DiseaseHistory(DiseaseHistoryVO diseaseHistoryVO) {
+		customer_id = diseaseHistoryVO.getCustomer_id();
+		LocalDate localDate = diseaseHistoryVO.getDate_of_diagnosis();
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day = localDate.getDayOfMonth();
+		date_of_diagnosis = new Date(year, month, day);
+		id = diseaseHistoryVO.getId();
+		name = diseaseHistoryVO.getName();
 	}
 
 	public int getCustomer_id() {

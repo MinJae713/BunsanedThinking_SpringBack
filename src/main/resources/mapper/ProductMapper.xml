@@ -13,4 +13,8 @@
         select *
         from product
     </select>
+    <select id="getProductById_Customer" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        select * from product
+        where id = #{id}
+    </select>
 </mapper>

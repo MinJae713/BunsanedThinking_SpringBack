@@ -1,8 +1,10 @@
 package com.example.bunsanedthinking_springback.entity.counsel;
 
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.vo.CounselVO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -19,6 +21,7 @@ public class Counsel implements Cloneable {
 	private int id;
 	private CounselProcessStatus processStatus;
 	private int productID;
+
 	private String name;
 	private String phoneNumber;
 	private String job;
@@ -32,6 +35,23 @@ public class Counsel implements Cloneable {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.counselDate = counselDate;
+		this.job = job;
+		this.age = age;
+		this.gender = gender;
+	}
+	public Counsel(CounselVO counselVO, String name, String phoneNumber, String job, int age, Gender gender) {
+		LocalDate localDate = counselVO.getCounsel_date();
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day = localDate.getDayOfMonth();
+		counselDate = new Date(year, month, day);
+		customerID = counselVO.getCustomer_id();
+		id = counselVO.getId();
+		processStatus = CounselProcessStatus.values()[counselVO.getProcess_status()];
+		productID = counselVO.getProduct_id();
+
+		this.name = name;
+		this.phoneNumber = phoneNumber;
 		this.job = job;
 		this.age = age;
 		this.gender = gender;

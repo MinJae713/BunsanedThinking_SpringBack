@@ -3,25 +3,22 @@ package com.example.bunsanedthinking_springback.controller;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.example.bunsanedthinking_springback.entity.endorsment.EndorsementList;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
-import com.example.bunsanedthinking_springback.entity.recontract.RecontractList;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
-import com.example.bunsanedthinking_springback.entity.revival.RevivalList;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
-import com.example.bunsanedthinking_springback.entity.termination.TerminationList;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.contractManagement.ContractManagementModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/contractManagement")
@@ -45,91 +42,168 @@ public class ContractManagementController {
 	public boolean reviewRevival(ContractList contractList, Revival revivalcontract, Customer customer, int index) {
 		return contractManagementModel.reviewRevival(contractList, revivalcontract, customer, index);
 	}
-	public ArrayList<Contract> getAllDefaultContract(ContractList contractList) {
-		return contractManagementModel.getAllDefaultContract(contractList);
+//	public ArrayList<Contract> getAllDefaultContract(ContractList contractList) {
+//		return contractManagementModel.getAllDefaultContract(contractList);
+//	}
+//	public Customer getCustomerById(CustomerList customerList, Contract contract) throws NotExistException {
+//		return contractManagementModel.getCustomerById(customerList, contract);
+//	}
+//
+//	public Contract getContractById(ContractList contractList, int id) throws NotExistContractException {
+//		return contractManagementModel.getContractById(contractList, id);
+//	}
+//	public Termination getTerminationById(TerminationList terminationList, int id) {
+//		return contractManagementModel.getTerminationById(terminationList, id);
+//	}
+//	public ArrayList<Termination> getAllTerminatingContract(TerminationList terminationList) {
+//		return contractManagementModel.getAllTerminatingContract(terminationList);
+//	}
+//	public Termination getTerminatingContractById(TerminationList terminationList,int id) {
+//		return contractManagementModel.getTerminatingContractById(terminationList, id);
+//	}
+//	public ArrayList<Termination> getAllUnprocessedTerminatingContract(TerminationList terminationList) {
+//		return contractManagementModel.getAllUnprocessedTerminatingContract(terminationList);
+//	}
+//	public ArrayList<Termination> getAllProcessedTerminatingContract(TerminationList terminationList) {
+//		return contractManagementModel.getAllProcessedTerminatingContract(terminationList);
+//	}
+//	public ArrayList<Endorsement> getAllEndorsementContract(EndorsementList endorsementList) {
+//		return contractManagementModel.getAllEndorsementContract(endorsementList);
+//	}
+//	public ArrayList<Endorsement> getAllUnprocessedEndorsementContract(EndorsementList endorsementList) {
+//		return contractManagementModel.getAllUnprocessedEndorsementContract(endorsementList);
+//	}
+//	public ArrayList<Endorsement> getAllProcessedEndorsementContract(EndorsementList endorsementList) {
+//		return contractManagementModel.getAllProcessedEndorsementContract(endorsementList);
+//	}
+//	public Endorsement getEndorsementById(EndorsementList endorsementList, int id) {
+//		return contractManagementModel.getEndorsementById(endorsementList, id);
+//	}
+//	public ArrayList<Recontract> getAllReContract(RecontractList recontractList) {
+//		return contractManagementModel.getAllReContract(recontractList);
+//	}
+//
+//	public ArrayList<Recontract> getAllUnprocessedReContract(RecontractList recontractList) {
+//		return contractManagementModel.getAllUnprocessedReContract(recontractList);
+//	}
+//
+//	public ArrayList<Recontract> getAllProcessedReContract(RecontractList recontractList) {
+//		return contractManagementModel.getAllProcessedReContract(recontractList);
+//	}
+//
+//	public Recontract getReContractById(RecontractList recontractList, int id) {
+//		return contractManagementModel.getReContractById(recontractList, id);
+//	}
+//
+//	public ArrayList<Revival> getAllRevivalContract(RevivalList revivalList) {
+//		return contractManagementModel.getAllRevivalContract(revivalList);
+//	}
+//	public ArrayList<Revival> getAllRevivalContract(RevivalList revivalList) {
+//		return contractManagementModel.getAllRevivalContract(revivalList);
+//	}
+//
+//	public Revival getRevivalById(RevivalList revivalList, int id) {
+//		return contractManagementModel.getRevivalById(revivalList, id);
+//	}
+//
+//	public ArrayList<Revival> getAllUnprocessedRevival(RevivalList revivalList) {
+//		return contractManagementModel.getAllUnprocessedRevival(revivalList);
+//	}
+//
+//	public ArrayList<Revival> getAllProcessedRevival(RevivalList revivalList) {
+//		return contractManagementModel.getAllProcessedRevival(revivalList);
+//	}
+	@GetMapping("/getAllDefaultContract")
+	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllDefaultContract();
+	}
+	@GetMapping("/getCustomerById")
+	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
+		return contractManagementModel.getCustomerById(id);
+	}
+	@GetMapping("/getContractById")
+	public Contract getContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementModel.getContractById(id);
+	}
+	@GetMapping("/getTerminationById")
+	public Termination getTerminationById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementModel.getTerminationById(id);
+	}
+	@GetMapping("/getAllTerminatingContract")
+	public List<Termination> getAllTerminatingContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllTerminatingContract();
+	}
+	@GetMapping("/getTerminatingContractById")
+	public Termination getTerminatingContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		// ## getTerminationById랑 중복!!
+		return contractManagementModel.getTerminatingContractById(id);
+	}
+	@GetMapping("/getAllUnprocessedTerminatingContract")
+	public List<Termination> getAllUnprocessedTerminatingContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllUnprocessedTerminatingContract();
+	}
+	@GetMapping("/getAllProcessedTerminatingContract")
+	public List<Termination> getAllProcessedTerminatingContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllProcessedTerminatingContract();
+	}
+	@GetMapping("/getAllEndorsementContract")
+	public List<Endorsement> getAllEndorsementContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllEndorsementContract();
 	}
 
-	public Customer get(CustomerList customerList, Contract contract) throws NotExistException {
-		return contractManagementModel.get(customerList, contract);
+	@GetMapping("/getAllUnprocessedEndorsementContract")
+	public List<Endorsement> getAllUnprocessedEndorsementContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllUnprocessedEndorsementContract();
 	}
 
-	public Contract get(ContractList contractList, int id) throws NotExistContractException {
-		return contractManagementModel.get(contractList, id);
+	@GetMapping("/getAllProcessedEndorsementContract")
+	public List<Endorsement> getAllProcessedEndorsementContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllProcessedEndorsementContract();
 	}
 
-	public Termination get(TerminationList terminationList, int id) {
-		return contractManagementModel.get(terminationList, id);
+	@GetMapping("/getEndorsementById")
+	public Endorsement getEndorsementById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementModel.getEndorsementById(id);
+	}
+	@GetMapping("/getAllReContract")
+	public List<Recontract> getAllReContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllReContract();
+	}
+	@GetMapping("/getAllUnprocessedReContract")
+	public List<Recontract> getAllUnprocessedReContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllUnprocessedReContract();
+	}
+	@GetMapping("/getAllProcessedReContract")
+	public List<Recontract> getAllProcessedReContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllProcessedReContract();
+	}
+	@GetMapping("/getReContractById")
+	public Recontract getReContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementModel.getReContractById(id);
+	}
+	@GetMapping("/getAllRevivalContract")
+	public List<Revival> getAllRevivalContract() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllRevivalContract();
+	}
+	@GetMapping("/getRevivalById")
+	public Revival getRevivalById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementModel.getRevivalById(id);
+	}
+	@GetMapping("/getAllUnprocessedRevival")
+	public List<Revival> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllUnprocessedRevival();
+	}
+	@GetMapping("/getAllProcessedRevival")
+	public List<Revival> getAllProcessedRevival() throws NotExistContractException, NotExistException {
+		return contractManagementModel.getAllProcessedRevival();
 	}
 
-	public ArrayList<Termination> getAllTerminatingContract(TerminationList terminationList) {
-		return contractManagementModel.getAllTerminatingContract(terminationList);
-	}
+	// 아래는 지운 메소드 - 기능 중복 고려
+//	public Recontract get(RecontractList recontractList, int id) {
+//		return contractManagementModel.getRecontractById(recontractList, id);
+//	}
 
-	public Termination getTerminatingContractById(TerminationList terminationList,int id) {
-		return contractManagementModel.getTerminatingContractById(terminationList, id);
-	}
-
-	public ArrayList<Termination> getAllUnprocessedTerminatingContract(TerminationList terminationList) {
-		return contractManagementModel.getAllUnprocessedTerminatingContract(terminationList);
-	}
-
-	public ArrayList<Termination> getAllProcessedTerminatingContract(TerminationList terminationList) {
-		return contractManagementModel.getAllProcessedTerminatingContract(terminationList);
-	}
-
-	public ArrayList<Endorsement> getAllEndorsementContract(EndorsementList endorsementList) {
-		return contractManagementModel.getAllEndorsementContract(endorsementList);
-	}
-
-	public ArrayList<Endorsement> getAllUnprocessedEndorsementContract(EndorsementList endorsementList) {
-		return contractManagementModel.getAllUnprocessedEndorsementContract(endorsementList);
-	}
-
-	public ArrayList<Endorsement> getAllProcessedEndorsementContract(EndorsementList endorsementList) {
-		return contractManagementModel.getAllProcessedEndorsementContract(endorsementList);
-	}
-
-	public Endorsement get(EndorsementList endorsementList, int id) {
-		return contractManagementModel.get(endorsementList, id);
-	}
-
-	public ArrayList<Recontract> getAllReContract(RecontractList recontractList) {
-		return contractManagementModel.getAllReContract(recontractList);
-	}
-
-	public ArrayList<Recontract> getAllUnprocessedReContract(RecontractList recontractList) {
-		return contractManagementModel.getAllUnprocessedReContract(recontractList);
-	}
-
-	public ArrayList<Recontract> getAllProcessedReContract(RecontractList recontractList) {
-		return contractManagementModel.getAllProcessedReContract(recontractList);
-	}
-
-	public Recontract getReContractById(RecontractList recontractList, int id) {
-		return contractManagementModel.getReContractById(recontractList, id);
-	}
-
-	public Recontract get(RecontractList recontractList, int id) {
-		return contractManagementModel.get(recontractList, id);
-	}
-
-	public ArrayList<Revival> getAllRevivalContract(RevivalList revivalList) {
-		return contractManagementModel.getAllRevivalContract(revivalList);
-	}
-
-	public Revival getRevivalById(RevivalList revivalList, int id) {
-		return contractManagementModel.getRevivalById(revivalList, id);
-	}
-
-	public ArrayList<Revival> getAllUnprocessedRevival(RevivalList revivalList) {
-		return contractManagementModel.getAllUnprocessedRevival(revivalList);
-	}
-
-	public ArrayList<Revival> getAllProcessedRevival(RevivalList revivalList) {
-		return contractManagementModel.getAllProcessedRevival(revivalList);
-	}
-
-	public Revival get(RevivalList revivalList, int id) {
-		return contractManagementModel.get(revivalList, id);
-	}
+//	public Revival get(RevivalList revivalList, int id) {
+//		return contractManagementModel.get(revivalList, id);
+//	}
 }

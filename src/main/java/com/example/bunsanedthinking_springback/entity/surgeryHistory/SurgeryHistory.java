@@ -1,6 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -23,6 +26,17 @@ public class SurgeryHistory implements Cloneable {
 		this.setName(name);
 		this.setHospitalName(hospitalName);
 		this.setDate(date);
+	}
+	public SurgeryHistory(SurgeryHistoryVO surgeryHistoryVO) {
+		customerID = surgeryHistoryVO.getCustomer_id();
+		LocalDateTime localDate = surgeryHistoryVO.getDate();
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day = localDate.getDayOfMonth();
+		date = new Date(year, month, day);
+		hospitalName = surgeryHistoryVO.getHospital_name();
+		id = surgeryHistoryVO.getId();
+		name = surgeryHistoryVO.getName();
 	}
 
 	public int getCustomerID() {

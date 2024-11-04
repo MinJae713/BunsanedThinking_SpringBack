@@ -57,8 +57,7 @@ public class CompensationDetailListImpl implements CompensationDetailList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 * @throws NotExistException 
 	 */
 	public void update(CompensationDetail compensationDetail) throws NotExistException{

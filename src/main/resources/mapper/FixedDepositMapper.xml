@@ -8,4 +8,11 @@
                 #{fixedDeposit.minimum_amount}
                )
     </insert>
+    <select id="getFixedDepositById_Customer" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
+        select * from fixedDeposit
+        where product_id = #{id}
+    </select>
+    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
+        select * from fixedDeposit;
+    </select>
 </mapper>

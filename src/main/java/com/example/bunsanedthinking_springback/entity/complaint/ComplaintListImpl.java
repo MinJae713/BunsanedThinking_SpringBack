@@ -62,8 +62,7 @@ public class ComplaintListImpl implements ComplaintList {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 * @throws NotExistException 
 	 */
 	public void update(Complaint complaint) throws NotExistException{

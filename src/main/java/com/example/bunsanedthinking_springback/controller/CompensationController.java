@@ -2,9 +2,7 @@ package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
@@ -16,10 +14,12 @@ import com.example.bunsanedthinking_springback.exception.NotExistContractExcepti
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.compensation.CompensationModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/compensation")
@@ -36,37 +36,82 @@ public class CompensationController {
 									  PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException{
 		compensationModel.requestInsuranceMoney(customer, money, insuranceMoney, insuranceMoneyList, paymentType, contractId, paymentDetailList);
 	}
-	public ArrayList<InsuranceMoney> getAll(InsuranceMoneyList insuranceMoneyList) {
-		return compensationModel.getAll(insuranceMoneyList);
+
+//	public ArrayList<InsuranceMoney> getAllInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
+//		return compensationModel.getAllInsuranceMoney(insuranceMoneyList);
+//	}
+//	public ArrayList<InsuranceMoney> getAllUnprocessedInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
+//		return compensationModel.getAllUnprocessedInsuranceMoney(insuranceMoneyList);
+//	}
+//	public ArrayList<InsuranceMoney> getAllProcessedInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
+//		return compensationModel.getAllProcessedInsuranceMoney(insuranceMoneyList);
+//	}
+//	public InsuranceMoney getInsuranceMoneyById(InsuranceMoneyList insuranceMoneyList, int id) throws NotExistException {
+//		return compensationModel.getInsuranceMoneyById(insuranceMoneyList, id);
+//	}
+//	public Contract getContractById(ContractList contractList, int contractId) throws NotExistContractException {
+//		return compensationModel.getContractById(contractList, contractId);
+//	}
+//	public Customer getCustomerById(CustomerList customerList, int customerID) throws NotExistException {
+//		return compensationModel.getCustomerById(customerList, customerID);
+//	}
+//	public ArrayList<Report> getAllReport(ReportList reportList) {
+//		return compensationModel.getAllReport(reportList);
+//	}
+//	public Report getReportById(ReportList reportList, int id) throws NotExistException {
+//		return compensationModel.getReportById(reportList, id);
+//	}
+//	public ArrayList<Report> getAllUnprocessedReport(ReportList reportList) {
+//		return compensationModel.getAllUnprocessedReport(reportList);
+//	}
+//	public ArrayList<Report> getAllCompletedReport(ReportList reportList) {
+//		return compensationModel.getAllCompletedReport(reportList);
+//	}
+//	public Contract getAutomobileByCustomerId(ContractList contractList, int customerID) throws NotExistContractException, NotExistException {
+//		return compensationModel.getAutomobileByCustomerId(contractList, customerID);
+//	}
+	@GetMapping("/getAllInsuranceMoney")
+	public List<InsuranceMoney> getAllInsuranceMoney() {
+		return compensationModel.getAllInsuranceMoney();
 	}
-	public ArrayList<InsuranceMoney> getAllUnprocessed(InsuranceMoneyList insuranceMoneyList) {
-		return compensationModel.getAllUnprocessed(insuranceMoneyList);
+	@GetMapping("/getAllUnprocessedInsuranceMoney")
+	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
+		return compensationModel.getAllUnprocessedInsuranceMoney();
 	}
-	public ArrayList<InsuranceMoney> getAllProcessed(InsuranceMoneyList insuranceMoneyList) {
-		return compensationModel.getAllProcessed(insuranceMoneyList);
+	@GetMapping("/getAllProcessedInsuranceMoney")
+	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
+		return compensationModel.getAllProcessedInsuranceMoney();
 	}
-	public InsuranceMoney get(InsuranceMoneyList insuranceMoneyList, int id) throws NotExistException {
-		return compensationModel.get(insuranceMoneyList, id);
+	@GetMapping("/getInsuranceMoneyById")
+	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
+		return compensationModel.getInsuranceMoneyById(id);
 	}
-	public Contract get(ContractList contractList, int contractId) throws NotExistContractException {
-		return compensationModel.get(contractList, contractId);
+	@GetMapping("/getContractById")
+	public Contract getContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return compensationModel.getContractById(id);
 	}
-	public Customer get(CustomerList customerList, int customerID) throws NotExistException {
-		return compensationModel.get(customerList, customerID);
+	@GetMapping("/getCustomerById")
+	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
+		return compensationModel.getCustomerById(id);
 	}
-	public ArrayList<Report> getAll(ReportList reportList) {
-		return compensationModel.getAll(reportList);
+	@GetMapping("/getAllReport")
+	public List<Report> getAllReport() {
+		return compensationModel.getAllReport();
 	}
-	public Report get(ReportList reportList, int id) throws NotExistException {
-		return compensationModel.get(reportList, id);
+	@GetMapping("/getReportById")
+	public Report getReportById(@RequestParam int id) throws NotExistException {
+		return compensationModel.getReportById(id);
 	}
-	public ArrayList<Report> getAllUnprocessedReport(ReportList reportList) {
-		return compensationModel.getAllUnprocessedReport(reportList);
+	@GetMapping("/getAllUnprocessedReport")
+	public List<Report> getAllUnprocessedReport() {
+		return compensationModel.getAllUnprocessedReport();
 	}
-	public ArrayList<Report> getAllCompletedReport(ReportList reportList) {
-		return compensationModel.getAllCompletedReport(reportList);
+	@GetMapping("/getAllCompletedReport")
+	public List<Report> getAllCompletedReport() {
+		return compensationModel.getAllCompletedReport();
 	}
-	public Contract getAutomobileByMember(ContractList contractList, int customerID) throws NotExistContractException {
-		return compensationModel.getAutomobileByMember(contractList, customerID);
+	@GetMapping("/getAutomobileByCustomerId")
+	public Contract getAutomobileByCustomerId(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return compensationModel.getAutomobileByCustomerId(id);
 	}
 }

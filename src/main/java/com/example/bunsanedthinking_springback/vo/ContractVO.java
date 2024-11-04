@@ -19,4 +19,5 @@ public class ContractVO {
     private int customer_id;
     private int employee_id;
     private int product_id;
+    private LocalDate lastpaid_date; // 추가
 }

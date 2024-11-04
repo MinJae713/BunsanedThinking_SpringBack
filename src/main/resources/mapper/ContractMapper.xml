@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ContractMapper">
+    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from contract
+        where id = #{id}
+    </select>
+    <select id="getAllByProductId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from contract
+        where product_id = #{id}
+    </select>
+    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from contract
+        where customer_id = #{id}
+    </select>
+    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from contract
+    </select>
+    <update id="updateStatus_paymentDate_Customer">
+        update contract
+        set contract_status = #{m_contractStatus}, payment_date = #{m_paymentDate}
+        where id = #{m_contractId}
+    </update>
+
+    <select id="getAllByCustomerId_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select * from contract
+        where customer_id = #{id}
+    </select>
 </mapper>

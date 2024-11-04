@@ -1,6 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.accidentHistory;
 
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -21,6 +24,17 @@ public class AccidentHistory implements Cloneable{
 	public AccidentHistory(String detailsOfAccident, Date date){
 		this.setAccidentDetail(detailsOfAccident);
 		this.setDate(date);
+	}
+
+	public AccidentHistory(AccidentHistoryVO accidentHistoryVO) {
+		customerID = accidentHistoryVO.getCustomer_id();
+		LocalDate localDate = accidentHistoryVO.getDate();
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day = localDate.getDayOfMonth();
+		date = new Date(year, month, day);
+		accidentDetail = accidentHistoryVO.getDetails_of_accident();
+		id = accidentHistoryVO.getId();
 	}
 
 	public int getCustomerID() {
