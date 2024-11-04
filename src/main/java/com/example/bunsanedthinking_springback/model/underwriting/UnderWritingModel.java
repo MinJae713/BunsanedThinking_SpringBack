@@ -1,7 +1,5 @@
 package com.example.bunsanedthinking_springback.model.underwriting;
 
-import static com.example.bunsanedthinking_springback.entity.loan.LoanType.*;
-
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -13,78 +11,33 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.AccidentMapper;
-import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
-import com.example.bunsanedthinking_springback.repository.ContractMapper;
-import com.example.bunsanedthinking_springback.repository.CustomerMapper;
-import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.InjuryMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.ServiceMapper;
-import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
-import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
-import com.example.bunsanedthinking_springback.vo.CollateralVO;
-import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseVO;
-import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
-import com.example.bunsanedthinking_springback.vo.InjuryVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-import com.example.bunsanedthinking_springback.vo.ServiceVO;
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
-
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
+import static com.example.bunsanedthinking_springback.entity.loan.LoanType.fromInt;
 
 @Service
 public class UnderWritingModel {
@@ -448,7 +401,6 @@ public class UnderWritingModel {
 							insuranceContract.setInterestRate(loanVO.getInterest_rate());
 							insuranceContract.setMaximumMoney(productVO.getMaximum_money());
 							insuranceContract.setMinimumAsset(loanVO.getMinimum_asset());
-							insuranceContract.setProductID(insuranceContractVO.getProduct_id());
 
 							product = insuranceContract;
 						}
@@ -679,7 +631,6 @@ public class UnderWritingModel {
 							insuranceContract.setInterestRate(loanVO.getInterest_rate());
 							insuranceContract.setMaximumMoney(productVO.getMaximum_money());
 							insuranceContract.setMinimumAsset(loanVO.getMinimum_asset());
-							insuranceContract.setProductID(insuranceContractVO.getProduct_id());
 
 							product = insuranceContract;
 						}
@@ -960,7 +911,6 @@ public class UnderWritingModel {
 					insuranceContract.setInterestRate(loanVO.getInterest_rate());
 					insuranceContract.setMaximumMoney(productVO.getMaximum_money());
 					insuranceContract.setMinimumAsset(loanVO.getMinimum_asset());
-					insuranceContract.setProductID(insuranceContractVO.getProduct_id());
 
 					product = insuranceContract;
 				}

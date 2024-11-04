@@ -45,6 +45,7 @@ public enum VehicleType {
 			default:
 				throw new IllegalArgumentException("Unknown VehicleType: " + this);
 		}
+	}
 	public static VehicleType indexOf(int verhicleType) {
 		for (VehicleType vehicleType : VehicleType.values()) {
 			if (vehicleType.ordinal() == verhicleType) {

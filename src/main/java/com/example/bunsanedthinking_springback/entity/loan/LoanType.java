@@ -35,7 +35,6 @@ public enum LoanType {
 		}
 		throw new IllegalArgumentException("Invalid int value for LoanType: " + value);
 	}
-}
 	public static LoanType indexOf(int index) {
 		for (LoanType type : LoanType.values()) {
 			if (type.ordinal() == index) {

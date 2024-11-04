@@ -25,7 +25,6 @@ public class ManagementPlanningModel {
 
 	public void deleteDepartment(DepartmentList departmentList, int id) throws NotExistException{
 		try {
-			departmentMapper.delete_managementPlanning(id);
 			departmentList.delete(id);
 		} catch (NotExistException e) {
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다."); 

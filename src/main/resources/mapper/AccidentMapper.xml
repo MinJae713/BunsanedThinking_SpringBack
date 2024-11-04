@@ -18,7 +18,6 @@
         set process_status = #{processStatus}
         where accident_id = #{accidentId}
     </update>
-</mapper>
     <select id="findByID_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select *
         from accident

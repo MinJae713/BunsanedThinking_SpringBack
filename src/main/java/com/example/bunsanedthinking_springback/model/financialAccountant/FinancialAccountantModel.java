@@ -9,21 +9,9 @@ import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetailList;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
@@ -32,50 +20,18 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
-import com.example.bunsanedthinking_springback.repository.ContractMapper;
-import com.example.bunsanedthinking_springback.repository.CustomerMapper;
-import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.InjuryMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.ServiceMapper;
-import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
-import com.example.bunsanedthinking_springback.vo.CollateralVO;
-import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseVO;
-import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
-import com.example.bunsanedthinking_springback.vo.InjuryVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
-import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-import com.example.bunsanedthinking_springback.vo.ServiceVO;
-
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 @Service
 public class FinancialAccountantModel {
@@ -260,7 +216,7 @@ public class FinancialAccountantModel {
 				return new Automobile(insuranceType, productVO.getName(), productVO.getMaximum_money(),
 					insuranceVO.getAge_range(), insuranceVO.getCoverage(), insuranceVO.getMonthly_premium(),
 					insuranceVO.getContract_period(), autoMobileVO.getAccident_limit(),
-					VehicleType.indexOf(autoMobileVO.getVerhicle_type()), serviceTypeList);
+					VehicleType.indexOf(autoMobileVO.getVehicle_type()), serviceTypeList);
 			}
 			default -> throw new NotExistException();
 		}

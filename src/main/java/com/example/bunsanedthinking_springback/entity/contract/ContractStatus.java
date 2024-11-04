@@ -81,6 +81,7 @@ public enum ContractStatus {
 			default:
 				throw new IllegalArgumentException("Unknown ContractStatus: " + this);
 		}
+	}
 	public static ContractStatus indexOf(int contractStatus) {
 		for (ContractStatus status : ContractStatus.values()) {
 			if (status.ordinal() == contractStatus) {

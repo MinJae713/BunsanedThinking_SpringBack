@@ -47,8 +47,6 @@ public class InsuranceContract extends Loan {
 		this.setMinimumAsset(minimumAsset);
 		this.setMonthlyIncome(monthlyIncome);
 		this.setInterestRate(interestRate);
-
-		this.setProductID(productID);
 	}
 
 	@Override

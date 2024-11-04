@@ -31,8 +31,7 @@ public interface AccidentList {
 	public Accident get(int id) throws NotExistException;
 
 	/**
-	 * 
-	 * @param id
+	 *
 	 */
 	public void update(Accident accident) throws NotExistException;
 

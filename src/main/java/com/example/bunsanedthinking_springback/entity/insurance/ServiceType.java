@@ -60,7 +60,6 @@ public enum ServiceType {
 				throw new AssertionError("Unknown ServiceType: " + this);
 		}
 	}
-}
 	public static ServiceType indexOf(int index) {
 		for (ServiceType service : ServiceType.values()) {
 			if (service.ordinal() == index) {

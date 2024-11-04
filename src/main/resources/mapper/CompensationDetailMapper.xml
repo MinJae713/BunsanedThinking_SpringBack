@@ -8,7 +8,6 @@
     <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         select * from CompensationDetail
     </select>
-</mapper>
     <select id="getMaxId_LoanManagement" resultType="Integer">
         select max(id)
         from compensationdetail

@@ -28,7 +28,6 @@ public enum CollateralType {
 				throw new IllegalArgumentException("Unknown CollateralType number: " + number);
 		}
 	}
-}
 	public static CollateralType indexOf(int index) {
 		for (CollateralType type : CollateralType.values()) {
 			if (type.ordinal() == index)

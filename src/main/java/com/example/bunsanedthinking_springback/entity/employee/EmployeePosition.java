@@ -64,8 +64,6 @@ public enum EmployeePosition {
 				throw new IllegalArgumentException("Unknown EmployeePosition number: " + number);
 		}
 	}
-}
-
 	public static EmployeePosition indexOf(int index) {
 		for (EmployeePosition position : EmployeePosition.values()) {
 			if (position.ordinal() == index) {

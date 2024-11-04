@@ -50,7 +50,6 @@ public enum DepositPath {
 				throw new IllegalArgumentException("Unknown DepositPath: " + this);
 		}
 	}
-}
 	public static DepositPath indexOf(int index) {
 		for (DepositPath depositPath : DepositPath.values()) {
 			if (depositPath.ordinal() == index)

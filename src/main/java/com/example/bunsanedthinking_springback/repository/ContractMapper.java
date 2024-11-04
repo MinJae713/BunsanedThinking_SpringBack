@@ -1,17 +1,12 @@
 package com.example.bunsanedthinking_springback.repository;
+
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
-
-import java.util.Optional;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import com.example.bunsanedthinking_springback.vo.ContractVO;
 
 @Mapper
 public interface ContractMapper {

@@ -27,7 +27,6 @@
             accident_limit = #{accident_limit}
         WHERE product_id = #{product_id}
     </update>
-</mapper>
     <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select *
         from automobile
