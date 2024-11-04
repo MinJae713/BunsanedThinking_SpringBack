@@ -7,23 +7,35 @@ package com.example.bunsanedthinking_springback.entity.insurance;
  * @created 27-5-2024 ���� 4:40:42
  */
 public enum InsuranceType {
-	
-//	1. 질병 2. 자동차 3. 상해
-	// 이거 순서 바꿨심다 - 원래는 (상해, 자동차, 질병) 순인디,
-	// 상해 테이블에 InjuryType이 질병, 질병 테이블에 InjuryType이 질병인 더미데이터가 있으요
-	// 1001이 Disease, 1002가 Automobile, 1003이 injury에 들어간 상태
-	Disease("질병"),
-	Automobile("자동차"),
-	Injury("상해");
 
-	private String name;
-	
-	InsuranceType(String name) {
+	// 각 타입에 번호 할당
+	Disease(0, "질병");
+	Automobile(1, "자동차"),
+	Injury(2, "상해"),
+
+	private final int value;
+	private final String name;
+
+	InsuranceType(int value, String name) {
+		this.value = value;
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
+	public int getValue() {
+		return this.value;
+	}
+
+	// int 값을 Enum으로 변환하는 정적 메서드
+	public static InsuranceType fromInt(int value) {
+		for (InsuranceType type : InsuranceType.values()) {
+			if (type.getValue() == value) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("Invalid int value for InsuranceType: " + value);
+	}
 }

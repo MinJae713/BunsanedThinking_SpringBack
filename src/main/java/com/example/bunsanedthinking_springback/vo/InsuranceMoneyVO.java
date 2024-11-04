@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
-
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class InsuranceMoneyVO {
 	private int id;
 	private String bank_account;
+	private String bank_name;
 	private String resident_registration_card;
 	private String receipt;
 	private String medical_certificate;

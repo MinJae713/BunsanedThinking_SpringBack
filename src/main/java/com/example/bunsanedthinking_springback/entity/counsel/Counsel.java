@@ -7,11 +7,14 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:41
  */
+@NoArgsConstructor
 public class Counsel implements Cloneable {
 
 	public static int COUNSEL_SERIAL_NUMBER = 520;

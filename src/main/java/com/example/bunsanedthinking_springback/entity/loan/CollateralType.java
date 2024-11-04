@@ -8,7 +8,7 @@ package com.example.bunsanedthinking_springback.entity.loan;
 public enum CollateralType {
 	RealEstate("부동산"),
 	Car("자동차");
-	
+
 	private String name;
 
 	CollateralType(String name) {
@@ -17,5 +17,16 @@ public enum CollateralType {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public static CollateralType fromInt(int number) {
+		switch (number) {
+			case 1:
+				return RealEstate;
+			case 2:
+				return Car;
+			default:
+				throw new IllegalArgumentException("Unknown CollateralType number: " + number);
+		}
 	}
 }

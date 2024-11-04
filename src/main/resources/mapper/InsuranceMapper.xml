@@ -8,4 +8,31 @@
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select * from insurance
     </select>
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        select * from Insurance
+        where product_id = #{id}
+    </select>
+
+    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        insert into Insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
+        values (
+                   #{insurance.product_id},
+                   #{insurance.insurance_type},
+                   #{insurance.age_range},
+                   #{insurance.monthly_premium},
+                   #{insurance.contract_period},
+                   #{insurance.coverage},
+               )
+    </insert>
+
+    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        UPDATE insurance
+        SET
+            insurance_type = #{insurance_type},
+            age_range = #{age_range},
+            monthly_premium = #{monthly_premium},
+            contract_period = #{contract_period},
+            coverage = #{coverage}
+        WHERE product_id = #{product_id}
+    </update>
 </mapper>

@@ -11,5 +11,7 @@
     <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         select * from insurancemoney
         where id = #{id}
+    <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        select * from InsuranceMoney
     </select>
 </mapper>

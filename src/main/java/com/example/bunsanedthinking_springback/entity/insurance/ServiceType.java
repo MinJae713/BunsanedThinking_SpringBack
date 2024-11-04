@@ -7,11 +7,14 @@ package com.example.bunsanedthinking_springback.entity.insurance;
  */
 public enum ServiceType {
 
-//	1.긴급견인 2. 긴급시동 3. 비상급유 4. 배터리충전 5. 엔진과열 수리 6. 타이어펑크 수리 
-	EmergencyTowing("긴급견인"), EmergencyStart("긴급시동"), EmergencyRefueling("비상급유"), BatteryCharging("배터리충전"),
-	EngineOverheatingRepair("엔진과열 수리"), TirepunkRepair("타이어펑크 수리");
+	EmergencyTowing("긴급견인"),
+	EmergencyStart("긴급시동"),
+	EmergencyRefueling("비상급유"),
+	BatteryCharging("배터리충전"),
+	EngineOverheatingRepair("엔진과열 수리"),
+	TirepunkRepair("타이어펑크 수리");
 
-	private String name;
+	private final String name;
 
 	ServiceType(String name) {
 		this.name = name;
@@ -21,4 +24,41 @@ public enum ServiceType {
 		return this.name;
 	}
 
+	public static ServiceType fromInt(int number) {
+		switch (number) {
+			case 1:
+				return EmergencyTowing;
+			case 2:
+				return EmergencyStart;
+			case 3:
+				return EmergencyRefueling;
+			case 4:
+				return BatteryCharging;
+			case 5:
+				return EngineOverheatingRepair;
+			case 6:
+				return TirepunkRepair;
+			default:
+				throw new IllegalArgumentException("Unknown ServiceType number: " + number);
+		}
+	}
+
+	public int getValue() {
+		switch (this) {
+			case EmergencyTowing:
+				return 1;
+			case EmergencyStart:
+				return 2;
+			case EmergencyRefueling:
+				return 3;
+			case BatteryCharging:
+				return 4;
+			case EngineOverheatingRepair:
+				return 5;
+			case TirepunkRepair:
+				return 6;
+			default:
+				throw new AssertionError("Unknown ServiceType: " + this);
+		}
+	}
 }

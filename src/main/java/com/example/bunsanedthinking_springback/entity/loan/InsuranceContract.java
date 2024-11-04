@@ -4,6 +4,8 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
@@ -12,6 +14,7 @@ import com.example.bunsanedthinking_springback.vo.ProductVO;
 
 //2024-06-02 김대현
 //2024-06-04 김대현
+@NoArgsConstructor
 public class InsuranceContract extends Loan {
 
 	private int productID;

@@ -14,4 +14,9 @@ public interface CustomerMapper {
     public Optional<String> getPNById_Customer(int id);
 
     public Optional<CustomerVO> getById_Compensation(int id);
+    CustomerVO get_UnderWritingModel(int id);
+
+	void insert_SalesModel(CustomerVO customerVO);
+
+	CustomerVO get_SalesModel(int id);
 }

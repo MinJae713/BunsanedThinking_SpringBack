@@ -16,6 +16,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ȯ
  * @version 1.0

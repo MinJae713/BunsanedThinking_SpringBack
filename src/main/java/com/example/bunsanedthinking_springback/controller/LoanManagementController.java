@@ -31,12 +31,12 @@ public class LoanManagementController {
 
 	public void addLoanProduct(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
 							   CollateralType collateralType, int minimumValue, ProductList productList) throws DuplicateLoanException {
-//		loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, collateralType, minimumValue, productList);
+		// loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, collateralType, minimumValue, productList);
 	}
 
 	public void addLoanProduct(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
 			int parameter, ProductList productList) throws DuplicateLoanException {
-//		loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, parameter, productList);
+		// loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, parameter, productList);
 	}
 
 	public Loan getLoanProduct(ProductList productList, int id) throws NotExistException {

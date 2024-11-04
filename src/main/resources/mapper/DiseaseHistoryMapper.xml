@@ -5,4 +5,24 @@
         select * from diseasehistory
         where customer_id = #{id}
     </select>
+    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        SELECT
+            id,
+            date_of_diagnosis,
+            name,
+            customer_id
+        FROM
+            DiseaseHistory
+        WHERE
+            customer_id = #{id}
+    </select>
+    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        INSERT INTO DiseaseHistory (id, date_of_diagnosis, name, customer_id)
+        VALUES (
+                   #{id},
+                   #{date_of_diagnosis},
+                   #{name},
+                   #{customer_id}
+               )
+    </insert>
 </mapper>

@@ -5,4 +5,20 @@
         select * from counsel
         where customer_id = #{id}
     </select>
+    <update id="update_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
+        UPDATE Counsel
+        SET
+            counsel_date = #{counsel_date},
+            process_status = #{process_status},
+            customer_id = #{customer_id},
+            product_id = #{product_id}
+        WHERE id = #{id}
+    </update>
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
+        select * from Counsel
+        where id = #{id}
+    </select>
+    <select id="getAll_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
+        select * from Counsel
+    </select>
 </mapper>

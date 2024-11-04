@@ -9,7 +9,7 @@ package com.example.bunsanedthinking_springback.entity.customer;
 public enum Gender {
 	Male("남자"),
 	Female("여자");
-	
+
 	private String name;
 
 	Gender(String name) {
@@ -18,5 +18,27 @@ public enum Gender {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public static Gender fromInt(int number) {
+		switch (number) {
+			case 1:
+				return Male;
+			case 2:
+				return Female;
+			default:
+				throw new IllegalArgumentException("Unknown Gender number: " + number);
+		}
+	}
+
+	public int getValue() {
+		switch (this) {
+			case Male:
+				return 1;
+			case Female:
+				return 2;
+			default:
+				throw new IllegalArgumentException("Unknown Gender: " + this);
+		}
 	}
 }

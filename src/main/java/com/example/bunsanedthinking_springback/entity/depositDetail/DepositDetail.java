@@ -5,12 +5,16 @@ import lombok.NoArgsConstructor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:41
  */
 @NoArgsConstructor
+@Data
 public class DepositDetail {
 
 	public static final int DEPOSIT_DETAIL_SERIAL = 810;

@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0

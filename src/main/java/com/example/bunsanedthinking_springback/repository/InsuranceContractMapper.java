@@ -1,5 +1,8 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +14,7 @@ import java.util.Optional;
 @Mapper
 public interface InsuranceContractMapper {
 	void insert_LoanManagement(@Param("insuranceContract") InsuranceContractVO insuranceContractVO);
-
     public Optional<InsuranceContractVO> getInsuranceContractById_Customer(int id);
     public List<InsuranceContractVO> getAll_Customer();
+	ArrayList<InsuranceContractVO> getAllInsuranceContractLoan_SalesModel();
 }

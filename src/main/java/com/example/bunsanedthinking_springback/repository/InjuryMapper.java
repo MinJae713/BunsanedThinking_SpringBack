@@ -2,6 +2,9 @@ package com.example.bunsanedthinking_springback.repository;
 
 import com.example.bunsanedthinking_springback.vo.InjuryVO;
 import org.apache.ibatis.annotations.Mapper;
+import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,4 +13,7 @@ import java.util.Optional;
 public interface InjuryMapper {
     public Optional<InjuryVO> getInjuryById_Customer(int id);
     public List<InjuryVO> getAll_Customer();
+		ArrayList<InjuryVO> getAllInjuryInsurance_SalesModel();
+		void insert_ProductManagement(InjuryVO injuryVO);
+		void update_ProductManagementModel(InjuryVO injuryVO);
 }

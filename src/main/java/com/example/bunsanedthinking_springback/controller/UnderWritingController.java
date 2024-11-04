@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -29,19 +30,26 @@ public class UnderWritingController {
 	}
 
 	public boolean reviewAcquisition(Contract contract, boolean result, ContractList contractList)
-			throws AlreadyProcessedException, NotExistContractException {
+		throws AlreadyProcessedException, NotExistContractException {
 		return underWritingModel.reviewAcquisition(contract, result, contractList);
 	}
-	public ArrayList<Contract> getAllRequestingInsurance(ContractList contractList){
+	public ArrayList<Contract> getAllRequestingInsurance(ContractList contractList) throws
+		NotExistException,
+		IOException {
 		return underWritingModel.getAllRequestingInsurance(contractList);
 	}
 	public Customer get(CustomerList customerList, int id) throws NotExistException {
 		return underWritingModel.get(customerList, id);
 	}
-	public Contract get(ContractList contractList, int id) throws NotExistContractException {
+	public Contract get(ContractList contractList, int id) throws
+		NotExistContractException,
+		NotExistException,
+		IOException {
 		return underWritingModel.get(contractList, id);
 	}
-	public ArrayList<Contract> getAllNotRequestingInsurance(ContractList contractList){
+	public ArrayList<Contract> getAllNotRequestingInsurance(ContractList contractList) throws
+		NotExistException,
+		IOException {
 		return underWritingModel.getAllNotRequestingInsurance(contractList);
 	}
 }

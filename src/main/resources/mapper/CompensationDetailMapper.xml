@@ -5,4 +5,7 @@
         select * from compensationdetail
         where contract_id = #{id}
     </select>
+    <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        select * from CompensationDetail
+    </select>
 </mapper>

@@ -15,4 +15,7 @@
         insert into depositdetail (id, depositor_name, date, money, path, contract_id)
         values (#{id}, #{depositor_name}, #{date}, #{money}, #{path}, #{contract_id})
     </insert>
+    <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select * from DepositDetail
+    </select>
 </mapper>

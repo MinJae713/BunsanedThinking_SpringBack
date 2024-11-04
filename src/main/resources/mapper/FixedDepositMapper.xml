@@ -15,4 +15,7 @@
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
         select * from fixedDeposit;
     </select>
+    <select id="getAllFixedDepositLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
+        select * from fixeddeposit
+    </select>
 </mapper>

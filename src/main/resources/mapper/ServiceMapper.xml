@@ -5,4 +5,21 @@
         select * from service
         where product_id = #{id}
     </select>
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
+        select * from Service
+        where product_id = #{id}
+    </select>
+
+    <delete id="delete_ProductManagementModel" parameterType="int">
+        DELETE FROM Service
+        WHERE product_id = #{product_id}
+    </delete>
+
+    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.ServiceVO">
+        insert into Service(product_id, service)
+        values (
+                   #{product_id},
+                   #{service}
+               )
+    </insert>
 </mapper>

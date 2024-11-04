@@ -17,4 +17,8 @@
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
         select * from loan
     </select>
+    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
+        select * from loan
+        where product_id = #{id}
+    </select>
 </mapper>

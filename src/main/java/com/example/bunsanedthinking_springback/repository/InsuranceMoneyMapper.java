@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Mapper
 public interface InsuranceMoneyMapper {
@@ -13,4 +14,5 @@ public interface InsuranceMoneyMapper {
     public List<InsuranceMoneyVO> getAll_Compensation();
 
     public Optional<InsuranceMoneyVO> getById_Compensation(int id);
+	ArrayList<InsuranceMoneyVO> getAll_UnderwritingModel();
 }
