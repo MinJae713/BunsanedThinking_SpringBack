@@ -35,4 +35,9 @@
             coverage = #{coverage}
         WHERE product_id = #{product_id}
     </update>
+    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        select *
+        from insurance
+        where product_id=#{param1}
+    </select>
 </mapper>

@@ -29,4 +29,9 @@
             surgeries_limit = #{surgeries_limit}
         WHERE product_id = #{product_id}
     </update>
+    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DiseaseVO">
+        select *
+        from disease
+        where product_id=#{param1}
+    </select>
 </mapper>

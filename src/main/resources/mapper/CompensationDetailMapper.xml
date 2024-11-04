@@ -9,3 +9,22 @@
         select * from CompensationDetail
     </select>
 </mapper>
+    <select id="getMaxId_LoanManagement" resultType="Integer">
+        select max(id)
+        from compensationdetail
+    </select>
+    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        insert into compensationdetail(id, money, payment_date, contract_id)
+        values (
+                   #{id},
+                   #{money},
+                   #{payment_date},
+                   #{contract_id}
+               )
+    </insert>
+    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        select *
+        from compensationdetail
+        where contract_id=#{param1}
+    </select>
+</mapper>

@@ -12,4 +12,5 @@ public interface ServiceMapper {
 	ArrayList<ServiceVO> get_SalesModel(int id);
 	void insert_ProductManagement(ServiceVO serviceVO);
 	void delete_ProductManagementModel(int id);
+	List<ServiceVO> findByProductId_FinancialAccountant(int id);
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * @author ȯ
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
  * @created 27-5-2024 4:40:40
  */
 @NoArgsConstructor
+@AllArgsConstructor
 public class Contract {
 
 	public static final int CONTRACT_SERIAL_NUMBER = 100;

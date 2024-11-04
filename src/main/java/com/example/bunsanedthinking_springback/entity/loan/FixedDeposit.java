@@ -19,7 +19,7 @@ public class FixedDeposit extends Loan {
 
 	private int minimumAmount;
 
-	public FixedDeposit(LoanType loanType, String name, int interestRate, int limit, int minimumAsset, int minimumValue){
+	public FixedDeposit(LoanType loanType, String name, int interestRate, int limit, int minimumAsset, int minimumAmount){
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);

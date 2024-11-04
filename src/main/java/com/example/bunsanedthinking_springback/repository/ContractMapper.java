@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.bunsanedthinking_springback.vo.ContractVO;
@@ -29,4 +31,5 @@ public interface ContractMapper {
 	ArrayList<ContractVO> getAll_UnderWritingModel();
 
 	void update(ContractVO contractVO);
+	Optional<ContractVO> findById_FinancialAccountant(int id);
 }

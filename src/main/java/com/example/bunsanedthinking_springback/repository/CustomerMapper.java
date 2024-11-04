@@ -19,4 +19,5 @@ public interface CustomerMapper {
 	void insert_SalesModel(CustomerVO customerVO);
 
 	CustomerVO get_SalesModel(int id);
+	Optional<CustomerVO> findById_FinancialAccountant(int id);
 }

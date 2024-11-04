@@ -61,4 +61,9 @@
         select * from Customer
         where id = #{id}
     </select>
+    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        select *
+        from customer
+        where id=#{param1}
+    </select>
 </mapper>

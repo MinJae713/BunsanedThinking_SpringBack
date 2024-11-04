@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.bunsanedthinking_springback.vo.DiseaseVO;
+
 @Mapper
 public interface DiseaseMapper {
     public Optional<DiseaseVO> getDiseaseById_Customer(int productID);
@@ -19,4 +21,5 @@ public interface DiseaseMapper {
 	void insert_ProductManagement(DiseaseVO diseaseVO);
 
 	void update_ProductManagementModel(DiseaseVO diseaseVO);
+	Optional<DiseaseVO> findById_FinancialAccountant(int id);
 }

@@ -13,4 +13,11 @@ public interface AccidentMapper {
 
     public Optional<AccidentVO> getAccidentById_Compensation(int id);
     public void updateStatus_Compensation(int processStatus, int accidentId);
+    Optional<AccidentVO> findByID_CustomerSupport(int id);
+
+	void update_CustomerSupport(AccidentVO accidentVO);
+
+	List<AccidentVO> getAll_CustomerSupport();
+
+	List<AccidentVO> findByProcessStatus_CustomerSupport(int processStatus);
 }

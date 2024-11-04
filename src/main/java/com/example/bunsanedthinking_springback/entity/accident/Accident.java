@@ -8,12 +8,15 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:39
  */
 //05.31 ����
+@AllArgsConstructor
 public class Accident {
 
 	public static final int ACCIDENT_SERIAL = 400;

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper">
-
+    <select id="findByPartnerType_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+        select *
+        from partnercompany
+        where partner_company_type=#{param1}
+    </select>
+    <select id="findById_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+        select *
+        from partnercompany
+        where id=#{param1}
+    </select>
 </mapper>

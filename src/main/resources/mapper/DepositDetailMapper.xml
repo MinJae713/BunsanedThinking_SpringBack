@@ -18,4 +18,13 @@
     <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select * from DepositDetail
     </select>
+    <select id="getAll_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select *
+        from depositdetail
+    </select>
+    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select *
+        from depositdetail
+        where contract_id=#{param1}
+    </select>
 </mapper>

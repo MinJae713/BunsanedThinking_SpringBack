@@ -18,4 +18,13 @@ public enum PaymentType {
 	public String getName() {
 		return this.name;
 	}
+
+	public static PaymentType indexOf(int index) {
+		for (PaymentType paymentType : PaymentType.values()) {
+			if (paymentType.ordinal() == index) {
+				return paymentType;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Payment Type이 입력되었습니다.");
+	}
 }

@@ -23,5 +23,14 @@ public enum PartnerCompanyType {
 	public String getName() {
 		return this.name;
 	}
+
+	public static PartnerCompanyType indexOf(int index) {
+		for (PartnerCompanyType type : PartnerCompanyType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Partner Company Type이 입력되었습니다.");
+	}
 	
 }

@@ -15,4 +15,5 @@ public interface InsuranceMoneyMapper {
 
     public Optional<InsuranceMoneyVO> getById_Compensation(int id);
 	ArrayList<InsuranceMoneyVO> getAll_UnderwritingModel();
+	List<InsuranceMoneyVO> findByContractId_FinancialAccountant(int id);
 }

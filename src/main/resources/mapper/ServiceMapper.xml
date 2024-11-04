@@ -22,4 +22,9 @@
                    #{service}
                )
     </insert>
+    <select id="findByProductId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
+        select *
+        from service
+        where product_id=#{param1}
+    </select>
 </mapper>

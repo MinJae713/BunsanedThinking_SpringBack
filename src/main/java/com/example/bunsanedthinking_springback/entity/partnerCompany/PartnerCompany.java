@@ -4,12 +4,15 @@ import com.example.bunsanedthinking_springback.entity.report.Report;
 
 import java.util.ArrayList;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:43
  */
 //2024-06-04 김대현
+@AllArgsConstructor
 public class PartnerCompany implements Cloneable {
 
 	public static int PARTNER_COMPANY_SERIAL_NUMBER = 300;

@@ -15,4 +15,9 @@
     <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         select * from InsuranceMoney
     </select>
+    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        select *
+        from insurancemoney
+        where contract_id=#{param1}
+    </select>
 </mapper>

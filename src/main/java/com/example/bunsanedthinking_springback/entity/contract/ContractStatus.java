@@ -31,7 +31,6 @@ public enum ContractStatus {
 	public void setText(String text) {
 		this.text = text;
 	}
-
 	// 번호에 따라 ContractStatus 반환
 	public static ContractStatus fromInt(int number) {
 		switch (number) {
@@ -82,6 +81,13 @@ public enum ContractStatus {
 			default:
 				throw new IllegalArgumentException("Unknown ContractStatus: " + this);
 		}
+	public static ContractStatus indexOf(int contractStatus) {
+		for (ContractStatus status : ContractStatus.values()) {
+			if (status.ordinal() == contractStatus) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Contract Status가 입력되었습니다.");
 	}
 }
 

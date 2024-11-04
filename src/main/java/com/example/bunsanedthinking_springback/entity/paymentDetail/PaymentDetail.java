@@ -15,10 +15,11 @@ public class PaymentDetail {
 	private String bankAccount;
 	private int money;
 	private PaymentType paymentType;
-	private int contractId;
+	private Integer contractId;
+	private Integer employeeId;
 
 	public PaymentDetail(String accountHolder, String bank, String bankAccount, int money,
-			PaymentType paymentType, int contractId) {
+			PaymentType paymentType, Integer contractId, Integer employeeId) {
 		super();
 		this.accountHolder = accountHolder;
 		this.bank = bank;
@@ -27,6 +28,7 @@ public class PaymentDetail {
 		this.paymentType = paymentType;
 		this.processStatus = PaymentProcessStatus.Unprocessed;
 		this.contractId = contractId;
+		this.employeeId = employeeId;
 	}
 	
 	private PaymentDetail(PaymentDetail paymentDetail) {
@@ -37,6 +39,7 @@ public class PaymentDetail {
 		this.paymentType = paymentDetail.getPaymentType();
 		this.processStatus = paymentDetail.getProcessStatus();
 		this.contractId = paymentDetail.getContractId();
+		this.employeeId = paymentDetail.getEmployeeId();
 		this.id = paymentDetail.getId();
 	}
 	
@@ -78,8 +81,10 @@ public class PaymentDetail {
 		return paymentType;
 	}
 
-	public int getContractId() {
+	public Integer getContractId() {
 		return contractId;
 	}
+
+	public Integer getEmployeeId() {return employeeId;}
 	
 }

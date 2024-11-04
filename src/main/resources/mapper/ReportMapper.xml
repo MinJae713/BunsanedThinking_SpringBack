@@ -13,4 +13,14 @@
         set process_status = #{processStatus}
         where accident_id = #{reportId}
     </update>
+    <insert id="insert_CustomerSupport" parameterType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        insert into report (accident_id, damage_assessment_detail, process_status, roadside_assistance_company_id, damage_assessment_company_id)
+        values (
+                #{accident_id},
+                #{damage_assessment_detail},
+                #{process_status},
+                #{roadside_assistance_company_id},
+                #{damage_assessment_company_id}
+               )
+    </insert>
 </mapper>

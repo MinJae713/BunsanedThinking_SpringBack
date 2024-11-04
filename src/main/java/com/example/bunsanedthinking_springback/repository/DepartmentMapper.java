@@ -1,9 +1,15 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 
 @Mapper
 public interface DepartmentMapper {
-    // 아래는 예시
-    public void delete_managementPlanning(int id);
+	List<DepartmentVO> getAll_HumanResource();
+
+	Optional<DepartmentVO> findById_HumanResource(int departmentID);
 }

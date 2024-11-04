@@ -3,11 +3,14 @@ package com.example.bunsanedthinking_springback.entity.family;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
+@AllArgsConstructor
 public class Family implements Cloneable{
 
 	public static int FAMILY_SERIAL_NUMBER = 710;

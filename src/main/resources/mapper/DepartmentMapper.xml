@@ -9,4 +9,13 @@
         delete from department
         where id = {id}
     </delete>
+    <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+        select *
+        from department
+    </select>
+    <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+        select *
+        from department
+        where id=#{param1}
+    </select>
 </mapper>

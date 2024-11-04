@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 import java.util.ArrayList;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
@@ -15,4 +14,9 @@ import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
 public interface CompensationDetailMapper {
     public List<CompensationDetailVO> getAllCompensationByContractId_Customer(int id);
 	ArrayList<CompensationDetailVO> getAll_UnderwritingModel();
+	Integer getMaxId_LoanManagement();
+
+	void insert_LoanManagement(CompensationDetailVO compensationDetailVO);
+
+	List<CompensationDetailVO> findByContractId_FinancialAccountant(int id);
 }

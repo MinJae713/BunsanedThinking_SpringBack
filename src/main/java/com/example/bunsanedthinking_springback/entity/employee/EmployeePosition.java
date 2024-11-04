@@ -21,7 +21,6 @@ public enum EmployeePosition {
 	EmployeePosition(String name) {
 		this.name = name;
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -64,5 +63,15 @@ public enum EmployeePosition {
 			default:
 				throw new IllegalArgumentException("Unknown EmployeePosition number: " + number);
 		}
+	}
+}
+
+	public static EmployeePosition indexOf(int index) {
+		for (EmployeePosition position : EmployeePosition.values()) {
+			if (position.ordinal() == index) {
+				return position;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Employee Position이 입력되었습니다.");
 	}
 }

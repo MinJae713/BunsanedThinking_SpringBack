@@ -18,4 +18,13 @@ public enum RelationshipType {
 		return this.name;
 	}
 
+	public static RelationshipType indexOf(int index) {
+		for (RelationshipType relationshipType : RelationshipType.values()) {
+			if (relationshipType.ordinal() == index) {
+				return relationshipType;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Relationship Type이 입력되었습니다.");
+	}
+
 }

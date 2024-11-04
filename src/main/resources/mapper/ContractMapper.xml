@@ -80,4 +80,9 @@
             lastpaid_date = #{lastpaid_date}
         WHERE id = #{id}
     </update>
+    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select *
+        from contract
+        where id=#{param1}
+    </select>
 </mapper>

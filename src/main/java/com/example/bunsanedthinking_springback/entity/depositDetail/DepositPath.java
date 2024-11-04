@@ -23,7 +23,6 @@ public enum DepositPath {
 	public void setText(String text) {
 		this.text = text;
 	}
-
 	// 번호에 따라 DepositPath를 반환하는 메서드
 	public static DepositPath fromInt(int number) {
 		switch (number) {
@@ -50,5 +49,13 @@ public enum DepositPath {
 			default:
 				throw new IllegalArgumentException("Unknown DepositPath: " + this);
 		}
+	}
+}
+	public static DepositPath indexOf(int index) {
+		for (DepositPath depositPath : DepositPath.values()) {
+			if (depositPath.ordinal() == index)
+				return depositPath;
+		}
+		throw new IllegalArgumentException("잘못된 Deposit Path가 들어왔습니다.");
 	}
 }

@@ -6,12 +6,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:40
  */
 //0604 ����
+@AllArgsConstructor
 public class Complaint {
 
 	public static final int COMPLAINT_SERIAL = 510;

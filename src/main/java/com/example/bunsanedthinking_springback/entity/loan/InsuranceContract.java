@@ -17,16 +17,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InsuranceContract extends Loan {
 
-	private int productID;
+	private int insuranceId;
 
 	public InsuranceContract(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
-			int parameter) {
+			int insuranceId) {
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
 		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
-		this.setProductID(parameter);
+		this.setInsuranceId(insuranceId);
 	}
 
 	public InsuranceContract(ProductVO productVO, LoanVO loanVO, int productID) {
@@ -53,17 +53,18 @@ public class InsuranceContract extends Loan {
 
 	@Override
 	public Product clone() {
-		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),getProductID());
+		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),
+			getInsuranceId());
 		insuranceContractLoan.setId(getId());
 		return insuranceContractLoan;
 	}
 
-	public int getProductID() {
-		return productID;
+	public int getInsuranceId() {
+		return insuranceId;
 	}
 
-	public void setProductID(int productID) {
-		this.productID = productID;
+	public void setInsuranceId(int insuranceId) {
+		this.insuranceId = insuranceId;
 	}
 
 }

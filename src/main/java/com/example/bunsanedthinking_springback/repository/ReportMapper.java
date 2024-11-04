@@ -11,4 +11,5 @@ public interface ReportMapper {
     public List<ReportVO> getAll_Compensation();
     public Optional<ReportVO> getById_Compensation(int id);
     public void updateStatus_Compensation(int processStatus, int reportId);
+	void insert_CustomerSupport(ReportVO reportVO);
 }

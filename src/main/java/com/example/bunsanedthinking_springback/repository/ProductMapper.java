@@ -19,4 +19,13 @@ public interface ProductMapper {
 	void delete_ProductManagementModel(int id);
 
 	void update_ProductManagementModel(ProductVO productVO);
+	void insert_LoanManagement(ProductVO productVO);
+
+	List<ProductVO> getAll_LoanManagement();
+
+	Optional<ProductVO> findById_LoanManagement(int id);
+
+	void update_LoanManagement(ProductVO productVO);
+
+	void delete_LoanManagement(int id);
 }

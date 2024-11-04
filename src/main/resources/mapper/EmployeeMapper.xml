@@ -19,5 +19,51 @@
         WHERE
             id = #{id}
     </select>
-
+    <select id="getMaxId_HumanResource" resultType="Integer">
+        select max(id)
+        from employee
+    </select>
+    <insert id="insert_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
+        insert into employee (id, address, bank_name, bank_account, employment_date, name, phone_number, position, resident_registration_number, salary, department_id)
+        values (
+                #{id},
+                #{address},
+                #{bank_name},
+                #{bank_account},
+                #{employment_date},
+                #{name},
+                #{phone_number},
+                #{position},
+                #{resident_registration_number},
+                #{salary},
+                #{department_id}
+               )
+    </insert>
+    <delete id="delete_HumanResource">
+        delete from employee
+        where id=#{param1}
+    </delete>
+    <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
+        select *
+        from employee
+        where id=#{param1}
+    </select>
+    <update id="update_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
+        update employee
+        set address=#{address},
+            bank_name=#{bank_name},
+            bank_account=#{bank_account},
+            employment_date=#{employment_date},
+            name=#{name},
+            phone_number=#{phone_number},
+            position=#{position},
+            resident_registration_number=#{resident_registration_number},
+            salary=#{salary},
+            department_id=#{department_id}
+        where id=#{id}
+    </update>
+    <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
+        select *
+        from employee
+    </select>
 </mapper>

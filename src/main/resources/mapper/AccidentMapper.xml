@@ -19,3 +19,27 @@
         where accident_id = #{accidentId}
     </update>
 </mapper>
+    <select id="findByID_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+        select *
+        from accident
+        where id=#{param1}
+    </select>
+    <update id="update_CustomerSupport" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+        update accident
+        set date=#{date},
+            location=#{location},
+            process_status=#{process_status},
+            service_type=#{service_type},
+            customer_id=#{customer_id}
+        where id=#{id}
+    </update>
+    <select id="getAll_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+        select *
+        from accident
+    </select>
+    <select id="findByProcessStatus_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+        select *
+        from accident
+        where process_status=#{param1}
+    </select>
+</mapper>

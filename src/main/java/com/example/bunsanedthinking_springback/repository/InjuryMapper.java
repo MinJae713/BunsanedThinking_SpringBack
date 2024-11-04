@@ -14,4 +14,5 @@ public interface InjuryMapper {
 	ArrayList<InjuryVO> getAllInjuryInsurance_SalesModel();
 	void insert_ProductManagement(InjuryVO injuryVO);
 	void update_ProductManagementModel(InjuryVO injuryVO);
+	Optional<InjuryVO> findById_FinancialAccountant(int id);
 }

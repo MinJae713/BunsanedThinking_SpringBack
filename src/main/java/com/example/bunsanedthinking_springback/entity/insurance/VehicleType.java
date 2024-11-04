@@ -19,7 +19,6 @@ public enum VehicleType {
 	public String getName() {
 		return this.name;
 	}
-
 	// 번호에 따라 VehicleType을 반환하는 메서드
 	public static VehicleType fromInt(int number) {
 		switch (number) {
@@ -46,5 +45,12 @@ public enum VehicleType {
 			default:
 				throw new IllegalArgumentException("Unknown VehicleType: " + this);
 		}
+	public static VehicleType indexOf(int verhicleType) {
+		for (VehicleType vehicleType : VehicleType.values()) {
+			if (vehicleType.ordinal() == verhicleType) {
+				return vehicleType;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Vehicle Type이 입력되었습니다.");
 	}
 }

@@ -23,7 +23,6 @@ public enum ServiceType {
 	public String getName() {
 		return this.name;
 	}
-
 	public static ServiceType fromInt(int number) {
 		switch (number) {
 			case 1:
@@ -61,4 +60,14 @@ public enum ServiceType {
 				throw new AssertionError("Unknown ServiceType: " + this);
 		}
 	}
+}
+	public static ServiceType indexOf(int index) {
+		for (ServiceType service : ServiceType.values()) {
+			if (service.ordinal() == index) {
+				return service;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Service Type이 입력되었습니다.");
+	}
+
 }

@@ -19,7 +19,6 @@ public enum InjuryType {
 	public String getName() {
 		return this.name;
 	}
-
 	// 번호에 따라 InjuryType을 반환하는 메서드
 	public static InjuryType fromInt(int number) {
 		switch (number) {
@@ -42,5 +41,13 @@ public enum InjuryType {
 			default:
 				throw new IllegalArgumentException("Unknown InjuryType: " + this);
 		}
+	}
+	public static InjuryType indexOf(int index) {
+		for (InjuryType type : InjuryType.values()) {
+			if (type.ordinal() == index) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Injury Type이 입력되었습니다.");
 	}
 }
