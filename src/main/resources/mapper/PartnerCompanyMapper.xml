@@ -16,4 +16,38 @@
         WHERE id = #{id}
     </select>
 
+    <insert id="insert_CompensationPlanning" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+        insert into partnercompany (id, head_name, head_phone_number, evaluation, name, partner_company_type, phone_number)
+        values (
+                #{id},
+                #{head_name},
+                #{head_phone_number},
+                #{evaluation},
+                #{name},
+                #{partner_company_type},
+                #{phone_number}
+               )
+    </insert>
+    <update id="update_CompensationPlanning" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+        update partnercompany
+        set head_name=#{head_name},
+            head_phone_number=#{head_phone_number},
+            evaluation=#{evaluation},
+            name=#{name},
+            partner_company_type=#{partner_company_type},
+            phone_number=#{phone_number}
+        where id=#{id}
+    </update>
+    <select id="getAll_CompensationPlanning" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+        select *
+        from partnercompany
+    </select>
+    <delete id="delete_CompensationPlanning">
+        delete from partnercompany
+        where id=#{param1}
+    </delete>
+    <select id="getMaxId_CompensationPlanning" resultType="Integer">
+        select max(id)
+        from partnercompany
+    </select>
 </mapper>
