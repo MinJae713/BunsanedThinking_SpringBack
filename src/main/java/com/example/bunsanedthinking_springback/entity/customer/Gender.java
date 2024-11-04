@@ -19,4 +19,13 @@ public enum Gender {
 	public String getName() {
 		return this.name;
 	}
+
+	public static Gender indexOf(int index) {
+		for (Gender gender : Gender.values()) {
+			if (gender.ordinal() == index) {
+				return gender;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Gender가 입력되었습니다.");
+	}
 }

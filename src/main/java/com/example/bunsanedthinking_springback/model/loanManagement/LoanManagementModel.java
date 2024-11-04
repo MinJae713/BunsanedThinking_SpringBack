@@ -135,7 +135,7 @@ public class LoanManagementModel {
 				Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(id);
 				InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.orElseThrow(() -> new NotExistException("해당하는 보험 계약 대출 정보가 존재하지 않습니다."));
 				return new InsuranceContract(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
-					loanVO.getMinimum_asset(), insuranceContractVO.getContract_id());
+					loanVO.getMinimum_asset(), insuranceContractVO.getInsurance_id());
 			}
 			default -> throw new NotExistException("대출 상품 종류가 잘못되었습니다.");
 		}

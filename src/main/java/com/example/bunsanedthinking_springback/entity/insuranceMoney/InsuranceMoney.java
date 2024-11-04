@@ -5,11 +5,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author Administrator
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
+@AllArgsConstructor
 public class InsuranceMoney {
 
 	private String bankName;

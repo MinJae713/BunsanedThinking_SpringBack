@@ -13,7 +13,7 @@ public class AdditionalAllowance extends PaymentDetail {
 
 	public AdditionalAllowance(String accountHolder, String bank, String bankAccount, int money,
 			PaymentType paymentType, int contractId) {
-		super(accountHolder, bank, bankAccount, money, paymentType, contractId);
+		super(accountHolder, bank, bankAccount, money, paymentType, contractId, 0);
 		// TODO Auto-generated constructor stub
 	}
 

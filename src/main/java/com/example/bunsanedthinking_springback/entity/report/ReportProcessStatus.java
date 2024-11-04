@@ -23,4 +23,13 @@ public enum ReportProcessStatus {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public static ReportProcessStatus indexOf(int index) {
+		for (ReportProcessStatus status : ReportProcessStatus.values()) {
+			if (status.ordinal() == index) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("잘못된 Report Process Status가 입력되었습니다.");
+	}
 }

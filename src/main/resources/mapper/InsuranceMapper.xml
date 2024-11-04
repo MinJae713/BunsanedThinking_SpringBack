@@ -6,4 +6,9 @@
         from insurance
         where product_id=#{param1}
     </select>
+    <select id="findByInsuranceType_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        select *
+        from insurance
+        where insurance_type=#{param1}
+    </select>
 </mapper>

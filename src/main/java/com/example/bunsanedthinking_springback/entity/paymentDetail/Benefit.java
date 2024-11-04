@@ -13,6 +13,6 @@ public class Benefit extends PaymentDetail {
 
 	public Benefit(String accountHolder, String bank, String bankAccount, int money, PaymentType paymentType,
 			int contractId) {
-		super(accountHolder, bank, bankAccount, money, paymentType, contractId);
+		super(accountHolder, bank, bankAccount, money, paymentType, contractId, 0);
 	}
 }

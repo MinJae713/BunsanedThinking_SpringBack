@@ -6,4 +6,32 @@
         from insurancemoney
         where contract_id=#{param1}
     </select>
+    <select id="findById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        select *
+        from insurancemoney
+        where id=#{param1}
+    </select>
+    <insert id="insert_Compensation" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        insert into insurancemoney (id, bank_account, resident_registration_card, receipt, medical_certificate, contract_id, bank_name, process_status, apply_date)
+        values (
+                #{id},
+                #{bank_account},
+                #{resident_registration_card},
+                #{receipt},
+                #{medical_certificate},
+                #{contract_id},
+                #{bank_name},
+                #{process_status},
+                #{apply_date}
+               )
+    </insert>
+    <select id="getAll_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        select *
+        from insurancemoney
+    </select>
+    <select id="findByStatus_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        select *
+        from insurancemoney
+        where process_status=#{param1}
+    </select>
 </mapper>

@@ -3,11 +3,14 @@ package com.example.bunsanedthinking_springback.entity.report;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:44
  */
+@AllArgsConstructor
 public class Report {
 
 	public static final int REPORT_SERIAL_NUMBER = 500;

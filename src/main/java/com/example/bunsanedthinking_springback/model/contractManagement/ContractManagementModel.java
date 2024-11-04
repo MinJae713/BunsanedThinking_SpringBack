@@ -53,7 +53,7 @@ public class ContractManagementModel {
 		}
 		totalMoney = (int) (totalMoney * 0.3);
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
-				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
+				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId(), null);
 		paymentDetailList.add(paymentDetail);
 		Contract contract = tercontract.getOriginalContract();
 		tercontract.setTerminationStatus(TerminationStatus.Completed);

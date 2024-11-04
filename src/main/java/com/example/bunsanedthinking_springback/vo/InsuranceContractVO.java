@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InsuranceContractVO {
-	private int contract_id;
+	private int product_id;
 	private int insurance_id;
 }

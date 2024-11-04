@@ -6,4 +6,10 @@
         from contract
         where id=#{param1}
     </select>
+    <select id="findByCustomerIdAndProductId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select *
+        from contract
+        where customer_id=#{customer_id}
+        and product_id=#{product_id}
+    </select>
 </mapper>

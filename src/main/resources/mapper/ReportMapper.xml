@@ -11,4 +11,26 @@
                 #{damage_assessment_company_id}
                )
     </insert>
+    <select id="findById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        select *
+        from report
+        where accident_id=#{param1}
+    </select>
+    <update id="update_Compensation" parameterType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        update report
+        set damage_assessment_detail=#{damage_assessment_detail},
+            process_status=#{process_status},
+            roadside_assistance_company_id=#{roadside_assistance_company_id},
+            damage_assessment_company_id=#{damage_assessment_company_id}
+        where accident_id=#{id}
+    </update>
+    <select id="getAll_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        select *
+        from report
+    </select>
+    <select id="findByProcessStatus_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        select *
+        from report
+        where process_status=#{param1}
+    </select>
 </mapper>
