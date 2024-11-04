@@ -21,6 +21,9 @@ import com.example.bunsanedthinking_springback.exception.AlreadyProcessedExcepti
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.sales.SalesModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,80 +35,192 @@ public class SalesController {
 	@Autowired
 	private SalesModel salesModel;
 
-	public void evaluateSalesPerformance(int evaluate, Sales sales, EmployeeList employeeList) throws NotExistException{
-		salesModel.evaluateSalesPerformance(evaluate, sales, employeeList);
+	// public void evaluateSalesPerformance(int evaluate, Sales sales, EmployeeList employeeList) throws NotExistException{
+	// 	salesModel.evaluateSalesPerformance(evaluate, sales, employeeList);
+	// }
+	//
+	// public void handleInsuranceConsultation(Counsel counsel, CounselList counselList) throws NotExistException, AlreadyProcessedException {
+	// 	salesModel.handleInsuranceConsultation(counsel, counselList);
+	// }
+	//
+	// public Customer induceInsuranceProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
+	// 									   String job, long property, String residentRegistrationNumber, int age, Gender gender,
+	// 									   ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
+	// 									   ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
+	// 	return salesModel.induceInsuranceProduct(name, address, bankAccount, bankName, phoneNumber, job, property, residentRegistrationNumber,
+	// 			age, gender, diseaseHistoryList, surgeryHistoryList, accidentHistoryList, product, customerList, contractList);
+	// }
+	//
+	// public Insurance getInsuranceProduct(ProductList productList, int id) throws NotExistException {
+	// 	return salesModel.getInsuranceProduct(productList, id);
+	// }
+	//
+	// public Customer induceLoanProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
+	// 		String job, long property, String residentRegistrationNumber, int age, Gender gender,
+	// 		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
+	// 		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
+	// 	return salesModel.induceLoanProduct(name, address, bankAccount, bankName, phoneNumber, job, property,
+	// 			residentRegistrationNumber, age, gender, diseaseHistoryList, surgeryHistoryList,
+	// 			accidentHistoryList, product, customerList, contractList);
+	// }
+	// public Loan getLoanProduct(ProductList productList, int id) throws NotExistException {
+	// 	return salesModel.getLoanProduct(productList, id);
+	// }
+	// public ArrayList<Employee> getAll(EmployeeList employeeList){
+	// 	return salesModel.getAll(employeeList);
+	// }
+	// public Employee get(EmployeeList employeeList, int id) throws NotExistException {
+	// 	return salesModel.get(employeeList, id);
+	// }
+	// public Sales getSales(EmployeeList employeeList, int id) throws NotExistException {
+	// 	return salesModel.getSales(employeeList, id);
+	// }
+	// public ArrayList<Counsel> getAll(CounselList counselList){
+	// 	return salesModel.getAll(counselList);
+	// }
+	// public Counsel get(CounselList counselList, int id) throws NotExistException {
+	// 	return salesModel.get(counselList, id);
+	// }
+	// public ArrayList<Product> getAll(ProductList productList){
+	// 	return salesModel.getAll(productList);
+	// }
+	// public void add(DiseaseHistoryList diseaseHistoryList, DiseaseHistory diseaseHistory){
+	// 	salesModel.add(diseaseHistoryList, diseaseHistory);
+	// }
+	// public void update(EmployeeList employeeList, Sales sales) throws NotExistException {
+	// 	salesModel.update(employeeList, sales);
+	// }
+	// public ArrayList<Insurance> getAllDiseaseInsurance(ProductList productList){
+	// 	return salesModel.getAllDiseaseInsurance(productList);
+	// }
+	// public ArrayList<Insurance> getAllInjuryInsurance(ProductList productList){
+	// 	return salesModel.getAllInjuryInsurance(productList);
+	// }
+	// public ArrayList<Insurance> getAllAutomobileInsurance(ProductList productList){
+	// 	return salesModel.getAllAutomobileInsurance(productList);
+	// }
+	// public ArrayList<Loan> getAllCollateralLoan(ProductList productList){
+	// 	return salesModel.getAllCollateralLoan(productList);
+	// }
+	// public ArrayList<Loan> getAllFixedDepositLoan(ProductList productList){
+	// 	return salesModel.getAllFixedDepositLoan(productList);
+	// }
+	// public ArrayList<Loan> getAllInsuranceContractLoan(ProductList productList){
+	// 	return salesModel.getAllInsuranceContractLoan(productList);
+	// }
+	// public Sales getSalesContractCount(EmployeeList employeeList, int id) throws NotExistException {
+	// 	return salesModel.getSalesContractCount(employeeList, id);
+	// }
+
+	@PatchMapping("/evaluateSalesPerformance")
+	public void evaluateSalesPerformance(int evaluate, int id){
+		salesModel.evaluateSalesPerformance(evaluate, id);
 	}
 
-	public void handleInsuranceConsultation(Counsel counsel, CounselList counselList) throws NotExistException, AlreadyProcessedException {
-		salesModel.handleInsuranceConsultation(counsel, counselList);
+	@PatchMapping("/handleInsuranceConsultation")
+	public void handleInsuranceConsultation(int id) throws AlreadyProcessedException {
+		salesModel.handleInsuranceConsultation(id);
 	}
 
 	public Customer induceInsuranceProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
-										   String job, long property, String residentRegistrationNumber, int age, Gender gender,
-										   ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-										   ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
-		return salesModel.induceInsuranceProduct(name, address, bankAccount, bankName, phoneNumber, job, property, residentRegistrationNumber, 
-				age, gender, diseaseHistoryList, surgeryHistoryList, accidentHistoryList, product, customerList, contractList);
+		String job, long property, String residentRegistrationNumber, int age, Gender gender,
+		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
+		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
+		return salesModel.induceInsuranceProduct(name, address, bankAccount, bankName, phoneNumber, job, property, residentRegistrationNumber,
+			age, gender, diseaseHistoryList, surgeryHistoryList, accidentHistoryList, product, customerList, contractList);
 	}
 
-	public Insurance getInsuranceProduct(ProductList productList, int id) throws NotExistException {
-		return salesModel.getInsuranceProduct(productList, id);
+	@GetMapping("/getInsuranceProduct")
+	public Insurance getInsuranceProduct(int id) {
+		return salesModel.getInsuranceProduct(id);
 	}
 
-	public Customer induceLoanProduct(String name, String address, String bankAccount, String bankName, String phoneNumber, 
-			String job, long property, String residentRegistrationNumber, int age, Gender gender,
-			ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-			ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
-		return salesModel.induceLoanProduct(name, address, bankAccount, bankName, phoneNumber, job, property, 
-				residentRegistrationNumber, age, gender, diseaseHistoryList, surgeryHistoryList, 
-				accidentHistoryList, product, customerList, contractList);
+	public Customer induceLoanProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
+		String job, long property, String residentRegistrationNumber, int age, Gender gender,
+		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
+		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
+		return salesModel.induceLoanProduct(name, address, bankAccount, bankName, phoneNumber, job, property,
+			residentRegistrationNumber, age, gender, diseaseHistoryList, surgeryHistoryList,
+			accidentHistoryList, product, customerList, contractList);
 	}
-	public Loan getLoanProduct(ProductList productList, int id) throws NotExistException {
-		return salesModel.getLoanProduct(productList, id);
+
+	@GetMapping("/getLoanProduct")
+	public Loan getLoanProduct(int id){
+		return salesModel.getLoanProduct(id);
 	}
-	public ArrayList<Employee> getAll(EmployeeList employeeList){
-		return salesModel.getAll(employeeList);
+
+	@GetMapping("/getAllEmployee")
+	public ArrayList<Employee> getAllEmployee(){
+		return salesModel.getAllEmployee();
 	}
-	public Employee get(EmployeeList employeeList, int id) throws NotExistException {
-		return salesModel.get(employeeList, id);
+
+	@GetMapping("/getEmployee")
+	public Employee getEmployee(int id){
+		return salesModel.getEmployee(id);
 	}
-	public Sales getSales(EmployeeList employeeList, int id) throws NotExistException {
-		return salesModel.getSales(employeeList, id);
+
+	@GetMapping("/getSales")
+	public Sales getSales(int id){
+		return salesModel.getSales(id);
 	}
-	public ArrayList<Counsel> getAll(CounselList counselList){
-		return salesModel.getAll(counselList);
+
+	@GetMapping("/getAllCounsel")
+	public ArrayList<Counsel> getAllCounsel(){
+		return salesModel.getAllCounsel();
 	}
-	public Counsel get(CounselList counselList, int id) throws NotExistException {
-		return salesModel.get(counselList, id);
+
+	@GetMapping("/getCounsel")
+	public Counsel getCounsel(int id){
+		return salesModel.getCounsel(id);
 	}
-	public ArrayList<Product> getAll(ProductList productList){
-		return salesModel.getAll(productList);
+
+	@GetMapping("/getAllProduct")
+	public ArrayList<Product> getAllProduct(){
+		return salesModel.getAllProduct();
 	}
-	public void add(DiseaseHistoryList diseaseHistoryList, DiseaseHistory diseaseHistory){
-		salesModel.add(diseaseHistoryList, diseaseHistory);
+
+	//이부분 문제다 생각해보니까
+	@PostMapping("/addDiseaseHistory")
+	public void add(DiseaseHistory diseaseHistory){
+		salesModel.addDiseaseHistory(diseaseHistory);
 	}
-	public void update(EmployeeList employeeList, Sales sales) throws NotExistException {
-		salesModel.update(employeeList, sales);
+
+	@PatchMapping("/updateContractCount")
+	public void updateContractCount(int id, int contractCount){
+		salesModel.updateContractCount(id, contractCount);
 	}
-	public ArrayList<Insurance> getAllDiseaseInsurance(ProductList productList){
-		return salesModel.getAllDiseaseInsurance(productList);
+
+	@GetMapping("/getAllDiseaseInsurance")
+	public ArrayList<Insurance> getAllDiseaseInsurance(){
+		return salesModel.getAllDiseaseInsurance();
 	}
-	public ArrayList<Insurance> getAllInjuryInsurance(ProductList productList){
-		return salesModel.getAllInjuryInsurance(productList);
+	@GetMapping("/getAllInjuryInsurance")
+	public ArrayList<Insurance> getAllInjuryInsurance(){
+		return salesModel.getAllInjuryInsurance();
 	}
-	public ArrayList<Insurance> getAllAutomobileInsurance(ProductList productList){
-		return salesModel.getAllAutomobileInsurance(productList);
+
+	@GetMapping("/getAllAutomobileInsurance")
+	public ArrayList<Insurance> getAllAutomobileInsurance(){
+		return salesModel.getAllAutomobileInsurance();
 	}
-	public ArrayList<Loan> getAllCollateralLoan(ProductList productList){
-		return salesModel.getAllCollateralLoan(productList);
+
+	@GetMapping("getAllCollateralLoan")
+	public ArrayList<Loan> getAllCollateralLoan(){
+		return salesModel.getAllCollateralLoan();
 	}
-	public ArrayList<Loan> getAllFixedDepositLoan(ProductList productList){
-		return salesModel.getAllFixedDepositLoan(productList);
+
+	@GetMapping("/getAllFixedDepositLoan")
+	public ArrayList<Loan> getAllFixedDepositLoan(){
+		return salesModel.getAllFixedDepositLoan();
 	}
-	public ArrayList<Loan> getAllInsuranceContractLoan(ProductList productList){
-		return salesModel.getAllInsuranceContractLoan(productList);
+
+	@GetMapping("/getAllInsuranceContractLoan")
+	public ArrayList<Loan> getAllInsuranceContractLoan(){
+		return salesModel.getAllInsuranceContractLoan();
 	}
-	public Sales getSalesContractCount(EmployeeList employeeList, int id) throws NotExistException {
-		return salesModel.getSalesContractCount(employeeList, id);
+
+	@GetMapping("/getSalesContractCount")
+	public Sales getSalesContractCount(int id){
+		return salesModel.getSalesContractCount(id);
 	}
 }

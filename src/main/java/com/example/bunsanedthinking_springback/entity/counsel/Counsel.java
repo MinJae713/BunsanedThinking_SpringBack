@@ -60,10 +60,6 @@ public class Counsel implements Cloneable {
 		this.gender = gender;
 	}
 
-	public void handle(){
-		this.processStatus = CounselProcessStatus.Completed;
-	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}

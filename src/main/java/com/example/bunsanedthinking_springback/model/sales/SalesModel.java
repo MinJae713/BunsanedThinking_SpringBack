@@ -27,6 +27,7 @@ import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -81,26 +82,22 @@ public class SalesModel {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 
-	public void evaluateSalesPerformance(int evaluate, Sales sales, EmployeeList employeeList) throws
-		NotExistException {
+	public void evaluateSalesPerformance(int evaluate, int id){
+		Sales sales = new Sales();
+		SalesVO salesVO = salesMapper.get_SalesModel(id);
+		sales.setId(salesVO.getEmployee_id());
 		sales.setEvaluate(evaluate);
 		salesMapper.updateEvaluate_SalesModel(sales.getId(), evaluate);
 		// employeeList.update(sales);
 	}
 
-	public void handleInsuranceConsultation(Counsel counsel, CounselList counselList) throws
-		NotExistException,
+	public void handleInsuranceConsultation(int id) throws
 		AlreadyProcessedException {
-		if (counsel.getProcessStatus() == CounselProcessStatus.Completed) {
+		CounselVO counselVO = counselMapper.get_SalesModel(id);
+		if (CounselProcessStatus.fromInt(counselVO.getProcess_status()) == CounselProcessStatus.Completed) {
 			throw new AlreadyProcessedException();
 		}
-		counsel.handle();
-		CounselVO counselVO = new CounselVO();
-		counselVO.setId(counsel.getId());
-		counselVO.setCounsel_date(LocalDate.parse(counsel.getCounselDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		counselVO.setProcess_status(counsel.getProcessStatus().getValue());
-		counselVO.setCustomer_id(counsel.getCustomerID());
-		counselVO.setProduct_id(counsel.getProductID());
+		counselVO.setProcess_status(CounselProcessStatus.Completed.getValue());
 		counselMapper.update_SalesModel(counselVO);
 		// counselList.update(counsel);
 	}
@@ -198,7 +195,7 @@ public class SalesModel {
 		return customer;
 	}
 
-	public Insurance getInsuranceProduct(ProductList productList, int id) throws NotExistException {
+	public Insurance getInsuranceProduct( int id) {
 
 		Insurance insurance = null;
 
@@ -371,7 +368,7 @@ public class SalesModel {
 
 	}
 
-	public Loan getLoanProduct(ProductList productList, int id) throws NotExistException {
+	public Loan getLoanProduct(int id){
 
 		Loan loan = null;
 
@@ -434,7 +431,7 @@ public class SalesModel {
 		// return (Loan) productList.get(id);
 	}
 
-	public ArrayList<Employee> getAll(EmployeeList employeeList) {
+	public ArrayList<Employee> getAllEmployee() {
 
 		ArrayList<SalesVO> salesVOs = salesMapper.getAll_SalesModel();
 		ArrayList<Sales> salesList = new ArrayList<>();
@@ -464,7 +461,7 @@ public class SalesModel {
 		// return employeeList.getAll();
 	}
 
-	public Employee get(EmployeeList employeeList, int id) throws NotExistException {
+	public Employee getEmployee(int id) {
 		Sales sales = new Sales();
 		EmployeeVO employeeVO = employeeMapper.get_SalesModel(id);
 		sales.setId(employeeVO.getId());
@@ -488,7 +485,7 @@ public class SalesModel {
 		// return employeeList.get(id);
 	}
 
-	public Sales getSales(EmployeeList employeeList, int id) throws NotExistException {
+	public Sales getSales(int id){
 
 		Sales sales = new Sales();
 		EmployeeVO employeeVO = employeeMapper.get_SalesModel(id);
@@ -513,7 +510,7 @@ public class SalesModel {
 		// return employeeList.getSales(id);
 	}
 
-	public ArrayList<Counsel> getAll(CounselList counselList) {
+	public ArrayList<Counsel> getAllCounsel() {
 		ArrayList<Counsel> counsels = new ArrayList<>();
 
 		ArrayList<CounselVO> counselVOs = counselMapper.getAll_SalesModel();
@@ -540,7 +537,7 @@ public class SalesModel {
 		// return counselList.getAll();
 	}
 
-	public Counsel get(CounselList counselList, int id) throws NotExistException {
+	public Counsel getCounsel(int id){
 
 		Counsel counsel = new Counsel();
 
@@ -562,7 +559,7 @@ public class SalesModel {
 		// return counselList.get(id);
 	}
 
-	public ArrayList<Product> getAll(ProductList productList) {
+	public ArrayList<Product> getAllProduct() {
 		ArrayList<Product> products = new ArrayList<>();
 
 		ArrayList<Insurance> insurances = new ArrayList<>();
@@ -645,7 +642,10 @@ public class SalesModel {
 		return products;
 	}
 
-	public void add(DiseaseHistoryList diseaseHistoryList, DiseaseHistory diseaseHistory) {
+	public void addDiseaseHistory(DiseaseHistory diseaseHistory) {
+		// SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		// Date date = formatter.parse(dateOfDiagnosis);
+		// DiseaseHistory diseaseHistory = new DiseaseHistory(diseaseName, date);
 		DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
 		diseaseHistoryVO.setId(diseaseHistory.getId());
 		diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(diseaseHistory.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -655,18 +655,14 @@ public class SalesModel {
 		// diseaseHistoryList.add(diseaseHistory);
 	}
 
-	public void update(EmployeeList employeeList, Sales sales) throws NotExistException {
-		SalesVO salesVO = new SalesVO();
-
-		salesVO.setEmployee_id(sales.getId());
-		salesVO.setEvaluate(sales.getEvaluate());
-		salesVO.setContract_count(sales.getContractCount());
-
+	public void updateContractCount(int id, int contractCount){
+		SalesVO salesVO = salesMapper.get_SalesModel(id);
+		salesVO.setContract_count(contractCount);
 		salesMapper.update_SalesModel(salesVO);
 		// employeeList.update(sales);
 	}
 
-	public ArrayList<Insurance> getAllDiseaseInsurance(ProductList productList) {
+	public ArrayList<Insurance> getAllDiseaseInsurance() {
 		ArrayList<Insurance> insurances = new ArrayList<>();
 		ArrayList<DiseaseVO> diseaseVOs = diseaseMapper.getAllDiseaseInsurance_SalesModel();
 		for (DiseaseVO diseaseVO : diseaseVOs) {
@@ -684,7 +680,7 @@ public class SalesModel {
 		// return productList.getAllDiseaseInsurance();
 	}
 
-	public ArrayList<Insurance> getAllInjuryInsurance(ProductList productList) {
+	public ArrayList<Insurance> getAllInjuryInsurance() {
 		ArrayList<Insurance> insurances = new ArrayList<>();
 		ArrayList<InjuryVO> injuryVOs = injuryMapper.getAllInjuryInsurance_SalesModel();
 		for (InjuryVO injuryVO : injuryVOs) {
@@ -702,7 +698,7 @@ public class SalesModel {
 		// return productList.getAllInjuryInsurance();
 	}
 
-	public ArrayList<Insurance> getAllAutomobileInsurance(ProductList productList) {
+	public ArrayList<Insurance> getAllAutomobileInsurance() {
 		ArrayList<Insurance> insurances = new ArrayList<>();
 		ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
 		for (AutoMobileVO automobileVO : AutomobileVOs) {
@@ -720,7 +716,7 @@ public class SalesModel {
 		// return productList.getAllAutomobileInsurance();
 	}
 
-	public ArrayList<Loan> getAllCollateralLoan(ProductList productList) {
+	public ArrayList<Loan> getAllCollateralLoan() {
 		ArrayList<Loan> loans = new ArrayList<>();
 		ArrayList<CollateralVO> collateralVOs = collateralMapper.getAllCollateralLoan_SalesModel();
 		for (CollateralVO collateralVO : collateralVOs) {
@@ -738,7 +734,7 @@ public class SalesModel {
 		// return productList.getAllCollateralLoan();
 	}
 
-	public ArrayList<Loan> getAllFixedDepositLoan(ProductList productList) {
+	public ArrayList<Loan> getAllFixedDepositLoan() {
 		ArrayList<Loan> loans = new ArrayList<>();
 		ArrayList<FixedDepositVO> fixedDepositVOs = fixedDepositMapper.getAllFixedDepositLoan_SalesModel();
 		for (FixedDepositVO fixedDepositVO : fixedDepositVOs) {
@@ -756,7 +752,7 @@ public class SalesModel {
 		// return productList.getAllFixedDepositLoan();
 	}
 
-	public ArrayList<Loan> getAllInsuranceContractLoan(ProductList productList) {
+	public ArrayList<Loan> getAllInsuranceContractLoan() {
 		ArrayList<Loan> loans = new ArrayList<>();
 		ArrayList<InsuranceContractVO> insuranceContractVOs = insuranceContractMapper.getAllInsuranceContractLoan_SalesModel();
 		for (InsuranceContractVO insuranceContractVO : insuranceContractVOs) {
@@ -774,10 +770,8 @@ public class SalesModel {
 		// return productList.getAllInsuranceContractLoan();
 	}
 
-	public Sales getSalesContractCount(EmployeeList employeeList, int id) throws NotExistException {
-		Sales sales = new Sales();
-		SalesVO SalesVO = salesMapper.get_SalesModel(id);
-		sales.setContractCount(SalesVO.getContract_count());
+	public Sales getSalesContractCount(int id){
+		Sales sales = getSales(id);
 		return sales;
 		// return (Sales) employeeList.get(id);
 	}

@@ -41,7 +41,7 @@ public class ProductManagementModel {
 	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
 									int contractPeriod, String diseaseName, int diseaseLimit, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
 
-		for (Product product : getAll(productList)) {
+		for (Product product : getAll()) {
 			if (product.getName().equals(name)) {
 				throw new DuplicateInsuranceException();
 			}
@@ -75,7 +75,7 @@ public class ProductManagementModel {
 
 	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
 									int contractPeriod, InjuryType injuryType, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
-			for (Product product :getAll(productList)) {
+			for (Product product :getAll()) {
 				if (product.getName().equals(name)) {
 					throw new DuplicateInsuranceException();
 				}
@@ -108,7 +108,7 @@ public class ProductManagementModel {
 	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
 			int contractPeriod, int accidentLimit, VehicleType vehicleType, ArrayList<ServiceType> serviceTypeList,
 			ProductList productList) throws DuplicateInsuranceException {
-		for (Product product :getAll(productList)) {
+		for (Product product :getAll()) {
 			if (product.getName().equals(name)) {
 				throw new DuplicateInsuranceException();
 			}
@@ -145,12 +145,12 @@ public class ProductManagementModel {
 		// productList.add(automobileInsurance);
 	}
 
-	public void deleteInsuranceProduct(ProductList productList, int id) throws NotExistException {
+	public void deleteInsuranceProduct(int id){
 		productMapper.delete_ProductManagementModel(id);
 		// productList.delete(id);
 	}
 
-	public Insurance getInsuranceProduct(ProductList productList, int id) throws NotExistException {
+	public Insurance getInsuranceProduct(int id) throws NotExistException {
 		try {
 			Insurance insurance = null;
 
@@ -242,7 +242,7 @@ public class ProductManagementModel {
 
 		switch (index) {
 		case 1:
-			for (Product product : getAll(productList)) {
+			for (Product product : getAll()) {
 				if (product.getName().equals(input)) {
 					throw new DuplicateInsuranceException();
 				}
@@ -338,7 +338,7 @@ public class ProductManagementModel {
 
 		switch (index) {
 		case 1:
-			for (Product product : getAll(productList)) {
+			for (Product product : getAll()) {
 				if (product.getName().equals(input)) {
 					throw new DuplicateInsuranceException();
 				}
@@ -427,7 +427,7 @@ public class ProductManagementModel {
 		ServiceVO serviceVO = new ServiceVO();
 		switch (index) {
 		case 1:
-			for (Product product : getAll(productList)) {
+			for (Product product : getAll()) {
 				if (product.getName().equals(input)) {
 					throw new DuplicateInsuranceException();
 				}
@@ -525,7 +525,7 @@ public class ProductManagementModel {
 		}
 	}
 
-	public ArrayList<Product> getAll(ProductList productList){
+	public ArrayList<Product> getAll(){
 
 		ArrayList<Insurance> insurances = new ArrayList<>();
 		ArrayList<DiseaseVO> diseaseVOs = diseaseMapper.getAllDiseaseInsurance_SalesModel();
