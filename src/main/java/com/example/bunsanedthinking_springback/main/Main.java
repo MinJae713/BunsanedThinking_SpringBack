@@ -296,7 +296,7 @@ public class Main {
 			try {
 				input = scanner.next();
 				id = Integer.parseInt(input);
-				partnerCompany = partnerCompanyController.get(partnerCompanyList, id);
+				partnerCompany = partnerCompanyController.getPartnerCompany(id);
 				// 여기
 				showPartnerCompanyTask((PartnerCompany) partnerCompany);
 			} catch (NumberFormatException e) {
@@ -333,7 +333,7 @@ public class Main {
 	}
 
 	private void EstimatedDamageCost(PartnerCompany partnerCompany) {
-		for (Report report : partnerCompanyController.getAllReportByDamageAssessmentCompanyID(reportList, partnerCompany.getId())) {
+		for (Report report : partnerCompanyController.getAllReportByDamageAssessmentCompanyID(partnerCompany.getId())) {
 			System.out.println("사고 번호: " + report.getId());
 		}
 
@@ -342,7 +342,7 @@ public class Main {
 		id = Integer.parseInt(input);
 		Report report;
 		try {
-			report = reportList.get(id);
+			report = partnerCompanyController.getReport(id);
 		} catch (NotExistException e) {
 			System.out.println("해당하는 사고 " + e.getMessage());
 			return;
@@ -352,7 +352,7 @@ public class Main {
 			input = scanner.next();
 			int estimatedDamageCost = Integer.parseInt(input);
 			report.setDamageAssessmentMoney(estimatedDamageCost);
-			partnerCompanyController.update(reportList, report);
+			partnerCompanyController.update(report);
 			System.out.println("입력되었습니다.");
 		} catch (NumberFormatException e) {
 			System.out.println("잘못된 정보를 입력하였습니다. 다시 입력해주세요.");
@@ -1634,7 +1634,7 @@ public class Main {
 	private void manageAdministrative(Employee employee) {
 		System.out.println("집기 비품 정보 리스트");
 
-		for (OfficeSupply officeSupply : administrativeController.getAll(this.officeSupplyList)) {
+		for (OfficeSupply officeSupply : administrativeController.getAll()) {
 			// 여기
 			System.out.print("비품 번호: " + officeSupply.getId() + " ");
 			System.out.print("비품 이름: " + officeSupply.getName() + " ");
@@ -1677,7 +1677,7 @@ public class Main {
 				String name = input;
 				System.out.print("2. 비품 설명: ");
 				input = scanner.next();
-				String explain = input;
+				String description = input;
 				System.out.print("3. 재고 수량: ");
 				input = scanner.next();
 				int inventory = Integer.parseInt(input);
@@ -1688,7 +1688,7 @@ public class Main {
 					index = Integer.parseInt(input);
 					switch (index) {
 					case 1:
-						administrativeController.addOfficeSupply(name, explain, inventory, officeSupplyList);
+						administrativeController.addOfficeSupply(name, description, inventory);
 						System.out.println("집기 비품 정보가 등록되었습니다.");
 						finish = true;
 						break;
@@ -1718,7 +1718,7 @@ public class Main {
 		
 		OfficeSupply officeSupply;
 		try {
-			officeSupply = administrativeController.getOfficeSupply(officeSupplyList, id);
+			officeSupply = administrativeController.getOfficeSupply(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -1726,7 +1726,7 @@ public class Main {
 		System.out.print("비품 번호: " + officeSupply.getId() + " ");
 		System.out.print("비품 이름: " + officeSupply.getName() + " ");
 		System.out.print("재고 수량: " + officeSupply.getInventory() + " ");
-		System.out.println("총 재고 수량: " + administrativeController.getTotalInventory(this.officeSupplyList) + " ");
+		System.out.println("총 재고 수량: " + administrativeController.getTotalInventory() + " ");
 	}
 
 //	2024-06-02 김대현
@@ -1739,7 +1739,7 @@ public class Main {
 		OfficeSupply officeSupply;
 		
 		try {
-			officeSupply = administrativeController.getOfficeSupply(officeSupplyList, id);
+			officeSupply = administrativeController.getOfficeSupply(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -1748,7 +1748,7 @@ public class Main {
 		System.out.print("2. 비품 이름: " + officeSupply.getName() + " ");
 		System.out.print(
 				"3. 재고 수량: " + officeSupply.getInventory() + " ");
-		System.out.print("4. 총 재고 수량: " + administrativeController.getTotalInventory(this.officeSupplyList) + " ");
+		System.out.print("4. 총 재고 수량: " + administrativeController.getTotalInventory() + " ");
 		System.out.println("5. 비품 설명: " + officeSupply.getDescription());
 
 		System.out.println("1. 수정 2. 삭제");
@@ -1771,7 +1771,7 @@ public class Main {
 		// AdministrativeModel employee
 		OfficeSupply officeSupply;
 		try {
-			officeSupply = (OfficeSupply) administrativeController.getOfficeSupply(officeSupplyList, id);
+			officeSupply = (OfficeSupply) administrativeController.getOfficeSupply(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -1805,7 +1805,7 @@ public class Main {
 						index = Integer.parseInt(input);
 						switch (index) {
 						case 1:
-							administrativeController.updateDepartment(inputIndex, inputParameter, officeSupply, officeSupplyList);
+							administrativeController.updateOfficeSupply(inputIndex, inputParameter, id);
 							System.out.println("수정이 완료되었습니다.");
 							break;
 						case 2:
@@ -1822,9 +1822,6 @@ public class Main {
 				}
 			} while (!(1 <= index && index <= 2));
 
-		} catch (DuplicateOfficeSupplyException dupplicateOfficeSupply) {
-			System.out.println(dupplicateOfficeSupply.getMessage());
-			return;
 		} catch (NumberFormatException numberFormatException) {
 			System.out.println("잘못된 정보를 입력하였습니다. 다시 입력해주세요.");
 			return;
@@ -1845,7 +1842,7 @@ public class Main {
 			switch (index) {
 			case 1:
 				try {
-					administrativeController.deleteOfficeSupply(officeSupplyList, id);
+					administrativeController.deleteOfficeSupply(id);
 				} catch (NotExistException e) {
 					System.out.println(e.getMessage());
 					return;
@@ -2593,7 +2590,7 @@ public class Main {
 					index = Integer.parseInt(input);
 					switch (index) {
 					case 1:
-						managementPlanningController.addDepartment(name, task, purpose, headName, departmentList);
+						managementPlanningController.addDepartment(name, task, purpose, headName);
 						System.out.println("부서가 등록되었습니다.");
 						finish = true;
 						break;
@@ -2622,7 +2619,7 @@ public class Main {
 		Department department;
 		
 		try {
-			department = managementPlanningController.getDepartment(departmentList, id);
+			department = managementPlanningController.getDepartment(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -2644,7 +2641,7 @@ public class Main {
 		Department department;
 		
 		try {
-			department = managementPlanningController.getDepartment(departmentList, id);
+			department = managementPlanningController.getDepartment(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -2677,14 +2674,13 @@ public class Main {
 		// ManagementPlanningModel employee
 		Department department;
 		try {
-			department = (Department) managementPlanningController.getDepartment(departmentList, id);
+			department = (Department) managementPlanningController.getDepartment(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 
 		System.out.println("부서 번호: " + department.getId());
-
 		System.out.println("1. 부서 이름: " + department.getName());
 		System.out.println("2. 주업무: " + department.getTask());
 		System.out.println("3. 부서 목적: " + department.getPurpose());
@@ -2714,7 +2710,7 @@ public class Main {
 						switch (index) {
 						case 1:
 							managementPlanningController.updateDepartment(inputIndex, 
-									inputParameter, department, departmentList);
+									inputParameter, id);
 							System.out.println("수정이 완료되었습니다.");
 							break;
 						case 2:
@@ -2735,7 +2731,6 @@ public class Main {
 
 		} catch (DuplicateDepartmentException duplicateDepartment) {
 			System.out.println(duplicateDepartment.getMessage());
-
 			return;
 		} catch (NumberFormatException numberFormatException) {
 			System.out.println("잘못된 정보를 입력하였습니다. 다시 입력해주세요.");
@@ -2744,7 +2739,6 @@ public class Main {
 			System.out.println(e.getMessage());
 			return;
 		}
-
 	}
 
 //	2024-06-02 김대현
@@ -2758,7 +2752,7 @@ public class Main {
 			switch (index) {
 			case 1:
 				try {
-					managementPlanningController.deleteDepartment(departmentList, id);
+					managementPlanningController.deleteDepartment(id);
 				} catch (NotExistException e) {
 					System.out.println(e.getMessage());
 					return;
@@ -2771,7 +2765,6 @@ public class Main {
 				System.out.println("명시된 번호중에 클릭해주세요.");
 			}
 		} while (!(1 <= index && index <= 2));
-
 	}
 
 //	2024-06-04 김대현
@@ -3422,7 +3415,7 @@ public class Main {
 //		고객 이름, 전화번호, 직업,나이, 성별, 주민등록번호, 주소, 계좌 번호, 고객 번호
 
 		System.out.println("고객 정보 리스트");
-		for (Customer e : customerInformationManagementController.getAll(customerList)) {
+		for (Customer e : customerInformationManagementController.getAll()) {
 			// 여기
 			System.out.print("고객 번호: " + e.getId() + " ");
 			System.out.print("고객 이름: " + e.getName() + " ");
@@ -3600,8 +3593,7 @@ public class Main {
 					case 1:
 						customerInformationManagementController.addCustomerInformation(name, phoneNumber, job, age, gender,
 								residentRegistrationNumber, address, property, tempAccidentHistoryList,
-								tempSurgeryHistoryList, tempDiseaseHistoryList, bankName, bankAccount, customerList,
-								accidentHistoryList, surgeryHistoryList, diseaseHistoryList);
+								tempSurgeryHistoryList, tempDiseaseHistoryList, bankName, bankAccount);
 						System.out.println("등록되었습니다.");
 						finish = true;
 						break;
@@ -3619,7 +3611,6 @@ public class Main {
 				return;
 			}
 		}
-
 	}
 
 //	2024-06-04 김대현
@@ -3630,7 +3621,7 @@ public class Main {
 		id = Integer.parseInt(input);
 		Customer customer;
 		try {
-			customer = customerInformationManagementController.getCustomerInformation(customerList, id);
+			customer = customerInformationManagementController.getCustomerInformation(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -3655,7 +3646,7 @@ public class Main {
 		id = Integer.parseInt(input);
 		Customer customer;
 		try {
-			customer = customerInformationManagementController.getCustomerInformation(customerList, id);
+			customer = customerInformationManagementController.getCustomerInformation(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -3695,7 +3686,7 @@ public class Main {
 		// CustomerInformationManagementModel employee
 		Customer customer;
 		try {
-			customer = customerInformationManagementController.getCustomerInformation(customerList, id);
+			customer = customerInformationManagementController.getCustomerInformation(id);
 		} catch (NotExistException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -3757,8 +3748,7 @@ public class Main {
 						index = Integer.parseInt(input);
 						switch (index) {
 						case 1:
-							customerInformationManagementController.updateCustomerInformation(inputIndex, inputParameter,
-									customer, customerList);
+							customerInformationManagementController.updateCustomerInformation(inputIndex, inputParameter, id);
 							System.out.println("수정되었습니다.");
 							break;
 						case 2:
@@ -3804,7 +3794,7 @@ public class Main {
 			switch (index) {
 			case 1:
 				try {
-					customerInformationManagementController.deleteCustomerInformation(customerList, id);
+					customerInformationManagementController.deleteCustomerInformation(id);
 				} catch (NotExistException e) {
 					System.out.println(e.getMessage());
 					return;

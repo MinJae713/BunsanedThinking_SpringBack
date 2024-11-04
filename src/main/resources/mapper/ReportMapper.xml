@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ReportMapper">
+
+    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int" resultType="Report">
+        SELECT * FROM report
+        WHERE damage_assessment_company_id = #{id}
+    </select>
+
+    <select id="findById_PartnerCompany" parameterType="int" resultType="Report">
+        SELECT * FROM report
+        WHERE id = #{id}
+    </select>
+
+    <update id="update_PartnerCompany" parameterType="Report">
+        UPDATE report
+        SET column1 = #{property1}, column2 = #{property2}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper">
+
+    <insert id="insert_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
+        INSERT INTO accident_history (customer_id, description, date, cost)
+        VALUES (#{accidentHistory.customerId},
+                #{accidentHistory.description},
+                #{accidentHistory.date},
+                #{accidentHistory.cost});
+    </insert>
+    <select id="findAccidentHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
+        SELECT * FROM accident_history
+        WHERE customer_id = #{customerId};
+    </select>
+    <delete id="deleteAccidentHistoriesByCustomerId_customerInformationManagement" parameterType="int">
+        DELETE FROM accident_history
+        WHERE customer_id = #{customerId};
+    </delete>
+    <update id="update_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
+        UPDATE accident_history
+        SET description = #{accidentHistory.description},
+            date = #{accidentHistory.date},
+            cost = #{accidentHistory.cost}
+        WHERE id = #{accidentHistory.id};
+    </update>
+
 </mapper>

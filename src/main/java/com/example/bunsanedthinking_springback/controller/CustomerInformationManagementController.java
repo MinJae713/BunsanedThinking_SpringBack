@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/customerInformationManagement")
@@ -25,26 +26,26 @@ public class CustomerInformationManagementController {
 	private CustomerInformationManagementModel customerInformationManagementModel;
 
 	public void addCustomerInformation(String name, String phoneNumber, String job, int age, Gender gender,
-									   String residentRegistrationNumber, String address, long property, ArrayList<AccidentHistory> tempAccidentHistoryList,
-									   ArrayList<SurgeryHistory> tempSurgeryHistoryList, ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName,
-									   String bankAccount, CustomerList customerList, AccidentHistoryList accidentHistoryList,
-									   SurgeryHistoryList surgeryHistoryList, DiseaseHistoryList diseaseHistoryList) throws DuplicateResidentRegistrationNumberException {
+									   String residentRegistrationNumber, String address, long property,
+									   List<AccidentHistory> tempAccidentHistoryList,
+									   List<SurgeryHistory> tempSurgeryHistoryList,
+									   List<DiseaseHistory> tempDiseaseHistoryList,
+									   String bankName, String bankAccount) throws DuplicateResidentRegistrationNumberException {
 		customerInformationManagementModel.addCustomerInformation(name, phoneNumber, job, age, gender, 
 				residentRegistrationNumber, address, property, tempAccidentHistoryList, tempSurgeryHistoryList, 
-				tempDiseaseHistoryList, bankName, bankAccount, customerList, accidentHistoryList, 
-				surgeryHistoryList, diseaseHistoryList);
+				tempDiseaseHistoryList, bankName, bankAccount);
 	}
 
-	public void deleteCustomerInformation(CustomerList customerList, int id) throws NotExistException {
-		customerInformationManagementModel.deleteCustomerInformation(customerList, id);
+	public void deleteCustomerInformation(int id) throws NotExistException {
+		customerInformationManagementModel.deleteCustomerInformation(id);
 	}
-	public Customer getCustomerInformation(CustomerList customerList, int id) throws NotExistException{
-		return customerInformationManagementModel.getCustomerInformation(customerList, id);
+	public Customer getCustomerInformation(int id) throws NotExistException{
+		return customerInformationManagementModel.getCustomerInformation(id);
 	}
-	public void updateCustomerInformation(int index, String input, Customer customer, CustomerList customerList) throws DuplicateResidentRegistrationNumberException, NotExistException{
-		customerInformationManagementModel.updateCustomerInformation(index, input, customer, customerList);
+	public void updateCustomerInformation(int index, String input, int id) throws DuplicateResidentRegistrationNumberException, NotExistException{
+		customerInformationManagementModel.updateCustomerInformation(index, input, id);
 	}
-	public ArrayList<Customer> getAll(CustomerList customerList) {
-		return customerInformationManagementModel.getAll(customerList);
+	public List<Customer> getAll() {
+		return customerInformationManagementModel.getAll();
 	}
 }

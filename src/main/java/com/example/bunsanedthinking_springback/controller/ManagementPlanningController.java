@@ -15,19 +15,19 @@ public class ManagementPlanningController {
 	@Autowired
 	private ManagementPlanningModel managementPlanningModel;
 
-	public void addDepartment(String name, String task, String purpose, String headName, DepartmentList departmentList) throws DuplicateDepartmentException {
-		managementPlanningModel.addDepartment(name, task, purpose, headName, departmentList);
+	public void addDepartment(String name, String task, String purpose, String headName) throws DuplicateDepartmentException {
+		managementPlanningModel.addDepartment(name, task, purpose, headName);
 	}
 
-	public void deleteDepartment(DepartmentList departmentList, int id) throws NotExistException {
-		managementPlanningModel.deleteDepartment(departmentList, id);
+	public void deleteDepartment(int id) throws NotExistException {
+		managementPlanningModel.deleteDepartment(id);
 	}
 
-	public Department getDepartment(DepartmentList departmentList, int id) throws NotExistException{
-		return managementPlanningModel.getDepartment(departmentList, id);
+	public Department getDepartment(int id) throws NotExistException{
+		return managementPlanningModel.getDepartment(id);
 	}
 
-	public void updateDepartment(int index, String input, Department department, DepartmentList departmentList) throws DuplicateDepartmentException, NotExistException{
-		managementPlanningModel.updateDepartment(index, input, department, departmentList);
+	public void updateDepartment(int index, String input, int id) throws DuplicateDepartmentException, NotExistException{
+		managementPlanningModel.updateDepartment(index, input, id);
 	}
 }

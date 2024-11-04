@@ -5,22 +5,44 @@ import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerComp
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
+import com.example.bunsanedthinking_springback.repository.ReportMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PartnerCompanyModel {
-	public PartnerCompany get(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
-		return partnerCompanyList.get(id);
+	@Autowired
+	private PartnerCompanyMapper partnerCompanyMapper;
+	@Autowired
+	private ReportMapper reportMapper;
+
+	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
+		PartnerCompany partnerCompany = partnerCompanyMapper.findById_PartnerCompany(id);
+		if (partnerCompany == null) {
+			throw new NotExistException();
+		}
+		return partnerCompany;
 	}
-	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(ReportList reportList, int id) {
-		return reportList.getAllReportByDamageAssessmentCompanyID(id);
+	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(int id) {
+		List<Report> reports = reportMapper.findAllByDamageAssessmentCompanyID_PartnerCompany(id);
+		return new ArrayList<>(reports);
 	}
-	public Report get(ReportList reportList, int id) throws NotExistException {
-		return reportList.get(id);
+	public Report getReport(int id) throws NotExistException {
+		Report report = reportMapper.findById_PartnerCompany(id);
+		if (report == null) {
+			throw new NotExistException();
+		}
+		return report;
 	}
-	public void update(ReportList reportList, Report report) throws NotExistException {
-		reportList.update(report);
+	public void update(Report report) throws NotExistException {
+		Report existingReport = reportMapper.findById_PartnerCompany(report.getId());
+		if (existingReport == null) {
+			throw new NotExistException();
+		}
+		reportMapper.update_PartnerCompany(report);
 	}
 }
