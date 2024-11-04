@@ -25,7 +25,7 @@ public class FixedDeposit extends Loan {
 		this.setInterestRate(interestRate);
 		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
-		this.setMinimumAmount(minimumValue);
+		this.setMinimumAmount(minimumAmount);
 	}
 
 	public FixedDeposit(ProductVO productVO, LoanVO loanVO, int minimumValue){

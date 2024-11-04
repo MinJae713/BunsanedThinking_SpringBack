@@ -1,12 +1,10 @@
 package com.example.bunsanedthinking_springback.model.loanManagement;
 
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetailList;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
@@ -18,21 +16,8 @@ import com.example.bunsanedthinking_springback.exception.AlreadyProcessedExcepti
 import com.example.bunsanedthinking_springback.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.vo.CollateralVO;
-import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
-import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
-import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -135,7 +120,7 @@ public class LoanManagementModel {
 				Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(id);
 				InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.orElseThrow(() -> new NotExistException("해당하는 보험 계약 대출 정보가 존재하지 않습니다."));
 				return new InsuranceContract(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
-					loanVO.getMinimum_asset(), insuranceContractVO.getContract_id());
+					loanVO.getMinimum_asset(), insuranceContractVO.getProduct_id());
 			}
 			default -> throw new NotExistException("대출 상품 종류가 잘못되었습니다.");
 		}
