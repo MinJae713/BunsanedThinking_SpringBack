@@ -55,7 +55,7 @@ import com.example.bunsanedthinking_springback.repository.ServiceMapper;
 import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
-import com.example.bunsanedthinking_springback.vo.AutomobileVO;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 import com.example.bunsanedthinking_springback.vo.CounselVO;
@@ -292,8 +292,8 @@ public class SalesModel {
 				insurance = injury;
 			}
 		}
-		ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-		for (AutomobileVO automobileVO : AutomobileVOs) {
+		ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+		for (AutoMobileVO automobileVO : AutomobileVOs) {
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -638,8 +638,8 @@ public class SalesModel {
 			injury.setMonthlyPremium(insuranceVO.getMonthly_premium());
 			insurances.add(injury);
 		}
-		ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-		for (AutomobileVO automobileVO : AutomobileVOs) {
+		ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+		for (AutoMobileVO automobileVO : AutomobileVOs) {
 			Automobile automobile = new Automobile();
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
@@ -752,8 +752,8 @@ public class SalesModel {
 
 	public ArrayList<Insurance> getAllAutomobileInsurance(ProductList productList) {
 		ArrayList<Insurance> insurances = new ArrayList<>();
-		ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-		for (AutomobileVO automobileVO : AutomobileVOs) {
+		ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+		for (AutoMobileVO automobileVO : AutomobileVOs) {
 			Automobile automobile = new Automobile();
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());

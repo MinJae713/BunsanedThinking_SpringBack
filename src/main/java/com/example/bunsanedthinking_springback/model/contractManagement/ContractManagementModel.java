@@ -336,7 +336,7 @@ public class ContractManagementModel {
             List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
             ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
             serviceVOS.stream().map(s -> s.getService()).forEach(s -> serviceTypeList.add(ServiceType.values()[s]));
-            VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVerhicle_type()];
+            VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVehicle_type()];
             int accident_limit = autoMobileVO.getAccident_limit();
             return new Automobile(productVO, insuranceVO, accident_limit, verhicle_type, serviceTypeList);
         }

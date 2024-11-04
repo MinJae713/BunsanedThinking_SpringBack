@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @Mapper
 public interface ProductMapper {
-		ProductVO get_SalesModel(int id);
+	ProductVO get_SalesModel(int id);
 
-		void insert_LoanManagement(@Param("product") ProductVO productVO);
+	void insert_LoanManagement(@Param("product") ProductVO productVO);
 
-		List<Product> getAll_LoanManagement();
+	List<Product> getAll_LoanManagement();
     public Optional<ProductVO> getProductById_Customer(int id);
-		void delete_ProductManagementModel(int id);
+	void delete_ProductManagementModel(int id);
 
-		void update_ProductManagementModel(ProductVO productVO);
+	void update_ProductManagementModel(ProductVO productVO);
 }

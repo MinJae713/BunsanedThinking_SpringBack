@@ -9,6 +9,6 @@ import java.util.ArrayList;
 @Mapper
 public interface SurgeryHistoryMapper {
     public List<SurgeryHistoryVO> getAllByCustomerId_Customer(int id);
-		ArrayList<SurgeryHistoryVO> get_UnderWritingModel(int id);
-		void insert_SalesModel(SurgeryHistoryVO surgeryHistoryVO);
+	ArrayList<SurgeryHistoryVO> get_UnderWritingModel(int id);
+	void insert_SalesModel(SurgeryHistoryVO surgeryHistoryVO);
 }

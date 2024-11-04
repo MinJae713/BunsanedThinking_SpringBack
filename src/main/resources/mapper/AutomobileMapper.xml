@@ -8,11 +8,11 @@
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select * from automobile
     </select>
-    <select id="getAllAutomobileInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
+    <select id="getAllAutomobileInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select * from Automobile
     </select>
 
-    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
+    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         insert into Automobile(product_id, vehicle_type, accident_limit)
         values (
                    #{product_id},
@@ -20,7 +20,7 @@
                    #{accident_limit}
                )
     </insert>
-    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.AutomobileVO">
+    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         UPDATE Automobile
         SET
             vehicle_type = #{vehicle_type},

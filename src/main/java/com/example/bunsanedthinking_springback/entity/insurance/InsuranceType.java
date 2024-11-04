@@ -9,9 +9,9 @@ package com.example.bunsanedthinking_springback.entity.insurance;
 public enum InsuranceType {
 
 	// 각 타입에 번호 할당
-	Disease(0, "질병");
+	Disease(0, "질병"),
 	Automobile(1, "자동차"),
-	Injury(2, "상해"),
+	Injury(2, "상해");
 
 	private final int value;
 	private final String name;

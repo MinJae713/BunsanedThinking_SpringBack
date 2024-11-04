@@ -9,9 +9,7 @@ import java.util.ArrayList;
 @Mapper
 public interface ServiceMapper {
     public List<ServiceVO> getAllByProductId_Customer(int id);
-		ArrayList<ServiceVO> get_SalesModel(int id);
-
-		void insert_ProductManagement(ServiceVO serviceVO);
-
-		void delete_ProductManagementModel(int id);
+	ArrayList<ServiceVO> get_SalesModel(int id);
+	void insert_ProductManagement(ServiceVO serviceVO);
+	void delete_ProductManagementModel(int id);
 }

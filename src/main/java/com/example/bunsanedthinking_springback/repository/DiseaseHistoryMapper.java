@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface DiseaseHistoryMapper {
     public List<DiseaseHistoryVO> getAllByCustomerId_Customer(int id);
-		public List<DiseaseHistory> getTst();
+	public List<DiseaseHistory> getTst();
 
 	ArrayList<DiseaseHistoryVO> get_UnderWritingModel(int id);
 

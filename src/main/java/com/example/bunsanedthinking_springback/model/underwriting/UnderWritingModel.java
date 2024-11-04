@@ -54,7 +54,7 @@ import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.repository.ServiceMapper;
 import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import com.example.bunsanedthinking_springback.vo.AutomobileVO;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
@@ -191,8 +191,8 @@ public class UnderWritingModel {
 						insurance = injury;
 					}
 				}
-				ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-				for (AutomobileVO automobileVO : AutomobileVOs) {
+				ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+				for (AutoMobileVO automobileVO : AutomobileVOs) {
 					InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 					ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -370,8 +370,8 @@ public class UnderWritingModel {
 							product = injury;
 						}
 					}
-					ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-					for (AutomobileVO automobileVO : AutomobileVOs) {
+					ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+					for (AutoMobileVO automobileVO : AutomobileVOs) {
 						InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 						ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -601,8 +601,8 @@ public class UnderWritingModel {
 							product = injury;
 						}
 					}
-					ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-					for (AutomobileVO automobileVO : AutomobileVOs) {
+					ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+					for (AutoMobileVO automobileVO : AutomobileVOs) {
 						InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 						ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -882,8 +882,8 @@ public class UnderWritingModel {
 					product = injury;
 				}
 			}
-			ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-			for (AutomobileVO automobileVO : AutomobileVOs) {
+			ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+			for (AutoMobileVO automobileVO : AutomobileVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 

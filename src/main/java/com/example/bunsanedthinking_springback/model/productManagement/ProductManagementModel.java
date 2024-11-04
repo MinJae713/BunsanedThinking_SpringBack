@@ -5,19 +5,8 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
-import com.example.bunsanedthinking_springback.repository.InjuryMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.ServiceMapper;
-import com.example.bunsanedthinking_springback.vo.AutomobileVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseVO;
-import com.example.bunsanedthinking_springback.vo.InjuryVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-import com.example.bunsanedthinking_springback.vo.ServiceVO;
-
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -141,7 +130,7 @@ public class ProductManagementModel {
 		insuranceVO.setCoverage(automobileInsurance.getCoverage());
 		insuranceMapper.insert_ProductManagement(insuranceVO);
 
-		AutomobileVO automobileVO = new AutomobileVO();
+		AutoMobileVO automobileVO = new AutoMobileVO();
 		automobileVO.setProduct_id(automobileInsurance.getId());
 		automobileVO.setVehicle_type(((Automobile)automobileInsurance).getVehicleType().getValue());
 		automobileVO.setAccident_limit(((Automobile)automobileInsurance).getAccidentLimit());
@@ -208,8 +197,8 @@ public class ProductManagementModel {
 					insurance = injury;
 				}
 			}
-			ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-			for (AutomobileVO automobileVO : AutomobileVOs) {
+			ArrayList<AutoMobileVO> AutoMobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+			for (AutoMobileVO automobileVO : AutoMobileVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
@@ -434,7 +423,7 @@ public class ProductManagementModel {
 	public void updateInsuranceProduct(int index, String input, Automobile automobileInsurance, ArrayList<ServiceType> serviceTypeList, ProductList productList) throws DuplicateInsuranceException, NotExistException {
 		ProductVO productVO = new ProductVO();
 		InsuranceVO insuranceVO = new InsuranceVO();
-		AutomobileVO automobileVO = new AutomobileVO();
+		AutoMobileVO automobileVO = new AutoMobileVO();
 		ServiceVO serviceVO = new ServiceVO();
 		switch (index) {
 		case 1:
@@ -563,8 +552,8 @@ public class ProductManagementModel {
 			injury.setMonthlyPremium(insuranceVO.getMonthly_premium());
 			insurances.add(injury);
 		}
-		ArrayList<AutomobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
-		for (AutomobileVO automobileVO : AutomobileVOs) {
+		ArrayList<AutoMobileVO> AutomobileVOs = automobileMapper.getAllAutomobileInsurance_SalesModel();
+		for (AutoMobileVO automobileVO : AutomobileVOs) {
 			Automobile automobile = new Automobile();
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());

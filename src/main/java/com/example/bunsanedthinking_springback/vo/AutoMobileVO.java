@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutomobileVO {
+public class AutoMobileVO {
     private int product_id;
     private int vehicle_type;
     private int accident_limit;

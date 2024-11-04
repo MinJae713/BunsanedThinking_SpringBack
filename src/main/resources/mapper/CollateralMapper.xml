@@ -14,6 +14,8 @@
         where product_id = #{id}
     </select>
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+        select * from collateral
+    </select>
     <select id="getAllCollateralLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         select * from collateral
     </select>
