@@ -19,14 +19,15 @@ public class InsuranceContract extends Loan {
 
 	private int insuranceId;
 
-	public InsuranceContract(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
-			int insuranceId) {
+	public InsuranceContract(LoanType loanType, String name, int interestRate, int limit,
+		int minimumAsset, int insuranceId, int monthlyIncome) {
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
 		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
 		this.setInsuranceId(insuranceId);
+		this.setMonthlyIncome(monthlyIncome);
 	}
 
 	public InsuranceContract(ProductVO productVO, LoanVO loanVO, int productID) {
@@ -52,7 +53,7 @@ public class InsuranceContract extends Loan {
 	@Override
 	public Product clone() {
 		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),
-			getInsuranceId());
+			getInsuranceId(), getMonthlyIncome());
 		insuranceContractLoan.setId(getId());
 		return insuranceContractLoan;
 	}

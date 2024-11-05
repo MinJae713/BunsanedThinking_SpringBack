@@ -239,19 +239,22 @@ public class FinancialAccountantModel {
 					.orElseThrow(() -> new NotExistException("존재하지 않는 담보 대출 정보"));
 				return new Collateral(loanType, productVO.getName(), loanVO.getInterest_rate(),
 					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
-					CollateralType.indexOf(collateralVO.getCollateral_type()), collateralVO.getMinimum_value());
+					CollateralType.indexOf(collateralVO.getCollateral_type()),
+					collateralVO.getMinimum_value(), loanVO.getMonthly_income());
 			}
 			case InsuranceContract -> {
 				InsuranceContractVO insuranceContractVO = insuranceContractMapper.findById_LoanManagement(productVO.getId())
 					.orElseThrow(() -> new NotExistException("존재하지 않는 보험 계약 대출 정보"));
 				return new InsuranceContract(loanType, productVO.getName(), loanVO.getInterest_rate(),
-					productVO.getMaximum_money(), loanVO.getMinimum_asset(), insuranceContractVO.getInsurance_id());
+					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
+					insuranceContractVO.getInsurance_id(), loanVO.getMonthly_income());
 			}
 			case FixedDeposit -> {
 				FixedDepositVO fixedDepositVO = fixedDepositMapper.findById_LoanManagement(productVO.getId())
 					.orElseThrow(() -> new NotExistException("존재하지 않는 정기 예금 대출 정보"));
 				return new FixedDeposit(loanType, productVO.getName(), loanVO.getInterest_rate(),
-					productVO.getMaximum_money(), loanVO.getMinimum_asset(), fixedDepositVO.getMinimum_amount());
+					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
+					fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income());
 			}
 			default -> throw new NotExistException();
 		}
