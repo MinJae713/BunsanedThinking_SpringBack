@@ -44,4 +44,7 @@
         delete from product
         where id=#{param1}
     </delete>
+    <select id="isExistName" resultType="Integer">
+        select exists (select 1 from product where name = #{param1})
+    </select>
 </mapper>

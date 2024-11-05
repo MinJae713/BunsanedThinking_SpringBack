@@ -78,10 +78,9 @@ public class LoanManagementModel {
 	}
 
 	private void checkLoanName(String name) throws DuplicateLoanException {
-		for (ProductVO product : productMapper.getAll_LoanManagement()) {
-			if (product.getName().equals(name)) {
-				throw new DuplicateLoanException();
-			}
+		Integer isExistName = productMapper.isExistName(name);
+		if (isExistName == 1) {
+			throw new DuplicateLoanException();
 		}
 	}
 
