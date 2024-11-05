@@ -83,8 +83,8 @@ public class CustomerSupportModel {
 			ReportProcessStatus.Unprocessed.ordinal(), roadsideAssistanceCompanyId, damageAssessmentCompanyId);
 		reportMapper.insert_CustomerSupport(reportVO);
 	}
-	public ArrayList<Complaint> getAllComplaint() {
-		ArrayList<Complaint> result = new ArrayList<>();
+	public List<Complaint> getAllComplaint() {
+		List<Complaint> result = new ArrayList<>();
 		for (ComplaintVO complaintVO : complaintMapper.getAll_CustomerSupport()) {
 			result.add(new Complaint(
 				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(), complaintVO.getCustomer_id(),
@@ -94,16 +94,16 @@ public class CustomerSupportModel {
 		}
 		return result;
 	}
-	public ArrayList<Complaint> getAllUnprocessedComplaint() {
+	public List<Complaint> getAllUnprocessedComplaint() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
 	}
 
-	public ArrayList<Complaint> getAllProcessedComplant() {
+	public List<Complaint> getAllProcessedComplant() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Completed);
 	}
 
-	private ArrayList<Complaint> getAllByProcessStatus(ComplaintProcessStatus processStatus) {
-		ArrayList<Complaint> result = new ArrayList<>();
+	private List<Complaint> getAllByProcessStatus(ComplaintProcessStatus processStatus) {
+		List<Complaint> result = new ArrayList<>();
 		for (ComplaintVO complaintVO : complaintMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
 			result.add(new Complaint(
 				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(), complaintVO.getCustomer_id(),
@@ -134,8 +134,8 @@ public class CustomerSupportModel {
 		return customer;
 	}
 
-	public ArrayList<Accident> getAllAccident() {
-		ArrayList<Accident> result = new ArrayList<>();
+	public List<Accident> getAllAccident() {
+		List<Accident> result = new ArrayList<>();
 		for (AccidentVO accidentVO : accidentMapper.getAll_CustomerSupport()) {
 			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id());
 			if (optionalCustomerVO.isEmpty()) {
@@ -150,16 +150,16 @@ public class CustomerSupportModel {
 		return result;
 	}
 
-	public ArrayList<Accident> getAllUnprocessedAccident() {
+	public List<Accident> getAllUnprocessedAccident() {
 		return getAllByProcessStatus(AccidentProcessStatus.Unprocessed);
 	}
 
-	public ArrayList<Accident> getAllCompletedAccident() {
+	public List<Accident> getAllCompletedAccident() {
 		return getAllByProcessStatus(AccidentProcessStatus.Completed);
 	}
 
-	private ArrayList<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
-		ArrayList<Accident> result = new ArrayList<>();
+	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
+		List<Accident> result = new ArrayList<>();
 		for (AccidentVO accidentVO : accidentMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
 			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id());
 			if (optionalCustomerVO.isEmpty()) {
@@ -185,16 +185,16 @@ public class CustomerSupportModel {
 			ServiceType.indexOf(accidentVO.getService_type()));
 	}
 
-	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany() {
+	public List<PartnerCompany> getAllRoadAssistanceCompany() {
 		return getAllByPartnerCompanyType(PartnerCompanyType.RoadsideAssistanceCompany);
 	}
 
-	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany() {
+	public List<PartnerCompany> getAllDamageAssessmentCompany() {
 		return getAllByPartnerCompanyType(PartnerCompanyType.DamageAssessmentCompany);
 	}
 
-	private ArrayList<PartnerCompany> getAllByPartnerCompanyType(PartnerCompanyType partnerCompanyType) {
-		ArrayList<PartnerCompany> result = new ArrayList<>();
+	private List<PartnerCompany> getAllByPartnerCompanyType(PartnerCompanyType partnerCompanyType) {
+		List<PartnerCompany> result = new ArrayList<>();
 		for (PartnerCompanyVO partnerCompanyVO :
 			partnerCompanyMapper.findByPartnerType_CustomerSupport(partnerCompanyType.ordinal())) {
 			result.add(new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),

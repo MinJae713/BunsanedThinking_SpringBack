@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/customerSupport")
@@ -41,17 +42,17 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllComplaint")
-	public ArrayList<Complaint> getAllComplaint() {
+	public List<Complaint> getAllComplaint() {
 		return customerSupportModel.getAllComplaint();
 	}
 
 	@GetMapping("/getAllUnprocessedComplaint")
-	public ArrayList<Complaint> getAllUnprocessedComplaint() {
+	public List<Complaint> getAllUnprocessedComplaint() {
 		return customerSupportModel.getAllUnprocessedComplaint();
 	}
 
 	@GetMapping("/getAllProcessedComplant")
-	public ArrayList<Complaint> getAllProcessedComplant() {
+	public List<Complaint> getAllProcessedComplant() {
 		return customerSupportModel.getAllProcessedComplant();
 	}
 
@@ -66,17 +67,17 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllAccident")
-	public ArrayList<Accident> getAllAccident() {
+	public List<Accident> getAllAccident() {
 		return customerSupportModel.getAllAccident();
 	}
 
 	@GetMapping("/getAllUnprocessedReport")
-	public ArrayList<Accident> getAllUnprocessedReport() {
+	public List<Accident> getAllUnprocessedReport() {
 		return customerSupportModel.getAllUnprocessedAccident();
 	}
 
 	@GetMapping("/getAllCompletedReport")
-	public ArrayList<Accident> getAllCompletedReport() {
+	public List<Accident> getAllCompletedReport() {
 		return customerSupportModel.getAllCompletedAccident();
 	}
 
@@ -86,7 +87,7 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllRoadAssistanceCompany")
-	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany() {
+	public List<PartnerCompany> getAllRoadAssistanceCompany() {
 		return customerSupportModel.getAllRoadAssistanceCompany();
 	}
 
@@ -97,7 +98,7 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllDamageAssessmentCompany")
-	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany() {
+	public List<PartnerCompany> getAllDamageAssessmentCompany() {
 		return customerSupportModel.getAllDamageAssessmentCompany();
 	}
 
