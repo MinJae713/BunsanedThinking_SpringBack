@@ -243,10 +243,9 @@ public class LoanManagementModel {
 		LoanVO loanVO;
 		switch (index) {
 			case 1 -> {
-				for (ProductVO product : productMapper.getAll_LoanManagement()) {
-					if (product.getName().equals(input)) {
-						throw new DuplicateLoanException();
-					}
+				Integer isExistName = productMapper.isExistName(input);
+				if (isExistName == 1) {
+					throw new DuplicateLoanException();
 				}
 				productVO = productMapper.findById_LoanManagement(loanId)
 					.orElseThrow(NotExistException::new);
