@@ -66,4 +66,7 @@
         select *
         from employee
     </select>
+    <select id="isExistResidentRegistrationNumber" resultType="Integer">
+        SELECT EXISTS (SELECT 1 FROM employee WHERE resident_registration_number = #{param1})
+    </select>
 </mapper>

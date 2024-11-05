@@ -24,4 +24,6 @@ public interface EmployeeMapper {
 	void update_HumanResource(EmployeeVO employeeVO);
 
 	List<EmployeeVO> getAll_HumanResource();
+
+	Integer isExistResidentRegistrationNumber(String residentRegistrationNumber);
 }
