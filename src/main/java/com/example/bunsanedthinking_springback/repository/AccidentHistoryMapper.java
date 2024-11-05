@@ -23,4 +23,6 @@ public interface AccidentHistoryMapper {
 
     public void update_accidentHistory_CustomerInformationManagement(@Param("accidentHistory") AccidentHistory accidentHistory);
     public List<AccidentHistory> findAccidentHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+
+	Integer getMaxId_SalesModel();
 }

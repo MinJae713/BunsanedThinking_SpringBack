@@ -1,8 +1,13 @@
 package com.example.bunsanedthinking_springback.model.sales;
 
+import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
+import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractList;
+import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
@@ -102,97 +107,104 @@ public class SalesModel {
 		// counselList.update(counsel);
 	}
 
-	public Customer induceInsuranceProduct(String name, String address, String bankAccount, String bankName,
-		String phoneNumber,
-		String job, long property, String residentRegistrationNumber, int age, Gender gender,
-		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList,
-		ContractList contractList) {
-
-		Customer customer = new Customer(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
-			property, bankName, bankAccount);
-		CustomerVO customerVO = new CustomerVO();
-		customerVO.setId(customer.getId());
-		customerVO.setAddress(customer.getAddress());
-		customerVO.setAge(customer.getAge());
-		customerVO.setBank_account(customer.getBankAccount());
-		customerVO.setBank_name(customer.getBankName());
-		customerVO.setGender(customer.getGender().getValue());
-		customerVO.setJob(customer.getJob());
-		customerVO.setName(customer.getName());
-		customerVO.setPhone_number(customer.getPhoneNumber());
-		customerVO.setProperty(customer.getProperty());
-		customerVO.setResident_registration_number(customer.getResidentRegistrationNumber());
-		customerMapper.insert_SalesModel(customerVO);
-		// customerList.add(customer);
-
-		if (accidentHistoryList != null) {
-			for (AccidentHistory e : accidentHistoryList) {
-				e.setCustomerID(customer.getId());
-				customer.setAccidentHistoryList(accidentHistoryList);
-
-				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO();
-				accidentHistoryVO.setId(e.getId());
-				accidentHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				accidentHistoryVO.setDetails_of_accident(e.getAccidentDetail());
-				accidentHistoryVO.setCustomer_id(e.getCustomerID());
-				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
-				// accidentHistoryList.add(e);
-			}
-		}
-		if (surgeryHistoryList != null) {
-			for (SurgeryHistory e : surgeryHistoryList) {
-				e.setCustomerID(customer.getId());
-				customer.setSurgeryHistoryList(surgeryHistoryList);
-
-				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO();
-				surgeryHistoryVO.setId(e.getId());
-				surgeryHistoryVO.setHospital_name(e.getHospitalName());
-				surgeryHistoryVO.setName(e.getName());
-				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
-				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
-				// surgeryHistoryList.add(e);
-			}
-		}
-		if (diseaseHistoryList != null) {
-			for (DiseaseHistory e : diseaseHistoryList) {
-				e.setCustomer_id(customer.getId());
-				customer.setDiseaseHistoryList(diseaseHistoryList);
-
-				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
-				diseaseHistoryVO.setId(e.getId());
-				diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				diseaseHistoryVO.setName(e.getName());
-				diseaseHistoryVO.setCustomer_id(e.getCustomer_id());
-				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
-				// diseaseHistoryList.add(e);
-			}
-		}
-
-		Contract contract = new Contract(customer.getId(), product);
-		ContractVO contractVO = new ContractVO();
-		contractVO.setId(contract.getId());
-		contractVO.setDate(LocalDate.parse(contract.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		if (contract.getExpirationDate() != null) {
-			contractVO.setExpiration_date(LocalDate.parse(contract.getExpirationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
+		Integer maxId = customerMapper.getMaxId_SalesModel();
+		int customerId;
+		if (maxId == null) {
+			customerId = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
 		} else {
-			contractVO.setExpiration_date(null);
+			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER+ "").length());
+			customerId = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER+ "") + (Integer.parseInt(index)+1));
+		}
+		CustomerVO customerVO = new CustomerVO(customerId, induceDTO.getAddress(), induceDTO.getAge(),
+			induceDTO.getBankAccount(), induceDTO.getBankName(), induceDTO.getGender(),
+			induceDTO.getJob(), induceDTO.getName(), induceDTO.getPhoneNumber(),
+			induceDTO.getProperty(), induceDTO.getResidentRegistrationNumber());
+		customerMapper.insert_SalesModel(customerVO);
+
+		if (induceDTO.getAccidentHistoryList() != null) {
+			Integer accidentHistoryMaxId = accidentHistoryMapper.getMaxId_SalesModel();
+			int accidentHistoryId;
+			int maxIndex;
+			if (maxId == null) {
+				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else {
+				String index = (maxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for (AccidentHistoryDTO e : induceDTO.getAccidentHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO(accidentHistoryId, date,
+					e.getAccidentDetail(), customerId);
+				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
+				maxIndex++;
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+		}
+		if (induceDTO.getSurgeryHistoryList() != null) {
+			Integer surgeryHistoryMaxId = surgeryHistoryMapper.getMaxId_SalesModel();
+			int surgeryHistoryId;
+			int maxIndex;
+			if (surgeryHistoryMaxId == null) {
+				surgeryHistoryId = Integer.parseInt(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else {
+				String index = (surgeryHistoryMaxId + "").substring((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for (SurgeryHistoryDTO e : induceDTO.getSurgeryHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO(surgeryHistoryId, e.getHospitalName(),
+					e.getName(), date, customerId);
+				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+				maxIndex++;
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+		}
+		if (induceDTO.getDiseaseHistoryList() != null) {
+			Integer diseaseHistoryMaxId = diseaseHistoryMapper.getMaxId_SalesModel();
+			int diseaseHistoryId;
+			int maxIndex;
+			if (diseaseHistoryMaxId == null) {
+				diseaseHistoryId = Integer.parseInt(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else {
+				String index = (diseaseHistoryMaxId + "").substring((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for (DiseaseHistoryDTO e : induceDTO.getDiseaseHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO(diseaseHistoryId, date,
+					e.getName(), customerId);
+				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+				maxIndex++;
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
 		}
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		contractVO.setPayment_date(LocalDate.parse(String.valueOf(contract.getPaymentDate()), formatter));
-
-		contractVO.setTermination_date(LocalDate.parse(contract.getTerminationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		contractVO.setContract_status(contract.getContractStatus().getValue());
-		contractVO.setCustomer_id(contract.getCustomerID());
-		contractVO.setEmployee_id(contract.getEmployeeID());
-		contractVO.setProduct_id(contract.getProduct().getId());
-		contractVO.setLastpaid_date(contract.getLastPaidDate() != null ? LocalDate.parse(contract.getLastPaidDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		Integer contractMaxId = contractMapper.getMaxId_SalesModel();
+		int contractId;
+		if (contractMaxId == null) {
+			contractId = Integer.parseInt(Contract.CONTRACT_SERIAL_NUMBER + "1");
+		} else {
+			String index = (contractMaxId + "").substring((Contract.CONTRACT_SERIAL_NUMBER+ "").length());
+			contractId = Integer.parseInt((Contract.CONTRACT_SERIAL_NUMBER+ "") + (Integer.parseInt(index) + 1));
+		}
+		ContractVO contractVO = new ContractVO(contractId, null, null,
+			null, null, ContractStatus.ContractRequesting.ordinal(),
+			customerId, induceDTO.getEmployeeId(), induceDTO.getProductId(), null);
 		contractMapper.insert_SalesModel(contractVO);
-		// contractList.add(contract);
+		return new Customer(customerVO.getName(), customerVO.getPhone_number(), customerVO.getJob(), customerVO.getAge(),
+			Gender.fromInt(customerVO.getGender()), customerVO.getResident_registration_number(), customerVO.getAddress(),
+			customerVO.getProperty(), customerVO.getBank_name(), customerVO.getBank_account());
+	}
 
-		return customer;
+	public Customer induceLoanProduct(InduceDTO induceDTO){
+		return induceInsuranceProduct(induceDTO);
 	}
 
 	public Insurance getInsuranceProduct( int id) {
@@ -272,100 +284,6 @@ public class SalesModel {
 
 		return insurance;
 		// return (Insurance)productList.get(id);
-	}
-
-	public Customer induceLoanProduct(String name, String address, String bankAccount, String bankName,
-		String phoneNumber,
-		String job, long property, String residentRegistrationNumber, int age, Gender gender,
-		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList,
-		ContractList contractList) {
-
-		Customer customer = new Customer(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
-			property, bankName, bankAccount);
-		CustomerVO customerVO = new CustomerVO();
-		customerVO.setId(customer.getId());
-		customerVO.setAddress(customer.getAddress());
-		customerVO.setAge(customer.getAge());
-		customerVO.setBank_account(customer.getBankAccount());
-		customerVO.setBank_name(customer.getBankName());
-		customerVO.setGender(customer.getGender().getValue());
-		customerVO.setJob(customer.getJob());
-		customerVO.setName(customer.getName());
-		customerVO.setPhone_number(customer.getPhoneNumber());
-		customerVO.setProperty(customer.getProperty());
-		customerVO.setResident_registration_number(customer.getResidentRegistrationNumber());
-		customerMapper.insert_SalesModel(customerVO);
-		// customerList.add(customer);
-
-		if (accidentHistoryList != null) {
-			for (AccidentHistory e : accidentHistoryList) {
-				e.setCustomerID(customer.getId());
-				customer.setAccidentHistoryList(accidentHistoryList);
-
-				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO();
-				accidentHistoryVO.setId(e.getId());
-				accidentHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				accidentHistoryVO.setDetails_of_accident(e.getAccidentDetail());
-				accidentHistoryVO.setCustomer_id(e.getCustomerID());
-				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
-				// accidentHistoryList.add(e);
-			}
-		}
-		if (surgeryHistoryList != null) {
-			for (SurgeryHistory e : surgeryHistoryList) {
-				e.setCustomerID(customer.getId());
-				customer.setSurgeryHistoryList(surgeryHistoryList);
-
-				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO();
-				surgeryHistoryVO.setId(e.getId());
-				surgeryHistoryVO.setHospital_name(e.getHospitalName());
-				surgeryHistoryVO.setName(e.getName());
-				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
-				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
-				// surgeryHistoryList.add(e);
-			}
-		}
-		if (diseaseHistoryList != null) {
-			for (DiseaseHistory e : diseaseHistoryList) {
-				e.setCustomer_id(customer.getId());
-				customer.setDiseaseHistoryList(diseaseHistoryList);
-
-				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
-				diseaseHistoryVO.setId(e.getId());
-				diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-				diseaseHistoryVO.setName(e.getName());
-				diseaseHistoryVO.setCustomer_id(e.getCustomer_id());
-				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
-				// diseaseHistoryList.add(e);
-			}
-		}
-
-		Contract contract = new Contract(customer.getId(), product);
-		ContractVO contractVO = new ContractVO();
-		contractVO.setId(contract.getId());
-		contractVO.setDate(LocalDate.parse(contract.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		if (contract.getExpirationDate() != null) {
-			contractVO.setExpiration_date(LocalDate.parse(contract.getExpirationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		} else {
-			contractVO.setExpiration_date(null);
-		}
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		contractVO.setPayment_date(LocalDate.parse(String.valueOf(contract.getPaymentDate()), formatter));
-
-		contractVO.setTermination_date(LocalDate.parse(contract.getTerminationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		contractVO.setContract_status(contract.getContractStatus().getValue());
-		contractVO.setCustomer_id(contract.getCustomerID());
-		contractVO.setEmployee_id(contract.getEmployeeID());
-		contractVO.setProduct_id(contract.getProduct().getId());
-		contractVO.setLastpaid_date(contract.getLastPaidDate() != null ? LocalDate.parse(contract.getLastPaidDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
-		contractMapper.insert_SalesModel(contractVO);
-		// contractList.add(contract);
-
-		return customer;
-
 	}
 
 	public Loan getLoanProduct(int id){
@@ -642,16 +560,27 @@ public class SalesModel {
 		return products;
 	}
 
-	public void addDiseaseHistory(DiseaseHistory diseaseHistory) {
-		// SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-		// Date date = formatter.parse(dateOfDiagnosis);
-		// DiseaseHistory diseaseHistory = new DiseaseHistory(diseaseName, date);
+	public int addDiseaseHistory(DiseaseHistory diseaseHistory) {
 		DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO();
-		diseaseHistoryVO.setId(diseaseHistory.getId());
+
+		Integer diseaseHistoryId = diseaseHistoryMapper.getMaxId_SalesModel();
+		if (diseaseHistoryId == null) {
+			diseaseHistoryId = Integer.parseInt("" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + 1);
+		} else {
+			int diseaseHistorySerialLength = ("" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER).length();
+			String index = (diseaseHistoryId + "").substring(diseaseHistorySerialLength);
+			index = (Integer.parseInt(index) + 1) + "";
+			String compound = "" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + index;
+			diseaseHistoryId = Integer.parseInt(compound);
+		}
+
+		diseaseHistoryVO.setId(diseaseHistoryId);
 		diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(diseaseHistory.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		diseaseHistoryVO.setName(diseaseHistory.getName());
-		diseaseHistoryVO.setCustomer_id(diseaseHistory.getCustomer_id());
-		diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+
+		diseaseHistoryMapper.insertExcludedCustomerId_SalesModel(diseaseHistoryVO);
+
+		return diseaseHistoryVO.getId();
 		// diseaseHistoryList.add(diseaseHistory);
 	}
 

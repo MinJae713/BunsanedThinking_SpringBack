@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -122,26 +124,20 @@ public class SalesController {
 		salesModel.handleInsuranceConsultation(id);
 	}
 
-	public Customer induceInsuranceProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
-		String job, long property, String residentRegistrationNumber, int age, Gender gender,
-		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
-		return salesModel.induceInsuranceProduct(name, address, bankAccount, bankName, phoneNumber, job, property, residentRegistrationNumber,
-			age, gender, diseaseHistoryList, surgeryHistoryList, accidentHistoryList, product, customerList, contractList);
+
+	@PostMapping("/induceInsuranceProduct")
+	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
+		return salesModel.induceInsuranceProduct(induceDTO);
+	}
+
+	@PostMapping("/induceLoanProduct")
+	public Customer induceLoanProduct(InduceDTO induceDTO) {
+		return salesModel.induceLoanProduct(induceDTO);
 	}
 
 	@GetMapping("/getInsuranceProduct")
 	public Insurance getInsuranceProduct(int id) {
 		return salesModel.getInsuranceProduct(id);
-	}
-
-	public Customer induceLoanProduct(String name, String address, String bankAccount, String bankName, String phoneNumber,
-		String job, long property, String residentRegistrationNumber, int age, Gender gender,
-		ArrayList<DiseaseHistory> diseaseHistoryList, ArrayList<SurgeryHistory> surgeryHistoryList,
-		ArrayList<AccidentHistory> accidentHistoryList, Product product, CustomerList customerList, ContractList contractList) {
-		return salesModel.induceLoanProduct(name, address, bankAccount, bankName, phoneNumber, job, property,
-			residentRegistrationNumber, age, gender, diseaseHistoryList, surgeryHistoryList,
-			accidentHistoryList, product, customerList, contractList);
 	}
 
 	@GetMapping("/getLoanProduct")
@@ -179,10 +175,9 @@ public class SalesController {
 		return salesModel.getAllProduct();
 	}
 
-	//이부분 문제다 생각해보니까
 	@PostMapping("/addDiseaseHistory")
-	public void add(DiseaseHistory diseaseHistory){
-		salesModel.addDiseaseHistory(diseaseHistory);
+	public int addDiseaseHistory(@RequestBody DiseaseHistory diseaseHistory){
+		return salesModel.addDiseaseHistory(diseaseHistory);
 	}
 
 	@PatchMapping("/updateContractCount")

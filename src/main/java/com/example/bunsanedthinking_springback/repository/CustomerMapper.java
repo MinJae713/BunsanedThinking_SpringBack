@@ -30,4 +30,6 @@ public interface CustomerMapper {
     public Customer findByResidentRegistrationNumber_CustomerInformationManagement(String residentRegistrationNumber);
     public void update_CustomerInformationManagement(@Param("customer") Customer customer);
     public List<Customer> getAll_CustomerInformationManagement();
+
+	Integer getMaxId_SalesModel();
 }

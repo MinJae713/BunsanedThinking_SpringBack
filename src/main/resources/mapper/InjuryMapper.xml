@@ -5,6 +5,10 @@
         select * from injury
         where product_id = #{id}
     </select>
+    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.InjuryVO">
+        select * from injury
+        where product_id = #{id}
+    </select>
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InjuryVO">
         select * from injury
     </select>

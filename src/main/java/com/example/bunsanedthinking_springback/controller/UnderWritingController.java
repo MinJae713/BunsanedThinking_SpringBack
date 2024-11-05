@@ -67,8 +67,7 @@ public class UnderWritingController {
 
 	@GetMapping("/getAllRequestingInsurance")
 	public ArrayList<Contract> getAllRequestingInsurance() throws
-		NotExistException,
-		IOException {
+		NotExistException{
 		return underWritingModel.getAllRequestingInsurance();
 	}
 

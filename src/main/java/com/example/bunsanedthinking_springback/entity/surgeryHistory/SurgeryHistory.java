@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -32,7 +33,7 @@ public class SurgeryHistory implements Cloneable {
 	}
 	public SurgeryHistory(SurgeryHistoryVO surgeryHistoryVO) {
 		customerID = surgeryHistoryVO.getCustomer_id();
-		LocalDateTime localDate = surgeryHistoryVO.getDate();
+		LocalDate localDate = surgeryHistoryVO.getDate();
 		int year = localDate.getYear();
 		int month = localDate.getMonthValue();
 		int day = localDate.getDayOfMonth();

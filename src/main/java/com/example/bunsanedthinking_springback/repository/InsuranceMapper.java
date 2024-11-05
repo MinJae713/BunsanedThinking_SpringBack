@@ -16,4 +16,8 @@ public interface InsuranceMapper {
 	void insert_ProductManagement(@Param("insurance")InsuranceVO insuranceVO);
 	void update_ProductManagementModel(InsuranceVO insuranceVO);
 	Optional<InsuranceVO> findById_FinancialAccountant(int id);
+
+	InsuranceVO getById_ProductManagementModel(int productId);
+
+	Integer getMaxId_ProductManagementModel();
 }

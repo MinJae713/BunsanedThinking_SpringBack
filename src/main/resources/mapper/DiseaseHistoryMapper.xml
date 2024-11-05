@@ -26,27 +26,45 @@
                )
     </insert>
 
+    <insert id="insertExcludedCustomerId_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        INSERT INTO DiseaseHistory (id, date_of_diagnosis, name)
+        VALUES (
+                   #{id},
+                   #{date_of_diagnosis},
+                   #{name}
+               )
+    </insert>
+
+    <select id="getMaxId" resultType="int">
+        select MAX(id) from DiseaseHistory
+    </select>
+
     <insert id="insert_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        INSERT INTO disease_history (customer_id, description, date, cost)
+        INSERT INTO DiseaseHistory (customer_id, description, date, cost)
         VALUES (#{diseaseHistory.customerId},
                 #{diseaseHistory.description},
                 #{diseaseHistory.date},
                 #{diseaseHistory.cost});
     </insert>
     <select id="findDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        SELECT * FROM disease_history
+        SELECT * FROM DiseaseHistory
         WHERE customer_id = #{customerId};
     </select>
     <delete id="deleteDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int">
-        DELETE FROM disease_history
+        DELETE FROM DiseaseHistory
         WHERE customer_id = #{customerId};
     </delete>
     <update id="update_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        UPDATE disease_history
+        UPDATE DiseaseHistory
         SET description = #{diseaseHistory.description},
             date = #{diseaseHistory.date},
             cost = #{diseaseHistory.cost}
         WHERE id = #{diseaseHistory.id};
     </update>
+
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from DiseaseHistory
+    </select>
 
 </mapper>

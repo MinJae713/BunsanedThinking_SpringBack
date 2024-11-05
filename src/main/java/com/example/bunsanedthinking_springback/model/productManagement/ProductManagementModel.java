@@ -2,7 +2,6 @@ package com.example.bunsanedthinking_springback.model.productManagement;
 
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -36,113 +35,142 @@ public class ProductManagementModel {
 	@Autowired
 	private InjuryMapper injuryMapper;
 
-	public static String serialNumber = "090";
-
-	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-									int contractPeriod, String diseaseName, int diseaseLimit, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
+	public void addDiseaseInsurance(Disease disease) throws DuplicateInsuranceException {
 
 		for (Product product : getAll()) {
-			if (product.getName().equals(name)) {
+			if (product.getName().equals(disease.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
-		Insurance diseaseInsurance = new Disease(insuranceType, name, limit, ageRange, coverage, monthlyPremium, contractPeriod,
-				diseaseName, diseaseLimit, surgeriesLimit);
+
+		Integer productId = insuranceMapper.getMaxId_ProductManagementModel();
+		if (productId == null) {
+			productId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
+		} else {
+			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
+			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
+			String index = (productId + "").substring(productSerialLength + insuranceSerialLength);
+			index = (Integer.parseInt(index) + 1) + "";
+			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
+			productId = Integer.parseInt(compound);
+		}
+		disease.setId(productId);
 
 		ProductVO productVO = new ProductVO();
-		productVO.setId(diseaseInsurance.getId());
-		productVO.setName(diseaseInsurance.getName());
-		productVO.setMaximum_money(diseaseInsurance.getMaximumMoney());
+		productVO.setId(productId);
+		productVO.setName(disease.getName());
+		productVO.setMaximum_money(disease.getMaximumMoney());
 		productMapper.insert_LoanManagement(productVO);
 
 		InsuranceVO insuranceVO = new InsuranceVO();
-		insuranceVO.setProduct_id(diseaseInsurance.getId());
-		insuranceVO.setInsurance_type(diseaseInsurance.getInsuranceType().getValue());
-		insuranceVO.setMonthly_premium(diseaseInsurance.getMonthlyPremium());
-		insuranceVO.setContract_period(diseaseInsurance.getContractPeriod());
-		insuranceVO.setCoverage(diseaseInsurance.getCoverage());
+		insuranceVO.setProduct_id(productId);
+		insuranceVO.setInsurance_type(disease.getInsuranceType().getValue());
+		insuranceVO.setMonthly_premium(disease.getMonthlyPremium());
+		insuranceVO.setContract_period(disease.getContractPeriod());
+		insuranceVO.setCoverage(disease.getCoverage());
 		insuranceMapper.insert_ProductManagement(insuranceVO);
 
 		DiseaseVO diseaseVO = new DiseaseVO();
-		diseaseVO.setProduct_id(diseaseInsurance.getId());
-		diseaseVO.setDisease_name(diseaseInsurance.getName());
-		diseaseVO.setDisease_limit(((Disease)diseaseInsurance).getDiseaseLimit());
-		diseaseVO.setSurgeries_limit(((Disease)diseaseInsurance).getSurgeriesLimit());
+		diseaseVO.setProduct_id(productId);
+		diseaseVO.setDisease_name(disease.getName());
+		diseaseVO.setDisease_limit(disease.getDiseaseLimit());
+		diseaseVO.setSurgeries_limit(disease.getSurgeriesLimit());
 		diseaseMapper.insert_ProductManagement(diseaseVO);
-
 		// productList.add(diseaseInsurance);
 	}
 
-	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-									int contractPeriod, InjuryType injuryType, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
-			for (Product product :getAll()) {
-				if (product.getName().equals(name)) {
-					throw new DuplicateInsuranceException();
-				}
-			}
-		Insurance injuryInsurance = new Injury(insuranceType, name, limit, ageRange, coverage, monthlyPremium, contractPeriod, injuryType,
-				surgeriesLimit);
-
-		ProductVO productVO = new ProductVO();
-		productVO.setId(injuryInsurance.getId());
-		productVO.setName(injuryInsurance.getName());
-		productVO.setMaximum_money(injuryInsurance.getMaximumMoney());
-		productMapper.insert_LoanManagement(productVO);
-
-		InsuranceVO insuranceVO = new InsuranceVO();
-		insuranceVO.setProduct_id(injuryInsurance.getId());
-		insuranceVO.setInsurance_type(injuryInsurance.getInsuranceType().getValue());
-		insuranceVO.setMonthly_premium(injuryInsurance.getMonthlyPremium());
-		insuranceVO.setContract_period(injuryInsurance.getContractPeriod());
-		insuranceVO.setCoverage(injuryInsurance.getCoverage());
-		insuranceMapper.insert_ProductManagement(insuranceVO);
-
-		InjuryVO injuryVO = new InjuryVO();
-		injuryVO.setProduct_id(injuryInsurance.getId());
-		injuryVO.setInjury_type(injuryInsurance.getInsuranceType().getValue());
-		injuryVO.setSurgeries_limit(((Injury)injuryInsurance).getSurgeriesLimit());
-		injuryMapper.insert_ProductManagement(injuryVO);
-		// productList.add(injuryInsurance);
-	}
-
-	public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-			int contractPeriod, int accidentLimit, VehicleType vehicleType, ArrayList<ServiceType> serviceTypeList,
-			ProductList productList) throws DuplicateInsuranceException {
-		for (Product product :getAll()) {
-			if (product.getName().equals(name)) {
+	public void addInjuryInsurance(Injury injury) throws DuplicateInsuranceException {
+		for (Product product : getAll()) {
+			if (product.getName().equals(injury.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
-		Insurance automobileInsurance = new Automobile(insuranceType, name, limit, ageRange, coverage, monthlyPremium, contractPeriod,
-				accidentLimit, vehicleType, serviceTypeList);
+
+		Integer productId = insuranceMapper.getMaxId_ProductManagementModel();
+		if (productId == null) {
+			productId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
+		} else {
+			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
+			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
+			String index = (productId + "").substring(productSerialLength + insuranceSerialLength);
+			index = (Integer.parseInt(index) + 1) + "";
+			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
+			productId = Integer.parseInt(compound);
+		}
+		injury.setId(productId);
 
 		ProductVO productVO = new ProductVO();
-		productVO.setId(automobileInsurance.getId());
-		productVO.setName(automobileInsurance.getName());
-		productVO.setMaximum_money(automobileInsurance.getMaximumMoney());
+		productVO.setId(productId);
+		productVO.setName(injury.getName());
+		productVO.setMaximum_money(injury.getMaximumMoney());
 		productMapper.insert_LoanManagement(productVO);
 
 		InsuranceVO insuranceVO = new InsuranceVO();
-		insuranceVO.setProduct_id(automobileInsurance.getId());
-		insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-		insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-		insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-		insuranceVO.setCoverage(automobileInsurance.getCoverage());
+		insuranceVO.setProduct_id(productId);
+		insuranceVO.setInsurance_type(injury.getInsuranceType().getValue());
+		insuranceVO.setMonthly_premium(injury.getMonthlyPremium());
+		insuranceVO.setContract_period(injury.getContractPeriod());
+		insuranceVO.setCoverage(injury.getCoverage());
+		insuranceMapper.insert_ProductManagement(insuranceVO);
+
+		InjuryVO injuryVO = new InjuryVO();
+		injuryVO.setProduct_id(productId);
+		injuryVO.setInjury_type(injury.getInjuryType().getValue());
+		injuryVO.setSurgeries_limit(injury.getSurgeriesLimit());
+		injuryMapper.insert_ProductManagement(injuryVO);
+
+		// productList.add(injury);
+	}
+
+
+	public void addAutomobileInsurance(Automobile automobile) throws DuplicateInsuranceException {
+		for (Product product : getAll()) {
+			if (product.getName().equals(automobile.getName())) {
+				throw new DuplicateInsuranceException();
+			}
+		}
+
+		Integer productId = insuranceMapper.getMaxId_ProductManagementModel();
+		if (productId == null) {
+			productId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
+		} else {
+			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
+			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
+			String index = (productId + "").substring(productSerialLength + insuranceSerialLength);
+			index = (Integer.parseInt(index) + 1) + "";
+			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
+			productId = Integer.parseInt(compound);
+		}
+		automobile.setId(productId);
+
+		ProductVO productVO = new ProductVO();
+		productVO.setId(automobile.getId());
+		productVO.setName(automobile.getName());
+		productVO.setMaximum_money(automobile.getMaximumMoney());
+		productMapper.insert_LoanManagement(productVO);
+
+		InsuranceVO insuranceVO = new InsuranceVO();
+		insuranceVO.setProduct_id(automobile.getId());
+		insuranceVO.setInsurance_type(automobile.getInsuranceType().getValue());
+		insuranceVO.setMonthly_premium(automobile.getMonthlyPremium());
+		insuranceVO.setContract_period(automobile.getContractPeriod());
+		insuranceVO.setCoverage(automobile.getCoverage());
 		insuranceMapper.insert_ProductManagement(insuranceVO);
 
 		AutoMobileVO automobileVO = new AutoMobileVO();
-		automobileVO.setProduct_id(automobileInsurance.getId());
-		automobileVO.setVehicle_type(((Automobile)automobileInsurance).getVehicleType().getValue());
-		automobileVO.setAccident_limit(((Automobile)automobileInsurance).getAccidentLimit());
+		automobileVO.setProduct_id(automobile.getId());
+		automobileVO.setVehicle_type(automobile.getVehicleType().getValue());
+		automobileVO.setAccident_limit(automobile.getAccidentLimit());
 		automobileMapper.insert_ProductManagement(automobileVO);
 
-		for(ServiceType serviceType :((Automobile)automobileInsurance).getServiceList()){
+		for (ServiceType serviceType : automobile.getServiceList()) {
 			ServiceVO serviceVO = new ServiceVO();
-			serviceVO.setProduct_id(automobileInsurance.getId());
+			serviceVO.setProduct_id(automobile.getId());
 			serviceVO.setService(serviceType.getValue());
 			serviceMapper.insert_ProductManagement(serviceVO);
 		}
-		// productList.add(automobileInsurance);
+
+		// productList.add(automobile);
 	}
 
 	public void deleteInsuranceProduct(int id){
@@ -235,10 +263,11 @@ public class ProductManagementModel {
 		}
 	}
 
-	public void updateInsuranceProduct(int index, String input, Disease diseaseInsurance, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-		ProductVO productVO = new ProductVO();
-		InsuranceVO insuranceVO = new InsuranceVO();
-		DiseaseVO diseaseVO = new DiseaseVO();
+	public void updateDiseaseInsurance(int index, String input, int id) throws DuplicateInsuranceException{
+
+		DiseaseVO diseaseVO = diseaseMapper.getById_ProductManagementModel(id);
+		ProductVO productVO = productMapper.getById_ProductManagementModel(diseaseVO.getProduct_id());
+		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(diseaseVO.getProduct_id());
 
 		switch (index) {
 		case 1:
@@ -247,82 +276,41 @@ public class ProductManagementModel {
 					throw new DuplicateInsuranceException();
 				}
 			}
-			diseaseInsurance.setName(input);
-			productVO.setId(diseaseInsurance.getId());
-			productVO.setName(diseaseInsurance.getName());
-			productVO.setMaximum_money(diseaseInsurance.getMaximumMoney());
-			productMapper.update_ProductManagementModel(productVO);
+			productVO.setName(input);
+			productMapper.updateName_ProductManagementModel(productVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 2:
-			diseaseInsurance.setAgeRange(Integer.parseInt(input));
-			insuranceVO.setProduct_id(diseaseInsurance.getId());
-			insuranceVO.setInsurance_type(diseaseInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(diseaseInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(diseaseInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(diseaseInsurance.getContractPeriod());
-			insuranceVO.setCoverage(diseaseInsurance.getCoverage());
+			insuranceVO.setAge_range(Integer.parseInt(input));
 			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(diseaseInsurance);
 			break;
 		case 3:
-			diseaseInsurance.setCoverage(input);
-			insuranceVO.setProduct_id(diseaseInsurance.getId());
-			insuranceVO.setInsurance_type(diseaseInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(diseaseInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(diseaseInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(diseaseInsurance.getContractPeriod());
-			insuranceVO.setCoverage(diseaseInsurance.getCoverage());
+			insuranceVO.setCoverage(input);
 			insuranceMapper.update_ProductManagementModel(insuranceVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 4:
-			diseaseInsurance.setMonthlyPremium(Integer.parseInt(input));
-			insuranceVO.setProduct_id(diseaseInsurance.getId());
-			insuranceVO.setInsurance_type(diseaseInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(diseaseInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(diseaseInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(diseaseInsurance.getContractPeriod());
-			insuranceVO.setCoverage(diseaseInsurance.getCoverage());
+			insuranceVO.setMonthly_premium(Integer.parseInt(input));
 			insuranceMapper.update_ProductManagementModel(insuranceVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 5:
-			int contractPeriod  = Integer.parseInt(input);
-			diseaseInsurance.setContractPeriod(contractPeriod);
-			insuranceVO.setProduct_id(diseaseInsurance.getId());
-			insuranceVO.setInsurance_type(diseaseInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(diseaseInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(diseaseInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(diseaseInsurance.getContractPeriod());
-			insuranceVO.setCoverage(diseaseInsurance.getCoverage());
+			insuranceVO.setContract_period(Integer.parseInt(input));
 			insuranceMapper.update_ProductManagementModel(insuranceVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 6:
-			diseaseInsurance.setDiseaseLimit(Integer.parseInt(input));
-			diseaseVO.setProduct_id(((Disease)diseaseInsurance).getId());
-			diseaseVO.setDisease_name(((Disease)diseaseInsurance).getDiseaseName());
-			diseaseVO.setDisease_limit(((Disease)diseaseInsurance).getDiseaseLimit());
-			diseaseVO.setSurgeries_limit(((Disease)diseaseInsurance).getSurgeriesLimit());
+			diseaseVO.setDisease_limit(Integer.parseInt(input));
 			diseaseMapper.update_ProductManagementModel(diseaseVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 7:
-			diseaseInsurance.setDiseaseName(input);
-			diseaseVO.setProduct_id(((Disease)diseaseInsurance).getId());
-			diseaseVO.setDisease_name(((Disease)diseaseInsurance).getDiseaseName());
-			diseaseVO.setDisease_limit(((Disease)diseaseInsurance).getDiseaseLimit());
-			diseaseVO.setSurgeries_limit(((Disease)diseaseInsurance).getSurgeriesLimit());
+			diseaseVO.setDisease_name(input);
 			diseaseMapper.update_ProductManagementModel(diseaseVO);
 			// productList.update(diseaseInsurance);
 			break;
 		case 8:
-			diseaseInsurance.setSurgeriesLimit(Integer.parseInt(input));
-			diseaseVO.setProduct_id(((Disease)diseaseInsurance).getId());
-			diseaseVO.setDisease_name(((Disease)diseaseInsurance).getDiseaseName());
-			diseaseVO.setDisease_limit(((Disease)diseaseInsurance).getDiseaseLimit());
-			diseaseVO.setSurgeries_limit(((Disease)diseaseInsurance).getSurgeriesLimit());
+			diseaseVO.setSurgeries_limit(Integer.parseInt(input));
 			diseaseMapper.update_ProductManagementModel(diseaseVO);
 			// productList.update(diseaseInsurance);
 			break;
@@ -331,198 +319,128 @@ public class ProductManagementModel {
 		}
 	}
 
-	public void updateInsuranceProduct(int index, String input, Injury injuryInsurance, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-		ProductVO productVO = new ProductVO();
-		InsuranceVO insuranceVO = new InsuranceVO();
-		InjuryVO injuryVO = new InjuryVO();
+	public void updateInjuryInsurance(int index, String input, int id) throws DuplicateInsuranceException{
+		InjuryVO injuryVO = injuryMapper.getById_ProductManagementModel(id);
+		ProductVO productVO = productMapper.getById_ProductManagementModel(injuryVO.getProduct_id());
+		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(injuryVO.getProduct_id());
 
 		switch (index) {
-		case 1:
-			for (Product product : getAll()) {
-				if (product.getName().equals(input)) {
-					throw new DuplicateInsuranceException();
+			case 1:
+				for (Product product : getAll()) {
+					if (product.getName().equals(input)) {
+						throw new DuplicateInsuranceException();
+					}
 				}
-			}
-			injuryInsurance.setName(input);
-			productVO.setId(injuryInsurance.getId());
-			productVO.setName(injuryInsurance.getName());
-			productVO.setMaximum_money(injuryInsurance.getMaximumMoney());
-			productMapper.update_ProductManagementModel(productVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 2:
-			injuryInsurance.setAgeRange(Integer.parseInt(input));
-			insuranceVO.setProduct_id(injuryInsurance.getId());
-			insuranceVO.setInsurance_type(injuryInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(injuryInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(injuryInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(injuryInsurance.getContractPeriod());
-			insuranceVO.setCoverage(injuryInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 3:
-			injuryInsurance.setCoverage(input);
-			insuranceVO.setProduct_id(injuryInsurance.getId());
-			insuranceVO.setInsurance_type(injuryInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(injuryInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(injuryInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(injuryInsurance.getContractPeriod());
-			insuranceVO.setCoverage(injuryInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 4:
-			injuryInsurance.setMonthlyPremium(Integer.parseInt(input));
-			insuranceVO.setProduct_id(injuryInsurance.getId());
-			insuranceVO.setInsurance_type(injuryInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(injuryInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(injuryInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(injuryInsurance.getContractPeriod());
-			insuranceVO.setCoverage(injuryInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 5:
-			int contractPeriod = Integer.parseInt(input);
-			injuryInsurance.setContractPeriod(contractPeriod);
-			insuranceVO.setProduct_id(injuryInsurance.getId());
-			insuranceVO.setInsurance_type(injuryInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(injuryInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(injuryInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(injuryInsurance.getContractPeriod());
-			insuranceVO.setCoverage(injuryInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 6:
-			if (InjuryType.Minor.ordinal() == (Integer.parseInt(input) - 1)) {
-				injuryInsurance.setInjuryType(InjuryType.Minor);
-			} else if (InjuryType.Serious.ordinal() == (Integer.parseInt(input) - 1)) {
-				injuryInsurance.setInjuryType(InjuryType.Serious);
-			}
-			injuryVO.setProduct_id(injuryInsurance.getId());
-			injuryVO.setInjury_type(injuryInsurance.getInjuryType().getValue());
-			injuryVO.setSurgeries_limit(injuryInsurance.getSurgeriesLimit());
-			injuryMapper.update_ProductManagementModel(injuryVO);
-			// productList.update(injuryInsurance);
-			break;
-		case 7:
-			injuryInsurance.setSurgeriesLimit(Integer.parseInt(input));
-			injuryVO.setProduct_id(injuryInsurance.getId());
-			injuryVO.setInjury_type(injuryInsurance.getInjuryType().getValue());
-			injuryVO.setSurgeries_limit(injuryInsurance.getSurgeriesLimit());
-			injuryMapper.update_ProductManagementModel(injuryVO);
-			// productList.update(injuryInsurance);
-			break;
-		default:
-			break;
+				productVO.setName(input);
+				productMapper.updateName_ProductManagementModel(productVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 2:
+				insuranceVO.setAge_range(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				break;
+			case 3:
+				insuranceVO.setCoverage(input);
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 4:
+				insuranceVO.setMonthly_premium(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 5:
+				insuranceVO.setContract_period(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 6:
+				if (InjuryType.Minor.ordinal() == (Integer.parseInt(input) - 1)) {
+					injuryVO.setInjury_type(InjuryType.Minor.getValue());
+				} else if (InjuryType.Serious.ordinal() == (Integer.parseInt(input) - 1)) {
+					injuryVO.setInjury_type(InjuryType.Serious.getValue());
+				}
+				injuryMapper.update_ProductManagementModel(injuryVO);
+				// productList.update(injuryInsurance);
+				break;
+			case 7:
+				injuryVO.setSurgeries_limit(Integer.parseInt(input));
+				injuryMapper.update_ProductManagementModel(injuryVO);
+				// productList.update(injuryInsurance);
+				break;
+			default:
+				break;
 		}
 	}
 
-	public void updateInsuranceProduct(int index, String input, Automobile automobileInsurance, ArrayList<ServiceType> serviceTypeList, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-		ProductVO productVO = new ProductVO();
-		InsuranceVO insuranceVO = new InsuranceVO();
-		AutoMobileVO automobileVO = new AutoMobileVO();
-		ServiceVO serviceVO = new ServiceVO();
-		switch (index) {
-		case 1:
-			for (Product product : getAll()) {
-				if (product.getName().equals(input)) {
-					throw new DuplicateInsuranceException();
-				}
-			}
-			automobileInsurance.setName(input);
-			productVO.setId(automobileInsurance.getId());
-			productVO.setName(automobileInsurance.getName());
-			productVO.setMaximum_money(automobileInsurance.getMaximumMoney());
-			productMapper.update_ProductManagementModel(productVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 2:
-			automobileInsurance.setAgeRange(Integer.parseInt(input));
-			insuranceVO.setProduct_id(automobileInsurance.getId());
-			insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(automobileInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-			insuranceVO.setCoverage(automobileInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 3:
-			automobileInsurance.setCoverage(input);
-			insuranceVO.setProduct_id(automobileInsurance.getId());
-			insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(automobileInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-			insuranceVO.setCoverage(automobileInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 4:
-			automobileInsurance.setMonthlyPremium(Integer.parseInt(input));
-			insuranceVO.setProduct_id(automobileInsurance.getId());
-			insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(automobileInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-			insuranceVO.setCoverage(automobileInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 5:
-			int contractPeriod = Integer.parseInt(input);
-			automobileInsurance.setContractPeriod(contractPeriod);
-			insuranceVO.setProduct_id(automobileInsurance.getId());
-			insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(automobileInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-			insuranceVO.setCoverage(automobileInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 6:
-			automobileInsurance.setAccidentLimit(Integer.parseInt(input));
-			insuranceVO.setProduct_id(automobileInsurance.getId());
-			insuranceVO.setInsurance_type(automobileInsurance.getInsuranceType().getValue());
-			insuranceVO.setAge_range(automobileInsurance.getAgeRange());
-			insuranceVO.setMonthly_premium(automobileInsurance.getMonthlyPremium());
-			insuranceVO.setContract_period(automobileInsurance.getContractPeriod());
-			insuranceVO.setCoverage(automobileInsurance.getCoverage());
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 7:
-			if (VehicleType.Small.ordinal() == (Integer.parseInt(input) - 1)) {
-				automobileInsurance.setVehicleType(VehicleType.Small);
-			} else if (VehicleType.Medium.ordinal() == (Integer.parseInt(input) - 1)) {
-				automobileInsurance.setVehicleType(VehicleType.Medium);
-			} else if (VehicleType.Large.ordinal() == (Integer.parseInt(input) - 1)) {
-				automobileInsurance.setVehicleType(VehicleType.Large);
-			}
+	public void updateAutomobileInsurance(int index, String input, int id, ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException {
 
-			automobileVO.setProduct_id(automobileInsurance.getId());
-			automobileVO.setVehicle_type(automobileInsurance.getVehicleType().getValue());
-			automobileVO.setAccident_limit(automobileInsurance.getAccidentLimit());
-			automobileMapper.update_ProductManagementModel(automobileVO);
-			// productList.update(automobileInsurance);
-			break;
-		case 8:
-			automobileInsurance.setServiceList((ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList()));
-			serviceMapper.delete_ProductManagementModel(automobileInsurance.getId());
-			for(ServiceType serviceType: automobileInsurance.getServiceList()){
-				serviceVO.setProduct_id(automobileInsurance.getId());
-				serviceVO.setService(serviceType.getValue());
-				serviceMapper.insert_ProductManagement(serviceVO);
-			}
-			// productList.update(automobileInsurance);
-			break;
-		default:
-			break;
+		AutoMobileVO autoMobileVO = automobileMapper.getById_ProductManagementModel(id);
+		ProductVO productVO = productMapper.getById_ProductManagementModel(autoMobileVO.getProduct_id());
+		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(autoMobileVO.getProduct_id());
+
+		switch (index) {
+			case 1:
+				for (Product product : getAll()) {
+					if (product.getName().equals(input)) {
+						throw new DuplicateInsuranceException();
+					}
+				}
+				productVO.setName(input);
+				productMapper.updateName_ProductManagementModel(productVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 2:
+				insuranceVO.setAge_range(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				break;
+			case 3:
+				insuranceVO.setCoverage(input);
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 4:
+				insuranceVO.setMonthly_premium(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 5:
+				insuranceVO.setContract_period(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 6:
+				autoMobileVO.setAccident_limit(Integer.parseInt(input));
+				automobileMapper.update_ProductManagementModel(autoMobileVO);
+				// productList.update(automobileInsurance);
+				break;
+			case 7:
+				if (VehicleType.Small.ordinal() == (Integer.parseInt(input) - 1)) {
+					autoMobileVO.setVehicle_type(VehicleType.Small.getValue());
+				} else if (VehicleType.Medium.ordinal() == (Integer.parseInt(input) - 1)) {
+					autoMobileVO.setVehicle_type(VehicleType.Medium.getValue());
+				} else if (VehicleType.Large.ordinal() == (Integer.parseInt(input) - 1)) {
+					autoMobileVO.setVehicle_type(VehicleType.Large.getValue());
+				}
+				automobileMapper.update_ProductManagementModel(autoMobileVO);
+				// productList.update(automobileInsurance);
+				break;
+			case 8:
+				ArrayList<ServiceType> distinctServiceList = (ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList());
+
+				serviceMapper.delete_ProductManagementModel(autoMobileVO.getProduct_id());
+
+				for (ServiceType serviceType : distinctServiceList) {
+					ServiceVO serviceVO = new ServiceVO();
+					serviceVO.setProduct_id(autoMobileVO.getProduct_id());
+					serviceVO.setService(serviceType.getValue());
+					serviceMapper.insert_ProductManagement(serviceVO);
+				}
+				break;
+			default:
+				break;
 		}
+
 	}
 
 	public ArrayList<Product> getAll(){

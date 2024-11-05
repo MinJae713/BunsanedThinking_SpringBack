@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.vo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +14,6 @@ public class SurgeryHistoryVO {
 	private int id;
 	private String hospital_name;
 	private String name;
-	private LocalDateTime date;
+	private LocalDate date;
 	private int customer_id;
 }

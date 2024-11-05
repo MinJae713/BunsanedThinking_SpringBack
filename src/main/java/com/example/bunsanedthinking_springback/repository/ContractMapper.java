@@ -27,4 +27,6 @@ public interface ContractMapper {
 
 	void update(ContractVO contractVO);
 	Optional<ContractVO> findById_FinancialAccountant(int id);
+
+	Integer getMaxId_SalesModel();
 }

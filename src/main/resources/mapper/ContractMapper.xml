@@ -85,4 +85,9 @@
         from contract
         where id=#{param1}
     </select>
+
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from contract
+    </select>
 </mapper>

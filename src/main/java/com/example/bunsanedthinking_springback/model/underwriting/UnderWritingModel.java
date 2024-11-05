@@ -3,10 +3,8 @@ package com.example.bunsanedthinking_springback.model.underwriting;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
@@ -21,16 +19,12 @@ import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -199,8 +193,7 @@ public class UnderWritingModel {
 
 
 	public ArrayList<Contract> getAllRequestingInsurance() throws
-		NotExistException,
-		IOException {
+		NotExistException{
 
 		ArrayList<Contract> contracts = new ArrayList<>();
 		ArrayList<ContractVO> contractVOs = contractMapper.getAll_UnderWritingModel();
@@ -214,8 +207,7 @@ public class UnderWritingModel {
 				contract.setDate(Date.from(contractVO.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setExpirationDate(
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-				contract.setPaymentDate(
-					Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
+				contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
 				if(contractVO.getTermination_date() != null){
 					contract.setTerminationDate(
 						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -279,7 +271,7 @@ public class UnderWritingModel {
 						insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 						insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
 						insuranceMoney.setProcessStatus(
-							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
+							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
 						insuranceMoney.setApplyDate(Date.from(
 							insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 						insuranceMoneys.add(insuranceMoney);
@@ -351,7 +343,7 @@ public class UnderWritingModel {
 							automobile.setContractPeriod(insuranceVO.getContract_period());
 
 							automobile.setAccidentLimit(automobileVO.getAccident_limit());
-							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
+							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 							ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 							ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(e.getProduct_id());
 							for (ServiceVO serviceVO : serviceVOs)
@@ -447,8 +439,7 @@ public class UnderWritingModel {
 				contract.setDate(Date.from(contractVO.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setExpirationDate(
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-				contract.setPaymentDate(
-					Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
+				contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
 				if(contractVO.getTermination_date() != null){
 					contract.setTerminationDate(
 						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -512,7 +503,7 @@ public class UnderWritingModel {
 						insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 						insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
 						insuranceMoney.setProcessStatus(
-							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
+							InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
 						insuranceMoney.setApplyDate(Date.from(
 							insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 						insuranceMoneys.add(insuranceMoney);
@@ -584,7 +575,7 @@ public class UnderWritingModel {
 							automobile.setContractPeriod(insuranceVO.getContract_period());
 
 							automobile.setAccidentLimit(automobileVO.getAccident_limit());
-							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
+							automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 							ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 							ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(e.getProduct_id());
 							for (ServiceVO serviceVO : serviceVOs)
@@ -687,7 +678,7 @@ public class UnderWritingModel {
 			surgeryHistory.setHospitalName(surgeryHistoryVO.getHospital_name());
 			surgeryHistory.setName(surgeryHistoryVO.getName());
 			surgeryHistory.setCustomerID(surgeryHistoryVO.getCustomer_id());
-			surgeryHistory.setDate(Date.from(surgeryHistoryVO.getDate().atZone(ZoneId.systemDefault()).toInstant()));
+			surgeryHistory.setDate(java.sql.Date.valueOf(surgeryHistoryVO.getDate()));
 			surgeryHistoryList.add(surgeryHistory);
 		}
 		customer.setSurgeryHistoryList(surgeryHistoryList);
@@ -731,8 +722,7 @@ public class UnderWritingModel {
 		contract.setDate(Date.from(contractVO.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		contract.setExpirationDate(
 			Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		contract.setPaymentDate(
-			Integer.parseInt(contractVO.getPayment_date().format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
+		contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
 		if(contractVO.getTermination_date() != null){
 			contract.setTerminationDate(
 				Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -794,7 +784,7 @@ public class UnderWritingModel {
 
 				insuranceMoney.setContractID(insuranceMoneyVO.getContract_id());
 				insuranceMoney.setBankName(insuranceMoneyVO.getBank_name());
-				insuranceMoney.setProcessStatus(InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()+1));
+				insuranceMoney.setProcessStatus(InsuranceMoneyStatus.fromInt(insuranceMoneyVO.getProcess_status()));
 				insuranceMoney.setApplyDate(
 					Date.from(insuranceMoneyVO.getApply_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				insuranceMoneys.add(insuranceMoney);
@@ -866,7 +856,7 @@ public class UnderWritingModel {
 					automobile.setContractPeriod(insuranceVO.getContract_period());
 
 					automobile.setAccidentLimit(automobileVO.getAccident_limit());
-					automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()+1));
+					automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 					ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 					ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(insuranceVO.getProduct_id());
 					for (ServiceVO serviceVO : serviceVOs)
