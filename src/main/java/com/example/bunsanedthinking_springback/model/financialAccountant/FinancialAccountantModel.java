@@ -72,7 +72,7 @@ public class FinancialAccountantModel {
 	public DepositDetail getDepositDetail(int id) throws NotExistException{
 		DepositDetailVO depositDetailVO = depositDetailMapper.findById_FinancialAccountant(id)
 			.orElseThrow(() -> new NotExistException("해당하는 입금 내역 정보가 존재하지 않습니다."));
-		return new DepositDetail(depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
+		return new DepositDetail(id, depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
 			depositDetailVO.getMoney(), DepositPath.indexOf(depositDetailVO.getPath()));
 	}
 
@@ -164,7 +164,7 @@ public class FinancialAccountantModel {
 		Date lastPaymentDate = null;
 		for (DepositDetailVO depositDetailVO :
 			depositDetailMapper.findByContractId_FinancialAccountant(contractVO.getId())) {
-			DepositDetail depositDetail = new DepositDetail(
+			DepositDetail depositDetail = new DepositDetail(depositDetailVO.getId(),
 				depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
 				depositDetailVO.getMoney(), DepositPath.indexOf(depositDetailVO.getPath()));
 			if (lastPaymentDate == null || depositDetailVO.getDate().isAfter(
@@ -274,7 +274,7 @@ public class FinancialAccountantModel {
 		List<DepositDetail> result = new ArrayList<>();
 		List<DepositDetailVO> depositDetailVOList = depositDetailMapper.getAll_FinancialAccountant();
 		for (DepositDetailVO depositDetailVO : depositDetailVOList) {
-			result.add(new DepositDetail(depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(), depositDetailVO.getMoney(),
+			result.add(new DepositDetail(depositDetailVO.getId(), depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(), depositDetailVO.getMoney(),
 				DepositPath.indexOf(depositDetailVO.getPath())));
 		}
 		return result;

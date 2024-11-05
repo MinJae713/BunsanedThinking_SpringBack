@@ -25,7 +25,8 @@ public class DepositDetail {
 	private int money;
 	private DepositPath path;
 
-	public DepositDetail(String depositorName, int contractId, int money, DepositPath path){
+	public DepositDetail(int id, String depositorName, int contractId, int money, DepositPath path){
+		this.id = id;
 		this.contractID = contractId;
 		this.date = new Date();
 		this.depositorName = depositorName;
