@@ -146,6 +146,7 @@ public class CustomerController {
 		customerModel.payInsurancefee(depositorName, contractId, money, depositPath);
 	}
 	@GetMapping("/getCustomerById")
+	// http://localhost:8080/customer/getCustomerById?id=2002 - Get Post Patch delete
 	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
 		return customerModel.getCustomerById(id);
 	}
