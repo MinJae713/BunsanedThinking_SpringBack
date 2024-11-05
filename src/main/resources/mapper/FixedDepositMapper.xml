@@ -14,8 +14,8 @@
     <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
         insert into fixeddeposit (product_id, minimum_amount)
         values (
-                #{fixedDeposit.product_id},
-                #{fixedDeposit.minimum_amount}
+                #{product_id},
+                #{minimum_amount}
                )
     </insert>
     <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
