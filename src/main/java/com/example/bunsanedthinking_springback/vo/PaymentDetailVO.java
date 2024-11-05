@@ -20,6 +20,20 @@ public class PaymentDetailVO {
 	private Integer contract_id;
 	private Integer employee_id;
 
+	public PaymentDetailVO(int id, String account_holder,
+						   String bank, String bank_account,
+						   int money, int payment_type,
+						   int process_status, Integer contract_id) {
+		this.id = id;
+		this.account_holder = account_holder;
+		this.bank = bank;
+		this.bank_account = bank_account;
+		this.money = money;
+		this.payment_type = payment_type;
+		this.process_status = process_status;
+		this.contract_id = contract_id;
+	}
+
 	public static PaymentDetailVO from(PaymentDetail paymentDetail) {
 		return new PaymentDetailVO(paymentDetail.getId(), paymentDetail.getAccountHolder(), paymentDetail.getBank(),
 			paymentDetail.getBankAccount(), paymentDetail.getMoney(), paymentDetail.getPaymentType().ordinal(),

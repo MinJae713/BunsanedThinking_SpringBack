@@ -13,4 +13,6 @@ public interface RecontractMapper {
 
     public Optional<RecontractVO> getById_ContractManagement(int id);
     public List<RecontractVO> getAll_ContractManagement();
+
+    void updateStatus_ContractManagement(int status, int id);
 }

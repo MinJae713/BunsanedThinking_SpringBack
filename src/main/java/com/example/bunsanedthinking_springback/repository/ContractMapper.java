@@ -27,4 +27,8 @@ public interface ContractMapper {
 
 	void update(ContractVO contractVO);
 	Optional<ContractVO> findById_FinancialAccountant(int id);
+
+    public void updateTerminationDate_ContractManagement(LocalDate termination_date, int id);
+    public void updateDate_ContractManagement(LocalDate date, int id);
+    public void updateExpirationDate_ContractManagement(LocalDate expiration_date, int id);
 }

@@ -5,7 +5,6 @@ import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHi
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -17,8 +16,7 @@ import com.example.bunsanedthinking_springback.entity.endorsment.EndorsementStat
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.*;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
@@ -37,9 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +44,6 @@ import java.util.List;
  * @version 1.0
  * @created 27-5-2024 占쏙옙占쏙옙 4:40:41
  */
-
 @Service
 public class ContractManagementModel {
     @Autowired
@@ -100,72 +96,128 @@ public class ContractManagementModel {
     private RevivalMapper revivalMapper;
     @Autowired
     private EndorsmentMapper endorsmentMapper;
-	public boolean requestTerminationFee(Termination tercontract, Customer customer,
-										 PaymentDetailList paymentDetailList, ContractList contractList) throws NotExistContractException, AlreadyProcessedException {
-		if (tercontract.getTerminationStatus() == TerminationStatus.Completed) {
-			throw new AlreadyProcessedException();
-		}
-		ArrayList<DepositDetail> depositDetailList = tercontract.getDepositDetailList();
-		int totalMoney = 0;
-		for (DepositDetail depositDetail : depositDetailList) {
-			totalMoney += depositDetail.getMoney();
-		}
+    @Autowired
+    private PaymentDetailMapper paymentDetailMapper;
+	public void requestTerminationFee(int tercontractId, int customerId)
+            throws NotExistContractException, AlreadyProcessedException, NotExistException {
+        // TerminationStatus가 Complete인지 확인
+        // totalMoney를 전체 DepositDetail 리스트를 받아와서 계산 - 계산 방법은 아래 참고
+        // PaymentDetail 추가
+        // termination의 terminationStatus, applyDate 수정
+        // termination의 originContract 해당 Contract의 terminationDate, contractStatus 수정
+        TerminationVO terminationVO = terminationMapper.getById_ContractManagement(tercontractId).orElse(null);
+        if (terminationVO == null) throw new NotExistContractException();
+        if (terminationVO.getTermination_status() == TerminationStatus.Completed.ordinal())
+            throw new AlreadyProcessedException();
+        CustomerVO customerVO = customerMapper.getById_Customer(customerId).orElse(null);
+        if (customerVO == null) throw new NotExistException();
+        ContractVO contractVO = contractMapper.getById_Customer(tercontractId).orElse(null);
+        if (contractVO.getCustomer_id() != customerId) throw new NotExistContractException();
+        // 고객이 신청한 계약이 맞는지 확인
+        List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAll_ContractManagement();
+        int totalMoney = 0;
+		for (DepositDetailVO depositDetailVO : depositDetailVOS)
+			totalMoney += depositDetailVO.getMoney();
 		totalMoney = (int) (totalMoney * 0.3);
-		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
-				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
-		paymentDetailList.add(paymentDetail);
-		Contract contract = tercontract.getOriginalContract();
-		tercontract.setTerminationStatus(TerminationStatus.Completed);
-		tercontract.setApplyDate(new Date());
-		contract.setTerminationDate(tercontract.getApplyDate());
-		contract.setContractStatus(ContractStatus.Terminating);
-		contractList.update(contract);
-		return true;
+
+        int paymentId = paymentDetailMapper.getCount_Compensation() == 0 ?
+                9001 : paymentDetailMapper.getLastId_Compensation()+1;
+        PaymentDetailVO paymentDetailVO = new PaymentDetailVO(paymentId,
+                customerVO.getName(), customerVO.getBank_name(),
+                customerVO.getBank_account(), totalMoney,
+                PaymentType.AccountTransfer.ordinal(),
+                PaymentProcessStatus.Unprocessed.ordinal(),
+                terminationVO.getContract_id());
+        paymentDetailMapper.add_Compensation(paymentDetailVO);
+
+        ContractVO originContractVO = contractMapper.
+                getById_Customer(terminationVO.getOrigin_contract_id()).
+                orElse(null);
+        terminationMapper.updateStatus_ContractManagement(TerminationStatus.Completed.ordinal(), terminationVO.getContract_id());
+        terminationMapper.updateApplyDate_ContractManagement(LocalDateTime.now(), terminationVO.getContract_id());
+        contractMapper.updateTerminationDate_ContractManagement(terminationVO.getApply_date().toLocalDate(), originContractVO.getId());
+        contractMapper.updateStatus_Customer(ContractStatus.Terminating.ordinal(), originContractVO.getId());
+
+//      if (tercontract.getTerminationStatus() == TerminationStatus.Completed) {
+//		    throw new AlreadyProcessedException();
+//		}
+//		ArrayList<DepositDetail> depositDetailList = tercontract.getDepositDetailList();
+//		int totalMoney = 0;
+//		for (DepositDetail depositDetail : depositDetailList) {
+//			totalMoney += depositDetail.getMoney();
+//		}
+//		totalMoney = (int) (totalMoney * 0.3);
+//		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
+//				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
+//		paymentDetailList.add(paymentDetail);
+//		Contract contract = tercontract.getOriginalContract();
+//		tercontract.setTerminationStatus(TerminationStatus.Completed);
+//		tercontract.setApplyDate(new Date());
+//		contract.setTerminationDate(tercontract.getApplyDate());
+//		contract.setContractStatus(ContractStatus.Terminating);
+//		contractList.update(contract);
 	}
 
-	public boolean reviewEndorsement(Endorsement encontract, Customer customer, int index) {
-		if (index == 1) {
-			encontract.setPaymentDate(encontract.getPaymentDate());
-			encontract.setEndorsementStatus(EndorsementStatus.Completed);
+	public void reviewEndorsement(int endorsementId, int index) throws NotExistException {
+        if (endorsmentMapper.getById_ContractManagement(endorsementId).orElse(null) == null)
+            throw new NotExistException();
+        if (index == 1) endorsmentMapper.updateStatus_ContractManagement(EndorsementStatus.Completed.ordinal(), endorsementId);
+        else if (index == 2) endorsmentMapper.updateStatus_ContractManagement(EndorsementStatus.Unprocessed.ordinal(), endorsementId);
+//		if (index == 1) {
+//			encontract.setPaymentDate(encontract.getPaymentDate());
+//			encontract.setEndorsementStatus(EndorsementStatus.Completed);
+//		} else if (index == 2) {
+//			encontract.setEndorsementStatus(EndorsementStatus.Unprocessed);
+//		}
+	}
+
+	public void reviewRecontract(int recontractId, int index) throws NotExistContractException, NotExistException {
+		RecontractVO recontractVO = recontractMapper.getById_ContractManagement(recontractId).orElse(null);
+        if (recontractVO == null) throw new NotExistContractException();
+        if (index == 1) {
+            int origin_contract_id = recontractVO.getOrigin_contract_id();
+            Contract contract = getContractById(origin_contract_id);
+            Insurance insurance = (Insurance) contract.getProduct();
+            contractMapper.updateStatus_Customer(ContractStatus.Maintaining.ordinal(), origin_contract_id);
+            contractMapper.updateDate_ContractManagement(LocalDate.now(), origin_contract_id);
+
+			LocalDate expirationDate = LocalDate.now().plusYears(insurance.getContractPeriod());
+            contractMapper.updateExpirationDate_ContractManagement(expirationDate, origin_contract_id);
+            recontractMapper.updateStatus_ContractManagement(RecontractStatus.Completed.ordinal(), recontractId);
+
+//			Contract contract = recontract.getOriginalContract().clone();
+//			Insurance product = (Insurance) recontract.getOriginalContract().getProduct();
+//			contract.setContractStatus(ContractStatus.Maintaining);
+//			contract.setDate(new Date());
+//
+//			LocalDate currentDate = LocalDate.now();
+//			LocalDate expirationDate = currentDate.plusYears(product.getContractPeriod());
+//			contract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//			contractList.update(contract);
+//			recontract.setRecontractStatus(RecontractStatus.Completed);
 		} else if (index == 2) {
-			encontract.setEndorsementStatus(EndorsementStatus.Unprocessed);
+            recontractMapper.updateStatus_ContractManagement(RecontractStatus.Unprocessed.ordinal(), recontractId);
+//			recontract.setRecontractStatus(RecontractStatus.Unprocessed);
 		}
-		return true;
 	}
 
-	public boolean reviewRecontract(ContractList contractList, Recontract recontract, Customer customer, int index) throws NotExistContractException {
-		if (index == 1) { // �듅�씤
-			Contract contract = recontract.getOriginalContract().clone();
-			Insurance product = (Insurance) recontract.getOriginalContract().getProduct();
-			contract.setContractStatus(ContractStatus.Maintaining);
-			contract.setDate(new Date());
-
-			LocalDate currentDate = LocalDate.now();
-			LocalDate expirationDate = currentDate.plusYears(product.getContractPeriod());
-			contract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-			contractList.update(contract);
-			recontract.setRecontractStatus(RecontractStatus.Completed);
-		} else if (index == 2) { // 嫄곗젅
-			recontract.setRecontractStatus(RecontractStatus.Unprocessed);
-		}
-		return true;
-	}
-
-	public boolean reviewRevival(ContractList contractList, Revival revivalcontract, Customer customer, int index) {
-		if (index == 1) {
-			Contract contract = revivalcontract.getOriginalContract().clone();
-			contract.setContractStatus(ContractStatus.Maintaining);
-			contract.setDate(new Date());
-			try {
-				contractList.update(contract);
-			} catch (NotExistContractException e) {
-				e.printStackTrace();
-			}
-			revivalcontract.setRevivalStatus(RevivalStatus.Completed);
+	public void reviewRevival(int revivalId, int index) throws NotExistContractException {
+		RevivalVO revivalVO = revivalMapper.getById_ContractManagement(revivalId).orElse(null);
+        if (revivalVO == null) throw new NotExistContractException();
+        if (index == 1) {
+            int origin_contract_id = revivalVO.getOrigin_contract_id();
+            contractMapper.updateStatus_Customer(ContractStatus.Maintaining.ordinal(), origin_contract_id);
+            contractMapper.updateDate_ContractManagement(LocalDate.now(), origin_contract_id);
+            revivalMapper.updateStatus_ContractManagement(RevivalStatus.Completed.ordinal(), revivalId);
+//			Contract contract = revivalcontract.getOriginalContract().clone();
+//			contract.setContractStatus(ContractStatus.Maintaining);
+//			contract.setDate(new Date());
+//            contractList.update(contract);
+//			revivalcontract.setRevivalStatus(RevivalStatus.Completed);
 		} else if (index == 2) {
-			revivalcontract.setRevivalStatus(RevivalStatus.Unprocessed);
+            revivalMapper.updateStatus_ContractManagement(RevivalStatus.Unprocessed.ordinal(), revivalId);
+//			revivalcontract.setRevivalStatus(RevivalStatus.Unprocessed);
 		}
-		return true;
 	}
 
 

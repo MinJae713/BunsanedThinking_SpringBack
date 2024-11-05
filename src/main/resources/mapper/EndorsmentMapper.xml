@@ -17,4 +17,9 @@
     <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
         select * from endorsement
     </select>
+    <update id="updateStatus_ContractManagement">
+        update endorsement
+        set endorsement_status = #{status}
+        where contract_id = #{contract_id}
+    </update>
 </mapper>

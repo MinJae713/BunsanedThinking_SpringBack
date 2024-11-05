@@ -17,4 +17,10 @@
     <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.RecontractVO">
         select * from recontract
     </select>
+
+    <update id="updateStatus_ContractManagement">
+        update recontract
+        set recontract_status = #{status}
+        where contract_id = #{id}
+    </update>
 </mapper>

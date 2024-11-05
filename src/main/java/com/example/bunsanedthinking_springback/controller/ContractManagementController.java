@@ -1,10 +1,8 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
@@ -13,10 +11,7 @@ import com.example.bunsanedthinking_springback.exception.NotExistContractExcepti
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.contractManagement.ContractManagementModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,22 +21,21 @@ public class ContractManagementController {
 	@Autowired
 	private ContractManagementModel contractManagementModel;
 
-	public boolean requestTerminationFee(Termination tercontract, Customer customer,
-										 PaymentDetailList paymentDetailList, ContractList contractList) throws NotExistContractException, AlreadyProcessedException {
-		return contractManagementModel.requestTerminationFee(tercontract, customer, paymentDetailList, contractList);
-	}
-
-	public boolean reviewEndorsement(Endorsement encontract, Customer customer, int index) {
-		return contractManagementModel.reviewEndorsement(encontract, customer, index);
-	}
-
-	public boolean reviewRecontract(ContractList contractList, Recontract recontract, Customer customer, int index) throws NotExistContractException {
-		return contractManagementModel.reviewRecontract(contractList, recontract, customer, index);
-	}
-
-	public boolean reviewRevival(ContractList contractList, Revival revivalcontract, Customer customer, int index) {
-		return contractManagementModel.reviewRevival(contractList, revivalcontract, customer, index);
-	}
+//	public boolean requestTerminationFee(Termination tercontract, Customer customer,
+//										 PaymentDetailList paymentDetailList, ContractList contractList) throws NotExistContractException, AlreadyProcessedException {
+//		return contractManagementModel.requestTerminationFee(tercontract, customer, paymentDetailList, contractList);
+//	}
+//	public boolean reviewEndorsement(Endorsement encontract, Customer customer, int index) {
+//		return contractManagementModel.reviewEndorsement(encontract, customer, index);
+//	}
+//
+//	public boolean reviewRecontract(ContractList contractList, Recontract recontract, Customer customer, int index) throws NotExistContractException {
+//		return contractManagementModel.reviewRecontract(contractList, recontract, customer, index);
+//	}
+//
+//	public boolean reviewRevival(ContractList contractList, Revival revivalcontract, Customer customer, int index) {
+//		return contractManagementModel.reviewRevival(contractList, revivalcontract, customer, index);
+//	}
 //	public ArrayList<Contract> getAllDefaultContract(ContractList contractList) {
 //		return contractManagementModel.getAllDefaultContract(contractList);
 //	}
@@ -113,6 +107,28 @@ public class ContractManagementController {
 //	public ArrayList<Revival> getAllProcessedRevival(RevivalList revivalList) {
 //		return contractManagementModel.getAllProcessedRevival(revivalList);
 //	}
+	@PatchMapping("/requestTerminationFee")
+	public void requestTerminationFee(@RequestParam int tercontractId, @RequestParam int customerId)
+            throws NotExistContractException, AlreadyProcessedException, NotExistException {
+		// 예시URL - http://localhost:8080/employee/contractManagement/requestTerminationFee?tercontractId=1002&customerId=2002
+		contractManagementModel.requestTerminationFee(tercontractId, customerId);
+	}
+	@PatchMapping("/reviewEndorsement")
+	public void reviewEndorsement(@RequestParam int endorsementId, @RequestParam int index) throws NotExistException {
+		// 예시URL - http://localhost:8080/employee/contractManagement/reviewEndorsement?endorsementId=1002&index=1
+		contractManagementModel.reviewEndorsement(endorsementId, index);
+	}
+	@PatchMapping("/reviewRecontract")
+	public void reviewRecontract(int recontractId, int index) throws NotExistContractException, NotExistException {
+		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRecontract?recontractId=1001&index=1
+		contractManagementModel.reviewRecontract(recontractId, index);
+	}
+	@PatchMapping("/reviewRevival")
+	public void reviewRevival(int revivalId, int index) throws NotExistContractException {
+		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRevival?revivalId=1001&index=1
+		contractManagementModel.reviewRevival(revivalId, index);
+	}
+
 	@GetMapping("/getAllDefaultContract")
 	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
 		return contractManagementModel.getAllDefaultContract();
@@ -150,17 +166,14 @@ public class ContractManagementController {
 	public List<Endorsement> getAllEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementModel.getAllEndorsementContract();
 	}
-
 	@GetMapping("/getAllUnprocessedEndorsementContract")
 	public List<Endorsement> getAllUnprocessedEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementModel.getAllUnprocessedEndorsementContract();
 	}
-
 	@GetMapping("/getAllProcessedEndorsementContract")
 	public List<Endorsement> getAllProcessedEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementModel.getAllProcessedEndorsementContract();
 	}
-
 	@GetMapping("/getEndorsementById")
 	public Endorsement getEndorsementById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementModel.getEndorsementById(id);
@@ -197,7 +210,6 @@ public class ContractManagementController {
 	public List<Revival> getAllProcessedRevival() throws NotExistContractException, NotExistException {
 		return contractManagementModel.getAllProcessedRevival();
 	}
-
 	// 아래는 지운 메소드 - 기능 중복 고려
 //	public Recontract get(RecontractList recontractList, int id) {
 //		return contractManagementModel.getRecontractById(recontractList, id);

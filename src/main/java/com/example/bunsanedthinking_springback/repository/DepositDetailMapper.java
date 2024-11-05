@@ -20,4 +20,6 @@ public interface DepositDetailMapper {
 	List<DepositDetailVO> getAll_FinancialAccountant();
 
 	List<DepositDetailVO> findByContractId_FinancialAccountant(int id);
+
+    public List<DepositDetailVO> getAll_ContractManagement();
 }

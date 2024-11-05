@@ -13,4 +13,6 @@ public interface EndorsmentMapper {
     public List<EndorsementVO> getAll_ContractManagement();
 
     public void addById_Customer(int contractId);
+
+    public void updateStatus_ContractManagement(int status, int contract_id);
 }

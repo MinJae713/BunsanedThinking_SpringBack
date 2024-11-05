@@ -99,10 +99,8 @@ public class CompensationModel {
 		int paymentId = paymentDetailMapper.getCount_Compensation() == 0 ?
 				9001 : paymentDetailMapper.getLastId_Compensation()+1;
 		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(
-				paymentId, accountHolder, bank, bankAccount,
-				money, paymentType, PaymentProcessStatus.Unprocessed.ordinal(),
-				contractId, contractVO.getEmployee_id());
-		// employeeId 임의 지정 - 이거 직원 아이디 어떻게 받죠... - 계약과 연관된 직원이 아닐까
+				paymentId, accountHolder, bank, bankAccount, money, paymentType,
+				PaymentProcessStatus.Unprocessed.ordinal(), contractId);
 		paymentDetailMapper.add_Compensation(paymentDetailVO);
 		reportMapper.updateStatus_Compensation(ReportProcessStatus.Completed.ordinal(), reportId);
 		accidentMapper.updateStatus_Compensation(AccidentProcessStatus.Completed.ordinal(), reportVO.getAccident_id());
@@ -136,8 +134,7 @@ public class CompensationModel {
 		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(paymentId,
 				customerVO.getName(), customerVO.getBank_name(),
 				customerVO.getBank_account(), money, paymentType,
-				PaymentProcessStatus.Unprocessed.ordinal(),
-				contractId, contractVO.getEmployee_id());
+				PaymentProcessStatus.Unprocessed.ordinal(), contractId);
 		paymentDetailMapper.add_Compensation(paymentDetailVO);
 		insuranceMoneyMapper.updateStatus_Compensation(InsuranceMoneyStatus.Completed.ordinal(), insuranceMoneyId);
 

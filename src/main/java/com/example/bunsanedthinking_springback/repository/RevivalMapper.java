@@ -13,4 +13,6 @@ public interface RevivalMapper {
 
     public Optional<RevivalVO> getById_ContractManagement(int id);
     public List<RevivalVO> getAll_ContractManagement();
+
+    public void updateStatus_ContractManagement(int status, int id);
 }

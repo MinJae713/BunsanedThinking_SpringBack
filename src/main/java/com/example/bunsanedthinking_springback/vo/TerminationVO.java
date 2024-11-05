@@ -6,7 +6,6 @@ import com.example.bunsanedthinking_springback.entity.termination.TerminationSta
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,7 +13,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Slf4j
 public class TerminationVO {
 	private int contract_id;
 	private LocalDateTime apply_date;

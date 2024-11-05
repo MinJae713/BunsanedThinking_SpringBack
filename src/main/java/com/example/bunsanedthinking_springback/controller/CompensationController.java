@@ -28,29 +28,6 @@ public class CompensationController {
 //									  PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException{
 //		compensationModel.requestInsuranceMoney(customer, money, insuranceMoney, insuranceMoneyList, paymentType, contractId, paymentDetailList);
 //	}
-	@PatchMapping("/requestCompensation")
-	public void requestCompensation(@RequestParam String accountHolder,
-									@RequestParam String bank,
-									@RequestParam String bankAccount,
-									@RequestParam int money,
-									@RequestParam int paymentType,
-									@RequestParam int contractId,
-									@RequestParam int reportId)
-			throws NotExistException, AlreadyProcessedException {
-		// 예시URL - http://localhost:8080/employee/compensation/requestCompensation?accountHolder=김찬&bank=모환&bankAccount=김찬어카운트&money=3000000&contractId=1001&reportId=4002&paymentType=0
-		compensationModel.requestCompensation(accountHolder, bank, bankAccount, money, paymentType, contractId, reportId);
-	}
-	@PatchMapping("/requestInsuranceMoney")
-	public void requestInsuranceMoney(@RequestParam int customerId,
-									  @RequestParam int money,
-									  @RequestParam int insuranceMoneyId,
-									  @RequestParam int paymentType,
-									  @RequestParam int contractId)
-			throws NotExistException, AlreadyProcessedException{
-		// 예시URL - http://localhost:8080/employee/compensation/requestInsuranceMoney?customerId=2001&money=185000&insuranceMoneyId=2&paymentType=0&contractId=1001
-		compensationModel.requestInsuranceMoney(customerId, money, insuranceMoneyId, paymentType, contractId);
-	}
-
 //	public ArrayList<InsuranceMoney> getAllInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
 //		return compensationModel.getAllInsuranceMoney(insuranceMoneyList);
 //	}
@@ -84,6 +61,28 @@ public class CompensationController {
 //	public Contract getAutomobileByCustomerId(ContractList contractList, int customerID) throws NotExistContractException, NotExistException {
 //		return compensationModel.getAutomobileByCustomerId(contractList, customerID);
 //	}
+	@PatchMapping("/requestCompensation")
+	public void requestCompensation(@RequestParam String accountHolder,
+									@RequestParam String bank,
+									@RequestParam String bankAccount,
+									@RequestParam int money,
+									@RequestParam int paymentType,
+									@RequestParam int contractId,
+									@RequestParam int reportId)
+			throws NotExistException, AlreadyProcessedException {
+		// 예시URL - http://localhost:8080/employee/compensation/requestCompensation?accountHolder=김찬&bank=모환&bankAccount=김찬어카운트&money=3000000&contractId=1001&reportId=4002&paymentType=0
+		compensationModel.requestCompensation(accountHolder, bank, bankAccount, money, paymentType, contractId, reportId);
+	}
+	@PatchMapping("/requestInsuranceMoney")
+	public void requestInsuranceMoney(@RequestParam int customerId,
+									  @RequestParam int money,
+									  @RequestParam int insuranceMoneyId,
+									  @RequestParam int paymentType,
+									  @RequestParam int contractId)
+			throws NotExistException, AlreadyProcessedException{
+		// 예시URL - http://localhost:8080/employee/compensation/requestInsuranceMoney?customerId=2001&money=185000&insuranceMoneyId=2&paymentType=0&contractId=1001
+		compensationModel.requestInsuranceMoney(customerId, money, insuranceMoneyId, paymentType, contractId);
+	}
 	@GetMapping("/getAllInsuranceMoney")
 	public List<InsuranceMoney> getAllInsuranceMoney() {
 		return compensationModel.getAllInsuranceMoney();

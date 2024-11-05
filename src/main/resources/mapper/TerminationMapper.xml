@@ -17,4 +17,14 @@
     <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         select * from termination
     </select>
+    <update id="updateStatus_ContractManagement" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        update termination
+        set termination_status = #{status}
+        where contract_id = #{contract_id}
+    </update>
+    <update id="updateApplyDate_ContractManagement" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        update termination
+        set apply_date = #{apply_date}
+        where contract_id = #{contract_id}
+    </update>
 </mapper>

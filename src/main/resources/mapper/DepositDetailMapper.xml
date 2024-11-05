@@ -27,4 +27,8 @@
         from depositdetail
         where contract_id=#{param1}
     </select>
+    <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select *
+        from depositdetail
+    </select>
 </mapper>
