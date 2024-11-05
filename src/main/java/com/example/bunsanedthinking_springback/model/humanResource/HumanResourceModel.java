@@ -3,12 +3,9 @@ package com.example.bunsanedthinking_springback.model.humanResource;
 import com.example.bunsanedthinking_springback.dto.chan.EmployeeDTO;
 import com.example.bunsanedthinking_springback.dto.chan.FamilyDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
-import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.EmployeeList;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.family.Family;
-import com.example.bunsanedthinking_springback.entity.family.FamilyList;
 import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
@@ -29,9 +26,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,13 +45,6 @@ public class HumanResourceModel {
 		if (employeeMapper.isExistResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber()) == 1) {
 			throw new DuplicateResidentRegistrationNumberException();
 		}
-		Date date = null;
-		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			date = formatter.parse(employeeDTO.getDateOfemployment());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 		Integer maxId = employeeMapper.getMaxId_HumanResource();
 		int index;
 		if (maxId == null){
@@ -69,9 +57,10 @@ public class HumanResourceModel {
 		}
 		String compound = "" + Employee.EMPLOYEE_SERIAL_NUMBER + employeeDTO.getTeamId() + index;
 		int id = Integer.parseInt(compound);
+		LocalDate employmentDate = LocalDate.parse(employeeDTO.getEmploymentDate());
 		EmployeePosition employeePosition = EmployeePosition.indexOf(employeeDTO.getEmployeePosition());
 		EmployeeVO employeeVO = new EmployeeVO(id, employeeDTO.getAddress(), employeeDTO.getBankName(),
-			employeeDTO.getBankAccount(), LocalDate.now(), employeeDTO.getName(), employeeDTO.getPhoneNumber(),
+			employeeDTO.getBankAccount(), employmentDate, employeeDTO.getName(), employeeDTO.getPhoneNumber(),
 			employeePosition.ordinal(), employeeDTO.getResidentRegistrationNumber(), employeeDTO.getSalary(),
 			employeeDTO.getDepartmentID());
 		employeeMapper.insert_HumanResource(employeeVO);

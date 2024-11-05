@@ -2,8 +2,6 @@ package com.example.bunsanedthinking_springback.dto.chan;
 
 import java.util.List;
 
-import com.example.bunsanedthinking_springback.entity.family.Family;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +18,6 @@ public class EmployeeDTO {
 	private String residentRegistrationNumber;
 	private int departmentID;
 	private int salary;
-	private String dateOfemployment;
+	private String employmentDate;
 	private List<FamilyDTO> tempFamilyList;
 }
