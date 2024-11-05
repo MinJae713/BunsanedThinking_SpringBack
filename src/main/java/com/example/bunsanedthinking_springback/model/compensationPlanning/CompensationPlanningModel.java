@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.compensationPlanning;
 
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
+import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
@@ -53,7 +54,7 @@ public class CompensationPlanningModel {
 		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
 			partnerCompanyVO.getHead_phone_number(), partnerCompanyVO.getId(), partnerCompanyVO.getName(),
 			PartnerCompanyType.indexOf(partnerCompanyVO.getPartner_company_type()),
-			partnerCompanyVO.getPhone_number(), null);
+			partnerCompanyVO.getPhone_number(), new ArrayList<Report>()); // 널포인터 없애려고 ArrayList 추가
 	}
 
 	public void updatePartnerCompany(int index, String input, int partnerCompanyId) throws DuplicatePartnerCompanyException, NotExistException{
@@ -85,7 +86,7 @@ public class CompensationPlanningModel {
 			result.add(new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
 				partnerCompanyVO.getHead_phone_number(), partnerCompanyVO.getId(), partnerCompanyVO.getName(),
 				PartnerCompanyType.indexOf(partnerCompanyVO.getPartner_company_type()),
-				partnerCompanyVO.getPhone_number(), null));
+				partnerCompanyVO.getPhone_number(), new ArrayList<Report>())); // 널포인터 없애려고 ArrayList 추가
 		}
 		return result;
 	}

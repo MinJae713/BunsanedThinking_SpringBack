@@ -1,28 +1,40 @@
 package com.example.bunsanedthinking_springback.model.customer;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
+import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
+import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
+import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
+import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
+import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
+import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
 import com.example.bunsanedthinking_springback.exception.*;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -676,5 +688,48 @@ public class CustomerModel {
 		ComplaintVO complaintVO = complaintMapper.getComplaintById_Customer(id).orElse(null);
 		if (complaintVO == null) throw new NotExistException();
 		return new Complaint(complaintVO);
+	}
+
+	// 새로 추가됨 - controller는 아직 추가x
+	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,
+					   String residentRegistrationNumber, String address, long property,
+					   ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
+					   ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
+					   CustomerList customerList, AccidentHistoryList accidentHistoryList, SurgeryHistoryList surgeryHistoryList,
+					   DiseaseHistoryList diseaseHistoryList, Customer customer) throws DuplicateResidentRegistrationNumberException {
+		customer.signUp(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
+				property, tempAccidentHistoryList, tempSurgeryHistoryList, tempDiseaseHistoryList,
+				bankName, bankAccount, customerList, accidentHistoryList, surgeryHistoryList,
+				diseaseHistoryList);
+	}
+
+	public void complain(ComplaintList complaintList, CustomerList customerList, ComplaintType complainType,
+						 String title, String content, Customer customer) {
+		customer.complain(complaintList, customerList, complainType, title, content);
+	}
+
+	public void reportAccident(String customerName, String customerPhoneNumber, Date accidentDate, String location,
+							   ServiceType serviceType, AccidentList accidentList, Customer customer) {
+		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
+				accidentList);
+	}
+
+	public boolean buyInsurance(Insurance insurance, ContractList contractList, Customer customer) {
+		return customer.buyInsurance(insurance, contractList);
+	}
+
+	public void askInsuranceCounsel(Insurance insurance, String name, String phoneNumber, Date counselDate, String job,
+									int age, Gender gender, CounselList counselList, Customer customer) {
+		customer.askInsuranceCounsel(insurance, name, phoneNumber, counselDate, job, age, gender, counselList);
+	}
+
+	public boolean loan(Loan loan, ContractList contractList, Customer customer) throws AlreadyRequestingException {
+		return customer.loan(loan, contractList);
+	}
+
+	public void receiveInsurance(Contract contract, BufferedImage medicalCertificateImage, BufferedImage receiptImage,
+								 BufferedImage residentRegistrationCardImage, InsuranceMoneyList insuranceMoneyList, Customer customer) throws IOException {
+		customer.receiveInsurance(contract, medicalCertificateImage, receiptImage, residentRegistrationCardImage,
+				insuranceMoneyList);
 	}
 }
