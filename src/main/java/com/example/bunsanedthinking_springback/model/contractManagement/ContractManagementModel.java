@@ -170,7 +170,7 @@ public class ContractManagementModel {
 
 
 
-    // 여기부터 get
+    // 여기부터 get - 아래는 구현 완
 	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
         List<Contract> result = new ArrayList<Contract>();
         List<ContractVO> contractVOS = contractMapper.getAll_Customer();

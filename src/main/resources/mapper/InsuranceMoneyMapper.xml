@@ -20,4 +20,9 @@
         from insurancemoney
         where contract_id=#{param1}
     </select>
+    <update id="updateStatus_Compensation">
+        update insurancemoney
+        set process_status = #{status}
+        where id = #{insuranceMoneyId}
+    </update>
 </mapper>

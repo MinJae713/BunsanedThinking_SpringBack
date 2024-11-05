@@ -16,7 +16,7 @@
     <update id="updateStatus_Compensation">
         update accident
         set process_status = #{processStatus}
-        where accident_id = #{accidentId}
+        where id = #{accidentId}
     </update>
     <select id="findByID_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select *

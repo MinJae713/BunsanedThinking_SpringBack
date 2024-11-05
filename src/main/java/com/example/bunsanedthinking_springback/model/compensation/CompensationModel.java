@@ -14,13 +14,9 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
 import com.example.bunsanedthinking_springback.entity.loan.*;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetailList;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
@@ -96,19 +92,20 @@ public class CompensationModel {
 					throws NotExistException, AlreadyProcessedException{
 		ReportVO reportVO = reportMapper.getById_Compensation(reportId).orElse(null);
 		if (reportVO == null) throw new NotExistException();
+		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
+		if (contractVO == null) throw new NotExistException();
 		if (reportVO.getProcess_status() == ReportProcessStatus.Completed.ordinal())
 			throw new AlreadyProcessedException();
 		int paymentId = paymentDetailMapper.getCount_Compensation() == 0 ?
-				9001 : paymentDetailMapper.getLastId_Compensation();
+				9001 : paymentDetailMapper.getLastId_Compensation()+1;
 		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(
 				paymentId, accountHolder, bank, bankAccount,
 				money, paymentType, PaymentProcessStatus.Unprocessed.ordinal(),
-				contractId, 6001101);
-		// employeeId 임의 지정 - 이거 직원 아이디 어떻게 받죠...
+				contractId, contractVO.getEmployee_id());
+		// employeeId 임의 지정 - 이거 직원 아이디 어떻게 받죠... - 계약과 연관된 직원이 아닐까
 		paymentDetailMapper.add_Compensation(paymentDetailVO);
 		reportMapper.updateStatus_Compensation(ReportProcessStatus.Completed.ordinal(), reportId);
-		int accidentId = reportVO.getAccident_id();
-		accidentMapper.updateStatus_Compensation(AccidentProcessStatus.Completed.ordinal(), accidentId);
+		accidentMapper.updateStatus_Compensation(AccidentProcessStatus.Completed.ordinal(), reportVO.getAccident_id());
 //		if (report.getProcessStatus() == ReportProcessStatus.Completed) {
 //			throw new AlreadyProcessedException();
 //		}
@@ -120,21 +117,43 @@ public class CompensationModel {
 //		accidentList.update(report.getAccident());
 	}
 	
-	public void requestInsuranceMoney(Customer customer, int money, InsuranceMoney insuranceMoney, InsuranceMoneyList insuranceMoneyList,
-									  PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException{
-		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed) {
+	public void requestInsuranceMoney(int customerId, int money, int insuranceMoneyId,
+									  int paymentType, int contractId) throws NotExistException, AlreadyProcessedException{
+
+		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
+		if (contractVO == null) throw new NotExistException();
+		CustomerVO customerVO = customerMapper.getById_Compensation(customerId).orElse(null);
+		if (customerVO == null) throw new NotExistException();
+		if (customerVO.getId() != contractVO.getCustomer_id()) throw new NotExistException();
+		// 입력받은 고객이 입력받은 계약을 신청했는지 확인하는 로직 - 기존 로직에 없는거 같아서 새로 추가했음
+		// 그 계약이 고객이 신청한 계약이 아니면 보험금을 납부하면 안되니까ㅇㅇ
+		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(insuranceMoneyId).orElse(null);
+		if (insuranceMoneyVO == null) throw new NotExistException();
+		if (insuranceMoneyVO.getProcess_status() == InsuranceMoneyStatus.Completed.ordinal())
 			throw new AlreadyProcessedException();
-		}
-		PaymentDetail payment = new PaymentDetail(customer.getName(), customer.getBankName(), customer.getBankAccount(), money, paymentType, contractId);
-		paymentDetailList.add(payment);
-		insuranceMoney.setProcessStatus(InsuranceMoneyStatus.Completed);
-		insuranceMoney.handle();
-		insuranceMoneyList.update(insuranceMoney);
+		int paymentId = paymentDetailMapper.getCount_Compensation() == 0 ?
+				9001 : paymentDetailMapper.getLastId_Compensation()+1;
+		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(paymentId,
+				customerVO.getName(), customerVO.getBank_name(),
+				customerVO.getBank_account(), money, paymentType,
+				PaymentProcessStatus.Unprocessed.ordinal(),
+				contractId, contractVO.getEmployee_id());
+		paymentDetailMapper.add_Compensation(paymentDetailVO);
+		insuranceMoneyMapper.updateStatus_Compensation(InsuranceMoneyStatus.Completed.ordinal(), insuranceMoneyId);
+
+//		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed) {
+//			throw new AlreadyProcessedException();
+//		}
+//		PaymentDetail payment = new PaymentDetail(customer.getName(), customer.getBankName(), customer.getBankAccount(), money, paymentType, contractId);
+//		paymentDetailList.add(payment);
+//		insuranceMoney.setProcessStatus(InsuranceMoneyStatus.Completed);
+//		insuranceMoney.handle();
+//		insuranceMoneyList.update(insuranceMoney);
 	}
 
 
 
-	// 아래부터 get
+	// 아래부터 get - 아래는 완료
 	public List<InsuranceMoney> getAllInsuranceMoney() {
 		List<InsuranceMoneyVO> insuranceMoneyVOList = insuranceMoneyMapper.getAll_Compensation();
 		List<InsuranceMoney> result = new ArrayList<>();
