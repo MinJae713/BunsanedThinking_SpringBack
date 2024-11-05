@@ -7,6 +7,8 @@ import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
 import com.example.bunsanedthinking_springback.repository.ReportMapper;
+import com.example.bunsanedthinking_springback.vo.ReportVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +46,12 @@ public class PartnerCompanyModel {
 			throw new NotExistException();
 		}
 		reportMapper.update_PartnerCompany(report);
+	}
+
+	public void setDamageAssessmentMoney(int reportId, int damageAssessmentMoney) throws NotExistException {
+		ReportVO reportVO = reportMapper.getById_Compensation(reportId)
+			.orElseThrow(() -> new NotExistException("해당하는 신고 정보가 존재하지 않습니다."));
+		reportVO.setDamage_assessment_money(damageAssessmentMoney);
+		reportMapper.update(reportVO);
 	}
 }

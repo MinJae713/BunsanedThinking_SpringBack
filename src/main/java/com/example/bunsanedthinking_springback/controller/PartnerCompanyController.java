@@ -7,7 +7,9 @@ import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.partnerCompany.PartnerCompanyModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -29,5 +31,11 @@ public class PartnerCompanyController {
 	}
 	public void update(Report report) throws NotExistException {
 		partnerCompanyModel.update(report);
+	}
+
+	@PatchMapping("/setDamageAssessmentMoney")
+	public void setDamageAssessmentMoney(@RequestParam("reportId") int reportId,
+			@RequestParam("damageAssessmentMoney") int damageAssessmentMoney) throws NotExistException {
+		partnerCompanyModel.setDamageAssessmentMoney(reportId, damageAssessmentMoney);
 	}
 }
