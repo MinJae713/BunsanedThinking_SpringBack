@@ -109,20 +109,20 @@ public class LoanManagementModel {
 			case Collateral -> {
 				Optional<CollateralVO> optionalCollateralVO = collateralMapper.findById_LoanManagement(id);
 				CollateralVO collateralVO = optionalCollateralVO.orElseThrow(() -> new NotExistException("해당하는 담보 대출 정보가 존재하지 않습니다."));
-				return new Collateral(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				return new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), CollateralType.indexOf(collateralVO.getCollateral_type()),
 					collateralVO.getMinimum_value(), loanVO.getMonthly_income());
 			}
 			case FixedDeposit -> {
 				Optional<FixedDepositVO> optionalFixedDepositVO = fixedDepositMapper.findById_LoanManagement(id);
 				FixedDepositVO fixedDepositVO = optionalFixedDepositVO.orElseThrow(() -> new NotExistException("해당하는 정기 예금 대출 정보가 존재하지 않습니다."));
-				return new FixedDeposit(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				return new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income());
 			}
 			case InsuranceContract -> {
 				Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(id);
 				InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.orElseThrow(() -> new NotExistException("해당하는 보험 계약 대출 정보가 존재하지 않습니다."));
-				return new InsuranceContract(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				return new InsuranceContract(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), insuranceContractVO.getProduct_id(), loanVO.getMonthly_income());
 			}
 			default -> throw new NotExistException("대출 상품 종류가 잘못되었습니다.");
@@ -338,7 +338,7 @@ public class LoanManagementModel {
 						continue;
 
 					InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.get();
-					result.add(new InsuranceContract(loanType, productVO.getName(),
+					result.add(new InsuranceContract(productVO.getId(), loanType, productVO.getName(),
 						loanVO.getInterest_rate(), productVO.getMaximum_money(), loanVO.getMinimum_asset(),
 						insuranceContractVO.getInsurance_id(), loanVO.getMonthly_income()));
 				}
@@ -348,7 +348,7 @@ public class LoanManagementModel {
 						continue;
 
 					CollateralVO collateralVO = optionalCollateralVO.get();
-					result.add(new Collateral(loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+					result.add(new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
 						loanVO.getMinimum_asset(), CollateralType.indexOf(collateralVO.getCollateral_type()),
 						collateralVO.getMinimum_value(), loanVO.getMonthly_income()));
 				}
@@ -358,7 +358,7 @@ public class LoanManagementModel {
 						continue;
 
 					FixedDepositVO fixedDepositVO = optionalFixedDepositVO.get();
-					result.add(new FixedDeposit(loanType, productVO.getName(), loanVO.getInterest_rate(),
+					result.add(new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
 						productVO.getMaximum_money(), loanVO.getMinimum_asset(),
 						fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income()));
 				}

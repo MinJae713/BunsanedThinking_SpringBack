@@ -19,8 +19,9 @@ public class InsuranceContract extends Loan {
 
 	private int insuranceId;
 
-	public InsuranceContract(LoanType loanType, String name, int interestRate, int limit,
+	public InsuranceContract(int id, LoanType loanType, String name, int interestRate, int limit,
 		int minimumAsset, int insuranceId, int monthlyIncome) {
+		this.setId(id);
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
@@ -52,7 +53,7 @@ public class InsuranceContract extends Loan {
 
 	@Override
 	public Product clone() {
-		InsuranceContract insuranceContractLoan = new InsuranceContract(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),
+		InsuranceContract insuranceContractLoan = new InsuranceContract(getId(), getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(),
 			getInsuranceId(), getMonthlyIncome());
 		insuranceContractLoan.setId(getId());
 		return insuranceContractLoan;

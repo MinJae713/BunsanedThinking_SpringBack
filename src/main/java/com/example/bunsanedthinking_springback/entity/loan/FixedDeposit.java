@@ -18,8 +18,9 @@ import lombok.NoArgsConstructor;
 public class FixedDeposit extends Loan {
 	private int minimumAmount;
 
-	public FixedDeposit(LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
+	public FixedDeposit(int id, LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
 		int minimumAmount, int monthlyIncome){
+		this.setId(id);
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
@@ -61,7 +62,7 @@ public class FixedDeposit extends Loan {
 	
 	@Override
 	public Product clone() {
-		FixedDeposit fixedDepositLoan = new FixedDeposit(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getMinimumAmount(), getMonthlyIncome());
+		FixedDeposit fixedDepositLoan = new FixedDeposit(getId(), getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getMinimumAmount(), getMonthlyIncome());
 		fixedDepositLoan.setId(getId());
 		return fixedDepositLoan;
 	}
