@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/loanManagement")
@@ -71,7 +72,7 @@ public class LoanManagementController {
 	}
 
 	@GetMapping("/getAll")
-	public ArrayList<Product> getAll() {
+	public List<Product> getAll() {
 		return loanManagementModel.getAll();
 	}
 }

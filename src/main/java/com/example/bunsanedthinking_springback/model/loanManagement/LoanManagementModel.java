@@ -316,8 +316,8 @@ public class LoanManagementModel {
 		loanMapper.delete_LoanManagement(id);
 		productMapper.delete_LoanManagement(id);
 	}
-	public ArrayList<Product> getAll() {
-		ArrayList<Product> result = new ArrayList<>();
+	public List<Product> getAll() {
+		List<Product> result = new ArrayList<>();
 		List<ProductVO> productVOList = productMapper.getAll_LoanManagement();
 		for (ProductVO productVO : productVOList) {
 			Optional<LoanVO> optionalLoanVO = loanMapper.findById_LoanManagement(productVO.getId());
