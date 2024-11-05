@@ -8,9 +8,9 @@ package com.example.bunsanedthinking_springback.entity.loan;
  */
 public enum LoanType {
 
-	Collateral(1, "담보"),
-	FixedDeposit(2, "정기 예금"),
-	InsuranceContract(3, "보험 계약");
+	Collateral(0, "담보"),
+	FixedDeposit(1, "정기 예금"),
+	InsuranceContract(2, "보험 계약");
 
 	private final int value;
 	private final String name;

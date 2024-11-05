@@ -107,4 +107,9 @@
     <select id="getAll_customerInformationManagement" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
         SELECT * FROM customer;
     </select>
+
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from customer
+    </select>
 </mapper>

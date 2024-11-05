@@ -18,4 +18,6 @@ public interface SurgeryHistoryMapper {
 
     public void update_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistory surgeryHistory);
     public List<SurgeryHistory> findSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+
+	Integer getMaxId_SalesModel();
 }

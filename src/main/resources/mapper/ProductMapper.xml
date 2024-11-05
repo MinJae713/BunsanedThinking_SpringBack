@@ -5,6 +5,10 @@
         select * from product
         where id = #{id}
     </select>
+    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        select * from product
+        where id = #{id}
+    </select>
     <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
         select * from product
         where id = #{id}
@@ -12,7 +16,7 @@
     <delete id="delete_ProductManagementModel" parameterType="int">
         delete from product where id = #{id}
     </delete>
-    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
+    <update id="updateName_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
         UPDATE product
         SET name = #{name}, maximum_money= #{maximum_money}
         WHERE id = #{id}

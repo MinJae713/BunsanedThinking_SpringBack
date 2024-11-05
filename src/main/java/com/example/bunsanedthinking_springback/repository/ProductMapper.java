@@ -13,7 +13,7 @@ public interface ProductMapper {
     public Optional<ProductVO> getProductById_Customer(int id);
 	void delete_ProductManagementModel(int id);
 
-	void update_ProductManagementModel(ProductVO productVO);
+	void updateName_ProductManagementModel(ProductVO productVO);
 	void insert_LoanManagement(ProductVO productVO);
 
 	List<ProductVO> getAll_LoanManagement();
@@ -25,4 +25,5 @@ public interface ProductMapper {
 	void delete_LoanManagement(int id);
 
 	Integer isExistName(String name);
+	ProductVO getById_ProductManagementModel(int productId);
 }

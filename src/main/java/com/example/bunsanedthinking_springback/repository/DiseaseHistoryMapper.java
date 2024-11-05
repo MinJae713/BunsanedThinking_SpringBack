@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface DiseaseHistoryMapper {
     public List<DiseaseHistoryVO> getAllByCustomerId_Customer(int id);
-	public List<DiseaseHistory> getTst();
 
 	ArrayList<DiseaseHistoryVO> get_UnderWritingModel(int id);
 
@@ -20,6 +19,11 @@ public interface DiseaseHistoryMapper {
     public void insert_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistory diseaseHistory);
     public void deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
+
     public void update_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistory diseaseHistory);
     public List<DiseaseHistory> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+
+	void insertExcludedCustomerId_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
+
+	Integer getMaxId_SalesModel();
 }

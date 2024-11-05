@@ -33,4 +33,5 @@
         set insurance_id=#{insurance_id}
         where product_id = #{product_id}
     </update>
+
 </mapper>

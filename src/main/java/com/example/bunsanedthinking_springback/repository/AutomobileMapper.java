@@ -17,4 +17,6 @@ public interface AutomobileMapper {
 
 	void update_ProductManagementModel(AutoMobileVO automobileVO);
 	Optional<AutoMobileVO> findById_FinancialAccountant(int id);
+
+	AutoMobileVO getById_ProductManagementModel(int id);
 }

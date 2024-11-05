@@ -103,4 +103,9 @@
         set expiration_date = #{expiration_date}
         where id = #{id}
     </update>
+
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from contract
+    </select>
 </mapper>

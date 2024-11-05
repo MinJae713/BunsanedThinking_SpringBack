@@ -1,65 +1,41 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
-/**
- * @author KimChan
- * @version 1.0
- * @created 27-5-2024 ���� 4:40:44
- */
 public enum ServiceType {
 
-	EmergencyTowing("긴급견인"),
-	EmergencyStart("긴급시동"),
-	EmergencyRefueling("비상급유"),
-	BatteryCharging("배터리충전"),
-	EngineOverheatingRepair("엔진과열 수리"),
-	TirepunkRepair("타이어펑크 수리");
+	EmergencyTowing(0, "긴급견인"),
+	EmergencyStart(1, "긴급시동"),
+	EmergencyRefueling(2, "비상급유"),
+	BatteryCharging(3, "배터리충전"),
+	EngineOverheatingRepair(4, "엔진과열 수리"),
+	TirepunkRepair(5, "타이어펑크 수리");
 
+	private final int value;
 	private final String name;
 
-	ServiceType(String name) {
+	ServiceType(int value, String name) {
+		this.value = value;
 		this.name = name;
 	}
 
 	public String getName() {
 		return this.name;
 	}
-	public static ServiceType fromInt(int number) {
-		switch (number) {
-			case 1:
-				return EmergencyTowing;
-			case 2:
-				return EmergencyStart;
-			case 3:
-				return EmergencyRefueling;
-			case 4:
-				return BatteryCharging;
-			case 5:
-				return EngineOverheatingRepair;
-			case 6:
-				return TirepunkRepair;
-			default:
-				throw new IllegalArgumentException("Unknown ServiceType number: " + number);
-		}
-	}
 
 	public int getValue() {
-		switch (this) {
-			case EmergencyTowing:
-				return 1;
-			case EmergencyStart:
-				return 2;
-			case EmergencyRefueling:
-				return 3;
-			case BatteryCharging:
-				return 4;
-			case EngineOverheatingRepair:
-				return 5;
-			case TirepunkRepair:
-				return 6;
-			default:
-				throw new AssertionError("Unknown ServiceType: " + this);
-		}
+		return this.value;
 	}
+
+	// int 값을 Enum으로 변환하는 정적 메서드
+	public static ServiceType fromInt(int value) {
+		for (ServiceType type : ServiceType.values()) {
+			if (type.getValue() == value) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("Invalid int value for ServiceType: " + value);
+	}
+
+	// Enum ordinal에 따른 ServiceType 반환 메서드
 	public static ServiceType indexOf(int index) {
 		for (ServiceType service : ServiceType.values()) {
 			if (service.ordinal() == index) {
@@ -68,5 +44,4 @@ public enum ServiceType {
 		}
 		throw new IllegalArgumentException("잘못된 Service Type이 입력되었습니다.");
 	}
-
 }

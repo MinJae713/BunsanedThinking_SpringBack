@@ -22,4 +22,6 @@ public interface DiseaseMapper {
 
 	void update_ProductManagementModel(DiseaseVO diseaseVO);
 	Optional<DiseaseVO> findById_FinancialAccountant(int id);
+
+	DiseaseVO getById_ProductManagementModel(int id);
 }

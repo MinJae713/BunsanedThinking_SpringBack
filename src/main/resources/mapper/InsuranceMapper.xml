@@ -5,6 +5,10 @@
         select * from insurance
         where product_id = #{id}
     </select>
+    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+        select * from insurance
+        where product_id = #{id}
+    </select>
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select * from insurance
     </select>
@@ -21,7 +25,7 @@
                    #{insurance.age_range},
                    #{insurance.monthly_premium},
                    #{insurance.contract_period},
-                   #{insurance.coverage},
+                   #{insurance.coverage}
                )
     </insert>
 
@@ -39,5 +43,10 @@
         select *
         from insurance
         where product_id=#{param1}
+    </select>
+
+    <select id="getMaxId_ProductManagementModel" resultType="Integer">
+        select max(product_id)
+        from insurance
     </select>
 </mapper>
