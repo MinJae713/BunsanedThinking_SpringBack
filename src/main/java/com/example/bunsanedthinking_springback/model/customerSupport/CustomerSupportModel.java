@@ -51,13 +51,13 @@ public class CustomerSupportModel {
 	@Autowired
 	private PartnerCompanyMapper partnerCompanyMapper;
 
-	public void handleComplaint(String employeeName, Complaint complaint, String result, ComplaintList complaintList) throws NotExistException, AlreadyProcessedException {
-		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed) {
+	public void handleComplaint(String employeeName, int complaintId, String result) throws NotExistException, AlreadyProcessedException {
+		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(complaintId)
+			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
+		if (complaintVO.getProcess_status() == ComplaintProcessStatus.Completed.ordinal()) {
 			throw new AlreadyProcessedException("이미 민원 처리가 완료되었습니다.");
 		}
 		// 로그인한 직원 이름이 여기 드감
-		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(complaint.getId())
-				.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
 		complaintVO.setEmployee_name(employeeName);
 		complaintVO.setResult(result);
 		complaintVO.setProcessing_date(LocalDate.now());
@@ -65,24 +65,25 @@ public class CustomerSupportModel {
 		complaintMapper.update_CustomerSupport(complaintVO);
 	}
 
-	public void handleAccident(Accident accident, PartnerCompany damageAssessmentCompany,
-							   PartnerCompany roadsideAssistanceCompany, ReportList reportList) throws AlreadyProcessedException {
-		if (accident.getProcessStatus() == AccidentProcessStatus.Completed) {
-			throw new AlreadyProcessedException("이미 신고 처리가 완료되었습니다.");
-		} else if (accident.getProcessStatus() == AccidentProcessStatus.Processing) {
-			throw new AlreadyProcessedException("신고 처리 중입니다.");
-		}
-		Optional<AccidentVO> optionalAccidentVO = accidentMapper.findByID_CustomerSupport(accident.getId());
+	public void handleAccident(int accidentId, int damageAssessmentCompanyId,
+							   int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
+		Optional<AccidentVO> optionalAccidentVO = accidentMapper.findByID_CustomerSupport(accidentId);
 		if (optionalAccidentVO.isEmpty()) {
 			return;
 		}
 		AccidentVO accidentVO = optionalAccidentVO.get();
+		if (accidentVO.getProcess_status() == AccidentProcessStatus.Completed.ordinal()) {
+			throw new AlreadyProcessedException("이미 신고 처리가 완료되었습니다.");
+		} else if (accidentVO.getProcess_status() == AccidentProcessStatus.Processing.ordinal()) {
+			throw new AlreadyProcessedException("신고 처리 중입니다.");
+		}
 		accidentVO.setProcess_status(AccidentProcessStatus.Processing.ordinal());
 		accidentMapper.update_CustomerSupport(accidentVO);
-		ReportVO reportVO = new ReportVO(accidentVO.getId(), null, ReportProcessStatus.Unprocessed.ordinal(), roadsideAssistanceCompany.getId(), damageAssessmentCompany.getId());
+		ReportVO reportVO = new ReportVO(accidentVO.getId(), null,
+			ReportProcessStatus.Unprocessed.ordinal(), roadsideAssistanceCompanyId, damageAssessmentCompanyId);
 		reportMapper.insert_CustomerSupport(reportVO);
 	}
-	public ArrayList<Complaint> getAll(ComplaintList complaintList) {
+	public ArrayList<Complaint> getAllComplaint() {
 		ArrayList<Complaint> result = new ArrayList<>();
 		for (ComplaintVO complaintVO : complaintMapper.getAll_CustomerSupport()) {
 			result.add(new Complaint(
@@ -93,11 +94,11 @@ public class CustomerSupportModel {
 		}
 		return result;
 	}
-	public ArrayList<Complaint> getAllUnprocessedComplaint(ComplaintList complaintList) {
+	public ArrayList<Complaint> getAllUnprocessedComplaint() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
 	}
 
-	public ArrayList<Complaint> getAllProcessedComplant(ComplaintList complaintList) {
+	public ArrayList<Complaint> getAllProcessedComplant() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Completed);
 	}
 
@@ -113,7 +114,7 @@ public class CustomerSupportModel {
 		return result;
 	}
 
-	public Complaint get(ComplaintList complaintList, int id) throws NotExistException {
+	public Complaint getComplaint(int id) throws NotExistException {
 		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
 		return new Complaint(
@@ -123,7 +124,7 @@ public class CustomerSupportModel {
 			complaintVO.getResult());
 	}
 
-	public Customer get(CustomerList customerList, int customerID) throws NotExistException {
+	public Customer getCustomer(int customerID) throws NotExistException {
 		CustomerVO customerVO = customerMapper.findById_FinancialAccountant(customerID)
 			.orElseThrow(() -> new NotExistException("해당하는 고객 정보를 찾을 수 없습니다."));
 		Customer customer = new Customer();
@@ -133,7 +134,7 @@ public class CustomerSupportModel {
 		return customer;
 	}
 
-	public ArrayList<Accident> getAll(AccidentList accidentList) {
+	public ArrayList<Accident> getAllAccident() {
 		ArrayList<Accident> result = new ArrayList<>();
 		for (AccidentVO accidentVO : accidentMapper.getAll_CustomerSupport()) {
 			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id());
@@ -149,11 +150,11 @@ public class CustomerSupportModel {
 		return result;
 	}
 
-	public ArrayList<Accident> getAllUnprocessedAccident(AccidentList accidentList) {
+	public ArrayList<Accident> getAllUnprocessedAccident() {
 		return getAllByProcessStatus(AccidentProcessStatus.Unprocessed);
 	}
 
-	public ArrayList<Accident> getAllCompletedAccident(AccidentList accidentList) {
+	public ArrayList<Accident> getAllCompletedAccident() {
 		return getAllByProcessStatus(AccidentProcessStatus.Completed);
 	}
 
@@ -173,7 +174,7 @@ public class CustomerSupportModel {
 		return result;
 	}
 
-	public Accident get(AccidentList accidentList, int id) throws NotExistException {
+	public Accident getAccident(int id) throws NotExistException {
 		AccidentVO accidentVO = accidentMapper.findByID_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 사고 정보가 존재하지 않습니다."));
 		CustomerVO customerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id())
@@ -184,11 +185,11 @@ public class CustomerSupportModel {
 			ServiceType.indexOf(accidentVO.getService_type()));
 	}
 
-	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany(PartnerCompanyList partnerCompanyList) {
+	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany() {
 		return getAllByPartnerCompanyType(PartnerCompanyType.RoadsideAssistanceCompany);
 	}
 
-	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany(PartnerCompanyList partnerCompanyList) {
+	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany() {
 		return getAllByPartnerCompanyType(PartnerCompanyType.DamageAssessmentCompany);
 	}
 
@@ -204,7 +205,7 @@ public class CustomerSupportModel {
 		return result;
 	}
 
-	public PartnerCompany getRoadAssistanceCompany(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
+	public PartnerCompany getRoadAssistanceCompany(int id) throws NotExistException {
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 긴급 출동 업체 정보가 존재하지 않습니다."));
 		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
@@ -213,7 +214,7 @@ public class CustomerSupportModel {
 			partnerCompanyVO.getPhone_number(), null);
 	}
 
-	public PartnerCompany getDamageAssessmentCompany(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
+	public PartnerCompany getDamageAssessmentCompany(int id) throws NotExistException {
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다."));
 		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),

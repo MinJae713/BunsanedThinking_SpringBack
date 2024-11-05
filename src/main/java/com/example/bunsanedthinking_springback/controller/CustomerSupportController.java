@@ -13,7 +13,11 @@ import com.example.bunsanedthinking_springback.exception.AlreadyProcessedExcepti
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.customerSupport.CustomerSupportModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -24,51 +28,82 @@ public class CustomerSupportController {
 	@Autowired
 	private CustomerSupportModel customerSupportModel;
 
-	public void handleComplaint(String employeeName, Complaint complaint, String result, ComplaintList complaintList) throws NotExistException, AlreadyProcessedException {
-		customerSupportModel.handleComplaint(employeeName, complaint, result, complaintList);
+	@PatchMapping("/handleComplaint")
+	public void handleComplaint(@RequestParam("employeeName") String employeeName, @RequestParam("complaintId") int complaintId,
+			@RequestParam("result") String result) throws NotExistException, AlreadyProcessedException {
+		customerSupportModel.handleComplaint(employeeName, complaintId, result);
 	}
 
-	public void handleAccident(Accident accident, PartnerCompany damageAssessmentCompany,
-							   PartnerCompany roadsideAssistanceCompany, ReportList reportList) throws AlreadyProcessedException {
-		customerSupportModel.handleAccident(accident, damageAssessmentCompany, roadsideAssistanceCompany, reportList);
+	@PatchMapping("/handleAccident")
+	public void handleAccident(@RequestParam("accidentId") int accidentId, @RequestParam("damageAssessmentCompanyId")int damageAssessmentCompanyId,
+			@RequestParam("roadsideAssistanceCompanyId") int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
+		customerSupportModel.handleAccident(accidentId, damageAssessmentCompanyId, roadsideAssistanceCompanyId);
 	}
-	public ArrayList<Complaint> getAll(ComplaintList complaintList) {
-		return customerSupportModel.getAll(complaintList);
+
+	@GetMapping("/getAllComplaint")
+	public ArrayList<Complaint> getAllComplaint() {
+		return customerSupportModel.getAllComplaint();
 	}
-	public ArrayList<Complaint> getAllUnprocessedComplaint(ComplaintList complaintList) {
-		return customerSupportModel.getAllUnprocessedComplaint(complaintList);
+
+	@GetMapping("/getAllUnprocessedComplaint")
+	public ArrayList<Complaint> getAllUnprocessedComplaint() {
+		return customerSupportModel.getAllUnprocessedComplaint();
 	}
-	public ArrayList<Complaint> getAllProcessedComplant(ComplaintList complaintList) {
-		return customerSupportModel.getAllProcessedComplant(complaintList);
+
+	@GetMapping("/getAllProcessedComplant")
+	public ArrayList<Complaint> getAllProcessedComplant() {
+		return customerSupportModel.getAllProcessedComplant();
 	}
-	public Complaint get(ComplaintList complaintList, int id) throws NotExistException {
-		return customerSupportModel.get(complaintList, id);
+
+	@GetMapping("/getComplaint")
+	public Complaint getComplaint(@RequestParam("complaintId") int complaintId) throws NotExistException {
+		return customerSupportModel.getComplaint(complaintId);
 	}
-	public Customer get(CustomerList customerList, int customerID) throws NotExistException {
-		return customerSupportModel.get(customerList, customerID);
+
+	@GetMapping("/getCustomer")
+	public Customer getCustomer(@RequestParam("customerId") int customerID) throws NotExistException {
+		return customerSupportModel.getCustomer(customerID);
 	}
-	public ArrayList<Accident> getAll(AccidentList accidentList) {
-		return customerSupportModel.getAll(accidentList);
+
+	@GetMapping("/getAllAccident")
+	public ArrayList<Accident> getAllAccident() {
+		return customerSupportModel.getAllAccident();
 	}
-	public ArrayList<Accident> getAllUnprocessedReport(AccidentList accidentList) {
-		return customerSupportModel.getAllUnprocessedAccident(accidentList);
+
+	@GetMapping("/getAllUnprocessedReport")
+	public ArrayList<Accident> getAllUnprocessedReport() {
+		return customerSupportModel.getAllUnprocessedAccident();
 	}
-	public ArrayList<Accident> getAllCompletedReport(AccidentList accidentList) {
-		return customerSupportModel.getAllCompletedAccident(accidentList);
+
+	@GetMapping("/getAllCompletedReport")
+	public ArrayList<Accident> getAllCompletedReport() {
+		return customerSupportModel.getAllCompletedAccident();
 	}
-	public Accident get(AccidentList accidentList, int id) throws NotExistException {
-		return customerSupportModel.get(accidentList, id);
+
+	@GetMapping("/getAccident")
+	public Accident getAccident(@RequestParam("accidentId") int accidentId) throws NotExistException {
+		return customerSupportModel.getAccident(accidentId);
 	}
-	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany(PartnerCompanyList partnerCompanyList) {
-		return customerSupportModel.getAllRoadAssistanceCompany(partnerCompanyList);
+
+	@GetMapping("/getAllRoadAssistanceCompany")
+	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany() {
+		return customerSupportModel.getAllRoadAssistanceCompany();
 	}
-	public PartnerCompany getRoadAssistanceCompany(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
-		return customerSupportModel.getRoadAssistanceCompany(partnerCompanyList, id);
+
+	@GetMapping("/getRoadAssistanceCompany")
+	public PartnerCompany getRoadAssistanceCompany(
+			@RequestParam("roadAssistanceCompanyId") int roadAssistanceCompanyId) throws NotExistException {
+		return customerSupportModel.getRoadAssistanceCompany(roadAssistanceCompanyId);
 	}
-	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany(PartnerCompanyList partnerCompanyList) {
-		return customerSupportModel.getAllDamageAssessmentCompany(partnerCompanyList);
+
+	@GetMapping("/getAllDamageAssessmentCompany")
+	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany() {
+		return customerSupportModel.getAllDamageAssessmentCompany();
 	}
-	public PartnerCompany getDamageAssessmentCompany(PartnerCompanyList partnerCompanyList, int id) throws NotExistException {
-		return customerSupportModel.getDamageAssessmentCompany(partnerCompanyList, id);
+
+	@GetMapping("/getDamageAssessmentCompany")
+	public PartnerCompany getDamageAssessmentCompany(
+			@RequestParam("damageAssessmentCompanyId") int damageAssessmentCompanyId) throws NotExistException {
+		return customerSupportModel.getDamageAssessmentCompany(damageAssessmentCompanyId);
 	}
 }
