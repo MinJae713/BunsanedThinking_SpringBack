@@ -186,10 +186,11 @@ public class FinancialAccountantModel {
 			} catch (IOException ignored) {
 			}
 		}
+		Date terminationDate = contractVO.getTermination_date() == null ? null : Date.valueOf(contractVO.getTermination_date());
 		return new Contract(compensationDetailList, ContractStatus.indexOf(contractVO.getContract_status()),
 			contractVO.getCustomer_id(), Date.valueOf(contractVO.getDate()), depositDetailList, contractVO.getEmployee_id(),
 			contractVO.getPayment_date().getDayOfMonth(), Date.valueOf(contractVO.getExpiration_date()), contractVO.getId(), insuranceMoneyList,
-			lastPaymentDate, product, Date.valueOf(contractVO.getTermination_date()));
+			lastPaymentDate, product, terminationDate);
 	}
 
 	private Insurance getInsurance(ProductVO productVO) throws NotExistException{
