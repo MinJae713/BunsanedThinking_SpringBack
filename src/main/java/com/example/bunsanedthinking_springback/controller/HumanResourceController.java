@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/humanResource")
+@RequestMapping("/employee/humanResource")
 public class HumanResourceController {
 	@Autowired
 	private HumanResourceModel humanResourceModel;
