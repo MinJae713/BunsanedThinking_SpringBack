@@ -89,7 +89,12 @@ public class LoanManagementModel {
 		if (productId == null) {
 			productId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Loan.LOAN_SERIAL_NUMBER + 1);
 		} else {
-			productId++;
+			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
+			int loanSerialLength = ("" + Loan.LOAN_SERIAL_NUMBER).length();
+			String index = (productId + "").substring(productSerialLength + loanSerialLength);
+			index = (Integer.parseInt(index) + 1) + "";
+			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Loan.LOAN_SERIAL_NUMBER + index;
+			productId = Integer.parseInt(compound);
 		}
 		return new ProductVO(productId, name, limit);
 	}
