@@ -171,6 +171,7 @@ public class HumanResourceModel {
 			Department department = new Department();
 			department.setId(departmentVO.getId());
 			department.setName(departmentVO.getName());
+			department.setEmployeeList(new ArrayList<>());
 			result.add(department);
 		}
 		return result;
@@ -185,6 +186,7 @@ public class HumanResourceModel {
 		department.setHeadName(departmentVO.getHead_name());
 		department.setPurpose(departmentVO.getPurpose());
 		department.setTask(departmentVO.getTask());
+		department.setEmployeeList(new ArrayList<>());
 		return department;
 	}
 }
