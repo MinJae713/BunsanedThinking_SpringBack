@@ -71,10 +71,10 @@ public class HumanResourceModel {
 		Integer maxId = familyMapper.getMaxId_HumanResource();
 		int index;
 		if (maxId == null) {
-			index = 1;
+			index = Integer.parseInt(("" + Family.FAMILY_SERIAL_NUMBER) + 1);
 		} else {
 			int familySerialLength = ("" + Family.FAMILY_SERIAL_NUMBER).length();
-			index = Integer.parseInt((maxId+"").substring(familySerialLength + 1));
+			index = Integer.parseInt((maxId+"").substring(familySerialLength));
 			index++;
 		}
 		String compound = "" + Family.FAMILY_SERIAL_NUMBER + index;
