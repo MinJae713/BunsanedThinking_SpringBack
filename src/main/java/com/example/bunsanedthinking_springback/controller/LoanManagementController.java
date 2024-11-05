@@ -75,4 +75,10 @@ public class LoanManagementController {
 	public List<Product> getAll() {
 		return loanManagementModel.getAll();
 	}
+
+	@GetMapping("/getOutcome")
+	public double getOutcome(@RequestParam("contractId") int contractId) throws
+		NotExistContractException, NotExistException {
+		return loanManagementModel.getOutcome(contractId);
+	}
 }

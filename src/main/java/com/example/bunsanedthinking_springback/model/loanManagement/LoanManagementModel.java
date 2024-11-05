@@ -366,4 +366,38 @@ public class LoanManagementModel {
 		}
 		return result;
 	}
+
+	public double getOutcome(int contractId) throws NotExistContractException, NotExistException {
+		ContractVO contractVO = contractMapper.findById_FinancialAccountant(contractId)
+			.orElseThrow(NotExistContractException::new);
+		int productSerialLength = (Product.PRODUCT_SERIAL_NUMBER + "").length();
+		int insuranceSerialLength = (Insurance.INSURANCE_SERIAL_NUMBER + "").length();
+		String productType = (contractVO.getProduct_id() + "").substring(
+			productSerialLength, productSerialLength + insuranceSerialLength);
+		if (productType.equals(Insurance.INSURANCE_SERIAL_NUMBER + "")) {
+			InsuranceVO insuranceVO = insuranceMapper.findById_FinancialAccountant(contractVO.getProduct_id())
+				.orElseThrow(() -> new NotExistException("해당하는 상품 정보가 존재하지 않습니다."));
+			return insuranceVO.getMonthly_premium();
+		} else if (productType.equals(Loan.LOAN_SERIAL_NUMBER + "")) {
+			return getLoanOutcome(contractVO);
+		}
+		return 0;
+	}
+
+	private double getLoanOutcome(ContractVO contractVO) throws NotExistException {
+		LoanVO loanVO = loanMapper.findById_LoanManagement(contractVO.getProduct_id())
+			.orElseThrow(() -> new NotExistException("해당하는 상품 정보가 존재하지 않습니다."));
+		List<CompensationDetailVO> compensationDetailVOList =
+			compensationDetailMapper.getAllCompensationByContractId_Customer(contractVO.getId());
+		if (compensationDetailVOList.size() == 1) {
+			CompensationDetailVO compensationDetailVO = compensationDetailVOList.get(0);
+			return (double)(compensationDetailVO.getMoney() * loanVO.getInterest_rate()) / 100;
+		}
+		// compensationDetailVOList.size() > 1인 경우 -> 대출은 1번만 지급해주기 때문에 대부분의 상황에선 X
+		int totalMoney = 0;
+		for (CompensationDetailVO compensationDetailVO : compensationDetailVOList) {
+			totalMoney += compensationDetailVO.getMoney();
+		}
+		return (double)(totalMoney * loanVO.getInterest_rate()) / 100;
+	}
 }
