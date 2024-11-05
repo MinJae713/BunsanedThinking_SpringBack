@@ -69,10 +69,10 @@ public class FinancialAccountantModel {
 	@Autowired
 	private CustomerMapper customerMapper;
 
-	public DepositDetail getDepositDetail(DepositDetailList depositDetailList, int id) throws NotExistException{
+	public DepositDetail getDepositDetail(int id) throws NotExistException{
 		DepositDetailVO depositDetailVO = depositDetailMapper.findById_FinancialAccountant(id)
 			.orElseThrow(() -> new NotExistException("해당하는 입금 내역 정보가 존재하지 않습니다."));
-		return new DepositDetail(depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
+		return new DepositDetail(id, depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
 			depositDetailVO.getMoney(), DepositPath.indexOf(depositDetailVO.getPath()));
 	}
 
@@ -80,17 +80,19 @@ public class FinancialAccountantModel {
 		//
 	}
 
-	public void handlePayment(PaymentDetail paymentDetail, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException {
+	public void handlePayment(int paymentDetailId) throws NotExistException, AlreadyProcessedException {
 		// if문 - 보험사 운영시간이 아닙니다. 다른 시간에 다시 이용해주세요 - 데코레이터 추가
-		if (paymentDetail.getProcessStatus() == PaymentProcessStatus.Completed) {
+		PaymentDetailVO paymentDetailVO = paymentDetailMapper.findById_FinancialAccountant(paymentDetailId)
+			.orElseThrow(() -> new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다."));
+		if (paymentDetailVO.getProcess_status() == PaymentProcessStatus.Completed.ordinal()) {
 			throw new AlreadyProcessedException("이미 지급이 완료되었습니다.");
 		}
-		PaymentDetailVO paymentDetailVO = PaymentDetailVO.from(paymentDetail);
 		paymentDetailVO.setProcess_status(PaymentProcessStatus.Completed.ordinal());
 		paymentDetailMapper.update_FinancialAccountant(paymentDetailVO);
 	}
-	public ArrayList<PaymentDetail> getAllPaymentDetail(PaymentDetailList paymentDetailList) {
-		ArrayList<PaymentDetail> result = new ArrayList<>();
+
+	public List<PaymentDetail> getAllPaymentDetail() {
+		List<PaymentDetail> result = new ArrayList<>();
 		List<PaymentDetailVO> paymentDetailVOList = paymentDetailMapper.getAll_FinancialAccountant();
 		for (PaymentDetailVO paymentDetailVO : paymentDetailVOList) {
 			result.add(new PaymentDetail(paymentDetailVO.getAccount_holder(), paymentDetailVO.getBank(),
@@ -100,14 +102,17 @@ public class FinancialAccountantModel {
 		}
 		return result;
 	}
-	public ArrayList<PaymentDetail> getAllUnprocessedPaymentDetail(PaymentDetailList paymentDetailList) {
+
+	public List<PaymentDetail> getAllUnprocessedPaymentDetail() {
 		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Unprocessed);
 	}
-	public ArrayList<PaymentDetail> getAllCompletedPaymentDetail(PaymentDetailList paymentDetailList) {
+
+	public List<PaymentDetail> getAllCompletedPaymentDetail() {
 		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Completed);
 	}
-	private ArrayList<PaymentDetail> getAllPaymentDetailByProcessStatus(PaymentProcessStatus processStatus) {
-		ArrayList<PaymentDetail> result = new ArrayList<>();
+
+	private List<PaymentDetail> getAllPaymentDetailByProcessStatus(PaymentProcessStatus processStatus) {
+		List<PaymentDetail> result = new ArrayList<>();
 		List<PaymentDetailVO> paymentDetailVOList = paymentDetailMapper.findByProcessStatus_FinancialAccountant(processStatus.ordinal());
 		for (PaymentDetailVO paymentDetailVO : paymentDetailVOList) {
 			result.add(new PaymentDetail(paymentDetailVO.getAccount_holder(), paymentDetailVO.getBank(),
@@ -117,7 +122,8 @@ public class FinancialAccountantModel {
 		}
 		return result;
 	}
-	public PaymentDetail get(PaymentDetailList paymentDetailList, int id) throws NotExistException {
+
+	public PaymentDetail getPaymentDetail(int id) throws NotExistException {
 		PaymentDetailVO paymentDetailVO = paymentDetailMapper.findById_FinancialAccountant(id)
 			.orElseThrow(() -> new NotExistException("해당하는 지급사항 정보를 찾을 수 없습니다."));
 		return new PaymentDetail(paymentDetailVO.getAccount_holder(), paymentDetailVO.getBank(),
@@ -125,7 +131,8 @@ public class FinancialAccountantModel {
 			PaymentType.indexOf(paymentDetailVO.getPayment_type()), paymentDetailVO.getContract_id(),
 			paymentDetailVO.getEmployee_id());
 	}
-	public Contract get(ContractList contractList, int id) throws NotExistContractException {
+
+	public Contract getContract(int id) throws NotExistContractException {
 		ContractVO contractVO = contractMapper.findById_FinancialAccountant(id)
 			.orElseThrow(NotExistContractException::new);
 		ProductVO productVO = productMapper.findById_LoanManagement(contractVO.getProduct_id())
@@ -157,7 +164,7 @@ public class FinancialAccountantModel {
 		Date lastPaymentDate = null;
 		for (DepositDetailVO depositDetailVO :
 			depositDetailMapper.findByContractId_FinancialAccountant(contractVO.getId())) {
-			DepositDetail depositDetail = new DepositDetail(
+			DepositDetail depositDetail = new DepositDetail(depositDetailVO.getId(),
 				depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
 				depositDetailVO.getMoney(), DepositPath.indexOf(depositDetailVO.getPath()));
 			if (lastPaymentDate == null || depositDetailVO.getDate().isAfter(
@@ -179,10 +186,11 @@ public class FinancialAccountantModel {
 			} catch (IOException ignored) {
 			}
 		}
+		Date terminationDate = contractVO.getTermination_date() == null ? null : Date.valueOf(contractVO.getTermination_date());
 		return new Contract(compensationDetailList, ContractStatus.indexOf(contractVO.getContract_status()),
 			contractVO.getCustomer_id(), Date.valueOf(contractVO.getDate()), depositDetailList, contractVO.getEmployee_id(),
 			contractVO.getPayment_date().getDayOfMonth(), Date.valueOf(contractVO.getExpiration_date()), contractVO.getId(), insuranceMoneyList,
-			lastPaymentDate, product, Date.valueOf(contractVO.getTermination_date()));
+			lastPaymentDate, product, terminationDate);
 	}
 
 	private Insurance getInsurance(ProductVO productVO) throws NotExistException{
@@ -230,27 +238,30 @@ public class FinancialAccountantModel {
 			case Collateral -> {
 				CollateralVO collateralVO = collateralMapper.findById_LoanManagement(productVO.getId())
 					.orElseThrow(() -> new NotExistException("존재하지 않는 담보 대출 정보"));
-				return new Collateral(loanType, productVO.getName(), loanVO.getInterest_rate(),
+				return new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
 					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
-					CollateralType.indexOf(collateralVO.getCollateral_type()), collateralVO.getMinimum_value());
+					CollateralType.indexOf(collateralVO.getCollateral_type()),
+					collateralVO.getMinimum_value(), loanVO.getMonthly_income());
 			}
 			case InsuranceContract -> {
 				InsuranceContractVO insuranceContractVO = insuranceContractMapper.findById_LoanManagement(productVO.getId())
 					.orElseThrow(() -> new NotExistException("존재하지 않는 보험 계약 대출 정보"));
-				return new InsuranceContract(loanType, productVO.getName(), loanVO.getInterest_rate(),
-					productVO.getMaximum_money(), loanVO.getMinimum_asset(), insuranceContractVO.getInsurance_id());
+				return new InsuranceContract(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
+					insuranceContractVO.getInsurance_id(), loanVO.getMonthly_income());
 			}
 			case FixedDeposit -> {
 				FixedDepositVO fixedDepositVO = fixedDepositMapper.findById_LoanManagement(productVO.getId())
 					.orElseThrow(() -> new NotExistException("존재하지 않는 정기 예금 대출 정보"));
-				return new FixedDeposit(loanType, productVO.getName(), loanVO.getInterest_rate(),
-					productVO.getMaximum_money(), loanVO.getMinimum_asset(), fixedDepositVO.getMinimum_amount());
+				return new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+					productVO.getMaximum_money(), loanVO.getMinimum_asset(),
+					fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income());
 			}
 			default -> throw new NotExistException();
 		}
 	}
 
-	public Customer get(CustomerList customerList, int id) throws NotExistException {
+	public Customer getCustomer(int id) throws NotExistException {
 		CustomerVO customerVO = customerMapper.findById_FinancialAccountant(id)
 			.orElseThrow(NotExistException::new);
 		Customer customer = new Customer();
@@ -259,11 +270,12 @@ public class FinancialAccountantModel {
 		customer.setBankName(customerVO.getBank_name());
 		return customer;
 	}
-	public ArrayList<DepositDetail> getAllDepositDetail(DepositDetailList depositDetailList) {
-		ArrayList<DepositDetail> result = new ArrayList<>();
+
+	public List<DepositDetail> getAllDepositDetail() {
+		List<DepositDetail> result = new ArrayList<>();
 		List<DepositDetailVO> depositDetailVOList = depositDetailMapper.getAll_FinancialAccountant();
 		for (DepositDetailVO depositDetailVO : depositDetailVOList) {
-			result.add(new DepositDetail(depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(), depositDetailVO.getMoney(),
+			result.add(new DepositDetail(depositDetailVO.getId(), depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(), depositDetailVO.getMoney(),
 				DepositPath.indexOf(depositDetailVO.getPath())));
 		}
 		return result;

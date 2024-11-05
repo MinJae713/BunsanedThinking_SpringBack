@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.chan.EmployeeDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
@@ -11,29 +12,37 @@ import com.example.bunsanedthinking_springback.exception.DuplicateResidentRegist
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.humanResource.HumanResourceModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-@RequestMapping("/humanResource")
+@RequestMapping("/employee/humanResource")
 public class HumanResourceController {
 	@Autowired
 	private HumanResourceModel humanResourceModel;
 
-	public void addEmployee(int teamId, String name, EmployeePosition employeePosition, String address, String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber, int departmentID, int salary, String dateOfemployment, EmployeeList employeeList, ArrayList<Family> tempFamilyList, FamilyList familyList) throws DuplicateResidentRegistrationNumberException {
-		humanResourceModel.addEmployee(teamId, name, employeePosition, address, phoneNumber, 
-				bankName, bankAccount, residentRegistrationNumber, departmentID, salary, 
-				dateOfemployment, employeeList, tempFamilyList, familyList);
+	@PostMapping("/addEmployee")
+	public void addEmployee(@RequestBody EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException {
+		humanResourceModel.addEmployee(employeeDTO);
 	}
 
-	public void deleteEmployee(EmployeeList employeeList, int id) throws NotExistException {
-		humanResourceModel.deleteEmployee(employeeList, id);
+	@DeleteMapping("/deleteEmployee")
+	public void deleteEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
+		humanResourceModel.deleteEmployee(employeeId);
 	}
 
-	public Employee getEmployee(EmployeeList employeeList, int id) throws NotExistException{
-		return humanResourceModel.getEmployee(employeeList, id);
+	@GetMapping("/getEmployee")
+	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException{
+		return humanResourceModel.getEmployee(employeeId);
 	}
 
 	public void requestAdditionalAllowance(){
@@ -44,16 +53,24 @@ public class HumanResourceController {
 		humanResourceModel.requestBenefit();
 	}
 
-	public void updateEmployee(int index, String input, Employee employee, EmployeeList employeeList) throws NotExistException {
-		humanResourceModel.updateEmployee(index, input, employee, employeeList);
+	@PatchMapping("/updateEmployee")
+	public void updateEmployee(@RequestParam("index") int index, @RequestParam("input") String input,
+			@RequestParam("employeeId") int employeeId) throws NotExistException {
+		humanResourceModel.updateEmployee(index, input, employeeId);
 	}
-	public ArrayList<Employee> getAll(EmployeeList employeeList) {
-		return humanResourceModel.getAll(employeeList);
+
+	@GetMapping("/getAllEmployee")
+	public List<Employee> getAllEmployee() {
+		return humanResourceModel.getAllEmployee();
 	}
-	public ArrayList<Department> getAll(DepartmentList departmentList) {
-		return humanResourceModel.getAll(departmentList);
+
+	@GetMapping("/getAllDepartment")
+	public List<Department> getAllDepartment() {
+		return humanResourceModel.getAllDepartment();
 	}
-	public Department get(DepartmentList departmentList, int departmentID) throws NotExistException {
-		return humanResourceModel.get(departmentList, departmentID);
+
+	@GetMapping("/getDepartment")
+	public Department getDepartment(@RequestParam("departmentId") int departmentId) throws NotExistException {
+		return humanResourceModel.get(departmentId);
 	}
 }

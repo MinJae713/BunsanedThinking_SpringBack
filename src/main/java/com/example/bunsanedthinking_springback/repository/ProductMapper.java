@@ -23,4 +23,6 @@ public interface ProductMapper {
 	void update_LoanManagement(ProductVO productVO);
 
 	void delete_LoanManagement(int id);
+
+	Integer isExistName(String name);
 }

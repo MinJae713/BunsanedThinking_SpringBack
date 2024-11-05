@@ -18,7 +18,7 @@
     </insert>
     <delete id="deleteByEmployeeId_HumanResource">
         delete from family
-        where id=#{param1}
+        where employee_id=#{param1}
     </delete>
     <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.FamilyVO">
         select *

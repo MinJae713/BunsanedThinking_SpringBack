@@ -19,5 +19,6 @@ public interface ReportMapper {
     List<Report> findAllByDamageAssessmentCompanyID_PartnerCompany(@Param("id") int id);
     Report findById_PartnerCompany(@Param("id") int id);
     void update_PartnerCompany(Report report);
+    void update(ReportVO reportVO);
 }
 

@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.model.humanResource;
 
+import com.example.bunsanedthinking_springback.dto.chan.EmployeeDTO;
+import com.example.bunsanedthinking_springback.dto.chan.FamilyDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
-import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.EmployeeList;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.family.Family;
-import com.example.bunsanedthinking_springback.entity.family.FamilyList;
 import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
@@ -24,12 +23,10 @@ import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class HumanResourceModel {
@@ -43,70 +40,58 @@ public class HumanResourceModel {
 	@Autowired
 	private DepartmentMapper departmentMapper;
 
-	public void addEmployee(int teamId, String name, EmployeePosition employeePosition, String address, String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber, int departmentID, int salary, String dateOfemployment, EmployeeList employeeList, ArrayList<Family> tempFamilyList, FamilyList familyList) throws DuplicateResidentRegistrationNumberException {
-		for (EmployeeVO employee : employeeMapper.getAll_HumanResource()) {
-			if (employee.getResident_registration_number().equals(residentRegistrationNumber)) {
-				throw new DuplicateResidentRegistrationNumberException();
-			}
+	public void addEmployee(EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException {
+		if (employeeMapper.isExistResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber()) == 1) {
+			throw new DuplicateResidentRegistrationNumberException();
 		}
-		Date date = null;
-		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-			date = formatter.parse(dateOfemployment);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		List<EmployeeVO> employeeVOList = employeeMapper.getAll_HumanResource();
+		int maxId = 0;
+		int employeeSerialLength = ("" + Employee.EMPLOYEE_SERIAL_NUMBER).length();
+		int teamIdLength = 3;
+		for (EmployeeVO employeeVO : employeeVOList) {
+			int temp = Integer.parseInt((employeeVO.getId()+"").substring(employeeSerialLength + teamIdLength));
+			if (maxId < temp)
+				maxId = temp;
 		}
-		// Employee employee = null;
-		// int[] teamIds = {110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230};
-		// for (int id : teamIds) {
-		// 	if (teamId == id) {
-		// 		employee = new Employee(name, employeePosition,address, phoneNumber,
-		// 				bankName, bankAccount,residentRegistrationNumber, departmentID, salary,date);
-		// 		employeeList.add(employee);
-		// 	}
-		// }
-		Integer maxId = employeeMapper.getMaxId_HumanResource();
-		int index;
-		if (maxId == null){
-			index = 1;
-		} else {
-			int employeeSerialLength = ("" + Employee.EMPLOYEE_SERIAL_NUMBER).length();
-			int teamIdLength = 3;
-			index = Integer.parseInt((maxId+"").substring(employeeSerialLength + teamIdLength + 1));
-			index++;
-		}
-		String compound = "" + Employee.EMPLOYEE_SERIAL_NUMBER + teamId + index;
+		maxId++;
+		String compound = "" + Employee.EMPLOYEE_SERIAL_NUMBER + employeeDTO.getTeamId() + maxId;
 		int id = Integer.parseInt(compound);
-		EmployeeVO employeeVO = new EmployeeVO(id, address, bankName, bankAccount, LocalDate.now(), name,
-			phoneNumber, employeePosition.ordinal(), residentRegistrationNumber, salary, departmentID);
+		LocalDate employmentDate = LocalDate.parse(employeeDTO.getEmploymentDate());
+		EmployeePosition employeePosition = EmployeePosition.indexOf(employeeDTO.getEmployeePosition());
+		EmployeeVO employeeVO = new EmployeeVO(id, employeeDTO.getAddress(), employeeDTO.getBankName(),
+			employeeDTO.getBankAccount(), employmentDate, employeeDTO.getName(), employeeDTO.getPhoneNumber(),
+			employeePosition.ordinal(), employeeDTO.getResidentRegistrationNumber(), employeeDTO.getSalary(),
+			employeeDTO.getDepartmentID());
 		employeeMapper.insert_HumanResource(employeeVO);
-		addFamily(employeeVO, tempFamilyList);
+		addFamily(employeeVO, employeeDTO.getTempFamilyList());
 	}
 
-	private void addFamily(EmployeeVO employeeVO, ArrayList<Family> tempFamilyList) {
+	private void addFamily(EmployeeVO employeeVO, List<FamilyDTO> tempFamilyList) {
 		Integer maxId = familyMapper.getMaxId_HumanResource();
 		int index;
 		if (maxId == null) {
-			index = 1;
+			index = Integer.parseInt(("" + Family.FAMILY_SERIAL_NUMBER) + 1);
 		} else {
 			int familySerialLength = ("" + Family.FAMILY_SERIAL_NUMBER).length();
-			index = Integer.parseInt((maxId+"").substring(familySerialLength + 1));
+			index = Integer.parseInt((maxId+"").substring(familySerialLength));
 			index++;
 		}
 		String compound = "" + Family.FAMILY_SERIAL_NUMBER + index;
 		int id = Integer.parseInt(compound);
-		for (Family family : tempFamilyList) {
-			familyMapper.insert_HumanResource(new FamilyVO(id, LocalDate.parse(family.getBirthDate(), DateTimeFormatter.ISO_DATE), family.getName(), family.getRelationship().ordinal(), family.isSurvival(), employeeVO.getId()));
+		for (FamilyDTO family : tempFamilyList) {
+			RelationshipType relationshipType = RelationshipType.indexOf(family.getRelationship());
+			familyMapper.insert_HumanResource(new FamilyVO(id, family.getBirthDate(), family.getName(),
+				relationshipType.ordinal(), family.isSurvival(), employeeVO.getId()));
 			id++;
 		}
 	}
 
-	public void deleteEmployee(EmployeeList employeeList, int id) throws NotExistException{
+	public void deleteEmployee(int id) throws NotExistException{
 		familyMapper.deleteByEmployeeId_HumanResource(id);
 		employeeMapper.delete_HumanResource(id);
 	}
 
-	public Employee getEmployee(EmployeeList employeeList, int id) throws NotExistException{
+	public Employee getEmployee(int id) throws NotExistException{
 		EmployeeVO employeeVO = employeeMapper.findById_HumanResource(id)
 			.orElseThrow(() -> new NotExistException("해당하는 직원 정보가 존재하지 않습니다."));
 		ArrayList<PaymentDetail> paymentDetailList = new ArrayList<>();
@@ -140,8 +125,8 @@ public class HumanResourceModel {
 		System.out.println("Request Benefit");
 	}
 
-	public void updateEmployee(int index, String input, Employee employee, EmployeeList employeeList) throws NotExistException {
-		EmployeeVO employeeVO = employeeMapper.findById_HumanResource(employee.getId())
+	public void updateEmployee(int index, String input, int employeeId) throws NotExistException {
+		EmployeeVO employeeVO = employeeMapper.findById_HumanResource(employeeId)
 			.orElseThrow(() -> new NotExistException("해당하는 직원 정보가 존재하지 않습니다."));
 		switch (index) {
 		case 1 -> employeeVO.setName(input);
@@ -158,31 +143,41 @@ public class HumanResourceModel {
 		}
 		employeeMapper.update_HumanResource(employeeVO);
 	}
-	public ArrayList<Employee> getAll(EmployeeList employeeList) {
-		ArrayList<Employee> result = new ArrayList<>();
+
+	public List<Employee> getAllEmployee() {
+		List<Employee> result = new ArrayList<>();
 		for (EmployeeVO employeeVO: employeeMapper.getAll_HumanResource()) {
 			Employee employee = new Employee();
 			employee.setId(employeeVO.getId());
 			employee.setPosition(EmployeePosition.indexOf(employeeVO.getPosition()));
 			employee.setDepartmentID(employeeVO.getDepartment_id());
 			employee.setSalary(employeeVO.getSalary());
+			employee.setEmploymentDate(Date.valueOf(employeeVO.getEmployment_date()));
+			employee.setAddress(employeeVO.getAddress());
+			employee.setDepartmentID(employeeVO.getDepartment_id());
+			employee.setBankAccount(employeeVO.getBank_account());
+			employee.setBankName(employeeVO.getBank_name());
+			employee.setName(employeeVO.getName());
+			employee.setPhoneNumber(employeeVO.getPhone_number());
+			employee.setResidentRegistrationNumber(employeeVO.getResident_registration_number());
 			result.add(employee);
 		}
 		return result;
 	}
 
-	public ArrayList<Department> getAll(DepartmentList departmentList) {
-		ArrayList<Department> result = new ArrayList<>();
+	public List<Department> getAllDepartment() {
+		List<Department> result = new ArrayList<>();
 		for (DepartmentVO departmentVO : departmentMapper.getAll_HumanResource()) {
 			Department department = new Department();
 			department.setId(departmentVO.getId());
 			department.setName(departmentVO.getName());
+			department.setEmployeeList(new ArrayList<>());
 			result.add(department);
 		}
 		return result;
 	}
 
-	public Department get(DepartmentList departmentList, int departmentID) throws NotExistException {
+	public Department get(int departmentID) throws NotExistException {
 		DepartmentVO departmentVO = departmentMapper.findById_HumanResource(departmentID)
 			.orElseThrow(() -> new NotExistException("해당하는 부서 정보가 존재하지 않습니다."));
 		Department department = new Department();
@@ -191,6 +186,7 @@ public class HumanResourceModel {
 		department.setHeadName(departmentVO.getHead_name());
 		department.setPurpose(departmentVO.getPurpose());
 		department.setTask(departmentVO.getTask());
+		department.setEmployeeList(new ArrayList<>());
 		return department;
 	}
 }

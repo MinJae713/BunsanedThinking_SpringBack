@@ -16,16 +16,18 @@ import lombok.NoArgsConstructor;
 //2024-06-04 김대현
 @NoArgsConstructor
 public class FixedDeposit extends Loan {
-
 	private int minimumAmount;
 
-	public FixedDeposit(LoanType loanType, String name, int interestRate, int limit, int minimumAsset, int minimumAmount){
+	public FixedDeposit(int id, LoanType loanType, String name, int interestRate, int limit, int minimumAsset,
+		int minimumAmount, int monthlyIncome){
+		this.setId(id);
 		this.setLoanType(loanType);
 		this.setName(name);
 		this.setInterestRate(interestRate);
 		this.setMaximumMoney(limit);
 		this.setMinimumAsset(minimumAsset);
 		this.setMinimumAmount(minimumAmount);
+		this.setMonthlyIncome(monthlyIncome);
 	}
 
 	public FixedDeposit(ProductVO productVO, LoanVO loanVO, int minimumValue){
@@ -60,7 +62,7 @@ public class FixedDeposit extends Loan {
 	
 	@Override
 	public Product clone() {
-		FixedDeposit fixedDepositLoan = new FixedDeposit(getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getMinimumAmount());
+		FixedDeposit fixedDepositLoan = new FixedDeposit(getId(), getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getMinimumAmount(), getMonthlyIncome());
 		fixedDepositLoan.setId(getId());
 		return fixedDepositLoan;
 	}
