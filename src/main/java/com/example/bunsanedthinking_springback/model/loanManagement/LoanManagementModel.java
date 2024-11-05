@@ -249,6 +249,9 @@ public class LoanManagementModel {
 				}
 				productVO = productMapper.findById_LoanManagement(loanId)
 					.orElseThrow(NotExistException::new);
+				if (loanMapper.findById_LoanManagement(loanId).isEmpty()) {
+					throw new NotExistException();
+				}
 				productVO.setName(input);
 				productMapper.update_LoanManagement(productVO);
 			}
@@ -261,6 +264,9 @@ public class LoanManagementModel {
 			case 3 -> {
 				productVO = productMapper.findById_LoanManagement(loanId)
 					.orElseThrow(NotExistException::new);
+				if (loanMapper.findById_LoanManagement(loanId).isEmpty()) {
+					throw new NotExistException();
+				}
 				productVO.setMaximum_money(Integer.parseInt(input));
 				productMapper.update_LoanManagement(productVO);
 			}
