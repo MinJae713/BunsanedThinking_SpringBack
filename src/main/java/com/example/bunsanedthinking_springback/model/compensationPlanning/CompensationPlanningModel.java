@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.model.compensationPlanning;
 
+import com.example.bunsanedthinking_springback.dto.yoo.AddPartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.yoo.UpdatePartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
@@ -18,7 +20,12 @@ public class CompensationPlanningModel {
 	@Autowired
 	private PartnerCompanyMapper partnerCompanyMapper;
 
-	public void addPartnerCompany(String name, String phoneNumber, int partnerCompanyType, String headName, String headPhoneNumber) throws DuplicatePartnerCompanyException {
+	public void addPartnerCompany(AddPartnerCompanyDTO partnerCompanyDTO) throws DuplicatePartnerCompanyException {
+		String name = partnerCompanyDTO.getName();
+		String phoneNumber = partnerCompanyDTO.getPhoneNumber();
+		int partnerCompanyType = partnerCompanyDTO.getPartnerCompanyType();
+		String headName = partnerCompanyDTO.getHeadName();
+		String headPhoneNumber = partnerCompanyDTO.getHeadPhoneNumber();
 		for (PartnerCompanyVO partnerCompany : partnerCompanyMapper.getAll_CompensationPlanning()) {
 			if (partnerCompany.getName().equals(name)) {
 				throw new DuplicatePartnerCompanyException();
@@ -57,7 +64,11 @@ public class CompensationPlanningModel {
 			partnerCompanyVO.getPhone_number(), new ArrayList<Report>()); // 널포인터 없애려고 ArrayList 추가
 	}
 
-	public void updatePartnerCompany(int index, String input, int partnerCompanyId) throws DuplicatePartnerCompanyException, NotExistException{
+	public void updatePartnerCompany(UpdatePartnerCompanyDTO partnerCompanyDTO)
+			throws DuplicatePartnerCompanyException, NotExistException{
+		int index = partnerCompanyDTO.getIndex();
+		String input = partnerCompanyDTO.getInput();
+		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(partnerCompanyId)
 			.orElseThrow(() -> new NotExistException("해당하는 협력업체 정보가 존재하지 않습니다."));
 		switch (index) {

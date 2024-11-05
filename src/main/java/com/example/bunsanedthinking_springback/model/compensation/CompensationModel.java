@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.model.compensation;
 
+import com.example.bunsanedthinking_springback.dto.yoo.ReqCompensationDTO;
+import com.example.bunsanedthinking_springback.dto.yoo.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
@@ -87,9 +89,15 @@ public class CompensationModel {
 	// paymentDetailVO - 테이블에 추가
 	// reportVO - processStatus를 Complete으로 테이블 수정
 	// accidentVO - processStatus를 Complete으로 테이블 수정(어떤 accident인지는 report가 갖는 accident id 확인)
-	public void requestCompensation(String accountHolder, String bank, String bankAccount, int money,
-									int paymentType, int contractId, int reportId)
+	public void requestCompensation(ReqCompensationDTO reqCompensationDTO)
 					throws NotExistException, AlreadyProcessedException{
+		String accountHolder = reqCompensationDTO.getAccountHolder();
+		String bank = reqCompensationDTO.getBank();
+		String bankAccount = reqCompensationDTO.getBankAccount();
+		int money = reqCompensationDTO.getMoney();
+		int paymentType = reqCompensationDTO.getPaymentType();
+		int contractId = reqCompensationDTO.getContractId();
+		int reportId = reqCompensationDTO.getReportId();
 		ReportVO reportVO = reportMapper.getById_Compensation(reportId).orElse(null);
 		if (reportVO == null) throw new NotExistException();
 		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
@@ -115,8 +123,13 @@ public class CompensationModel {
 //		accidentList.update(report.getAccident());
 	}
 	
-	public void requestInsuranceMoney(int customerId, int money, int insuranceMoneyId,
-									  int paymentType, int contractId) throws NotExistException, AlreadyProcessedException{
+	public void requestInsuranceMoney(ReqInsuranceMoneyDTO reqInsuranceMoneyDTO) throws NotExistException, AlreadyProcessedException{
+
+		int customerId = reqInsuranceMoneyDTO.getCustomerId();
+		int money = reqInsuranceMoneyDTO.getMoney();
+		int insuranceMoneyId = reqInsuranceMoneyDTO.getInsuranceMoneyId();
+		int paymentType = reqInsuranceMoneyDTO.getPaymentType();
+		int contractId = reqInsuranceMoneyDTO.getContractId();
 
 		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
 		if (contractVO == null) throw new NotExistException();

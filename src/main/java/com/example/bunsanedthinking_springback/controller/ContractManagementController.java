@@ -119,12 +119,12 @@ public class ContractManagementController {
 		contractManagementModel.reviewEndorsement(endorsementId, index);
 	}
 	@PatchMapping("/reviewRecontract")
-	public void reviewRecontract(int recontractId, int index) throws NotExistContractException, NotExistException {
+	public void reviewRecontract(@RequestParam int recontractId, @RequestParam int index) throws NotExistContractException, NotExistException {
 		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRecontract?recontractId=1001&index=1
 		contractManagementModel.reviewRecontract(recontractId, index);
 	}
 	@PatchMapping("/reviewRevival")
-	public void reviewRevival(int revivalId, int index) throws NotExistContractException {
+	public void reviewRevival(@RequestParam int revivalId, @RequestParam int index) throws NotExistContractException {
 		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRevival?revivalId=1001&index=1
 		contractManagementModel.reviewRevival(revivalId, index);
 	}

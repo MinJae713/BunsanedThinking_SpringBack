@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.yoo.ReqCompensationDTO;
+import com.example.bunsanedthinking_springback.dto.yoo.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -62,26 +64,34 @@ public class CompensationController {
 //		return compensationModel.getAutomobileByCustomerId(contractList, customerID);
 //	}
 	@PatchMapping("/requestCompensation")
-	public void requestCompensation(@RequestParam String accountHolder,
-									@RequestParam String bank,
-									@RequestParam String bankAccount,
-									@RequestParam int money,
-									@RequestParam int paymentType,
-									@RequestParam int contractId,
-									@RequestParam int reportId)
+	public void requestCompensation(@RequestBody ReqCompensationDTO reqCompensationDTO)
 			throws NotExistException, AlreadyProcessedException {
-		// 예시URL - http://localhost:8080/employee/compensation/requestCompensation?accountHolder=김찬&bank=모환&bankAccount=김찬어카운트&money=3000000&contractId=1001&reportId=4002&paymentType=0
-		compensationModel.requestCompensation(accountHolder, bank, bankAccount, money, paymentType, contractId, reportId);
+		/*
+		{
+			"accountHolder": "김찬",
+			"bank": "모환",
+			"bankAccount": "김찬어카운트",
+			"money": 3000000,
+			"contractId": 1001,
+			"reportId": 4002,
+			"paymentType": 0
+		}
+		 */
+		compensationModel.requestCompensation(reqCompensationDTO);
 	}
 	@PatchMapping("/requestInsuranceMoney")
-	public void requestInsuranceMoney(@RequestParam int customerId,
-									  @RequestParam int money,
-									  @RequestParam int insuranceMoneyId,
-									  @RequestParam int paymentType,
-									  @RequestParam int contractId)
+	public void requestInsuranceMoney(@RequestBody ReqInsuranceMoneyDTO reqInsuranceMoneyDTO)
 			throws NotExistException, AlreadyProcessedException{
-		// 예시URL - http://localhost:8080/employee/compensation/requestInsuranceMoney?customerId=2001&money=185000&insuranceMoneyId=2&paymentType=0&contractId=1001
-		compensationModel.requestInsuranceMoney(customerId, money, insuranceMoneyId, paymentType, contractId);
+		/*
+		{
+			"customerId": 2001,
+			"money": 185000,
+			"insuranceMoneyId": 2,
+			"paymentType": 0,
+			"contractId": 1001
+		}
+		 */
+		compensationModel.requestInsuranceMoney(reqInsuranceMoneyDTO);
 	}
 	@GetMapping("/getAllInsuranceMoney")
 	public List<InsuranceMoney> getAllInsuranceMoney() {
@@ -96,7 +106,7 @@ public class CompensationController {
 		return compensationModel.getAllProcessedInsuranceMoney();
 	}
 	@GetMapping("/getInsuranceMoneyById")
-	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
+	public InsuranceMoney getInsuranceMoneyById(@RequestParam int id) throws NotExistException {
 		return compensationModel.getInsuranceMoneyById(id);
 	}
 	@GetMapping("/getContractById")

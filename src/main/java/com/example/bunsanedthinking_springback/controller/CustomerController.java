@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.yoo.DepositDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -141,9 +142,9 @@ public class CustomerController {
 		customerModel.applyRecontract(contractId);
 	}
 	@PostMapping("/payInsurancefee")
-	public void payInsurancefee(String depositorName, int contractId, int money, int depositPath)
+	public void payInsurancefee(@RequestBody DepositDTO depositDTO)
 			throws NotExistContractException, NotExistException {
-		customerModel.payInsurancefee(depositorName, contractId, money, depositPath);
+		customerModel.payInsurancefee(depositDTO);
 	}
 	@GetMapping("/getCustomerById")
 	// http://localhost:8080/customer/getCustomerById?id=2002 - Get Post Patch delete
@@ -222,7 +223,7 @@ public class CustomerController {
 		return customerModel.getContractById(id);
 	}
 	@GetMapping("/getContractByOneAutomobileId")
-	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
+	public Contract getContractByOneAutomobileId(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return customerModel.getContractByOneAutomobileId(id);
 	}
 	@GetMapping("/getAllAccidentByCustomerId")

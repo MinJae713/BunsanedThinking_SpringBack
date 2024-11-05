@@ -1,5 +1,7 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.yoo.AddPartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.yoo.UpdatePartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
@@ -34,16 +36,21 @@ public class CompensationPlanningController {
 //		return compensationPlanningModel.getAll(partnerCompanyList);
 //	}
 	@PostMapping("/addPartnerCompany")
-	public void addPartnerCompany(@RequestParam String name,
-								  @RequestParam String phoneNumber,
-								  @RequestParam int partnerCompanyType,
-								  @RequestParam String headName,
-								  @RequestParam String headPhoneNumber)
+	public void addPartnerCompany(@RequestBody AddPartnerCompanyDTO partnerCompanyDTO)
 				throws DuplicatePartnerCompanyException {
-		compensationPlanningModel.addPartnerCompany(name, phoneNumber, partnerCompanyType, headName, headPhoneNumber);
+		/*
+		{
+			"name": "삼성전자",
+			"phoneNumber": "010-3737-2855",
+			"partnerCompanyType": 1,
+			"headName": "김대현",
+			"headPhoneNumber": "010-1111-2222"
+		}
+		 */
+		compensationPlanningModel.addPartnerCompany(partnerCompanyDTO);
 	}
 	@PatchMapping("/evaluatePartnerCompany")
-	public void evaluatePartnerCompany(int evaluate, int partnerCompanyId) throws NotExistException{
+	public void evaluatePartnerCompany(@RequestParam int evaluate, @RequestParam int partnerCompanyId) throws NotExistException{
 		compensationPlanningModel.evaluatePartnerCompany(evaluate, partnerCompanyId);
 	}
 	@GetMapping("/getPartnerCompany")
@@ -51,11 +58,16 @@ public class CompensationPlanningController {
 		return compensationPlanningModel.getPartnerCompany(id);
 	}
 	@PatchMapping("/updatePartnerCompany")
-	public void updatePartnerCompany(@RequestParam int index,
-									 @RequestParam String input,
-									 @RequestParam int partnerCompanyId)
+	public void updatePartnerCompany(@RequestBody UpdatePartnerCompanyDTO partnerCompanyDTO)
 				throws DuplicatePartnerCompanyException, NotExistException{
-		compensationPlanningModel.updatePartnerCompany(index, input, partnerCompanyId);
+		/*
+		{
+			"index": 2,
+			"input": "010-5678-3456",
+			"partnerCompanyId": 3001
+		}
+		 */
+		compensationPlanningModel.updatePartnerCompany(partnerCompanyDTO);
 	}
 	@DeleteMapping("/deletePartnerCompany")
 	public void deletePartnerCompany(int id) throws NotExistException {

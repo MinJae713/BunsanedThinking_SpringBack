@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.model.customer;
 
+import com.example.bunsanedthinking_springback.dto.yoo.DepositDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
@@ -196,8 +197,12 @@ public class CustomerModel {
 //			throw new NotExistExpiredContract();
 //		}
 	}
-	public void payInsurancefee(String depositorName, int contractId, int money, int depositPath)
+	public void payInsurancefee(DepositDTO depositDTO)
 			throws NotExistContractException, NotExistException {
+		String depositorName = depositDTO.getDepositorName();
+		int contractId = depositDTO.getContractId();
+		int money = depositDTO.getMoney();
+		int depositPath = depositDTO.getDepositPath();
 		if (contractMapper.getById_Customer(contractId).orElse(null) == null)
 			throw new NotExistContractException();
 		int depositId = depositDetailMapper.getCount_Customer() == 0 ?
