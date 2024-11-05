@@ -1,19 +1,14 @@
 package com.example.bunsanedthinking_springback.model.customerSupport;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyList;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
-import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
@@ -98,7 +93,7 @@ public class CustomerSupportModel {
 		return getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
 	}
 
-	public List<Complaint> getAllProcessedComplant() {
+	public List<Complaint> getAllProcessedComplaint() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Completed);
 	}
 

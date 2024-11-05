@@ -1,26 +1,19 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyList;
-import com.example.bunsanedthinking_springback.entity.report.ReportList;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.customerSupport.CustomerSupportModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -51,9 +44,9 @@ public class CustomerSupportController {
 		return customerSupportModel.getAllUnprocessedComplaint();
 	}
 
-	@GetMapping("/getAllProcessedComplant")
-	public List<Complaint> getAllProcessedComplant() {
-		return customerSupportModel.getAllProcessedComplant();
+	@GetMapping("/getAllProcessedComplaint")
+	public List<Complaint> getAllProcessedComplaint() {
+		return customerSupportModel.getAllProcessedComplaint();
 	}
 
 	@GetMapping("/getComplaint")
