@@ -13,7 +13,6 @@ public interface EmployeeMapper {
 	ArrayList<EmployeeVO> getAll_SalesModel();
 
 	EmployeeVO get_SalesModel(int id);
-	Integer getMaxId_HumanResource();
 
 	void insert_HumanResource(EmployeeVO employeeVO);
 

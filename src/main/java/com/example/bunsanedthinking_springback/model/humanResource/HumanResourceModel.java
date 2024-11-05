@@ -45,17 +45,17 @@ public class HumanResourceModel {
 		if (employeeMapper.isExistResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber()) == 1) {
 			throw new DuplicateResidentRegistrationNumberException();
 		}
-		Integer maxId = employeeMapper.getMaxId_HumanResource();
-		int index;
-		if (maxId == null){
-			index = 1;
-		} else {
-			int employeeSerialLength = ("" + Employee.EMPLOYEE_SERIAL_NUMBER).length();
-			int teamIdLength = 3;
-			index = Integer.parseInt((maxId+"").substring(employeeSerialLength + teamIdLength + 1));
-			index++;
+		List<EmployeeVO> employeeVOList = employeeMapper.getAll_HumanResource();
+		int maxId = 0;
+		int employeeSerialLength = ("" + Employee.EMPLOYEE_SERIAL_NUMBER).length();
+		int teamIdLength = 3;
+		for (EmployeeVO employeeVO : employeeVOList) {
+			int temp = Integer.parseInt((employeeVO.getId()+"").substring(employeeSerialLength + teamIdLength));
+			if (maxId < temp)
+				maxId = temp;
 		}
-		String compound = "" + Employee.EMPLOYEE_SERIAL_NUMBER + employeeDTO.getTeamId() + index;
+		maxId++;
+		String compound = "" + Employee.EMPLOYEE_SERIAL_NUMBER + employeeDTO.getTeamId() + maxId;
 		int id = Integer.parseInt(compound);
 		LocalDate employmentDate = LocalDate.parse(employeeDTO.getEmploymentDate());
 		EmployeePosition employeePosition = EmployeePosition.indexOf(employeeDTO.getEmployeePosition());

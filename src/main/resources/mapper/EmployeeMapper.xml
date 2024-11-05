@@ -19,10 +19,6 @@
         WHERE
             id = #{id}
     </select>
-    <select id="getMaxId_HumanResource" resultType="Integer">
-        select max(id)
-        from employee
-    </select>
     <insert id="insert_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         insert into employee (id, address, bank_name, bank_account, employment_date, name, phone_number, position, resident_registration_number, salary, department_id)
         values (
