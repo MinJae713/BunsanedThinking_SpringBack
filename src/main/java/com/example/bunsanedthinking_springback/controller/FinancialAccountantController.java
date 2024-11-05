@@ -13,10 +13,15 @@ import com.example.bunsanedthinking_springback.exception.NotExistContractExcepti
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.financialAccountant.FinancialAccountantModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/financialAccountant")
@@ -24,34 +29,52 @@ public class FinancialAccountantController {
 	@Autowired
 	private FinancialAccountantModel financialAccountantModel;
 
-	public DepositDetail getDepositDetail(DepositDetailList depositDetailList, int id) throws NotExistException{
-		return financialAccountantModel.getDepositDetail(depositDetailList, id);
+	@GetMapping("/getDepositDetail")
+	public DepositDetail getDepositDetail(@RequestParam("depositDetailId") int depositDetailId) throws NotExistException{
+		return financialAccountantModel.getDepositDetail(depositDetailId);
 	}
+
 	public void getTaxPaymentDetail(){
 		financialAccountantModel.getTaxPaymentDetail();
 	}
-	public void handlePayment(PaymentDetail paymentDetail, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException {
-		financialAccountantModel.handlePayment(paymentDetail, paymentDetailList);
+
+	@PatchMapping("/handlePayment")
+	public void handlePayment(@RequestParam("paymentDetailId") int paymentDetailId) throws NotExistException, AlreadyProcessedException {
+		financialAccountantModel.handlePayment(paymentDetailId);
 	}
-	public ArrayList<PaymentDetail> getAllPaymentDetail(PaymentDetailList paymentDetailList) {
-		return financialAccountantModel.getAllPaymentDetail(paymentDetailList);
+
+	@GetMapping("/getAllPaymentDetail")
+	public List<PaymentDetail> getAllPaymentDetail() {
+		return financialAccountantModel.getAllPaymentDetail();
 	}
-	public ArrayList<PaymentDetail> getAllUnprocessedPaymentDetail(PaymentDetailList paymentDetailList) {
-		return financialAccountantModel.getAllUnprocessedPaymentDetail(paymentDetailList);
+
+	@GetMapping("/getAllUnprocessedPaymentDetail")
+	public List<PaymentDetail> getAllUnprocessedPaymentDetail() {
+		return financialAccountantModel.getAllUnprocessedPaymentDetail();
 	}
-	public ArrayList<PaymentDetail> getAllCompletedPaymentDetail(PaymentDetailList paymentDetailList) {
-		return financialAccountantModel.getAllCompletedPaymentDetail(paymentDetailList);
+
+	@GetMapping("/getAllCompletedPaymentDetail")
+	public List<PaymentDetail> getAllCompletedPaymentDetail() {
+		return financialAccountantModel.getAllCompletedPaymentDetail();
 	}
-	public PaymentDetail get(PaymentDetailList paymentDetailList, int index) throws NotExistException {
-		return financialAccountantModel.get(paymentDetailList, index);
+
+	@GetMapping("getPaymentDetail")
+	public PaymentDetail getPaymentDetail(@RequestParam("paymentDetailId") int paymentDetailId) throws NotExistException {
+		return financialAccountantModel.getPaymentDetail(paymentDetailId);
 	}
-	public Contract get(ContractList contractList, int id) throws NotExistContractException {
-		return financialAccountantModel.get(contractList, id);
+
+	@GetMapping("/getContract")
+	public Contract getContract(@RequestParam("contractId") int contractId) throws NotExistContractException {
+		return financialAccountantModel.getContract(contractId);
 	}
-	public Customer get(CustomerList customerList, int id) throws NotExistException {
-		return financialAccountantModel.get(customerList, id);
+
+	@GetMapping("/getCustomer")
+	public Customer getCustomer(@RequestParam("customerId") int customerId) throws NotExistException {
+		return financialAccountantModel.getCustomer(customerId);
 	}
-	public ArrayList<DepositDetail> getAllDepositDetail(DepositDetailList depositDetailList) {
-		return financialAccountantModel.getAllDepositDetail(depositDetailList);
+
+	@GetMapping("/getAllDepositDetail")
+	public List<DepositDetail> getAllDepositDetail() {
+		return financialAccountantModel.getAllDepositDetail();
 	}
 }
