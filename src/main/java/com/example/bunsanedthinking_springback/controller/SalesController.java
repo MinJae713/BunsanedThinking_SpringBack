@@ -1,33 +1,18 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
-import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.EmployeeList;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.entity.product.ProductList;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.sales.SalesModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -217,5 +202,9 @@ public class SalesController {
 	@GetMapping("/getSalesContractCount")
 	public Sales getSalesContractCount(int id){
 		return salesModel.getSalesContractCount(id);
+	}
+
+	public void setContractCount(int contractCount, Sales sales) {
+		salesModel.setContractCount(contractCount, sales);
 	}
 }

@@ -6,35 +6,26 @@ import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
 import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
-import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.EmployeeList;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -703,5 +694,10 @@ public class SalesModel {
 		Sales sales = getSales(id);
 		return sales;
 		// return (Sales) employeeList.get(id);
+	}
+
+	// 새로 추가됨!! - 컨트롤러에도 넣어주세유
+	public void setContractCount(int contractCount, Sales sales) {
+		sales.setContractCount(++contractCount);
 	}
 }
