@@ -23,8 +23,7 @@ import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +152,14 @@ public class HumanResourceModel {
 			employee.setPosition(EmployeePosition.indexOf(employeeVO.getPosition()));
 			employee.setDepartmentID(employeeVO.getDepartment_id());
 			employee.setSalary(employeeVO.getSalary());
+			employee.setEmploymentDate(Date.valueOf(employeeVO.getEmployment_date()));
+			employee.setAddress(employeeVO.getAddress());
+			employee.setDepartmentID(employeeVO.getDepartment_id());
+			employee.setBankAccount(employeeVO.getBank_account());
+			employee.setBankName(employeeVO.getBank_name());
+			employee.setName(employeeVO.getName());
+			employee.setPhoneNumber(employeeVO.getPhone_number());
+			employee.setResidentRegistrationNumber(employeeVO.getResident_registration_number());
 			result.add(employee);
 		}
 		return result;
