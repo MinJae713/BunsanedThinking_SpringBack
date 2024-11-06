@@ -1,5 +1,15 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -11,10 +21,6 @@ import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.sales.SalesModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/employee/sales")
@@ -108,7 +114,6 @@ public class SalesController {
 	public void handleInsuranceConsultation(int id) throws AlreadyProcessedException {
 		salesModel.handleInsuranceConsultation(id);
 	}
-
 
 	@PostMapping("/induceInsuranceProduct")
 	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
@@ -204,7 +209,8 @@ public class SalesController {
 		return salesModel.getSalesContractCount(id);
 	}
 
-	public void setContractCount(int contractCount, Sales sales) {
-		salesModel.setContractCount(contractCount, sales);
+	@PatchMapping("/setContractCount")
+	public void setContractCount(int contractCount, int id) {
+		salesModel.setContractCount(contractCount, id);
 	}
 }
