@@ -41,5 +41,26 @@
         select max(id)
         from accidenthistory
     </select>
-
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        select * from accidenthistory
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        select * from accidenthistory
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        insert into accidentHistory (id, date, details_of_accident, customer_id)
+        values (#{id}, #{date}, #{details_of_accident}, #{customer_id})
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        update accidenthistory
+        set details_of_accident = #{details_of_accident},
+            date = #{date},
+            customer_id = #{customer_id}
+        where id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        delete from accidenthistory
+        where id = #{id}
+    </delete>
 </mapper>

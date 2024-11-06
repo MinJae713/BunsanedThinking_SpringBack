@@ -17,7 +17,7 @@ public class CompensationDetailVO {
     private LocalDate payment_date;
     private int contract_id;
 
-    public CompensationDetail getCompensationDetail() {
+    public CompensationDetail getEntity() {
         CompensationDetail compensationDetail = new CompensationDetail();
         compensationDetail.setId(id);
         compensationDetail.setContractID(contract_id);

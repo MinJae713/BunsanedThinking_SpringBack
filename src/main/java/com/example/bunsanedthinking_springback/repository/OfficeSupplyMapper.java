@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +17,6 @@ public interface OfficeSupplyMapper {
     public int getTotalInventory_OfficeSupply();
 
     Integer getMaxId_Administrative();
+
+    public void update(OfficeSupplyVO officeSupplyVO);
 }

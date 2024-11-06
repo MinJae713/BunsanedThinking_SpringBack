@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentMapper">
-    <select id="getAccidentById_Customer" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select * from accident
         where id = #{id}
     </select>
@@ -9,7 +9,7 @@
         select * from accident
         where customer_id = #{id}
     </select>
-    <select id="getAccidentById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select * from accident
         where id = #{id}
     </select>
@@ -41,4 +41,21 @@
         from accident
         where process_status=#{param1}
     </select>
+    <select id="getMaxId" resultType="int">
+        select max(id)
+        from accident
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+        insert into accident (id, date, location, process_status, service_type, customer_id)
+        values (#{id}
+                #{date},
+                #{location},
+                #{process_status},
+                #{service_type},
+                #{customer_id})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete from accident
+        where id=#{id}
+    </delete>
 </mapper>

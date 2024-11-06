@@ -36,4 +36,15 @@
         from complaint
         where process_status=#{param1}
     </select>
+    <select id="getMaxId" parameterType="int">
+        select max(id) from complaint
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
+        insert into complaint (id, complaint_type, content, date, employee_name, processing_date, process_status, result, title, customer_id)
+        values (#{id}, #{complaint_type}, #{content}, #{date}, #{employee_name}, #{processing_date}, #{process_status}, #{result}, #{title}, #{customer_id})
+    </insert>
+    <delete id="deleteById" parameterType="int">
+        delete from complaint
+        where id = #{id}
+    </delete>
 </mapper>

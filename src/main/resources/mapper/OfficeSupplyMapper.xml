@@ -38,5 +38,14 @@
     <select id="getMaxId_Administrative" resultType="Integer">
         SELECT MAX(id) FROM officesupply
     </select>
-
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
+        UPDATE officesupply
+        SET
+            inventory = #{inventory},
+            name = #{name},
+            total_inventory = #{total_inventory},
+            description = #{description},
+            department_id = #{department_id}
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -20,7 +20,7 @@ public class DepositDetailVO {
     private int path;
     private int contract_id;
 
-    public DepositDetail getDepositDetail() {
+    public DepositDetail getEntity() {
         DepositDetail depositDetail = new DepositDetail();
         depositDetail.setId(id);
         depositDetail.setContractID(contract_id);

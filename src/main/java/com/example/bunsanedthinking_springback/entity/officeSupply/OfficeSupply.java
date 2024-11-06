@@ -1,13 +1,14 @@
 package com.example.bunsanedthinking_springback.entity.officeSupply;
 
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:43
  */
-//2024-06-02 김대현
-//2024-06-04 김대현
+@NoArgsConstructor
 public class OfficeSupply implements Cloneable {
 
 	private int id;
@@ -15,6 +16,7 @@ public class OfficeSupply implements Cloneable {
 	private String name;
 	private int totalInventory;
 	private String description;
+	private int departmentId; // OfficeSupply가 Department에 포함되는 형태라 넣었수다
 	public static final int OFFICESUPPLY_SERIAL_NUMBER = 920;
 	
 	
@@ -62,6 +64,14 @@ public class OfficeSupply implements Cloneable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	public OfficeSupply clone() {

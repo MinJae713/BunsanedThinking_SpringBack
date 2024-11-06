@@ -26,4 +26,20 @@
         from compensationdetail
         where contract_id=#{param1}
     </select>
+    <select id="getById" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        select * from compensationdetail
+        where id = #{id}
+    </select>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+        update compensationdetail
+        set
+            money = #{money},
+            payment_date = #{payment_date},
+            contract_id = #{contract_id}
+        where id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="int">
+        delete from compensationdetail
+        where id = #{id}
+    </delete>
 </mapper>

@@ -8,10 +8,10 @@ import java.util.Optional;
 
 @Mapper
 public interface AccidentMapper {
-    public Optional<AccidentVO> getAccidentById_Customer(int id);
+    public Optional<AccidentVO> getById_Customer(int id);
     public List<AccidentVO> getAllByCustomerId_Customer(int id);
 
-    public Optional<AccidentVO> getAccidentById_Compensation(int id);
+    public Optional<AccidentVO> getById_Compensation(int id);
     public void updateStatus_Compensation(int processStatus, int accidentId);
     Optional<AccidentVO> findByID_CustomerSupport(int id);
 
@@ -20,4 +20,8 @@ public interface AccidentMapper {
 	List<AccidentVO> getAll_CustomerSupport();
 
 	List<AccidentVO> findByProcessStatus_CustomerSupport(int processStatus);
+
+    public int getMaxId();
+    public void insert(AccidentVO accidentVO);
+    public void delete(int id);
 }

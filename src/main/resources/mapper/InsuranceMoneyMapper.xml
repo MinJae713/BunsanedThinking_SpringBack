@@ -25,4 +25,28 @@
         set process_status = #{status}
         where id = #{insuranceMoneyId}
     </update>
+    <select id="getMaxId" resultType="int">
+        select max(id) from insurancemoney
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        insert into insurancemoney (id, bank_account, resident_registration_card, receipt, medical_certificate, contract_id, bank_name, process_status, apply_date)
+        values (#{id}, #{bank_account}, #{resident_registration_card}, #{receipt}, #{medical_certificate}, #{contract_id}, #{bank_name}, #{process_status}, #{apply_date})
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+        update insurancemoney
+        set
+            bank_account = #{bank_account},
+            resident_registration_card = #{resident_registration_card},
+            receipt = #{receipt},
+            medical_certificate = #{medical_certificate},
+            contract_id = #{contract_id},
+            bank_name = #{bank_name},
+            process_status = #{status},
+            apply_date = #{apply_date}
+        where id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="int">
+        delete from insurancemoney
+        where id = #{id}
+    </delete>
 </mapper>

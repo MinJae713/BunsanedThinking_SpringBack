@@ -57,5 +57,23 @@
         select max(id)
         from DiseaseHistory
     </select>
-
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        select * from diseasehistory
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        select * from diseasehistory
+    </select>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        update diseasehistory
+        set
+            date_of_diagnosis = #{date_of_diagnosis},
+            name = #{name},
+            customer_id = #{customer_id}
+        where id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        delete from diseasehistory
+        where id = #{id}
+    </delete>
 </mapper>

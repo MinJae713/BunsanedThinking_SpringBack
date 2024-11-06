@@ -167,7 +167,7 @@ public class CompensationSModel {
 	public List<InsuranceMoney> getAllInsuranceMoney() {
 		List<InsuranceMoneyVO> insuranceMoneyVOList = insuranceMoneyMapper.getAll_Compensation();
 		List<InsuranceMoney> result = new ArrayList<>();
-		insuranceMoneyVOList.stream().forEach(e -> result.add(e.getInsuranceMoneyDetail()));
+		insuranceMoneyVOList.stream().forEach(e -> result.add(e.getEntity()));
 		return result;
 //		return insuranceMoneyList.getAll();
 	}
@@ -180,7 +180,7 @@ public class CompensationSModel {
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
 		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(id).orElse(null);
 		if (insuranceMoneyVO == null) throw new NotExistException();
-		return insuranceMoneyVO.getInsuranceMoneyDetail();
+		return insuranceMoneyVO.getEntity();
 	}
 
 
@@ -208,21 +208,21 @@ public class CompensationSModel {
 		ArrayList<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
 		List<CompensationDetailVO> compensationDetailVOS = compensationDetailMapper.getAllCompensationByContractId_Customer(contractId);
 		for (CompensationDetailVO compensationDetailVO : compensationDetailVOS)
-			compensationDetails.add(compensationDetailVO.getCompensationDetail());
+			compensationDetails.add(compensationDetailVO.getEntity());
 		result.setCompensationDetailList(compensationDetails);
 
 		// DepositDetailVO
 		ArrayList<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAllDepositByContractId_Customer(contractId);
 		for (DepositDetailVO depositDetailVO : depositDetailVOS)
-			depositDetails.add(depositDetailVO.getDepositDetail());
+			depositDetails.add(depositDetailVO.getEntity());
 		result.setDepositDetailList(depositDetails);
 
 		// InsuranceMoneyVO
 		ArrayList<InsuranceMoney> insuranceMoneys = new ArrayList<InsuranceMoney>();
 		List<InsuranceMoneyVO> insuranceMoneyVOS = insuranceMoneyMapper.getAllByContractId_Customer(contractId);
 		for (InsuranceMoneyVO insuranceMoneyVO : insuranceMoneyVOS)
-			insuranceMoneys.add(insuranceMoneyVO.getInsuranceMoneyDetail());
+			insuranceMoneys.add(insuranceMoneyVO.getEntity());
 		result.setInsuranceMoneyList(insuranceMoneys);
 		return result;
 //		return contractList.get(contractId);
@@ -352,7 +352,7 @@ public class CompensationSModel {
 		return result;
 	}
 	private Accident getAccidentById(int id) throws NotExistException {
-		AccidentVO accidentVO = accidentMapper.getAccidentById_Customer(id).orElse(null);
+		AccidentVO accidentVO = accidentMapper.getById_Customer(id).orElse(null);
 		if (accidentVO == null) throw new NotExistException();
 		int customer_id = accidentVO.getCustomer_id();
 		String customer_name = customerMapper.getNameById_Customer(customer_id).orElse(null);
@@ -388,7 +388,7 @@ public class CompensationSModel {
 		List<Report> reports = new ArrayList<Report>();
 		List<ReportVO> reportVOS = reportMapper.getAll_Compensation();
 		for (ReportVO reportVO : reportVOS) {
-			AccidentVO accidentVO = accidentMapper.getAccidentById_Compensation(reportVO.getAccident_id()).orElse(null);
+			AccidentVO accidentVO = accidentMapper.getById_Compensation(reportVO.getAccident_id()).orElse(null);
 			if (accidentVO == null) continue;
 			CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
 			if (customerVO == null) continue;
@@ -402,7 +402,7 @@ public class CompensationSModel {
 		if (reportVO == null) throw new NotExistException();
 		if (reportVO.getDamage_assessment_money() == null) throw new NotExistException();
 		// 손해 예상 금액 미입력 시 반환 못하도록 예외 처리
-		AccidentVO accidentVO = accidentMapper.getAccidentById_Compensation(reportVO.getAccident_id()).orElse(null);
+		AccidentVO accidentVO = accidentMapper.getById_Compensation(reportVO.getAccident_id()).orElse(null);
 		if (accidentVO == null) throw new NotExistException();
 		CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
 		if (customerVO == null) throw new NotExistException();

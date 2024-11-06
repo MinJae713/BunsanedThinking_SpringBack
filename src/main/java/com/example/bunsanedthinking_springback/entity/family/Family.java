@@ -1,9 +1,10 @@
 package com.example.bunsanedthinking_springback.entity.family;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
  * @created 27-5-2024 ���� 4:40:42
  */
 @AllArgsConstructor
+@NoArgsConstructor
 public class Family implements Cloneable{
 
 	public static int FAMILY_SERIAL_NUMBER = 710;

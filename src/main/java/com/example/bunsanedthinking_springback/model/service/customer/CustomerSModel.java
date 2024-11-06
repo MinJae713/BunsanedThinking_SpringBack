@@ -623,21 +623,21 @@ public class CustomerSModel {
 		ArrayList<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
 		List<CompensationDetailVO> compensationDetailVOS = compensationDetailMapper.getAllCompensationByContractId_Customer(contractId);
 		for (CompensationDetailVO compensationDetailVO : compensationDetailVOS)
-			compensationDetails.add(compensationDetailVO.getCompensationDetail());
+			compensationDetails.add(compensationDetailVO.getEntity());
 		result.setCompensationDetailList(compensationDetails);
 
 		// DepositDetailVO
 		ArrayList<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAllDepositByContractId_Customer(contractId);
 		for (DepositDetailVO depositDetailVO : depositDetailVOS)
-			depositDetails.add(depositDetailVO.getDepositDetail());
+			depositDetails.add(depositDetailVO.getEntity());
 		result.setDepositDetailList(depositDetails);
 
 		// InsuranceMoneyVO
 		ArrayList<InsuranceMoney> insuranceMoneys = new ArrayList<InsuranceMoney>();
 		List<InsuranceMoneyVO> insuranceMoneyVOS = insuranceMoneyMapper.getAllByContractId_Customer(contractId);
 		for (InsuranceMoneyVO insuranceMoneyVO : insuranceMoneyVOS)
-			insuranceMoneys.add(insuranceMoneyVO.getInsuranceMoneyDetail());
+			insuranceMoneys.add(insuranceMoneyVO.getEntity());
 		result.setInsuranceMoneyList(insuranceMoneys);
 		return result;
 //		return contractList.get(contractId);
@@ -672,7 +672,7 @@ public class CustomerSModel {
 //		return accidentList.getAllByCustomer(id);
 	}
 	public Accident getAccidentById(int id) throws NotExistException {
-		AccidentVO accidentVO = accidentMapper.getAccidentById_Customer(id).orElse(null);
+		AccidentVO accidentVO = accidentMapper.getById_Customer(id).orElse(null);
 		if (accidentVO == null) throw new NotExistException();
 		int customer_id = accidentVO.getCustomer_id();
 		String customer_name = customerMapper.getNameById_Customer(customer_id).orElse(null);

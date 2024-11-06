@@ -1,12 +1,12 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface DiseaseHistoryMapper {
@@ -22,4 +22,9 @@ public interface DiseaseHistoryMapper {
 	Integer getMaxId_SalesModel();
     public void update_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistoryVO diseaseHistoryVO);
     public List<DiseaseHistoryVO> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+
+    public Optional<DiseaseHistoryVO> getById(int id);
+    public List<DiseaseHistoryVO> getAll();
+    public void update(DiseaseHistoryVO diseaseHistoryVO);
+    public void deleteById(int id);
 }

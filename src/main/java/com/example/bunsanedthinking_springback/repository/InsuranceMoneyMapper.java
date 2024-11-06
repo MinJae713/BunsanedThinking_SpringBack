@@ -18,4 +18,9 @@ public interface InsuranceMoneyMapper {
 	List<InsuranceMoneyVO> findByContractId_FinancialAccountant(int id);
 
     public void updateStatus_Compensation(int status, int insuranceMoneyId);
+
+    public int getMaxId();
+    public void insert(InsuranceMoneyVO insuranceMoneyVO);
+    public void update(InsuranceMoneyVO insuranceMoneyVO);
+    public void deleteById(int id);
 }

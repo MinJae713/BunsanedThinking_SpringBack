@@ -10,11 +10,13 @@ import java.util.Optional;
 public interface ComplaintMapper {
     public Optional<ComplaintVO> getComplaintById_Customer(int id);
     public List<ComplaintVO> getComplaintByCustomerId_Customer(int id);
-		Optional<ComplaintVO> findById_CustomerSupport(int id);
+	Optional<ComplaintVO> findById_CustomerSupport(int id);
 
-		void update_CustomerSupport(ComplaintVO complaintVO);
+	void update_CustomerSupport(ComplaintVO complaintVO);
 
-		List<ComplaintVO> getAll_CustomerSupport();
-
-		List<ComplaintVO> findByProcessStatus_CustomerSupport(int processStatus);
+	List<ComplaintVO> getAll_CustomerSupport();
+	List<ComplaintVO> findByProcessStatus_CustomerSupport(int processStatus);
+	public int getMaxId();
+	public void insert(ComplaintVO complaintVO);
+	public void deleteById(int id);
 }

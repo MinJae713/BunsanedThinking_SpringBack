@@ -37,5 +37,23 @@
             date = #{date}
         WHERE id = #{id};
     </update>
-
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        select * from surgeryhistory
+        where id = #{id};
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        select * from surgeryhistory
+    </select>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        UPDATE surgeryhistory
+        SET hospital_name = #{hospital_name},
+            name = #{name},
+            date = #{date},
+            customer_id = #{customer_id}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        delete from surgeryhistory
+        where id = #{id}
+    </delete>
 </mapper>

@@ -1,14 +1,12 @@
 package com.example.bunsanedthinking_springback.repository;
 
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface AccidentHistoryMapper {
@@ -23,4 +21,10 @@ public interface AccidentHistoryMapper {
 	Integer getMaxId_SalesModel();
     public void update_accidentHistory_CustomerInformationManagement(@Param("accidentHistory") AccidentHistoryVO accidentHistoryVO);
     public List<AccidentHistoryVO> findAccidentHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+
+    public Optional<AccidentHistoryVO> getById(int id);
+    public List<AccidentHistoryVO> getAll();
+    public void insert(AccidentHistoryVO accidentHistoryVO);
+    public void update(AccidentHistoryVO accidentHistoryVO);
+    public void deleteById(int id);
 }

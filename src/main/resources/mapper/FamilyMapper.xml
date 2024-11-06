@@ -23,6 +23,27 @@
     <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.FamilyVO">
         select *
         from family
-        where employee_id=#{param1}
+        where employee_id=#{id}
     </select>
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.FamilyVO">
+        select * from family
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.FamilyVO">
+        select * from family
+    </select>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.FamilyVO">
+        update family
+        set
+            birth_date = #{birth_date},
+            name = #{name},
+            relationship = #{relationship},
+            survival = #{survival},
+            employee_id = #{employee_id}
+        where id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from family
+        where id = #{id}
+    </delete>
 </mapper>

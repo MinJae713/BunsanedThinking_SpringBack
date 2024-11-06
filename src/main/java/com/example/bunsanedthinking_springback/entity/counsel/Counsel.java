@@ -2,12 +2,11 @@ package com.example.bunsanedthinking_springback.entity.counsel;
 
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.vo.CounselVO;
+import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -24,7 +23,7 @@ public class Counsel implements Cloneable {
 	private int id;
 	private CounselProcessStatus processStatus;
 	private int productID;
-
+	// Customer쪽 정보인듯
 	private String name;
 	private String phoneNumber;
 	private String job;

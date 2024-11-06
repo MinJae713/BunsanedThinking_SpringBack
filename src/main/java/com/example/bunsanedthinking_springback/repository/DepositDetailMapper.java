@@ -22,4 +22,7 @@ public interface DepositDetailMapper {
 	List<DepositDetailVO> findByContractId_FinancialAccountant(int id);
 
     public List<DepositDetailVO> getAll_ContractManagement();
+
+    public void update(DepositDetailVO depositDetailVO);
+    public void deleteById(int id);
 }

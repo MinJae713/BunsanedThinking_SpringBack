@@ -1,13 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.complaint;
 
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -16,6 +15,7 @@ import lombok.NoArgsConstructor;
  */
 //0604 ����
 @AllArgsConstructor
+@NoArgsConstructor
 public class Complaint {
 
 	public static final int COMPLAINT_SERIAL = 510;
@@ -149,5 +149,21 @@ public class Complaint {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setPostDate(Date postDate) {
+		this.postDate = postDate;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

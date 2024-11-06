@@ -2,8 +2,6 @@ package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +27,7 @@ public class InsuranceMoneyVO {
 	private int process_status;
 	private LocalDate apply_date;
 
-	public InsuranceMoney getInsuranceMoneyDetail() {
+	public InsuranceMoney getEntity() {
         Image medical_certificate = null;
         try {
             medical_certificate = ImageIO.read(new File(this.medical_certificate));
