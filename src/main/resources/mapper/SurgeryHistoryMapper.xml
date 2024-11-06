@@ -38,4 +38,8 @@
         WHERE id = #{id};
     </update>
 
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from surgeryhistory
+    </select>
 </mapper>
