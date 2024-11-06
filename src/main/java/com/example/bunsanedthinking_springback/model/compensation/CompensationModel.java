@@ -400,6 +400,8 @@ public class CompensationModel {
 	public Report getReportById(int id) throws NotExistException {
 		ReportVO reportVO = reportMapper.getById_Compensation(id).orElse(null);
 		if (reportVO == null) throw new NotExistException();
+		if (reportVO.getDamage_assessment_money() == null) throw new NotExistException();
+		// 손해 예상 금액 미입력 시 반환 못하도록 예외 처리
 		AccidentVO accidentVO = accidentMapper.getAccidentById_Compensation(reportVO.getAccident_id()).orElse(null);
 		if (accidentVO == null) throw new NotExistException();
 		CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
