@@ -163,11 +163,11 @@ public class SalesModel {
 			Integer accidentHistoryMaxId = accidentHistoryMapper.getMaxId_SalesModel();
 			int accidentHistoryId;
 			int maxIndex;
-			if (maxId == null) {
+			if (accidentHistoryMaxId == null) {
 				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
 				maxIndex = 1;
 			} else {
-				String index = (maxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
+				String index = (accidentHistoryMaxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
 				maxIndex = Integer.parseInt(index) + 1;
 				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
