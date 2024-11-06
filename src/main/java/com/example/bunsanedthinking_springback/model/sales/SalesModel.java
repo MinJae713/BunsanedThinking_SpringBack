@@ -1,5 +1,16 @@
 package com.example.bunsanedthinking_springback.model.sales;
 
+import static com.example.bunsanedthinking_springback.entity.loan.LoanType.*;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.InduceDTO;
@@ -15,23 +26,58 @@ import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHist
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
+import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.repository.*;
-import com.example.bunsanedthinking_springback.vo.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-
-import static com.example.bunsanedthinking_springback.entity.loan.LoanType.fromInt;
+import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
+import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
+import com.example.bunsanedthinking_springback.repository.CollateralMapper;
+import com.example.bunsanedthinking_springback.repository.ContractMapper;
+import com.example.bunsanedthinking_springback.repository.CounselMapper;
+import com.example.bunsanedthinking_springback.repository.CustomerMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
+import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
+import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
+import com.example.bunsanedthinking_springback.repository.InjuryMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
+import com.example.bunsanedthinking_springback.repository.LoanMapper;
+import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.repository.SalesMapper;
+import com.example.bunsanedthinking_springback.repository.ServiceMapper;
+import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
+import com.example.bunsanedthinking_springback.vo.CollateralVO;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import com.example.bunsanedthinking_springback.vo.CounselVO;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseVO;
+import com.example.bunsanedthinking_springback.vo.EmployeeVO;
+import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
+import com.example.bunsanedthinking_springback.vo.InjuryVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+import com.example.bunsanedthinking_springback.vo.LoanVO;
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+import com.example.bunsanedthinking_springback.vo.SalesVO;
+import com.example.bunsanedthinking_springback.vo.ServiceVO;
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 @Service
 public class SalesModel {
@@ -696,8 +742,9 @@ public class SalesModel {
 		// return (Sales) employeeList.get(id);
 	}
 
-	// 새로 추가됨!! - 컨트롤러에도 넣어주세유
-	public void setContractCount(int contractCount, Sales sales) {
-		sales.setContractCount(++contractCount);
+	public void setContractCount(int contractCount, int id) {
+		SalesVO salesVO = salesMapper.get_SalesModel(id);
+		salesVO.setContract_count(++contractCount);
+		salesMapper.update_SalesModel(salesVO);
 	}
 }
