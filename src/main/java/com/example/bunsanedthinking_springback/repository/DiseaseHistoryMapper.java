@@ -12,14 +12,12 @@ import java.util.List;
 public interface DiseaseHistoryMapper {
     public List<DiseaseHistoryVO> getAllByCustomerId_Customer(int id);
 	public List<DiseaseHistory> getTst();
-
 	ArrayList<DiseaseHistoryVO> get_UnderWritingModel(int id);
-
 	void insert_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
 
-    public void insert_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistory diseaseHistory);
+    public void insert_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistoryVO diseaseHistoryVO);
     public void deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
-    public void update_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistory diseaseHistory);
-    public List<DiseaseHistory> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+    public void update_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistoryVO diseaseHistoryVO);
+    public List<DiseaseHistoryVO> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 }

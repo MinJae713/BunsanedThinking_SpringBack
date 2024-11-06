@@ -14,9 +14,11 @@ public interface DepartmentMapper {
 	List<DepartmentVO> getAll_HumanResource();
 
 	Optional<DepartmentVO> findById_HumanResource(int departmentID);
-    public void insert_ManagementPlanning(@Param("department") Department department);
+    public void insert_ManagementPlanning(@Param("department") DepartmentVO departmentVO);
     public void delete_ManagementPlanning(int id);
-    public Department findById_ManagementPlanning(int id);
-    public Department findByName_ManagementPlanning(String name);
-    public void update_ManagementPlanning(@Param("department") Department department);
+    public DepartmentVO findById_ManagementPlanning(int id);
+    public DepartmentVO findByName_ManagementPlanning(String name);
+    public void update_ManagementPlanning(@Param("department") DepartmentVO departmentVO);
+
+    Integer getMaxId_ManagementPlanning();
 }

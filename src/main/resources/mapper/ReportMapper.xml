@@ -23,20 +23,23 @@
                 #{damage_assessment_company_id}
                )
     </insert>
-    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.report.Report">
+    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
         SELECT * FROM report
         WHERE damage_assessment_company_id = #{id}
     </select>
 
-    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.report.Report">
+    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
         SELECT * FROM report
-        WHERE id = #{id}
+        WHERE accident_id = #{id}
     </select>
 
-    <update id="update_PartnerCompany" parameterType="com.example.bunsanedthinking_springback.entity.report.Report">
+    <update id="updateReport_PartnerCompany" parameterType="com.example.bunsanedthinking_springback.vo.ReportVO">
         UPDATE report
-        SET column1 = #{property1}, column2 = #{property2}
-        WHERE id = #{id}
+        SET damage_assessment_money = #{damage_assessment_money},
+            process_status = #{process_status},
+            roadside_assistance_company_id = #{roadside_assistance_company_id},
+            damage_assessment_company_id = #{damage_assessment_company_id}
+        WHERE accident_id = #{accident_id}
     </update>
 
 </mapper>

@@ -13,9 +13,10 @@ public interface SurgeryHistoryMapper {
     public List<SurgeryHistoryVO> getAllByCustomerId_Customer(int id);
 	ArrayList<SurgeryHistoryVO> get_UnderWritingModel(int id);
 	void insert_SalesModel(SurgeryHistoryVO surgeryHistoryVO);
-    public void insert_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistory surgeryHistory);
+
+    public void insert_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistoryVO surgeryHistoryVO);
     public void deleteSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
-    public void update_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistory surgeryHistory);
-    public List<SurgeryHistory> findSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+    public void update_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistoryVO surgeryHistoryVO);
+    public List<SurgeryHistoryVO> findSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 }

@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import lombok.NoArgsConstructor;
@@ -79,5 +80,14 @@ public class AccidentHistory implements Cloneable{
 		accidentHistory.setCustomerID(getCustomerID());
 		return accidentHistory;
 	}
-	
+
+	public AccidentHistoryVO getaccidentVO() {
+		AccidentHistoryVO result = new AccidentHistoryVO();
+		result.setId(id);
+		result.setDetails_of_accident(accidentDetail);
+		result.setCustomer_id(customerID);
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		result.setDate(localDate);
+		return result;
+	}
 }

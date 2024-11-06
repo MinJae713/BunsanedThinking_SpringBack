@@ -7,35 +7,35 @@
     </select>
     <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         SELECT id, hospital_name, name, customer_id, date
-        FROM SurgeryHistory
+        FROM surgeryhistory
         WHERE customer_id = #{id}
     </select>
     <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        INSERT INTO surgery_history (id, hospital_name, name, date, customer_id)
+        INSERT INTO surgeryhistory (id, hospital_name, name, date, customer_id)
         VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
     </insert>
 
-    <insert id="insert_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
-        INSERT INTO surgery_history (customer_id, description, date, cost)
-        VALUES (#{surgeryHistory.customerId},
-                #{surgeryHistory.description},
-                #{surgeryHistory.date},
-                #{surgeryHistory.cost});
+    <insert id="insert_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        INSERT INTO surgeryhistory (customer_id, hospital_name, name, date)
+        VALUES (#{customer_id},
+                #{hospital_name},
+                #{name},
+                #{date});
     </insert>
-    <select id="findSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
-        SELECT * FROM surgery_history
-        WHERE customer_id = #{customerId};
+    <select id="findSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        SELECT * FROM surgeryhistory
+        WHERE customer_id = #{customer_id};
     </select>
     <delete id="deleteSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int">
-        DELETE FROM surgery_history
-        WHERE customer_id = #{customerId};
+        DELETE FROM surgeryhistory
+        WHERE customer_id = #{customer_id};
     </delete>
-    <update id="update_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory">
-        UPDATE surgery_history
-        SET description = #{surgeryHistory.description},
-            date = #{surgeryHistory.date},
-            cost = #{surgeryHistory.cost}
-        WHERE id = #{surgeryHistory.id};
+    <update id="update_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        UPDATE surgeryhistory
+        SET hospital_name = #{hospital_name},
+            name = #{name},
+            date = #{date}
+        WHERE id = #{id};
     </update>
 
 </mapper>

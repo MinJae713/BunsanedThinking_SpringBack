@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -16,8 +15,8 @@ public interface ReportMapper {
     public Optional<ReportVO> getById_Compensation(int id);
     public void updateStatus_Compensation(int processStatus, int reportId);
 	void insert_CustomerSupport(ReportVO reportVO);
-    List<Report> findAllByDamageAssessmentCompanyID_PartnerCompany(@Param("id") int id);
-    Report findById_PartnerCompany(@Param("id") int id);
-    void update_PartnerCompany(Report report);
+    List<ReportVO> findAllByDamageAssessmentCompanyID_PartnerCompany(@Param("id") int id);
+    ReportVO findById_PartnerCompany(@Param("id") int id);
+    void updateReport_PartnerCompany(ReportVO reportVO);
 }
 

@@ -6,15 +6,9 @@
         where customer_id = #{id}
     </select>
     <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        SELECT
-            id,
-            date_of_diagnosis,
-            name,
-            customer_id
-        FROM
-            DiseaseHistory
-        WHERE
-            customer_id = #{id}
+        SELECT id, date_of_diagnosis, name, customer_id
+        FROM diseasehistory
+        WHERE customer_id = #{id}
     </select>
     <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         INSERT INTO DiseaseHistory (id, date_of_diagnosis, name, customer_id)
@@ -26,27 +20,25 @@
                )
     </insert>
 
-    <insert id="insert_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        INSERT INTO disease_history (customer_id, description, date, cost)
-        VALUES (#{diseaseHistory.customerId},
-                #{diseaseHistory.description},
-                #{diseaseHistory.date},
-                #{diseaseHistory.cost});
+    <insert id="insert_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        INSERT INTO diseasehistory (customer_id, date_of_diagnosis, name)
+        VALUES (#{customer_id},
+                #{date_of_diagnosis},
+                #{name})
     </insert>
-    <select id="findDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        SELECT * FROM disease_history
-        WHERE customer_id = #{customerId};
+    <select id="findDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        SELECT * FROM diseasehistory
+        WHERE customer_id = #{customer_id}
     </select>
     <delete id="deleteDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int">
-        DELETE FROM disease_history
-        WHERE customer_id = #{customerId};
+        DELETE FROM diseasehistory
+        WHERE customer_id = #{customer_id}
     </delete>
-    <update id="update_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory">
-        UPDATE disease_history
-        SET description = #{diseaseHistory.description},
-            date = #{diseaseHistory.date},
-            cost = #{diseaseHistory.cost}
-        WHERE id = #{diseaseHistory.id};
+    <update id="update_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        UPDATE diseasehistory
+        SET date_of_diagnosis = #{date_of_diagnosis},
+            name = #{name}
+        WHERE id = #{id}
     </update>
 
 </mapper>

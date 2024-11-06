@@ -673,7 +673,7 @@ public class UnderWritingModel {
 			surgeryHistory.setHospitalName(surgeryHistoryVO.getHospital_name());
 			surgeryHistory.setName(surgeryHistoryVO.getName());
 			surgeryHistory.setCustomerID(surgeryHistoryVO.getCustomer_id());
-			surgeryHistory.setDate(Date.from(surgeryHistoryVO.getDate().atZone(ZoneId.systemDefault()).toInstant()));
+			surgeryHistory.setDate(java.sql.Date.valueOf(surgeryHistoryVO.getDate()));
 			surgeryHistoryList.add(surgeryHistory);
 		}
 		customer.setSurgeryHistoryList(surgeryHistoryList);

@@ -13,7 +13,8 @@ public interface PartnerCompanyMapper {
 	List<PartnerCompanyVO> findByPartnerType_CustomerSupport(int partnerType);
 
 	Optional<PartnerCompanyVO> findById_CustomerSupport(int id);
-  	PartnerCompany findById_PartnerCompany(@Param("id") int id);
+
+  	PartnerCompanyVO findById_PartnerCompany(@Param("id") int id);
 
 	void insert_CompensationPlanning(PartnerCompanyVO partnerCompanyVO);
 

@@ -12,6 +12,10 @@ import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +33,7 @@ public class CustomerInformationManagementModel {
 	@Autowired
 	private DiseaseHistoryMapper diseaseHistoryMapper;
 
-	public void addCustomerInformation(String name, String phoneNumber, String job, int age, Gender gender,
+	public void addCustomerInformation(String name, String phoneNumber, String job, int age, int gender,
 									   String residentRegistrationNumber, String address, long property,
 									   List<AccidentHistory> tempAccidentHistoryList,
 									   List<SurgeryHistory> tempSurgeryHistoryList,
@@ -38,26 +42,42 @@ public class CustomerInformationManagementModel {
 		if (customerMapper.findByResidentRegistrationNumber_CustomerInformationManagement(residentRegistrationNumber) != null) {
 			throw new DuplicateResidentRegistrationNumberException();
 		}
-		
-		Customer customer = new Customer(name, phoneNumber, job, age, gender, residentRegistrationNumber, address, property, bankName, bankAccount);
-		customerMapper.insert_CustomerInformationManagement(customer);
+
+		// VO 객체 생성
+		CustomerVO customerVO = new CustomerVO();
+		customerVO.setName(name);
+		customerVO.setPhone_number(phoneNumber);
+		customerVO.setJob(job);
+		customerVO.setAge(age);
+		customerVO.setGender(gender); // Gender enum을 int로 저장
+		customerVO.setResident_registration_number(residentRegistrationNumber);
+		customerVO.setAddress(address);
+		customerVO.setProperty(property);
+		customerVO.setBank_name(bankName);
+		customerVO.setBank_account(bankAccount);
+
+		// VO를 DB에 추가
+		customerMapper.insert_CustomerInformationManagement(customerVO);
 
 		if(tempAccidentHistoryList != null) {
 			for(AccidentHistory accident : tempAccidentHistoryList) {
-				accident.setCustomerID(customer.getId());
-				accidentHistoryMapper.insert_accidentHistory_CustomerInformationManagement(accident);
+				AccidentHistoryVO accidentHistoryVO = accident.getaccidentVO();
+				accident.setCustomerID(customerVO.getId());
+				accidentHistoryMapper.insert_accidentHistory_CustomerInformationManagement(accidentHistoryVO);
 			}
 		}
 		if(tempSurgeryHistoryList != null) {
 			for(SurgeryHistory surgery : tempSurgeryHistoryList) {
-				surgery.setCustomerID(customer.getId());
-				surgeryHistoryMapper.insert_surgeryHistory_CustomerInformationManagement(surgery);
+				SurgeryHistoryVO surgeryHistoryVO = surgery.getsurgeryVO();
+				surgery.setCustomerID(customerVO.getId());
+				surgeryHistoryMapper.insert_surgeryHistory_CustomerInformationManagement(surgeryHistoryVO);
 			}
 		}
 		if(tempDiseaseHistoryList != null) {
 			for(DiseaseHistory disease : tempDiseaseHistoryList) {
-				disease.setCustomer_id(customer.getId());
-				diseaseHistoryMapper.insert_diseaseHistory_CustomerInformationManagement(disease);
+				DiseaseHistoryVO diseaseHistoryVO = disease.getdiseaseVO();
+				disease.setCustomer_id(customerVO.getId());
+				diseaseHistoryMapper.insert_diseaseHistory_CustomerInformationManagement(diseaseHistoryVO);
 			}
 		}
 	}
@@ -72,55 +92,55 @@ public class CustomerInformationManagementModel {
 		customerMapper.delete_CustomerInformationManagement(id);
 	}
 
-	public Customer getCustomerInformation(int id) throws NotExistException{
-		Customer customer = customerMapper.findById_CustomerInformationManagement(id);
-		if (customer == null) {
+	public CustomerVO getCustomerInformation(int id) throws NotExistException{
+		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(id);
+		if (customerVO == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
-		return customer;
+		return customerVO;
 	}
 
 	public void updateCustomerInformation(int index, String input, int id) throws NotExistException{
-		Customer customer = getCustomerInformation(id);
+		CustomerVO customerVO = getCustomerInformation(id);
 
 		switch (index) {
-		case 1:
-			customer.setName(input);
-			break;
-		case 2:
-			customer.setPhoneNumber(input);
-			break;
-		case 3:
-			customer.setJob(input);
-			break;
-		case 4:
-			customer.setAge(Integer.parseInt(input));
-			break;
-		case 5:
-			if ("Male".equalsIgnoreCase(input)) {
-				customer.setGender(Gender.Male);
-			} else if ("Female".equalsIgnoreCase(input)) {
-				customer.setGender(Gender.Female);
-			}
-			break;
-		case 6:
-			customer.setAddress(input);
-			break;
-		case 7:
-			customer.setProperty((Integer.parseInt(input)));
-			break;
-		case 11:
-			customer.setBankName(input);
-			break;
-		case 12:
-			customer.setBankAccount(input);
-			break;
-		default:
-			throw new IllegalArgumentException("유효하지 않은 선택입니다. 올바른 값을 입력하세요.");
+			case 1:
+				customerVO.setName(input);
+				break;
+			case 2:
+				customerVO.setPhone_number(input);
+				break;
+			case 3:
+				customerVO.setJob(input);
+				break;
+			case 4:
+				customerVO.setAge(Integer.parseInt(input));
+				break;
+			case 5:
+				if ("Male".equalsIgnoreCase(input)) {
+					customerVO.setGender(Gender.Male.ordinal());
+				} else if ("Female".equalsIgnoreCase(input)) {
+					customerVO.setGender(Gender.Female.ordinal());
+				}
+				break;
+			case 6:
+				customerVO.setAddress(input);
+				break;
+			case 7:
+				customerVO.setProperty(Long.parseLong(input));
+				break;
+			case 11:
+				customerVO.setBank_name(input);
+				break;
+			case 12:
+				customerVO.setBank_account(input);
+				break;
+			default:
+				throw new IllegalArgumentException("유효하지 않은 선택입니다. 올바른 값을 입력하세요.");
 		}
-		customerMapper.update_CustomerInformationManagement(customer);
+		customerMapper.update_CustomerInformationManagement(customerVO);
 	}
-	public List<Customer> getAll() {
+	public List<CustomerVO> getAll() {
 		return customerMapper.getAll_CustomerInformationManagement();
 	}
 }

@@ -152,7 +152,7 @@ public class SalesModel {
 				surgeryHistoryVO.setId(e.getId());
 				surgeryHistoryVO.setHospital_name(e.getHospitalName());
 				surgeryHistoryVO.setName(e.getName());
-				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				surgeryHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
 				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
 				// surgeryHistoryList.add(e);
@@ -324,7 +324,7 @@ public class SalesModel {
 				surgeryHistoryVO.setId(e.getId());
 				surgeryHistoryVO.setHospital_name(e.getHospitalName());
 				surgeryHistoryVO.setName(e.getName());
-				surgeryHistoryVO.setDate(LocalDateTime.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				surgeryHistoryVO.setDate(LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 				surgeryHistoryVO.setCustomer_id(e.getCustomerID());
 				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
 				// surgeryHistoryList.add(e);

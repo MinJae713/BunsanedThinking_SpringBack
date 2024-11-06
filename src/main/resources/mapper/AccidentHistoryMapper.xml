@@ -12,31 +12,29 @@
     </select>
 
     <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        INSERT INTO AccidentHistory (id, date, details_of_accident, customer_id)
+        INSERT INTO accidentHistory (id, date, details_of_accident, customer_id)
         VALUES (#{id}, #{date}, #{details_of_accident}, #{customer_id})
     </insert>
 
-    <insert id="insert_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
-        INSERT INTO accident_history (customer_id, description, date, cost)
-        VALUES (#{accidentHistory.customerId},
-                #{accidentHistory.description},
-                #{accidentHistory.date},
-                #{accidentHistory.cost});
+    <insert id="insert_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        INSERT INTO accidenthistory (customer_id, details_of_accident, date)
+        VALUES (#{customer_id},
+                #{details_of_accident},
+                #{date})
     </insert>
-    <select id="findAccidentHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
-        SELECT * FROM accident_history
-        WHERE customer_id = #{customerId};
+    <select id="findAccidentHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        SELECT * FROM accidenthistory
+        WHERE customer_id = #{customer_id}
     </select>
     <delete id="deleteAccidentHistoriesByCustomerId_customerInformationManagement" parameterType="int">
-        DELETE FROM accident_history
-        WHERE customer_id = #{customerId};
+        DELETE FROM accidenthistory
+        WHERE customer_id = #{customer_id}
     </delete>
-    <update id="update_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory">
-        UPDATE accident_history
-        SET description = #{accidentHistory.description},
-            date = #{accidentHistory.date},
-            cost = #{accidentHistory.cost}
-        WHERE id = #{accidentHistory.id};
+    <update id="update_accidentHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
+        UPDATE accidenthistory
+        SET details_of_accident = #{details_of_accident},
+            date = #{date}
+        WHERE id = #{id}
     </update>
 
 </mapper>
