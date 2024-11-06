@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.mo.AddCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -12,9 +13,9 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import com.example.bunsanedthinking_springback.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.customerInformationManagement.CustomerInformationManagementModel;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,30 +23,50 @@ import java.util.List;
 @RestController
 @RequestMapping("/employee/customerInformationManagement")
 public class CustomerInformationManagementController {
+
 	@Autowired
 	private CustomerInformationManagementModel customerInformationManagementModel;
 
-	public void addCustomerInformation(String name, String phoneNumber, String job, int age, Gender gender,
-									   String residentRegistrationNumber, String address, long property,
-									   List<AccidentHistory> tempAccidentHistoryList,
-									   List<SurgeryHistory> tempSurgeryHistoryList,
-									   List<DiseaseHistory> tempDiseaseHistoryList,
-									   String bankName, String bankAccount) throws DuplicateResidentRegistrationNumberException {
-		customerInformationManagementModel.addCustomerInformation(name, phoneNumber, job, age, gender, 
+	@PostMapping("/addCustomerInformation")
+	public void addCustomerInformation(@RequestBody AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
+		customerInformationManagementModel.addCustomerInformation(
+				addCustomerInformationDTO.getName(),
+				addCustomerInformationDTO.getPhoneNumber(),
+				addCustomerInformationDTO.getJob(),
+				addCustomerInformationDTO.getAge(),
+				addCustomerInformationDTO.getGender(),
+				addCustomerInformationDTO.getResidentRegistrationNumber(),
+				addCustomerInformationDTO.getAddress(),
+				addCustomerInformationDTO.getProperty(),
+				addCustomerInformationDTO.getTempAccidentHistoryList(),
+				addCustomerInformationDTO.getTempSurgeryHistoryList(),
+				addCustomerInformationDTO.getTempDiseaseHistoryList(),
+				addCustomerInformationDTO.getBankName(),
+				addCustomerInformationDTO.getBankAccount()
+				/*name, phoneNumber, job, age, gender,
 				residentRegistrationNumber, address, property, tempAccidentHistoryList, tempSurgeryHistoryList, 
-				tempDiseaseHistoryList, bankName, bankAccount);
+				tempDiseaseHistoryList, bankName, bankAccount*/);
+		// 이 부분도 RequestBody 물어보기
 	}
 
-	public void deleteCustomerInformation(int id) throws NotExistException {
+	@DeleteMapping("/deleteCustomerInformation")
+	public void deleteCustomerInformation(@RequestParam int id) throws NotExistException {
 		customerInformationManagementModel.deleteCustomerInformation(id);
 	}
-	public Customer getCustomerInformation(int id) throws NotExistException{
+
+	@GetMapping("/getCustomerInformation")
+	public CustomerVO getCustomerInformation(@RequestParam int id) throws NotExistException{
 		return customerInformationManagementModel.getCustomerInformation(id);
 	}
-	public void updateCustomerInformation(int index, String input, int id) throws DuplicateResidentRegistrationNumberException, NotExistException{
+
+	@PatchMapping("updateCustomerInformation")
+	public void updateCustomerInformation(@RequestParam int index, @RequestParam String input,
+										  @RequestParam int id) throws DuplicateResidentRegistrationNumberException, NotExistException{
 		customerInformationManagementModel.updateCustomerInformation(index, input, id);
 	}
-	public List<Customer> getAll() {
+
+	@GetMapping("/getAll")
+	public List<CustomerVO> getAll() {
 		return customerInformationManagementModel.getAll();
 	}
 }

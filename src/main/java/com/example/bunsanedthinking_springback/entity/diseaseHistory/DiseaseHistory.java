@@ -4,8 +4,10 @@ import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 import lombok.NoArgsConstructor;
 
 /**
@@ -88,4 +90,17 @@ public class DiseaseHistory implements Cloneable{
 				", name='" + name + '\'' +
 				'}';
 	}
+
+	public DiseaseHistoryVO getdiseaseVO() {
+		DiseaseHistoryVO result = new DiseaseHistoryVO();
+		result.setId(id);
+		result.setName(name);
+		result.setCustomer_id(customer_id);
+		LocalDate localDate = date_of_diagnosis.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		result.setDate_of_diagnosis(localDate);
+
+		return result;
+	}
+
+
 }

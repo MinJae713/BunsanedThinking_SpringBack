@@ -11,7 +11,7 @@
         from partnercompany
         where id=#{param1}
     </select>
-    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany">
+    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         SELECT * FROM partnercompany
         WHERE id = #{id}
     </select>

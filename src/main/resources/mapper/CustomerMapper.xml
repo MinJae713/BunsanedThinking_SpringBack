@@ -66,46 +66,46 @@
         from customer
         where id=#{param1}
     </select>
-    <insert id="insert_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+    <insert id="insert_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         INSERT INTO customer (name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
-        VALUES (#{customer.name},
-                #{customer.phoneNumber},
-                #{customer.job},
-                #{customer.age},
-                #{customer.gender},
-                #{customer.residentRegistrationNumber},
-                #{customer.address},
-                #{customer.property},
-                #{customer.bankName},
-                #{customer.bankAccount});
+        VALUES (#{name},
+                #{phone_number},
+                #{job},
+                #{age},
+                #{gender},
+                #{resident_registration_number},
+                #{address},
+                #{property},
+                #{bank_name},
+                #{bank_account})
     </insert>
     <delete id="delete_customerInformationManagement" parameterType="int">
         DELETE FROM customer
-        WHERE id = #{id};
+        WHERE id = #{id}
     </delete>
-    <select id="findById_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+    <select id="findById_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         SELECT * FROM customer
-        WHERE id = #{id};
+        WHERE id = #{id}
     </select>
-    <select id="findByResidentRegistrationNumber_customerInformationManagement" parameterType="string" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+    <select id="findByResidentRegistrationNumber_customerInformationManagement" parameterType="String" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         SELECT * FROM customer
-        WHERE resident_registration_number = #{residentRegistrationNumber};
+        WHERE resident_registration_number = #{resident_registration_number}
     </select>
-    <update id="update_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.entity.customer.Customer">
+    <update id="update_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         UPDATE customer
-        SET name = #{customer.name},
-            phone_number = #{customer.phoneNumber},
-            job = #{customer.job},
-            age = #{customer.age},
-            gender = #{customer.gender},
-            address = #{customer.address},
-            property = #{customer.property},
-            bank_name = #{customer.bankName},
-            bank_account = #{customer.bankAccount}
-        WHERE id = #{customer.id};
+        SET name = #{name},
+            phone_number = #{phone_number},
+            job = #{job},
+            age = #{age},
+            gender = #{gender},
+            address = #{address},
+            property = #{property},
+            bank_name = #{bank_name},
+            bank_account = #{bank_account}
+        WHERE id = #{id}
     </update>
-    <select id="getAll_customerInformationManagement" resultType="com.example.bunsanedthinking_springback.entity.customer.Customer">
-        SELECT * FROM customer;
+    <select id="getAll_customerInformationManagement" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        SELECT * FROM customer
     </select>
 
     <select id="getMaxId_SalesModel" resultType="Integer">

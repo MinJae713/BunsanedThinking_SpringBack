@@ -16,20 +16,18 @@ public interface CustomerMapper {
     public Optional<CustomerVO> getById_Customer(int id);
     public Optional<String> getNameById_Customer(int id);
     public Optional<String> getPNById_Customer(int id);
-
     public Optional<CustomerVO> getById_Compensation(int id);
     CustomerVO get_UnderWritingModel(int id);
-
 	void insert_SalesModel(CustomerVO customerVO);
-
 	CustomerVO get_SalesModel(int id);
 	Optional<CustomerVO> findById_FinancialAccountant(int id);
-    public void insert_CustomerInformationManagement(@Param("customer") Customer customer);
+
+    public void insert_CustomerInformationManagement(@Param("customer") CustomerVO customerVO);
     public void delete_CustomerInformationManagement(int id);
-    public Customer findById_CustomerInformationManagement(int id);
-    public Customer findByResidentRegistrationNumber_CustomerInformationManagement(String residentRegistrationNumber);
-    public void update_CustomerInformationManagement(@Param("customer") Customer customer);
-    public List<Customer> getAll_CustomerInformationManagement();
 
 	Integer getMaxId_SalesModel();
+    public CustomerVO findById_CustomerInformationManagement(int id);
+    public CustomerVO findByResidentRegistrationNumber_CustomerInformationManagement(String residentRegistrationNumber);
+    public void update_CustomerInformationManagement(@Param("customer") CustomerVO customerVO);
+    public List<CustomerVO> getAll_CustomerInformationManagement();
 }

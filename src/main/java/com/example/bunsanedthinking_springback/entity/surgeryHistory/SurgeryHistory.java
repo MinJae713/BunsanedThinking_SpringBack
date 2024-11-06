@@ -1,10 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import lombok.NoArgsConstructor;
@@ -90,5 +92,17 @@ public class SurgeryHistory implements Cloneable {
 		surgeryHistory.setCustomerID(getCustomerID());
 		return surgeryHistory;
 		
+	}
+
+	public SurgeryHistoryVO getsurgeryVO() {
+		SurgeryHistoryVO result = new SurgeryHistoryVO();
+		result.setId(id);
+		result.setHospital_name(hospitalName);
+		result.setName(name);
+		result.setCustomer_id(customerID);
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		result.setDate(localDate);
+
+		return result;
 	}
 }
