@@ -198,7 +198,7 @@ public class UnderWritingModel {
 		ArrayList<Contract> contracts = new ArrayList<>();
 		ArrayList<ContractVO> contractVOs = contractMapper.getAll_UnderWritingModel();
 		for (ContractVO e : contractVOs) {
-			if (ContractStatus.ContractRequesting.getValue() != e.getContract_status()) {
+			if (ContractStatus.ContractRequesting.getValue() == e.getContract_status()) {
 
 				Contract contract = new Contract();
 
