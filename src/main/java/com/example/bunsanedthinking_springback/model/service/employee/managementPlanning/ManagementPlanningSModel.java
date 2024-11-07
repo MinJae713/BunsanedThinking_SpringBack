@@ -1,8 +1,10 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
+import com.example.bunsanedthinking_springback.dto.mo.UpdateDepartmentDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.department.DepartmentDModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ManagementPlanningSModel {
+	@Autowired
+	private DepartmentDModel departmentDModel;
 	@Autowired
 	public DepartmentMapper departmentMapper;
 
@@ -49,23 +53,43 @@ public class ManagementPlanningSModel {
 		return departmentVO;
 	}
 
-	public void updateDepartment(int id, String headName, String name, String purpose, String task) throws NotExistException {
-		DepartmentVO departmentVO = departmentMapper.findById_ManagementPlanning(id);
-		if (departmentVO == null) {
-			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
+	public void updateDepartment(UpdateDepartmentDTO updateDepartmentDTO)
+			throws DuplicateDepartmentException {
+		int id = updateDepartmentDTO.getId();
+		int index = updateDepartmentDTO.getIndex();
+		String input = updateDepartmentDTO.getInput();
+		Department department = departmentDModel.getById(id);
+		DepartmentVO departmentVO = new DepartmentVO();
+		departmentVO.setId(department.getId());
+		departmentVO.setName(department.getName());
+		departmentVO.setPurpose(department.getPurpose());
+		departmentVO.setHead_name(department.getHeadName());
+		departmentVO.setTask(department.getTask());
+
+		switch (index) {
+			case 1:
+				for (Department e : departmentDModel.getAll()) {
+					if (e.getName().equals(input)) {
+						throw new DuplicateDepartmentException();
+					}
+				}
+				departmentVO.setName(input);
+				departmentDModel.update(departmentVO);
+				break;
+			case 2:
+				department.setTask(input);
+				departmentDModel.update(departmentVO);
+				break;
+			case 3:
+				department.setPurpose(input);
+				departmentDModel.update(departmentVO);
+				break;
+			case 4:
+				department.setHeadName(input);
+				departmentDModel.update(departmentVO);
+				break;
+			default:
+				break;
 		}
-		if (name != null && !name.isEmpty()) {
-			departmentVO.setName(name);
-		}
-		if (task != null && !task.isEmpty()) {
-			departmentVO.setTask(task);
-		}
-		if (purpose != null && !purpose.isEmpty()) {
-			departmentVO.setPurpose(purpose);
-		}
-		if (headName != null && !headName.isEmpty()) {
-			departmentVO.setHead_name(headName);
-		}
-		departmentMapper.update_ManagementPlanning(departmentVO);
 	}
 }

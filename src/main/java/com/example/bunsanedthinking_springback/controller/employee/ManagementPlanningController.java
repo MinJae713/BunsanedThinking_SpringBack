@@ -37,11 +37,6 @@ public class ManagementPlanningController {
 
 	@PatchMapping("/updateDepartment")
 	public void updateDepartment(@RequestBody UpdateDepartmentDTO updateDepartmentDTO) throws DuplicateDepartmentException, NotExistException{
-		managementPlanningSModel.updateDepartment(
-				updateDepartmentDTO.getId(),
-				updateDepartmentDTO.getHead_name(),
-				updateDepartmentDTO.getName(),
-				updateDepartmentDTO.getPurpose(),
-				updateDepartmentDTO.getTask());
+		managementPlanningSModel.updateDepartment(updateDepartmentDTO);
 	}
 }

@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UpdateDepartmentDTO {
+    private int index;
+    private String input;
     private int id;
-    private String head_name;
-    private String name;
-    private String purpose;
-    private String task;
 }

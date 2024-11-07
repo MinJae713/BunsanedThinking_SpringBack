@@ -1,8 +1,10 @@
 package com.example.bunsanedthinking_springback.model.service.employee.administrative;
 
+import com.example.bunsanedthinking_springback.dto.mo.UpdateOfficeSupplyDTO;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.officeSupply.OfficeSupplyDModel;
 import com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper;
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @Service
 public class AdministrativeSModel {
 
+	@Autowired
+	private OfficeSupplyDModel officeSupplyDModel;
 	@Autowired
 	private OfficeSupplyMapper officeSupplyMapper;
 
@@ -50,30 +54,49 @@ public class AdministrativeSModel {
 		officeSupplyMapper.delete_OfficeSupply(id);
 	}
 
-	public OfficeSupplyVO getOfficeSupply(int id) throws NotExistException {
-		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
-		if (officeSupplyVO == null) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
-		}
-		return officeSupplyVO;
+	public OfficeSupply getOfficeSupply(int id) throws NotExistException {
+		return officeSupplyDModel.getById(id);
 	}
 
-	public void updateOfficeSupply(String name, String description, int inventory, int id) throws NotExistException {
-		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
+	public void updateOfficeSupply(UpdateOfficeSupplyDTO updateOfficeSupplyDTO)
+			throws NotExistException, DuplicateOfficeSupplyException{
+		int id = updateOfficeSupplyDTO.getId();
+		int index = updateOfficeSupplyDTO.getIndex();
+		String input = updateOfficeSupplyDTO.getInput();
+//		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
+		OfficeSupply officeSupply = officeSupplyDModel.getById(id);
+		if (officeSupply == null) throw new NotExistException();
+		OfficeSupplyVO officeSupplyVO = new OfficeSupplyVO();
+		officeSupplyVO.setId(officeSupply.getId());
+		officeSupplyVO.setInventory(officeSupply.getInventory());
+		officeSupplyVO.setName(officeSupply.getName());
+		officeSupplyVO.setTotal_inventory(officeSupplyVO.getTotal_inventory());
+		officeSupplyVO.setDescription(officeSupply.getDescription());
+		officeSupplyVO.setDepartment_id(officeSupply.getDepartmentId());
+
 		if (officeSupplyVO == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
-		if (name != null) {
-			officeSupplyVO.setName(name);
+		switch (index) {
+			case 1:
+				for (OfficeSupply e : officeSupplyDModel.getAll()) {
+					if (e.getName().equals(input)) {
+						throw new DuplicateOfficeSupplyException();
+					}
+				}
+				officeSupplyVO.setName(input);
+				officeSupplyDModel.update(officeSupplyVO);
+				break;
+			case 2:
+				officeSupplyVO.setDescription(input);
+				officeSupplyDModel.update(officeSupplyVO);
+				break;
+			case 3:
+				officeSupplyVO.setInventory(Integer.parseInt(input));
+				officeSupplyDModel.update(officeSupplyVO);
+				break;
 		}
-		if (description != null) {
-			officeSupplyVO.setDescription(description);
-		}
-		if (inventory != 0) { // 0이 기본값이라고 가정하고, 0일 때는 변경하지 않음
-			officeSupplyVO.setInventory(inventory);
-		}
-		officeSupplyMapper.update_OfficeSupply(officeSupplyVO);
-	}
+    }
 
 	public List<OfficeSupplyVO> getAllOfficeSupplies() {
 		return officeSupplyMapper.getAll_OfficeSupply();
