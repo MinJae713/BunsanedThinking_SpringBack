@@ -2,10 +2,9 @@ package com.example.bunsanedthinking_springback.entity.department;
 
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupplyList;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-
-import lombok.NoArgsConstructor;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -19,7 +18,7 @@ public class Department implements Cloneable {
 	private String headName;
 	private int id;
 	private String name;
-	private OfficeSupplyList officeSupplyList;
+	private OfficeSupplyList officeSupplyList; // 이거 필드값 바꿔야하지 않나...
 	private String purpose;
 	private String task;
 	private ArrayList<Employee> employeeList;

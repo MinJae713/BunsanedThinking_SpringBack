@@ -1,10 +1,10 @@
 package com.example.bunsanedthinking_springback.entity.partnerCompany;
 
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-
-import lombok.AllArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
  */
 //2024-06-04 김대현
 @AllArgsConstructor
+@NoArgsConstructor
 public class PartnerCompany implements Cloneable {
 
 	public static int PARTNER_COMPANY_SERIAL_NUMBER = 300;

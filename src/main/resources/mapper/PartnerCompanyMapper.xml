@@ -9,7 +9,7 @@
     <select id="findById_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         select *
         from partnercompany
-        where id=#{param1}
+        where id=#{id}
     </select>
     <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         SELECT * FROM partnercompany
@@ -42,9 +42,9 @@
         select *
         from partnercompany
     </select>
-    <delete id="delete_CompensationPlanning">
+    <delete id="delete_CompensationPlanning" parameterType="int">
         delete from partnercompany
-        where id=#{param1}
+        where id=#{id}
     </delete>
     <select id="getMaxId_CompensationPlanning" resultType="Integer">
         select max(id)

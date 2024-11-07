@@ -392,7 +392,7 @@ public class CompensationSModel {
 			if (accidentVO == null) continue;
 			CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
 			if (customerVO == null) continue;
-			reports.add(reportVO.getReport(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number())));
+			reports.add(reportVO.getEntity(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number())));
 		}
 		return reports;
 //		return reportList.getAll();
@@ -406,7 +406,7 @@ public class CompensationSModel {
 		if (accidentVO == null) throw new NotExistException();
 		CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
 		if (customerVO == null) throw new NotExistException();
-		return reportVO.getReport(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number()));
+		return reportVO.getEntity(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number()));
 //		return reportList.get(id);
 	}
 	public List<Report> getAllUnprocessedReport() {

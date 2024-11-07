@@ -17,9 +17,9 @@ public class ReportVO {
 	private int roadside_assistance_company_id;
 	private int damage_assessment_company_id;
 
-	public Report getReport(Accident accident) {
+	public Report getEntity(Accident accident) {
 		Report result = new Report();
-		result.setId(accident.getId()); // 이거가 맞나유
+		result.setId(accident_id); // 이거가 맞나유
 		result.setAccident(accident);
 		result.setDamageAssessmentMoney(damage_assessment_money);
 		result.setRoadsideAssistanceCompanyID(roadside_assistance_company_id);

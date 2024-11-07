@@ -50,4 +50,15 @@
             damage_assessment_company_id=#{damage_assessment_company_id}
         where accident_id=#{accident_id}
     </update>
+    <select id="getMaxId" parameterType="int">
+        select max(accident_id) from report
+    </select>
+    <delete id="deleteById" parameterType="int">
+        delete from report
+        where accident_id = #{id}
+    </delete>
+    <select id="getAllByRoadSideAssistanceCId" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        SELECT * FROM report
+        WHERE roadside_assistance_company_id = #{id}
+    </select>
 </mapper>
