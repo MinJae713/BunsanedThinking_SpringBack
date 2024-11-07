@@ -20,5 +20,4 @@ public interface RevivalMapper {
     public void insert(RevivalVO revivalVO);
     public void update(RevivalVO revivalVO);
     public void deleteById(int id);
-    // 여기 XML 만드는데부터 다시
 }

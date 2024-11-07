@@ -23,4 +23,24 @@
         set recontract_status = #{status}
         where contract_id = #{id}
     </update>
+
+    <select id="getMaxId" resultType="int">
+        SELECT MAX(contract_id)
+        FROM recontract
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.RecontractVO">
+        INSERT INTO recontract (contract_id, apply_date, origin_contract_id, recontract_status)
+        VALUES (#{contract_id}, #{apply_date}, #{origin_contract_id}, #{recontract_status});
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.RecontractVO">
+        UPDATE recontract
+        SET apply_date = #{apply_date},
+            origin_contract_id = #{origin_contract_id},
+            recontract_status = #{recontract_status}
+        WHERE contract_id = #{contract_id};
+    </update>
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM recontract
+        WHERE contract_id = #{id};
+    </delete>
 </mapper>

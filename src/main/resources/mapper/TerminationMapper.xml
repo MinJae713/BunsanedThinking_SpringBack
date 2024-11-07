@@ -27,4 +27,24 @@
         set apply_date = #{apply_date}
         where contract_id = #{contract_id}
     </update>
+    <select id="getMaxId" resultType="int">
+        SELECT MAX(contract_id)
+        FROM termination
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        INSERT INTO termination (contract_id, apply_date, termination_fee, origin_contract_id, termination_status)
+        VALUES (#{contract_id}, #{apply_date}, #{termination_fee}, #{origin_contract_id}, #{termination_status});
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        UPDATE termination
+        SET apply_date = #{apply_date},
+            termination_fee = #{termination_fee},
+            origin_contract_id = #{origin_contract_id},
+            termination_status = #{termination_status}
+        WHERE contract_id = #{contract_id};
+    </update>
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM termination
+        WHERE contract_id = #{id};
+    </delete>
 </mapper>

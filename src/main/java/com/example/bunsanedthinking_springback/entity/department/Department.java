@@ -18,7 +18,7 @@ public class Department implements Cloneable {
 	private String headName;
 	private int id;
 	private String name;
-	private List<OfficeSupply> officeSupplyList; // 이거 필드값 바꿔야하지 않나...
+	private List<OfficeSupply> officeSupplyList;
 	private String purpose;
 	private String task;
 	private ArrayList<Employee> employeeList;
