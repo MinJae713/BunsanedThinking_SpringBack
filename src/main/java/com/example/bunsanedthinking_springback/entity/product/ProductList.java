@@ -2,7 +2,7 @@ package com.example.bunsanedthinking_springback.entity.product;
 
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -17,22 +17,22 @@ import java.util.ArrayList;
 public interface ProductList {
 
 	/**
-	 * 
+	 *
 	 * @param product
 	 */
 	public void add(Product product);
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public Product get(int id) throws NotExistException;
 

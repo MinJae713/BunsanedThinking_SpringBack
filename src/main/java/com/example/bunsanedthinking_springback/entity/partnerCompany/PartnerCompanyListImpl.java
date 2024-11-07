@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.partnerCompany;
 
-import com.example.bunsanedthinking_springback.constants.DumyObjs;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ import java.util.ArrayList;
  * @created 27-5-2024 ���� 4:40:43
  */
 public class PartnerCompanyListImpl implements PartnerCompanyList {
-	
-	private static int index =0;
+
+	private static int index = 0;
 	private ArrayList<PartnerCompany> partnerCompanyList;
 
-	public PartnerCompanyListImpl(){
+	public PartnerCompanyListImpl() {
 		partnerCompanyList = new ArrayList<PartnerCompany>();
 		PartnerCompany[] dumy = DumyObjs.DUMY_PARTNER_COMPANIES;
 		for (PartnerCompany partnerCompany : dumy)
@@ -23,23 +23,23 @@ public class PartnerCompanyListImpl implements PartnerCompanyList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param partnerCompany
 	 */
-	public void add(PartnerCompany partnerCompany){
-		
+	public void add(PartnerCompany partnerCompany) {
+
 		index++;
-		String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" +index;
+		String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + index;
 		partnerCompany.setId(Integer.parseInt(compound));
 		this.partnerCompanyList.add(partnerCompany);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
-	public void delete(int id) throws NotExistException{
+	public void delete(int id) throws NotExistException {
 		for (PartnerCompany e : partnerCompanyList) {
 			if (e.getId() == id) {
 				partnerCompanyList.remove(e);
@@ -50,11 +50,11 @@ public class PartnerCompanyListImpl implements PartnerCompanyList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
-	public PartnerCompany get(int id) throws NotExistException{
+	public PartnerCompany get(int id) throws NotExistException {
 		for (PartnerCompany partnerCompany : partnerCompanyList) {
 			if (partnerCompany.getId() == id) {
 				return partnerCompany.clone();
@@ -62,7 +62,6 @@ public class PartnerCompanyListImpl implements PartnerCompanyList {
 		}
 		throw new NotExistException();
 	}
-
 
 	@Override
 	public ArrayList<PartnerCompany> getAllRoadAssistanceCompany() {
@@ -79,7 +78,7 @@ public class PartnerCompanyListImpl implements PartnerCompanyList {
 	public ArrayList<PartnerCompany> getAllDamageAssessmentCompany() {
 		ArrayList<PartnerCompany> partnerCompanys = new ArrayList<>();
 		for (PartnerCompany partnerCompany : partnerCompanyList) {
-			if (partnerCompany.getPartnerCompanyType().equals( PartnerCompanyType.DamageAssessmentCompany) ){
+			if (partnerCompany.getPartnerCompanyType().equals(PartnerCompanyType.DamageAssessmentCompany)) {
 				partnerCompanys.add(partnerCompany);
 			}
 		}

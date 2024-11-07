@@ -8,12 +8,13 @@ import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.DuplicateLoanException;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +73,8 @@ public class LoanManagementSModel {
 			fixedDepositMapper.insert_LoanManagement(fixedDepositVO);
 
 		} else if (loanDTO.getLoanType() == LoanType.InsuranceContract.ordinal()) {
-			InsuranceContractVO insuranceContractVO = new InsuranceContractVO(productVO.getId(), loanDTO.getParameter());
+			InsuranceContractVO insuranceContractVO = new InsuranceContractVO(productVO.getId(),
+				loanDTO.getParameter());
 			insuranceContractMapper.insert_LoanManagement(insuranceContractVO);
 		}
 	}
@@ -113,21 +115,28 @@ public class LoanManagementSModel {
 		switch (loanType) {
 			case Collateral -> {
 				Optional<CollateralVO> optionalCollateralVO = collateralMapper.findById_LoanManagement(id);
-				CollateralVO collateralVO = optionalCollateralVO.orElseThrow(() -> new NotExistException("해당하는 담보 대출 정보가 존재하지 않습니다."));
-				return new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				CollateralVO collateralVO = optionalCollateralVO.orElseThrow(
+					() -> new NotExistException("해당하는 담보 대출 정보가 존재하지 않습니다."));
+				return new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+					productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), CollateralType.indexOf(collateralVO.getCollateral_type()),
 					collateralVO.getMinimum_value(), loanVO.getMonthly_income());
 			}
 			case FixedDeposit -> {
 				Optional<FixedDepositVO> optionalFixedDepositVO = fixedDepositMapper.findById_LoanManagement(id);
-				FixedDepositVO fixedDepositVO = optionalFixedDepositVO.orElseThrow(() -> new NotExistException("해당하는 정기 예금 대출 정보가 존재하지 않습니다."));
-				return new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				FixedDepositVO fixedDepositVO = optionalFixedDepositVO.orElseThrow(
+					() -> new NotExistException("해당하는 정기 예금 대출 정보가 존재하지 않습니다."));
+				return new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+					productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income());
 			}
 			case InsuranceContract -> {
-				Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(id);
-				InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.orElseThrow(() -> new NotExistException("해당하는 보험 계약 대출 정보가 존재하지 않습니다."));
-				return new InsuranceContract(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
+				Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(
+					id);
+				InsuranceContractVO insuranceContractVO = optionalInsuranceContractVO.orElseThrow(
+					() -> new NotExistException("해당하는 보험 계약 대출 정보가 존재하지 않습니다."));
+				return new InsuranceContract(productVO.getId(), loanType, productVO.getName(),
+					loanVO.getInterest_rate(), productVO.getMaximum_money(),
 					loanVO.getMinimum_asset(), insuranceContractVO.getProduct_id(), loanVO.getMonthly_income());
 			}
 			default -> throw new NotExistException("대출 상품 종류가 잘못되었습니다.");
@@ -139,7 +148,7 @@ public class LoanManagementSModel {
 	}
 
 	public void requestLoan(int contractId, int money, int paymentType,
-			boolean result) throws AlreadyProcessedException, NotExistContractException {
+		boolean result) throws AlreadyProcessedException, NotExistContractException {
 		ContractVO contractVO = contractMapper.findById_FinancialAccountant(contractId)
 			.orElseThrow(NotExistContractException::new);
 
@@ -149,7 +158,8 @@ public class LoanManagementSModel {
 
 		int productSerialLength = (Product.PRODUCT_SERIAL_NUMBER + "").length();
 		int insuranceSerialLength = (Insurance.INSURANCE_SERIAL_NUMBER + "").length();
-		String productType = (contractVO.getProduct_id() + "").substring(productSerialLength, productSerialLength + insuranceSerialLength);
+		String productType = (contractVO.getProduct_id() + "").substring(productSerialLength,
+			productSerialLength + insuranceSerialLength);
 
 		if (result) {
 			LocalDate currentDate = LocalDate.now();
@@ -170,7 +180,7 @@ public class LoanManagementSModel {
 
 		Integer id = paymentDetailMapper.getMaxId_LoanManagement();
 		if (id == null) {
-			id = Integer.parseInt( "" + PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + 1);
+			id = Integer.parseInt("" + PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + 1);
 		} else {
 			id++;
 		}
@@ -244,7 +254,7 @@ public class LoanManagementSModel {
 	// }
 
 	public void updateLoanProduct(int index, String input, int loanId)
-			throws DuplicateLoanException, NotExistException {
+		throws DuplicateLoanException, NotExistException {
 		ProductVO productVO;
 		LoanVO loanVO;
 		switch (index) {
@@ -285,7 +295,7 @@ public class LoanManagementSModel {
 			case 5 -> {
 				loanVO = loanMapper.findById_LoanManagement(loanId)
 					.orElseThrow(NotExistException::new);
-				if (loanVO.getLoan_type() ==  LoanType.FixedDeposit.ordinal()) {
+				if (loanVO.getLoan_type() == LoanType.FixedDeposit.ordinal()) {
 					FixedDepositVO fixedDepositVO;
 					fixedDepositVO = fixedDepositMapper.findById_LoanManagement(loanId)
 						.orElseThrow(NotExistException::new);
@@ -315,6 +325,7 @@ public class LoanManagementSModel {
 			}
 		}
 	}
+
 	public void deleteLoanProduct(int id) throws NotExistException {
 		LoanVO loanVO = loanMapper.findById_LoanManagement(id)
 			.orElseThrow(NotExistException::new);
@@ -326,6 +337,7 @@ public class LoanManagementSModel {
 		loanMapper.delete_LoanManagement(id);
 		productMapper.delete_LoanManagement(id);
 	}
+
 	public List<Product> getAll() {
 		List<Product> result = new ArrayList<>();
 		List<ProductVO> productVOList = productMapper.getAll_LoanManagement();
@@ -338,7 +350,8 @@ public class LoanManagementSModel {
 			LoanType loanType = LoanType.indexOf(loanVO.getLoan_type());
 			switch (loanType) {
 				case InsuranceContract -> {
-					Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(productVO.getId());
+					Optional<InsuranceContractVO> optionalInsuranceContractVO = insuranceContractMapper.findById_LoanManagement(
+						productVO.getId());
 					if (optionalInsuranceContractVO.isEmpty())
 						continue;
 
@@ -348,24 +361,29 @@ public class LoanManagementSModel {
 						insuranceContractVO.getInsurance_id(), loanVO.getMonthly_income()));
 				}
 				case Collateral -> {
-					Optional<CollateralVO> optionalCollateralVO = collateralMapper.findById_LoanManagement(productVO.getId());
+					Optional<CollateralVO> optionalCollateralVO = collateralMapper.findById_LoanManagement(
+						productVO.getId());
 					if (optionalCollateralVO.isEmpty())
 						continue;
 
 					CollateralVO collateralVO = optionalCollateralVO.get();
-					result.add(new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(), productVO.getMaximum_money(),
-						loanVO.getMinimum_asset(), CollateralType.indexOf(collateralVO.getCollateral_type()),
-						collateralVO.getMinimum_value(), loanVO.getMonthly_income()));
+					result.add(
+						new Collateral(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+							productVO.getMaximum_money(),
+							loanVO.getMinimum_asset(), CollateralType.indexOf(collateralVO.getCollateral_type()),
+							collateralVO.getMinimum_value(), loanVO.getMonthly_income()));
 				}
 				case FixedDeposit -> {
-					Optional<FixedDepositVO> optionalFixedDepositVO = fixedDepositMapper.findById_LoanManagement(productVO.getId());
+					Optional<FixedDepositVO> optionalFixedDepositVO = fixedDepositMapper.findById_LoanManagement(
+						productVO.getId());
 					if (optionalFixedDepositVO.isEmpty())
 						continue;
 
 					FixedDepositVO fixedDepositVO = optionalFixedDepositVO.get();
-					result.add(new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
-						productVO.getMaximum_money(), loanVO.getMinimum_asset(),
-						fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income()));
+					result.add(
+						new FixedDeposit(productVO.getId(), loanType, productVO.getName(), loanVO.getInterest_rate(),
+							productVO.getMaximum_money(), loanVO.getMinimum_asset(),
+							fixedDepositVO.getMinimum_amount(), loanVO.getMonthly_income()));
 				}
 			}
 		}

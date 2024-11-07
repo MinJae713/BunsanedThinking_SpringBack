@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.model.service.employee.administrative;
 
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.exception.DuplicateOfficeSupplyException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper;
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,8 @@ public class AdministrativeSModel {
 	@Autowired
 	private OfficeSupplyMapper officeSupplyMapper;
 
-	public void addOfficeSupply(String name, String description, int inventory, int total_inventory, int department_id) throws DuplicateOfficeSupplyException {
+	public void addOfficeSupply(String name, String description, int inventory, int total_inventory,
+		int department_id) throws DuplicateOfficeSupplyException {
 		OfficeSupplyVO existingSupplyVO = officeSupplyMapper.findByName_OfficeSupply(name);
 		if (existingSupplyVO != null) {
 			throw new DuplicateOfficeSupplyException();
@@ -40,7 +42,7 @@ public class AdministrativeSModel {
 		officeSupplyMapper.insert_OfficeSupply(officeSupplyVO);
 	}
 
-	public void deleteOfficeSupply(int id) throws NotExistException{
+	public void deleteOfficeSupply(int id) throws NotExistException {
 		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
 		if (officeSupplyVO == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");

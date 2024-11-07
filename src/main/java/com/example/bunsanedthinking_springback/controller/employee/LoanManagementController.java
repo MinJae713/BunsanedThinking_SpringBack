@@ -4,11 +4,13 @@ import com.example.bunsanedthinking_springback.dto.loanManagement.CollateralDTO;
 import com.example.bunsanedthinking_springback.dto.loanManagement.LoanDTO;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.DuplicateLoanException;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+
 import com.example.bunsanedthinking_springback.model.service.employee.loanManagement.LoanManagementSModel;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

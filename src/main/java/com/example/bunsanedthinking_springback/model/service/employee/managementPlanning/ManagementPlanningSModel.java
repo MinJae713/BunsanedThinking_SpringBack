@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ public class ManagementPlanningSModel {
 	@Autowired
 	public DepartmentMapper departmentMapper;
 
-	public void addDepartment(String name, String task, String purpose, String headName) throws DuplicateDepartmentException{
+	public void addDepartment(String name, String task, String purpose, String headName) throws
+		DuplicateDepartmentException {
 		if (departmentMapper.findByName_ManagementPlanning(name) != null) {
 			throw new DuplicateDepartmentException();
 		}
@@ -35,14 +37,14 @@ public class ManagementPlanningSModel {
 		departmentMapper.insert_ManagementPlanning(departmentVO);
 	}
 
-	public void deleteDepartment(int id) throws NotExistException{
+	public void deleteDepartment(int id) throws NotExistException {
 		if (departmentMapper.findById_ManagementPlanning(id) == null) {
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
 		}
 		departmentMapper.delete_ManagementPlanning(id);
 	}
 
-	public DepartmentVO getDepartment(int id) throws NotExistException{
+	public DepartmentVO getDepartment(int id) throws NotExistException {
 		DepartmentVO departmentVO = departmentMapper.findById_ManagementPlanning(id);
 		if (departmentVO == null) {
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");

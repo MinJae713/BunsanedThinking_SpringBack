@@ -2,7 +2,7 @@ package com.example.bunsanedthinking_springback.entity.contract;
 
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +26,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param contract
 	 */
 	public void add(Contract contract) {
@@ -37,7 +37,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id) {
@@ -50,7 +50,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistContractException
 	 */
@@ -77,7 +77,7 @@ public class ContractListImpl implements ContractList {
 		throw new NotExistContractException();
 	}
 
-////怨좉컼////
+	////怨좉컼////
 	public ArrayList<Contract> getContractByProductId(int id) {
 		ArrayList<Contract> contractList = new ArrayList<>();
 		for (Contract contract : this.contractList) {
@@ -134,7 +134,7 @@ public class ContractListImpl implements ContractList {
 	}
 
 	@Override
-	public Contract getContractByOneAutomobileId(int customerID) throws NotExistContractException{
+	public Contract getContractByOneAutomobileId(int customerID) throws NotExistContractException {
 		for (Contract contract : contractList) {
 			if (contract.getCustomerID() != customerID) {
 				continue;
@@ -142,7 +142,7 @@ public class ContractListImpl implements ContractList {
 			if (!(contract.getProduct() instanceof Insurance)) {
 				continue;
 			}
-			Insurance insurance = (Insurance) contract.getProduct();
+			Insurance insurance = (Insurance)contract.getProduct();
 			if (insurance.getInsuranceType() == InsuranceType.Automobile) {
 				return contract.clone();
 			}
@@ -155,7 +155,7 @@ public class ContractListImpl implements ContractList {
 		ArrayList<Contract> result = new ArrayList<>();
 		for (Contract contract : contractList) {
 			if (contract.getProduct() instanceof Insurance
-					&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
 				result.add(contract.clone());
 			}
 		}
@@ -167,7 +167,7 @@ public class ContractListImpl implements ContractList {
 		ArrayList<Contract> result = new ArrayList<>();
 		for (Contract contract : contractList) {
 			if (contract.getProduct() instanceof Insurance
-					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
 				result.add(contract.clone());
 			}
 		}
@@ -181,7 +181,7 @@ public class ContractListImpl implements ContractList {
 		cal.add(Calendar.DATE, -31);
 		long caltime = cal.getTimeInMillis();
 		Date date = new Date(caltime);
-		
+
 		for (Contract contract : contractList) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			try {
@@ -201,7 +201,7 @@ public class ContractListImpl implements ContractList {
 		ArrayList<Contract> result = new ArrayList<>();
 		for (Contract contract : contractList) {
 			if (contract.getProduct() instanceof Loan
-					&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
 				result.add(contract.clone());
 			}
 		}
@@ -213,7 +213,7 @@ public class ContractListImpl implements ContractList {
 		ArrayList<Contract> result = new ArrayList<>();
 		for (Contract contract : contractList) {
 			if (contract.getProduct() instanceof Loan
-					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
 				result.add(contract.clone());
 			}
 		}
@@ -225,7 +225,7 @@ public class ContractListImpl implements ContractList {
 		for (Contract contract : contractList) {
 			if (contract.getId() == id) {
 				if (contract.getProduct() instanceof Loan
-						&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+					&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
 					return contract;
 				} else {
 					break;
@@ -265,7 +265,7 @@ public class ContractListImpl implements ContractList {
 		for (Contract contract : contractList) {
 			if (contract.getId() == id) {
 				if (contract.getProduct() instanceof Loan
-						&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
 					return contract;
 				} else {
 					break;
@@ -280,7 +280,7 @@ public class ContractListImpl implements ContractList {
 		for (Contract contract : contractList) {
 			if (contract.getCustomerID() == id) {
 				if (contract.getProduct() instanceof Loan
-						&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
 					return contract;
 				} else {
 					break;
@@ -294,7 +294,8 @@ public class ContractListImpl implements ContractList {
 	public ArrayList<Contract> getAllApprovedByCustomer(int id) throws NotExistContractException {
 		ArrayList<Contract> contractList = new ArrayList<>();
 		for (Contract contract : this.contractList) {
-			if (contract.getContractStatus() != ContractStatus.ContractRequesting && contract.getExpirationDate() != null) {
+			if (contract.getContractStatus() != ContractStatus.ContractRequesting
+				&& contract.getExpirationDate() != null) {
 				contractList.add(contract);
 			}
 		}

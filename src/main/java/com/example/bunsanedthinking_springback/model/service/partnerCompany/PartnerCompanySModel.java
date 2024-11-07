@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.model.service.partnerCompany;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
 import com.example.bunsanedthinking_springback.repository.ReportMapper;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class PartnerCompanySModel {
 		}
 		return partnerCompanyVO;
 	}
+
 	public ArrayList<ReportVO> getAllReportByDamageAssessmentCompanyID(int id) {
 		List<ReportVO> reports = reportMapper.findAllByDamageAssessmentCompanyID_PartnerCompany(id);
 		return new ArrayList<>(reports);

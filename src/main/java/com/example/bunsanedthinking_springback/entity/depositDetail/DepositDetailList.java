@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,29 +12,24 @@ import java.util.ArrayList;
 public interface DepositDetailList {
 
 	/**
-	 * 
+	 *
 	 * @param depositDetail
 	 */
 	public void add(DepositDetail depositDetail);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id);
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public DepositDetail get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
 	public void update(DepositDetail depositDetail) throws NotExistException;
 
 	public ArrayList<DepositDetail> getAllDepositDetail();

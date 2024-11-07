@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.constants;
+package com.example.bunsanedthinking_springback.global.constants;
 
 public class EmployeeNums {
 	public static final String EMP_DEFAULT = "600";

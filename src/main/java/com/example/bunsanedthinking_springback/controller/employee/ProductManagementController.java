@@ -2,13 +2,13 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.DuplicateInsuranceException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementSModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 @RestController
 @RequestMapping("/employee/productManagement")
@@ -57,7 +57,6 @@ public class ProductManagementController {
 	// public ArrayList<Product> getAll(ProductList productList){
 	// 	return productManagementModel.getAll(productList);
 	// }
-
 
 	@PostMapping("/addDiseaseInsurance")
 	public void addDiseaseInsurance(@RequestBody Disease disease) throws DuplicateInsuranceException {

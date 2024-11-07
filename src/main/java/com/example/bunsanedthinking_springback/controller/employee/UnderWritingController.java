@@ -2,9 +2,10 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingSModel;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,7 +30,6 @@ public class UnderWritingController {
 	public void applyReinsurance() {
 		underWritingSModel.applyReinsurance();
 	}
-
 
 	// public boolean reviewAcquisition(Contract contract, boolean result, ContractList contractList)
 	// 	throws AlreadyProcessedException, NotExistContractException {

@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.insuranceMoney;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -12,37 +12,37 @@ import java.util.ArrayList;
 public class InsuranceMoneyListImpl implements InsuranceMoneyList {
 
 	private static int index = 0;
-	
+
 	private ArrayList<InsuranceMoney> insuranceMoneyList;
 
-	public InsuranceMoneyListImpl(){
+	public InsuranceMoneyListImpl() {
 		this.insuranceMoneyList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param insuranceMoney
 	 */
-	public void add(InsuranceMoney insuranceMoney){
+	public void add(InsuranceMoney insuranceMoney) {
 		index++;
 		insuranceMoney.setId(index);
 		this.insuranceMoneyList.add(insuranceMoney);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
-	public void delete(int id) throws NotExistException{
+	public void delete(int id) throws NotExistException {
 		boolean result = this.insuranceMoneyList.removeIf(insuranceMoney -> insuranceMoney.getId() == id);
-		if(!result) {
+		if (!result) {
 			throw new NotExistException();
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public InsuranceMoney get(int id) throws NotExistException {
@@ -56,10 +56,10 @@ public class InsuranceMoneyListImpl implements InsuranceMoneyList {
 
 	/**
 	 *
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
-	public void update(InsuranceMoney insuranceMoney) throws NotExistException{
-		for (int i=0; i<this.insuranceMoneyList.size(); i++) {
+	public void update(InsuranceMoney insuranceMoney) throws NotExistException {
+		for (int i = 0; i < this.insuranceMoneyList.size(); i++) {
 			if (insuranceMoneyList.get(i).getId() == insuranceMoney.getId()) {
 				insuranceMoneyList.set(i, insuranceMoney);
 				return;

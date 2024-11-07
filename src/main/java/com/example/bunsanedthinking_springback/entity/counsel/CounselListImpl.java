@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.counsel;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,26 +12,26 @@ import java.util.ArrayList;
 public class CounselListImpl implements CounselList {
 
 	private ArrayList<Counsel> counselList;
-	private int index =0;
-	
-	public CounselListImpl(){
+	private int index = 0;
+
+	public CounselListImpl() {
 		counselList = new ArrayList<Counsel>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param counsel
 	 */
-	public void add(Counsel counsel){
+	public void add(Counsel counsel) {
 		String compound = Counsel.COUNSEL_SERIAL_NUMBER + "" + (++index);
 		counsel.setId(Integer.parseInt(compound));
 		counselList.add(counsel);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException {
 		for (Counsel e : counselList) {
@@ -44,11 +44,11 @@ public class CounselListImpl implements CounselList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
-	public Counsel get(int id) throws NotExistException{
+	public Counsel get(int id) throws NotExistException {
 		for (Counsel e : counselList) {
 			if (e != null && e.getId() == id) {
 				return e.clone();
@@ -57,12 +57,7 @@ public class CounselListImpl implements CounselList {
 		throw new NotExistException();
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
-	public void update(Counsel counsel) throws NotExistException{
+	public void update(Counsel counsel) throws NotExistException {
 		for (int i = 0; i < counselList.size(); i++) {
 			if (counselList.get(i).getId() == counsel.getId()) {
 				counselList.set(i, counsel);

@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.officeSupply;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -14,29 +14,25 @@ import java.util.ArrayList;
 public interface OfficeSupplyList {
 
 	/**
-	 * 
+	 *
 	 * @param officeSupply
 	 */
 	public void add(OfficeSupply officeSupply);
+
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public OfficeSupply get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
 	public void update(OfficeSupply officeSupply) throws NotExistException;
 
 	public ArrayList<OfficeSupply> getAll();

@@ -3,9 +3,9 @@ package com.example.bunsanedthinking_springback.controller.employee;
 import com.example.bunsanedthinking_springback.dto.humanResource.EmployeeDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.exception.DuplicateResidentRegistrationNumberException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceSModel;
+import com.example.bunsanedthinking_springback.model.humanResource.HumanResourceModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

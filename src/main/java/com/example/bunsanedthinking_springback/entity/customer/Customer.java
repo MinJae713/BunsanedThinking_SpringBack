@@ -20,10 +20,10 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
-import com.example.bunsanedthinking_springback.exception.AlreadyRequestingException;
-import com.example.bunsanedthinking_springback.exception.DuplicateResidentRegistrationNumberException;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyRequestingException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 
 import java.awt.*;
@@ -62,7 +62,7 @@ public class Customer implements Cloneable {
 	public static final int CUSTOMER_SERIAL_NUMBER = 200;
 
 	public Customer(String name, String phoneNumber, String job, int age, Gender gender,
-			String residentRegistrationNumber, String address, long property, String bankName, String bankAccount) {
+		String residentRegistrationNumber, String address, long property, String bankName, String bankAccount) {
 		this.accidentList = new ArrayList<>();
 		this.address = address;
 		this.age = age;
@@ -113,11 +113,11 @@ public class Customer implements Cloneable {
 	}
 
 	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,
-					   String residentRegistrationNumber, String address, long property,
-					   ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
-					   ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
-					   CustomerList customerList, AccidentHistoryList accidentHistoryList, SurgeryHistoryList surgeryHistoryList,
-					   DiseaseHistoryList diseaseHistoryList) throws DuplicateResidentRegistrationNumberException {
+		String residentRegistrationNumber, String address, long property,
+		ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
+		ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
+		CustomerList customerList, AccidentHistoryList accidentHistoryList, SurgeryHistoryList surgeryHistoryList,
+		DiseaseHistoryList diseaseHistoryList) throws DuplicateResidentRegistrationNumberException {
 		for (Customer customer : customerList.getAll()) {
 			if (customer.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
 				throw new DuplicateResidentRegistrationNumberException();
@@ -164,8 +164,9 @@ public class Customer implements Cloneable {
 	}
 
 	public void askInsuranceCounsel(Insurance insurance, String name, String phoneNumber,
-									Date counselDate, String job, int age, Gender gender, CounselList counselList) {
-		Counsel counsel = new Counsel(this.getId(), insurance.getId(), name, phoneNumber, counselDate, job, age, gender);
+		Date counselDate, String job, int age, Gender gender, CounselList counselList) {
+		Counsel counsel = new Counsel(this.getId(), insurance.getId(), name, phoneNumber, counselDate, job, age,
+			gender);
 		this.counselList.add(counsel);
 		counselList.add(counsel);
 	}
@@ -181,7 +182,8 @@ public class Customer implements Cloneable {
 		return true;
 	}
 
-	public void complain(ComplaintList complaintList, CustomerList customerList, ComplaintType complainType, String title, String content) {
+	public void complain(ComplaintList complaintList, CustomerList customerList, ComplaintType complainType,
+		String title, String content) {
 		Complaint complaint = new Complaint(complainType, content, this.id, title);
 		this.complaintList.add(complaint);
 		complaintList.add(complaint);
@@ -206,15 +208,15 @@ public class Customer implements Cloneable {
 	}
 
 	public void receiveInsurance(Contract contract, Image medicalCertificateImage,
-			Image receiptImage, Image residentRegistrationCardImage, InsuranceMoneyList insuranceMoneyList)
-			throws IOException {
+		Image receiptImage, Image residentRegistrationCardImage, InsuranceMoneyList insuranceMoneyList)
+		throws IOException {
 		InsuranceMoney insuranceMoney = new InsuranceMoney(contract.getId(), this.bankName, this.bankAccount,
-				medicalCertificateImage, receiptImage, residentRegistrationCardImage);
+			medicalCertificateImage, receiptImage, residentRegistrationCardImage);
 		insuranceMoneyList.add(insuranceMoney);
 	}
 
 	public void reportAccident(String customerName, String customerPhoneNumber, Date date, String location,
-							   ServiceType serviceType, AccidentList accidentList) {
+		ServiceType serviceType, AccidentList accidentList) {
 		Accident accident = new Accident();
 		try {
 			accident.report(this.id, customerName, customerPhoneNumber, date, location, serviceType);
@@ -372,7 +374,7 @@ public class Customer implements Cloneable {
 	public Customer clone() {
 
 		Customer customer = new Customer(getName(), getPhoneNumber(), getJob(), getAge(), getGender(),
-				getResidentRegistrationNumber(), getAddress(), getProperty(), getBankName(), getBankAccount());
+			getResidentRegistrationNumber(), getAddress(), getProperty(), getBankName(), getBankAccount());
 		customer.setId(getId());
 		customer.setAccidentHistoryList(getAccidentHistoryList());
 		customer.setSurgeryHistoryList(getSurgeryHistoryList());

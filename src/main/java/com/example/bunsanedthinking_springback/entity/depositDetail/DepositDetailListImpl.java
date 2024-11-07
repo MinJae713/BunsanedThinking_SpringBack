@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -14,12 +14,12 @@ public class DepositDetailListImpl implements DepositDetailList {
 	private static int index = 0;
 	private ArrayList<DepositDetail> depositDetailList;
 
-	public DepositDetailListImpl(){
+	public DepositDetailListImpl() {
 		this.depositDetailList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param depositDetail
 	 */
 	public void add(DepositDetail depositDetail) {
@@ -30,19 +30,19 @@ public class DepositDetailListImpl implements DepositDetailList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
-	public void delete(int id){
+	public void delete(int id) {
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
-	public DepositDetail get(int id) throws NotExistException{
+	public DepositDetail get(int id) throws NotExistException {
 		for (DepositDetail depositDetail : depositDetailList) {
 			if (depositDetail.getId() == id) {
 				return depositDetail.clone();
@@ -51,13 +51,8 @@ public class DepositDetailListImpl implements DepositDetailList {
 		throw new NotExistException();
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
-	public void update(DepositDetail depositDetail) throws NotExistException{
-		for (int i=0; i<depositDetailList.size(); i++) {
+	public void update(DepositDetail depositDetail) throws NotExistException {
+		for (int i = 0; i < depositDetailList.size(); i++) {
 			if (depositDetailList.get(i).getId() == depositDetail.getId()) {
 				depositDetailList.set(i, depositDetail);
 				return;

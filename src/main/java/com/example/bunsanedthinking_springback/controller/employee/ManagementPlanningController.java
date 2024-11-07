@@ -1,9 +1,10 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningSModel;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

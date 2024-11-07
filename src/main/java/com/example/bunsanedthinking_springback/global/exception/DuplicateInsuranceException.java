@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.exception;
+package com.example.bunsanedthinking_springback.global.exception;
 
 public class DuplicateInsuranceException extends Exception {
 
@@ -6,7 +6,7 @@ public class DuplicateInsuranceException extends Exception {
 
 	public DuplicateInsuranceException() {
 		super("중복된 보험상품명이 존재합니다.");
-		
+
 	}
-	
+
 }

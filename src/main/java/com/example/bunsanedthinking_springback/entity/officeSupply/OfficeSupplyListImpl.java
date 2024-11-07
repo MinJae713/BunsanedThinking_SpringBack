@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.officeSupply;
 
-import com.example.bunsanedthinking_springback.constants.DumyObjs;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -18,7 +18,7 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 	private ArrayList<OfficeSupply> officeSupplyList;
 	public static int index = 0;
 
-	public OfficeSupplyListImpl(){
+	public OfficeSupplyListImpl() {
 		officeSupplyList = new ArrayList<OfficeSupply>();
 		OfficeSupply[] dumy = DumyObjs.DUMY_OFFICESUPPLY;
 		for (OfficeSupply officeSupply : dumy)
@@ -26,18 +26,18 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param officeSupply
 	 */
-	public void add(OfficeSupply officeSupply){
+	public void add(OfficeSupply officeSupply) {
 		index++;
-		String compound = OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER +""+ index;
+		String compound = OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "" + index;
 		officeSupply.setId(Integer.parseInt(compound));
 		officeSupplyList.add(officeSupply);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
@@ -52,11 +52,11 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
-	public OfficeSupply get(int id) throws NotExistException{
+	public OfficeSupply get(int id) throws NotExistException {
 		for (OfficeSupply e : officeSupplyList) {
 			if (e != null && e.getId() == id) {
 				return e.clone();
@@ -65,12 +65,7 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 		throw new NotExistException();
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
-	public void update(OfficeSupply officeSupply) throws NotExistException{
+	public void update(OfficeSupply officeSupply) throws NotExistException {
 		for (int i = 0; i < officeSupplyList.size(); i++) {
 			if (officeSupplyList.get(i).getId() == officeSupply.getId()) {
 				officeSupplyList.set(i, officeSupply);
@@ -97,5 +92,5 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 		}
 		return totalInventory;
 	}
-	
+
 }

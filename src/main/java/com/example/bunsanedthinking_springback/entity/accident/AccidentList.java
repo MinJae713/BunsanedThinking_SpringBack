@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.accident;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -12,20 +12,20 @@ import java.util.ArrayList;
 public interface AccidentList {
 
 	/**
-	 * 
+	 *
 	 * @param accident
-	 * @return 
+	 * @return
 	 */
 	public int add(Accident accident);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public Accident get(int id) throws NotExistException;
