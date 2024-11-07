@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
@@ -9,16 +17,9 @@ import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetai
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author ȯ
@@ -45,7 +46,7 @@ public class Contract {
 	private Product product;
 	private Date terminationDate; // 해지일
 	private List<PaymentDetail> paymentDetailList;
-//  DB상 이게 맞아서 넣었는데 찬님 기존 코드랑 충돌나서 일단 주석처리
+	//  DB상 이게 맞아서 넣었는데 찬님 기존 코드랑 충돌나서 일단 주석처리
 	// DB로 따지믄 계약이 세부 납입 정보를 갖고있다 이거임다
 
 	public Contract(int customerID, Product product) {
@@ -97,10 +98,10 @@ public class Contract {
 	}
 
 	public Contract(ArrayList<InsuranceMoney> insuranceMonies,
-					ArrayList<CompensationDetail> compensationDetails,
-					ArrayList<DepositDetail> depositDetails,
-					ArrayList<PaymentDetail> paymentDetails,
-					Product product, ContractVO contractVO) {
+		ArrayList<CompensationDetail> compensationDetails,
+		ArrayList<DepositDetail> depositDetails,
+		ArrayList<PaymentDetail> paymentDetails,
+		Product product, ContractVO contractVO) {
 		setInsuranceMoneyList(insuranceMonies);
 		setCompensationDetailList(compensationDetails);
 		setDepositDetailList(depositDetails);
@@ -110,10 +111,11 @@ public class Contract {
 		setId(contractVO.getId());
 		setDate(java.sql.Date.valueOf(contractVO.getDate()));
 		setExpirationDate(java.sql.Date.valueOf(contractVO.getExpiration_date()));
-		setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
+		setPaymentDate(contractVO.getPayment_date());
 
 		LocalDate terminationDate = contractVO.getTermination_date();
-		if (terminationDate != null) setTerminationDate(java.sql.Date.valueOf(terminationDate));
+		if (terminationDate != null)
+			setTerminationDate(java.sql.Date.valueOf(terminationDate));
 		setContractStatus(ContractStatus.values()[contractVO.getContract_status()]);
 		setCustomerID(contractVO.getCustomer_id());
 		setEmployeeID(contractVO.getEmployee_id());
