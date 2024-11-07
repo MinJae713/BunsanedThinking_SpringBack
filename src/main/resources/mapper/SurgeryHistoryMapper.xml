@@ -15,22 +15,23 @@
         VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
     </insert>
 
-    <insert id="insert_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        INSERT INTO surgeryhistory (customer_id, hospital_name, name, date)
-        VALUES (#{customer_id},
+    <insert id="insert_surgeryHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        INSERT INTO surgeryhistory (id, customer_id, hospital_name, name, date)
+        VALUES (#{id},
+                #{customer_id},
                 #{hospital_name},
                 #{name},
                 #{date});
     </insert>
-    <select id="findSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+    <select id="findSurgeryHistoriesByCustomerId_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         SELECT * FROM surgeryhistory
         WHERE customer_id = #{customer_id};
     </select>
-    <delete id="deleteSurgeryHistoriesByCustomerId_customerInformationManagement" parameterType="int">
+    <delete id="deleteSurgeryHistoriesByCustomerId_CustomerInformationManagement" parameterType="int">
         DELETE FROM surgeryhistory
         WHERE customer_id = #{customer_id};
     </delete>
-    <update id="update_surgeryHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+    <update id="update_surgeryHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         UPDATE surgeryhistory
         SET hospital_name = #{hospital_name},
             name = #{name},
@@ -59,5 +60,7 @@
     <select id="getMaxId_SalesModel" resultType="Integer">
         select max(id)
         from surgeryhistory
+    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
+        SELECT MAX(id) FROM surgeryhistory
     </select>
 </mapper>

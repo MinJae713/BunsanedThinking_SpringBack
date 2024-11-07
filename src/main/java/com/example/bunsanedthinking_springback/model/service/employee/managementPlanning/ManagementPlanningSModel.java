@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
-import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.entity.department.Department;
+import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 
@@ -14,19 +14,17 @@ public class ManagementPlanningSModel {
 	@Autowired
 	public DepartmentMapper departmentMapper;
 
-	public void addDepartment(String name, String task, String purpose, String headName) throws
-		DuplicateDepartmentException {
+	public void addDepartment(String headName, String name, String purpose, String task) throws DuplicateDepartmentException{
 		if (departmentMapper.findByName_ManagementPlanning(name) != null) {
 			throw new DuplicateDepartmentException();
 		}
-
 		Integer maxId = departmentMapper.getMaxId_ManagementPlanning();
 		int id;
 		if (maxId == null) {
-			id = Integer.parseInt(OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "1");
+			id = Integer.parseInt(Department.DepartmentSerialNum + "1");
 		} else {
-			String index = (maxId + "").substring((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "").length());
-			id = Integer.parseInt((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
+			String index = (maxId + "").substring((Department.DepartmentSerialNum + "").length());
+			id = Integer.parseInt((Department.DepartmentSerialNum + "") + (Integer.parseInt(index) + 1));
 		}
 		DepartmentVO departmentVO = new DepartmentVO();
 		departmentVO.setId(id); // 새로운 ID 설정
@@ -52,14 +50,22 @@ public class ManagementPlanningSModel {
 		return departmentVO;
 	}
 
-	public void updateDepartment(int index, String input, int id) throws NotExistException {
-		DepartmentVO departmentVO = getDepartment(id);
-		switch (index) {
-			case 1 -> departmentVO.setName(input);
-			case 2 -> departmentVO.setTask(input);
-			case 3 -> departmentVO.setPurpose(input);
-			case 4 -> departmentVO.setHead_name(input);
-			default -> throw new IllegalArgumentException("유효하지 않은 선택입니다. 올바른 값을 입력하세요.");
+	public void updateDepartment(int id, String headName, String name, String purpose, String task) throws NotExistException {
+		DepartmentVO departmentVO = departmentMapper.findById_ManagementPlanning(id);
+		if (departmentVO == null) {
+			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
+		}
+		if (name != null && !name.isEmpty()) {
+			departmentVO.setName(name);
+		}
+		if (task != null && !task.isEmpty()) {
+			departmentVO.setTask(task);
+		}
+		if (purpose != null && !purpose.isEmpty()) {
+			departmentVO.setPurpose(purpose);
+		}
+		if (headName != null && !headName.isEmpty()) {
+			departmentVO.setHead_name(headName);
 		}
 		departmentMapper.update_ManagementPlanning(departmentVO);
 	}

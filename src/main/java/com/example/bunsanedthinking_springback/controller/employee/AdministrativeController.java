@@ -38,9 +38,12 @@ public class AdministrativeController {
 	}
 
 	@PatchMapping("/updateOfficeSupply")
-	public void updateOfficeSupply(@RequestParam int index, @RequestParam String input,
-								   @RequestParam int id) throws NotExistException {
-		administrativeSModel.updateOfficeSupply(index, input, id);
+	public void updateOfficeSupply(@RequestBody UpdateOfficeSupplyDTO updateOfficeSupplyDTO) throws NotExistException {
+		administrativeModel.updateOfficeSupply(
+				updateOfficeSupplyDTO.getName(),
+				updateOfficeSupplyDTO.getDescription(),
+				updateOfficeSupplyDTO.getInventory(),
+				updateOfficeSupplyDTO.getId());
 	}
 
 	@GetMapping("/getAll")

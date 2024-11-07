@@ -15,11 +15,12 @@ public interface AccidentHistoryMapper {
 	ArrayList<AccidentHistoryVO> get_UnderWritingModel(int id);
 	void insert_SalesModel(AccidentHistoryVO accidentHistoryVO);
 
-    public void insert_accidentHistory_CustomerInformationManagement(@Param("accidentHistory") AccidentHistoryVO accidentHistoryVO);
+    Integer getMaxId_CustomerInformationManagement();
+    public void insert_accidentHistory_CustomerInformationManagement(AccidentHistoryVO accidentHistoryVO);
     public void deleteAccidentHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
 	Integer getMaxId_SalesModel();
-    public void update_accidentHistory_CustomerInformationManagement(@Param("accidentHistory") AccidentHistoryVO accidentHistoryVO);
+    public void update_accidentHistory_CustomerInformationManagement(AccidentHistoryVO accidentHistoryVO);
     public List<AccidentHistoryVO> findAccidentHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
     public Optional<AccidentHistoryVO> getById(int id);

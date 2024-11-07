@@ -32,21 +32,21 @@
     <select id="getMaxId" resultType="int">
         select MAX(id) from DiseaseHistory
     </select>
-    <insert id="insert_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+    <insert id="insert_diseaseHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         INSERT INTO diseasehistory (customer_id, date_of_diagnosis, name)
         VALUES (#{customer_id},
                 #{date_of_diagnosis},
                 #{name})
     </insert>
-    <select id="findDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+    <select id="findDiseaseHistoriesByCustomerId_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         SELECT * FROM diseasehistory
         WHERE customer_id = #{customer_id}
     </select>
-    <delete id="deleteDiseaseHistoriesByCustomerId_customerInformationManagement" parameterType="int">
+    <delete id="deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement" parameterType="int">
         DELETE FROM diseasehistory
         WHERE customer_id = #{customer_id}
     </delete>
-    <update id="update_diseaseHistory_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+    <update id="update_diseaseHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         UPDATE diseasehistory
         SET date_of_diagnosis = #{date_of_diagnosis},
             name = #{name}
@@ -76,4 +76,8 @@
         delete from diseasehistory
         where id = #{id}
     </delete>
+    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
+        SELECT MAX(id) FROM diseasehistory
+    </select>
+
 </mapper>

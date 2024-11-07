@@ -12,7 +12,7 @@ public interface OfficeSupplyMapper {
     public void delete_OfficeSupply(int id);
     public OfficeSupplyVO findById_OfficeSupply(int id);
     public OfficeSupplyVO findByName_OfficeSupply(@Param("name") String name);
-    public void update_OfficeSupply(@Param("officeSupply") OfficeSupplyVO officeSupplyVO);
+    public void update_OfficeSupply(OfficeSupplyVO officeSupplyVO);
     public List<OfficeSupplyVO> getAll_OfficeSupply();
     public int getTotalInventory_OfficeSupply();
 

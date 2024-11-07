@@ -10,13 +10,13 @@ import java.util.Optional;
 @Mapper
 public interface DepartmentMapper {
 	List<DepartmentVO> getAll_HumanResource();
+	Optional<DepartmentVO> findById_HumanResource(int departmentID);
 
-	Optional<DepartmentVO> findById_HumanResource(int id);
-    public void insert_ManagementPlanning(@Param("department") DepartmentVO departmentVO);
+    public void insert_ManagementPlanning(DepartmentVO departmentVO);
     public void delete_ManagementPlanning(int id);
     public DepartmentVO findById_ManagementPlanning(int id);
     public DepartmentVO findByName_ManagementPlanning(String name);
-    public void update_ManagementPlanning(@Param("department") DepartmentVO departmentVO);
+    public void update_ManagementPlanning(DepartmentVO departmentVO);
 
     Integer getMaxId_ManagementPlanning();
 

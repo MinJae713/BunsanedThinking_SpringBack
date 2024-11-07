@@ -14,13 +14,14 @@ public interface DiseaseHistoryMapper {
 	ArrayList<DiseaseHistoryVO> get_UnderWritingModel(int id);
 	void insert_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
 
-    public void insert_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistoryVO diseaseHistoryVO);
+    Integer getMaxId_CustomerInformationManagement();
+    public void insert_diseaseHistory_CustomerInformationManagement(DiseaseHistoryVO diseaseHistoryVO);
     public void deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
 	void insertExcludedCustomerId_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
 
 	Integer getMaxId_SalesModel();
-    public void update_diseaseHistory_CustomerInformationManagement(@Param("diseaseHistory") DiseaseHistoryVO diseaseHistoryVO);
+    public void update_diseaseHistory_CustomerInformationManagement(DiseaseHistoryVO diseaseHistoryVO);
     public List<DiseaseHistoryVO> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
     public Optional<DiseaseHistoryVO> getById(int id);

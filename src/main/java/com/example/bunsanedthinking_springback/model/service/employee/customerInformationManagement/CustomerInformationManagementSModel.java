@@ -1,7 +1,12 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement;
 
+import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.mo.*;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
@@ -18,6 +23,8 @@ import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -32,52 +39,100 @@ public class CustomerInformationManagementSModel {
 	@Autowired
 	private DiseaseHistoryMapper diseaseHistoryMapper;
 
-	public void addCustomerInformation(String name, String phoneNumber, String job, int age, int gender,
-		String residentRegistrationNumber, String address, long property,
-		List<AccidentHistory> tempAccidentHistoryList,
-		List<SurgeryHistory> tempSurgeryHistoryList,
-		List<DiseaseHistory> tempDiseaseHistoryList,
-		String bankName, String bankAccount) throws DuplicateResidentRegistrationNumberException {
-		if (customerMapper.findByResidentRegistrationNumber_CustomerInformationManagement(residentRegistrationNumber)
-			!= null) {
+	public void addCustomerInformation(AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
+		if (customerMapper.findByResidentRegistrationNumber_CustomerInformationManagement(addCustomerInformationDTO.getResidentRegistrationNumber()) != null) {
 			throw new DuplicateResidentRegistrationNumberException();
 		}
 
-		// VO 객체 생성
-		CustomerVO customerVO = new CustomerVO();
-		customerVO.setName(name);
-		customerVO.setPhone_number(phoneNumber);
-		customerVO.setJob(job);
-		customerVO.setAge(age);
-		customerVO.setGender(gender); // Gender enum을 int로 저장
-		customerVO.setResident_registration_number(residentRegistrationNumber);
-		customerVO.setAddress(address);
-		customerVO.setProperty(property);
-		customerVO.setBank_name(bankName);
-		customerVO.setBank_account(bankAccount);
+		Integer maxId = customerMapper.getMaxId_CustomerInformationManagement();
+		int id;
+		if (maxId == null) {
+			id = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
+		} else {
+			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER + "").length());
+			id = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
+		}
 
+		CustomerVO customerVO = new CustomerVO(
+				id,
+				addCustomerInformationDTO.getAddress(),
+				addCustomerInformationDTO.getAge(),
+				addCustomerInformationDTO.getBankAccount(),
+				addCustomerInformationDTO.getBankName(),
+				addCustomerInformationDTO.getGender(),
+				addCustomerInformationDTO.getJob(),
+				addCustomerInformationDTO.getName(),
+				addCustomerInformationDTO.getPhoneNumber(),
+				addCustomerInformationDTO.getProperty(),
+				addCustomerInformationDTO.getResidentRegistrationNumber()
+				);
 		// VO를 DB에 추가
 		customerMapper.insert_CustomerInformationManagement(customerVO);
 
-		if (tempAccidentHistoryList != null) {
-			for (AccidentHistory accident : tempAccidentHistoryList) {
-				AccidentHistoryVO accidentHistoryVO = accident.getaccidentVO();
-				accident.setCustomerID(customerVO.getId());
-				accidentHistoryMapper.insert_accidentHistory_CustomerInformationManagement(accidentHistoryVO);
+		if(addCustomerInformationDTO.getAccidentHistoryList() != null) {
+			Integer accidentHistoryMaxId = accidentHistoryMapper.getMaxId_CustomerInformationManagement();
+			int accidentHistoryId;
+			int maxIndex;
+			if (accidentHistoryMaxId == null) {
+				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else{
+				String index = (accidentHistoryMaxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for(AccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				AccidentHistoryVO accidentHistoryVO = new AccidentHistoryVO(accidentHistoryId, date,
+						e.getAccidentDetail(), id);
+				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
+				maxIndex++;
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+
 			}
 		}
-		if (tempSurgeryHistoryList != null) {
-			for (SurgeryHistory surgery : tempSurgeryHistoryList) {
-				SurgeryHistoryVO surgeryHistoryVO = surgery.getsurgeryVO();
-				surgery.setCustomerID(customerVO.getId());
-				surgeryHistoryMapper.insert_surgeryHistory_CustomerInformationManagement(surgeryHistoryVO);
+
+		if(addCustomerInformationDTO.getSurgeryHistoryList() != null) {
+			Integer surgeryHistoryMaxId = surgeryHistoryMapper.getMaxId_CustomerInformationManagement();
+			int surgeryHistoryId;
+			int maxIndex;
+			if (surgeryHistoryMaxId == null) {
+				surgeryHistoryId = Integer.parseInt(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else{
+				String index = (surgeryHistoryMaxId + "").substring((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for(SurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO(surgeryHistoryId, e.getHospitalName(),
+						e.getName(), date, id);
+				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+				maxIndex++;
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
 		}
-		if (tempDiseaseHistoryList != null) {
-			for (DiseaseHistory disease : tempDiseaseHistoryList) {
-				DiseaseHistoryVO diseaseHistoryVO = disease.getdiseaseVO();
-				disease.setCustomer_id(customerVO.getId());
-				diseaseHistoryMapper.insert_diseaseHistory_CustomerInformationManagement(diseaseHistoryVO);
+
+		if(addCustomerInformationDTO.getDiseaseHistoryList() != null) {
+			Integer diseaseHistoryMaxId = diseaseHistoryMapper.getMaxId_CustomerInformationManagement();
+			int diseaseHistoryId;
+			int maxIndex;
+			if (diseaseHistoryMaxId == null) {
+				diseaseHistoryId = Integer.parseInt(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "1");
+				maxIndex = 1;
+			} else {
+				String index = (diseaseHistoryMaxId + "").substring((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "").length());
+				maxIndex = Integer.parseInt(index) + 1;
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+			}
+			for(DiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
+				LocalDate date = LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				DiseaseHistoryVO diseaseHistoryVO = new DiseaseHistoryVO(diseaseHistoryId, date,
+						e.getName(), id);
+				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
+				maxIndex++;
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
 		}
 	}
@@ -100,8 +155,13 @@ public class CustomerInformationManagementSModel {
 		return customerVO;
 	}
 
-	public void updateCustomerInformation(int index, String input, int id) throws NotExistException {
-		CustomerVO customerVO = getCustomerInformation(id);
+	public void updateCustomerInformation(UpdateCustomerInformationDTO updateCustomerInformationDTO) throws NotExistException{
+		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(updateCustomerInformationDTO.getId());
+		if (customerVO == null) {
+			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+		}
+		int index = updateCustomerInformationDTO.getIndex();
+		String input = updateCustomerInformationDTO.getInput();
 
 		switch (index) {
 			case 1:
@@ -117,17 +177,13 @@ public class CustomerInformationManagementSModel {
 				customerVO.setAge(Integer.parseInt(input));
 				break;
 			case 5:
-				if ("Male".equalsIgnoreCase(input)) {
-					customerVO.setGender(Gender.Male.ordinal());
-				} else if ("Female".equalsIgnoreCase(input)) {
-					customerVO.setGender(Gender.Female.ordinal());
-				}
+				customerVO.setGender(Integer.parseInt(input));
 				break;
 			case 6:
 				customerVO.setAddress(input);
 				break;
 			case 7:
-				customerVO.setProperty(Long.parseLong(input));
+				customerVO.setProperty((long)(Integer.parseInt(input)));
 				break;
 			case 11:
 				customerVO.setBank_name(input);
@@ -136,7 +192,7 @@ public class CustomerInformationManagementSModel {
 				customerVO.setBank_account(input);
 				break;
 			default:
-				throw new IllegalArgumentException("유효하지 않은 선택입니다. 올바른 값을 입력하세요.");
+				break;
 		}
 		customerMapper.update_CustomerInformationManagement(customerVO);
 	}

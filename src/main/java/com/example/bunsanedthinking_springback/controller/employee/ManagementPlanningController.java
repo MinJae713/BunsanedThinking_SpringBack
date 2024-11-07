@@ -1,8 +1,13 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningSModel;
-import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.dto.mo.AddDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.mo.AddOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.mo.UpdateDepartmentDTO;
+import com.example.bunsanedthinking_springback.entity.department.Department;
+import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
+import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.managementPlanning.ManagementPlanningModel;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +21,12 @@ public class ManagementPlanningController {
 	private ManagementPlanningSModel managementPlanningSModel;
 
 	@PostMapping("/addDepartment")
-	public void addDepartment(@RequestParam String name, @RequestParam String task,
-							  @RequestParam String purpose, @RequestParam String headName) throws DuplicateDepartmentException {
-		managementPlanningSModel.addDepartment(name, task, purpose, headName);
+	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
+		managementPlanningSModel.addDepartment(
+				addDepartmentDTO.getHead_name(),
+				addDepartmentDTO.getName(),
+				addDepartmentDTO.getPurpose(),
+				addDepartmentDTO.getTask());
 	}
 
 	@DeleteMapping("/deleteDepartment")
@@ -32,8 +40,12 @@ public class ManagementPlanningController {
 	}
 
 	@PatchMapping("/updateDepartment")
-	public void updateDepartment(@RequestParam int index, @RequestParam String input,
-								 @RequestParam int id) throws DuplicateDepartmentException, NotExistException{
-		managementPlanningSModel.updateDepartment(index, input, id);
+	public void updateDepartment(@RequestBody UpdateDepartmentDTO updateDepartmentDTO) throws DuplicateDepartmentException, NotExistException{
+		managementPlanningSModel.updateDepartment(
+				updateDepartmentDTO.getId(),
+				updateDepartmentDTO.getHead_name(),
+				updateDepartmentDTO.getName(),
+				updateDepartmentDTO.getPurpose(),
+				updateDepartmentDTO.getTask());
 	}
 }
