@@ -3,10 +3,6 @@ package com.example.bunsanedthinking_springback.dto.mo;
 import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

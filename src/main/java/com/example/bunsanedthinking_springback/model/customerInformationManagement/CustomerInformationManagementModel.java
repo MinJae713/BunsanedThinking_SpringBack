@@ -4,7 +4,7 @@ package com.example.bunsanedthinking_springback.model.customerInformationManagem
 import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.mo.AddCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.mo.*;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
@@ -156,30 +156,46 @@ public class CustomerInformationManagementModel {
 		return customerVO;
 	}
 
-	public void updateCustomerInformation(int id, String name, String phoneNumber, String job, int age, int gender,
-										  String residentRegistrationNumber, String address, long property,
-										  List<AccidentHistory> accidentHistoryList,
-										  List<SurgeryHistory> surgeryHistoryList,
-										  List<DiseaseHistory> diseaseHistoryList,
-										  String bankName, String bankAccount) throws NotExistException{
-		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(id);
+	public void updateCustomerInformation(UpdateCustomerInformationDTO updateCustomerInformationDTO) throws NotExistException{
+		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(updateCustomerInformationDTO.getId());
 		if (customerVO == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
+		int index = updateCustomerInformationDTO.getIndex();
+		String input = updateCustomerInformationDTO.getInput();
 
-		if (name != null) customerVO.setName(name);
-		if (phoneNumber != null) customerVO.setPhone_number(phoneNumber);
-		if (job != null) customerVO.setJob(job);
-		if (age > 0) customerVO.setAge(age);
-		if (gender >= 0) customerVO.setGender(gender);
-		if (residentRegistrationNumber != null) customerVO.setResident_registration_number(residentRegistrationNumber);
-		if (address != null) customerVO.setAddress(address);
-		if (property > 0) customerVO.setProperty(property);
-		if (bankName != null) customerVO.setBank_name(bankName);
-		if (bankAccount != null) customerVO.setBank_account(bankAccount);
-
+		switch (index) {
+			case 1:
+				customerVO.setName(input);
+				break;
+			case 2:
+				customerVO.setPhone_number(input);
+				break;
+			case 3:
+				customerVO.setJob(input);
+				break;
+			case 4:
+				customerVO.setAge(Integer.parseInt(input));
+				break;
+			case 5:
+				customerVO.setGender(Integer.parseInt(input));
+				break;
+			case 6:
+				customerVO.setAddress(input);
+				break;
+			case 7:
+				customerVO.setProperty((long)(Integer.parseInt(input)));
+				break;
+			case 11:
+				customerVO.setBank_name(input);
+				break;
+			case 12:
+				customerVO.setBank_account(input);
+				break;
+			default:
+				break;
+		}
 		customerMapper.update_CustomerInformationManagement(customerVO);
-
 	}
 
 	public List<CustomerVO> getAll() {

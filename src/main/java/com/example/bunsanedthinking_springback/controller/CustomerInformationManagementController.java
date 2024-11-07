@@ -43,24 +43,9 @@ public class CustomerInformationManagementController {
 		return customerInformationManagementModel.getCustomerInformation(id);
 	}
 
-	@PatchMapping("updateCustomerInformation")
+	@PatchMapping("/updateCustomerInformation")
 	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationDTO updateCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException, NotExistException{
-		customerInformationManagementModel.updateCustomerInformation(
-				updateCustomerInformationDTO.getId(),
-				updateCustomerInformationDTO.getName(),
-				updateCustomerInformationDTO.getPhoneNumber(),
-				updateCustomerInformationDTO.getJob(),
-				updateCustomerInformationDTO.getAge(),
-				updateCustomerInformationDTO.getGender(),
-				updateCustomerInformationDTO.getResidentRegistrationNumber(),
-				updateCustomerInformationDTO.getAddress(),
-				updateCustomerInformationDTO.getProperty(),
-				updateCustomerInformationDTO.getAccidentHistoryList(),
-				updateCustomerInformationDTO.getSurgeryHistoryList(),
-				updateCustomerInformationDTO.getDiseaseHistoryList(),
-				updateCustomerInformationDTO.getBankName(),
-				updateCustomerInformationDTO.getBankAccount()
-		);
+		customerInformationManagementModel.updateCustomerInformation(updateCustomerInformationDTO);
 	}
 
 	@GetMapping("/getAll")
