@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ����ȯ
@@ -32,7 +34,7 @@ public class Employee implements Cloneable {
 	protected EmployeePosition position;
 	private String residentRegistrationNumber;
 	private int salary;
-//	private List<Contract> contractList;
+	private List<Contract> contractList;
 	// 의미상 넣어놨수다 - 찬님 기존 코드랑 충돌나서 주석처리
 	// (DB로 따지믄 직원이 계약을 갖고있다 이런 의미임다)
 

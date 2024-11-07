@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ȯ
@@ -43,7 +44,7 @@ public class Contract {
 	private Date lastPaidDate; // 최근 납부일
 	private Product product;
 	private Date terminationDate; // 해지일
-//	private List<PaymentDetail> paymentDetailList;
+	private List<PaymentDetail> paymentDetailList;
 //  DB상 이게 맞아서 넣었는데 찬님 기존 코드랑 충돌나서 일단 주석처리
 	// DB로 따지믄 계약이 세부 납입 정보를 갖고있다 이거임다
 
