@@ -2,38 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CounselMapper">
     <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select * from counsel
+        select *
+        from counsel
         where customer_id = #{id}
     </select>
     <update id="update_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
         UPDATE Counsel
-        SET
-            counsel_date = #{counsel_date},
+        SET counsel_date   = #{counsel_date},
             process_status = #{process_status},
-            customer_id = #{customer_id},
-            product_id = #{product_id}
+            customer_id    = #{customer_id},
+            product_id     = #{product_id}
         WHERE id = #{id}
     </update>
     <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select * from Counsel
+        select *
+        from Counsel
         where id = #{id}
     </select>
     <select id="getAll_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select * from Counsel
+        select *
+        from Counsel
     </select>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select * from counsel
+        select *
+        from counsel
         where id = #{id}
     </select>
-    <select id="getMaxId" resultType="int">
-        select max(id) from counsel
+    <select id="getMaxId" resultType="Integer">
+        select max(id)
+        from counsel
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
         insert into counsel(counsel_date, process_status, customer_id, product_id)
         values (#{counsel_date}, #{process_status}, #{customer_id}, #{product_id})
     </insert>
     <delete id="deleteById" parameterType="int">
-        delete from counsel
+        delete
+        from counsel
         where id = #{id}
     </delete>
 </mapper>

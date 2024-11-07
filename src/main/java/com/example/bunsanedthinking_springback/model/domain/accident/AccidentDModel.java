@@ -39,7 +39,7 @@ public class AccidentDModel {
 		return accidents;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return accidentMapper.getMaxId();
 	}
 

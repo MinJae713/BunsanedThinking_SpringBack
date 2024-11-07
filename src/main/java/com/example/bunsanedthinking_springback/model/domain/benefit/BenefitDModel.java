@@ -32,7 +32,7 @@ public class BenefitDModel {
 		return benefits;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return benefitMapper.getMaxId();
 	}
 

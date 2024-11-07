@@ -33,7 +33,7 @@ public class AdditionalAllowanceDModel {
 		return additionalAllowances;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return additionalAllowanceMapper.getMaxId();
 	}
 

@@ -28,7 +28,7 @@ public class CompensationDetailDModel {
 		return compensationDetails;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return compensationDetailMapper.getMaxId_LoanManagement();
 	}
 

@@ -2,17 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ComplaintMapper">
     <select id="getComplaintById_Customer" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        select * from complaint
+        select *
+        from complaint
         where id = #{id}
     </select>
     <select id="getComplaintByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        select * from complaint
+        select *
+        from complaint
         where customer_id = #{id}
     </select>
     <select id="findById_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         select *
         from complaint
-        where id=#{param1}
+        where id = #{param1}
     </select>
     <update id="update_CustomerSupport" parameterType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         update complaint
@@ -25,26 +27,31 @@
             result=#{result},
             title=#{title},
             customer_id=#{customer_id}
-        where id=#{id}
+        where id = #{id}
     </update>
     <select id="getAll_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         select *
         from complaint
     </select>
-    <select id="findByProcessStatus_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
+    <select id="findByProcessStatus_CustomerSupport"
+            resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         select *
         from complaint
-        where process_status=#{param1}
+        where process_status = #{param1}
     </select>
-    <select id="getMaxId" parameterType="int">
-        select max(id) from complaint
+    <select id="getMaxId" parameterType="Integer">
+        select max(id)
+        from complaint
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        insert into complaint (id, complaint_type, content, date, employee_name, processing_date, process_status, result, title, customer_id)
-        values (#{id}, #{complaint_type}, #{content}, #{date}, #{employee_name}, #{processing_date}, #{process_status}, #{result}, #{title}, #{customer_id})
+        insert into complaint (id, complaint_type, content, date, employee_name, processing_date, process_status,
+                               result, title, customer_id)
+        values (#{id}, #{complaint_type}, #{content}, #{date}, #{employee_name}, #{processing_date}, #{process_status},
+                #{result}, #{title}, #{customer_id})
     </insert>
     <delete id="deleteById" parameterType="int">
-        delete from complaint
+        delete
+        from complaint
         where id = #{id}
     </delete>
 </mapper>

@@ -46,7 +46,7 @@ public class CollateralDModel {
 		return collaterals;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return collateralMapper.getMaxId();
 	}
 

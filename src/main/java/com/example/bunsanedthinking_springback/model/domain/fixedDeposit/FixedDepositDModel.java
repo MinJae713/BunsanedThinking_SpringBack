@@ -44,7 +44,7 @@ public class FixedDepositDModel {
 		return fixedDeposits;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return fixedDepositMapper.getMaxId();
 	}
 

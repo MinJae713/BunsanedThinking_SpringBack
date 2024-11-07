@@ -2,51 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper">
     <select id="getAllByContractId_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        select * from insurancemoney
+        select *
+        from insurancemoney
         where contract_id = #{id}
     </select>
     <select id="getAll_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        select * from insurancemoney
+        select *
+        from insurancemoney
     </select>
     <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        select * from insurancemoney
+        select *
+        from insurancemoney
         where id = #{id}
     </select>
     <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        select * from InsuranceMoney
+        select *
+        from InsuranceMoney
     </select>
-    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
+    <select id="findByContractId_FinancialAccountant"
+            resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         select *
         from insurancemoney
-        where contract_id=#{param1}
+        where contract_id = #{param1}
     </select>
     <update id="updateStatus_Compensation">
         update insurancemoney
         set process_status = #{status}
         where id = #{insuranceMoneyId}
     </update>
-    <select id="getMaxId" resultType="int">
-        select max(id) from insurancemoney
+    <select id="getMaxId" resultType="Integer">
+        select max(id)
+        from insurancemoney
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        insert into insurancemoney (id, bank_account, resident_registration_card, receipt, medical_certificate, contract_id, bank_name, process_status, apply_date)
-        values (#{id}, #{bank_account}, #{resident_registration_card}, #{receipt}, #{medical_certificate}, #{contract_id}, #{bank_name}, #{process_status}, #{apply_date})
+        insert into insurancemoney (id, bank_account, resident_registration_card, receipt, medical_certificate,
+                                    contract_id, bank_name, process_status, apply_date)
+        values (#{id}, #{bank_account}, #{resident_registration_card}, #{receipt}, #{medical_certificate},
+                #{contract_id}, #{bank_name}, #{process_status}, #{apply_date})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         update insurancemoney
-        set
-            bank_account = #{bank_account},
+        set bank_account               = #{bank_account},
             resident_registration_card = #{resident_registration_card},
-            receipt = #{receipt},
-            medical_certificate = #{medical_certificate},
-            contract_id = #{contract_id},
-            bank_name = #{bank_name},
-            process_status = #{status},
-            apply_date = #{apply_date}
+            receipt                    = #{receipt},
+            medical_certificate        = #{medical_certificate},
+            contract_id                = #{contract_id},
+            bank_name                  = #{bank_name},
+            process_status             = #{status},
+            apply_date                 = #{apply_date}
         where id = #{id}
     </update>
     <delete id="deleteById" parameterType="int">
-        delete from insurancemoney
+        delete
+        from insurancemoney
         where id = #{id}
     </delete>
 </mapper>

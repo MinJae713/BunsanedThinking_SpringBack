@@ -2,22 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.InsuranceContractMapper">
     <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
-        select * from insurancecontract
+        select *
+        from insurancecontract
         where product_id = #{id}
     </select>
     <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
-        select * from insurancecontract
+        select *
+        from insurancecontract
     </select>
 
-    <select id="getAllInsuranceContractLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
-        select * from insurancecontract
+    <select id="getAllInsuranceContractLoan_SalesModel"
+            resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
+        select *
+        from insurancecontract
     </select>
     <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         insert into insurancecontract(product_id, insurance_id)
-        values (
-                #{product_id},
-                #{insurance_id}
-               )
+        values (#{product_id},
+                #{insurance_id})
     </insert>
     <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         select *
@@ -25,15 +27,17 @@
         where product_id = #{param1}
     </select>
     <delete id="delete_LoanManagement">
-        delete from insurancecontract
-        where product_id=#{id}
+        delete
+        from insurancecontract
+        where product_id = #{id}
     </delete>
     <update id="update_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         update insurancecontract
         set insurance_id=#{insurance_id}
         where product_id = #{product_id}
     </update>
-    <select id="getMaxId" parameterType="int">
-        select max(product_id) from insurancecontract
+    <select id="getMaxId" parameterType="Integer">
+        select max(product_id)
+        from insurancecontract
     </select>
 </mapper>

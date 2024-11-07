@@ -29,7 +29,7 @@ public class OfficeSupplyDModel {
 		return officeSupplies;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return officeSupplyMapper.getMaxId_Administrative();
 	}
 

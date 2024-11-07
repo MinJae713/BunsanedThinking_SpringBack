@@ -37,7 +37,7 @@ public class RevivalDModel {
 		return revivals;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return revivalMapper.getMaxId();
 	}
 

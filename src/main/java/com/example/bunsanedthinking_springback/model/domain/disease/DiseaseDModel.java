@@ -46,7 +46,7 @@ public class DiseaseDModel {
 		return diseases;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return diseaseMapper.getMaxId();
 	}
 

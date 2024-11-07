@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.RecontractMapper">
     <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.RecontractVO">
-        select * from recontract
+        select *
+        from recontract
         where contract_id = #{id}
     </select>
     <insert id="addById_Customer">
@@ -11,11 +12,13 @@
     </insert>
 
     <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.RecontractVO">
-        select * from recontract
+        select *
+        from recontract
         where contract_id = #{id}
     </select>
     <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.RecontractVO">
-        select * from recontract
+        select *
+        from recontract
     </select>
 
     <update id="updateStatus_ContractManagement">
@@ -24,7 +27,7 @@
         where contract_id = #{id}
     </update>
 
-    <select id="getMaxId" resultType="int">
+    <select id="getMaxId" resultType="Integer">
         SELECT MAX(contract_id)
         FROM recontract
     </select>
@@ -34,13 +37,14 @@
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.RecontractVO">
         UPDATE recontract
-        SET apply_date = #{apply_date},
+        SET apply_date         = #{apply_date},
             origin_contract_id = #{origin_contract_id},
-            recontract_status = #{recontract_status}
+            recontract_status  = #{recontract_status}
         WHERE contract_id = #{contract_id};
     </update>
     <delete id="deleteById" parameterType="int">
-        DELETE FROM recontract
+        DELETE
+        FROM recontract
         WHERE contract_id = #{id};
     </delete>
 </mapper>

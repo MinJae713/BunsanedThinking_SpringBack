@@ -42,7 +42,7 @@ public class InsuranceDModel {
 		return insurances;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return insuranceMapper.getMaxId_ProductManagementModel();
 	}
 
