@@ -56,16 +56,19 @@ public class AdministrativeModel {
 		return officeSupplyVO;
 	}
 
-	public void updateOfficeSupply(int index, String input, int id) throws NotExistException {
+	public void updateOfficeSupply(String name, String description, int inventory, int id) throws NotExistException {
 		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
 		if (officeSupplyVO == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
-		switch (index) {
-			case 1 -> officeSupplyVO.setName(input);
-			case 2 -> officeSupplyVO.setDescription(input);
-			case 3 -> officeSupplyVO.setInventory(Integer.parseInt(input));
-			default -> throw new IllegalArgumentException("잘못된 선택입니다. 다시 선택해주세요.");
+		if (name != null) {
+			officeSupplyVO.setName(name);
+		}
+		if (description != null) {
+			officeSupplyVO.setDescription(description);
+		}
+		if (inventory != 0) { // 0이 기본값이라고 가정하고, 0일 때는 변경하지 않음
+			officeSupplyVO.setInventory(inventory);
 		}
 		officeSupplyMapper.update_OfficeSupply(officeSupplyVO);
 	}

@@ -1,10 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.mo;
 
-import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import lombok.Data;
@@ -14,7 +10,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class AddCustomerInformationDTO {
+public class UpdateCustomerInformationDTO {
+    private int id; // 고객 ID
     private String name;
     private String phoneNumber;
     private String job;
@@ -23,9 +20,9 @@ public class AddCustomerInformationDTO {
     private String residentRegistrationNumber;
     private String address;
     private long property;
-    private List<AccidentHistoryDTO> accidentHistoryList;
-    private List<SurgeryHistoryDTO> surgeryHistoryList;
-    private List<DiseaseHistoryDTO> diseaseHistoryList;
+    private List<AccidentHistory> accidentHistoryList;
+    private List<SurgeryHistory> surgeryHistoryList;
+    private List<DiseaseHistory> diseaseHistoryList;
     private String bankName;
     private String bankAccount;
 }

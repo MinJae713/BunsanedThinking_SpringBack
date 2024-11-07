@@ -1,5 +1,8 @@
 package com.example.bunsanedthinking_springback.controller;
 
+import com.example.bunsanedthinking_springback.dto.mo.AddDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.mo.AddOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.mo.UpdateDepartmentDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
 import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
@@ -17,9 +20,12 @@ public class ManagementPlanningController {
 	private ManagementPlanningModel managementPlanningModel;
 
 	@PostMapping("/addDepartment")
-	public void addDepartment(@RequestParam String name, @RequestParam String task,
-							  @RequestParam String purpose, @RequestParam String headName) throws DuplicateDepartmentException {
-		managementPlanningModel.addDepartment(name, task, purpose, headName);
+	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
+		managementPlanningModel.addDepartment(
+				addDepartmentDTO.getHead_name(),
+				addDepartmentDTO.getName(),
+				addDepartmentDTO.getPurpose(),
+				addDepartmentDTO.getTask());
 	}
 
 	@DeleteMapping("/deleteDepartment")
@@ -33,8 +39,12 @@ public class ManagementPlanningController {
 	}
 
 	@PatchMapping("/updateDepartment")
-	public void updateDepartment(@RequestParam int index, @RequestParam String input,
-								 @RequestParam int id) throws DuplicateDepartmentException, NotExistException{
-		managementPlanningModel.updateDepartment(index, input, id);
+	public void updateDepartment(@RequestBody UpdateDepartmentDTO updateDepartmentDTO) throws DuplicateDepartmentException, NotExistException{
+		managementPlanningModel.updateDepartment(
+				updateDepartmentDTO.getId(),
+				updateDepartmentDTO.getHead_name(),
+				updateDepartmentDTO.getName(),
+				updateDepartmentDTO.getPurpose(),
+				updateDepartmentDTO.getTask());
 	}
 }

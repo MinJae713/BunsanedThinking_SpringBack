@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.dto.mo.AddOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.mo.UpdateOfficeSupplyDTO;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupplyList;
 import com.example.bunsanedthinking_springback.exception.DuplicateOfficeSupplyException;
@@ -41,9 +42,12 @@ public class AdministrativeController {
 	}
 
 	@PatchMapping("/updateOfficeSupply")
-	public void updateOfficeSupply(@RequestParam int index, @RequestParam String input,
-								   @RequestParam int id) throws NotExistException {
-		administrativeModel.updateOfficeSupply(index, input, id);
+	public void updateOfficeSupply(@RequestBody UpdateOfficeSupplyDTO updateOfficeSupplyDTO) throws NotExistException {
+		administrativeModel.updateOfficeSupply(
+				updateOfficeSupplyDTO.getName(),
+				updateOfficeSupplyDTO.getDescription(),
+				updateOfficeSupplyDTO.getInventory(),
+				updateOfficeSupplyDTO.getId());
 	}
 
 	@GetMapping("/getAll")

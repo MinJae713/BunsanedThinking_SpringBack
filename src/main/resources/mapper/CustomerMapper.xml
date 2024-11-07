@@ -66,9 +66,11 @@
         from customer
         where id=#{param1}
     </select>
-    <insert id="insert_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        INSERT INTO customer (name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
-        VALUES (#{name},
+
+    <insert id="insert_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        INSERT INTO customer (id, name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
+        VALUES (#{id},
+                #{name},
                 #{phone_number},
                 #{job},
                 #{age},
@@ -79,19 +81,19 @@
                 #{bank_name},
                 #{bank_account})
     </insert>
-    <delete id="delete_customerInformationManagement" parameterType="int">
+    <delete id="delete_CustomerInformationManagement" parameterType="int">
         DELETE FROM customer
         WHERE id = #{id}
     </delete>
-    <select id="findById_customerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <select id="findById_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         SELECT * FROM customer
         WHERE id = #{id}
     </select>
-    <select id="findByResidentRegistrationNumber_customerInformationManagement" parameterType="String" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <select id="findByResidentRegistrationNumber_CustomerInformationManagement" parameterType="String" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         SELECT * FROM customer
         WHERE resident_registration_number = #{resident_registration_number}
     </select>
-    <update id="update_customerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <update id="update_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         UPDATE customer
         SET name = #{name},
             phone_number = #{phone_number},
@@ -104,8 +106,11 @@
             bank_account = #{bank_account}
         WHERE id = #{id}
     </update>
-    <select id="getAll_customerInformationManagement" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <select id="getAll_CustomerInformationManagement" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         SELECT * FROM customer
+    </select>
+    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
+        SELECT MAX(id) FROM customer
     </select>
 
     <select id="getMaxId_SalesModel" resultType="Integer">

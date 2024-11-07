@@ -14,10 +14,11 @@ public interface SurgeryHistoryMapper {
 	ArrayList<SurgeryHistoryVO> get_UnderWritingModel(int id);
 	void insert_SalesModel(SurgeryHistoryVO surgeryHistoryVO);
 
-    public void insert_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistoryVO surgeryHistoryVO);
+    Integer getMaxId_CustomerInformationManagement();
+    public void insert_surgeryHistory_CustomerInformationManagement(SurgeryHistoryVO surgeryHistoryVO);
     public void deleteSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 
 	Integer getMaxId_SalesModel();
-    public void update_surgeryHistory_CustomerInformationManagement(@Param("surgeryHistory") SurgeryHistoryVO surgeryHistoryVO);
+    public void update_surgeryHistory_CustomerInformationManagement(SurgeryHistoryVO surgeryHistoryVO);
     public List<SurgeryHistoryVO> findSurgeryHistoriesByCustomerId_CustomerInformationManagement(int customerId);
 }

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepartmentMapper">
-    <insert id="insert_ManagementPlanning" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
-        INSERT INTO department (name, task, purpose, head_name)
-        VALUES (#{name},
-                #{task},
-                #{purpose},
-                #{head_name})
-    </insert>
-    <delete id="delete_ManagementPlanning" parameterType="int">
-        DELETE FROM department
-        WHERE id = #{id}
-    </delete>
     <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         select *
         from department
@@ -21,6 +10,19 @@
         from department
         where id=#{param1}
     </select>
+
+    <insert id="insert_ManagementPlanning" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+        INSERT INTO department (id, name, task, purpose, head_name)
+        VALUES (#{id},
+                #{name},
+                #{task},
+                #{purpose},
+                #{head_name})
+    </insert>
+    <delete id="delete_ManagementPlanning" parameterType="int">
+        DELETE FROM department
+        WHERE id = #{id}
+    </delete>
     <select id="findById_ManagementPlanning" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         SELECT * FROM department
         WHERE id = #{id}
@@ -37,4 +39,8 @@
             head_name = #{head_name}
         WHERE id = #{id}
     </update>
+    <select id="getMaxId_ManagementPlanning" resultType="Integer">
+        SELECT MAX(id) FROM department
+    </select>
+
 </mapper>

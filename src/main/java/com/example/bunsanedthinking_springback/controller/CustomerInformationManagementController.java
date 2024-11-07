@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.dto.mo.AddCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.mo.UpdateCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -29,24 +30,7 @@ public class CustomerInformationManagementController {
 
 	@PostMapping("/addCustomerInformation")
 	public void addCustomerInformation(@RequestBody AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
-		customerInformationManagementModel.addCustomerInformation(
-				addCustomerInformationDTO.getName(),
-				addCustomerInformationDTO.getPhoneNumber(),
-				addCustomerInformationDTO.getJob(),
-				addCustomerInformationDTO.getAge(),
-				addCustomerInformationDTO.getGender(),
-				addCustomerInformationDTO.getResidentRegistrationNumber(),
-				addCustomerInformationDTO.getAddress(),
-				addCustomerInformationDTO.getProperty(),
-				addCustomerInformationDTO.getTempAccidentHistoryList(),
-				addCustomerInformationDTO.getTempSurgeryHistoryList(),
-				addCustomerInformationDTO.getTempDiseaseHistoryList(),
-				addCustomerInformationDTO.getBankName(),
-				addCustomerInformationDTO.getBankAccount()
-				/*name, phoneNumber, job, age, gender,
-				residentRegistrationNumber, address, property, tempAccidentHistoryList, tempSurgeryHistoryList, 
-				tempDiseaseHistoryList, bankName, bankAccount*/);
-		// 이 부분도 RequestBody 물어보기
+		customerInformationManagementModel.addCustomerInformation(addCustomerInformationDTO);
 	}
 
 	@DeleteMapping("/deleteCustomerInformation")
@@ -60,9 +44,23 @@ public class CustomerInformationManagementController {
 	}
 
 	@PatchMapping("updateCustomerInformation")
-	public void updateCustomerInformation(@RequestParam int index, @RequestParam String input,
-										  @RequestParam int id) throws DuplicateResidentRegistrationNumberException, NotExistException{
-		customerInformationManagementModel.updateCustomerInformation(index, input, id);
+	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationDTO updateCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException, NotExistException{
+		customerInformationManagementModel.updateCustomerInformation(
+				updateCustomerInformationDTO.getId(),
+				updateCustomerInformationDTO.getName(),
+				updateCustomerInformationDTO.getPhoneNumber(),
+				updateCustomerInformationDTO.getJob(),
+				updateCustomerInformationDTO.getAge(),
+				updateCustomerInformationDTO.getGender(),
+				updateCustomerInformationDTO.getResidentRegistrationNumber(),
+				updateCustomerInformationDTO.getAddress(),
+				updateCustomerInformationDTO.getProperty(),
+				updateCustomerInformationDTO.getAccidentHistoryList(),
+				updateCustomerInformationDTO.getSurgeryHistoryList(),
+				updateCustomerInformationDTO.getDiseaseHistoryList(),
+				updateCustomerInformationDTO.getBankName(),
+				updateCustomerInformationDTO.getBankAccount()
+		);
 	}
 
 	@GetMapping("/getAll")

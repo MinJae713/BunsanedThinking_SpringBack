@@ -19,4 +19,5 @@ public class CustomerVO {
     private String phone_number;
     private Long property;
     private String resident_registration_number;
-}
+    }
+
