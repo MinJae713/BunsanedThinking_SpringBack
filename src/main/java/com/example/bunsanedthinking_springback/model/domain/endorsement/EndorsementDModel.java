@@ -37,7 +37,7 @@ public class EndorsementDModel {
 		return endorsements;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return endorsementMapper.getMaxId();
 	}
 

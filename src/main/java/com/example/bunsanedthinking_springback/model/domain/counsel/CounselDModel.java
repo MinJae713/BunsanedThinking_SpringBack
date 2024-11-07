@@ -42,7 +42,7 @@ public class CounselDModel {
 		return counsels;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return counselMapper.getMaxId();
 	}
 

@@ -37,7 +37,7 @@ public class TerminationDModel {
 		return terminations;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return terminationMapper.getMaxId();
 	}
 

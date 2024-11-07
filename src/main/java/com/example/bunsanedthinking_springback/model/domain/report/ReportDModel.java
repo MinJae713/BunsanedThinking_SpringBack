@@ -57,7 +57,7 @@ public class ReportDModel {
 		return reports;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return reportMapper.getMaxId();
 	}
 

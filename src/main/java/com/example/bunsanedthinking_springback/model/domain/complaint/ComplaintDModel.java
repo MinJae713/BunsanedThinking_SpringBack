@@ -28,7 +28,7 @@ public class ComplaintDModel {
 		return complaints;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return complaintMapper.getMaxId();
 	}
 

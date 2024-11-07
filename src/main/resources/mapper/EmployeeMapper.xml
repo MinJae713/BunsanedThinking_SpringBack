@@ -2,27 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.EmployeeMapper">
     <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
-        SELECT
-            id,
-            address,
-            bank_name,
-            bank_account,
-            employment_date,
-            name,
-            phone_number,
-            position,
-            resident_registration_number,
-            salary,
-            department_id
-        FROM
-            Employee
-        WHERE
-            id = #{id}
+        SELECT id,
+               address,
+               bank_name,
+               bank_account,
+               employment_date,
+               name,
+               phone_number,
+               position,
+               resident_registration_number,
+               salary,
+               department_id
+        FROM Employee
+        WHERE id = #{id}
     </select>
     <insert id="insert_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
-        insert into employee (id, address, bank_name, bank_account, employment_date, name, phone_number, position, resident_registration_number, salary, department_id)
-        values (
-                #{id},
+        insert into employee (id, address, bank_name, bank_account, employment_date, name, phone_number, position,
+                              resident_registration_number, salary, department_id)
+        values (#{id},
                 #{address},
                 #{bank_name},
                 #{bank_account},
@@ -32,17 +29,17 @@
                 #{position},
                 #{resident_registration_number},
                 #{salary},
-                #{department_id}
-               )
+                #{department_id})
     </insert>
     <delete id="delete_HumanResource">
-        delete from employee
-        where id=#{id}
+        delete
+        from employee
+        where id = #{id}
     </delete>
     <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         select *
         from employee
-        where id=#{id}
+        where id = #{id}
     </select>
     <update id="update_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         update employee
@@ -56,7 +53,7 @@
             resident_registration_number=#{resident_registration_number},
             salary=#{salary},
             department_id=#{department_id}
-        where id=#{id}
+        where id = #{id}
     </update>
     <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         select *
@@ -65,7 +62,8 @@
     <select id="isExistResidentRegistrationNumber" resultType="Integer">
         select exists (select 1 from employee where resident_registration_number = #{param1})
     </select>
-    <select id="getMaxId" parameterType="int">
-        select max(id) from employee
+    <select id="getMaxId" parameterType="Integer">
+        select max(id)
+        from employee
     </select>
 </mapper>

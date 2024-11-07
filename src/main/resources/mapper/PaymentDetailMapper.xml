@@ -2,32 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PaymentDetailMapper">
     <select id="getCount_Compensation" resultType="int">
-        select count(*) from paymentdetail
+        select count(*)
+        from paymentdetail
     </select>
-    <select id="getLastId_Compensation" resultType="int">
-        select max(id) from paymentdetail
+    <select id="getLastId_Compensation" resultType="Integer">
+        select max(id)
+        from paymentdetail
     </select>
     <insert id="add_Compensation" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
-        insert into paymentdetail (id, account_holder, bank, bank_account, money, payment_type, process_status, contract_id, employee_id)
-        VALUES (#{id}, #{account_holder}, #{bank}, #{bank_account}, #{money}, #{payment_type}, #{process_status}, #{contract_id}, #{employee_id})
+        insert into paymentdetail (id, account_holder, bank, bank_account, money, payment_type, process_status,
+                                   contract_id, employee_id)
+        VALUES (#{id}, #{account_holder}, #{bank}, #{bank_account}, #{money}, #{payment_type}, #{process_status},
+                #{contract_id}, #{employee_id})
     </insert>
     <select id="getCount_LoanManagement" resultType="Integer">
         select max(id)
         from paymentdetail
     </select>
     <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
-        insert into paymentdetail(id, account_holder, bank, bank_account, money, payment_type, process_status, contract_id, employee_id)
-        values (
-                   #{id},
-                   #{account_holder},
-                   #{bank},
-                   #{bank_account},
-                   #{money},
-                   #{payment_type},
-                   #{process_status},
-                   #{contract_id},
-                   #{employee_id}
-               )
+        insert into paymentdetail(id, account_holder, bank, bank_account, money, payment_type, process_status,
+                                  contract_id, employee_id)
+        values (#{id},
+                #{account_holder},
+                #{bank},
+                #{bank_account},
+                #{money},
+                #{payment_type},
+                #{process_status},
+                #{contract_id},
+                #{employee_id})
     </insert>
     <update id="update_FinancialAccountant" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         update paymentdetail
@@ -39,29 +42,31 @@
             process_status=#{process_status},
             contract_id=#{contract_id},
             employee_id=#{employee_id}
-        where id=#{id}
+        where id = #{id}
     </update>
     <select id="getAll_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
     </select>
-    <select id="findByProcessStatus_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+    <select id="findByProcessStatus_FinancialAccountant"
+            resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
-        where process_status=#{param1}
+        where process_status = #{param1}
     </select>
     <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
-        where id=#{id}
+        where id = #{id}
     </select>
     <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
-        where employee_id=#{param1}
+        where employee_id = #{param1}
     </select>
     <delete id="deleteById" parameterType="int">
-        delete from paymentdetail
+        delete
+        from paymentdetail
         where id = #{id}
     </delete>
 </mapper>

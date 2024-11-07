@@ -37,7 +37,7 @@ public class RecontractDModel {
 		return recontracts;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return recontractMapper.getMaxId();
 	}
 

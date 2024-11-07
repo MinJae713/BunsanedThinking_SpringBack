@@ -68,7 +68,7 @@ public class ContractDModel {
 		return contracts;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return contractMapper.getMaxId_SalesModel();
 	}
 

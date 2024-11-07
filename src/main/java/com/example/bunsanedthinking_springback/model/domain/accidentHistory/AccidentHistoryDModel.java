@@ -28,7 +28,7 @@ public class AccidentHistoryDModel {
 		return accidentHistories;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return accidentHistoryMapper.getMaxId_SalesModel();
 	}
 

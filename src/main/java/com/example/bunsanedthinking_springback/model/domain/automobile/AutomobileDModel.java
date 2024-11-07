@@ -57,7 +57,7 @@ public class AutomobileDModel {
 		return automobiles;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return automobileMapper.getMaxId();
 	}
 

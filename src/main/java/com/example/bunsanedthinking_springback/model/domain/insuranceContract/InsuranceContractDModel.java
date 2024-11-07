@@ -44,7 +44,7 @@ public class InsuranceContractDModel {
 		return insuranceContracts;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return insuranceContractMapper.getMaxId();
 	}
 

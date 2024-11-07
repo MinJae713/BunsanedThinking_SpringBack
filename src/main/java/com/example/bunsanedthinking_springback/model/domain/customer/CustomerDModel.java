@@ -86,7 +86,7 @@ public class CustomerDModel {
 		return customers;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return customerMapper.getMaxId_SalesModel();
 	}
 

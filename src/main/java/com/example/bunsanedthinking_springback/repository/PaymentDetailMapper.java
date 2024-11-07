@@ -1,17 +1,20 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+
 @Mapper
 public interface PaymentDetailMapper {
-    public int getCount_Compensation();
-    public int getLastId_Compensation();
+	public int getCount_Compensation();
 
-    public void add_Compensation(PaymentDetailVO paymentDetailVO);
+	public Integer getLastId_Compensation();
+
+	public void add_Compensation(PaymentDetailVO paymentDetailVO);
+
 	void insert_LoanManagement(PaymentDetailVO paymentDetailVO);
 
 	Integer getMaxId_LoanManagement();

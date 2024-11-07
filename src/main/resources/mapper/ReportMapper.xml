@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ReportMapper">
     <select id="getAll_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        select * from report
+        select *
+        from report
     </select>
     <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        select * from report
+        select *
+        from report
         where accident_id = #{id}
     </select>
     <update id="updateStatus_Compensation">
@@ -14,31 +16,34 @@
         where accident_id = #{reportId}
     </update>
     <insert id="insert_CustomerSupport" parameterType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        insert into report (accident_id, damage_assessment_money, process_status, roadside_assistance_company_id, damage_assessment_company_id)
-        values (
-                #{accident_id},
+        insert into report (accident_id, damage_assessment_money, process_status, roadside_assistance_company_id,
+                            damage_assessment_company_id)
+        values (#{accident_id},
                 #{damage_assessment_money},
                 #{process_status},
                 #{roadside_assistance_company_id},
-                #{damage_assessment_company_id}
-               )
+                #{damage_assessment_company_id})
     </insert>
-    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        SELECT * FROM report
+    <select id="findAllByDamageAssessmentCompanyID_PartnerCompany" parameterType="int"
+            resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        SELECT *
+        FROM report
         WHERE damage_assessment_company_id = #{id}
     </select>
 
-    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        SELECT * FROM report
+    <select id="findById_PartnerCompany" parameterType="int"
+            resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        SELECT *
+        FROM report
         WHERE accident_id = #{id}
     </select>
 
     <update id="updateReport_PartnerCompany" parameterType="com.example.bunsanedthinking_springback.vo.ReportVO">
         UPDATE report
-        SET damage_assessment_money = #{damage_assessment_money},
-            process_status = #{process_status},
+        SET damage_assessment_money        = #{damage_assessment_money},
+            process_status                 = #{process_status},
             roadside_assistance_company_id = #{roadside_assistance_company_id},
-            damage_assessment_company_id = #{damage_assessment_company_id}
+            damage_assessment_company_id   = #{damage_assessment_company_id}
         WHERE accident_id = #{accident_id}
     </update>
 
@@ -48,17 +53,21 @@
             process_status=#{process_status},
             roadside_assistance_company_id=#{roadside_assistance_company_id},
             damage_assessment_company_id=#{damage_assessment_company_id}
-        where accident_id=#{accident_id}
+        where accident_id = #{accident_id}
     </update>
-    <select id="getMaxId" parameterType="int">
-        select max(accident_id) from report
+    <select id="getMaxId" parameterType="Integer">
+        select max(accident_id)
+        from report
     </select>
     <delete id="deleteById" parameterType="int">
-        delete from report
+        delete
+        from report
         where accident_id = #{id}
     </delete>
-    <select id="getAllByRoadSideAssistanceCId" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
-        SELECT * FROM report
+    <select id="getAllByRoadSideAssistanceCId" parameterType="int"
+            resultType="com.example.bunsanedthinking_springback.vo.ReportVO">
+        SELECT *
+        FROM report
         WHERE roadside_assistance_company_id = #{id}
     </select>
 </mapper>

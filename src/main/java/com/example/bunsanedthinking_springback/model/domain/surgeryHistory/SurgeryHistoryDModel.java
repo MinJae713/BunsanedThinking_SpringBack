@@ -28,7 +28,7 @@ public class SurgeryHistoryDModel {
 		return surgeryHistories;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return surgeryHistoryMapper.getMaxId_SalesModel();
 	}
 

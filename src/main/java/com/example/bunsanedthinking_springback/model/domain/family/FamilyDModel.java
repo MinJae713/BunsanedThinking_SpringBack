@@ -28,7 +28,7 @@ public class FamilyDModel {
 		return families;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return familyMapper.getMaxId_HumanResource();
 	}
 

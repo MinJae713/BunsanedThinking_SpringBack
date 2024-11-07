@@ -2,14 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.BenefitMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.BenefitVO">
-        select * from benefit
+        select *
+        from benefit
         where payment_detail_id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.BenefitVO">
-        select * from benefit
+        select *
+        from benefit
     </select>
-    <select id="getMaxId" parameterType="int">
-        select max(payment_detail_id) from benefit
+    <select id="getMaxId" parameterType="Integer">
+        select max(payment_detail_id)
+        from benefit
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.BenefitVO">
         insert into benefit (payment_detail_id, benefit_type)
@@ -17,12 +20,12 @@
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.BenefitVO">
         update benefit
-        set
-            benefit_type = #{benefit_type}
+        set benefit_type = #{benefit_type}
         where payment_detail_id = #{payment_detail_id}
     </update>
     <delete id="deleteById" parameterType="int">
-        delete from benefit
+        delete
+        from benefit
         where payment_detail_id = #{id}
     </delete>
 </mapper>

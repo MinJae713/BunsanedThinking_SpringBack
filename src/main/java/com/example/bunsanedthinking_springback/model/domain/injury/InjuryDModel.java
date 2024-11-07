@@ -47,7 +47,7 @@ public class InjuryDModel {
 		return injuries;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return injuryMapper.getMaxId();
 	}
 

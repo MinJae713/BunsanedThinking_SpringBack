@@ -42,7 +42,7 @@ public class LoanDModel {
 		return loans;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return loanMapper.getMaxId_LoanManagement();
 	}
 

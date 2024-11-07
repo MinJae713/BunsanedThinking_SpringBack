@@ -40,7 +40,7 @@ public class PaymentDetailDModel {
 		return paymentDetails;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return paymentDetailMapper.getLastId_Compensation();
 	}
 

@@ -29,7 +29,7 @@ public class DiseaseHistoryDModel {
 		return diseaseHistories;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return diseaseHistoryMapper.getMaxId_SalesModel();
 	}
 

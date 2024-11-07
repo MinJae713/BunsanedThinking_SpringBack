@@ -28,7 +28,7 @@ public class DepositDetailDModel {
 		return depositDetails;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return depositDetailMapper.getLastId_Customer();
 	}
 

@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepositDetailMapper">
-    <select id="getAllDepositByContractId_Customer" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select * from depositdetail
+    <select id="getAllDepositByContractId_Customer"
+            resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+        select *
+        from depositdetail
         where contract_id = #{id}
     </select>
-    <select id="getLastId_Customer" resultType="int">
-        select max(id) from depositdetail
+    <select id="getLastId_Customer" resultType="Integer">
+        select max(id)
+        from depositdetail
     </select>
     <select id="getCount_Customer" resultType="int">
-        select count(*) from depositdetail
+        select count(*)
+        from depositdetail
     </select>
     <insert id="add_Customer" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         insert into depositdetail (id, depositor_name, date, money, path, contract_id)
         values (#{id}, #{depositor_name}, #{date}, #{money}, #{path}, #{contract_id})
     </insert>
     <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select * from DepositDetail
+        select *
+        from DepositDetail
     </select>
     <select id="getAll_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
         from depositdetail
     </select>
-    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+    <select id="findByContractId_FinancialAccountant"
+            resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
         from depositdetail
-        where contract_id=#{param1}
+        where contract_id = #{param1}
     </select>
     <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
@@ -34,20 +40,20 @@
     <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
         from depositdetail
-        where id=#{id}
+        where id = #{id}
     </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         update depositdetail
-        set
-            depositor_name = #{depositor_name},
-            date = #{date},
-            money = #{money},
-            path = #{path},
-            contract_id = #{contract_id}
+        set depositor_name = #{depositor_name},
+            date           = #{date},
+            money          = #{money},
+            path           = #{path},
+            contract_id    = #{contract_id}
         where id = #{id}
     </update>
     <delete id="deleteById" parameterType="int">
-        delete from depositdetail
+        delete
+        from depositdetail
         where id = #{id}
     </delete>
 </mapper>

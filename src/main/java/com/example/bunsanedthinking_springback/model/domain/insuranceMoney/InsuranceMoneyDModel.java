@@ -28,7 +28,7 @@ public class InsuranceMoneyDModel {
 		return insuranceMonies;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		return insuranceMoneyMapper.getMaxId();
 	}
 

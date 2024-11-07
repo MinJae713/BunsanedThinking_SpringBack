@@ -36,7 +36,7 @@ public class ProductDModel {
 		return products;
 	}
 
-	public int getMaxId() {
+	public Integer getMaxId() {
 		// 이건 무조건 loan나와서 의미 없을듯염
 		return 0;
 	}
