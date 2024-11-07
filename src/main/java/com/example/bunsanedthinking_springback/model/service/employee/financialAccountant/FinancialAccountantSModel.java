@@ -1,35 +1,65 @@
 package com.example.bunsanedthinking_springback.model.service.employee.financialAccountant;
 
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.loan.*;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
-import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.*;
-import com.example.bunsanedthinking_springback.vo.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
+import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
+import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
+import com.example.bunsanedthinking_springback.repository.CollateralMapper;
+import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
+import com.example.bunsanedthinking_springback.repository.ContractMapper;
+import com.example.bunsanedthinking_springback.repository.CustomerMapper;
+import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
+import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
+import com.example.bunsanedthinking_springback.repository.InjuryMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
+import com.example.bunsanedthinking_springback.repository.LoanMapper;
+import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
+import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.repository.ServiceMapper;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
+import com.example.bunsanedthinking_springback.vo.CollateralVO;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseVO;
+import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
+import com.example.bunsanedthinking_springback.vo.InjuryVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+import com.example.bunsanedthinking_springback.vo.LoanVO;
+import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+import com.example.bunsanedthinking_springback.vo.ServiceVO;
 
 @Service
 public class FinancialAccountantSModel {
@@ -66,6 +96,8 @@ public class FinancialAccountantSModel {
 	private FixedDepositMapper fixedDepositMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
+	@Autowired
+	private ContractDModel contractDModel;
 
 	public DepositDetail getDepositDetail(int id) throws NotExistException {
 		DepositDetailVO depositDetailVO = depositDetailMapper.findById_FinancialAccountant(id)
@@ -132,67 +164,11 @@ public class FinancialAccountantSModel {
 	}
 
 	public Contract getContract(int id) throws NotExistContractException {
-		ContractVO contractVO = contractMapper.findById_FinancialAccountant(id)
-			.orElseThrow(NotExistContractException::new);
-		ProductVO productVO = productMapper.findById_LoanManagement(contractVO.getProduct_id())
-			.orElseThrow(NotExistContractException::new);
-		String productSerial = Product.PRODUCT_SERIAL_NUMBER + "";
-		String insuranceSerial = Insurance.INSURANCE_SERIAL_NUMBER + "";
-		String loanSerial = Loan.LOAN_SERIAL_NUMBER + "";
-		String productTypeSerial = (productVO.getId() + "")
-			.substring(productSerial.length(), productSerial.length() + insuranceSerial.length());
-		Product product;
-		try {
-			if (productTypeSerial.equals(insuranceSerial)) {
-				product = getInsurance(productVO);
-			} else if (productTypeSerial.equals(loanSerial)) {
-				product = getLoan(productVO);
-			} else {
-				throw new NotExistContractException();
-			}
-		} catch (NotExistException e) {
+		Contract contract = contractDModel.getById(id);
+		if (contract == null) {
 			throw new NotExistContractException();
 		}
-		ArrayList<CompensationDetail> compensationDetailList = new ArrayList<>();
-		for (CompensationDetailVO compensationDetailVO :
-			compensationDetailMapper.findByContractId_FinancialAccountant(contractVO.getId())) {
-			compensationDetailList.add(new CompensationDetail(
-				compensationDetailVO.getContract_id(), compensationDetailVO.getMoney()));
-		}
-		ArrayList<DepositDetail> depositDetailList = new ArrayList<>();
-		Date lastPaymentDate = null;
-		for (DepositDetailVO depositDetailVO :
-			depositDetailMapper.findByContractId_FinancialAccountant(contractVO.getId())) {
-			DepositDetail depositDetail = new DepositDetail(depositDetailVO.getId(),
-				depositDetailVO.getDepositor_name(), depositDetailVO.getContract_id(),
-				depositDetailVO.getMoney(), DepositPath.indexOf(depositDetailVO.getPath()));
-			if (lastPaymentDate == null || depositDetailVO.getDate().isAfter(
-				lastPaymentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
-				lastPaymentDate = Date.valueOf(depositDetailVO.getDate());
-			}
-			depositDetailList.add(depositDetail);
-		}
-		ArrayList<InsuranceMoney> insuranceMoneyList = new ArrayList<>();
-		for (InsuranceMoneyVO insuranceMoneyVO :
-			insuranceMoneyMapper.findByContractId_FinancialAccountant(contractVO.getId())) {
-			try {
-				insuranceMoneyList.add(
-					new InsuranceMoney(insuranceMoneyVO.getContract_id(), insuranceMoneyVO.getBank_name(),
-						insuranceMoneyVO.getBank_account(),
-						ImageIO.read(new File(insuranceMoneyVO.getMedical_certificate())),
-						ImageIO.read(new File(insuranceMoneyVO.getReceipt())),
-						ImageIO.read(new File(insuranceMoneyVO.getResident_registration_card()))));
-			} catch (IOException ignored) {
-			}
-		}
-		Date terminationDate =
-			contractVO.getTermination_date() == null ? null : Date.valueOf(contractVO.getTermination_date());
-		return new Contract(compensationDetailList, ContractStatus.indexOf(contractVO.getContract_status()),
-			contractVO.getCustomer_id(), Date.valueOf(contractVO.getDate()), depositDetailList,
-			contractVO.getEmployee_id(),
-			contractVO.getPayment_date().getDayOfMonth(), Date.valueOf(contractVO.getExpiration_date()),
-			contractVO.getId(), insuranceMoneyList,
-			lastPaymentDate, product, terminationDate, null); // 임시 - 여기 고쳐줘여
+		return contract;
 	}
 
 	private Insurance getInsurance(ProductVO productVO) throws NotExistException {
