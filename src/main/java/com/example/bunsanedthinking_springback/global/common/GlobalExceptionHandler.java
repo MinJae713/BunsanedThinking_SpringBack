@@ -11,6 +11,7 @@ public class GlobalExceptionHandler {
 	// })
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handlerException(Exception e) {
+		e.printStackTrace();
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 }

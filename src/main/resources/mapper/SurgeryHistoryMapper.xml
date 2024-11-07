@@ -60,6 +60,7 @@
     <select id="getMaxId_SalesModel" resultType="Integer">
         select max(id)
         from surgeryhistory
+    </select>
     <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
         SELECT MAX(id) FROM surgeryhistory
     </select>

@@ -1,11 +1,10 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
 import com.example.bunsanedthinking_springback.entity.department.Department;
-import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

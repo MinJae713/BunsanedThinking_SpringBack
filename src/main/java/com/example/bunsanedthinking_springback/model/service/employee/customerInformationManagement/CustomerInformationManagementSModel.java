@@ -1,12 +1,12 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement;
 
-import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.mo.*;
+import com.example.bunsanedthinking_springback.dto.customerInformationManagement.AddCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.mo.UpdateCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.sales.AccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.sales.DiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.sales.SurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
-import com.example.bunsanedthinking_springback.entity.department.Department;
+import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
@@ -19,7 +19,6 @@ import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,15 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.mo.AddDepartmentDTO;
-import com.example.bunsanedthinking_springback.dto.mo.AddOfficeSupplyDTO;
 import com.example.bunsanedthinking_springback.dto.mo.UpdateDepartmentDTO;
-import com.example.bunsanedthinking_springback.entity.department.Department;
-import com.example.bunsanedthinking_springback.entity.department.DepartmentList;
-import com.example.bunsanedthinking_springback.exception.DuplicateDepartmentException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.managementPlanning.ManagementPlanningModel;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningSModel;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.customerInformationManagement;
 
-import com.example.bunsanedthinking_springback.dto.dae.AccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.dae.SurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.sales.AccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.sales.DiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.sales.SurgeryHistoryDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
