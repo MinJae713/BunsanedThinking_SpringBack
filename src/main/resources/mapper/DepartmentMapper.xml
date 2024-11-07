@@ -19,7 +19,7 @@
     <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         select *
         from department
-        where id=#{param1}
+        where id=#{id}
     </select>
     <select id="findById_ManagementPlanning" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         SELECT * FROM department
@@ -37,4 +37,15 @@
             head_name = #{head_name}
         WHERE id = #{id}
     </update>
+    <select id="getMaxId_ManagementPlanning" parameterType="int">
+        select max(id) from department
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+        INSERT INTO department (id, name, task, purpose, head_name)
+        VALUES (#{id},
+                #{name},
+                #{task},
+                #{purpose},
+                #{head_name})
+    </insert>
 </mapper>

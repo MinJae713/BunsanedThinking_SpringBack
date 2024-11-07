@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
-import java.util.Date;
-
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * @author     환
@@ -25,6 +25,13 @@ public class Sales extends Employee {
 		evaluate =0;
 		contractCount=0;
 	}
+
+	public Sales(Employee employee, int evaluate, int contractCount) {
+		super(employee);
+		this.evaluate = evaluate;
+		this.contractCount = contractCount;
+	}
+
 	public int getEvaluate() {
 		return evaluate;
 	}

@@ -53,6 +53,24 @@ public class Employee implements Cloneable {
 		this.setEmploymentDate(dateOfemployment);
 	}
 
+	public Employee(Employee employee) {
+		address = employee.getAddress();
+		bankAccount = employee.getBankAccount();
+		departmentID = employee.getDepartmentID();
+		employmentDate = employee.getEmploymentDate();
+		bankName = employee.getBankName();
+		id = employee.getId();
+		name = employee.getName();
+		phoneNumber = employee.getPhoneNumber();
+		position = employee.getPosition();
+		residentRegistrationNumber = employee.getResidentRegistrationNumber();
+		salary = employee.getSalary();
+
+		familyList = employee.getFamilyList();
+		paymentDetailList = employee.getPaymentDetailList();
+		contractList = employee.getContractList();
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -81,11 +99,13 @@ public class Employee implements Cloneable {
 		this.departmentID = departmentID;
 	}
 
-	public String getEmploymentDate() {
+	public String getEmploymentDateStr() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(this.employmentDate);
 	}
-
+	public Date getEmploymentDate() {
+		return employmentDate;
+	}
 	public void setEmploymentDate(Date employmentDate) {
 		this.employmentDate = employmentDate;
 	}
@@ -156,6 +176,14 @@ public class Employee implements Cloneable {
 
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
+	}
+
+	public List<Contract> getContractList() {
+		return contractList;
+	}
+
+	public void setContractList(List<Contract> contractList) {
+		this.contractList = contractList;
 	}
 }
 

@@ -37,7 +37,7 @@
     </insert>
     <delete id="delete_HumanResource">
         delete from employee
-        where id=#{param1}
+        where id=#{id}
     </delete>
     <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         select *
@@ -64,5 +64,8 @@
     </select>
     <select id="isExistResidentRegistrationNumber" resultType="Integer">
         select exists (select 1 from employee where resident_registration_number = #{param1})
+    </select>
+    <select id="getMaxId" parameterType="int">
+        select max(id) from employee
     </select>
 </mapper>
