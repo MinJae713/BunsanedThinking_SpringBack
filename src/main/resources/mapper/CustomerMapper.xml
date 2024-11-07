@@ -112,4 +112,32 @@
         select max(id)
         from customer
     </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        INSERT INTO customer (id, name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
+        VALUES (#{id},
+                #{name},
+                #{phone_number},
+                #{job},
+                #{age},
+                #{gender},
+                #{resident_registration_number},
+                #{address},
+                #{property},
+                #{bank_name},
+                #{bank_account})
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        UPDATE customer
+        SET name = #{name},
+            phone_number = #{phone_number},
+            job = #{job},
+            age = #{age},
+            gender = #{gender},
+            address = #{address},
+            property = #{property},
+            bank_name = #{bank_name},
+            bank_account = #{bank_account},
+            resident_registration_number = #{resident_registration_number}
+        WHERE id = #{id}
+    </update>
 </mapper>

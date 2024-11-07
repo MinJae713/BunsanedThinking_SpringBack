@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SurgeryHistoryEModel {
+public class SurgeryHistoryDModel {
     @Autowired
     private SurgeryHistoryMapper surgeryHistoryMapper;
     public SurgeryHistory getById(int id) {

@@ -15,4 +15,10 @@ public interface RevivalMapper {
     public List<RevivalVO> getAll_ContractManagement();
 
     public void updateStatus_ContractManagement(int status, int id);
+
+    public int getMaxId();
+    public void insert(RevivalVO revivalVO);
+    public void update(RevivalVO revivalVO);
+    public void deleteById(int id);
+    // 여기 XML 만드는데부터 다시
 }

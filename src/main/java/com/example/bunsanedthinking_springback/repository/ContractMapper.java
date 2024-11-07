@@ -32,4 +32,6 @@ public interface ContractMapper {
     public void updateDate_ContractManagement(LocalDate date, int id);
     public void updateExpirationDate_ContractManagement(LocalDate expiration_date, int id);
 	Integer getMaxId_SalesModel();
+
+    public void deleteById(int id);
 }

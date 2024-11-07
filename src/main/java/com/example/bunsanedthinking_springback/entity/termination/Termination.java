@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.termination;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 4:40:44
  */
+@NoArgsConstructor
 public class Termination extends Contract {
 
 	public Termination(Contract contract) {

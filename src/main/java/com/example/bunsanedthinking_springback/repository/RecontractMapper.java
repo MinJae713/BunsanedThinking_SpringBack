@@ -15,4 +15,9 @@ public interface RecontractMapper {
     public List<RecontractVO> getAll_ContractManagement();
 
     void updateStatus_ContractManagement(int status, int id);
+
+    public int getMaxId();
+    public void insert(RecontractVO recontractVO);
+    public void update(RecontractVO recontractVO);
+    public void deleteById(int id);
 }

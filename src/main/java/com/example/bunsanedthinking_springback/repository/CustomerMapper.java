@@ -1,11 +1,8 @@
 package com.example.bunsanedthinking_springback.repository;
 
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +27,7 @@ public interface CustomerMapper {
     public CustomerVO findByResidentRegistrationNumber_CustomerInformationManagement(String residentRegistrationNumber);
     public void update_CustomerInformationManagement(@Param("customer") CustomerVO customerVO);
     public List<CustomerVO> getAll_CustomerInformationManagement();
+
+    public void insert(CustomerVO customerVO);
+    public void update(CustomerVO customerVO);
 }

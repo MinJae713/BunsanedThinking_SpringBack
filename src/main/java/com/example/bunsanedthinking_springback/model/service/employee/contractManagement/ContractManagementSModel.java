@@ -95,7 +95,7 @@ public class ContractManagementSModel {
     @Autowired
     private RevivalMapper revivalMapper;
     @Autowired
-    private EndorsmentMapper endorsmentMapper;
+    private EndorsementMapper endorsementMapper;
     @Autowired
     private PaymentDetailMapper paymentDetailMapper;
 	public void requestTerminationFee(int tercontractId, int customerId)
@@ -159,10 +159,10 @@ public class ContractManagementSModel {
 	}
 
 	public void reviewEndorsement(int endorsementId, int index) throws NotExistException {
-        if (endorsmentMapper.getById_ContractManagement(endorsementId).orElse(null) == null)
+        if (endorsementMapper.getById_ContractManagement(endorsementId).orElse(null) == null)
             throw new NotExistException();
-        if (index == 1) endorsmentMapper.updateStatus_ContractManagement(EndorsementStatus.Completed.ordinal(), endorsementId);
-        else if (index == 2) endorsmentMapper.updateStatus_ContractManagement(EndorsementStatus.Unprocessed.ordinal(), endorsementId);
+        if (index == 1) endorsementMapper.updateStatus_ContractManagement(EndorsementStatus.Completed.ordinal(), endorsementId);
+        else if (index == 2) endorsementMapper.updateStatus_ContractManagement(EndorsementStatus.Unprocessed.ordinal(), endorsementId);
 //		if (index == 1) {
 //			encontract.setPaymentDate(encontract.getPaymentDate());
 //			encontract.setEndorsementStatus(EndorsementStatus.Completed);
@@ -236,18 +236,10 @@ public class ContractManagementSModel {
         // CustomerVO
         CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
         if (customerVO == null) throw new NotExistException();
-        Customer result = new Customer(customerVO);
         // AccidentHistoryVO
         ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
         List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
         accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-        result.setAccidentHistoryList(accidentHistories);
-        // AccidentVO
-        result.setAccidentList(getAllAccidentByCustomerId(id));
-        // ComplaintVO
-        result.setComplaintList(getAllComplaintsByCustomerId(id));
-        // ContractVO - 세부 정보 필요
-        result.setContractList(getAllContractByCustomerId(id));
         // CounselVO
         ArrayList<Counsel> counsels = new ArrayList<Counsel>();
         List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
@@ -259,17 +251,22 @@ public class ContractManagementSModel {
                 customerVO.getAge(),
                 Gender.values()[customerVO.getGender()]
         )));
-        result.setCounsel(counsels);
         // DiseaseHistoryVO
         ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
         List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
         diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-        result.setDiseaseHistoryList(diseaseHistories);
         // SurgeryHistoryVO
         ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
         List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
         surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-        result.setSurgeryHistoryList(surgeryHistories);
+        Customer result = new Customer(customerVO,
+                accidentHistories,
+                getAllAccidentByCustomerId(id),
+                counsels,
+                surgeryHistories,
+                getAllComplaintsByCustomerId(id),
+                diseaseHistories,
+                getAllContractByCustomerId(id));
         return result;
 //		return customerList.get(customerID);
     }
@@ -433,7 +430,7 @@ public class ContractManagementSModel {
         TerminationVO terminationVO = terminationMapper.getById_ContractManagement(id).orElse(null);
         if (terminationVO == null) throw new NotExistException();
         Contract contract = getContractById(id);
-        return terminationVO.getTermination(contract);
+        return terminationVO.getEntity(contract);
 //		return terminationList.get(id);
 	}
 	public List<Termination> getAllTerminatingContract() throws NotExistContractException, NotExistException {
@@ -458,7 +455,7 @@ public class ContractManagementSModel {
 	}
 	public List<Endorsement> getAllEndorsementContract() throws NotExistContractException, NotExistException {
         List<Endorsement> result = new ArrayList<Endorsement>();
-        List<EndorsementVO> endorsementVOS = endorsmentMapper.getAll_ContractManagement();
+        List<EndorsementVO> endorsementVOS = endorsementMapper.getAll_ContractManagement();
         for (EndorsementVO endorsementVO : endorsementVOS)
             result.add(getEndorsementById(endorsementVO.getContract_id()));
         return result;
@@ -471,10 +468,10 @@ public class ContractManagementSModel {
         return getAllEndorsementContract().stream().filter(e -> e.getEndorsementStatus() == EndorsementStatus.Completed).toList();
 	}
 	public Endorsement getEndorsementById(int id) throws NotExistException, NotExistContractException {
-        EndorsementVO endorsementVO = endorsmentMapper.getById_ContractManagement(id).orElse(null);
+        EndorsementVO endorsementVO = endorsementMapper.getById_ContractManagement(id).orElse(null);
         if (endorsementVO == null) throw new NotExistException();
         Contract contract = getContractById(id);
-        return endorsementVO.getEndorsement(contract);
+        return endorsementVO.getEntity(contract);
 //		return endorsementList.get(id);
 	}
 	public List<Recontract> getAllReContract() throws NotExistContractException, NotExistException {
@@ -495,7 +492,7 @@ public class ContractManagementSModel {
         RecontractVO recontractVO = recontractMapper.getById_ContractManagement(id).orElse(null);
         if (recontractVO == null) throw new NotExistException();
         Contract contract = getContractById(id);
-        return recontractVO.getRecontract(contract);
+        return recontractVO.getEntity(contract);
 //		return recontractList.get(id);
 	}
 	public List<Revival> getAllRevivalContract() throws NotExistContractException, NotExistException {
@@ -510,7 +507,7 @@ public class ContractManagementSModel {
         RevivalVO revivalVO = revivalMapper.getById_ContractManagement(id).orElse(null);
         if (revivalVO == null) throw new NotExistException();
         Contract contract = getContractById(id);
-        return revivalVO.getRevival(contract);
+        return revivalVO.getEntity(contract);
 //		return revivalList.get(id);
 	}
 	public List<Revival> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {

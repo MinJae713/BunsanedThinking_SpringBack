@@ -22,7 +22,7 @@ public class EndorsementVO {
         this.contract_id = contract_id;
     }
 
-    public Endorsement getEndorsement(Contract contract) {
+    public Endorsement getEntity(Contract contract) {
         Endorsement result = new Endorsement(contract);
         int year = apply_date.getYear();
         int month = apply_date.getMonthValue();

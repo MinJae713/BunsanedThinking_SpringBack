@@ -20,8 +20,9 @@ public class TerminationVO {
 	private int origin_contract_id;
 	private int termination_status;
 
-	public Termination getTermination(Contract contract) {
+	public Termination getEntity(Contract contract) {
 		Termination result = new Termination(contract);
+		// 위 생성자에서 contract, originCOntract 필드값 지정
 		int year = apply_date.getYear();
 		int month = apply_date.getMonthValue();
 		int day = apply_date.getDayOfMonth();

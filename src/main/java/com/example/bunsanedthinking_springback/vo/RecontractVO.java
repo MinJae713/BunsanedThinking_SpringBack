@@ -19,7 +19,7 @@ public class RecontractVO {
 	private int origin_contract_id;
 	private int recontract_status;
 
-	public Recontract getRecontract(Contract contract) {
+	public Recontract getEntity(Contract contract) {
 		Recontract result = new Recontract(contract);
 		int year = apply_date.getYear();
 		int month = apply_date.getMonthValue();

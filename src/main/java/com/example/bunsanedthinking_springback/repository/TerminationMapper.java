@@ -17,4 +17,9 @@ public interface TerminationMapper {
 
     void updateStatus_ContractManagement(int status, int contract_id);
     void updateApplyDate_ContractManagement(LocalDateTime apply_date, int contract_id);
+
+    public int getMaxId();
+    public void insert(TerminationVO terminationVO);
+    public void update(TerminationVO terminationVO);
+    public void deleteById(int id);
 }

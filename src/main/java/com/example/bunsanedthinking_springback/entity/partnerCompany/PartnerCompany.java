@@ -15,7 +15,12 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartnerCompany implements Cloneable {
-
+	/**
+	 * 1001 - road
+	 * 1002 - damage
+	 * 1003 - road
+	 * 1004 - damage
+	 */
 	public static int PARTNER_COMPANY_SERIAL_NUMBER = 300;
 	private int evaluation;
 	private String headName;

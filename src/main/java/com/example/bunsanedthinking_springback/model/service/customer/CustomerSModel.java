@@ -86,7 +86,7 @@ public class CustomerSModel {
 	@Autowired
 	private InsuranceContractMapper insuranceContractMapper;
 	@Autowired
-	private EndorsmentMapper endorsmentMapper;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
 	private RevivalMapper revivalMapper;
 	@Autowired
@@ -106,8 +106,8 @@ public class CustomerSModel {
 		localDate = localDate.plusDays(index-localDate.getDayOfMonth());
 		contractMapper.updatePaymentDate_Customer(localDate, contractId);
 		contractMapper.updateStatus_Customer(ContractStatus.EndorsementRequesting.ordinal(), contractId);
-		EndorsementVO endorsementVO = endorsmentMapper.getById_Customer(contractId).orElse(null);
-		if (endorsementVO == null) endorsmentMapper.addById_Customer(contractId);
+		EndorsementVO endorsementVO = endorsementMapper.getById_Customer(contractId).orElse(null);
+		if (endorsementVO == null) endorsementMapper.addById_Customer(contractId);
 		// contract엔 있는데 endorsement가 없는 경우라면 endorsement를 하나 추가하기로 했수다 - 잘됨
 //		contract.setContractStatus(ContractStatus.EndorsementRequesting);
 //		contractList.update(contract);
@@ -222,18 +222,10 @@ public class CustomerSModel {
 		// CustomerVO
 		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
 		if (customerVO == null) throw new NotExistException();
-		Customer result = new Customer(customerVO);
 		// AccidentHistoryVO
 		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
 		List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
 		accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-		result.setAccidentHistoryList(accidentHistories);
-		// AccidentVO
-		result.setAccidentList(getAllAccidentByCustomerId(id));
-		// ComplaintVO
-		result.setComplaintList(getAllComplaintsByCustomerId(id));
-		// ContractVO - 세부 정보 필요
-		result.setContractList(getAllContractByCustomerId(id));
 		// CounselVO
 		ArrayList<Counsel> counsels = new ArrayList<Counsel>();
 		List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
@@ -245,17 +237,22 @@ public class CustomerSModel {
 				customerVO.getAge(),
 				Gender.values()[customerVO.getGender()]
 		)));
-		result.setCounsel(counsels);
 		// DiseaseHistoryVO
 		ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
 		List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
 		diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-		result.setDiseaseHistoryList(diseaseHistories);
 		// SurgeryHistoryVO
 		ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
 		List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
 		surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-		result.setSurgeryHistoryList(surgeryHistories);
+		Customer result = new Customer(customerVO,
+				accidentHistories,
+				getAllAccidentByCustomerId(id),
+				counsels,
+				surgeryHistories,
+				getAllComplaintsByCustomerId(id),
+				diseaseHistories,
+				getAllContractByCustomerId(id));
 		return result;
 //		return customerList.get(id);
 	}

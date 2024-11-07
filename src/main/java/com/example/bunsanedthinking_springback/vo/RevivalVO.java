@@ -19,7 +19,7 @@ public class RevivalVO {
 	private int origin_contract_id;
 	private int revival_status;
 
-	public Revival getRevival(Contract contract) {
+	public Revival getEntity(Contract contract) {
 		Revival result = new Revival(contract);
 		int year = apply_date.getYear();
 		int month = apply_date.getMonthValue();

@@ -5,8 +5,10 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -91,6 +93,30 @@ public class Contract {
 		this.employeeID = contract.getEmployeeID();
 		this.insuranceMoneyList = contract.getInsuranceMoneyList();
 		this.product = contract.getProduct();
+	}
+
+	public Contract(ArrayList<InsuranceMoney> insuranceMonies,
+					ArrayList<CompensationDetail> compensationDetails,
+					ArrayList<DepositDetail> depositDetails,
+					ArrayList<PaymentDetail> paymentDetails,
+					Product product, ContractVO contractVO) {
+		setInsuranceMoneyList(insuranceMonies);
+		setCompensationDetailList(compensationDetails);
+		setDepositDetailList(depositDetails);
+//		setPaymentDetails(paymentDetails);
+		setProduct(product);
+
+		setId(contractVO.getId());
+		setDate(java.sql.Date.valueOf(contractVO.getDate()));
+		setExpirationDate(java.sql.Date.valueOf(contractVO.getExpiration_date()));
+		setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
+
+		LocalDate terminationDate = contractVO.getTermination_date();
+		if (terminationDate != null) setTerminationDate(java.sql.Date.valueOf(terminationDate));
+		setContractStatus(ContractStatus.values()[contractVO.getContract_status()]);
+		setCustomerID(contractVO.getCustomer_id());
+		setEmployeeID(contractVO.getEmployee_id());
+		setLastPaidDate(java.sql.Date.valueOf(contractVO.getLastpaid_date()));
 	}
 
 	public Contract clone() {

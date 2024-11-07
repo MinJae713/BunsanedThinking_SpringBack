@@ -307,18 +307,10 @@ public class CompensationSModel {
 		// CustomerVO
 		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
 		if (customerVO == null) throw new NotExistException();
-		Customer result = new Customer(customerVO);
 		// AccidentHistoryVO
 		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
 		List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
 		accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-		result.setAccidentHistoryList(accidentHistories);
-		// AccidentVO
-		result.setAccidentList(getAllAccidentByCustomerId(id));
-		// ComplaintVO
-		result.setComplaintList(getAllComplaintsByCustomerId(id));
-		// ContractVO - 세부 정보 필요
-		result.setContractList(getAllContractByCustomerId(id));
 		// CounselVO
 		ArrayList<Counsel> counsels = new ArrayList<Counsel>();
 		List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
@@ -330,17 +322,22 @@ public class CompensationSModel {
 				customerVO.getAge(),
 				Gender.values()[customerVO.getGender()]
 		)));
-		result.setCounsel(counsels);
 		// DiseaseHistoryVO
 		ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
 		List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
 		diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-		result.setDiseaseHistoryList(diseaseHistories);
 		// SurgeryHistoryVO
 		ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
 		List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
 		surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-		result.setSurgeryHistoryList(surgeryHistories);
+		Customer result = new Customer(customerVO,
+				accidentHistories,
+				getAllAccidentByCustomerId(id),
+				counsels,
+				surgeryHistories,
+				getAllComplaintsByCustomerId(id),
+				diseaseHistories,
+				getAllContractByCustomerId(id));
 		return result;
 //		return customerList.get(customerID);
 	}

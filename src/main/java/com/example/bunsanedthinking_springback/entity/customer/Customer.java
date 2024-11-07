@@ -81,25 +81,32 @@ public class Customer implements Cloneable {
 		this.diseaseHistoryList = new ArrayList<>();
 		this.surgeryHistoryList = new ArrayList<>();
 	}
-	public Customer(CustomerVO customerVO) {
+	public Customer(CustomerVO customerVO,
+					ArrayList<AccidentHistory> accidentHistories,
+					ArrayList<Accident> accidents,
+					ArrayList<Counsel> counsels,
+					ArrayList<SurgeryHistory> surgeryHistories,
+					ArrayList<Complaint> complaints,
+					ArrayList<DiseaseHistory> diseaseHistories,
+					ArrayList<Contract> contracts) {
 		this.id = customerVO.getId();
-		this.accidentList = new ArrayList<>();
+		this.accidentList = accidents;
 		this.address = customerVO.getAddress();
 		this.age = customerVO.getAge();
 		this.bankAccount = customerVO.getBank_account();
 		this.bankName = customerVO.getBank_name();
-		this.complaintList = new ArrayList<>();
-		this.contractList = new ArrayList<>();
-		this.counselList = new ArrayList<>();
+		this.complaintList = complaints;
+		this.contractList = contracts;
+		this.counselList = counsels;
 		this.gender = Gender.values()[customerVO.getGender()];
 		this.job = customerVO.getJob();
 		this.name = customerVO.getName();
 		this.phoneNumber = customerVO.getPhone_number();
 		this.property = customerVO.getProperty();
 		this.residentRegistrationNumber = customerVO.getResident_registration_number();
-		this.accidentHistoryList = new ArrayList<>();
-		this.diseaseHistoryList = new ArrayList<>();
-		this.surgeryHistoryList = new ArrayList<>();
+		this.accidentHistoryList = accidentHistories;
+		this.diseaseHistoryList = diseaseHistories;
+		this.surgeryHistoryList = surgeryHistories;
 	}
 
 	public Customer() {
