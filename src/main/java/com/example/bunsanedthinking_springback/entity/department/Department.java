@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.entity.department;
 
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupplyList;
+import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -17,7 +18,7 @@ public class Department implements Cloneable {
 	private String headName;
 	private int id;
 	private String name;
-	private OfficeSupplyList officeSupplyList; // 이거 필드값 바꿔야하지 않나...
+	private List<OfficeSupply> officeSupplyList; // 이거 필드값 바꿔야하지 않나...
 	private String purpose;
 	private String task;
 	private ArrayList<Employee> employeeList;
@@ -56,11 +57,11 @@ public class Department implements Cloneable {
 		this.name = name;
 	}
 
-	public OfficeSupplyList getOfficeSupplyList() {
+	public List<OfficeSupply> getOfficeSupplyList() {
 		return officeSupplyList;
 	}
 
-	public void setOfficeSupplyList(OfficeSupplyList officeSupplyList) {
+	public void setOfficeSupplyList(List<OfficeSupply> officeSupplyList) {
 		this.officeSupplyList = officeSupplyList;
 	}
 
