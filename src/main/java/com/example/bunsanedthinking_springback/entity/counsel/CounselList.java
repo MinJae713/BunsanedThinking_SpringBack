@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.counsel;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,30 +12,25 @@ import java.util.ArrayList;
 public interface CounselList {
 
 	/**
-	 * 
+	 *
 	 * @param counsel
 	 */
 	public void add(Counsel counsel);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public Counsel get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
 	public void update(Counsel counsel) throws NotExistException;
 
 	public ArrayList<Counsel> getAll();

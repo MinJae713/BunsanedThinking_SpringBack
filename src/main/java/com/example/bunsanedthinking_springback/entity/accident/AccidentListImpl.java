@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.accident;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -13,16 +13,17 @@ public class AccidentListImpl implements AccidentList {
 
 	private ArrayList<Accident> accidentList;
 	private static int index;
-	
-	public AccidentListImpl(){
+
+	public AccidentListImpl() {
 		this.accidentList = new ArrayList<>();
 		index = 1;
 	}
+
 	/**
-	 * 
+	 *
 	 * @param accident
 	 */
-	public int add(Accident accident){
+	public int add(Accident accident) {
 		String compose = "" + Accident.ACCIDENT_SERIAL + AccidentListImpl.index++;
 		accident.setId(Integer.parseInt(compose));
 		accidentList.add(accident);
@@ -30,7 +31,7 @@ public class AccidentListImpl implements AccidentList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id) throws NotExistException {
@@ -38,7 +39,7 @@ public class AccidentListImpl implements AccidentList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public Accident get(int id) throws NotExistException {

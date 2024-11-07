@@ -6,7 +6,8 @@ import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+
 import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
@@ -16,7 +17,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 /**
@@ -122,7 +122,7 @@ public class Contract {
 
 	public String getDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.date);
+		return dateFormat.format(this.date);
 	}
 
 	public void setDate(Date date) {
@@ -150,7 +150,7 @@ public class Contract {
 			return null;
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.expirationDate);
+		return dateFormat.format(this.expirationDate);
 	}
 
 	public void setExpirationDate(Date expirationDate) {
@@ -166,7 +166,7 @@ public class Contract {
 	}
 
 	public int getPaymentDate() {
-        return this.paymentDate;
+		return this.paymentDate;
 	}
 
 	public void setPaymentDate(int paymentDate) {
@@ -193,7 +193,7 @@ public class Contract {
 		if (result) {
 			LocalDate currentDate = LocalDate.now();
 			if (this.product instanceof Insurance) {
-				LocalDate expirationDate = currentDate.plusYears(((Insurance) this.product).getContractPeriod());
+				LocalDate expirationDate = currentDate.plusYears(((Insurance)this.product).getContractPeriod());
 				this.expirationDate = Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			}
 			this.date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -210,7 +210,7 @@ public class Contract {
 			return null;
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.lastPaidDate);
+		return dateFormat.format(this.lastPaidDate);
 	}
 
 	public void setLastPaidDate(Date lastPaidDate) {
@@ -222,7 +222,7 @@ public class Contract {
 			return null;
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.terminationDate);
+		return dateFormat.format(this.terminationDate);
 	}
 
 	public void setTerminationDate(Date terminationDate) {
@@ -238,7 +238,7 @@ public class Contract {
 			ArrayList<CompensationDetail> compensationDetailList = this.compensationDetailList;
 			CompensationDetail compensationDetail = compensationDetailList.get(compensationDetailList.size());
 			return compensationDetail.getMoney() * ((Loan)this.getProduct()).getInterestRate() / 100;
-		} else if (this.getProduct() instanceof Insurance){
+		} else if (this.getProduct() instanceof Insurance) {
 			return ((Insurance)this.getProduct()).getMonthlyPremium();
 		} else {
 			return 0;

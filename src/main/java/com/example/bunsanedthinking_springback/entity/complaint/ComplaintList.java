@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.complaint;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,29 +12,25 @@ import java.util.ArrayList;
 public interface ComplaintList {
 
 	/**
-	 * 
+	 *
 	 * @param complaint
 	 */
 	public void add(Complaint complaint);
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public Complaint get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 */
 	public void update(Complaint complaint) throws NotExistException;
 
 	public ArrayList<Complaint> getAllByCustomerId(int id);

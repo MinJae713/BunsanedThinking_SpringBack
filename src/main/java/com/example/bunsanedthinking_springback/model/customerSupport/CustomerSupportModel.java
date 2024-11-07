@@ -10,8 +10,8 @@ import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.AccidentMapper;
 import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
@@ -46,7 +46,9 @@ public class CustomerSupportModel {
 	@Autowired
 	private PartnerCompanyMapper partnerCompanyMapper;
 
-	public void handleComplaint(String employeeName, int complaintId, String result) throws NotExistException, AlreadyProcessedException {
+	public void handleComplaint(String employeeName, int complaintId, String result) throws
+		NotExistException,
+		AlreadyProcessedException {
 		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(complaintId)
 			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
 		if (complaintVO.getProcess_status() == ComplaintProcessStatus.Completed.ordinal()) {
@@ -61,7 +63,7 @@ public class CustomerSupportModel {
 	}
 
 	public void handleAccident(int accidentId, int damageAssessmentCompanyId,
-							   int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
+		int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
 		Optional<AccidentVO> optionalAccidentVO = accidentMapper.findByID_CustomerSupport(accidentId);
 		if (optionalAccidentVO.isEmpty()) {
 			return;
@@ -78,17 +80,21 @@ public class CustomerSupportModel {
 			ReportProcessStatus.Unprocessed.ordinal(), roadsideAssistanceCompanyId, damageAssessmentCompanyId);
 		reportMapper.insert_CustomerSupport(reportVO);
 	}
+
 	public List<Complaint> getAllComplaint() {
 		List<Complaint> result = new ArrayList<>();
 		for (ComplaintVO complaintVO : complaintMapper.getAll_CustomerSupport()) {
 			result.add(new Complaint(
-				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(), complaintVO.getCustomer_id(),
+				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
+				complaintVO.getCustomer_id(),
 				complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-				Date.valueOf(complaintVO.getProcessing_date()), ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
+				Date.valueOf(complaintVO.getProcessing_date()),
+				ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
 				complaintVO.getResult()));
 		}
 		return result;
 	}
+
 	public List<Complaint> getAllUnprocessedComplaint() {
 		return getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
 	}
@@ -101,9 +107,11 @@ public class CustomerSupportModel {
 		List<Complaint> result = new ArrayList<>();
 		for (ComplaintVO complaintVO : complaintMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
 			result.add(new Complaint(
-				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(), complaintVO.getCustomer_id(),
+				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
+				complaintVO.getCustomer_id(),
 				complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-				Date.valueOf(complaintVO.getProcessing_date()), ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
+				Date.valueOf(complaintVO.getProcessing_date()),
+				ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
 				complaintVO.getResult()));
 		}
 		return result;
@@ -113,9 +121,11 @@ public class CustomerSupportModel {
 		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
 		return new Complaint(
-			ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(), complaintVO.getCustomer_id(),
+			ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
+			complaintVO.getCustomer_id(),
 			complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-			Date.valueOf(complaintVO.getProcessing_date()), ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
+			Date.valueOf(complaintVO.getProcessing_date()),
+			ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
 			complaintVO.getResult());
 	}
 
@@ -132,7 +142,8 @@ public class CustomerSupportModel {
 	public List<Accident> getAllAccident() {
 		List<Accident> result = new ArrayList<>();
 		for (AccidentVO accidentVO : accidentMapper.getAll_CustomerSupport()) {
-			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id());
+			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(
+				accidentVO.getCustomer_id());
 			if (optionalCustomerVO.isEmpty()) {
 				continue;
 			}
@@ -156,7 +167,8 @@ public class CustomerSupportModel {
 	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
 		List<Accident> result = new ArrayList<>();
 		for (AccidentVO accidentVO : accidentMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
-			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id());
+			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(
+				accidentVO.getCustomer_id());
 			if (optionalCustomerVO.isEmpty()) {
 				continue;
 			}

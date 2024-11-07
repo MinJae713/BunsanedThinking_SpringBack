@@ -1,14 +1,11 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.dto.mo.UpdateReportDTO;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyList;
-import com.example.bunsanedthinking_springback.entity.report.Report;
-import com.example.bunsanedthinking_springback.entity.report.ReportList;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.partnerCompany.PartnerCompanyModel;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +41,7 @@ public class PartnerCompanyController {
 
 	@PatchMapping("/setDamageAssessmentMoney")
 	public void setDamageAssessmentMoney(@RequestParam("reportId") int reportId,
-			@RequestParam("damageAssessmentMoney") int damageAssessmentMoney) throws NotExistException {
+		@RequestParam("damageAssessmentMoney") int damageAssessmentMoney) throws NotExistException {
 		partnerCompanyModel.setDamageAssessmentMoney(reportId, damageAssessmentMoney);
 	}
 }

@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.partnerCompany;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -12,29 +12,29 @@ import java.util.ArrayList;
 public interface PartnerCompanyList {
 
 	/**
-	 * 
+	 *
 	 * @param partnerCompany
 	 */
 	public void add(PartnerCompany partnerCompany);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public PartnerCompany get(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param partnerCompany
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public void update(PartnerCompany partnerCompany) throws NotExistException;
 
@@ -47,6 +47,5 @@ public interface PartnerCompanyList {
 	public PartnerCompany getDamageAssessmentCompany(int id) throws NotExistException;
 
 	public PartnerCompany getRoadAssistanceCompany(int id) throws NotExistException;
-		
 
 }

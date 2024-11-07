@@ -1,13 +1,11 @@
 package com.example.bunsanedthinking_springback.controller;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.underwriting.UnderWritingModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -33,7 +30,6 @@ public class UnderWritingController {
 	public void applyReinsurance() {
 		underWritingModel.applyReinsurance();
 	}
-
 
 	// public boolean reviewAcquisition(Contract contract, boolean result, ContractList contractList)
 	// 	throws AlreadyProcessedException, NotExistContractException {
@@ -67,24 +63,24 @@ public class UnderWritingController {
 
 	@GetMapping("/getAllRequestingInsurance")
 	public ArrayList<Contract> getAllRequestingInsurance() throws
-		NotExistException{
+		NotExistException {
 		return underWritingModel.getAllRequestingInsurance();
 	}
 
 	@GetMapping("/getCustomer")
-	public Customer getCustomer(int id)  {
+	public Customer getCustomer(int id) {
 		return underWritingModel.getCustomer(id);
 	}
 
 	@GetMapping("/getContract")
 	public Contract getContract(int id) throws
-		NotExistException{
+		NotExistException {
 		return underWritingModel.getContract(id);
 	}
 
 	@GetMapping("/getAllNotRequestingInsurance")
 	public ArrayList<Contract> getAllNotRequestingInsurance() throws
-		NotExistException{
+		NotExistException {
 		return underWritingModel.getAllNotRequestingInsurance();
 	}
 

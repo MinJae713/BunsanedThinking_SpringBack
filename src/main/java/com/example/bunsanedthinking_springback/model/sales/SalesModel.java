@@ -41,7 +41,7 @@ import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
 import com.example.bunsanedthinking_springback.repository.CollateralMapper;
@@ -124,7 +124,7 @@ public class SalesModel {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 
-	public void evaluateSalesPerformance(int evaluate, int id){
+	public void evaluateSalesPerformance(int evaluate, int id) {
 		Sales sales = new Sales();
 		SalesVO salesVO = salesMapper.get_SalesModel(id);
 		sales.setId(salesVO.getEmployee_id());
@@ -150,8 +150,8 @@ public class SalesModel {
 		if (maxId == null) {
 			customerId = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
 		} else {
-			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER+ "").length());
-			customerId = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER+ "") + (Integer.parseInt(index)+1));
+			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER + "").length());
+			customerId = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
 		}
 		CustomerVO customerVO = new CustomerVO(customerId, induceDTO.getAddress(), induceDTO.getAge(),
 			induceDTO.getBankAccount(), induceDTO.getBankName(), induceDTO.getGender(),
@@ -167,9 +167,10 @@ public class SalesModel {
 				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
 				maxIndex = 1;
 			} else {
-				String index = (accidentHistoryMaxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
+				String index = (accidentHistoryMaxId + "").substring(
+					(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "").length());
 				maxIndex = Integer.parseInt(index) + 1;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 			for (AccidentHistoryDTO e : induceDTO.getAccidentHistoryList()) {
 				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -177,7 +178,7 @@ public class SalesModel {
 					e.getAccidentDetail(), customerId);
 				accidentHistoryMapper.insert_SalesModel(accidentHistoryVO);
 				maxIndex++;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 		}
 		if (induceDTO.getSurgeryHistoryList() != null) {
@@ -188,9 +189,10 @@ public class SalesModel {
 				surgeryHistoryId = Integer.parseInt(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "1");
 				maxIndex = 1;
 			} else {
-				String index = (surgeryHistoryMaxId + "").substring((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "").length());
+				String index = (surgeryHistoryMaxId + "").substring(
+					(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "").length());
 				maxIndex = Integer.parseInt(index) + 1;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 			for (SurgeryHistoryDTO e : induceDTO.getSurgeryHistoryList()) {
 				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -198,7 +200,7 @@ public class SalesModel {
 					e.getName(), date, customerId);
 				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
 				maxIndex++;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 		}
 		if (induceDTO.getDiseaseHistoryList() != null) {
@@ -209,9 +211,10 @@ public class SalesModel {
 				diseaseHistoryId = Integer.parseInt(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "1");
 				maxIndex = 1;
 			} else {
-				String index = (diseaseHistoryMaxId + "").substring((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "").length());
+				String index = (diseaseHistoryMaxId + "").substring(
+					(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "").length());
 				maxIndex = Integer.parseInt(index) + 1;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 			for (DiseaseHistoryDTO e : induceDTO.getDiseaseHistoryList()) {
 				LocalDate date = LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -219,7 +222,7 @@ public class SalesModel {
 					e.getName(), customerId);
 				diseaseHistoryMapper.insert_SalesModel(diseaseHistoryVO);
 				maxIndex++;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
+				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
 		}
 
@@ -228,23 +231,25 @@ public class SalesModel {
 		if (contractMaxId == null) {
 			contractId = Integer.parseInt(Contract.CONTRACT_SERIAL_NUMBER + "1");
 		} else {
-			String index = (contractMaxId + "").substring((Contract.CONTRACT_SERIAL_NUMBER+ "").length());
-			contractId = Integer.parseInt((Contract.CONTRACT_SERIAL_NUMBER+ "") + (Integer.parseInt(index) + 1));
+			String index = (contractMaxId + "").substring((Contract.CONTRACT_SERIAL_NUMBER + "").length());
+			contractId = Integer.parseInt((Contract.CONTRACT_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
 		}
 		ContractVO contractVO = new ContractVO(contractId, null, null,
 			null, null, ContractStatus.ContractRequesting.ordinal(),
 			customerId, induceDTO.getEmployeeId(), induceDTO.getProductId(), null);
 		contractMapper.insert_SalesModel(contractVO);
-		return new Customer(customerVO.getName(), customerVO.getPhone_number(), customerVO.getJob(), customerVO.getAge(),
-			Gender.fromInt(customerVO.getGender()), customerVO.getResident_registration_number(), customerVO.getAddress(),
+		return new Customer(customerVO.getName(), customerVO.getPhone_number(), customerVO.getJob(),
+			customerVO.getAge(),
+			Gender.fromInt(customerVO.getGender()), customerVO.getResident_registration_number(),
+			customerVO.getAddress(),
 			customerVO.getProperty(), customerVO.getBank_name(), customerVO.getBank_account());
 	}
 
-	public Customer induceLoanProduct(InduceDTO induceDTO){
+	public Customer induceLoanProduct(InduceDTO induceDTO) {
 		return induceInsuranceProduct(induceDTO);
 	}
 
-	public Insurance getInsuranceProduct( int id) {
+	public Insurance getInsuranceProduct(int id) {
 
 		Insurance insurance = null;
 
@@ -252,7 +257,7 @@ public class SalesModel {
 		for (DiseaseVO diseaseVO : diseaseVOs) {
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(diseaseVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-			if(productVO.getId() == id){
+			if (productVO.getId() == id) {
 				Disease disease = new Disease();
 
 				disease.setId(insuranceVO.getProduct_id());
@@ -274,7 +279,7 @@ public class SalesModel {
 		for (InjuryVO injuryVO : injuryVOs) {
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(injuryVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-			if(productVO.getId() == id){
+			if (productVO.getId() == id) {
 				Injury injury = new Injury();
 
 				injury.setId(insuranceVO.getProduct_id());
@@ -296,7 +301,7 @@ public class SalesModel {
 			InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 			ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
-			if(productVO.getId() == id){
+			if (productVO.getId() == id) {
 				Automobile automobile = new Automobile();
 
 				automobile.setId(insuranceVO.getProduct_id());
@@ -311,7 +316,7 @@ public class SalesModel {
 				automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 				ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 				ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(id);
-				for (ServiceVO serviceVO :serviceVOs)
+				for (ServiceVO serviceVO : serviceVOs)
 					serviceTypes.add(ServiceType.fromInt(serviceVO.getService()));
 				automobile.setServiceList(serviceTypes);
 
@@ -323,7 +328,7 @@ public class SalesModel {
 		// return (Insurance)productList.get(id);
 	}
 
-	public Loan getLoanProduct(int id){
+	public Loan getLoanProduct(int id) {
 
 		Loan loan = null;
 
@@ -390,7 +395,7 @@ public class SalesModel {
 
 		ArrayList<SalesVO> salesVOs = salesMapper.getAll_SalesModel();
 		ArrayList<Sales> salesList = new ArrayList<>();
-		for(SalesVO salesVO : salesVOs){
+		for (SalesVO salesVO : salesVOs) {
 			Sales sales = new Sales();
 			sales.setId(salesVO.getEmployee_id());
 			sales.setEvaluate(salesVO.getEvaluate());
@@ -398,12 +403,13 @@ public class SalesModel {
 			salesList.add(sales);
 		}
 
-		for(Sales sales :salesList){
+		for (Sales sales : salesList) {
 			EmployeeVO employeeVO = employeeMapper.get_SalesModel(sales.getId());
 			sales.setAddress(employeeVO.getAddress());
 			sales.setBankName(employeeVO.getBank_name());
 			sales.setBankAccount(employeeVO.getBank_account());
-			sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			sales.setEmploymentDate(
+				Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 			sales.setName(employeeVO.getName());
 			sales.setPhoneNumber(employeeVO.getPhone_number());
 			sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
@@ -423,7 +429,8 @@ public class SalesModel {
 		sales.setAddress(employeeVO.getAddress());
 		sales.setBankName(employeeVO.getBank_name());
 		sales.setBankAccount(employeeVO.getBank_account());
-		sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		sales.setEmploymentDate(
+			Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		sales.setName(employeeVO.getName());
 		sales.setPhoneNumber(employeeVO.getPhone_number());
 		sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
@@ -440,7 +447,7 @@ public class SalesModel {
 		// return employeeList.get(id);
 	}
 
-	public Sales getSales(int id){
+	public Sales getSales(int id) {
 
 		Sales sales = new Sales();
 		EmployeeVO employeeVO = employeeMapper.get_SalesModel(id);
@@ -448,7 +455,8 @@ public class SalesModel {
 		sales.setAddress(employeeVO.getAddress());
 		sales.setBankName(employeeVO.getBank_name());
 		sales.setBankAccount(employeeVO.getBank_account());
-		sales.setEmploymentDate(Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		sales.setEmploymentDate(
+			Date.from(employeeVO.getEmployment_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		sales.setName(employeeVO.getName());
 		sales.setPhoneNumber(employeeVO.getPhone_number());
 		sales.setPosition(EmployeePosition.fromInt(employeeVO.getPosition()));
@@ -469,11 +477,12 @@ public class SalesModel {
 		ArrayList<Counsel> counsels = new ArrayList<>();
 
 		ArrayList<CounselVO> counselVOs = counselMapper.getAll_SalesModel();
-		for(CounselVO counselVO :counselVOs){
+		for (CounselVO counselVO : counselVOs) {
 			Counsel counsel = new Counsel();
 
 			counsel.setId(counselVO.getId());
-			counsel.setCounselDate(Date.from(counselVO.getCounsel_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			counsel.setCounselDate(
+				Date.from(counselVO.getCounsel_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 			counsel.setProcessStatus(CounselProcessStatus.fromInt(counselVO.getProcess_status()));
 			counsel.setCustomerID(counselVO.getCustomer_id());
 			counsel.setProductID(counselVO.getProduct_id());
@@ -492,7 +501,7 @@ public class SalesModel {
 		// return counselList.getAll();
 	}
 
-	public Counsel getCounsel(int id){
+	public Counsel getCounsel(int id) {
 
 		Counsel counsel = new Counsel();
 
@@ -612,7 +621,8 @@ public class SalesModel {
 		}
 
 		diseaseHistoryVO.setId(diseaseHistoryId);
-		diseaseHistoryVO.setDate_of_diagnosis(LocalDate.parse(diseaseHistory.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		diseaseHistoryVO.setDate_of_diagnosis(
+			LocalDate.parse(diseaseHistory.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		diseaseHistoryVO.setName(diseaseHistory.getName());
 
 		diseaseHistoryMapper.insertExcludedCustomerId_SalesModel(diseaseHistoryVO);
@@ -621,7 +631,7 @@ public class SalesModel {
 		// diseaseHistoryList.add(diseaseHistory);
 	}
 
-	public void updateContractCount(int id, int contractCount){
+	public void updateContractCount(int id, int contractCount) {
 		SalesVO salesVO = salesMapper.get_SalesModel(id);
 		salesVO.setContract_count(contractCount);
 		salesMapper.update_SalesModel(salesVO);
@@ -736,7 +746,7 @@ public class SalesModel {
 		// return productList.getAllInsuranceContractLoan();
 	}
 
-	public Sales getSalesContractCount(int id){
+	public Sales getSalesContractCount(int id) {
 		Sales sales = getSales(id);
 		return sales;
 		// return (Sales) employeeList.get(id);

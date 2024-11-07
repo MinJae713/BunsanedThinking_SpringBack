@@ -19,7 +19,7 @@ import com.example.bunsanedthinking_springback.entity.employee.Sales;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.sales.SalesModel;
 
 @RestController
@@ -106,7 +106,7 @@ public class SalesController {
 	// }
 
 	@PatchMapping("/evaluateSalesPerformance")
-	public void evaluateSalesPerformance(int evaluate, int id){
+	public void evaluateSalesPerformance(int evaluate, int id) {
 		salesModel.evaluateSalesPerformance(evaluate, id);
 	}
 
@@ -131,81 +131,82 @@ public class SalesController {
 	}
 
 	@GetMapping("/getLoanProduct")
-	public Loan getLoanProduct(int id){
+	public Loan getLoanProduct(int id) {
 		return salesModel.getLoanProduct(id);
 	}
 
 	@GetMapping("/getAllEmployee")
-	public ArrayList<Employee> getAllEmployee(){
+	public ArrayList<Employee> getAllEmployee() {
 		return salesModel.getAllEmployee();
 	}
 
 	@GetMapping("/getEmployee")
-	public Employee getEmployee(int id){
+	public Employee getEmployee(int id) {
 		return salesModel.getEmployee(id);
 	}
 
 	@GetMapping("/getSales")
-	public Sales getSales(int id){
+	public Sales getSales(int id) {
 		return salesModel.getSales(id);
 	}
 
 	@GetMapping("/getAllCounsel")
-	public ArrayList<Counsel> getAllCounsel(){
+	public ArrayList<Counsel> getAllCounsel() {
 		return salesModel.getAllCounsel();
 	}
 
 	@GetMapping("/getCounsel")
-	public Counsel getCounsel(int id){
+	public Counsel getCounsel(int id) {
 		return salesModel.getCounsel(id);
 	}
 
 	@GetMapping("/getAllProduct")
-	public ArrayList<Product> getAllProduct(){
+	public ArrayList<Product> getAllProduct() {
 		return salesModel.getAllProduct();
 	}
 
 	@PostMapping("/addDiseaseHistory")
-	public int addDiseaseHistory(@RequestBody DiseaseHistory diseaseHistory){
+	public int addDiseaseHistory(@RequestBody DiseaseHistory diseaseHistory) {
 		return salesModel.addDiseaseHistory(diseaseHistory);
 	}
 
 	@PatchMapping("/updateContractCount")
-	public void updateContractCount(int id, int contractCount){
+	public void updateContractCount(int id, int contractCount) {
 		salesModel.updateContractCount(id, contractCount);
 	}
 
 	@GetMapping("/getAllDiseaseInsurance")
-	public ArrayList<Insurance> getAllDiseaseInsurance(){
+	public ArrayList<Insurance> getAllDiseaseInsurance() {
 		return salesModel.getAllDiseaseInsurance();
 	}
+
 	@GetMapping("/getAllInjuryInsurance")
-	public ArrayList<Insurance> getAllInjuryInsurance(){
+	public ArrayList<Insurance> getAllInjuryInsurance() {
 		return salesModel.getAllInjuryInsurance();
 	}
 
 	@GetMapping("/getAllAutomobileInsurance")
-	public ArrayList<Insurance> getAllAutomobileInsurance(){
+	public ArrayList<Insurance> getAllAutomobileInsurance() {
 		return salesModel.getAllAutomobileInsurance();
 	}
 
 	@GetMapping("getAllCollateralLoan")
-	public ArrayList<Loan> getAllCollateralLoan(){
+	public ArrayList<Loan> getAllCollateralLoan() {
 		return salesModel.getAllCollateralLoan();
 	}
 
 	@GetMapping("/getAllFixedDepositLoan")
-	public ArrayList<Loan> getAllFixedDepositLoan(){
+	public ArrayList<Loan> getAllFixedDepositLoan() {
 		return salesModel.getAllFixedDepositLoan();
 	}
 
 	@GetMapping("/getAllInsuranceContractLoan")
-	public ArrayList<Loan> getAllInsuranceContractLoan(){
+	public ArrayList<Loan> getAllInsuranceContractLoan() {
 		return salesModel.getAllInsuranceContractLoan();
 	}
 
 	@GetMapping("/getSalesContractCount")
-	public Sales getSalesContractCount(int id){
+	public Sales getSalesContractCount(int id) {
 		return salesModel.getSalesContractCount(id);
 	}
 

@@ -5,10 +5,11 @@ import com.example.bunsanedthinking_springback.dto.yoo.UpdatePartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
-import com.example.bunsanedthinking_springback.exception.DuplicatePartnerCompanyException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class CompensationPlanningModel {
 		} else {
 			int partnerCompanySerialLength = (PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "").length();
 			int index = Integer.parseInt(maxId.toString().substring(partnerCompanySerialLength));
-			String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" +(index+1);
+			String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + (index + 1);
 			id = Integer.parseInt(compound);
 		}
 		PartnerCompanyVO partnerCompanyVO = new PartnerCompanyVO(id, headName, headPhoneNumber,
@@ -50,12 +51,12 @@ public class CompensationPlanningModel {
 	public void evaluatePartnerCompany(int evaluate, int partnerCompanyId) throws NotExistException {
 
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(partnerCompanyId)
-				.orElseThrow(() -> new NotExistException("해당하는 협력업체 정보가 존재하지 않습니다."));
+			.orElseThrow(() -> new NotExistException("해당하는 협력업체 정보가 존재하지 않습니다."));
 		partnerCompanyVO.setEvaluation(evaluate);
 		partnerCompanyMapper.update_CompensationPlanning(partnerCompanyVO);
 	}
 
-	public PartnerCompany getPartnerCompany(int id) throws NotExistException{
+	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(id)
 			.orElseThrow(() -> new NotExistException("해당하는 협력업체 정보가 존재하지 않습니다."));
 		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
@@ -65,7 +66,7 @@ public class CompensationPlanningModel {
 	}
 
 	public void updatePartnerCompany(UpdatePartnerCompanyDTO partnerCompanyDTO)
-			throws DuplicatePartnerCompanyException, NotExistException{
+		throws DuplicatePartnerCompanyException, NotExistException {
 		int index = partnerCompanyDTO.getIndex();
 		String input = partnerCompanyDTO.getInput();
 		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
@@ -74,7 +75,8 @@ public class CompensationPlanningModel {
 		switch (index) {
 			case 1 -> {
 				for (PartnerCompanyVO e : partnerCompanyMapper.getAll_CompensationPlanning())
-					if (e.getName().equals(input)) throw new DuplicatePartnerCompanyException();
+					if (e.getName().equals(input))
+						throw new DuplicatePartnerCompanyException();
 				partnerCompanyVO.setName(input);
 			}
 			case 2 -> partnerCompanyVO.setPhone_number(input);

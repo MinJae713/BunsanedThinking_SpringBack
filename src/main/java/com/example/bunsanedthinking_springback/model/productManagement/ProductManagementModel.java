@@ -2,10 +2,11 @@ package com.example.bunsanedthinking_springback.model.productManagement;
 
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.exception.DuplicateInsuranceException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -122,7 +123,6 @@ public class ProductManagementModel {
 		// productList.add(injury);
 	}
 
-
 	public void addAutomobileInsurance(Automobile automobile) throws DuplicateInsuranceException {
 		for (Product product : getAll()) {
 			if (product.getName().equals(automobile.getName())) {
@@ -173,7 +173,7 @@ public class ProductManagementModel {
 		// productList.add(automobile);
 	}
 
-	public void deleteInsuranceProduct(int id){
+	public void deleteInsuranceProduct(int id) {
 		productMapper.delete_ProductManagementModel(id);
 		// productList.delete(id);
 	}
@@ -186,7 +186,7 @@ public class ProductManagementModel {
 			for (DiseaseVO diseaseVO : diseaseVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(diseaseVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-				if(productVO.getId() == id){
+				if (productVO.getId() == id) {
 					Disease disease = new Disease();
 
 					disease.setId(insuranceVO.getProduct_id());
@@ -208,7 +208,7 @@ public class ProductManagementModel {
 			for (InjuryVO injuryVO : injuryVOs) {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(injuryVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
-				if(productVO.getId() == id){
+				if (productVO.getId() == id) {
 					Injury injury = new Injury();
 
 					injury.setId(insuranceVO.getProduct_id());
@@ -230,7 +230,7 @@ public class ProductManagementModel {
 				InsuranceVO insuranceVO = insuranceMapper.get_SalesModel(automobileVO.getProduct_id());
 				ProductVO productVO = productMapper.get_SalesModel(insuranceVO.getProduct_id());
 
-				if(productVO.getId() == id){
+				if (productVO.getId() == id) {
 					Automobile automobile = new Automobile();
 
 					automobile.setId(insuranceVO.getProduct_id());
@@ -245,7 +245,7 @@ public class ProductManagementModel {
 					automobile.setVehicleType(VehicleType.fromInt(automobileVO.getVehicle_type()));
 					ArrayList<ServiceType> serviceTypes = new ArrayList<>();
 					ArrayList<ServiceVO> serviceVOs = serviceMapper.get_SalesModel(id);
-					for (ServiceVO serviceVO :serviceVOs)
+					for (ServiceVO serviceVO : serviceVOs)
 						serviceTypes.add(ServiceType.fromInt(serviceVO.getService()));
 					automobile.setServiceList(serviceTypes);
 
@@ -263,63 +263,63 @@ public class ProductManagementModel {
 		}
 	}
 
-	public void updateDiseaseInsurance(int index, String input, int id) throws DuplicateInsuranceException{
+	public void updateDiseaseInsurance(int index, String input, int id) throws DuplicateInsuranceException {
 
 		DiseaseVO diseaseVO = diseaseMapper.getById_ProductManagementModel(id);
 		ProductVO productVO = productMapper.getById_ProductManagementModel(diseaseVO.getProduct_id());
 		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(diseaseVO.getProduct_id());
 
 		switch (index) {
-		case 1:
-			for (Product product : getAll()) {
-				if (product.getName().equals(input)) {
-					throw new DuplicateInsuranceException();
+			case 1:
+				for (Product product : getAll()) {
+					if (product.getName().equals(input)) {
+						throw new DuplicateInsuranceException();
+					}
 				}
-			}
-			productVO.setName(input);
-			productMapper.updateName_ProductManagementModel(productVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 2:
-			insuranceVO.setAge_range(Integer.parseInt(input));
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			break;
-		case 3:
-			insuranceVO.setCoverage(input);
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 4:
-			insuranceVO.setMonthly_premium(Integer.parseInt(input));
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 5:
-			insuranceVO.setContract_period(Integer.parseInt(input));
-			insuranceMapper.update_ProductManagementModel(insuranceVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 6:
-			diseaseVO.setDisease_limit(Integer.parseInt(input));
-			diseaseMapper.update_ProductManagementModel(diseaseVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 7:
-			diseaseVO.setDisease_name(input);
-			diseaseMapper.update_ProductManagementModel(diseaseVO);
-			// productList.update(diseaseInsurance);
-			break;
-		case 8:
-			diseaseVO.setSurgeries_limit(Integer.parseInt(input));
-			diseaseMapper.update_ProductManagementModel(diseaseVO);
-			// productList.update(diseaseInsurance);
-			break;
-		default:
-			break;
+				productVO.setName(input);
+				productMapper.updateName_ProductManagementModel(productVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 2:
+				insuranceVO.setAge_range(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				break;
+			case 3:
+				insuranceVO.setCoverage(input);
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 4:
+				insuranceVO.setMonthly_premium(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 5:
+				insuranceVO.setContract_period(Integer.parseInt(input));
+				insuranceMapper.update_ProductManagementModel(insuranceVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 6:
+				diseaseVO.setDisease_limit(Integer.parseInt(input));
+				diseaseMapper.update_ProductManagementModel(diseaseVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 7:
+				diseaseVO.setDisease_name(input);
+				diseaseMapper.update_ProductManagementModel(diseaseVO);
+				// productList.update(diseaseInsurance);
+				break;
+			case 8:
+				diseaseVO.setSurgeries_limit(Integer.parseInt(input));
+				diseaseMapper.update_ProductManagementModel(diseaseVO);
+				// productList.update(diseaseInsurance);
+				break;
+			default:
+				break;
 		}
 	}
 
-	public void updateInjuryInsurance(int index, String input, int id) throws DuplicateInsuranceException{
+	public void updateInjuryInsurance(int index, String input, int id) throws DuplicateInsuranceException {
 		InjuryVO injuryVO = injuryMapper.getById_ProductManagementModel(id);
 		ProductVO productVO = productMapper.getById_ProductManagementModel(injuryVO.getProduct_id());
 		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(injuryVO.getProduct_id());
@@ -373,7 +373,8 @@ public class ProductManagementModel {
 		}
 	}
 
-	public void updateAutomobileInsurance(int index, String input, int id, ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException {
+	public void updateAutomobileInsurance(int index, String input, int id,
+		ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException {
 
 		AutoMobileVO autoMobileVO = automobileMapper.getById_ProductManagementModel(id);
 		ProductVO productVO = productMapper.getById_ProductManagementModel(autoMobileVO.getProduct_id());
@@ -426,7 +427,9 @@ public class ProductManagementModel {
 				// productList.update(automobileInsurance);
 				break;
 			case 8:
-				ArrayList<ServiceType> distinctServiceList = (ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList());
+				ArrayList<ServiceType> distinctServiceList = (ArrayList<ServiceType>)serviceTypeList.stream()
+					.distinct()
+					.collect(Collectors.toList());
 
 				serviceMapper.delete_ProductManagementModel(autoMobileVO.getProduct_id());
 
@@ -443,7 +446,7 @@ public class ProductManagementModel {
 
 	}
 
-	public ArrayList<Product> getAll(){
+	public ArrayList<Product> getAll() {
 
 		ArrayList<Insurance> insurances = new ArrayList<>();
 		ArrayList<DiseaseVO> diseaseVOs = diseaseMapper.getAllDiseaseInsurance_SalesModel();

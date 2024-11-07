@@ -4,9 +4,10 @@ import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.customerSupport.CustomerSupportModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,14 +24,16 @@ public class CustomerSupportController {
 	private CustomerSupportModel customerSupportModel;
 
 	@PatchMapping("/handleComplaint")
-	public void handleComplaint(@RequestParam("employeeName") String employeeName, @RequestParam("complaintId") int complaintId,
-			@RequestParam("result") String result) throws NotExistException, AlreadyProcessedException {
+	public void handleComplaint(@RequestParam("employeeName") String employeeName,
+		@RequestParam("complaintId") int complaintId,
+		@RequestParam("result") String result) throws NotExistException, AlreadyProcessedException {
 		customerSupportModel.handleComplaint(employeeName, complaintId, result);
 	}
 
 	@PatchMapping("/handleAccident")
-	public void handleAccident(@RequestParam("accidentId") int accidentId, @RequestParam("damageAssessmentCompanyId")int damageAssessmentCompanyId,
-			@RequestParam("roadsideAssistanceCompanyId") int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
+	public void handleAccident(@RequestParam("accidentId") int accidentId,
+		@RequestParam("damageAssessmentCompanyId") int damageAssessmentCompanyId,
+		@RequestParam("roadsideAssistanceCompanyId") int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
 		customerSupportModel.handleAccident(accidentId, damageAssessmentCompanyId, roadsideAssistanceCompanyId);
 	}
 
@@ -86,7 +89,7 @@ public class CustomerSupportController {
 
 	@GetMapping("/getRoadAssistanceCompany")
 	public PartnerCompany getRoadAssistanceCompany(
-			@RequestParam("roadAssistanceCompanyId") int roadAssistanceCompanyId) throws NotExistException {
+		@RequestParam("roadAssistanceCompanyId") int roadAssistanceCompanyId) throws NotExistException {
 		return customerSupportModel.getRoadAssistanceCompany(roadAssistanceCompanyId);
 	}
 
@@ -97,7 +100,7 @@ public class CustomerSupportController {
 
 	@GetMapping("/getDamageAssessmentCompany")
 	public PartnerCompany getDamageAssessmentCompany(
-			@RequestParam("damageAssessmentCompanyId") int damageAssessmentCompanyId) throws NotExistException {
+		@RequestParam("damageAssessmentCompanyId") int damageAssessmentCompanyId) throws NotExistException {
 		return customerSupportModel.getDamageAssessmentCompany(damageAssessmentCompanyId);
 	}
 }

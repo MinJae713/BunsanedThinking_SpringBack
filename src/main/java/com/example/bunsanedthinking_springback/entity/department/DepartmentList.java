@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.department;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,30 +12,25 @@ import java.util.ArrayList;
 public interface DepartmentList {
 
 	/**
-	 * 
+	 *
 	 * @param department
 	 */
 	public void add(Department department);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public Department get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
 	public void update(Department department) throws NotExistException;
 
 	public ArrayList<Department> getAll();

@@ -18,16 +18,16 @@ import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -190,10 +190,8 @@ public class UnderWritingModel {
 		// contract.review(result, contractList);
 	}
 
-
-
 	public ArrayList<Contract> getAllRequestingInsurance() throws
-		NotExistException{
+		NotExistException {
 
 		ArrayList<Contract> contracts = new ArrayList<>();
 		ArrayList<ContractVO> contractVOs = contractMapper.getAll_UnderWritingModel();
@@ -208,7 +206,7 @@ public class UnderWritingModel {
 				contract.setExpirationDate(
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
-				if(contractVO.getTermination_date() != null){
+				if (contractVO.getTermination_date() != null) {
 					contract.setTerminationDate(
 						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				}
@@ -425,7 +423,7 @@ public class UnderWritingModel {
 	}
 
 	public ArrayList<Contract> getAllNotRequestingInsurance() throws
-		NotExistException{
+		NotExistException {
 
 		ArrayList<Contract> contracts = new ArrayList<>();
 		ArrayList<ContractVO> contractVOs = contractMapper.getAll_UnderWritingModel();
@@ -440,7 +438,7 @@ public class UnderWritingModel {
 				contract.setExpirationDate(
 					Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
-				if(contractVO.getTermination_date() != null){
+				if (contractVO.getTermination_date() != null) {
 					contract.setTerminationDate(
 						Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				}
@@ -655,7 +653,7 @@ public class UnderWritingModel {
 		// return contractList.getAllNotRequestingInsurance();
 	}
 
-	public Customer getCustomer(int id){
+	public Customer getCustomer(int id) {
 
 		CustomerVO customerVO = customerMapper.get_UnderWritingModel(id);
 		Customer customer = new Customer();
@@ -713,7 +711,7 @@ public class UnderWritingModel {
 	}
 
 	public Contract getContract(int id) throws
-		NotExistException{
+		NotExistException {
 
 		Contract contract = new Contract();
 
@@ -723,7 +721,7 @@ public class UnderWritingModel {
 		contract.setExpirationDate(
 			Date.from(contractVO.getExpiration_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		contract.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
-		if(contractVO.getTermination_date() != null){
+		if (contractVO.getTermination_date() != null) {
 			contract.setTerminationDate(
 				Date.from(contractVO.getTermination_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		}

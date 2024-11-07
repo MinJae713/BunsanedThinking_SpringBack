@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -12,30 +12,25 @@ import java.util.ArrayList;
 public interface EmployeeList {
 
 	/**
-	 * 
+	 *
 	 * @param employee
 	 */
 	public void add(Employee employee);
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public void delete(int id) throws NotExistException;
 
 	/**
-	 * 
+	 *
 	 * @param id
-	 * @throws NotExistException 
+	 * @throws NotExistException
 	 */
 	public Employee get(int id) throws NotExistException;
 
-	/**
-	 * 
-	 * @param id
-	 * @throws NotExistException 
-	 */
 	public void update(Employee employee) throws NotExistException;
 
 	public ArrayList<Employee> getAll();

@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.product;
 
-import com.example.bunsanedthinking_springback.constants.DumyObjs;
+import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
@@ -9,7 +9,7 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class ProductListImpl implements ProductList {
 
 	private ArrayList<Product> productList;
 	public static int index = 0;
-	
+
 	public ProductListImpl() {
 		this.productList = new ArrayList<Product>();
 		Product[] dumy = DumyObjs.DUMY_PRODUCTS;
@@ -35,9 +35,9 @@ public class ProductListImpl implements ProductList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param product
-	 */	
+	 */
 	public void add(Product product) {
 		if (product instanceof Insurance) {
 			index++;
@@ -52,7 +52,7 @@ public class ProductListImpl implements ProductList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id) throws NotExistException {
@@ -66,7 +66,7 @@ public class ProductListImpl implements ProductList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public Product get(int id) throws NotExistException {
@@ -93,7 +93,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Insurance> insuranceList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Insurance) {
-				insuranceList.add((Insurance) product);
+				insuranceList.add((Insurance)product);
 			}
 		}
 		return insuranceList;
@@ -103,7 +103,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Insurance> automobileinsuranceList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Automobile) {
-				automobileinsuranceList.add((Insurance) product);
+				automobileinsuranceList.add((Insurance)product);
 			}
 		}
 		return automobileinsuranceList;
@@ -113,7 +113,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Insurance> injuryinsuranceList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Injury) {
-				injuryinsuranceList.add((Insurance) product);
+				injuryinsuranceList.add((Insurance)product);
 			}
 		}
 		return injuryinsuranceList;
@@ -123,7 +123,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Insurance> dideaseinsuranceList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Disease) {
-				dideaseinsuranceList.add((Insurance) product);
+				dideaseinsuranceList.add((Insurance)product);
 			}
 		}
 		return dideaseinsuranceList;
@@ -139,7 +139,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Loan> loanList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Loan) {
-				loanList.add((Loan) product);
+				loanList.add((Loan)product);
 			}
 		}
 		return loanList;
@@ -150,7 +150,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Loan> collateralList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof Collateral) {
-				collateralList.add((Loan) product);
+				collateralList.add((Loan)product);
 			}
 		}
 		return collateralList;
@@ -161,7 +161,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Loan> fixedDepositList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof FixedDeposit) {
-				fixedDepositList.add((Loan) product);
+				fixedDepositList.add((Loan)product);
 			}
 		}
 		return fixedDepositList;
@@ -172,7 +172,7 @@ public class ProductListImpl implements ProductList {
 		ArrayList<Loan> insuranceContractList = new ArrayList<>();
 		for (Product product : productList) {
 			if (product instanceof InsuranceContract) {
-				insuranceContractList.add((Loan) product);
+				insuranceContractList.add((Loan)product);
 			}
 		}
 		return insuranceContractList;
@@ -183,7 +183,7 @@ public class ProductListImpl implements ProductList {
 		for (Product e : productList) {
 			if (e.getId() == id) {
 				if (e instanceof Loan) {
-					return (Loan) e.clone();
+					return (Loan)e.clone();
 				} else {
 					throw new NotExistException();
 				}
@@ -197,7 +197,7 @@ public class ProductListImpl implements ProductList {
 		for (Product e : productList) {
 			if (e.getId() == id) {
 				if (e instanceof Insurance) {
-					return (Insurance) e.clone();
+					return (Insurance)e.clone();
 				} else {
 					throw new NotExistException();
 				}

@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -14,32 +14,32 @@ public class PaymentDetailListImpl implements PaymentDetailList {
 	private static int index = 0;
 	private ArrayList<PaymentDetail> paymentDetailList;
 
-	public PaymentDetailListImpl(){
+	public PaymentDetailListImpl() {
 		this.paymentDetailList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param paymentDetail
 	 */
-	public void add(PaymentDetail paymentDetail){
-		
+	public void add(PaymentDetail paymentDetail) {
+
 		index++;
-		String compound = PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "" +index;
+		String compound = PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "" + index;
 		paymentDetail.setId(Integer.parseInt(compound));
 		this.paymentDetailList.add(paymentDetail);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
-	public void delete(int id){
+	public void delete(int id) {
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public PaymentDetail get(int id) throws NotExistException {
@@ -51,12 +51,8 @@ public class PaymentDetailListImpl implements PaymentDetailList {
 		throw new NotExistException();
 	}
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public void update(PaymentDetail paymentDetail) throws NotExistException{
-		for (int i=0; i<paymentDetailList.size(); i++) {
+	public void update(PaymentDetail paymentDetail) throws NotExistException {
+		for (int i = 0; i < paymentDetailList.size(); i++) {
 			if (paymentDetailList.get(i).getId() == paymentDetail.getId()) {
 				paymentDetailList.set(i, paymentDetail);
 				return;
@@ -68,7 +64,7 @@ public class PaymentDetailListImpl implements PaymentDetailList {
 	@Override
 	public ArrayList<PaymentDetail> getAllPaymentDetail() {
 		ArrayList<PaymentDetail> paymentDetails = new ArrayList<>();
-		for(PaymentDetail paymentDetail : paymentDetailList) {
+		for (PaymentDetail paymentDetail : paymentDetailList) {
 			paymentDetails.add(paymentDetail.clone());
 		}
 		return paymentDetails;

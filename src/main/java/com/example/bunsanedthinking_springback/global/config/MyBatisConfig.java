@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.config;
+package com.example.bunsanedthinking_springback.global.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.report;
 
-import com.example.bunsanedthinking_springback.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import java.util.ArrayList;
 
@@ -14,22 +14,22 @@ public class ReportListImpl implements ReportList {
 	private static int index = 0;
 	private ArrayList<Report> reportList;
 
-	public ReportListImpl(){
+	public ReportListImpl() {
 		this.reportList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param report
 	 */
-	public void add(Report report){
+	public void add(Report report) {
 		String compose = "" + Report.REPORT_SERIAL_NUMBER + (++index);
 		report.setId(Integer.parseInt(compose));
 		this.reportList.add(report);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(int id) throws NotExistException {
@@ -42,10 +42,10 @@ public class ReportListImpl implements ReportList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
-	public Report get(int id) throws NotExistException{
+	public Report get(int id) throws NotExistException {
 		for (Report report : reportList) {
 			if (report.getId() == id) {
 				return report;
@@ -57,7 +57,7 @@ public class ReportListImpl implements ReportList {
 	/**
 	 *
 	 */
-	public void update(Report report) throws NotExistException{
+	public void update(Report report) throws NotExistException {
 		for (int i = 0; i < reportList.size(); i++) {
 			if (reportList.get(i).getId() == report.getId()) {
 				reportList.set(i, report);
@@ -81,7 +81,7 @@ public class ReportListImpl implements ReportList {
 		}
 		return reports;
 	}
-	
+
 	@Override
 	public ArrayList<Report> getAllCompletedReport() {
 		ArrayList<Report> reports = new ArrayList<>();
@@ -97,7 +97,7 @@ public class ReportListImpl implements ReportList {
 	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(int id) {
 		ArrayList<Report> reports = new ArrayList<>();
 		for (Report report : reportList) {
-			if (report.getDamageAssessmentCompanyID() ==id) {
+			if (report.getDamageAssessmentCompanyID() == id) {
 				reports.add(report);
 			}
 		}
