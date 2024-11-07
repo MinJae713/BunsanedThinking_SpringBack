@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.compensation;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.compensation.ReqCompensationDTO;
 import com.example.bunsanedthinking_springback.dto.compensation.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
@@ -14,10 +22,20 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.report.Report;
@@ -26,15 +44,52 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.*;
-import com.example.bunsanedthinking_springback.vo.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
+import com.example.bunsanedthinking_springback.repository.AccidentMapper;
+import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
+import com.example.bunsanedthinking_springback.repository.CollateralMapper;
+import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
+import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
+import com.example.bunsanedthinking_springback.repository.ContractMapper;
+import com.example.bunsanedthinking_springback.repository.CounselMapper;
+import com.example.bunsanedthinking_springback.repository.CustomerMapper;
+import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
+import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
+import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
+import com.example.bunsanedthinking_springback.repository.InjuryMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
+import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
+import com.example.bunsanedthinking_springback.repository.LoanMapper;
+import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
+import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.repository.ReportMapper;
+import com.example.bunsanedthinking_springback.repository.ServiceMapper;
+import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import com.example.bunsanedthinking_springback.vo.AccidentVO;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
+import com.example.bunsanedthinking_springback.vo.CollateralVO;
+import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
+import com.example.bunsanedthinking_springback.vo.ComplaintVO;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import com.example.bunsanedthinking_springback.vo.CounselVO;
+import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import com.example.bunsanedthinking_springback.vo.DiseaseVO;
+import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
+import com.example.bunsanedthinking_springback.vo.InjuryVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+import com.example.bunsanedthinking_springback.vo.LoanVO;
+import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+import com.example.bunsanedthinking_springback.vo.ReportVO;
+import com.example.bunsanedthinking_springback.vo.ServiceVO;
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 @Service
 public class CompensationSModel {
@@ -175,17 +230,25 @@ public class CompensationSModel {
 		List<InsuranceMoney> result = new ArrayList<>();
 		insuranceMoneyVOList.stream().forEach(e -> result.add(e.getEntity()));
 		return result;
-//		return insuranceMoneyList.getAll();
+		//		return insuranceMoneyList.getAll();
 	}
+
 	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
-		return getAllInsuranceMoney().stream().filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed).toList();
+		return getAllInsuranceMoney().stream()
+			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
+			.toList();
 	}
+
 	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
-		return getAllInsuranceMoney().stream().filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed).toList();
+		return getAllInsuranceMoney().stream()
+			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
+			.toList();
 	}
+
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
 		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(id).orElse(null);
-		if (insuranceMoneyVO == null) throw new NotExistException();
+		if (insuranceMoneyVO == null)
+			throw new NotExistException();
 		return insuranceMoneyVO.getEntity();
 		//		return insuranceMoneyList.getAll();
 	}
@@ -200,7 +263,7 @@ public class CompensationSModel {
 		result.setId(contractVO.getId());
 		result.setDate(Date.valueOf(contractVO.getDate()));
 		result.setExpirationDate(Date.valueOf(contractVO.getExpiration_date()));
-		result.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
+		result.setPaymentDate(contractVO.getPayment_date());
 
 		LocalDate terminationDate = contractVO.getTermination_date();
 		if (terminationDate != null)
@@ -253,7 +316,8 @@ public class CompensationSModel {
 
 		// productVO
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-		if (productVO == null) throw new NotExistException();
+		if (productVO == null)
+			throw new NotExistException();
 
 		// insuranceVO
 		InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(id).orElse(null);
@@ -293,7 +357,8 @@ public class CompensationSModel {
 	private Loan getLoanByProductId(int id) throws NotExistException {
 		// productVO
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-		if (productVO == null) throw new NotExistException();
+		if (productVO == null)
+			throw new NotExistException();
 
 		// loanVO
 		LoanVO loanVO = loanMapper.getLoanById_Customer(id).orElse(null);
@@ -309,11 +374,13 @@ public class CompensationSModel {
 
 		// FixedDepositVO
 		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
-		if (fixedDepositVO != null) return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
+		if (fixedDepositVO != null)
+			return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
 
 		// InsuranceContractVO
 		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
-		if (insuranceContractVO != null) return new InsuranceContract(productVO, loanVO, id);
+		if (insuranceContractVO != null)
+			return new InsuranceContract(productVO, loanVO, id);
 		throw new NotExistException();
 	}
 
@@ -323,7 +390,8 @@ public class CompensationSModel {
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
 		// CustomerVO
 		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
-		if (customerVO == null) throw new NotExistException();
+		if (customerVO == null)
+			throw new NotExistException();
 		// AccidentHistoryVO
 		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
 		List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
@@ -348,13 +416,13 @@ public class CompensationSModel {
 		List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
 		surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
 		Customer result = new Customer(customerVO,
-				accidentHistories,
-				getAllAccidentByCustomerId(id),
-				counsels,
-				surgeryHistories,
-				getAllComplaintsByCustomerId(id),
-				diseaseHistories,
-				getAllContractByCustomerId(id));
+			accidentHistories,
+			getAllAccidentByCustomerId(id),
+			counsels,
+			surgeryHistories,
+			getAllComplaintsByCustomerId(id),
+			diseaseHistories,
+			getAllContractByCustomerId(id));
 		return result;
 		//		return customerList.get(customerID);
 	}
@@ -369,7 +437,8 @@ public class CompensationSModel {
 
 	private Accident getAccidentById(int id) throws NotExistException {
 		AccidentVO accidentVO = accidentMapper.getById_Customer(id).orElse(null);
-		if (accidentVO == null) throw new NotExistException();
+		if (accidentVO == null)
+			throw new NotExistException();
 		int customer_id = accidentVO.getCustomer_id();
 		String customer_name = customerMapper.getNameById_Customer(customer_id).orElse(null);
 		if (customer_name == null)
@@ -410,10 +479,13 @@ public class CompensationSModel {
 		List<ReportVO> reportVOS = reportMapper.getAll_Compensation();
 		for (ReportVO reportVO : reportVOS) {
 			AccidentVO accidentVO = accidentMapper.getById_Compensation(reportVO.getAccident_id()).orElse(null);
-			if (accidentVO == null) continue;
+			if (accidentVO == null)
+				continue;
 			CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
-			if (customerVO == null) continue;
-			reports.add(reportVO.getEntity(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number())));
+			if (customerVO == null)
+				continue;
+			reports.add(
+				reportVO.getEntity(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number())));
 		}
 		return reports;
 		//		return reportList.getAll();
@@ -427,11 +499,13 @@ public class CompensationSModel {
 			throw new NotExistException();
 		// 손해 예상 금액 미입력 시 반환 못하도록 예외 처리
 		AccidentVO accidentVO = accidentMapper.getById_Compensation(reportVO.getAccident_id()).orElse(null);
-		if (accidentVO == null) throw new NotExistException();
+		if (accidentVO == null)
+			throw new NotExistException();
 		CustomerVO customerVO = customerMapper.getById_Compensation(accidentVO.getCustomer_id()).orElse(null);
-		if (customerVO == null) throw new NotExistException();
+		if (customerVO == null)
+			throw new NotExistException();
 		return reportVO.getEntity(new Accident(accidentVO, customerVO.getName(), customerVO.getPhone_number()));
-//		return reportList.get(id);
+		//		return reportList.get(id);
 	}
 
 	public List<Report> getAllUnprocessedReport() {
