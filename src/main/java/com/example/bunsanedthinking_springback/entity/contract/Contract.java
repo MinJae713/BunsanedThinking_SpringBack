@@ -7,10 +7,9 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 import lombok.AllArgsConstructor;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-
 import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
@@ -20,8 +19,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import lombok.AllArgsConstructor;
 
 /**
  * @author ȯ
@@ -107,7 +104,7 @@ public class Contract {
 		setInsuranceMoneyList(insuranceMonies);
 		setCompensationDetailList(compensationDetails);
 		setDepositDetailList(depositDetails);
-//		setPaymentDetails(paymentDetails);
+		setPaymentDetailList(paymentDetails);
 		setProduct(product);
 
 		setId(contractVO.getId());
@@ -262,6 +259,14 @@ public class Contract {
 
 	public void addCompensationDetail(CompensationDetail compensationDetail) {
 		this.compensationDetailList.add(compensationDetail);
+	}
+
+	public List<PaymentDetail> getPaymentDetailList() {
+		return paymentDetailList;
+	}
+
+	public void setPaymentDetailList(List<PaymentDetail> paymentDetailList) {
+		this.paymentDetailList = paymentDetailList;
 	}
 
 	public double getOutcome() {
