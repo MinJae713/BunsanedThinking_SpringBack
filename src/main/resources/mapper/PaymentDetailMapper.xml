@@ -53,11 +53,15 @@
     <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
-        where id=#{param1}
+        where id=#{id}
     </select>
     <select id="findByEmployeeId_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         select *
         from paymentdetail
         where employee_id=#{param1}
     </select>
+    <delete id="deleteById" parameterType="int">
+        delete from paymentdetail
+        where id = #{id}
+    </delete>
 </mapper>

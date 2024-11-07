@@ -31,7 +31,7 @@ public class InsuranceContract extends Loan {
 		this.setMonthlyIncome(monthlyIncome);
 	}
 
-	public InsuranceContract(ProductVO productVO, LoanVO loanVO, int productID) {
+	public InsuranceContract(ProductVO productVO, LoanVO loanVO, int insuranceId) {
 		int id = productVO.getId();
 		String name = productVO.getName();
 		int maximumMoney = productVO.getMaximum_money();
@@ -49,6 +49,8 @@ public class InsuranceContract extends Loan {
 		this.setMinimumAsset(minimumAsset);
 		this.setMonthlyIncome(monthlyIncome);
 		this.setInterestRate(interestRate);
+
+		this.setInsuranceId(insuranceId);
 	}
 
 	@Override

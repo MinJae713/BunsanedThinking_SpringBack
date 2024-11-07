@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface InsuranceContractMapper {
-    public Optional<InsuranceContractVO> getInsuranceContractById_Customer(int id);
+    public Optional<InsuranceContractVO> getById_Customer(int id);
     public List<InsuranceContractVO> getAll_Customer();
 	ArrayList<InsuranceContractVO> getAllInsuranceContractLoan_SalesModel();
 	void insert_LoanManagement(InsuranceContractVO insuranceContractVO);
@@ -19,4 +19,6 @@ public interface InsuranceContractMapper {
 	void delete_LoanManagement(int id);
 
 	void update_LoanManagement(InsuranceContractVO insuranceContractVO);
+
+	public int getMaxId();
 }

@@ -366,7 +366,7 @@ public class ContractManagementSModel {
         // orElse(param) - 반환 값이 null이면 param 반환
 
         // productVO
-        ProductVO productVO = productMapper.getProductById_Customer(id).orElse(null);
+        ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
         if (productVO == null) throw new NotExistException();
 
         // insuranceVO
@@ -374,7 +374,7 @@ public class ContractManagementSModel {
         if (insuranceVO == null) throw new NotExistException();
 
         // DiseaseVO
-        DiseaseVO diseaseVO = diseaseMapper.getDiseaseById_Customer(id).orElse(null);
+        DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
         if (diseaseVO != null) {
             String disease_name = diseaseVO.getDisease_name();
             int disease_limit = diseaseVO.getDisease_limit();
@@ -383,7 +383,7 @@ public class ContractManagementSModel {
         }
 
         // AutoMobileVO
-        AutoMobileVO autoMobileVO = automobileMapper.getAutoMobileById_Customer(id).orElse(null);
+        AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
         if (autoMobileVO != null) {
             List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
             ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
@@ -394,7 +394,7 @@ public class ContractManagementSModel {
         }
 
         // InjuryVO
-        InjuryVO injuryVO = injuryMapper.getInjuryById_Customer(id).orElse(null);
+        InjuryVO injuryVO = injuryMapper.getById_Customer(id).orElse(null);
         if (injuryVO != null) {
             InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
             int surgeries_limit = injuryVO.getSurgeries_limit();
@@ -404,7 +404,7 @@ public class ContractManagementSModel {
     }
     private Loan getLoanByProductId(int id) throws NotExistException {
         // productVO
-        ProductVO productVO = productMapper.getProductById_Customer(id).orElse(null);
+        ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
         if (productVO == null) throw new NotExistException();
 
         // loanVO
@@ -412,18 +412,18 @@ public class ContractManagementSModel {
         if (loanVO == null) throw new NotExistException();
 
         // CollateralVO
-        CollateralVO collateralVO = collateralMapper.getCollateralById_Customer(id).orElse(null);
+        CollateralVO collateralVO = collateralMapper.getById_Customer(id).orElse(null);
         if (collateralVO != null)
             return new Collateral(productVO, loanVO,
                     CollateralType.values()[collateralVO.getCollateral_type()],
                     collateralVO.getMinimum_value());
 
         // FixedDepositVO
-        FixedDepositVO fixedDepositVO = fixedDepositMapper.getFixedDepositById_Customer(id).orElse(null);
+        FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
         if (fixedDepositVO != null) return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
 
         // InsuranceContractVO
-        InsuranceContractVO insuranceContractVO = insuranceContractMapper.getInsuranceContractById_Customer(id).orElse(null);
+        InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
         if (insuranceContractVO != null) return new InsuranceContract(productVO, loanVO, id);
         throw new NotExistException();
     }

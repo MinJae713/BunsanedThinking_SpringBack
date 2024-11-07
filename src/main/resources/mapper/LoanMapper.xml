@@ -15,7 +15,7 @@
     <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
         select *
         from loan
-        where product_id = #{param1}
+        where product_id = #{id}
     </select>
     <select id="getMaxId_LoanManagement" resultType="Integer">
         select max(product_id)
@@ -40,6 +40,6 @@
     </update>
     <delete id="delete_LoanManagement">
         delete from loan
-        where product_id=#{param1}
+        where product_id=#{id}
     </delete>
 </mapper>

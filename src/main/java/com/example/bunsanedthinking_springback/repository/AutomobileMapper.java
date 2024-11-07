@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface AutomobileMapper {
-    public Optional<AutoMobileVO> getAutoMobileById_Customer(int id);
+    public Optional<AutoMobileVO> getById_Customer(int id);
     public List<AutoMobileVO> getAll_Customer();
 	ArrayList<AutoMobileVO> getAllAutomobileInsurance_SalesModel();
 
@@ -19,4 +19,7 @@ public interface AutomobileMapper {
 	Optional<AutoMobileVO> findById_FinancialAccountant(int id);
 
 	AutoMobileVO getById_ProductManagementModel(int id);
+
+	public void deleteById(int id);
+	public int getMaxId();
 }

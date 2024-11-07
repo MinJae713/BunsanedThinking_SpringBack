@@ -42,7 +42,7 @@
     <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         select *
         from employee
-        where id=#{param1}
+        where id=#{id}
     </select>
     <update id="update_HumanResource" parameterType="com.example.bunsanedthinking_springback.vo.EmployeeVO">
         update employee

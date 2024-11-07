@@ -1,11 +1,10 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface PaymentDetailMapper {
@@ -26,4 +25,6 @@ public interface PaymentDetailMapper {
 	Optional<PaymentDetailVO> findById_FinancialAccountant(int id);
 
 	List<PaymentDetailVO> findByEmployeeId_HumanResource(int id);
+
+	public void deleteById(int id);
 }

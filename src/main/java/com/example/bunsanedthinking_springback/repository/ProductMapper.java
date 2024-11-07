@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ProductMapper {
 	ProductVO get_SalesModel(int id);
 
-    public Optional<ProductVO> getProductById_Customer(int id);
+    public Optional<ProductVO> getById_Customer(int id);
 	void delete_ProductManagementModel(int id);
 
 	void updateName_ProductManagementModel(ProductVO productVO);

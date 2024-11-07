@@ -2,13 +2,12 @@ package com.example.bunsanedthinking_springback.entity.employee;
 
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -20,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Employee implements Cloneable {
 
 	public static final int EMPLOYEE_SERIAL_NUMBER = 600;
-	
+
 	private String address;
 	private String bankAccount;
 	private int departmentID;
@@ -34,10 +33,13 @@ public class Employee implements Cloneable {
 	protected EmployeePosition position;
 	private String residentRegistrationNumber;
 	private int salary;
+//	private List<Contract> contractList;
+	// 의미상 넣어놨수다 - 찬님 기존 코드랑 충돌나서 주석처리
+	// (DB로 따지믄 직원이 계약을 갖고있다 이런 의미임다)
 
-	public Employee(String name, EmployeePosition employeePosition, String address, 
-			String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber, 
-			int departmentID, int salary, Date dateOfemployment){
+	public Employee(String name, EmployeePosition employeePosition, String address,
+					String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber,
+					int departmentID, int salary, Date dateOfemployment){
 		this.setName(name);
 		this.setPosition(employeePosition);
 		this.setAddress(address);
@@ -49,7 +51,7 @@ public class Employee implements Cloneable {
 		this.setSalary(salary);
 		this.setEmploymentDate(dateOfemployment);
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -80,7 +82,7 @@ public class Employee implements Cloneable {
 
 	public String getEmploymentDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.employmentDate);
+		return dateFormat.format(this.employmentDate);
 	}
 
 	public void setEmploymentDate(Date employmentDate) {
@@ -154,6 +156,5 @@ public class Employee implements Cloneable {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	
-	
 }
+

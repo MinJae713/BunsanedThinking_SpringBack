@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CollateralMapper">
-    <select id="getCollateralById_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         select * from collateral
         where product_id = #{id}
     </select>
@@ -32,6 +32,9 @@
     </update>
     <delete id="delete_LoanManagement">
         delete from collateral
-        where product_id=#{param1}
+        where product_id=#{id}
     </delete>
+    <select id="getMaxId" parameterType="int">
+        select max(product_id) from collateral
+    </select>
 </mapper>

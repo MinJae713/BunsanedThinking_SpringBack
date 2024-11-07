@@ -1,15 +1,19 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:40
  */
+@Data
+@NoArgsConstructor
 public class AdditionalAllowance extends PaymentDetail {
 
 //	private int employeeID;
-//	private AdditionalAllowanceType type;
-	// 일단 안써서 주석처리
+	private AdditionalAllowanceType type;
 
 	public AdditionalAllowance(String accountHolder, String bank, String bankAccount, int money,
 			PaymentType paymentType, int contractId) {

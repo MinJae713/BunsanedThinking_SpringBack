@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface InjuryMapper {
-    public Optional<InjuryVO> getInjuryById_Customer(int id);
+    public Optional<InjuryVO> getById_Customer(int id);
     public List<InjuryVO> getAll_Customer();
 	ArrayList<InjuryVO> getAllInjuryInsurance_SalesModel();
 	void insert_ProductManagement(InjuryVO injuryVO);
@@ -17,4 +17,7 @@ public interface InjuryMapper {
 	Optional<InjuryVO> findById_FinancialAccountant(int id);
 
 	InjuryVO getById_ProductManagementModel(int id);
+
+	public void deleteById(int id);
+	public int getMaxId();
 }

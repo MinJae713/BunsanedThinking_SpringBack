@@ -266,11 +266,11 @@ public class CustomerSModel {
 			int product_id = insuranceVO.getProduct_id();
 
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			// DiseaseVO
-			DiseaseVO diseaseVO = diseaseMapper.getDiseaseById_Customer(product_id).orElse(null);
+			DiseaseVO diseaseVO = diseaseMapper.getById_Customer(product_id).orElse(null);
 			if (diseaseVO != null) {
 				String disease_name = diseaseVO.getDisease_name();
 				int disease_limit = diseaseVO.getDisease_limit();
@@ -281,7 +281,7 @@ public class CustomerSModel {
 			}
 
 			// AutoMobileVO
-			AutoMobileVO autoMobileVO = automobileMapper.getAutoMobileById_Customer(product_id).orElse(null);
+			AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(product_id).orElse(null);
 			if (autoMobileVO != null) {
 				List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(product_id);
 				ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
@@ -294,7 +294,7 @@ public class CustomerSModel {
 			}
 
 			// InjuryVO
-			InjuryVO injuryVO = injuryMapper.getInjuryById_Customer(product_id).orElse(null);
+			InjuryVO injuryVO = injuryMapper.getById_Customer(product_id).orElse(null);
 			if (injuryVO != null) {
 				InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
 				int surgeries_limit = injuryVO.getSurgeries_limit();
@@ -318,7 +318,7 @@ public class CustomerSModel {
 			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
 			if (insuranceVO == null) throw new RuntimeException("보험을 못찾았습니다.");
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 			diseases.add(new Disease(productVO, insuranceVO,
 					disease_name, disease_limit, surgeries_limit));
@@ -338,7 +338,7 @@ public class CustomerSModel {
 			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
 			if (insuranceVO == null) throw new RuntimeException("보험을 못찾았습니다.");
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 			injuries.add(new Injury(productVO, insuranceVO, injury_type, surgeries_limit));
 		}
@@ -360,7 +360,7 @@ public class CustomerSModel {
 			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
 			if (insuranceVO == null) throw new RuntimeException("보험을 못찾았습니다.");
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 			automobiles.add(new Automobile(productVO, insuranceVO,
 					accident_limit, verhicle_type, serviceTypeList));
@@ -373,7 +373,7 @@ public class CustomerSModel {
 		// orElse(param) - 반환 값이 null이면 param 반환
 
 		// productVO
-		ProductVO productVO = productMapper.getProductById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null) throw new NotExistException();
 
 		// insuranceVO
@@ -381,7 +381,7 @@ public class CustomerSModel {
 		if (insuranceVO == null) throw new NotExistException();
 
 		// DiseaseVO
-		DiseaseVO diseaseVO = diseaseMapper.getDiseaseById_Customer(id).orElse(null);
+		DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
 		if (diseaseVO != null) {
 			String disease_name = diseaseVO.getDisease_name();
 			int disease_limit = diseaseVO.getDisease_limit();
@@ -390,7 +390,7 @@ public class CustomerSModel {
 		}
 
 		// AutoMobileVO
-		AutoMobileVO autoMobileVO = automobileMapper.getAutoMobileById_Customer(id).orElse(null);
+		AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
 		if (autoMobileVO != null) {
 			List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
 			ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
@@ -401,7 +401,7 @@ public class CustomerSModel {
 		}
 
 		// InjuryVO
-		InjuryVO injuryVO = injuryMapper.getInjuryById_Customer(id).orElse(null);
+		InjuryVO injuryVO = injuryMapper.getById_Customer(id).orElse(null);
 		if (injuryVO != null) {
 			InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
 			int surgeries_limit = injuryVO.getSurgeries_limit();
@@ -422,11 +422,11 @@ public class CustomerSModel {
 		for (LoanVO loanVO : loanVOS) {
 			int product_id = loanVO.getProduct_id();
 
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			// CollateralVO
-			CollateralVO collateralVO = collateralMapper.getCollateralById_Customer(product_id).orElse(null);
+			CollateralVO collateralVO = collateralMapper.getById_Customer(product_id).orElse(null);
 			if (collateralVO != null) {
 				CollateralType collateral_type = CollateralType.values()[collateralVO.getCollateral_type()];
 				int minimum_value = collateralVO.getMinimum_value();
@@ -435,7 +435,7 @@ public class CustomerSModel {
 			}
 
 			// FixedDepositVO
-			FixedDepositVO fixedDepositVO = fixedDepositMapper.getFixedDepositById_Customer(product_id).orElse(null);
+			FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(product_id).orElse(null);
 			if (fixedDepositVO != null) {
 				int minimum_amount = fixedDepositVO.getMinimum_amount();
 				loanList.add(new FixedDeposit(productVO, loanVO, minimum_amount));
@@ -443,7 +443,7 @@ public class CustomerSModel {
 			}
 
 			// InsuranceContractVO
-			InsuranceContractVO insuranceContractVO = insuranceContractMapper.getInsuranceContractById_Customer(product_id).orElse(null);
+			InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(product_id).orElse(null);
 			if (insuranceContractVO != null) loanList.add(new InsuranceContract(productVO, loanVO, product_id));
 		}
 		return loanList;
@@ -463,7 +463,7 @@ public class CustomerSModel {
 			if (loanVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			collateralList.add(new Collateral(productVO, loanVO, collateral_type, minimum_value));
@@ -484,7 +484,7 @@ public class CustomerSModel {
 			if (loanVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			fixedDepositList.add(new FixedDeposit(productVO, loanVO, minimum_amount));
@@ -504,7 +504,7 @@ public class CustomerSModel {
 			if (loanVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			// ProductVO
-			ProductVO productVO = productMapper.getProductById_Customer(product_id).orElse(null);
+			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
 			if (productVO == null) throw new RuntimeException("상품을 못찾았습니다.");
 
 			insuranceContractList.add(new InsuranceContract(productVO, loanVO, product_id));
@@ -514,7 +514,7 @@ public class CustomerSModel {
 	}
 	public Loan getLoanByProductId(int id) throws NotExistException {
 		// productVO
-		ProductVO productVO = productMapper.getProductById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null) throw new NotExistException();
 
 		// loanVO
@@ -522,18 +522,18 @@ public class CustomerSModel {
 		if (loanVO == null) throw new NotExistException();
 
 		// CollateralVO
-		CollateralVO collateralVO = collateralMapper.getCollateralById_Customer(id).orElse(null);
+		CollateralVO collateralVO = collateralMapper.getById_Customer(id).orElse(null);
 		if (collateralVO != null)
 			return new Collateral(productVO, loanVO,
 					CollateralType.values()[collateralVO.getCollateral_type()],
 					collateralVO.getMinimum_value());
 
 		// FixedDepositVO
-		FixedDepositVO fixedDepositVO = fixedDepositMapper.getFixedDepositById_Customer(id).orElse(null);
+		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
 		if (fixedDepositVO != null) return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
 
 		// InsuranceContractVO
-		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getInsuranceContractById_Customer(id).orElse(null);
+		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
 		if (insuranceContractVO != null) return new InsuranceContract(productVO, loanVO, id);
 //		ArrayList<Loan> loanList = productList.getAllLoan();
 //		for (Loan loan : loanList) {

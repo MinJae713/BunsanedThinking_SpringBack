@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface CollateralMapper {
-    public Optional<CollateralVO> getCollateralById_Customer(int id);
+    public Optional<CollateralVO> getById_Customer(int id);
     public List<CollateralVO> getAll_Customer();
 	ArrayList<CollateralVO> getAllCollateralLoan_SalesModel();
 	void insert_LoanManagement(CollateralVO collateralVO);
@@ -19,4 +19,6 @@ public interface CollateralMapper {
 	void update_LoanManagement(CollateralVO collateralVO);
 
 	void delete_LoanManagement(int id);
+
+ 	public int getMaxId();
 }

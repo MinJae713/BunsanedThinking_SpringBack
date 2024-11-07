@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 
 @Mapper
 public interface InsuranceMapper {
@@ -20,4 +19,6 @@ public interface InsuranceMapper {
 	InsuranceVO getById_ProductManagementModel(int productId);
 
 	Integer getMaxId_ProductManagementModel();
+
+	public void delete(int id);
 }

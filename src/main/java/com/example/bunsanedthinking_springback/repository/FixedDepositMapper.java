@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface FixedDepositMapper {
-    public Optional<FixedDepositVO> getFixedDepositById_Customer(int id);
+    public Optional<FixedDepositVO> getById_Customer(int id);
     public List<FixedDepositVO> getAll_Customer();
 	ArrayList<FixedDepositVO> getAllFixedDepositLoan_SalesModel();
 	void insert_LoanManagement(FixedDepositVO fixedDepositVO);
@@ -19,4 +19,6 @@ public interface FixedDepositMapper {
 	void delete_LoanManagement(int id);
 
 	void update_LoanManagement(FixedDepositVO fixedDepositVO);
+
+	public int getMaxId();
 }

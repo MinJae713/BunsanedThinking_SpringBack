@@ -20,12 +20,12 @@
     <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         insert into Insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
         values (
-                   #{insurance.product_id},
-                   #{insurance.insurance_type},
-                   #{insurance.age_range},
-                   #{insurance.monthly_premium},
-                   #{insurance.contract_period},
-                   #{insurance.coverage}
+                   #{product_id},
+                   #{insurance_type},
+                   #{age_range},
+                   #{monthly_premium},
+                   #{contract_period},
+                   #{coverage}
                )
     </insert>
 
@@ -42,11 +42,15 @@
     <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select *
         from insurance
-        where product_id=#{param1}
+        where product_id=#{id}
     </select>
 
     <select id="getMaxId_ProductManagementModel" resultType="Integer">
         select max(product_id)
         from insurance
     </select>
+    <delete id="delete" parameterType="int">
+        delete from insurance
+        where product_id=#{id}
+    </delete>
 </mapper>

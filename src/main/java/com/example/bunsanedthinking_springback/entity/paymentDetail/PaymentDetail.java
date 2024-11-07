@@ -1,10 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:43
  */
+@NoArgsConstructor
 public class PaymentDetail {
 
 	public static final int PAYMENT_DETAIL_SERIAL_NUMBER = 900;
@@ -97,5 +100,36 @@ public class PaymentDetail {
 	}
 
 	public Integer getEmployeeId() {return employeeId;}
-	
+
+	public void setProcessStatus(PaymentProcessStatus processStatus) {
+		this.processStatus = processStatus;
+	}
+
+	public void setAccountHolder(String accountHolder) {
+		this.accountHolder = accountHolder;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public void setContractId(Integer contractId) {
+		this.contractId = contractId;
+	}
+
+	public void setEmployeeId(Integer employeeId) {
+		this.employeeId = employeeId;
+	}
 }

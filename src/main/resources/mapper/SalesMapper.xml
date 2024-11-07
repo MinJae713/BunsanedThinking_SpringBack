@@ -27,4 +27,15 @@
         WHERE employee_id = #{employee_id}
     </update>
 
+    <select id="getMaxId" parameterType="int">
+        select max(employee_id) from sales
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.SalesVO">
+        insert into sales(employee_id, evaluate, contract_count)
+        values (#{employee_id}, #{evaluate}, #{contract_count})
+    </insert>
+    <delete id="deleteById" parameterType="int">
+        delete from sales
+        where employee_id = #{id}
+    </delete>
 </mapper>
