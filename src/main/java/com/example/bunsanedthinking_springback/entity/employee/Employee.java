@@ -17,7 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee implements Cloneable {
-
 	public static final int EMPLOYEE_SERIAL_NUMBER = 600;
 
 	private String address;

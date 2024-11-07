@@ -56,4 +56,8 @@
         delete from surgeryhistory
         where id = #{id}
     </delete>
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from surgeryhistory
+    </select>
 </mapper>

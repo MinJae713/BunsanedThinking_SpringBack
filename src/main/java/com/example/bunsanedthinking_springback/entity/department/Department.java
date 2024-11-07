@@ -14,7 +14,6 @@ import java.util.ArrayList;
 //2024-06-02 源����쁽
 @NoArgsConstructor
 public class Department implements Cloneable {
-
 	private String headName;
 	private int id;
 	private String name;

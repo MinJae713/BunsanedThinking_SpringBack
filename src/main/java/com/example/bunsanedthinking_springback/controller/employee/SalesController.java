@@ -110,12 +110,12 @@ public class SalesController {
 	}
 
 	@PostMapping("/induceInsuranceProduct")
-	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
+	public Customer induceInsuranceProduct(@RequestBody InduceDTO induceDTO) {
 		return salesSModel.induceInsuranceProduct(induceDTO);
 	}
 
 	@PostMapping("/induceLoanProduct")
-	public Customer induceLoanProduct(InduceDTO induceDTO) {
+	public Customer induceLoanProduct(@RequestBody InduceDTO induceDTO) {
 		return salesSModel.induceLoanProduct(induceDTO);
 	}
 
