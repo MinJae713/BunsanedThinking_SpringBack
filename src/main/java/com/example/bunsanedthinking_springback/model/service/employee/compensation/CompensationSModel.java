@@ -28,7 +28,6 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistContract
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -189,25 +188,6 @@ public class CompensationSModel {
 		if (insuranceMoneyVO == null) throw new NotExistException();
 		return insuranceMoneyVO.getEntity();
 		//		return insuranceMoneyList.getAll();
-	}
-
-	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
-		return getAllInsuranceMoney().stream()
-			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
-			.toList();
-	}
-
-	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
-		return getAllInsuranceMoney().stream()
-			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
-			.toList();
-	}
-
-	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
-		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(id).orElse(null);
-		if (insuranceMoneyVO == null)
-			throw new NotExistException();
-		return insuranceMoneyVO.getInsuranceMoneyDetail();
 	}
 
 	// 여기부터 contract 하나 찾기

@@ -19,7 +19,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class SalesSModel {
 	}
 
 	public void handleInsuranceConsultation(int id) throws
-		AlreadyProcessedException {
+			AlreadyProcessedException {
 		CounselVO counselVO = counselMapper.get_SalesModel(id);
 		if (CounselProcessStatus.fromInt(counselVO.getProcess_status()) == CounselProcessStatus.Completed) {
 			throw new AlreadyProcessedException();

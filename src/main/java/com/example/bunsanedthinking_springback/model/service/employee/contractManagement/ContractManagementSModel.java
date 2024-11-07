@@ -1,37 +1,29 @@
 package com.example.bunsanedthinking_springback.model.service.employee.contractManagement;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
+import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
-import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.endorsment.EndorsementStatus;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
-import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.recontract.RecontractStatus;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.revival.RevivalStatus;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.entity.termination.TerminationStatus;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
+import com.example.bunsanedthinking_springback.model.domain.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,7 +91,14 @@ public class ContractManagementSModel {
     private EndorsementMapper endorsementMapper;
     @Autowired
     private PaymentDetailMapper paymentDetailMapper;
-	public void requestTerminationFee(int tercontractId, int customerId)
+    @Autowired
+    private AccidentHistoryList accidentHistoryList;
+    @Autowired
+    private CustomerDModel customerDModel;
+    @Autowired
+    private ContractDModel contractDModel;
+
+    public void requestTerminationFee(int tercontractId, int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
 		// TerminationStatus가 Complete인지 확인
 		// totalMoney를 전체 DepositDetail 리스트를 받아와서 계산 - 계산 방법은 아래 참고
@@ -239,42 +238,7 @@ public class ContractManagementSModel {
 	}
     // 여기부터 Customer 하나 찾기(contract 찾는건 아래에 구현됨)
     public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-        // CustomerVO
-        CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
-        if (customerVO == null) throw new NotExistException();
-        // AccidentHistoryVO
-        ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
-        List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
-        accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-        // CounselVO
-        ArrayList<Counsel> counsels = new ArrayList<Counsel>();
-        List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
-        counselVOS.stream().forEach(e -> counsels.add(new Counsel(
-                e,
-                customerVO.getName(),
-                customerVO.getPhone_number(),
-                customerVO.getJob(),
-                customerVO.getAge(),
-                Gender.values()[customerVO.getGender()]
-        )));
-        // DiseaseHistoryVO
-        ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
-        List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
-        diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-        // SurgeryHistoryVO
-        ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
-        List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
-        surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-        Customer result = new Customer(customerVO,
-                accidentHistories,
-                getAllAccidentByCustomerId(id),
-                counsels,
-                surgeryHistories,
-                getAllComplaintsByCustomerId(id),
-                diseaseHistories,
-                getAllContractByCustomerId(id));
-        return result;
-//		return customerList.get(customerID);
+        return customerDModel.getById(id);
     }
     private ArrayList<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
         ArrayList<Accident> result = new ArrayList<Accident>();
@@ -316,163 +280,8 @@ public class ContractManagementSModel {
     // =====================================
     // 여기부터 contract 하나 찾기
     public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-        // ContractVO
-        Contract result = new Contract();
-        ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
-        if (contractVO == null) throw new NotExistContractException();
-        result.setId(contractVO.getId());
-        result.setDate(java.sql.Date.valueOf(contractVO.getDate()));
-        result.setExpirationDate(java.sql.Date.valueOf(contractVO.getExpiration_date()));
-        result.setPaymentDate(contractVO.getPayment_date().getDayOfMonth());
-
-	// 여기부터 Customer 하나 찾기(contract 찾는건 아래에 구현됨)
-	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		// CustomerVO
-		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
-		if (customerVO == null)
-			throw new NotExistException();
-		Customer result = new Customer(customerVO);
-		// AccidentHistoryVO
-		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
-		List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
-		accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-		result.setAccidentHistoryList(accidentHistories);
-		// AccidentVO
-		result.setAccidentList(getAllAccidentByCustomerId(id));
-		// ComplaintVO
-		result.setComplaintList(getAllComplaintsByCustomerId(id));
-		// ContractVO - 세부 정보 필요
-		result.setContractList(getAllContractByCustomerId(id));
-		// CounselVO
-		ArrayList<Counsel> counsels = new ArrayList<Counsel>();
-		List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
-		counselVOS.stream().forEach(e -> counsels.add(new Counsel(
-			e,
-			customerVO.getName(),
-			customerVO.getPhone_number(),
-			customerVO.getJob(),
-			customerVO.getAge(),
-			Gender.values()[customerVO.getGender()]
-		)));
-		result.setCounsel(counsels);
-		// DiseaseHistoryVO
-		ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
-		List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
-		diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-		result.setDiseaseHistoryList(diseaseHistories);
-		// SurgeryHistoryVO
-		ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
-		List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
-		surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-		result.setSurgeryHistoryList(surgeryHistories);
-		return result;
-		//		return customerList.get(customerID);
-	}
-
-        // CompensationDetailVO
-        ArrayList<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
-        List<CompensationDetailVO> compensationDetailVOS = compensationDetailMapper.getAllCompensationByContractId_Customer(contractId);
-        for (CompensationDetailVO compensationDetailVO : compensationDetailVOS)
-            compensationDetails.add(compensationDetailVO.getEntity());
-        result.setCompensationDetailList(compensationDetails);
-
-        // DepositDetailVO
-        ArrayList<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
-        List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAllDepositByContractId_Customer(contractId);
-        for (DepositDetailVO depositDetailVO : depositDetailVOS)
-            depositDetails.add(depositDetailVO.getEntity());
-        result.setDepositDetailList(depositDetails);
-
-        // InsuranceMoneyVO
-        ArrayList<InsuranceMoney> insuranceMoneys = new ArrayList<InsuranceMoney>();
-        List<InsuranceMoneyVO> insuranceMoneyVOS = insuranceMoneyMapper.getAllByContractId_Customer(contractId);
-        for (InsuranceMoneyVO insuranceMoneyVO : insuranceMoneyVOS)
-            insuranceMoneys.add(insuranceMoneyVO.getEntity());
-        result.setInsuranceMoneyList(insuranceMoneys);
-        return result;
-//		return contractList.get(contractId);
+        return contractDModel.getById(contractId);
     }
-    private Product getProductById(int product_id) throws NotExistException {
-        Product product = getInsuranceByProductId(product_id);
-        if (product != null) return product;
-        product = getLoanByProductId(product_id);
-        if (product != null) return product;
-        throw new NotExistException();
-    }
-    private Insurance getInsuranceByProductId(int id) throws NotExistException {
-        // insurance 찾기 - Automobile, Disease, Injury 셋 중 하나 반환
-        // orElse(param) - 반환 값이 null이면 param 반환
-
-        // productVO
-        ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-        if (productVO == null) throw new NotExistException();
-
-	private Complaint getComplaintById(int id) throws NotExistException {
-		ComplaintVO complaintVO = complaintMapper.getComplaintById_Customer(id).orElse(null);
-		if (complaintVO == null)
-			throw new NotExistException();
-		return new Complaint(complaintVO);
-	}
-
-        // DiseaseVO
-        DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
-        if (diseaseVO != null) {
-            String disease_name = diseaseVO.getDisease_name();
-            int disease_limit = diseaseVO.getDisease_limit();
-            int surgeries_limit = diseaseVO.getSurgeries_limit();
-            return new Disease(productVO, insuranceVO, disease_name, disease_limit, surgeries_limit);
-        }
-
-        // AutoMobileVO
-        AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
-        if (autoMobileVO != null) {
-            List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
-            ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
-            serviceVOS.stream().map(s -> s.getService()).forEach(s -> serviceTypeList.add(ServiceType.values()[s]));
-            VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVehicle_type()];
-            int accident_limit = autoMobileVO.getAccident_limit();
-            return new Automobile(productVO, insuranceVO, accident_limit, verhicle_type, serviceTypeList);
-        }
-
-        // InjuryVO
-        InjuryVO injuryVO = injuryMapper.getById_Customer(id).orElse(null);
-        if (injuryVO != null) {
-            InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
-            int surgeries_limit = injuryVO.getSurgeries_limit();
-            return new Injury(productVO, insuranceVO, injury_type, surgeries_limit);
-        }
-        throw new NotExistException();
-    }
-    private Loan getLoanByProductId(int id) throws NotExistException {
-        // productVO
-        ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-        if (productVO == null) throw new NotExistException();
-
-		// DepositDetailVO
-		ArrayList<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
-		List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAllDepositByContractId_Customer(contractId);
-		for (DepositDetailVO depositDetailVO : depositDetailVOS)
-			depositDetails.add(depositDetailVO.getDepositDetail());
-		result.setDepositDetailList(depositDetails);
-
-        // CollateralVO
-        CollateralVO collateralVO = collateralMapper.getById_Customer(id).orElse(null);
-        if (collateralVO != null)
-            return new Collateral(productVO, loanVO,
-                    CollateralType.values()[collateralVO.getCollateral_type()],
-                    collateralVO.getMinimum_value());
-
-        // FixedDepositVO
-        FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
-        if (fixedDepositVO != null) return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
-
-        // InsuranceContractVO
-        InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
-        if (insuranceContractVO != null) return new InsuranceContract(productVO, loanVO, id);
-        throw new NotExistException();
-    }
-    // 여기까지가 contract 하나 찾기
-
 	public Termination getTerminationById(int id) throws NotExistException, NotExistContractException {
         TerminationVO terminationVO = terminationMapper.getById_ContractManagement(id).orElse(null);
         if (terminationVO == null) throw new NotExistException();

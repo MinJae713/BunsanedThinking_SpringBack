@@ -1,11 +1,10 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementSModel;
-import com.example.bunsanedthinking_springback.dto.mo.AddCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.customerInformationManagement.AddCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementSModel;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

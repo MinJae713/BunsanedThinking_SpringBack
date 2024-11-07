@@ -192,7 +192,7 @@ public class FinancialAccountantSModel {
 			contractVO.getEmployee_id(),
 			contractVO.getPayment_date().getDayOfMonth(), Date.valueOf(contractVO.getExpiration_date()),
 			contractVO.getId(), insuranceMoneyList,
-			lastPaymentDate, product, terminationDate);
+			lastPaymentDate, product, terminationDate, null); // 임시 - 여기 고쳐줘여
 	}
 
 	private Insurance getInsurance(ProductVO productVO) throws NotExistException {

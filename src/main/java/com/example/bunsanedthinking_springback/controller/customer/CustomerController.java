@@ -1,37 +1,19 @@
 package com.example.bunsanedthinking_springback.controller.customer;
 
-import java.sql.Date;
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.bunsanedthinking_springback.dto.yoo.DepositDTO;
+import com.example.bunsanedthinking_springback.dto.customer.DepositDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.exception.*;
+import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.model.service.customer.CustomerSModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistExpiredContract;
-import com.example.bunsanedthinking_springback.global.exception.NotExistMaintainedContract;
-import com.example.bunsanedthinking_springback.global.exception.NotExistTerminatedContract;
-import com.example.bunsanedthinking_springback.model.customer.CustomerModel;
 
 @RestController
 @RequestMapping("/customer")

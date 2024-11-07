@@ -115,7 +115,7 @@ public class HumanResourceSModel {
 			java.sql.Date.valueOf(employeeVO.getEmployment_date()), employeeVO.getBank_name(), familyList,
 			employeeVO.getId(), employeeVO.getName(), paymentDetailList, employeeVO.getPhone_number(),
 			EmployeePosition.indexOf(employeeVO.getPosition()), employeeVO.getResident_registration_number(),
-			employeeVO.getSalary());
+			employeeVO.getSalary(), null);
 	}
 
 	public void requestAdditionalAllowance() {
