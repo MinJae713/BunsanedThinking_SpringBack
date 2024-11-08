@@ -58,7 +58,7 @@ public class ContractDModel {
 		paymentDetailDModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(paymentDetails::add);
-		Product product = productDModel.getById(id);
+		Product product = productDModel.getById(contractVO.getProduct_id());
 		return new Contract(insuranceMonies, compensationDetails, depositDetails, paymentDetails, product, contractVO);
 	}
 
