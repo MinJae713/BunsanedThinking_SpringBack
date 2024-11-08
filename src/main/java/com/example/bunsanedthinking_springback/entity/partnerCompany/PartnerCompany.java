@@ -33,7 +33,7 @@ public class PartnerCompany implements Cloneable {
 		this.setHeadName(headName);
 		this.setHeadPhoneNumber(headPhoneNumber);
 	}
-	public PartnerCompanyVO getVO() {
+	public PartnerCompanyVO findVO() {
 		return new PartnerCompanyVO(id, headName,
 				headPhoneNumber, evaluation,
 				name, partnerCompanyType.ordinal(),

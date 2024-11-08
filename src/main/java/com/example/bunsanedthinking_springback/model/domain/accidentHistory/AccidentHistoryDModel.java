@@ -21,8 +21,7 @@ public class AccidentHistoryDModel {
 
 	public List<AccidentHistory> getAll() {
 		List<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
-		accidentHistoryMapper.getAll()
-			.forEach(e -> accidentHistories.add(new AccidentHistory(e)));
+		accidentHistoryMapper.getAll().forEach(e -> accidentHistories.add(getById(e.getId())));
 		return accidentHistories;
 	}
 
@@ -31,11 +30,11 @@ public class AccidentHistoryDModel {
 	}
 
 	public void add(AccidentHistory accidentHistory) {
-		accidentHistoryMapper.insert(accidentHistory.getVO());
+		accidentHistoryMapper.insert(accidentHistory.findVO());
 	}
 
 	public void update(AccidentHistory accidentHistory) {
-		accidentHistoryMapper.update(accidentHistory.getVO());
+		accidentHistoryMapper.update(accidentHistory.findVO());
 	}
 
 	public void delete(int id) {

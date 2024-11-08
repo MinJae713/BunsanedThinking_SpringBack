@@ -64,7 +64,7 @@ public class Disease extends Insurance {
 		this.setSurgeriesLimit(surgeriesLimit);
 	}
 
-	public DiseaseVO getVO() {
+	public DiseaseVO findVO() {
 		return new DiseaseVO(getId(), diseaseName,
 				diseaseLimit, surgeriesLimit);
 	}

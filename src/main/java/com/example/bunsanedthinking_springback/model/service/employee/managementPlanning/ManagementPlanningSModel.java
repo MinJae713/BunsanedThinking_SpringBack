@@ -59,12 +59,6 @@ public class ManagementPlanningSModel {
 		int index = updateDepartmentDTO.getIndex();
 		String input = updateDepartmentDTO.getInput();
 		Department department = departmentDModel.getById(id);
-		DepartmentVO departmentVO = new DepartmentVO();
-		departmentVO.setId(department.getId());
-		departmentVO.setName(department.getName());
-		departmentVO.setPurpose(department.getPurpose());
-		departmentVO.setHead_name(department.getHeadName());
-		departmentVO.setTask(department.getTask());
 
 		switch (index) {
 			case 1:
@@ -73,20 +67,20 @@ public class ManagementPlanningSModel {
 						throw new DuplicateDepartmentException();
 					}
 				}
-				departmentVO.setName(input);
-				departmentDModel.update(departmentVO);
+				department.setName(input);
+				departmentDModel.update(department);
 				break;
 			case 2:
 				department.setTask(input);
-				departmentDModel.update(departmentVO);
+				departmentDModel.update(department);
 				break;
 			case 3:
 				department.setPurpose(input);
-				departmentDModel.update(departmentVO);
+				departmentDModel.update(department);
 				break;
 			case 4:
 				department.setHeadName(input);
-				departmentDModel.update(departmentVO);
+				departmentDModel.update(department);
 				break;
 			default:
 				break;

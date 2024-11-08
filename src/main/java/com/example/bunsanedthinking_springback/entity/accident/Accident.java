@@ -48,7 +48,7 @@ public class Accident {
 		serviceType = ServiceType.values()[accidentVO.getService_type()];
 	}
 
-	public AccidentVO getVO() {
+	public AccidentVO findVO() {
 		LocalDate localDate = date.toInstant().
 				atZone(ZoneId.systemDefault()).
 				toLocalDate();

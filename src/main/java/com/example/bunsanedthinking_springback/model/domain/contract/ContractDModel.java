@@ -74,7 +74,7 @@ public class ContractDModel {
 	public void add(Contract contract) {
 		if (contract == null) return;
 		if (contractMapper.getById_Customer(contract.getId()).isPresent()) return;
-		contractMapper.insert_SalesModel(contract.getVO());
+		contractMapper.insert_SalesModel(contract.findVO());
 
 		List<InsuranceMoney> insuranceMonies = contract.getInsuranceMoneyList();
 		if (insuranceMonies != null) insuranceMonies.forEach(e -> insuranceMoneyDModel.add(e));
@@ -111,7 +111,7 @@ public class ContractDModel {
 		Product product = contract.getProduct();
 		if (product != null) productDModel.update(product);
 
-		contractMapper.update(contract.getVO());
+		contractMapper.update(contract.findVO());
 	}
 
 	public void delete(int id) {

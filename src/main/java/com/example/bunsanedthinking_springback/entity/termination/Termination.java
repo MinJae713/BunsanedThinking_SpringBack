@@ -5,7 +5,6 @@ import com.example.bunsanedthinking_springback.vo.TerminationVO;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 
@@ -30,10 +29,8 @@ public class Termination extends Contract {
 	private TerminationStatus terminationStatus;
 	private Contract originalContract;
 
-	public TerminationVO getTerminationVO() {
-		LocalDateTime lApplyDate = applyDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDateTime();
+	public TerminationVO findTerminationVO() {
+		LocalDateTime lApplyDate = LocalDateTime.of(applyDate.getYear(), applyDate.getMonth()+1, applyDate.getDay(), 0, 0);
 		return new TerminationVO(getId(), lApplyDate,
 				terminationFee, originalContract.getId(),
 				terminationStatus.ordinal());

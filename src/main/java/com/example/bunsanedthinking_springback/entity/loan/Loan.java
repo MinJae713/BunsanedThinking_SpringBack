@@ -23,7 +23,7 @@ public abstract class Loan extends Product {
 
 	}
 
-	public LoanVO getLoanVO() {
+	public LoanVO findLoanVO() {
 		return new LoanVO(getId(), loanType.ordinal(),
 				minimumAsset, monthlyIncome, interestRate);
 	}

@@ -22,7 +22,7 @@ public class SurgeryHistoryDModel {
 	public List<SurgeryHistory> getAll() {
 		List<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
 		surgeryHistoryMapper.getAll()
-			.forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
+			.forEach(e -> surgeryHistories.add(getById(e.getId())));
 		return surgeryHistories;
 	}
 
@@ -31,11 +31,11 @@ public class SurgeryHistoryDModel {
 	}
 
 	public void add(SurgeryHistory surgeryHistory) {
-		surgeryHistoryMapper.insert_SalesModel(surgeryHistory.getVO());
+		surgeryHistoryMapper.insert_SalesModel(surgeryHistory.findVO());
 	}
 
 	public void update(SurgeryHistory surgeryHistory) {
-		surgeryHistoryMapper.update(surgeryHistory.getVO());
+		surgeryHistoryMapper.update(surgeryHistory.findVO());
 	}
 
 	public void delete(int id) {

@@ -27,7 +27,7 @@ public class OfficeSupply implements Cloneable {
 		this.setInventory(inventory);
 	}
 
-	public OfficeSupplyVO getVO() {
+	public OfficeSupplyVO findVO() {
 		return new OfficeSupplyVO(id, inventory,
 				name, totalInventory, description,
 				departmentId);

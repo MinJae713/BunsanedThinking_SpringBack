@@ -1,16 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.revival;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.repository.RevivalMapper;
-import com.example.bunsanedthinking_springback.vo.RevivalVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RevivalDModel {
@@ -41,15 +39,23 @@ public class RevivalDModel {
 		return revivalMapper.getMaxId();
 	}
 
-	public void add(RevivalVO revivalVO) {
-		revivalMapper.insert(revivalVO);
+	public void add(Revival revival) {
+		if (revival == null) return;
+		if (revivalMapper.getById_Customer(revival.getId()).isPresent()) return;
+		contractDModel.add(revival);
+		revivalMapper.insert(revival.findRevivalVO());
 	}
 
-	public void update(RevivalVO revivalVO) {
-		revivalMapper.update(revivalVO);
+	public void update(Revival revival) {
+		if (revival == null) return;
+		if (revivalMapper.getById_Customer(revival.getId()).isEmpty()) return;
+		revivalMapper.update(revival.findRevivalVO());
+		contractDModel.update(revival);
 	}
 
 	public void delete(int id) {
+		if (revivalMapper.getById_Customer(id).isEmpty()) return;
 		revivalMapper.deleteById(id);
+		contractDModel.delete(id);
 	}
 }

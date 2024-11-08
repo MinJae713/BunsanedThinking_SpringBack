@@ -55,7 +55,7 @@ public class Collateral extends Loan {
 		this.setMinimumValue(minimumValue);
 	}
 
-	public CollateralVO getVO() {
+	public CollateralVO findVO() {
 		return new CollateralVO(getId(), collateralType.ordinal(), minimumValue);
 	}
 

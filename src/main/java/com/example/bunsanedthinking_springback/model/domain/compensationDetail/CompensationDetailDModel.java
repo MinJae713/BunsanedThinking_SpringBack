@@ -23,7 +23,7 @@ public class CompensationDetailDModel {
 	public List<CompensationDetail> getAll() {
 		List<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
 		compensationDetailMapper.getAll_UnderwritingModel()
-			.forEach(e -> compensationDetails.add(e.getEntity()));
+			.forEach(e -> compensationDetails.add(getById(e.getId())));
 		return compensationDetails;
 	}
 
@@ -32,11 +32,11 @@ public class CompensationDetailDModel {
 	}
 
 	public void add(CompensationDetail compensationDetail) {
-		compensationDetailMapper.insert_LoanManagement(compensationDetail.getVO());
+		compensationDetailMapper.insert_LoanManagement(compensationDetail.findVO());
 	}
 
 	public void update(CompensationDetail compensationDetail) {
-		compensationDetailMapper.update(compensationDetail.getVO());
+		compensationDetailMapper.update(compensationDetail.findVO());
 	}
 
 	public void delete(int id) {

@@ -19,7 +19,7 @@ public abstract class Product implements Cloneable {
 	private int maximumMoney;
 	private String name;
 
-	public ProductVO getProductVO() {
+	public ProductVO findProductVO() {
 		return new ProductVO(id, name, maximumMoney);
 	}
 

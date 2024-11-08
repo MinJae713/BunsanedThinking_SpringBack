@@ -1,16 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.endorsement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
-import com.example.bunsanedthinking_springback.vo.EndorsementVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EndorsementDModel {
@@ -41,15 +39,23 @@ public class EndorsementDModel {
 		return endorsementMapper.getMaxId();
 	}
 
-	public void add(EndorsementVO endorsementVO) {
-		endorsementMapper.insert(endorsementVO);
+	public void add(Endorsement endorsement) {
+		if (endorsement == null) return;
+		if (endorsementMapper.getById_Customer(endorsement.getId()).isPresent()) return;
+		contractDModel.add(endorsement);
+		endorsementMapper.insert(endorsement.findEndorsementVO());
 	}
 
-	public void update(EndorsementVO endorsementVO) {
-		endorsementMapper.update(endorsementVO);
+	public void update(Endorsement endorsement) {
+		if (endorsement == null) return;
+		if (endorsementMapper.getById_Customer(endorsement.getId()).isEmpty()) return;
+		endorsementMapper.update(endorsement.findEndorsementVO());
+		contractDModel.update(endorsement);
 	}
 
 	public void delete(int id) {
+		if (endorsementMapper.getById_Customer(id).isEmpty()) return;
 		endorsementMapper.deleteById(id);
+		contractDModel.delete(id);
 	}
 }

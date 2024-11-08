@@ -36,8 +36,7 @@ public class CounselDModel {
 
 	public List<Counsel> getAll() {
 		List<Counsel> counsels = new ArrayList<Counsel>();
-		for (CounselVO counselVO : counselMapper.getAll_SalesModel())
-			counsels.add(getById(counselVO.getId()));
+		counselMapper.getAll_SalesModel().forEach(e -> counsels.add(getById(e.getId())));
 		return counsels;
 	}
 
@@ -46,11 +45,11 @@ public class CounselDModel {
 	}
 
 	public void add(Counsel counsel) {
-		counselMapper.insert(counsel.getVO());
+		counselMapper.insert(counsel.findVO());
 	}
 
 	public void update(Counsel counsel) {
-		counselMapper.update_SalesModel(counsel.getVO());
+		counselMapper.update_SalesModel(counsel.findVO());
 	}
 
 	public void delete(int id) {

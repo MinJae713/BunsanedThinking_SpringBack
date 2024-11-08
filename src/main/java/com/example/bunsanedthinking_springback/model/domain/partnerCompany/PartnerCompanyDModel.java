@@ -1,16 +1,15 @@
 package com.example.bunsanedthinking_springback.model.domain.partnerCompany;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.model.domain.report.ReportDModel;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PartnerCompanyDModel {
@@ -72,15 +71,42 @@ public class PartnerCompanyDModel {
 		return partnerCompanyMapper.getMaxId_CompensationPlanning();
 	}
 
-	public void add(PartnerCompanyVO partnerCompanyVO) {
-		partnerCompanyMapper.insert_CompensationPlanning(partnerCompanyVO);
+	public void add(PartnerCompany partnerCompany) {
+		if (partnerCompany == null) return;
+		if (partnerCompanyMapper.findById_CustomerSupport(partnerCompany.getId()).isPresent()) return;
+		partnerCompanyMapper.insert_CompensationPlanning(partnerCompany.findVO());
+
+		List<Report> reports = partnerCompany.getReportList();
+		if (reports != null) reports.forEach(e -> reportDModel.add(e));
 	}
 
-	public void update(PartnerCompanyVO partnerCompanyVO) {
-		partnerCompanyMapper.update_CompensationPlanning(partnerCompanyVO);
+	public void update(PartnerCompany partnerCompany) {
+		if (partnerCompany == null) return;
+		if (partnerCompanyMapper.findById_CustomerSupport(partnerCompany.getId()).isEmpty()) return;
+
+		List<Report> reports = partnerCompany.getReportList();
+		if (reports != null) reports.forEach(e -> reportDModel.update(e));
+
+		partnerCompanyMapper.update_CompensationPlanning(partnerCompany.findVO());
 	}
 
-	public void delete(int id) {
+	public void delete_RoadSide(int id) {
+		if (partnerCompanyMapper.findById_CustomerSupport(id).isEmpty()) return;
+		PartnerCompany partnerCompany = getById_RoadsideCompany(id);
+
+		List<Report> reports = partnerCompany.getReportList();
+		if (reports != null) reports.forEach(e -> reportDModel.delete(id));
+
+		partnerCompanyMapper.delete_CompensationPlanning(id);
+	}
+
+	public void delete_DamageAssesment(int id) {
+		if (partnerCompanyMapper.findById_CustomerSupport(id).isEmpty()) return;
+		PartnerCompany partnerCompany = getById_DamageAssesmentCompany(id);
+
+		List<Report> reports = partnerCompany.getReportList();
+		if (reports != null) reports.forEach(e -> reportDModel.delete(id));
+
 		partnerCompanyMapper.delete_CompensationPlanning(id);
 	}
 }

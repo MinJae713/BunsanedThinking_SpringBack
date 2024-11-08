@@ -110,7 +110,7 @@ public class Customer implements Cloneable {
 		this.surgeryHistoryList = surgeryHistories;
 	}
 
-	public CustomerVO getVO() {
+	public CustomerVO findVO() {
 		return new CustomerVO(id, address, age,
 				bankAccount, bankName,
 				gender.ordinal(), job,

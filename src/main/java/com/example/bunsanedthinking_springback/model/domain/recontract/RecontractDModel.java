@@ -1,16 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.recontract;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.repository.RecontractMapper;
-import com.example.bunsanedthinking_springback.vo.RecontractVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RecontractDModel {
@@ -41,15 +39,23 @@ public class RecontractDModel {
 		return recontractMapper.getMaxId();
 	}
 
-	public void add(RecontractVO recontractVO) {
-		recontractMapper.insert(recontractVO);
+	public void add(Recontract recontract) {
+		if (recontract == null) return;
+		if (recontractMapper.getById_Customer(recontract.getId()).isPresent()) return;
+		contractDModel.add(recontract);
+		recontractMapper.insert(recontract.findRecontractVO());
 	}
 
-	public void update(RecontractVO recontractVO) {
-		recontractMapper.update(recontractVO);
+	public void update(Recontract recontract) {
+		if (recontract == null) return;
+		if (recontractMapper.getById_Customer(recontract.getId()).isEmpty()) return;
+		recontractMapper.update(recontract.findRecontractVO());
+		contractDModel.update(recontract);
 	}
 
 	public void delete(int id) {
+		if (recontractMapper.getById_Customer(id).isEmpty()) return;
 		recontractMapper.deleteById(id);
+		contractDModel.delete(id);
 	}
 }

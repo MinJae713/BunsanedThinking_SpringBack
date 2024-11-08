@@ -21,7 +21,7 @@ public class Benefit extends PaymentDetail {
 			int contractId) {
 		super(accountHolder, bank, bankAccount, money, paymentType, contractId);
 	}
-	public BenefitVO getVO() {
+	public BenefitVO findVO() {
 		return new BenefitVO(getId(), type.ordinal());
 	}
 }

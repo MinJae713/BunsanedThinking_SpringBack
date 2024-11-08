@@ -31,7 +31,7 @@ public class InsuranceContract extends Loan {
 		this.setMonthlyIncome(monthlyIncome);
 	}
 
-	public InsuranceContractVO getVO() {
+	public InsuranceContractVO findVO() {
 		return new InsuranceContractVO(getId(), insuranceId);
 	}
 

@@ -30,7 +30,7 @@ public abstract class Insurance extends Product {
 		super();
 	}
 
-	public InsuranceVO getInsuranceVO() {
+	public InsuranceVO findInsuranceVO() {
 		return new InsuranceVO(getId(),
 				insuranceType.ordinal(),
 				ageRange, monthlyPremium,

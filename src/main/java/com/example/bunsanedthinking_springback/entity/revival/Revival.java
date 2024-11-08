@@ -5,7 +5,6 @@ import com.example.bunsanedthinking_springback.vo.RevivalVO;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -27,10 +26,8 @@ public class Revival extends Contract {
 	private RevivalStatus revivalStatus;
 	private Contract originalContract;
 
-	public RevivalVO getRevivalVO() {
-		LocalDateTime lApplyDate = applyDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDateTime();
+	public RevivalVO findRevivalVO() {
+		LocalDateTime lApplyDate = LocalDateTime.of(applyDate.getYear(), applyDate.getMonth()+1, applyDate.getDay(), 0, 0);
 		return new RevivalVO(getId(), lApplyDate,
 				originalContract.getId(),
 				revivalStatus.ordinal());

@@ -60,7 +60,7 @@ public class Injury extends Insurance {
 		this.setSurgeriesLimit(surgeriesLimit);
 	}
 
-	public InjuryVO getVO() {
+	public InjuryVO findVO() {
 		return new InjuryVO(getId(), injuryType.ordinal(), surgeriesLimit);
 	}
 

@@ -39,15 +39,15 @@ public class AdditionalAllowanceDModel {
 	public void add(AdditionalAllowance additionalAllowance) {
 		if (additionalAllowance == null) return;
 		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isPresent()) return;
-		paymentDetailMapper.insert_LoanManagement(additionalAllowance.getPaymentDetailVO());
-		additionalAllowanceMapper.insert(additionalAllowance.getVO());
+		paymentDetailMapper.insert_LoanManagement(additionalAllowance.findPaymentDetailVO());
+		additionalAllowanceMapper.insert(additionalAllowance.findVO());
 	}
 
 	public void update(AdditionalAllowance additionalAllowance) {
 		if (additionalAllowance == null) return;
 		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isEmpty()) return;
-		additionalAllowanceMapper.update(additionalAllowance.getVO());
-		paymentDetailMapper.update_FinancialAccountant(additionalAllowance.getPaymentDetailVO());
+		additionalAllowanceMapper.update(additionalAllowance.findVO());
+		paymentDetailMapper.update_FinancialAccountant(additionalAllowance.findPaymentDetailVO());
 	}
 
 	public void delete(int id) {

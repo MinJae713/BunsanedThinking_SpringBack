@@ -23,7 +23,7 @@ public class DepositDetailDModel {
 	public List<DepositDetail> getAll() {
 		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		depositDetailMapper.getAll_ContractManagement()
-			.forEach(e -> depositDetails.add(e.getEntity()));
+			.forEach(e -> depositDetails.add(getById(e.getId())));
 		return depositDetails;
 	}
 
@@ -32,11 +32,11 @@ public class DepositDetailDModel {
 	}
 
 	public void add(DepositDetail depositDetail) {
-		depositDetailMapper.add_Customer(depositDetail.getVO());
+		depositDetailMapper.add_Customer(depositDetail.findVO());
 	}
 
 	public void update(DepositDetail depositDetail) {
-		depositDetailMapper.update(depositDetail.getVO());
+		depositDetailMapper.update(depositDetail.findVO());
 	}
 
 	public void delete(int id) {

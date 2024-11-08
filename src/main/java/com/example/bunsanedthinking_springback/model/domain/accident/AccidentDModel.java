@@ -33,8 +33,7 @@ public class AccidentDModel {
 
 	public List<Accident> getAll() {
 		List<Accident> accidents = new ArrayList<Accident>();
-		for (AccidentVO accidentVO : accidentMapper.getAll_CustomerSupport())
-			accidents.add(getById(accidentVO.getId()));
+		accidentMapper.getAll_CustomerSupport().forEach(e -> accidents.add(getById(e.getId())));
 		return accidents;
 	}
 
@@ -43,11 +42,11 @@ public class AccidentDModel {
 	}
 
 	public void add(Accident accident) {
-		accidentMapper.insert(accident.getVO());
+		accidentMapper.insert(accident.findVO());
 	}
 
 	public void update(Accident accident) {
-		accidentMapper.update_CustomerSupport(accident.getVO());
+		accidentMapper.update_CustomerSupport(accident.findVO());
 	}
 
 	public void delete(int id) {

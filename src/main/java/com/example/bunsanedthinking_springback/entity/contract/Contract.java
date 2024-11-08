@@ -119,19 +119,11 @@ public class Contract {
 		setLastPaidDate(java.sql.Date.valueOf(contractVO.getLastpaid_date()));
 	}
 
-	public ContractVO getVO() {
-		LocalDate lDate = date.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
-		LocalDate lExpirationDate = expirationDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
-		LocalDate lTerminationDate = terminationDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
-		LocalDate lLastPaidDate = lastPaidDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public ContractVO findVO() {
+		LocalDate lDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
+		LocalDate lExpirationDate = LocalDate.of(expirationDate.getYear(), expirationDate.getMonth()+1, expirationDate.getDay());
+		LocalDate lTerminationDate = LocalDate.of(terminationDate.getYear(), terminationDate.getMonth()+1, terminationDate.getDay());
+		LocalDate lLastPaidDate = LocalDate.of(lastPaidDate.getYear(), lastPaidDate.getMonth()+1, lastPaidDate.getDay());
 		return new ContractVO(id, lDate, lExpirationDate,
 				paymentDate, lTerminationDate,
 				contractStatus.ordinal(),

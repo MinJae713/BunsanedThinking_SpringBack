@@ -34,7 +34,7 @@ public class Department implements Cloneable {
 		employeeList = new ArrayList<Employee>();
 	}
 
-	public DepartmentVO getVO() {
+	public DepartmentVO findVO() {
 		return new DepartmentVO(id, headName, name, purpose, task);
 	}
 

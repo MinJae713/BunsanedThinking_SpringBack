@@ -32,11 +32,11 @@ public class FamilyDModel {
 	}
 
 	public void add(Family family) {
-		familyMapper.insert_HumanResource(family.getVO());
+		familyMapper.insert_HumanResource(family.findVO());
 	}
 
 	public void update(Family family) {
-		familyMapper.update(family.getVO());
+		familyMapper.update(family.findVO());
 	}
 
 	public void delete(int id) {

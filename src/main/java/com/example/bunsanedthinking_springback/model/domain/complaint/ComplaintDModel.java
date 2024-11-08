@@ -23,7 +23,7 @@ public class ComplaintDModel {
 	public List<Complaint> getAll() {
 		List<Complaint> complaints = new ArrayList<Complaint>();
 		complaintMapper.getAll_CustomerSupport()
-			.forEach(e -> complaints.add(e.getEntity()));
+			.forEach(e -> getById(e.getId()));
 		return complaints;
 	}
 
@@ -32,11 +32,11 @@ public class ComplaintDModel {
 	}
 
 	public void add(Complaint complaint) {
-		complaintMapper.insert(complaint.getVO());
+		complaintMapper.insert(complaint.findVO());
 	}
 
 	public void update(Complaint complaint) {
-		complaintMapper.update_CustomerSupport(complaint.getVO());
+		complaintMapper.update_CustomerSupport(complaint.findVO());
 	}
 
 	public void delete(int id) {

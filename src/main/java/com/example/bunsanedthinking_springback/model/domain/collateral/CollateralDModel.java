@@ -52,17 +52,17 @@ public class CollateralDModel {
 	public void add(Collateral collateral) {
 		if (collateral == null) return;
 		if (collateralMapper.getById_Customer(collateral.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(collateral.getProductVO());
-		loanMapper.insert_LoanManagement(collateral.getLoanVO());
-		collateralMapper.insert_LoanManagement(collateral.getVO());
+		productMapper.insert_LoanManagement(collateral.findProductVO());
+		loanMapper.insert_LoanManagement(collateral.findLoanVO());
+		collateralMapper.insert_LoanManagement(collateral.findVO());
 	}
 
 	public void update(Collateral collateral) {
 		if (collateral == null) return;
 		if (collateralMapper.getById_Customer(collateral.getId()).isEmpty()) return;
-		collateralMapper.update_LoanManagement(collateral.getVO());
-		loanMapper.update_LoanManagement(collateral.getLoanVO());
-		productMapper.update_LoanManagement(collateral.getProductVO());
+		collateralMapper.update_LoanManagement(collateral.findVO());
+		loanMapper.update_LoanManagement(collateral.findLoanVO());
+		productMapper.update_LoanManagement(collateral.findProductVO());
 	}
 
 	public void delete(int id) {

@@ -53,7 +53,7 @@ public class FixedDeposit extends Loan {
 		this.setMinimumAmount(minimumValue);
 	}
 
-	public FixedDepositVO getVO() {
+	public FixedDepositVO findVO() {
 		return new FixedDepositVO(getId(), minimumAmount);
 	}
 

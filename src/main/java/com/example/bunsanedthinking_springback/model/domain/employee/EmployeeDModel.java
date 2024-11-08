@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.employee;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
@@ -15,6 +9,11 @@ import com.example.bunsanedthinking_springback.model.domain.family.FamilyDModel;
 import com.example.bunsanedthinking_springback.model.domain.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
 import com.example.bunsanedthinking_springback.vo.EmployeeVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeDModel {
@@ -50,15 +49,50 @@ public class EmployeeDModel {
 		return employeeMapper.getMaxId();
 	}
 
-	public void add(EmployeeVO employeeVO) {
-		employeeMapper.insert_HumanResource(employeeVO);
+	public void add(Employee employee) {
+		if (employee == null) return;
+		if (employeeMapper.findById_HumanResource(employee.getId()).isPresent()) return;
+		employeeMapper.insert_HumanResource(employee.findEmployeeVO());
+
+		List<Family> families = employee.getFamilyList();
+		if (families != null) families.forEach(e -> familyDModel.add(e));
+
+		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.add(e));
+
+		List<Contract> contracts = employee.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractDModel.add(e));
 	}
 
-	public void update(EmployeeVO employeeVO) {
-		employeeMapper.update_HumanResource(employeeVO);
+	public void update(Employee employee) {
+		if (employee == null) return;
+		if (employeeMapper.findById_HumanResource(employee.getId()).isEmpty()) return;
+
+		List<Family> families = employee.getFamilyList();
+		if (families != null) families.forEach(e -> familyDModel.update(e));
+
+		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.update(e));
+
+		List<Contract> contracts = employee.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractDModel.update(e));
+
+		employeeMapper.update_HumanResource(employee.findEmployeeVO());
 	}
 
 	public void delete(int id) {
+		if (employeeMapper.findById_HumanResource(id).isEmpty()) return;
+		Employee employee = getById(id);
+
+		List<Family> families = employee.getFamilyList();
+		if (families != null) families.forEach(e -> familyDModel.delete(e.getId()));
+
+		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.delete(e.getId()));
+
+		List<Contract> contracts = employee.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractDModel.delete(e.getId()));
+
 		employeeMapper.delete_HumanResource(id);
 	}
 }

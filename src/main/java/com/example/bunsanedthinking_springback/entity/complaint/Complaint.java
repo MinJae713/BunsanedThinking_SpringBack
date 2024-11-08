@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -45,13 +44,9 @@ public class Complaint {
 		this.title = title;
 	}
 
-	public ComplaintVO getVO() {
-		LocalDate lPostDate = postDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
-		LocalDate lProcessingDate = processingDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public ComplaintVO findVO() {
+		LocalDate lPostDate = LocalDate.of(postDate.getYear(), postDate.getMonth()+1, postDate.getDay());
+		LocalDate lProcessingDate = LocalDate.of(processingDate.getYear(), processingDate.getMonth()+1, processingDate.getDay());
 		return new ComplaintVO(id, complaintType.ordinal(),
 				content, lPostDate, employeeName,
 				lProcessingDate, processStatus.ordinal(),

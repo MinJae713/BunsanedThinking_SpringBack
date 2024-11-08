@@ -63,9 +63,9 @@ public class AutomobileDModel {
 	public void add(Automobile autoMobile) {
 		if (autoMobile == null) return;
 		if (automobileMapper.getById_Customer(autoMobile.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(autoMobile.getProductVO());
-		insuranceMapper.insert_ProductManagement(autoMobile.getInsuranceVO());
-		automobileMapper.insert_ProductManagement(autoMobile.getVO());
+		productMapper.insert_LoanManagement(autoMobile.findProductVO());
+		insuranceMapper.insert_ProductManagement(autoMobile.findInsuranceVO());
+		automobileMapper.insert_ProductManagement(autoMobile.findVO());
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes == null) return;
 		serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
@@ -85,9 +85,9 @@ public class AutomobileDModel {
 					new ServiceVO(autoMobile.getId(), e.ordinal())
 			));
 		}
-		automobileMapper.update_ProductManagementModel(autoMobile.getVO());
-		insuranceMapper.update_ProductManagementModel(autoMobile.getInsuranceVO());
-		productMapper.update_LoanManagement(autoMobile.getProductVO());
+		automobileMapper.update_ProductManagementModel(autoMobile.findVO());
+		insuranceMapper.update_ProductManagementModel(autoMobile.findInsuranceVO());
+		productMapper.update_LoanManagement(autoMobile.findProductVO());
 	}
 
 	public void delete(int id) {

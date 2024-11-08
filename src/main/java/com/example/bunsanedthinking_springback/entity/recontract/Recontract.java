@@ -26,7 +26,7 @@ public class Recontract extends Contract {
 	private RecontractStatus recontractStatus;
 	private Contract originalContract;
 
-	public RecontractVO getRecontractVO() {
+	public RecontractVO findRecontractVO() {
 		LocalDateTime lApplyDate = applyDate.toInstant().
 				atZone(ZoneId.systemDefault()).
 				toLocalDateTime();

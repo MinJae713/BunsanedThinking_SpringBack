@@ -12,6 +12,7 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
@@ -31,13 +32,13 @@ public class CustomerVO {
     private Long property;
     private String resident_registration_number;
 
-    public Customer getEintity(ArrayList<AccidentHistory> accidentHistoryList,
-                               ArrayList<Accident> accidentList,
-                               ArrayList<Complaint> complaintList,
-                               ArrayList<Contract> contractList,
-                               ArrayList<Counsel> counselList,
-                               ArrayList<DiseaseHistory> diseaseHistoryList,
-                               ArrayList<SurgeryHistory> surgeryHistoryList) {
+    public Customer getEntity(ArrayList<AccidentHistory> accidentHistoryList,
+                              ArrayList<Accident> accidentList,
+                              ArrayList<Complaint> complaintList,
+                              ArrayList<Contract> contractList,
+                              ArrayList<Counsel> counselList,
+                              ArrayList<DiseaseHistory> diseaseHistoryList,
+                              ArrayList<SurgeryHistory> surgeryHistoryList) {
         Customer customer = new Customer();
         customer.setId(id);
         customer.setAddress(address);

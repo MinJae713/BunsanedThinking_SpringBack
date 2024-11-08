@@ -58,7 +58,7 @@ public class PaymentDetail {
 		this.contractId = id;
 	}
 
-	public PaymentDetailVO getPaymentDetailVO() {
+	public PaymentDetailVO findPaymentDetailVO() {
 		return new PaymentDetailVO(id, accountHolder, bank,
 				bankAccount, money, paymentType.ordinal(),
 				processStatus.ordinal(),

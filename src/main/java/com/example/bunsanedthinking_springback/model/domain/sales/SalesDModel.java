@@ -1,16 +1,15 @@
 package com.example.bunsanedthinking_springback.model.domain.sales;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
 import com.example.bunsanedthinking_springback.model.domain.employee.EmployeeDModel;
 import com.example.bunsanedthinking_springback.repository.SalesMapper;
 import com.example.bunsanedthinking_springback.vo.SalesVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SalesDModel {
@@ -29,7 +28,7 @@ public class SalesDModel {
 
 	public List<Sales> getAll() {
 		List<Sales> sales = new ArrayList<Sales>();
-		salesMapper.getAll_SalesModel().stream().forEach(e -> sales.add(getById(e.getEmployee_id())));
+		salesMapper.getAll_SalesModel().forEach(e -> sales.add(getById(e.getEmployee_id())));
 		// getAll_SalesModel - List 수정 필요
 		return sales;
 	}
@@ -37,16 +36,24 @@ public class SalesDModel {
 	public Integer getMaxId() {
 		return salesMapper.getMaxId();
 	}
-
-	public void add(SalesVO salesVO) {
-		salesMapper.insert(salesVO);
+	// 아래들 Optional 아니라서 그냥 등가비교
+	public void add(Sales sales) {
+		if (sales == null) return;
+		if (salesMapper.get_SalesModel(sales.getId()) != null) return;
+		employeeDModel.add(sales);
+		salesMapper.insert(sales.findVO());
 	}
 
-	public void update(SalesVO salesVO) {
-		salesMapper.update_SalesModel(salesVO);
+	public void update(Sales sales) {
+		if (sales == null) return;
+		if (salesMapper.get_SalesModel(sales.getId()) == null) return;
+		salesMapper.update_SalesModel(sales.findVO());
+		employeeDModel.update(sales);
 	}
 
 	public void delete(int id) {
+		if (salesMapper.get_SalesModel(id) == null) return;
 		salesMapper.deleteById(id);
+		employeeDModel.delete(id);
 	}
 }

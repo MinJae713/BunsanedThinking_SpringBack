@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.department;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
@@ -13,6 +7,11 @@ import com.example.bunsanedthinking_springback.model.domain.employee.EmployeeDMo
 import com.example.bunsanedthinking_springback.model.domain.officeSupply.OfficeSupplyDModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DepartmentDModel {
@@ -25,18 +24,18 @@ public class DepartmentDModel {
 
 	public Department getById(int id) {
 		DepartmentVO departmentVO = departmentMapper.findById_HumanResource(id).orElse(null);
-		if (departmentVO != null)
+		if (departmentVO == null)
 			return null;
 		List<OfficeSupply> officeSupplies = new ArrayList<OfficeSupply>();
 		ArrayList<Employee> employees = new ArrayList<Employee>();
-		officeSupplyDModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(e -> officeSupplies.add(e));
-		employeeDModel.getAll().stream().filter(e -> e.getDepartmentID() == id).forEach(e -> employees.add(e));
+		officeSupplyDModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(officeSupplies::add);
+		employeeDModel.getAll().stream().filter(e -> e.getDepartmentID() == id).forEach(employees::add);
 		return departmentVO.getEntity(officeSupplies, employees);
 	}
 
 	public List<Department> getAll() {
 		List<Department> departments = new ArrayList<Department>();
-		departmentMapper.getAll_HumanResource().stream().forEach(e -> departments.add(getById(e.getId())));
+		departmentMapper.getAll_HumanResource().forEach(e -> departments.add(getById(e.getId())));
 		return departments;
 	}
 
@@ -44,15 +43,41 @@ public class DepartmentDModel {
 		return departmentMapper.getMaxId_ManagementPlanning();
 	}
 
-	public void add(DepartmentVO departmentVO) {
-		departmentMapper.insert(departmentVO);
+	public void add(Department department) {
+		if (department == null) return;
+		if (departmentMapper.findById_HumanResource(department.getId()).isPresent()) return;
+		departmentMapper.insert(department.findVO());
+
+		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
+		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.add(e));
+
+		List<Employee> employees = department.getEmployeeList();
+		if (employees != null) employees.forEach(e -> employeeDModel.add(e));
 	}
 
-	public void update(DepartmentVO departmentVO) {
-		departmentMapper.update_ManagementPlanning(departmentVO);
+	public void update(Department department) {
+		if (department == null) return;
+		if (departmentMapper.findById_HumanResource(department.getId()).isEmpty()) return;
+
+		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
+		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.update(e));
+
+		List<Employee> employees = department.getEmployeeList();
+		if (employees != null) employees.forEach(e -> employeeDModel.update(e));
+
+		departmentMapper.update_ManagementPlanning(department.findVO());
 	}
 
 	public void delete(int id) {
+		if (departmentMapper.findById_HumanResource(id).isEmpty()) return;
+		Department department = getById(id);
+
+		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
+		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.delete(e.getId()));
+
+		List<Employee> employees = department.getEmployeeList();
+		if (employees != null) employees.forEach(e -> employeeDModel.delete(e.getId()));
+
 		departmentMapper.delete_ManagementPlanning(id);
 	}
 }

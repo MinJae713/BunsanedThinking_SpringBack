@@ -1,16 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.termination;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.repository.TerminationMapper;
-import com.example.bunsanedthinking_springback.vo.TerminationVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TerminationDModel {
@@ -41,15 +39,23 @@ public class TerminationDModel {
 		return terminationMapper.getMaxId();
 	}
 
-	public void add(TerminationVO terminationVO) {
-		terminationMapper.insert(terminationVO);
+	public void add(Termination termination) {
+		if (termination == null) return;
+		if (terminationMapper.getById_Customer(termination.getId()).isPresent()) return;
+		contractDModel.add(termination);
+		terminationMapper.insert(termination.findTerminationVO());
 	}
 
-	public void update(TerminationVO terminationVO) {
-		terminationMapper.update(terminationVO);
+	public void update(Termination termination) {
+		if (termination == null) return;
+		if (terminationMapper.getById_Customer(termination.getId()).isEmpty()) return;
+		terminationMapper.update(termination.findTerminationVO());
+		contractDModel.update(termination);
 	}
 
 	public void delete(int id) {
+		if (terminationMapper.getById_Customer(id).isEmpty()) return;
 		terminationMapper.deleteById(id);
+		contractDModel.delete(id);
 	}
 }

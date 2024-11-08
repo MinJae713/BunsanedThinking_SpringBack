@@ -50,17 +50,17 @@ public class InjuryDModel {
 		// 참조 무결성 제약조건 생각해서 product, insurance, injury 순서대로 데이터 추가함
 		if (injury == null) return;
 		if (injuryMapper.getById_Customer(injury.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(injury.getProductVO());
-		insuranceMapper.insert_ProductManagement(injury.getInsuranceVO());
-		injuryMapper.insert_ProductManagement(injury.getVO());
+		productMapper.insert_LoanManagement(injury.findProductVO());
+		insuranceMapper.insert_ProductManagement(injury.findInsuranceVO());
+		injuryMapper.insert_ProductManagement(injury.findVO());
 	}
 
 	public void update(Injury injury) {
 		if (injury == null) return;
 		if (injuryMapper.getById_Customer(injury.getId()).isEmpty()) return;
-		injuryMapper.update_ProductManagementModel(injury.getVO());
-		insuranceMapper.update_ProductManagementModel(injury.getInsuranceVO());
-		productMapper.update_LoanManagement(injury.getProductVO());
+		injuryMapper.update_ProductManagementModel(injury.findVO());
+		insuranceMapper.update_ProductManagementModel(injury.findInsuranceVO());
+		productMapper.update_LoanManagement(injury.findProductVO());
 	}
 
 	public void delete(int id) {

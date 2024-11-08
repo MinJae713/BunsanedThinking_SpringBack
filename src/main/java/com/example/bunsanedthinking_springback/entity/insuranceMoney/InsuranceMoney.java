@@ -8,7 +8,6 @@ import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -60,10 +59,8 @@ public class InsuranceMoney {
 		}
 	}
 
-	public InsuranceMoneyVO getVO() {
-		LocalDate lApplyDate = applyDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public InsuranceMoneyVO findVO() {
+		LocalDate lApplyDate = LocalDate.of(applyDate.getYear(), applyDate.getMonth()+1, applyDate.getDay());
 		return new InsuranceMoneyVO(id, bankAccount,
 				bankName, residentRegistrationCard.toString(),
 				receipt.toString(), medicalCertificate.toString(),

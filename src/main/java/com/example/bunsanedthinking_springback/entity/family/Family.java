@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -35,10 +34,8 @@ public class Family implements Cloneable{
 		
 	}
 
-	public FamilyVO getVO() {
-		LocalDate lBirthDate = birthDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public FamilyVO findVO() {
+		LocalDate lBirthDate = LocalDate.of(birthDate.getYear(), birthDate.getMonth()+1, birthDate.getDay());
 		return new FamilyVO(id, lBirthDate, name,
 				relationship.ordinal(), survival,
 				employeeID);

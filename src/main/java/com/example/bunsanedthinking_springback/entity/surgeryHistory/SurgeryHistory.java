@@ -42,10 +42,8 @@ public class SurgeryHistory implements Cloneable {
 		name = surgeryHistoryVO.getName();
 	}
 
-	public SurgeryHistoryVO getVO() {
-		LocalDate lDate = date.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public SurgeryHistoryVO findVO() {
+		LocalDate lDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
 		return new SurgeryHistoryVO(id, hospitalName,
 				name, lDate, customerID);
 	}
@@ -99,7 +97,7 @@ public class SurgeryHistory implements Cloneable {
 		
 	}
 
-	public SurgeryHistoryVO getsurgeryVO() {
+	public SurgeryHistoryVO findsurgeryVO() {
 		SurgeryHistoryVO result = new SurgeryHistoryVO();
 		result.setId(id);
 		result.setHospital_name(hospitalName);

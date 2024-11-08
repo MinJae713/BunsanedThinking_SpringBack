@@ -1,15 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.customer.DepositDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
@@ -22,7 +12,6 @@ import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
-import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
@@ -30,82 +19,29 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyRequestingException;
-import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistExpiredContract;
-import com.example.bunsanedthinking_springback.global.exception.NotExistMaintainedContract;
-import com.example.bunsanedthinking_springback.global.exception.NotExistTerminatedContract;
-import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.AccidentMapper;
-import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
-import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
-import com.example.bunsanedthinking_springback.repository.ContractMapper;
-import com.example.bunsanedthinking_springback.repository.CounselMapper;
-import com.example.bunsanedthinking_springback.repository.CustomerMapper;
-import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
-import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.InjuryMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.RecontractMapper;
-import com.example.bunsanedthinking_springback.repository.RevivalMapper;
-import com.example.bunsanedthinking_springback.repository.ServiceMapper;
-import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.TerminationMapper;
-import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import com.example.bunsanedthinking_springback.vo.AccidentVO;
-import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
-import com.example.bunsanedthinking_springback.vo.CollateralVO;
-import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
-import com.example.bunsanedthinking_springback.vo.ComplaintVO;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import com.example.bunsanedthinking_springback.vo.CounselVO;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseVO;
-import com.example.bunsanedthinking_springback.vo.EndorsementVO;
-import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
-import com.example.bunsanedthinking_springback.vo.InjuryVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-import com.example.bunsanedthinking_springback.vo.RecontractVO;
-import com.example.bunsanedthinking_springback.vo.RevivalVO;
-import com.example.bunsanedthinking_springback.vo.ServiceVO;
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
-import com.example.bunsanedthinking_springback.vo.TerminationVO;
+import com.example.bunsanedthinking_springback.global.exception.*;
+import com.example.bunsanedthinking_springback.model.domain.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.domain.insurance.InsuranceDModel;
+import com.example.bunsanedthinking_springback.model.domain.loan.LoanDModel;
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerSModel {
@@ -159,6 +95,13 @@ public class CustomerSModel {
 	private TerminationMapper terminationMapper;
 	@Autowired
 	private RecontractMapper recontractMapper;
+
+	@Autowired
+	private InsuranceDModel insuranceDModel;
+	@Autowired
+	private LoanDModel loanDModel;
+	@Autowired
+	private CustomerDModel customerDModel;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경, 배서 하나 추가됨
@@ -296,90 +239,12 @@ public class CustomerSModel {
 
 	// 이 아래는 완료
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		// CustomerVO
-		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
-		if (customerVO == null)
-			throw new NotExistException();
-		// AccidentHistoryVO
-		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
-		List<AccidentHistoryVO> accidentHistoryVOS = accidentHistoryMapper.getAllByCustomerId_Customer(id);
-		accidentHistoryVOS.stream().forEach(e -> accidentHistories.add(new AccidentHistory(e)));
-		// CounselVO
-		ArrayList<Counsel> counsels = new ArrayList<Counsel>();
-		List<CounselVO> counselVOS = counselMapper.getAllByCustomerId_Customer(id);
-		counselVOS.stream().forEach(e -> counsels.add(new Counsel(
-			e,
-			customerVO.getName(),
-			customerVO.getPhone_number(),
-			customerVO.getJob(),
-			customerVO.getAge(),
-			Gender.values()[customerVO.getGender()]
-		)));
-		// DiseaseHistoryVO
-		ArrayList<DiseaseHistory> diseaseHistories = new ArrayList<DiseaseHistory>();
-		List<DiseaseHistoryVO> diseaseHistoryVOS = diseaseHistoryMapper.getAllByCustomerId_Customer(id);
-		diseaseHistoryVOS.stream().forEach(e -> diseaseHistories.add(new DiseaseHistory(e)));
-		// SurgeryHistoryVO
-		ArrayList<SurgeryHistory> surgeryHistories = new ArrayList<SurgeryHistory>();
-		List<SurgeryHistoryVO> surgeryHistoryVOS = surgeryHistoryMapper.getAllByCustomerId_Customer(id);
-		surgeryHistoryVOS.stream().forEach(e -> surgeryHistories.add(new SurgeryHistory(e)));
-		Customer result = new Customer(customerVO,
-			accidentHistories,
-			getAllAccidentByCustomerId(id),
-			counsels,
-			surgeryHistories,
-			getAllComplaintsByCustomerId(id),
-			diseaseHistories,
-			getAllContractByCustomerId(id));
-		return result;
+		return customerDModel.getById(id);
 		//		return customerList.get(id);
 	}
 
 	public ArrayList<Insurance> getAllInsurance() {
-		ArrayList<Insurance> insuranceList = new ArrayList<Insurance>();
-		List<InsuranceVO> insuranceVOS = insuranceMapper.getAll_Customer();
-		for (InsuranceVO insuranceVO : insuranceVOS) {
-			int product_id = insuranceVO.getProduct_id();
-
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			// DiseaseVO
-			DiseaseVO diseaseVO = diseaseMapper.getById_Customer(product_id).orElse(null);
-			if (diseaseVO != null) {
-				String disease_name = diseaseVO.getDisease_name();
-				int disease_limit = diseaseVO.getDisease_limit();
-				int surgeries_limit = diseaseVO.getSurgeries_limit();
-				insuranceList.add(new Disease(productVO, insuranceVO,
-					disease_name, disease_limit, surgeries_limit));
-				continue;
-			}
-
-			// AutoMobileVO
-			AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(product_id).orElse(null);
-			if (autoMobileVO != null) {
-				List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(product_id);
-				ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
-				serviceVOS.stream().map(s -> s.getService()).forEach(s -> serviceTypeList.add(ServiceType.values()[s]));
-				VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVehicle_type()];
-				int accident_limit = autoMobileVO.getAccident_limit();
-				insuranceList.add(new Automobile(productVO, insuranceVO,
-					accident_limit, verhicle_type, serviceTypeList));
-				continue;
-			}
-
-			// InjuryVO
-			InjuryVO injuryVO = injuryMapper.getById_Customer(product_id).orElse(null);
-			if (injuryVO != null) {
-				InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
-				int surgeries_limit = injuryVO.getSurgeries_limit();
-				insuranceList.add(new Injury(productVO, insuranceVO,
-					injury_type, surgeries_limit));
-			}
-		}
-		return insuranceList;
+		return (ArrayList<Insurance>)insuranceDModel.getAll();
 		//		return productList.getAllInsurance();
 	}
 
@@ -456,47 +321,7 @@ public class CustomerSModel {
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
-		// insurance 찾기 - Automobile, Disease, Injury 셋 중 하나 반환
-		// orElse(param) - 반환 값이 null이면 param 반환
-
-		// productVO
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-		if (productVO == null)
-			throw new NotExistException();
-
-		// insuranceVO
-		InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(id).orElse(null);
-		if (insuranceVO == null)
-			throw new NotExistException();
-
-		// DiseaseVO
-		DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
-		if (diseaseVO != null) {
-			String disease_name = diseaseVO.getDisease_name();
-			int disease_limit = diseaseVO.getDisease_limit();
-			int surgeries_limit = diseaseVO.getSurgeries_limit();
-			return new Disease(productVO, insuranceVO, disease_name, disease_limit, surgeries_limit);
-		}
-
-		// AutoMobileVO
-		AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
-		if (autoMobileVO != null) {
-			List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
-			ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
-			serviceVOS.stream().map(s -> s.getService()).forEach(s -> serviceTypeList.add(ServiceType.values()[s]));
-			VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVehicle_type()];
-			int accident_limit = autoMobileVO.getAccident_limit();
-			return new Automobile(productVO, insuranceVO, accident_limit, verhicle_type, serviceTypeList);
-		}
-
-		// InjuryVO
-		InjuryVO injuryVO = injuryMapper.getById_Customer(id).orElse(null);
-		if (injuryVO != null) {
-			InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
-			int surgeries_limit = injuryVO.getSurgeries_limit();
-			return new Injury(productVO, insuranceVO, injury_type, surgeries_limit);
-		}
-		throw new NotExistException();
+		return insuranceDModel.getById(id);
 
 		//		ArrayList<Insurance> insuranceList = productList.getAllInsurance();
 		//		for (Insurance insurance : insuranceList) {
@@ -507,38 +332,7 @@ public class CustomerSModel {
 	}
 
 	public ArrayList<Loan> getAllLoan() {
-		ArrayList<Loan> loanList = new ArrayList<Loan>();
-		List<LoanVO> loanVOS = loanMapper.getAll_Customer();
-		for (LoanVO loanVO : loanVOS) {
-			int product_id = loanVO.getProduct_id();
-
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			// CollateralVO
-			CollateralVO collateralVO = collateralMapper.getById_Customer(product_id).orElse(null);
-			if (collateralVO != null) {
-				CollateralType collateral_type = CollateralType.values()[collateralVO.getCollateral_type()];
-				int minimum_value = collateralVO.getMinimum_value();
-				loanList.add(new Collateral(productVO, loanVO, collateral_type, minimum_value));
-				continue;
-			}
-
-			// FixedDepositVO
-			FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(product_id).orElse(null);
-			if (fixedDepositVO != null) {
-				int minimum_amount = fixedDepositVO.getMinimum_amount();
-				loanList.add(new FixedDeposit(productVO, loanVO, minimum_amount));
-				continue;
-			}
-
-			// InsuranceContractVO
-			InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(product_id).orElse(null);
-			if (insuranceContractVO != null)
-				loanList.add(new InsuranceContract(productVO, loanVO, product_id));
-		}
-		return loanList;
+		return (ArrayList<Loan>) loanDModel.getAll();
 		//		return productList.getAllLoan();
 	}
 

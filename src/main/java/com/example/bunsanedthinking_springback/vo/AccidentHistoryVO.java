@@ -17,7 +17,7 @@ public class AccidentHistoryVO {
     private String details_of_accident;
     private int customer_id;
 
-    public AccidentHistory getEntity() {
+    public AccidentHistory findEntity() {
         AccidentHistory accidentHistory = new AccidentHistory();
         accidentHistory.setId(id);
         accidentHistory.setDate(Date.valueOf(date));

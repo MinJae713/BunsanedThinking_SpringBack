@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -35,10 +34,8 @@ public class CompensationDetail {
 		this.paymentDate = (Date) compensationDetail.getPaymentDate().clone();
 	}
 
-	public CompensationDetailVO getVO() {
-		LocalDate localDate = paymentDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public CompensationDetailVO findVO() {
+		LocalDate localDate = LocalDate.of(paymentDate.getYear(), paymentDate.getMonth()+1, paymentDate.getDay());
 		return new CompensationDetailVO(id,
 				money, localDate, contractID);
 	}

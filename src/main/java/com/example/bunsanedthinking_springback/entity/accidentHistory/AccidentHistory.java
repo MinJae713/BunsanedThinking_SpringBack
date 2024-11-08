@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -29,10 +28,8 @@ public class AccidentHistory implements Cloneable{
 		this.setDate(date);
 	}
 
-	public AccidentHistoryVO getVO() {
-		LocalDate localDate = date.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public AccidentHistoryVO findVO() {
+		LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDate());
 		return new AccidentHistoryVO(id,
 				localDate, accidentDetail, customerID);
 	}
@@ -56,7 +53,11 @@ public class AccidentHistory implements Cloneable{
 		this.customerID = customerID;
 	}
 
-	public String getDate() {
+	public Date getDate() {
+		return date;
+	}
+
+	public String getDateStr() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(this.date);
 	}
@@ -88,12 +89,13 @@ public class AccidentHistory implements Cloneable{
 		return accidentHistory;
 	}
 
-	public AccidentHistoryVO getaccidentVO() {
+	public AccidentHistoryVO findaccidentVO() {
 		AccidentHistoryVO result = new AccidentHistoryVO();
 		result.setId(id);
 		result.setDetails_of_accident(accidentDetail);
 		result.setCustomer_id(customerID);
-		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
 		result.setDate(localDate);
 		return result;
 	}

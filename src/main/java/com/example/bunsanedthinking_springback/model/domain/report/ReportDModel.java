@@ -61,25 +61,26 @@ public class ReportDModel {
 	}
 
 	public void add(Report report) {
-//		accidentDModel.add(report.getAccident());
-		// 위는 신고 내역 추가 시 사고 내역이 기존에 없어서 새로 추가한다는 가정
-		// 여기서 신고에 대한 사고 내역이 이미 있는 상황이라면??
-		// 기존에 추가된 사고 내역이 있는지 먼저 보고 사고 내역을 추가해야 함
-		if (accidentDModel.getById(report.getAccident().getId()) == null)
-			accidentDModel.add(report.getAccident());
-		reportMapper.insert_CustomerSupport(report.getVO());
+		if (report == null) return;
+		if (reportMapper.getById_Compensation(report.getId()).isPresent()) return;
+		accidentDModel.add(report.getAccident());
+		reportMapper.insert_CustomerSupport(report.findVO());
 	}
 
 	public void update(Report report) {
-		reportMapper.update(report.getVO());
+		if (report == null) return;
+		if (reportMapper.getById_Compensation(report.getId()).isEmpty()) return;
 		accidentDModel.update(report.getAccident());
+		reportMapper.update(report.findVO());
 		// 이건 사고 정보가 수정될 수도 있고 없을 수도 있어서 그대로 반영되도록 함
 	}
 
 	public void delete(int id) {
-		// 이건 신고 정보 삭제 시 사고 정보도 같이 지워야되나??
-		// ㄴ 신고 정보를 삭제한다고 사고 정보도 같이 삭제한다는 전제는 없는거 같음
-		if (getById(id) == null) return;
+		if (reportMapper.getById_Compensation(id).isEmpty()) return;
+		Report report = getById(id);
 		reportMapper.deleteById(id);
+		Accident accident = report.getAccident();
+		if (accident == null) return;
+		accidentDModel.delete(accident.getId());
 	}
 }

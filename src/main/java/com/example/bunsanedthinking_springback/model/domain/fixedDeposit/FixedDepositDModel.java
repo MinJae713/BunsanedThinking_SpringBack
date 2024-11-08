@@ -50,17 +50,17 @@ public class FixedDepositDModel {
 	public void add(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
 		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(fixedDeposit.getProductVO());
-		loanMapper.insert_LoanManagement(fixedDeposit.getLoanVO());
-		fixedDepositMapper.insert_LoanManagement(fixedDeposit.getVO());
+		productMapper.insert_LoanManagement(fixedDeposit.findProductVO());
+		loanMapper.insert_LoanManagement(fixedDeposit.findLoanVO());
+		fixedDepositMapper.insert_LoanManagement(fixedDeposit.findVO());
 	}
 
 	public void update(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
 		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isEmpty()) return;
-		fixedDepositMapper.update_LoanManagement(fixedDeposit.getVO());
-		loanMapper.update_LoanManagement(fixedDeposit.getLoanVO());
-		productMapper.update_LoanManagement(fixedDeposit.getProductVO());
+		fixedDepositMapper.update_LoanManagement(fixedDeposit.findVO());
+		loanMapper.update_LoanManagement(fixedDeposit.findLoanVO());
+		productMapper.update_LoanManagement(fixedDeposit.findProductVO());
 	}
 
 	public void delete(int id) {

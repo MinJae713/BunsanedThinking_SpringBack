@@ -33,11 +33,11 @@ public class OfficeSupplyDModel {
 	}
 
 	public void add(OfficeSupply officeSupply) {
-		officeSupplyMapper.insert_OfficeSupply(officeSupply.getVO());
+		officeSupplyMapper.insert_OfficeSupply(officeSupply.findVO());
 	}
 
 	public void update(OfficeSupply officeSupply) {
-		officeSupplyMapper.update(officeSupply.getVO());
+		officeSupplyMapper.update(officeSupply.findVO());
 	}
 
 	public void delete(int id) {

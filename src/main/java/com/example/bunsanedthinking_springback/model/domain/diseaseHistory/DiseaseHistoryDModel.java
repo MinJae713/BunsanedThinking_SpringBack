@@ -33,11 +33,11 @@ public class DiseaseHistoryDModel {
 	}
 
 	public void add(DiseaseHistory diseaseHistory) {
-		diseaseHistoryMapper.insert_SalesModel(diseaseHistory.getVO());
+		diseaseHistoryMapper.insert_SalesModel(diseaseHistory.findVO());
 	}
 
 	public void update(DiseaseHistory diseaseHistory) {
-		diseaseHistoryMapper.update(diseaseHistory.getVO());
+		diseaseHistoryMapper.update(diseaseHistory.findVO());
 	}
 
 	public void delete(int id) {

@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
+import com.example.bunsanedthinking_springback.vo.SalesVO;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -30,6 +31,10 @@ public class Sales extends Employee {
 		super(employee);
 		this.evaluate = evaluate;
 		this.contractCount = contractCount;
+	}
+
+	public SalesVO findVO() {
+		return new SalesVO(getId(), evaluate, contractCount);
 	}
 
 	public int getEvaluate() {

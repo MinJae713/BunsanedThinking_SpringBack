@@ -63,18 +63,8 @@ public class AdministrativeSModel {
 		int id = updateOfficeSupplyDTO.getId();
 		int index = updateOfficeSupplyDTO.getIndex();
 		String input = updateOfficeSupplyDTO.getInput();
-//		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
 		OfficeSupply officeSupply = officeSupplyDModel.getById(id);
-		if (officeSupply == null) throw new NotExistException();
-		OfficeSupplyVO officeSupplyVO = new OfficeSupplyVO();
-		officeSupplyVO.setId(officeSupply.getId());
-		officeSupplyVO.setInventory(officeSupply.getInventory());
-		officeSupplyVO.setName(officeSupply.getName());
-		officeSupplyVO.setTotal_inventory(officeSupplyVO.getTotal_inventory());
-		officeSupplyVO.setDescription(officeSupply.getDescription());
-		officeSupplyVO.setDepartment_id(officeSupply.getDepartmentId());
-
-		if (officeSupplyVO == null) {
+		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
 		switch (index) {
@@ -84,16 +74,16 @@ public class AdministrativeSModel {
 						throw new DuplicateOfficeSupplyException();
 					}
 				}
-				officeSupplyVO.setName(input);
-				officeSupplyDModel.update(officeSupplyVO);
+				officeSupply.setName(input);
+				officeSupplyDModel.update(officeSupply);
 				break;
 			case 2:
-				officeSupplyVO.setDescription(input);
-				officeSupplyDModel.update(officeSupplyVO);
+				officeSupply.setDescription(input);
+				officeSupplyDModel.update(officeSupply);
 				break;
 			case 3:
-				officeSupplyVO.setInventory(Integer.parseInt(input));
-				officeSupplyDModel.update(officeSupplyVO);
+				officeSupply.setInventory(Integer.parseInt(input));
+				officeSupplyDModel.update(officeSupply);
 				break;
 		}
     }

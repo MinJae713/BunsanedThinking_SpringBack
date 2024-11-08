@@ -33,7 +33,7 @@ public class Report {
 		this.processStatus = ReportProcessStatus.Unprocessed;
 	}
 
-	public ReportVO getVO() {
+	public ReportVO findVO() {
 		return new ReportVO(id, damageAssessmentMoney,
 				processStatus.ordinal(),
 				roadsideAssistanceCompanyID,

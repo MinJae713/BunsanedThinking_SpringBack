@@ -50,17 +50,17 @@ public class InsuranceContractDModel {
 	public void add(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
 		if (insuranceContractMapper.getById_Customer(insuranceContract.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(insuranceContract.getProductVO());
-		loanMapper.insert_LoanManagement(insuranceContract.getLoanVO());
-		insuranceContractMapper.insert_LoanManagement(insuranceContract.getVO());
+		productMapper.insert_LoanManagement(insuranceContract.findProductVO());
+		loanMapper.insert_LoanManagement(insuranceContract.findLoanVO());
+		insuranceContractMapper.insert_LoanManagement(insuranceContract.findVO());
 	}
 
 	public void update(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
 		if (insuranceContractMapper.getById_Customer(insuranceContract.getId()).isEmpty()) return;
-		insuranceContractMapper.update_LoanManagement(insuranceContract.getVO());
-		loanMapper.update_LoanManagement(insuranceContract.getLoanVO());
-		productMapper.update_LoanManagement(insuranceContract.getProductVO());
+		insuranceContractMapper.update_LoanManagement(insuranceContract.findVO());
+		loanMapper.update_LoanManagement(insuranceContract.findLoanVO());
+		productMapper.update_LoanManagement(insuranceContract.findProductVO());
 	}
 
 	public void delete(int id) {

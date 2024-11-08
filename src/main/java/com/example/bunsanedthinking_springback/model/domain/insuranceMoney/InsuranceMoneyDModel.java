@@ -23,7 +23,7 @@ public class InsuranceMoneyDModel {
 	public List<InsuranceMoney> getAll() {
 		List<InsuranceMoney> insuranceMonies = new ArrayList<InsuranceMoney>();
 		insuranceMoneyMapper.getAll_UnderwritingModel()
-			.forEach(e -> insuranceMonies.add(e.getEntity()));
+			.forEach(e -> insuranceMonies.add(getById(e.getId())));
 		return insuranceMonies;
 	}
 
@@ -32,11 +32,11 @@ public class InsuranceMoneyDModel {
 	}
 
 	public void add(InsuranceMoney insuranceMoney) {
-		insuranceMoneyMapper.insert(insuranceMoney.getVO());
+		insuranceMoneyMapper.insert(insuranceMoney.findVO());
 	}
 
 	public void update(InsuranceMoney insuranceMoney) {
-		insuranceMoneyMapper.update(insuranceMoney.getVO());
+		insuranceMoneyMapper.update(insuranceMoney.findVO());
 	}
 
 	public void delete(int id) {

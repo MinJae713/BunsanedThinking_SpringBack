@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,10 +71,9 @@ public class Employee implements Cloneable {
 		contractList = employee.getContractList();
 	}
 
-	public EmployeeVO getVO() {
-		LocalDate lEmploymentDate = employmentDate.toInstant().
-				atZone(ZoneId.systemDefault()).
-				toLocalDate();
+	public EmployeeVO findEmployeeVO() {
+		LocalDate lEmploymentDate = LocalDate.of(employmentDate.getYear(),
+				employmentDate.getMonth()+1, employmentDate.getDay());
 		return new EmployeeVO(id, address, bankName,
 				bankAccount, lEmploymentDate, name,
 				phoneNumber, position.ordinal(),

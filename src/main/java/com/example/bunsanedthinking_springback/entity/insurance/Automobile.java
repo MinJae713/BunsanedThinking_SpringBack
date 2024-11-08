@@ -69,7 +69,7 @@ public class Automobile extends Insurance {
 		this.setVehicleType(vehicleType);
 	}
 
-	public AutoMobileVO getVO() {
+	public AutoMobileVO findVO() {
 		return new AutoMobileVO(getId(), vehicleType.ordinal(), accidentLimit);
 	}
 	

@@ -52,17 +52,17 @@ public class DiseaseDModel {
 	public void add(Disease disease) {
 		if (disease == null) return;
 		if (diseaseMapper.getById_Customer(disease.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(disease.getProductVO());
-		insuranceMapper.insert_ProductManagement(disease.getInsuranceVO());
-		diseaseMapper.insert_ProductManagement(disease.getVO());
+		productMapper.insert_LoanManagement(disease.findProductVO());
+		insuranceMapper.insert_ProductManagement(disease.findInsuranceVO());
+		diseaseMapper.insert_ProductManagement(disease.findVO());
 	}
 
 	public void update(Disease disease) {
 		if (disease == null) return;
 		if (diseaseMapper.getById_Customer(disease.getId()).isEmpty()) return;
-		diseaseMapper.update_ProductManagementModel(disease.getVO());
-		insuranceMapper.update_ProductManagementModel(disease.getInsuranceVO());
-		productMapper.update_LoanManagement(disease.getProductVO());
+		diseaseMapper.update_ProductManagementModel(disease.findVO());
+		insuranceMapper.update_ProductManagementModel(disease.findInsuranceVO());
+		productMapper.update_LoanManagement(disease.findProductVO());
 	}
 
 	public void delete(int id) {

@@ -53,7 +53,7 @@ public class PaymentDetailDModel {
 			benefitDModel.add((Benefit) paymentDetail);
 		else {
 			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isPresent()) return;
-			paymentDetailMapper.insert_LoanManagement(paymentDetail.getPaymentDetailVO());
+			paymentDetailMapper.insert_LoanManagement(paymentDetail.findPaymentDetailVO());
 		}
 	}
 
@@ -65,7 +65,7 @@ public class PaymentDetailDModel {
 			benefitDModel.update((Benefit) paymentDetail);
 		else {
 			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isEmpty()) return;
-			paymentDetailMapper.update_FinancialAccountant(paymentDetail.getPaymentDetailVO());
+			paymentDetailMapper.update_FinancialAccountant(paymentDetail.findPaymentDetailVO());
 		}
 	}
 

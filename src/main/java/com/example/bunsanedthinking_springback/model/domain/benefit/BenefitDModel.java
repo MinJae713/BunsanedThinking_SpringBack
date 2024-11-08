@@ -38,15 +38,15 @@ public class BenefitDModel {
 	public void add(Benefit benefit) {
 		if (benefit == null) return;
 		if (benefitMapper.getById(benefit.getId()).isPresent()) return;
-		paymentDetailMapper.insert_LoanManagement(benefit.getPaymentDetailVO());
-		benefitMapper.insert(benefit.getVO());
+		paymentDetailMapper.insert_LoanManagement(benefit.findPaymentDetailVO());
+		benefitMapper.insert(benefit.findVO());
 	}
 
 	public void update(Benefit benefit) {
 		if (benefit == null) return;
 		if (benefitMapper.getById(benefit.getId()).isEmpty()) return;
-		benefitMapper.update(benefit.getVO());
-		paymentDetailMapper.update_FinancialAccountant(benefit.getPaymentDetailVO());
+		benefitMapper.update(benefit.findVO());
+		paymentDetailMapper.update_FinancialAccountant(benefit.findPaymentDetailVO());
 	}
 
 	public void delete(int id) {
