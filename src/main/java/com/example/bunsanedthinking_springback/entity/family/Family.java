@@ -1,9 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.family;
 
+import com.example.bunsanedthinking_springback.vo.FamilyVO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -30,6 +33,15 @@ public class Family implements Cloneable{
 		this.setSurvival(survival);
 		this.setBirthDate(date);
 		
+	}
+
+	public FamilyVO getVO() {
+		LocalDate lBirthDate = birthDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new FamilyVO(id, lBirthDate, name,
+				relationship.ordinal(), survival,
+				employeeID);
 	}
 
 	public String getBirthDate() {

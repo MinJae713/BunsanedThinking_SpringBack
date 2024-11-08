@@ -1,12 +1,15 @@
 package com.example.bunsanedthinking_springback.entity.insuranceMoney;
 
-import java.awt.Image;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * @author Administrator
@@ -55,6 +58,17 @@ public class InsuranceMoney {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public InsuranceMoneyVO getVO() {
+		LocalDate lApplyDate = applyDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new InsuranceMoneyVO(id, bankAccount,
+				bankName, residentRegistrationCard.toString(),
+				receipt.toString(), medicalCertificate.toString(),
+				contractID, processStatus.ordinal(),
+				lApplyDate);
 	}
 	
 	public InsuranceMoney clone() {

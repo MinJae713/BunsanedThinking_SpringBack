@@ -1,7 +1,10 @@
 package com.example.bunsanedthinking_springback.entity.endorsment;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.EndorsementVO;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -18,6 +21,15 @@ public class Endorsement extends Contract {
 
 	private Date applyDate;
 	private EndorsementStatus endorsementStatus;
+
+	// 이건 좀 생각좀 해보자
+	public EndorsementVO getEndorsementVO() {
+		LocalDate lApplyDate = applyDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new EndorsementVO(getId(), lApplyDate,
+				endorsementStatus.ordinal());
+	}
 
 	public Date getApplyDate() {
 		return applyDate;

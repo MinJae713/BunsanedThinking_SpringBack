@@ -1,12 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
+import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -42,6 +43,14 @@ public class DepositDetail {
 		this.money = depositDetail.getMoney();
 		this.path = depositDetail.getPath();
 		
+	}
+
+	public DepositDetailVO getVO() {
+		LocalDate lDate = date.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new DepositDetailVO(id, depositorName,
+				lDate, money, path.ordinal(), contractID);
 	}
 	
 	public DepositDetail clone() {

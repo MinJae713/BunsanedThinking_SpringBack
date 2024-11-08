@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.disease;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
@@ -13,6 +7,11 @@ import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.vo.DiseaseVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DiseaseDModel {
@@ -50,15 +49,26 @@ public class DiseaseDModel {
 		return diseaseMapper.getMaxId();
 	}
 
-	public void add(DiseaseVO diseaseVO) {
-		diseaseMapper.insert_ProductManagement(diseaseVO);
+	public void add(Disease disease) {
+		if (disease == null) return;
+		if (diseaseMapper.getById_Customer(disease.getId()).isPresent()) return;
+		productMapper.insert_LoanManagement(disease.getProductVO());
+		insuranceMapper.insert_ProductManagement(disease.getInsuranceVO());
+		diseaseMapper.insert_ProductManagement(disease.getVO());
 	}
 
-	public void update(DiseaseVO diseaseVO) {
-		diseaseMapper.update_ProductManagementModel(diseaseVO);
+	public void update(Disease disease) {
+		if (disease == null) return;
+		if (diseaseMapper.getById_Customer(disease.getId()).isEmpty()) return;
+		diseaseMapper.update_ProductManagementModel(disease.getVO());
+		insuranceMapper.update_ProductManagementModel(disease.getInsuranceVO());
+		productMapper.update_LoanManagement(disease.getProductVO());
 	}
 
 	public void delete(int id) {
+		if (diseaseMapper.getById_Customer(id).isEmpty()) return;
 		diseaseMapper.deleteById(id);
+		insuranceMapper.delete(id);
+		productMapper.delete_ProductManagementModel(id);
 	}
 }

@@ -1,13 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.accidentHistory;
 
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -28,6 +27,14 @@ public class AccidentHistory implements Cloneable{
 	public AccidentHistory(String detailsOfAccident, Date date){
 		this.setAccidentDetail(detailsOfAccident);
 		this.setDate(date);
+	}
+
+	public AccidentHistoryVO getVO() {
+		LocalDate localDate = date.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new AccidentHistoryVO(id,
+				localDate, accidentDetail, customerID);
 	}
 
 	public AccidentHistory(AccidentHistoryVO accidentHistoryVO) {

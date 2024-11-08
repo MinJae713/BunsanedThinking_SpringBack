@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.fixedDeposit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
@@ -13,6 +7,11 @@ import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FixedDepositDModel {
@@ -48,15 +47,26 @@ public class FixedDepositDModel {
 		return fixedDepositMapper.getMaxId();
 	}
 
-	public void add(FixedDepositVO fixedDepositVO) {
-		fixedDepositMapper.insert_LoanManagement(fixedDepositVO);
+	public void add(FixedDeposit fixedDeposit) {
+		if (fixedDeposit == null) return;
+		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isPresent()) return;
+		productMapper.insert_LoanManagement(fixedDeposit.getProductVO());
+		loanMapper.insert_LoanManagement(fixedDeposit.getLoanVO());
+		fixedDepositMapper.insert_LoanManagement(fixedDeposit.getVO());
 	}
 
-	public void update(FixedDepositVO fixedDepositVO) {
-		fixedDepositMapper.update_LoanManagement(fixedDepositVO);
+	public void update(FixedDeposit fixedDeposit) {
+		if (fixedDeposit == null) return;
+		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isEmpty()) return;
+		fixedDepositMapper.update_LoanManagement(fixedDeposit.getVO());
+		loanMapper.update_LoanManagement(fixedDeposit.getLoanVO());
+		productMapper.update_LoanManagement(fixedDeposit.getProductVO());
 	}
 
 	public void delete(int id) {
+		if (fixedDepositMapper.getById_Customer(id).isEmpty()) return;
 		fixedDepositMapper.delete_LoanManagement(id);
+		loanMapper.delete_LoanManagement(id);
+		productMapper.delete_LoanManagement(id);
 	}
 }

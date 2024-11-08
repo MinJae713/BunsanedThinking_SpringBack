@@ -1,14 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -40,6 +38,12 @@ public class DiseaseHistory implements Cloneable{
 		date_of_diagnosis = new Date(year, month, day);
 		id = diseaseHistoryVO.getId();
 		name = diseaseHistoryVO.getName();
+	}
+	public DiseaseHistoryVO getVO() {
+		LocalDate lDate = date_of_diagnosis.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new DiseaseHistoryVO(id, lDate, name, customer_id);
 	}
 
 	public int getCustomer_id() {

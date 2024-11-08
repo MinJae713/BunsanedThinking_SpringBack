@@ -3,10 +3,13 @@ package com.example.bunsanedthinking_springback.entity.employee;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.vo.EmployeeVO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +38,6 @@ public class Employee implements Cloneable {
 	private String residentRegistrationNumber;
 	private int salary;
 	private List<Contract> contractList;
-	// 의미상 넣어놨수다 - 찬님 기존 코드랑 충돌나서 주석처리
-	// (DB로 따지믄 직원이 계약을 갖고있다 이런 의미임다)
 
 	public Employee(String name, EmployeePosition employeePosition, String address,
 					String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber,
@@ -69,6 +70,17 @@ public class Employee implements Cloneable {
 		familyList = employee.getFamilyList();
 		paymentDetailList = employee.getPaymentDetailList();
 		contractList = employee.getContractList();
+	}
+
+	public EmployeeVO getVO() {
+		LocalDate lEmploymentDate = employmentDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new EmployeeVO(id, address, bankName,
+				bankAccount, lEmploymentDate, name,
+				phoneNumber, position.ordinal(),
+				residentRegistrationNumber,
+				salary, departmentID);
 	}
 
 	public String getName() {

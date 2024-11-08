@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
-
 import lombok.NoArgsConstructor;
 
 /**
@@ -29,6 +29,10 @@ public class InsuranceContract extends Loan {
 		this.setMinimumAsset(minimumAsset);
 		this.setInsuranceId(insuranceId);
 		this.setMonthlyIncome(monthlyIncome);
+	}
+
+	public InsuranceContractVO getVO() {
+		return new InsuranceContractVO(getId(), insuranceId);
 	}
 
 	public InsuranceContract(ProductVO productVO, LoanVO loanVO, int insuranceId) {

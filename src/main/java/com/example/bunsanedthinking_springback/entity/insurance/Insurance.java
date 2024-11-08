@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,13 @@ public abstract class Insurance extends Product {
 
 	public Insurance() {
 		super();
+	}
+
+	public InsuranceVO getInsuranceVO() {
+		return new InsuranceVO(getId(),
+				insuranceType.ordinal(),
+				ageRange, monthlyPremium,
+				contractPeriod, coverage);
 	}
 
 	public Product add() {

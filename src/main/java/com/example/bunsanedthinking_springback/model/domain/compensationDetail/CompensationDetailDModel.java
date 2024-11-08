@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.compensationDetail;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
 import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CompensationDetailDModel {
@@ -32,15 +31,16 @@ public class CompensationDetailDModel {
 		return compensationDetailMapper.getMaxId_LoanManagement();
 	}
 
-	public void add(CompensationDetailVO compensationDetailVO) {
-		compensationDetailMapper.insert_LoanManagement(compensationDetailVO);
+	public void add(CompensationDetail compensationDetail) {
+		compensationDetailMapper.insert_LoanManagement(compensationDetail.getVO());
 	}
 
-	public void update(CompensationDetailVO compensationDetailVO) {
-		compensationDetailMapper.update(compensationDetailVO);
+	public void update(CompensationDetail compensationDetail) {
+		compensationDetailMapper.update(compensationDetail.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		compensationDetailMapper.deleteById(id);
 	}
 }

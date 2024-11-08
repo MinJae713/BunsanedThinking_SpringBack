@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.collateral;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.repository.CollateralMapper;
@@ -14,6 +8,11 @@ import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CollateralDModel {
@@ -50,15 +49,26 @@ public class CollateralDModel {
 		return collateralMapper.getMaxId();
 	}
 
-	public void add(CollateralVO collateralVO) {
-		collateralMapper.insert_LoanManagement(collateralVO);
+	public void add(Collateral collateral) {
+		if (collateral == null) return;
+		if (collateralMapper.getById_Customer(collateral.getId()).isPresent()) return;
+		productMapper.insert_LoanManagement(collateral.getProductVO());
+		loanMapper.insert_LoanManagement(collateral.getLoanVO());
+		collateralMapper.insert_LoanManagement(collateral.getVO());
 	}
 
-	public void update(CollateralVO collateralVO) {
-		collateralMapper.update_LoanManagement(collateralVO);
+	public void update(Collateral collateral) {
+		if (collateral == null) return;
+		if (collateralMapper.getById_Customer(collateral.getId()).isEmpty()) return;
+		collateralMapper.update_LoanManagement(collateral.getVO());
+		loanMapper.update_LoanManagement(collateral.getLoanVO());
+		productMapper.update_LoanManagement(collateral.getProductVO());
 	}
 
 	public void delete(int id) {
+		if (collateralMapper.getById_Customer(id).isEmpty()) return;
 		collateralMapper.delete_LoanManagement(id);
+		loanMapper.delete_LoanManagement(id);
+		productMapper.delete_LoanManagement(id);
 	}
 }

@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.insuranceMoney;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
 import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class InsuranceMoneyDModel {
@@ -32,15 +31,16 @@ public class InsuranceMoneyDModel {
 		return insuranceMoneyMapper.getMaxId();
 	}
 
-	public void add(InsuranceMoneyVO insuranceMoneyVO) {
-		insuranceMoneyMapper.insert(insuranceMoneyVO);
+	public void add(InsuranceMoney insuranceMoney) {
+		insuranceMoneyMapper.insert(insuranceMoney.getVO());
 	}
 
-	public void update(InsuranceMoneyVO insuranceMoneyVO) {
-		insuranceMoneyMapper.update(insuranceMoneyVO);
+	public void update(InsuranceMoney insuranceMoney) {
+		insuranceMoneyMapper.update(insuranceMoney.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		insuranceMoneyMapper.deleteById(id);
 	}
 }

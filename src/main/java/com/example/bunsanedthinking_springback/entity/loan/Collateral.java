@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
@@ -52,6 +53,10 @@ public class Collateral extends Loan {
 
 		this.setCollateralType(collateralType);
 		this.setMinimumValue(minimumValue);
+	}
+
+	public CollateralVO getVO() {
+		return new CollateralVO(getId(), collateralType.ordinal(), minimumValue);
 	}
 
 	public CollateralType getCollateralType() {

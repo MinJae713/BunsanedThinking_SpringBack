@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 import lombok.NoArgsConstructor;
 
 /**
@@ -55,6 +56,13 @@ public class PaymentDetail {
 		this.paymentType = paymentType;
 		this.processStatus = PaymentProcessStatus.Unprocessed;
 		this.contractId = id;
+	}
+
+	public PaymentDetailVO getPaymentDetailVO() {
+		return new PaymentDetailVO(id, accountHolder, bank,
+				bankAccount, money, paymentType.ordinal(),
+				processStatus.ordinal(),
+				contractId, employeeId);
 	}
 
 	public PaymentDetail clone() {

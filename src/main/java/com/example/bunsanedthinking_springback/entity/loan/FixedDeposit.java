@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
@@ -50,6 +51,10 @@ public class FixedDeposit extends Loan {
 		this.setInterestRate(interestRate);
 
 		this.setMinimumAmount(minimumValue);
+	}
+
+	public FixedDepositVO getVO() {
+		return new FixedDepositVO(getId(), minimumAmount);
 	}
 
 	public int getMinimumAmount() {

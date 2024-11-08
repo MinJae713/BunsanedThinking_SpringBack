@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.entity.report;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
+import com.example.bunsanedthinking_springback.vo.ReportVO;
 import lombok.NoArgsConstructor;
 
 /**
@@ -30,6 +31,13 @@ public class Report {
 		this.damageAssessmentCompanyID = damageAssessmentCompany.getId();
 		this.roadsideAssistanceCompanyID = roadsideAssistanceCompany.getId();
 		this.processStatus = ReportProcessStatus.Unprocessed;
+	}
+
+	public ReportVO getVO() {
+		return new ReportVO(id, damageAssessmentMoney,
+				processStatus.ordinal(),
+				roadsideAssistanceCompanyID,
+				damageAssessmentCompanyID);
 	}
 
 	public void setId(int id) {

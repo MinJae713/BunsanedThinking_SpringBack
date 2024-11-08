@@ -1,17 +1,18 @@
 package com.example.bunsanedthinking_springback.model.domain.loan;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.model.domain.collateral.CollateralDModel;
 import com.example.bunsanedthinking_springback.model.domain.fixedDeposit.FixedDepositDModel;
 import com.example.bunsanedthinking_springback.model.domain.insuranceContract.InsuranceContractDModel;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LoanDModel {
@@ -46,15 +47,25 @@ public class LoanDModel {
 		return loanMapper.getMaxId_LoanManagement();
 	}
 
-	public void add(LoanVO loanVO) {
-		loanMapper.insert_LoanManagement(loanVO);
+	public void add(Loan loan) {
+		if (loan == null) return;
+		else if (loan instanceof Collateral) collateralDModel.add((Collateral) loan);
+		else if (loan instanceof FixedDeposit) fixedDepositDModel.add((FixedDeposit) loan);
+		else if (loan instanceof InsuranceContract) insuranceContractDModel.add((InsuranceContract) loan);
 	}
 
-	public void update(LoanVO loanVO) {
-		loanMapper.update_LoanManagement(loanVO);
+	public void update(Loan loan) {
+		if (loan == null) return;
+		else if (loan instanceof Collateral) collateralDModel.update((Collateral) loan);
+		else if (loan instanceof FixedDeposit) fixedDepositDModel.update((FixedDeposit) loan);
+		else if (loan instanceof InsuranceContract) insuranceContractDModel.update((InsuranceContract) loan);
 	}
 
 	public void delete(int id) {
-		loanMapper.delete_LoanManagement(id);
+		Loan loan = getById(id);
+		if (loan == null) return;
+		else if (loan instanceof Collateral) collateralDModel.delete(id);
+		else if (loan instanceof FixedDeposit) fixedDepositDModel.delete(id);
+		else if (loan instanceof InsuranceContract) insuranceContractDModel.delete(id);
 	}
 }

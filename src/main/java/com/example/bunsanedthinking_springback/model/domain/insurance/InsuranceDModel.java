@@ -1,17 +1,18 @@
 package com.example.bunsanedthinking_springback.model.domain.insurance;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.model.domain.automobile.AutomobileDModel;
 import com.example.bunsanedthinking_springback.model.domain.disease.DiseaseDModel;
 import com.example.bunsanedthinking_springback.model.domain.injury.InjuryDModel;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class InsuranceDModel {
@@ -46,15 +47,25 @@ public class InsuranceDModel {
 		return insuranceMapper.getMaxId_ProductManagementModel();
 	}
 
-	public void add(InsuranceVO insuranceVO) {
-		insuranceMapper.insert_ProductManagement(insuranceVO);
+	public void add(Insurance insurance) {
+		if (insurance == null) return;
+		else if (insurance instanceof Injury) injuryDModel.add((Injury) insurance);
+		else if (insurance instanceof Disease) diseaseDModel.add((Disease) insurance);
+		else if (insurance instanceof Automobile) automobileDModel.add((Automobile) insurance);
 	}
 
-	public void update(InsuranceVO insuranceVO) {
-		insuranceMapper.update_ProductManagementModel(insuranceVO);
+	public void update(Insurance insurance) {
+		if (insurance == null) return;
+		else if (insurance instanceof Injury) injuryDModel.update((Injury) insurance);
+		else if (insurance instanceof Disease) diseaseDModel.update((Disease) insurance);
+		else if (insurance instanceof Automobile) automobileDModel.update((Automobile) insurance);
 	}
 
 	public void delete(int id) {
-		insuranceMapper.delete(id);
+		Insurance insurance = getById(id);
+		if (insurance == null) return;
+		else if (insurance instanceof Injury) injuryDModel.delete(id);
+		else if (insurance instanceof Disease) diseaseDModel.delete(id);
+		else if (insurance instanceof Automobile) automobileDModel.delete(id);
 	}
 }

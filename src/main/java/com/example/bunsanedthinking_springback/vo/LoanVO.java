@@ -13,4 +13,6 @@ public class LoanVO {
 	private int minimum_asset;
 	private int monthly_income;
 	private int interest_rate;
+
+	// 추상타입이라 Entity 생성 불가
 }

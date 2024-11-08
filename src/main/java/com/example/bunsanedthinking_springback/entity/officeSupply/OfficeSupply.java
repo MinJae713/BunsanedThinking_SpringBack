@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.officeSupply;
 
 
+import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
 import lombok.NoArgsConstructor;
 
 /**
@@ -16,7 +17,7 @@ public class OfficeSupply implements Cloneable {
 	private String name;
 	private int totalInventory;
 	private String description;
-	private int departmentId; // OfficeSupply가 Department에 포함되는 형태라 넣었수다
+	private int departmentId;
 	public static final int OFFICESUPPLY_SERIAL_NUMBER = 920;
 	
 	
@@ -24,6 +25,12 @@ public class OfficeSupply implements Cloneable {
 		this.setName(name);
 		this.setDescription(description);
 		this.setInventory(inventory);
+	}
+
+	public OfficeSupplyVO getVO() {
+		return new OfficeSupplyVO(id, inventory,
+				name, totalInventory, description,
+				departmentId);
 	}
 
 	public int getId() {

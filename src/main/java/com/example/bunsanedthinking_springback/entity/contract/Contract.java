@@ -1,13 +1,5 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
@@ -17,9 +9,16 @@ import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetai
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author ȯ
@@ -46,8 +45,6 @@ public class Contract {
 	private Product product;
 	private Date terminationDate; // 해지일
 	private List<PaymentDetail> paymentDetailList;
-	//  DB상 이게 맞아서 넣었는데 찬님 기존 코드랑 충돌나서 일단 주석처리
-	// DB로 따지믄 계약이 세부 납입 정보를 갖고있다 이거임다
 
 	public Contract(int customerID, Product product) {
 		this.compensationDetailList = new ArrayList<>();
@@ -120,6 +117,26 @@ public class Contract {
 		setCustomerID(contractVO.getCustomer_id());
 		setEmployeeID(contractVO.getEmployee_id());
 		setLastPaidDate(java.sql.Date.valueOf(contractVO.getLastpaid_date()));
+	}
+
+	public ContractVO getVO() {
+		LocalDate lDate = date.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		LocalDate lExpirationDate = expirationDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		LocalDate lTerminationDate = terminationDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		LocalDate lLastPaidDate = lastPaidDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new ContractVO(id, lDate, lExpirationDate,
+				paymentDate, lTerminationDate,
+				contractStatus.ordinal(),
+				customerID, employeeID,
+				product.getId(), lLastPaidDate);
 	}
 
 	public Contract clone() {

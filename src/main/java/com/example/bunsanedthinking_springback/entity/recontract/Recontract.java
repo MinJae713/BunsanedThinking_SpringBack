@@ -1,8 +1,11 @@
 package com.example.bunsanedthinking_springback.entity.recontract;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.RecontractVO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 
@@ -22,6 +25,15 @@ public class Recontract extends Contract {
 	private Date applyDate;
 	private RecontractStatus recontractStatus;
 	private Contract originalContract;
+
+	public RecontractVO getRecontractVO() {
+		LocalDateTime lApplyDate = applyDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDateTime();
+		return new RecontractVO(getId(), lApplyDate,
+				originalContract.getId(),
+				recontractStatus.ordinal());
+	}
 
 	public String getApplyDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -1,11 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.compensationDetail;
 
-import lombok.NoArgsConstructor;
-
-import java.util.Date;
-
+import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * @author ����ȯ
@@ -32,6 +33,14 @@ public class CompensationDetail {
 		this.contractID = compensationDetail.getContractId();
 		this.money = compensationDetail.getMoney();
 		this.paymentDate = (Date) compensationDetail.getPaymentDate().clone();
+	}
+
+	public CompensationDetailVO getVO() {
+		LocalDate localDate = paymentDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new CompensationDetailVO(id,
+				money, localDate, contractID);
 	}
 
 	public CompensationDetail clone() {

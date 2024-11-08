@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.partnerCompany;
 
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -15,12 +16,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartnerCompany implements Cloneable {
-	/**
-	 * 1001 - road
-	 * 1002 - damage
-	 * 1003 - road
-	 * 1004 - damage
-	 */
 	public static int PARTNER_COMPANY_SERIAL_NUMBER = 300;
 	private int evaluation;
 	private String headName;
@@ -37,6 +32,12 @@ public class PartnerCompany implements Cloneable {
 		this.setPartnerCompanyType(partnerCompanyType);
 		this.setHeadName(headName);
 		this.setHeadPhoneNumber(headPhoneNumber);
+	}
+	public PartnerCompanyVO getVO() {
+		return new PartnerCompanyVO(id, headName,
+				headPhoneNumber, evaluation,
+				name, partnerCompanyType.ordinal(),
+				phoneNumber);
 	}
 
 	public int getId() {

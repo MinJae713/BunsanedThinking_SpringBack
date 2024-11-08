@@ -1,15 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.additionalAllowance;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.paymentDetail.AdditionalAllowance;
 import com.example.bunsanedthinking_springback.repository.AdditionalAllowanceMapper;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdditionalAllowanceDModel {
@@ -37,15 +36,23 @@ public class AdditionalAllowanceDModel {
 		return additionalAllowanceMapper.getMaxId();
 	}
 
-	public void add(AdditionalAllowanceVO additionalAllowanceVO) {
-		additionalAllowanceMapper.insert(additionalAllowanceVO);
+	public void add(AdditionalAllowance additionalAllowance) {
+		if (additionalAllowance == null) return;
+		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isPresent()) return;
+		paymentDetailMapper.insert_LoanManagement(additionalAllowance.getPaymentDetailVO());
+		additionalAllowanceMapper.insert(additionalAllowance.getVO());
 	}
 
-	public void update(AdditionalAllowanceVO additionalAllowanceVO) {
-		additionalAllowanceMapper.update(additionalAllowanceVO);
+	public void update(AdditionalAllowance additionalAllowance) {
+		if (additionalAllowance == null) return;
+		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isEmpty()) return;
+		additionalAllowanceMapper.update(additionalAllowance.getVO());
+		paymentDetailMapper.update_FinancialAccountant(additionalAllowance.getPaymentDetailVO());
 	}
 
 	public void delete(int id) {
+		if (additionalAllowanceMapper.getById(id).isEmpty()) return;
 		additionalAllowanceMapper.deleteById(id);
+		paymentDetailMapper.deleteById(id);
 	}
 }

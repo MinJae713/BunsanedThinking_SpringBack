@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -57,6 +58,15 @@ public class Counsel implements Cloneable {
 		this.job = job;
 		this.age = age;
 		this.gender = gender;
+	}
+
+	public CounselVO getVO() {
+		LocalDate lCounselDate = counselDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new CounselVO(id, lCounselDate,
+				processStatus.ordinal(), customerID,
+				productID);
 	}
 
 	public void setId(int id) {

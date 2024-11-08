@@ -1,13 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -67,6 +67,10 @@ public class Automobile extends Insurance {
 		this.setAccidentLimit(accidentLimit);
 		this.setServiceList((ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList()));
 		this.setVehicleType(vehicleType);
+	}
+
+	public AutoMobileVO getVO() {
+		return new AutoMobileVO(getId(), vehicleType.ordinal(), accidentLimit);
 	}
 	
 	public int getAccidentLimit() {

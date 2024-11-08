@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import com.example.bunsanedthinking_springback.vo.BenefitVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,5 +21,7 @@ public class Benefit extends PaymentDetail {
 			int contractId) {
 		super(accountHolder, bank, bankAccount, money, paymentType, contractId);
 	}
-
+	public BenefitVO getVO() {
+		return new BenefitVO(getId(), type.ordinal());
+	}
 }

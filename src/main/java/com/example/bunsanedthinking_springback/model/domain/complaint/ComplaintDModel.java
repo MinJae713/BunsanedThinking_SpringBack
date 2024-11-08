@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.complaint;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ComplaintDModel {
@@ -32,15 +31,16 @@ public class ComplaintDModel {
 		return complaintMapper.getMaxId();
 	}
 
-	public void add(ComplaintVO complaintVO) {
-		complaintMapper.insert(complaintVO);
+	public void add(Complaint complaint) {
+		complaintMapper.insert(complaint.getVO());
 	}
 
-	public void update(ComplaintVO complaintVO) {
-		complaintMapper.update_CustomerSupport(complaintVO);
+	public void update(Complaint complaint) {
+		complaintMapper.update_CustomerSupport(complaint.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		complaintMapper.deleteById(id);
 	}
 }

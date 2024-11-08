@@ -2,13 +2,12 @@ package com.example.bunsanedthinking_springback.entity.accident;
 
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
-
-import java.time.LocalDate;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
-
 import lombok.AllArgsConstructor;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * @author ����ȯ
@@ -47,6 +46,15 @@ public class Accident {
 		location = accidentVO.getLocation();
 		processStatus = AccidentProcessStatus.values()[accidentVO.getProcess_status()];
 		serviceType = ServiceType.values()[accidentVO.getService_type()];
+	}
+
+	public AccidentVO getVO() {
+		LocalDate localDate = date.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		return new AccidentVO(id, localDate,
+				location, processStatus.ordinal(),
+				serviceType.ordinal(), customerID);
 	}
 
 	public void report(int customerID, String customerName, String customerPhoneNumber, Date date, String location,

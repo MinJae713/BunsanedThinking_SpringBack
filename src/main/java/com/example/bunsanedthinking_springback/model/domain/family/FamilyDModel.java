@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.family;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.repository.FamilyMapper;
 import com.example.bunsanedthinking_springback.vo.FamilyVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FamilyDModel {
@@ -32,15 +31,16 @@ public class FamilyDModel {
 		return familyMapper.getMaxId_HumanResource();
 	}
 
-	public void add(FamilyVO familyVO) {
-		familyMapper.insert_HumanResource(familyVO);
+	public void add(Family family) {
+		familyMapper.insert_HumanResource(family.getVO());
 	}
 
-	public void update(FamilyVO familyVO) {
-		familyMapper.update(familyVO);
+	public void update(Family family) {
+		familyMapper.update(family.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		familyMapper.delete(id);
 	}
 }

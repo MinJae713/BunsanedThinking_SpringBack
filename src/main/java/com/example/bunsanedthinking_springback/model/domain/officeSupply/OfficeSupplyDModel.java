@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.officeSupply;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper;
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OfficeSupplyDModel {
@@ -33,15 +32,16 @@ public class OfficeSupplyDModel {
 		return officeSupplyMapper.getMaxId_Administrative();
 	}
 
-	public void add(OfficeSupplyVO officeSupplyVO) {
-		officeSupplyMapper.insert_OfficeSupply(officeSupplyVO);
+	public void add(OfficeSupply officeSupply) {
+		officeSupplyMapper.insert_OfficeSupply(officeSupply.getVO());
 	}
 
-	public void update(OfficeSupplyVO officeSupplyVO) {
-		officeSupplyMapper.update(officeSupplyVO);
+	public void update(OfficeSupply officeSupply) {
+		officeSupplyMapper.update(officeSupply.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		officeSupplyMapper.delete_OfficeSupply(id);
 	}
 }

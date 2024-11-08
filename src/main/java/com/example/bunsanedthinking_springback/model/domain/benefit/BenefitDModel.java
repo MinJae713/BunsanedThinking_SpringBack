@@ -1,15 +1,14 @@
 package com.example.bunsanedthinking_springback.model.domain.benefit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.paymentDetail.Benefit;
 import com.example.bunsanedthinking_springback.repository.BenefitMapper;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.BenefitVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BenefitDModel {
@@ -36,15 +35,23 @@ public class BenefitDModel {
 		return benefitMapper.getMaxId();
 	}
 
-	public void add(BenefitVO benefitVO) {
-		benefitMapper.insert(benefitVO);
+	public void add(Benefit benefit) {
+		if (benefit == null) return;
+		if (benefitMapper.getById(benefit.getId()).isPresent()) return;
+		paymentDetailMapper.insert_LoanManagement(benefit.getPaymentDetailVO());
+		benefitMapper.insert(benefit.getVO());
 	}
 
-	public void update(BenefitVO benefitVO) {
-		benefitMapper.update(benefitVO);
+	public void update(Benefit benefit) {
+		if (benefit == null) return;
+		if (benefitMapper.getById(benefit.getId()).isEmpty()) return;
+		benefitMapper.update(benefit.getVO());
+		paymentDetailMapper.update_FinancialAccountant(benefit.getPaymentDetailVO());
 	}
 
 	public void delete(int id) {
+		if (benefitMapper.getById(id).isEmpty()) return;
 		benefitMapper.deleteById(id);
+		paymentDetailMapper.deleteById(id);
 	}
 }

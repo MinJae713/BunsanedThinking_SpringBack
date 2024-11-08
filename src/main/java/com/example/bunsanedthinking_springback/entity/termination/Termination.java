@@ -1,8 +1,11 @@
 package com.example.bunsanedthinking_springback.entity.termination;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.TerminationVO;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 
@@ -26,6 +29,15 @@ public class Termination extends Contract {
 	private int terminationFee;
 	private TerminationStatus terminationStatus;
 	private Contract originalContract;
+
+	public TerminationVO getTerminationVO() {
+		LocalDateTime lApplyDate = applyDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDateTime();
+		return new TerminationVO(getId(), lApplyDate,
+				terminationFee, originalContract.getId(),
+				terminationStatus.ordinal());
+	}
 
 	public Date getApplyDate() {
 		return applyDate;

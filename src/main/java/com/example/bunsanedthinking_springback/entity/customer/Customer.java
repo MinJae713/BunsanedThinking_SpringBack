@@ -25,6 +25,7 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateResiden
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import lombok.NoArgsConstructor;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,7 +38,7 @@ import java.util.Date;
  * @created 27-5-2024 占쏙옙占쏙옙 4:40:41
  */
 
-//2024-06-04 源����쁽
+@NoArgsConstructor
 public class Customer implements Cloneable {
 
 	private ArrayList<AccidentHistory> accidentHistoryList;
@@ -109,7 +110,12 @@ public class Customer implements Cloneable {
 		this.surgeryHistoryList = surgeryHistories;
 	}
 
-	public Customer() {
+	public CustomerVO getVO() {
+		return new CustomerVO(id, address, age,
+				bankAccount, bankName,
+				gender.ordinal(), job,
+				name, phoneNumber, property,
+				residentRegistrationNumber);
 	}
 
 	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,

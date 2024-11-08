@@ -1,16 +1,16 @@
 package com.example.bunsanedthinking_springback.model.domain.product;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.domain.insurance.InsuranceDModel;
 import com.example.bunsanedthinking_springback.model.domain.loan.LoanDModel;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductDModel {
@@ -41,15 +41,22 @@ public class ProductDModel {
 		return 0;
 	}
 
-	public void add(ProductVO productVO) {
-		productMapper.insert_LoanManagement(productVO);
+	public void add(Product product) {
+		if (product == null) return;
+		else if (product instanceof Insurance) insuranceDModel.add((Insurance) product);
+		else if (product instanceof Loan) loanDModel.add((Loan) product);
 	}
 
-	public void update(ProductVO productVO) {
-		productMapper.update_LoanManagement(productVO);
+	public void update(Product product) {
+		if (product == null) return;
+		else if (product instanceof Insurance) insuranceDModel.update((Insurance) product);
+		else if (product instanceof Loan) loanDModel.update((Loan) product);
 	}
 
 	public void delete(int id) {
-		productMapper.delete_LoanManagement(id);
+		Product product = getById(id);
+		if (product == null) return;
+		else if (product instanceof Insurance) insuranceDModel.delete(id);
+		else if (product instanceof Loan) loanDModel.delete(id);
 	}
 }

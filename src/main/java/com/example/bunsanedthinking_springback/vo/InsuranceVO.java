@@ -14,4 +14,6 @@ public class InsuranceVO {
 	private int monthly_premium;
 	private int contract_period;
 	private String coverage;
+
+	// 얜 getEntity 못만듬 - 만들라면 dmodel 있어야됨
 }

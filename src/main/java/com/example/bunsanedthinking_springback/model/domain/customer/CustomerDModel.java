@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.customer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -23,6 +17,11 @@ import com.example.bunsanedthinking_springback.model.domain.diseaseHistory.Disea
 import com.example.bunsanedthinking_springback.model.domain.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerDModel {

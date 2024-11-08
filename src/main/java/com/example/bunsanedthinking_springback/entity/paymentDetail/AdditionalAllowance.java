@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,5 +21,7 @@ public class AdditionalAllowance extends PaymentDetail {
 		super(accountHolder, bank, bankAccount, money, paymentType, contractId);
 		// TODO Auto-generated constructor stub
 	}
-
+	public AdditionalAllowanceVO getVO() {
+		return new AdditionalAllowanceVO(getId(), type.ordinal());
+	}
 }

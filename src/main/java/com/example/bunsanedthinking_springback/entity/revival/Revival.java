@@ -1,8 +1,11 @@
 package com.example.bunsanedthinking_springback.entity.revival;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.RevivalVO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -23,6 +26,15 @@ public class Revival extends Contract {
 	private Date applyDate;
 	private RevivalStatus revivalStatus;
 	private Contract originalContract;
+
+	public RevivalVO getRevivalVO() {
+		LocalDateTime lApplyDate = applyDate.toInstant().
+				atZone(ZoneId.systemDefault()).
+				toLocalDateTime();
+		return new RevivalVO(getId(), lApplyDate,
+				originalContract.getId(),
+				revivalStatus.ordinal());
+	}
 
 	public String getApplyDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

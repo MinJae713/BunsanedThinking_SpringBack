@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.domain.automobile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
@@ -17,6 +11,11 @@ import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 import com.example.bunsanedthinking_springback.vo.ServiceVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AutomobileDModel {
@@ -61,15 +60,41 @@ public class AutomobileDModel {
 		return automobileMapper.getMaxId();
 	}
 
-	public void add(AutoMobileVO autoMobileVO) {
-		automobileMapper.insert_ProductManagement(autoMobileVO);
+	public void add(Automobile autoMobile) {
+		if (autoMobile == null) return;
+		if (automobileMapper.getById_Customer(autoMobile.getId()).isPresent()) return;
+		productMapper.insert_LoanManagement(autoMobile.getProductVO());
+		insuranceMapper.insert_ProductManagement(autoMobile.getInsuranceVO());
+		automobileMapper.insert_ProductManagement(autoMobile.getVO());
+		List<ServiceType> serviceTypes = autoMobile.getServiceList();
+		if (serviceTypes == null) return;
+		serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
+				new ServiceVO(autoMobile.getId(), e.ordinal())
+		));
 	}
 
-	public void update(AutoMobileVO autoMobileVO) {
-		automobileMapper.update_ProductManagementModel(autoMobileVO);
+	public void update(Automobile autoMobile) {
+		if (autoMobile == null) return;
+		if (automobileMapper.getById_Customer(autoMobile.getId()).isEmpty()) return;
+		// service는 수정이 아니라 삭제 후 다시 추가하는 방법임
+		// productId 맞는 service들 삭제 후 파라미터에 있는 서비스들 다시 추가
+		List<ServiceType> serviceTypes = autoMobile.getServiceList();
+		if (serviceTypes != null) {
+			serviceMapper.delete_ProductManagementModel(autoMobile.getId());
+			serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
+					new ServiceVO(autoMobile.getId(), e.ordinal())
+			));
+		}
+		automobileMapper.update_ProductManagementModel(autoMobile.getVO());
+		insuranceMapper.update_ProductManagementModel(autoMobile.getInsuranceVO());
+		productMapper.update_LoanManagement(autoMobile.getProductVO());
 	}
 
 	public void delete(int id) {
+		if (automobileMapper.getById_Customer(id).isEmpty()) return;
+		serviceMapper.delete_ProductManagementModel(id);
 		automobileMapper.deleteById(id);
+		insuranceMapper.delete(id);
+		productMapper.delete_ProductManagementModel(id);
 	}
 }

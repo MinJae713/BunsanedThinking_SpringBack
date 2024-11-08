@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.InjuryVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
@@ -57,6 +58,10 @@ public class Injury extends Insurance {
 
 		this.setInjuryType(injuryType);
 		this.setSurgeriesLimit(surgeriesLimit);
+	}
+
+	public InjuryVO getVO() {
+		return new InjuryVO(getId(), injuryType.ordinal(), surgeriesLimit);
 	}
 
 	public InjuryType getInjuryType() {

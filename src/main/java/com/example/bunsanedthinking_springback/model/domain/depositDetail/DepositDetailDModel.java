@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.model.domain.depositDetail;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
 import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DepositDetailDModel {
@@ -32,15 +31,16 @@ public class DepositDetailDModel {
 		return depositDetailMapper.getLastId_Customer();
 	}
 
-	public void add(DepositDetailVO depositDetailVO) {
-		depositDetailMapper.add_Customer(depositDetailVO);
+	public void add(DepositDetail depositDetail) {
+		depositDetailMapper.add_Customer(depositDetail.getVO());
 	}
 
-	public void update(DepositDetailVO depositDetailVO) {
-		depositDetailMapper.update(depositDetailVO);
+	public void update(DepositDetail depositDetail) {
+		depositDetailMapper.update(depositDetail.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		depositDetailMapper.deleteById(id);
 	}
 }

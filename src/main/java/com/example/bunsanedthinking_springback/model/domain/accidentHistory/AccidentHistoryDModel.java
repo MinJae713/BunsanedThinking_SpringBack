@@ -1,14 +1,12 @@
 package com.example.bunsanedthinking_springback.model.domain.accidentHistory;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
+import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
-import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AccidentHistoryDModel {
@@ -32,15 +30,16 @@ public class AccidentHistoryDModel {
 		return accidentHistoryMapper.getMaxId_SalesModel();
 	}
 
-	public void add(AccidentHistoryVO accidentHistoryVO) {
-		accidentHistoryMapper.insert(accidentHistoryVO);
+	public void add(AccidentHistory accidentHistory) {
+		accidentHistoryMapper.insert(accidentHistory.getVO());
 	}
 
-	public void update(AccidentHistoryVO accidentHistoryVO) {
-		accidentHistoryMapper.update(accidentHistoryVO);
+	public void update(AccidentHistory accidentHistory) {
+		accidentHistoryMapper.update(accidentHistory.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		accidentHistoryMapper.deleteById(id);
 	}
 }

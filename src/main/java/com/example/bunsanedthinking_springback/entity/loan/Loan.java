@@ -1,8 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
-
-import lombok.NoArgsConstructor;
+import com.example.bunsanedthinking_springback.vo.LoanVO;
 
 /**
  * @author ����ȯ
@@ -22,6 +21,11 @@ public abstract class Loan extends Product {
 	
 	public Loan(){
 
+	}
+
+	public LoanVO getLoanVO() {
+		return new LoanVO(getId(), loanType.ordinal(),
+				minimumAsset, monthlyIncome, interestRate);
 	}
 
 	public void buy(){

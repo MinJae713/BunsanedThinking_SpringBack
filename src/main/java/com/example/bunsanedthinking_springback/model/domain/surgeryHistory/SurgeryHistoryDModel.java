@@ -1,14 +1,12 @@
 package com.example.bunsanedthinking_springback.model.domain.surgeryHistory;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SurgeryHistoryDModel {
@@ -32,15 +30,16 @@ public class SurgeryHistoryDModel {
 		return surgeryHistoryMapper.getMaxId_SalesModel();
 	}
 
-	public void add(SurgeryHistoryVO surgeryHistoryVO) {
-		surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+	public void add(SurgeryHistory surgeryHistory) {
+		surgeryHistoryMapper.insert_SalesModel(surgeryHistory.getVO());
 	}
 
-	public void update(SurgeryHistoryVO surgeryHistoryVO) {
-		surgeryHistoryMapper.update(surgeryHistoryVO);
+	public void update(SurgeryHistory surgeryHistory) {
+		surgeryHistoryMapper.update(surgeryHistory.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		surgeryHistoryMapper.deleteById(id);
 	}
 }

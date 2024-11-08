@@ -1,17 +1,16 @@
 package com.example.bunsanedthinking_springback.model.domain.counsel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.repository.CounselMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CounselVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CounselDModel {
@@ -46,15 +45,16 @@ public class CounselDModel {
 		return counselMapper.getMaxId();
 	}
 
-	public void add(CounselVO counselVO) {
-		counselMapper.insert(counselVO);
+	public void add(Counsel counsel) {
+		counselMapper.insert(counsel.getVO());
 	}
 
-	public void update(CounselVO counselVO) {
-		counselMapper.update_SalesModel(counselVO);
+	public void update(Counsel counsel) {
+		counselMapper.update_SalesModel(counsel.getVO());
 	}
 
 	public void delete(int id) {
+		if (getById(id) == null) return;
 		counselMapper.deleteById(id);
 	}
 }

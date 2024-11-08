@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.entity.department;
 
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
+import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ public class Department implements Cloneable {
 		this.setPurpose(purpose);
 		this.setHeadName(headName);
 		employeeList = new ArrayList<Employee>();
+	}
+
+	public DepartmentVO getVO() {
+		return new DepartmentVO(id, headName, name, purpose, task);
 	}
 
 	public String getHeadName() {
