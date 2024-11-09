@@ -1,98 +1,79 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerSupport;
 
-import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
-import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintProcessStatus;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
-import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.repository.AccidentMapper;
-import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
-import com.example.bunsanedthinking_springback.repository.CustomerMapper;
-import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
-import com.example.bunsanedthinking_springback.repository.ReportMapper;
-import com.example.bunsanedthinking_springback.vo.AccidentVO;
-import com.example.bunsanedthinking_springback.vo.ComplaintVO;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
-import com.example.bunsanedthinking_springback.vo.ReportVO;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.example.bunsanedthinking_springback.entity.accident.Accident;
+import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
+import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
+import com.example.bunsanedthinking_springback.entity.complaint.ComplaintProcessStatus;
+import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
+import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.accident.AccidentDModel;
+import com.example.bunsanedthinking_springback.model.domain.complaint.ComplaintDModel;
+import com.example.bunsanedthinking_springback.model.domain.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.domain.partnerCompany.PartnerCompanyDModel;
+import com.example.bunsanedthinking_springback.model.domain.report.ReportDModel;
 
 @Service
 public class CustomerSupportSModel {
-
 	@Autowired
-	private ComplaintMapper complaintMapper;
+	private ComplaintDModel complaintDModel;
 	@Autowired
-	private AccidentMapper accidentMapper;
+	private PartnerCompanyDModel partnerCompanyDModel;
 	@Autowired
-	private ReportMapper reportMapper;
+	private AccidentDModel accidentDModel;
 	@Autowired
-	private CustomerMapper customerMapper;
+	private CustomerDModel customerDModel;
 	@Autowired
-	private PartnerCompanyMapper partnerCompanyMapper;
+	private ReportDModel reportDModel;
 
 	public void handleComplaint(String employeeName, int complaintId, String result) throws
 		NotExistException,
 		AlreadyProcessedException {
-		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(complaintId)
-			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
-		if (complaintVO.getProcess_status() == ComplaintProcessStatus.Completed.ordinal()) {
+		Complaint complaint = complaintDModel.getById(complaintId);
+		if (complaint == null)
+			throw new NotExistException("해당하는 민원 정보를 찾을 수 없습니다.");
+		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed) {
 			throw new AlreadyProcessedException("이미 민원 처리가 완료되었습니다.");
 		}
-		// 로그인한 직원 이름이 여기 드감
-		complaintVO.setEmployee_name(employeeName);
-		complaintVO.setResult(result);
-		complaintVO.setProcessing_date(LocalDate.now());
-		complaintVO.setProcess_status(ComplaintProcessStatus.Completed.ordinal());
-		complaintMapper.update_CustomerSupport(complaintVO);
+
+		complaint.setEmployeeName(employeeName);
+		complaint.setResult(result);
+		complaint.setProcessingDate(Date.valueOf(LocalDate.now()));
+		complaint.setProcessStatus(ComplaintProcessStatus.Completed);
+		complaintDModel.update(complaint);
 	}
 
 	public void handleAccident(int accidentId, int damageAssessmentCompanyId,
 		int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
-		Optional<AccidentVO> optionalAccidentVO = accidentMapper.findByID_CustomerSupport(accidentId);
-		if (optionalAccidentVO.isEmpty()) {
+		Accident accident = accidentDModel.getById(accidentId);
+		if (accident == null) {
 			return;
 		}
-		AccidentVO accidentVO = optionalAccidentVO.get();
-		if (accidentVO.getProcess_status() == AccidentProcessStatus.Completed.ordinal()) {
-			throw new AlreadyProcessedException("이미 신고 처리가 완료되었습니다.");
-		} else if (accidentVO.getProcess_status() == AccidentProcessStatus.Processing.ordinal()) {
-			throw new AlreadyProcessedException("신고 처리 중입니다.");
+		switch (accident.getProcessStatus()) {
+			case Completed -> throw new AlreadyProcessedException("이미 신고 처리가 완료되었습니다.");
+			case Processing -> throw new AlreadyProcessedException("신고 처리 중입니다.");
 		}
-		accidentVO.setProcess_status(AccidentProcessStatus.Processing.ordinal());
-		accidentMapper.update_CustomerSupport(accidentVO);
-		ReportVO reportVO = new ReportVO(accidentVO.getId(), null,
-			ReportProcessStatus.Unprocessed.ordinal(), roadsideAssistanceCompanyId, damageAssessmentCompanyId);
-		reportMapper.insert_CustomerSupport(reportVO);
+		accident.setProcessStatus(AccidentProcessStatus.Processing);
+		accidentDModel.update(accident);
+
+		Report report = new Report(accident, null, accidentId, roadsideAssistanceCompanyId, damageAssessmentCompanyId,
+			ReportProcessStatus.Unprocessed);
+		reportDModel.add(report);
 	}
 
 	public List<Complaint> getAllComplaint() {
-		List<Complaint> result = new ArrayList<>();
-		for (ComplaintVO complaintVO : complaintMapper.getAll_CustomerSupport()) {
-			result.add(new Complaint(
-				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
-				complaintVO.getCustomer_id(),
-				complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-				Date.valueOf(complaintVO.getProcessing_date()),
-				ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
-				complaintVO.getResult()));
-		}
-		return result;
+		return complaintDModel.getAll();
 	}
 
 	public List<Complaint> getAllUnprocessedComplaint() {
@@ -104,56 +85,28 @@ public class CustomerSupportSModel {
 	}
 
 	private List<Complaint> getAllByProcessStatus(ComplaintProcessStatus processStatus) {
-		List<Complaint> result = new ArrayList<>();
-		for (ComplaintVO complaintVO : complaintMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
-			result.add(new Complaint(
-				ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
-				complaintVO.getCustomer_id(),
-				complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-				Date.valueOf(complaintVO.getProcessing_date()),
-				ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
-				complaintVO.getResult()));
-		}
-		return result;
+		List<Complaint> complaintList = complaintDModel.getAll();
+		return complaintList.stream()
+			.filter(complaint -> complaint.getProcessStatus() == processStatus)
+			.collect(Collectors.toList());
 	}
 
 	public Complaint getComplaint(int id) throws NotExistException {
-		ComplaintVO complaintVO = complaintMapper.findById_CustomerSupport(id)
-			.orElseThrow(() -> new NotExistException("해당하는 민원 정보를 찾을 수 없습니다."));
-		return new Complaint(
-			ComplaintType.indexOf(complaintVO.getComplaint_type()), complaintVO.getContent(),
-			complaintVO.getCustomer_id(),
-			complaintVO.getEmployee_name(), complaintVO.getId(), Date.valueOf(complaintVO.getDate()),
-			Date.valueOf(complaintVO.getProcessing_date()),
-			ComplaintProcessStatus.indexOf(complaintVO.getProcess_status()), complaintVO.getTitle(),
-			complaintVO.getResult());
+		Complaint complaint = complaintDModel.getById(id);
+		if (complaint == null)
+			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
+		return complaint;
 	}
 
 	public Customer getCustomer(int customerID) throws NotExistException {
-		CustomerVO customerVO = customerMapper.findById_FinancialAccountant(customerID)
-			.orElseThrow(() -> new NotExistException("해당하는 고객 정보를 찾을 수 없습니다."));
-		Customer customer = new Customer();
-		customer.setId(customerVO.getId());
-		customer.setName(customerVO.getName());
-		customer.setPhoneNumber(customerVO.getPhone_number());
+		Customer customer = customerDModel.getById(customerID);
+		if (customer == null)
+			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		return customer;
 	}
 
 	public List<Accident> getAllAccident() {
-		List<Accident> result = new ArrayList<>();
-		for (AccidentVO accidentVO : accidentMapper.getAll_CustomerSupport()) {
-			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(
-				accidentVO.getCustomer_id());
-			if (optionalCustomerVO.isEmpty()) {
-				continue;
-			}
-			CustomerVO customerVO = optionalCustomerVO.get();
-			result.add(new Accident(accidentVO.getCustomer_id(), customerVO.getName(),
-				customerVO.getPhone_number(), Date.valueOf(accidentVO.getDate()), accidentVO.getId(),
-				accidentVO.getLocation(), AccidentProcessStatus.indexOf(accidentVO.getProcess_status()),
-				ServiceType.indexOf(accidentVO.getService_type())));
-		}
-		return result;
+		return accidentDModel.getAll();
 	}
 
 	public List<Accident> getAllUnprocessedAccident() {
@@ -165,68 +118,38 @@ public class CustomerSupportSModel {
 	}
 
 	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
-		List<Accident> result = new ArrayList<>();
-		for (AccidentVO accidentVO : accidentMapper.findByProcessStatus_CustomerSupport(processStatus.ordinal())) {
-			Optional<CustomerVO> optionalCustomerVO = customerMapper.findById_FinancialAccountant(
-				accidentVO.getCustomer_id());
-			if (optionalCustomerVO.isEmpty()) {
-				continue;
-			}
-			CustomerVO customerVO = optionalCustomerVO.get();
-			result.add(new Accident(accidentVO.getCustomer_id(), customerVO.getName(),
-				customerVO.getPhone_number(), Date.valueOf(accidentVO.getDate()), accidentVO.getId(),
-				accidentVO.getLocation(), AccidentProcessStatus.indexOf(accidentVO.getProcess_status()),
-				ServiceType.indexOf(accidentVO.getService_type())));
-		}
-		return result;
+		List<Accident> accidentList = accidentDModel.getAll();
+		return accidentList.stream()
+			.filter(accident -> accident.getProcessStatus() == processStatus)
+			.collect(Collectors.toList());
 	}
 
 	public Accident getAccident(int id) throws NotExistException {
-		AccidentVO accidentVO = accidentMapper.findByID_CustomerSupport(id)
-			.orElseThrow(() -> new NotExistException("해당하는 사고 정보가 존재하지 않습니다."));
-		CustomerVO customerVO = customerMapper.findById_FinancialAccountant(accidentVO.getCustomer_id())
-			.orElseThrow(() -> new NotExistException("해당하는 고객 정보가 존재하지 않습니다."));
-		return new Accident(accidentVO.getCustomer_id(), customerVO.getName(),
-			customerVO.getPhone_number(), Date.valueOf(accidentVO.getDate()), accidentVO.getId(),
-			accidentVO.getLocation(), AccidentProcessStatus.indexOf(accidentVO.getProcess_status()),
-			ServiceType.indexOf(accidentVO.getService_type()));
+		Accident acciednt = accidentDModel.getById(id);
+		if (acciednt == null)
+			throw new NotExistException("해당하는 사고 정보가 존재하지 않습니다.");
+		return acciednt;
 	}
 
 	public List<PartnerCompany> getAllRoadAssistanceCompany() {
-		return getAllByPartnerCompanyType(PartnerCompanyType.RoadsideAssistanceCompany);
+		return partnerCompanyDModel.getAll_RoadsideCompany();
 	}
 
 	public List<PartnerCompany> getAllDamageAssessmentCompany() {
-		return getAllByPartnerCompanyType(PartnerCompanyType.DamageAssessmentCompany);
-	}
-
-	private List<PartnerCompany> getAllByPartnerCompanyType(PartnerCompanyType partnerCompanyType) {
-		List<PartnerCompany> result = new ArrayList<>();
-		for (PartnerCompanyVO partnerCompanyVO :
-			partnerCompanyMapper.findByPartnerType_CustomerSupport(partnerCompanyType.ordinal())) {
-			result.add(new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
-				partnerCompanyVO.getHead_phone_number(), partnerCompanyVO.getId(), partnerCompanyVO.getName(),
-				PartnerCompanyType.indexOf(partnerCompanyVO.getPartner_company_type()),
-				partnerCompanyVO.getPhone_number(), null));
-		}
-		return result;
+		return partnerCompanyDModel.getAll_DamageAssesmentCompany();
 	}
 
 	public PartnerCompany getRoadAssistanceCompany(int id) throws NotExistException {
-		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(id)
-			.orElseThrow(() -> new NotExistException("해당하는 긴급 출동 업체 정보가 존재하지 않습니다."));
-		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
-			partnerCompanyVO.getHead_phone_number(), partnerCompanyVO.getId(), partnerCompanyVO.getName(),
-			PartnerCompanyType.indexOf(partnerCompanyVO.getPartner_company_type()),
-			partnerCompanyVO.getPhone_number(), null);
+		PartnerCompany partnerCompany = partnerCompanyDModel.getById_RoadsideCompany(id);
+		if (partnerCompany == null)
+			throw new NotExistException("해당하는 긴급 출동 업체 정보가 존재하지 않습니다.");
+		return partnerCompany;
 	}
 
 	public PartnerCompany getDamageAssessmentCompany(int id) throws NotExistException {
-		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_CustomerSupport(id)
-			.orElseThrow(() -> new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다."));
-		return new PartnerCompany(partnerCompanyVO.getEvaluation(), partnerCompanyVO.getHead_name(),
-			partnerCompanyVO.getHead_phone_number(), partnerCompanyVO.getId(), partnerCompanyVO.getName(),
-			PartnerCompanyType.indexOf(partnerCompanyVO.getPartner_company_type()),
-			partnerCompanyVO.getPhone_number(), null);
+		PartnerCompany partnerCompany = partnerCompanyDModel.getById_DamageAssesmentCompany(id);
+		if (partnerCompany == null)
+			throw new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다.");
+		return partnerCompany;
 	}
 }

@@ -3,6 +3,8 @@ package com.example.bunsanedthinking_springback.entity.report;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
+
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
@@ -11,11 +13,12 @@ import lombok.NoArgsConstructor;
  * @created 27-5-2024 ���� 4:40:44
  */
 @NoArgsConstructor
+@AllArgsConstructor
 public class Report {
 
 	public static final int REPORT_SERIAL_NUMBER = 500;
 	private Accident accident;
-	private int damageAssessmentMoney;
+	private Integer damageAssessmentMoney;
 	private int id;
 	private int roadsideAssistanceCompanyID;
 	private int damageAssessmentCompanyID;
@@ -25,7 +28,7 @@ public class Report {
 		this.processStatus = processStatus;
 	}
 
-	public Report(Accident accident, PartnerCompany damageAssessmentCompany, PartnerCompany roadsideAssistanceCompany){
+	public Report(Accident accident, PartnerCompany damageAssessmentCompany, PartnerCompany roadsideAssistanceCompany) {
 		this.accident = accident;
 		this.damageAssessmentMoney = -1;
 		this.damageAssessmentCompanyID = damageAssessmentCompany.getId();
@@ -35,20 +38,20 @@ public class Report {
 
 	public ReportVO findVO() {
 		return new ReportVO(id, damageAssessmentMoney,
-				processStatus.ordinal(),
-				roadsideAssistanceCompanyID,
-				damageAssessmentCompanyID);
+			processStatus.ordinal(),
+			roadsideAssistanceCompanyID,
+			damageAssessmentCompanyID);
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public void setDamageAssessmentMoney(int damageAssessmentMoney) {
 		this.damageAssessmentMoney = damageAssessmentMoney;
 	}
 
-	public void handle(){
+	public void handle() {
 		this.processStatus = ReportProcessStatus.Completed;
 		this.accident.complete();
 	}
