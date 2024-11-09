@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.vo;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,9 @@ public class CollateralVO {
         collateral.setName(productVO.getName());
         return collateral;
     }
+
+	public static CollateralVO from(Collateral collateral) {
+		return new CollateralVO(collateral.getId(), collateral.getCollateralType().ordinal(),
+			collateral.getMinimumValue());
+	}
 }

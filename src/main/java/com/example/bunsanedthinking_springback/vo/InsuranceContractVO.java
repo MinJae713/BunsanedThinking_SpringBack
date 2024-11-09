@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,8 @@ public class InsuranceContractVO {
 		insuranceContract.setMaximumMoney(productVO.getMaximum_money());
 		insuranceContract.setName(productVO.getName());
 		return insuranceContract;
+	}
+	public static InsuranceContractVO from(InsuranceContract insuranceContract) {
+		return new InsuranceContractVO(insuranceContract.getId(), insuranceContract.getInsuranceId());
 	}
 }

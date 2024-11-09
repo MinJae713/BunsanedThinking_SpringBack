@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,9 @@ public class FixedDepositVO {
         fixedDeposit.setName(productVO.getName());
         return fixedDeposit;
     }
+	
+
+	public static FixedDepositVO from(FixedDeposit fixedDeposit) {
+		return new FixedDepositVO(fixedDeposit.getId(), fixedDeposit.getMinimumAmount());
+	}
 }
