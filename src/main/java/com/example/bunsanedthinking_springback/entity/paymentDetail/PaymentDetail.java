@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
 import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
  * @created 27-5-2024 ���� 4:40:43
  */
 @NoArgsConstructor
+@AllArgsConstructor
 public class PaymentDetail {
 
 	public static final int PAYMENT_DETAIL_SERIAL_NUMBER = 900;
@@ -23,7 +26,7 @@ public class PaymentDetail {
 	private Integer employeeId;
 
 	public PaymentDetail(String accountHolder, String bank, String bankAccount, int money,
-			PaymentType paymentType, Integer contractId, Integer employeeId) {
+		PaymentType paymentType, Integer contractId, Integer employeeId) {
 		super();
 		this.accountHolder = accountHolder;
 		this.bank = bank;
@@ -34,7 +37,7 @@ public class PaymentDetail {
 		this.contractId = contractId;
 		this.employeeId = employeeId;
 	}
-	
+
 	private PaymentDetail(PaymentDetail paymentDetail) {
 		this.accountHolder = paymentDetail.getAccountHolder() + "";
 		this.bank = paymentDetail.getBank() + "";
@@ -48,7 +51,7 @@ public class PaymentDetail {
 	}
 
 	public PaymentDetail(String name, String bankName, String bankAccount,
-						 int totalMoney, PaymentType paymentType, int id) {
+		int totalMoney, PaymentType paymentType, int id) {
 		this.accountHolder = name;
 		this.bank = bankName;
 		this.bankAccount = bankAccount;
@@ -60,21 +63,23 @@ public class PaymentDetail {
 
 	public PaymentDetailVO findPaymentDetailVO() {
 		return new PaymentDetailVO(id, accountHolder, bank,
-				bankAccount, money, paymentType.ordinal(),
-				processStatus.ordinal(),
-				contractId, employeeId);
+			bankAccount, money, paymentType.ordinal(),
+			processStatus.ordinal(),
+			contractId, employeeId);
 	}
 
 	public PaymentDetail clone() {
 		return new PaymentDetail(this);
 	}
 
-	public void handle(){
+	public void handle() {
 		this.processStatus = PaymentProcessStatus.Completed;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public int getId() {
 		return this.id;
 	}
@@ -107,7 +112,9 @@ public class PaymentDetail {
 		return contractId;
 	}
 
-	public Integer getEmployeeId() {return employeeId;}
+	public Integer getEmployeeId() {
+		return employeeId;
+	}
 
 	public void setProcessStatus(PaymentProcessStatus processStatus) {
 		this.processStatus = processStatus;
