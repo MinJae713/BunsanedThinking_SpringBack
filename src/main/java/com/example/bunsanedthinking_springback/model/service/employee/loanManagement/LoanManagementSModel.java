@@ -1,24 +1,12 @@
 package com.example.bunsanedthinking_springback.model.service.employee.loanManagement;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.loanManagement.CollateralDTO;
 import com.example.bunsanedthinking_springback.dto.loanManagement.LoanDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.product.Product;
@@ -36,20 +24,14 @@ import com.example.bunsanedthinking_springback.model.domain.insuranceContract.In
 import com.example.bunsanedthinking_springback.model.domain.loan.LoanDModel;
 import com.example.bunsanedthinking_springback.model.domain.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.domain.product.ProductDModel;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.CompensationDetailMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.vo.CollateralVO;
-import com.example.bunsanedthinking_springback.vo.CompensationDetailVO;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
-import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
-import com.example.bunsanedthinking_springback.vo.LoanVO;
-import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
-import com.example.bunsanedthinking_springback.vo.ProductVO;
+import com.example.bunsanedthinking_springback.repository.*;
+import com.example.bunsanedthinking_springback.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LoanManagementSModel {
@@ -94,9 +76,9 @@ public class LoanManagementSModel {
 
 		CollateralVO collateralVO = new CollateralVO(productVO.getId(),
 			CollateralType.indexOf(collateralDTO.getCollateralType()).ordinal(), collateralDTO.getMinimumValue());
-		productDModel.add(productVO);
-		loanDModel.add(loanVO);
-		collateralDModel.add(collateralVO);
+//		productDModel.add(productVO);
+//		loanDModel.add(loanVO);
+//		collateralDModel.add(collateralVO);
 	}
 
 	public void addLoanProduct(LoanDTO loanDTO) throws DuplicateLoanException {
@@ -105,17 +87,17 @@ public class LoanManagementSModel {
 		LoanVO loanVO = createLoanVO(productVO.getId(), LoanType.indexOf(loanDTO.getLoanType()).ordinal(),
 			loanDTO.getMinimumAsset(), loanDTO.getMonthlyPremium(), loanDTO.getInterestRate());
 
-		productDModel.add(productVO);
-		loanDModel.add(loanVO);
+//		productDModel.add(productVO);
+//		loanDModel.add(loanVO);
 
 		if (loanDTO.getLoanType() == LoanType.FixedDeposit.ordinal()) {
 			FixedDepositVO fixedDepositVO = new FixedDepositVO(productVO.getId(), loanDTO.getParameter());
-			fixedDepositDModel.add(fixedDepositVO);
+//			fixedDepositDModel.add(fixedDepositVO);
 
 		} else if (loanDTO.getLoanType() == LoanType.InsuranceContract.ordinal()) {
 			InsuranceContractVO insuranceContractVO = new InsuranceContractVO(productVO.getId(),
 				loanDTO.getParameter());
-			insuranceContractDModel.add(insuranceContractVO);
+//			insuranceContractDModel.add(insuranceContractVO);
 		}
 	}
 
@@ -188,10 +170,10 @@ public class LoanManagementSModel {
 			contractVO.setContract_status(ContractStatus.Maintaining.ordinal());
 		} else {
 			contractVO.setContract_status(ContractStatus.Terminating.ordinal());
-			contractDModel.update(contractVO);
+//			contractDModel.update(contractVO);
 			return;
 		}
-		contractDModel.update(contractVO);
+//		contractDModel.update(contractVO);
 
 		Integer id = paymentDetailDModel.getMaxId();
 		if (id == null) {
@@ -208,7 +190,7 @@ public class LoanManagementSModel {
 		PaymentDetailVO paymentDetailVO = new PaymentDetailVO(id, customer.getName(),
 			customer.getBankName(), customer.getBankAccount(), money, paymentType,
 			PaymentProcessStatus.Unprocessed.ordinal(), contractId, null);
-		paymentDetailDModel.add(paymentDetailVO);
+//		paymentDetailDModel.add(paymentDetailVO);
 
 		id = compensationDetailDModel.getMaxId();
 		if (id == null) {
@@ -217,7 +199,7 @@ public class LoanManagementSModel {
 			id++;
 		}
 		CompensationDetailVO compensationDetailVO = new CompensationDetailVO(id, money, LocalDate.now(), contractId);
-		compensationDetailDModel.add(compensationDetailVO);
+//		compensationDetailDModel.add(compensationDetailVO);
 	}
 
 	public void updateLoanProduct(int index, String input, int loanId)
