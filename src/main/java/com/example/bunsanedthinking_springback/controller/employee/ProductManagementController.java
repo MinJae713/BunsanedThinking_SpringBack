@@ -1,5 +1,8 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
+import com.example.bunsanedthinking_springback.dto.ProductManagement.AutomobileDTO;
+import com.example.bunsanedthinking_springback.dto.ProductManagement.DiseaseDTO;
+import com.example.bunsanedthinking_springback.dto.ProductManagement.InjuryDTO;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementSModel;
@@ -16,61 +19,19 @@ public class ProductManagementController {
 	@Autowired
 	private ProductManagementSModel productManagementSModel;
 
-	// public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-	// 								int contractPeriod, String diseaseName, int diseaseLimit, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
-	// 	productManagementModel.addInsuranceProduct(insuranceType, name, limit, ageRange, coverage, monthlyPremium,
-	// 			contractPeriod, diseaseName, diseaseLimit, surgeriesLimit, productList);
-	// }
-	//
-	// public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-	// 								int contractPeriod, InjuryType injuryType, int surgeriesLimit, ProductList productList) throws DuplicateInsuranceException {
-	// 	productManagementModel.addInsuranceProduct(insuranceType, name, limit, ageRange, coverage,
-	// 			monthlyPremium, contractPeriod, injuryType, surgeriesLimit, productList);
-	// }
-	//
-	// public void addInsuranceProduct(InsuranceType insuranceType, String name, int limit, int ageRange, String coverage, int monthlyPremium,
-	// 								int contractPeriod, int accidentLimit, VehicleType vehicleType, ArrayList<ServiceType> serviceTypeList,
-	// 								ProductList productList) throws DuplicateInsuranceException {
-	// 	productManagementModel.addInsuranceProduct(insuranceType, name, limit, ageRange, coverage, monthlyPremium,
-	// 			contractPeriod, accidentLimit, vehicleType, serviceTypeList, productList);
-	// }
-	//
-	// public void deleteInsuranceProduct(ProductList productList, int id) throws NotExistException {
-	// 	productManagementModel.deleteInsuranceProduct(productList, id);
-	// }
-	//
-	// public Insurance getInsuranceProduct(ProductList productList, int id) throws NotExistException {
-	// 	return productManagementModel.getInsuranceProduct(productList, id);
-	// }
-	//
-	// public void updateInsuranceProduct(int index, String input, Disease diseaseInsurance, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-	// 	productManagementModel.updateInsuranceProduct(index, input, diseaseInsurance, productList);
-	// }
-	//
-	// public void updateInsuranceProduct(int index, String input, Injury injuryInsurance, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-	// 	productManagementModel.updateInsuranceProduct(index, input, injuryInsurance, productList);
-	// }
-	//
-	// public void updateInsuranceProduct(int index, String input, Automobile automobileInsurance, ArrayList<ServiceType> serviceTypeList, ProductList productList) throws DuplicateInsuranceException, NotExistException {
-	// 	productManagementModel.updateInsuranceProduct(index, input, automobileInsurance, serviceTypeList, productList);
-	// }
-	// public ArrayList<Product> getAll(ProductList productList){
-	// 	return productManagementModel.getAll(productList);
-	// }
-
 	@PostMapping("/addDiseaseInsurance")
-	public void addDiseaseInsurance(@RequestBody Disease disease) throws DuplicateInsuranceException {
-		productManagementSModel.addDiseaseInsurance(disease);
+	public void addDiseaseInsurance(@RequestBody DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addDiseaseInsurance(diseaseDTO);
 	}
 
 	@PostMapping("/addInjuryInsurance")
-	public void addInjuryInsurance(@RequestBody Injury injury) throws DuplicateInsuranceException {
-		productManagementSModel.addInjuryInsurance(injury);
+	public void addInjuryInsurance(@RequestBody InjuryDTO injuryDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addInjuryInsurance(injuryDTO);
 	}
 
 	@PostMapping("/addAutomobileInsurance")
-	public void addAutomobileInsurance(@RequestBody Automobile automobile) throws DuplicateInsuranceException {
-		productManagementSModel.addAutomobileInsurance(automobile);
+	public void addAutomobileInsurance(@RequestBody AutomobileDTO automobileDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addAutomobileInsurance(automobileDTO);
 	}
 
 	@DeleteMapping("/deleteInsuranceProduct")

@@ -37,7 +37,7 @@ public class Contract {
 	private Date date;
 	private ArrayList<DepositDetail> depositDetailList;
 	private int employeeID;
-	private int paymentDate; // 월 납부일
+	private Integer paymentDate; // 월 납부일
 	private Date expirationDate;
 	private int id;
 	private ArrayList<InsuranceMoney> insuranceMoneyList;
@@ -209,7 +209,7 @@ public class Contract {
 		return this.paymentDate;
 	}
 
-	public void setPaymentDate(int paymentDate) {
+	public void setPaymentDate(Integer paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
