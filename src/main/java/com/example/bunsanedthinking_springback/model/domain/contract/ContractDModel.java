@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.domain.contract;
 
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
@@ -62,9 +63,33 @@ public class ContractDModel {
 	}
 
 	public List<Contract> getAll() {
-		List<Contract> contracts = new ArrayList<Contract>();
+		List<Contract> contracts = new ArrayList<>();
 		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
 		return contracts;
+	}
+
+	public List<Contract> getAllRequestingInsurance(){
+		List<Contract> contracts = new ArrayList<>();
+		List<Contract> requestingInsurances = new ArrayList<>();
+		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
+		for(Contract e :contracts) {
+			if(e.getContractStatus() == ContractStatus.ContractRequesting){
+				requestingInsurances.add(e);
+			}
+		}
+		return requestingInsurances;
+	}
+
+	public List<Contract> getAllNotRequestingInsurance(){
+		List<Contract> contracts = new ArrayList<>();
+		List<Contract> notRequestingInsurances = new ArrayList<>();
+		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
+		for(Contract e :contracts) {
+			if(e.getContractStatus() != ContractStatus.ContractRequesting){
+				notRequestingInsurances.add(e);
+			}
+		}
+		return notRequestingInsurances;
 	}
 
 	public Integer getMaxId() {

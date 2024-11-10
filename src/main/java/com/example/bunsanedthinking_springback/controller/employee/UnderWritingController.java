@@ -31,30 +31,6 @@ public class UnderWritingController {
 		underWritingSModel.applyReinsurance();
 	}
 
-	// public boolean reviewAcquisition(Contract contract, boolean result, ContractList contractList)
-	// 	throws AlreadyProcessedException, NotExistContractException {
-	// 	return underWritingModel.reviewAcquisition(contract, result, contractList);
-	// }
-	// public ArrayList<Contract> getAllRequestingInsurance(ContractList contractList) throws
-	// 	NotExistException,
-	// 	IOException {
-	// 	return underWritingModel.getAllRequestingInsurance(contractList);
-	// }
-	// public Customer get(CustomerList customerList, int id) throws NotExistException {
-	// 	return underWritingModel.get(customerList, id);
-	// }
-	// public Contract get(ContractList contractList, int id) throws
-	// 	NotExistContractException,
-	// 	NotExistException,
-	// 	IOException {
-	// 	return underWritingModel.get(contractList, id);
-	// }
-	// public ArrayList<Contract> getAllNotRequestingInsurance(ContractList contractList) throws
-	// 	NotExistException,
-	// 	IOException {
-	// 	return underWritingModel.getAllNotRequestingInsurance(contractList);
-	// }
-
 	@PatchMapping("/reviewAcquisition")
 	public boolean reviewAcquisition(int contractId, boolean result)
 		throws AlreadyProcessedException {
@@ -62,8 +38,7 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getAllRequestingInsurance")
-	public ArrayList<Contract> getAllRequestingInsurance() throws
-		NotExistException{
+	public ArrayList<Contract> getAllRequestingInsurance(){
 		return underWritingSModel.getAllRequestingInsurance();
 	}
 
@@ -73,14 +48,12 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getContract")
-	public Contract getContract(int id) throws
-		NotExistException{
+	public Contract getContract(int id){
 		return underWritingSModel.getContract(id);
 	}
 
 	@GetMapping("/getAllNotRequestingInsurance")
-	public ArrayList<Contract> getAllNotRequestingInsurance() throws
-		NotExistException{
+	public ArrayList<Contract> getAllNotRequestingInsurance(){
 		return underWritingSModel.getAllNotRequestingInsurance();
 	}
 
