@@ -22,93 +22,6 @@ import java.util.List;
 public class ContractManagementController {
 	@Autowired
 	private ContractManagementSModel contractManagementSModel;
-
-	//	public boolean requestTerminationFee(Termination tercontract, Customer customer,
-	//										 PaymentDetailList paymentDetailList, ContractList contractList) throws NotExistContractException, AlreadyProcessedException {
-	//		return contractManagementModel.requestTerminationFee(tercontract, customer, paymentDetailList, contractList);
-	//	}
-	//	public boolean reviewEndorsement(Endorsement encontract, Customer customer, int index) {
-	//		return contractManagementModel.reviewEndorsement(encontract, customer, index);
-	//	}
-	//
-	//	public boolean reviewRecontract(ContractList contractList, Recontract recontract, Customer customer, int index) throws NotExistContractException {
-	//		return contractManagementModel.reviewRecontract(contractList, recontract, customer, index);
-	//	}
-	//
-	//	public boolean reviewRevival(ContractList contractList, Revival revivalcontract, Customer customer, int index) {
-	//		return contractManagementModel.reviewRevival(contractList, revivalcontract, customer, index);
-	//	}
-	//	public ArrayList<Contract> getAllDefaultContract(ContractList contractList) {
-	//		return contractManagementModel.getAllDefaultContract(contractList);
-	//	}
-	//	public Customer getCustomerById(CustomerList customerList, Contract contract) throws NotExistException {
-	//		return contractManagementModel.getCustomerById(customerList, contract);
-	//	}
-	//
-	//	public Contract getContractById(ContractList contractList, int id) throws NotExistContractException {
-	//		return contractManagementModel.getContractById(contractList, id);
-	//	}
-	//	public Termination getTerminationById(TerminationList terminationList, int id) {
-	//		return contractManagementModel.getTerminationById(terminationList, id);
-	//	}
-	//	public ArrayList<Termination> getAllTerminatingContract(TerminationList terminationList) {
-	//		return contractManagementModel.getAllTerminatingContract(terminationList);
-	//	}
-	//	public Termination getTerminatingContractById(TerminationList terminationList,int id) {
-	//		return contractManagementModel.getTerminatingContractById(terminationList, id);
-	//	}
-	//	public ArrayList<Termination> getAllUnprocessedTerminatingContract(TerminationList terminationList) {
-	//		return contractManagementModel.getAllUnprocessedTerminatingContract(terminationList);
-	//	}
-	//	public ArrayList<Termination> getAllProcessedTerminatingContract(TerminationList terminationList) {
-	//		return contractManagementModel.getAllProcessedTerminatingContract(terminationList);
-	//	}
-	//	public ArrayList<Endorsement> getAllEndorsementContract(EndorsementList endorsementList) {
-	//		return contractManagementModel.getAllEndorsementContract(endorsementList);
-	//	}
-	//	public ArrayList<Endorsement> getAllUnprocessedEndorsementContract(EndorsementList endorsementList) {
-	//		return contractManagementModel.getAllUnprocessedEndorsementContract(endorsementList);
-	//	}
-	//	public ArrayList<Endorsement> getAllProcessedEndorsementContract(EndorsementList endorsementList) {
-	//		return contractManagementModel.getAllProcessedEndorsementContract(endorsementList);
-	//	}
-	//	public Endorsement getEndorsementById(EndorsementList endorsementList, int id) {
-	//		return contractManagementModel.getEndorsementById(endorsementList, id);
-	//	}
-	//	public ArrayList<Recontract> getAllReContract(RecontractList recontractList) {
-	//		return contractManagementModel.getAllReContract(recontractList);
-	//	}
-	//
-	//	public ArrayList<Recontract> getAllUnprocessedReContract(RecontractList recontractList) {
-	//		return contractManagementModel.getAllUnprocessedReContract(recontractList);
-	//	}
-	//
-	//	public ArrayList<Recontract> getAllProcessedReContract(RecontractList recontractList) {
-	//		return contractManagementModel.getAllProcessedReContract(recontractList);
-	//	}
-	//
-	//	public Recontract getReContractById(RecontractList recontractList, int id) {
-	//		return contractManagementModel.getReContractById(recontractList, id);
-	//	}
-	//
-	//	public ArrayList<Revival> getAllRevivalContract(RevivalList revivalList) {
-	//		return contractManagementModel.getAllRevivalContract(revivalList);
-	//	}
-	//	public ArrayList<Revival> getAllRevivalContract(RevivalList revivalList) {
-	//		return contractManagementModel.getAllRevivalContract(revivalList);
-	//	}
-	//
-	//	public Revival getRevivalById(RevivalList revivalList, int id) {
-	//		return contractManagementModel.getRevivalById(revivalList, id);
-	//	}
-	//
-	//	public ArrayList<Revival> getAllUnprocessedRevival(RevivalList revivalList) {
-	//		return contractManagementModel.getAllUnprocessedRevival(revivalList);
-	//	}
-	//
-	//	public ArrayList<Revival> getAllProcessedRevival(RevivalList revivalList) {
-	//		return contractManagementModel.getAllProcessedRevival(revivalList);
-	//	}
 	@PatchMapping("/requestTerminationFee")
 	public void requestTerminationFee(@RequestParam int tercontractId, @RequestParam int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
@@ -135,7 +48,7 @@ public class ContractManagementController {
 		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRevival?revivalId=1001&index=1
 		contractManagementSModel.reviewRevival(revivalId, index);
 	}
-
+	// get은 검증 완
 	@GetMapping("/getAllDefaultContract")
 	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllDefaultContract();

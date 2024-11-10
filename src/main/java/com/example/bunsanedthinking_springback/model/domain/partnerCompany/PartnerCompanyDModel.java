@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.domain.partnerCompany;
 
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
+import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.model.domain.report.ReportDModel;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
@@ -18,6 +19,20 @@ public class PartnerCompanyDModel {
 	@Autowired
 	private ReportDModel reportDModel;
 
+	public PartnerCompany getById(int id) {
+		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_PartnerCompany(id);
+		if (partnerCompanyVO == null) return null;
+		ArrayList<Report> reports = new ArrayList<Report>();
+		if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
+				PartnerCompanyType.RoadsideAssistanceCompany)
+			reports = reportDModel.getAllByRoadSideAssistanceCId(id);
+		else if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
+				PartnerCompanyType.DamageAssessmentCompany)
+			reports = reportDModel.getAllByDamageAssessmentCId(id);
+		return partnerCompanyVO.getEntity(reports);
+	}
+	// 제 파트에서는 아래 두 메소드는 안써유(윰) - 이게 PartnerCompany 받아오는 방식을 다시 찾아서
+	// 위 메소드로 하나 쓰는데 아래 두 메소드 쓰시는 분은 저한테 얘기좀염
 	public PartnerCompany getById_RoadsideCompany(int id) {
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_PartnerCompany(id);
 		ArrayList<Report> reports = reportDModel.getAllByRoadSideAssistanceCId(id);
@@ -49,6 +64,14 @@ public class PartnerCompanyDModel {
 	//    partnerCompany 말고도 RoadSide랑 Damage쪽도 insert, delete된다는거
 
 	// DModel 만들것이 많아서 그냥 여기에 남겨둘테니 풀 받아서 이거 보시는 분은 저에게 말씀해주십슈
+	public List<PartnerCompany> getAll() {
+		// 이 메소드도 마찬가지 - 아래 둘을 안쓰는데 PartnerCompany 쓰시는 분은 저에게 말씀을...!
+		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
+		partnerCompanyMapper.getAll_CompensationPlanning()
+				.forEach(e -> partnerCompanies.add(getById(e.getId())));
+		return partnerCompanies;
+	}
+
 	public List<PartnerCompany> getAll_RoadsideCompany() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
 		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll_CompensationPlanning()) {
@@ -89,7 +112,17 @@ public class PartnerCompanyDModel {
 
 		partnerCompanyMapper.update_CompensationPlanning(partnerCompany.findVO());
 	}
+	public void delete(int id) {
+		if (partnerCompanyMapper.findById_CustomerSupport(id).isEmpty()) return;
+		PartnerCompany partnerCompany = getById(id);
 
+		List<Report> reports = partnerCompany.getReportList();
+		if (reports != null) reports.forEach(e -> reportDModel.delete(id));
+
+		partnerCompanyMapper.delete_CompensationPlanning(id);
+	}
+
+	// delete도 둘 다 안씁니다
 	public void delete_RoadSide(int id) {
 		if (partnerCompanyMapper.findById_CustomerSupport(id).isEmpty()) return;
 		PartnerCompany partnerCompany = getById_RoadsideCompany(id);

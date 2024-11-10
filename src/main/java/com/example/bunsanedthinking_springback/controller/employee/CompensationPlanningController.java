@@ -3,15 +3,13 @@ package com.example.bunsanedthinking_springback.controller.employee;
 import com.example.bunsanedthinking_springback.dto.compensationPlanning.AddPartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.dto.compensationPlanning.UpdatePartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-
-import com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning.CompensationPlanningSModel;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-
+import com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning.CompensationPlanningSModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee/compensationPlanning")
@@ -81,7 +79,8 @@ public class CompensationPlanningController {
 	}
 
 	@GetMapping("/getAll")
-	public ArrayList<PartnerCompany> getAll() {
+	public List<PartnerCompany> getAll() {
 		return compensationPlanningSModel.getAll();
 	}
+	// get은 검증 완
 }

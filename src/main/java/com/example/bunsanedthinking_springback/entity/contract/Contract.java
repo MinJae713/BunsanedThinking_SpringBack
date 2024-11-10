@@ -92,6 +92,7 @@ public class Contract {
 		this.employeeID = contract.getEmployeeID();
 		this.insuranceMoneyList = contract.getInsuranceMoneyList();
 		this.product = contract.getProduct();
+		this.paymentDetailList = contract.getPaymentDetailList();
 	}
 
 	public Contract(ArrayList<InsuranceMoney> insuranceMonies,

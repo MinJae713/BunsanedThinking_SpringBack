@@ -5,7 +5,6 @@ import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
@@ -17,205 +16,167 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
+import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
+import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
+import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
+import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.global.exception.*;
+import com.example.bunsanedthinking_springback.model.domain.accident.AccidentDModel;
+import com.example.bunsanedthinking_springback.model.domain.automobile.AutomobileDModel;
+import com.example.bunsanedthinking_springback.model.domain.collateral.CollateralDModel;
+import com.example.bunsanedthinking_springback.model.domain.complaint.ComplaintDModel;
+import com.example.bunsanedthinking_springback.model.domain.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.domain.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.domain.depositDetail.DepositDetailDModel;
+import com.example.bunsanedthinking_springback.model.domain.disease.DiseaseDModel;
+import com.example.bunsanedthinking_springback.model.domain.endorsement.EndorsementDModel;
+import com.example.bunsanedthinking_springback.model.domain.fixedDeposit.FixedDepositDModel;
+import com.example.bunsanedthinking_springback.model.domain.injury.InjuryDModel;
 import com.example.bunsanedthinking_springback.model.domain.insurance.InsuranceDModel;
+import com.example.bunsanedthinking_springback.model.domain.insuranceContract.InsuranceContractDModel;
 import com.example.bunsanedthinking_springback.model.domain.loan.LoanDModel;
-import com.example.bunsanedthinking_springback.repository.*;
-import com.example.bunsanedthinking_springback.vo.*;
+import com.example.bunsanedthinking_springback.model.domain.recontract.RecontractDModel;
+import com.example.bunsanedthinking_springback.model.domain.revival.RevivalDModel;
+import com.example.bunsanedthinking_springback.model.domain.termination.TerminationDModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CustomerSModel {
-	@Autowired
-	private CustomerMapper customerMapper;
-	@Autowired
-	private AccidentMapper accidentMapper;
-	@Autowired
-	private AccidentHistoryMapper accidentHistoryMapper;
-	@Autowired
-	private ComplaintMapper complaintMapper;
-	@Autowired
-	private CounselMapper counselMapper;
-	@Autowired
-	private DiseaseHistoryMapper diseaseHistoryMapper;
-	@Autowired
-	private SurgeryHistoryMapper surgeryHistoryMapper;
-	@Autowired
-	private ContractMapper contractMapper;
-	@Autowired
-	private CompensationDetailMapper compensationDetailMapper;
-	@Autowired
-	private DepositDetailMapper depositDetailMapper;
-	@Autowired
-	private InsuranceMoneyMapper insuranceMoneyMapper;
-	@Autowired
-	private ProductMapper productMapper;
-	@Autowired
-	private InsuranceMapper insuranceMapper;
-	@Autowired
-	private AutomobileMapper automobileMapper;
-	@Autowired
-	private DiseaseMapper diseaseMapper;
-	@Autowired
-	private InjuryMapper injuryMapper;
-	@Autowired
-	private ServiceMapper serviceMapper;
-	@Autowired
-	private LoanMapper loanMapper;
-	@Autowired
-	private CollateralMapper collateralMapper;
-	@Autowired
-	private FixedDepositMapper fixedDepositMapper;
-	@Autowired
-	private InsuranceContractMapper insuranceContractMapper;
-	@Autowired
-	private EndorsementMapper endorsementMapper;
-	@Autowired
-	private RevivalMapper revivalMapper;
-	@Autowired
-	private TerminationMapper terminationMapper;
-	@Autowired
-	private RecontractMapper recontractMapper;
 
 	@Autowired
 	private InsuranceDModel insuranceDModel;
 	@Autowired
+	private DiseaseDModel diseaseDModel;
+	@Autowired
+	private InjuryDModel injuryDModel;
+	@Autowired
+	private AutomobileDModel automobileDModel;
+	@Autowired
 	private LoanDModel loanDModel;
 	@Autowired
+	private CollateralDModel collateralDModel;
+	@Autowired
+	private FixedDepositDModel fixedDepositDModel;
+	@Autowired
+	private InsuranceContractDModel insuranceContractDModel;
+	@Autowired
 	private CustomerDModel customerDModel;
+	@Autowired
+	private ContractDModel contractDModel;
+	@Autowired
+	private EndorsementDModel endorsementDModel;
+	@Autowired
+	private RevivalDModel revivalDModel;
+	@Autowired
+	private TerminationDModel terminationDModel;
+	@Autowired
+	private RecontractDModel recontractDModel;
+	@Autowired
+	private AccidentDModel accidentDModel;
+	@Autowired
+	private ComplaintDModel complaintDModel;
+	@Autowired
+	private DepositDetailDModel depositDetailDModel;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
-		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경, 배서 하나 추가됨
-		// 타입이 contractVO, endorsementVO인거 주의
-		/**
-		 * contract status 상관 없이 해당 contract가 있다면 실행 ㄱㄴ
-		 * paymentDate를 입력받은 날짜로 변경
-		 * endorsement 테이블에 없다면 endorsement 하나 추가
-		 */
-		if (contractMapper.getById_Customer(contractId).orElse(null) == null)
-			throw new NotExistContractException();
-		// paymentDate Integer로 바꾸면서 에러 발생 - 수정 필요
-		// int paymentDate = contractMapper.getById_Customer(contractId).orElse(null).getPayment_date();
-		// localDate = localDate.plusDays(index - localDate.getDayOfMonth());
-		// contractMapper.updatePaymentDate_Customer(localDate, contractId);
-		contractMapper.updateStatus_Customer(ContractStatus.EndorsementRequesting.ordinal(), contractId);
-		EndorsementVO endorsementVO = endorsementMapper.getById_Customer(contractId).orElse(null);
-		if (endorsementVO == null)
-			endorsementMapper.addById_Customer(contractId);
-		// contract엔 있는데 endorsement가 없는 경우라면 endorsement를 하나 추가하기로 했수다 - 잘됨
-		//		contract.setContractStatus(ContractStatus.EndorsementRequesting);
-		//		contractList.update(contract);
-		//		Endorsement endorsement = new Endorsement(contract);
-		//		endorsement.setPaymentDate(index);
-		//		endorsementList.add(endorsement);
+		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,
+		// 배서 정보가 없다면 배서 하나 추가됨, 배서 정보가 그대로 있다면 해당 배서의 납부일 변경
+		Contract contract = contractDModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		contract.setContractStatus(ContractStatus.EndorsementRequesting);
+		contractDModel.update(contract);
+		Endorsement endorsement = endorsementDModel.getById(contractId);
+		if (endorsement == null) {
+			// 여기서는 endorsement 테이블만 추가됨
+			// 이유는 contractId 해당 Contract는 엔티티가 있기 때문
+			// dmodel에서 add할 때 contract의 dmodel까지 들어가긴 하지만
+			// contract dmodel은 아무것도 안하고 그냥 종료되는 형태
+			// id는 Contract랑 똑같아서 지정 x
+			endorsement = new Endorsement(contract);
+			endorsement.setPaymentDate(index);
+			endorsementDModel.add(endorsement);
+		} else {
+			// 만일 기존 endorsement가 있는 상황에서 납입일 변경이라면?
+			// 납부일 변경 및 테이블 수정
+			endorsement.setPaymentDate(index);
+			endorsementDModel.update(endorsement);
+		}
 	}
 
-	public void applyInsuranceRevival(int contractId, Date expirationDate)
+	public void applyInsuranceRevival(int contractId)
 		throws NotExistContractException, NotExistTerminatedContract, NotExistException {
-		// 일단 status 받는건 정수로 받아서 비교하기로 - 이건 다시 상의해봅시다(뷰에서 뭐로 전달받을지 문제임)
-		// 안받고 DB 정보와 비교하는 방법이 맞는거 같기도?
-		/**
+		/*
 		 * contract status가 Terminating이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
 		 * contract status를 RevivalRequesting로 변경
 		 * Revival 테이블에 없다면 Revival 하나 추가
 		 */
-		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
-		if (contractVO == null)
-			throw new NotExistContractException();
-		if (contractVO.getContract_status() == ContractStatus.Terminating.ordinal() && expirationDate != null) {
-			contractMapper.updateStatus_Customer(ContractStatus.RevivalRequesting.ordinal(), contractId);
-			RevivalVO revivalVO = revivalMapper.getById_Customer(contractId).orElse(null);
-			if (revivalVO == null)
-				revivalMapper.addById_Customer(contractId);
+
+		Contract contract = contractDModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
+			contract.setContractStatus(ContractStatus.RevivalRequesting);
+			contractDModel.update(contract);
+			if (revivalDModel.getById(contractId) != null) return;
+			revivalDModel.add(new Revival(contract));
 		} else {
 			throw new NotExistTerminatedContract();
 		}
-
-		//		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
-		//			contract.setContractStatus(ContractStatus.RevivalRequesting);
-		//			contractList.update(contract);
-		//			Revival revival = new Revival(contract);
-		//			revivalList.add(revival);
-		//		} else {
-		//			throw new NotExistTerminatedContract();
-		//		}
 	}
-
+	// revival, termination 안 넣은 이유? - 각각 dModel에서 추가 시에 중복 아이디가 있는지 확인하는 로직이 있음
+	// ㄴ 이건 contract dmodel 쪽에도 있고, termination dmodel 쪽에도 있어서
+	//    둘 다 정보가 있다? - 추가X, cont쪽만 있다? - rev, ter쪽만 추가,
+	//    둘 다 없다? - 둘 다 추가 이런 식임
 	public void applyInsuranceTermination(int contractId)
 		throws NotExistContractException, NotExistMaintainedContract, NotExistException {
-		/**
-		 * contract status가 Maintaining이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
-		 * contract status를 TerminationRequesting로 변경
-		 * Termination 테이블에 없다면 Termination 하나 추가
-		 */
-		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
-		if (contractVO == null)
-			throw new NotExistContractException();
-		if (contractVO.getContract_status() == ContractStatus.Maintaining.ordinal()) {
-			contractMapper.updateStatus_Customer(ContractStatus.TerminationRequesting.ordinal(), contractId);
-			TerminationVO terminationVO = terminationMapper.getById_Customer(contractId).orElse(null);
-			if (terminationVO == null)
-				terminationMapper.addById_Customer(contractId);
+		Contract contract = contractDModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		if (contract.getContractStatus() == ContractStatus.Maintaining) {
+			contract.setContractStatus(ContractStatus.TerminationRequesting);
+			contractDModel.update(contract);
+			if (terminationDModel.getById(contractId) != null) return;
+			terminationDModel.add(new Termination(contract));
 		} else {
 			throw new NotExistMaintainedContract();
 		}
-
-		//		if (contract.getContractStatus() == ContractStatus.Maintaining) {
-		//			contract.setContractStatus(ContractStatus.TerminationRequesting);
-		//			contractList.update(contract);
-		//			Termination termination = new Termination(contract);
-		//			terminationList.add(termination);
-		//		} else {
-		//			throw new NotExistMaintainedContract();
-		//		}
 	}
 
 	public void applyRecontract(int contractId) throws NotExistContractException,
 		NotExistExpiredContract, NotExistException {
-		/**
+		/*
 		 * contract status가 Maturing이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
 		 * contract status를 RecontractRequesting로 변경
 		 * Recontract 테이블에 없다면 Recontract 하나 추가
 		 */
-		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
-		if (contractVO == null)
-			throw new NotExistContractException();
-		if (contractVO.getContract_status() == ContractStatus.Maturing.ordinal()) {
-			contractMapper.updateStatus_Customer(ContractStatus.RecontractRequesting.ordinal(), contractId);
-			RecontractVO recontractVO = recontractMapper.getById_Customer(contractId).orElse(null);
-			if (recontractVO == null)
-				recontractMapper.addById_Customer(contractId);
+		Contract contract = contractDModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		if (contract.getContractStatus() == ContractStatus.Maturing) {
+			contract.setContractStatus(ContractStatus.RecontractRequesting);
+			contractDModel.update(contract);
+			if (recontractDModel.getById(contractId) != null) return;
+			recontractDModel.add(new Recontract(contract));
 		} else {
 			throw new NotExistExpiredContract();
 		}
-
-		//		if (contract.getContractStatus() == ContractStatus.Maturing) {
-		//			contract.setContractStatus(ContractStatus.RecontractRequesting);
-		//			contractList.update(contract);
-		//			Recontract recontract = new Recontract(contract);
-		//			recontractList.add(recontract);
-		//		} else {
-		//			throw new NotExistExpiredContract();
-		//		}
 	}
 
 	public void payInsurancefee(DepositDTO depositDTO)
@@ -223,18 +184,14 @@ public class CustomerSModel {
 		String depositorName = depositDTO.getDepositorName();
 		int contractId = depositDTO.getContractId();
 		int money = depositDTO.getMoney();
-		int depositPath = depositDTO.getDepositPath();
-		if (contractMapper.getById_Customer(contractId).orElse(null) == null)
+		DepositPath depositPath = DepositPath.values()[depositDTO.getDepositPath()];
+		if (contractDModel.getById(contractId) == null)
 			throw new NotExistContractException();
-		int depositId = depositDetailMapper.getCount_Customer() == 0 ?
-			8101 : depositDetailMapper.getLastId_Customer() + 1;
-		depositDetailMapper.add_Customer(new DepositDetailVO(
-			depositId, depositorName, LocalDate.now(),
-			money, depositPath, contractId
-		));
-		//		DepositDetail depositDetail = new DepositDetail(customer.getName(), contract.getId(), money, path);
-		//		depositDetailList.add(depositDetail);
-		//		contract.getDepositDetailList().add(depositDetail);
+		int depositId = depositDetailDModel.getAll().isEmpty() ?
+				Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL+"1") :
+				depositDetailDModel.getMaxId() + 1;
+		depositDetailDModel.add(new DepositDetail(depositId, depositorName,
+				contractId, money, depositPath));
 	}
 
 	// 이 아래는 완료
@@ -243,325 +200,101 @@ public class CustomerSModel {
 		//		return customerList.get(id);
 	}
 
-	public ArrayList<Insurance> getAllInsurance() {
-		return (ArrayList<Insurance>)insuranceDModel.getAll();
+	public List<Insurance> getAllInsurance() {
+		return insuranceDModel.getAll();
 		//		return productList.getAllInsurance();
 	}
 
-	public ArrayList<Insurance> getAllDiseaseInsurance() {
-		ArrayList<Insurance> diseases = new ArrayList<Insurance>();
-		List<DiseaseVO> diseaseVOS = diseaseMapper.getAll_Customer();
-		for (DiseaseVO diseaseVO : diseaseVOS) {
-			// DiseaseVO
-			int product_id = diseaseVO.getProduct_id();
-			int disease_limit = diseaseVO.getDisease_limit();
-			String disease_name = diseaseVO.getDisease_name();
-			int surgeries_limit = diseaseVO.getSurgeries_limit();
-			// InsuranceVO
-			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
-			if (insuranceVO == null)
-				throw new RuntimeException("보험을 못찾았습니다.");
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-			diseases.add(new Disease(productVO, insuranceVO,
-				disease_name, disease_limit, surgeries_limit));
-		}
-		return diseases;
+	public List<Disease> getAllDiseaseInsurance() {
+		return diseaseDModel.getAll();
 		//		return productList.getAllDiseaseInsurance();
 	}
 
-	public ArrayList<Insurance> getAllInjuryInsurance() {
-		ArrayList<Insurance> injuries = new ArrayList<Insurance>();
-		List<InjuryVO> injuryVOS = injuryMapper.getAll_Customer();
-		for (InjuryVO injuryVO : injuryVOS) {
-			// InjuryVO
-			int product_id = injuryVO.getProduct_id();
-			InjuryType injury_type = InjuryType.values()[injuryVO.getInjury_type()];
-			int surgeries_limit = injuryVO.getSurgeries_limit();
-			// InsuranceVO
-			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
-			if (insuranceVO == null)
-				throw new RuntimeException("보험을 못찾았습니다.");
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-			injuries.add(new Injury(productVO, insuranceVO, injury_type, surgeries_limit));
-		}
-		return injuries;
+	public List<Injury> getAllInjuryInsurance() {
+		return injuryDModel.getAll();
 		//		return productList.getAllInjuryInsurance();
 	}
 
-	public ArrayList<Insurance> getAllAutomobileInsurance() {
-		ArrayList<Insurance> automobiles = new ArrayList<Insurance>();
-		List<AutoMobileVO> autoMobileVOS = automobileMapper.getAll_Customer();
-		for (AutoMobileVO autoMobileVO : autoMobileVOS) {
-			// AutomobileVO
-			int product_id = autoMobileVO.getProduct_id();
-			List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(product_id);
-			ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
-			serviceVOS.stream().map(s -> s.getService()).forEach(s -> serviceTypeList.add(ServiceType.values()[s]));
-			VehicleType verhicle_type = VehicleType.values()[autoMobileVO.getVehicle_type()];
-			int accident_limit = autoMobileVO.getAccident_limit();
-			// InsuranceVO
-			InsuranceVO insuranceVO = insuranceMapper.getInsuranceById_Customer(product_id).orElse(null);
-			if (insuranceVO == null)
-				throw new RuntimeException("보험을 못찾았습니다.");
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-			automobiles.add(new Automobile(productVO, insuranceVO,
-				accident_limit, verhicle_type, serviceTypeList));
-		}
-		return automobiles;
+	public List<Automobile> getAllAutomobileInsurance() {
+		return automobileDModel.getAll();
 		//		return productList.getAllAutomobileInsurance();
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
 		return insuranceDModel.getById(id);
-
-		//		ArrayList<Insurance> insuranceList = productList.getAllInsurance();
-		//		for (Insurance insurance : insuranceList) {
-		//			if (insurance.getId() == id) {
-		//				return insurance;
-		//			}
-		//		}
 	}
 
-	public ArrayList<Loan> getAllLoan() {
-		return (ArrayList<Loan>) loanDModel.getAll();
+	public List<Loan> getAllLoan() {
+		return loanDModel.getAll();
 		//		return productList.getAllLoan();
 	}
 
-	public ArrayList<Loan> getAllCollateralLoan() {
-		ArrayList<Loan> collateralList = new ArrayList<Loan>();
-		List<CollateralVO> collateralVOS = collateralMapper.getAll_Customer();
-		for (CollateralVO collateralVO : collateralVOS) {
-			// CollateralVO
-			int product_id = collateralVO.getProduct_id();
-			CollateralType collateral_type = CollateralType.values()[collateralVO.getCollateral_type()];
-			int minimum_value = collateralVO.getMinimum_value();
-
-			// loanVO
-			LoanVO loanVO = loanMapper.getLoanById_Customer(product_id).orElse(null);
-			if (loanVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			collateralList.add(new Collateral(productVO, loanVO, collateral_type, minimum_value));
-		}
-		return collateralList;
+	public List<Collateral> getAllCollateralLoan() {
+		return collateralDModel.getAll();
 		//		return productList.getAllCollateralLoan();
 	}
 
-	public ArrayList<Loan> getAllFixedDepositLoan() {
-		ArrayList<Loan> fixedDepositList = new ArrayList<Loan>();
-		List<FixedDepositVO> fixedDepositVOS = fixedDepositMapper.getAll_Customer();
-		for (FixedDepositVO fixedDepositVO : fixedDepositVOS) {
-			// FixedDepositVO
-			int product_id = fixedDepositVO.getProduct_id();
-			int minimum_amount = fixedDepositVO.getMinimum_amount();
-
-			// loanVO
-			LoanVO loanVO = loanMapper.getLoanById_Customer(product_id).orElse(null);
-			if (loanVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			fixedDepositList.add(new FixedDeposit(productVO, loanVO, minimum_amount));
-		}
-		return fixedDepositList;
+	public List<FixedDeposit> getAllFixedDepositLoan() {
+		return fixedDepositDModel.getAll();
 		//		return productList.getAllFixedDepositLoan();
 	}
 
-	public ArrayList<Loan> getAllInsuranceContractLoan(ProductList productList) {
-		ArrayList<Loan> insuranceContractList = new ArrayList<Loan>();
-		List<InsuranceContractVO> insuranceContractVOS = insuranceContractMapper.getAll_Customer();
-		for (InsuranceContractVO insuranceContractVO : insuranceContractVOS) {
-			// InsuranceContractVO
-			int product_id = insuranceContractVO.getProduct_id();
-
-			// loanVO
-			LoanVO loanVO = loanMapper.getLoanById_Customer(product_id).orElse(null);
-			if (loanVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			// ProductVO
-			ProductVO productVO = productMapper.getById_Customer(product_id).orElse(null);
-			if (productVO == null)
-				throw new RuntimeException("상품을 못찾았습니다.");
-
-			insuranceContractList.add(new InsuranceContract(productVO, loanVO, product_id));
-		}
-		return insuranceContractList;
+	public List<InsuranceContract> getAllInsuranceContractLoan(ProductList productList) {
+		return insuranceContractDModel.getAll();
 		//		return productList.getAllInsuranceContractLoan();
 	}
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
-		// productVO
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
-		if (productVO == null)
-			throw new NotExistException();
-
-		// loanVO
-		LoanVO loanVO = loanMapper.getLoanById_Customer(id).orElse(null);
-		if (loanVO == null)
-			throw new NotExistException();
-
-		// CollateralVO
-		CollateralVO collateralVO = collateralMapper.getById_Customer(id).orElse(null);
-		if (collateralVO != null)
-			return new Collateral(productVO, loanVO,
-				CollateralType.values()[collateralVO.getCollateral_type()],
-				collateralVO.getMinimum_value());
-
-		// FixedDepositVO
-		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
-		if (fixedDepositVO != null)
-			return new FixedDeposit(productVO, loanVO, fixedDepositVO.getMinimum_amount());
-
-		// InsuranceContractVO
-		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
-		if (insuranceContractVO != null)
-			return new InsuranceContract(productVO, loanVO, id);
-		//		ArrayList<Loan> loanList = productList.getAllLoan();
-		//		for (Loan loan : loanList) {
-		//			if (loan.getId() == id) {
-		//				return loan;
-		//			}
-		//		}
-		throw new NotExistException();
+		return loanDModel.getById(id);
 	}
 
-	public ArrayList<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
-		// if (contract.getContractStatus() != ContractStatus.ContractRequesting && contract.getExpirationDate() != null)
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		List<ContractVO> contractVOS = contractMapper.getAll_Customer();
-		for (ContractVO contractVO : contractVOS) {
-			Contract contract = getContractById(contractVO.getId());
-			if (contract.getContractStatus() != ContractStatus.ContractRequesting &&
-				contract.getExpirationDate() != null)
-				result.add(contract);
-		}
-		return result;
+	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
+		return contractDModel.getAll().stream().filter(
+				e -> e.getContractStatus() != ContractStatus.ContractRequesting &&
+						e.getExpirationDate() != null).toList();
 		//		return contractList.getAllApprovedByCustomer(id);
 	}
 
-	public ArrayList<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
+	public List<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
 		// 계약들의 고객 번호를 비교 - 고객 번호가 같은 계약들만 추출 - 한 고객이 신청한 계약만 나옴
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		List<ContractVO> contractVOS = contractMapper.getAllByCustomerId_Customer(id);
-		for (ContractVO contractVO : contractVOS)
-			result.add(getContractById(contractVO.getId()));
-		return result;
+		return contractDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
 		//		return contractList.getAllByCustomer(id);
 	}
 
-	public ArrayList<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		List<AutoMobileVO> autoMobileVOS = automobileMapper.getAll_Customer();
-		for (AutoMobileVO autoMobileVO : autoMobileVOS) {
-			List<Contract> contracts = getAllContractByProductId(autoMobileVO.getProduct_id());
-			contracts.stream().forEach(contract -> result.add(contract));
-		}
+	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
+		List<Contract> result = new ArrayList<Contract>();
+		for (Automobile automobile : automobileDModel.getAll())
+            result.addAll(getAllContractByProductId(automobile.getId()));
 		return result;
 		//		return contractList.getAllAutomobileInsuranceContract();
 	}
 
-	public ArrayList<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		List<InjuryVO> injuryVOS = injuryMapper.getAll_Customer();
-		for (InjuryVO injuryVO : injuryVOS) {
-			List<Contract> contracts = getAllContractByProductId(injuryVO.getProduct_id());
-			contracts.stream().forEach(contract -> result.add(contract));
-		}
+	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
+		List<Contract> result = new ArrayList<Contract>();
+		for (Injury injury : injuryDModel.getAll())
+            result.addAll(getAllContractByProductId(injury.getId()));
 		return result;
 		//		return contractList.getAllInjuryInsuranceContract();
 	}
 
-	public ArrayList<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		List<DiseaseVO> diseaseVOS = diseaseMapper.getAll_Customer();
-		for (DiseaseVO diseaseVO : diseaseVOS) {
-			List<Contract> contracts = getAllContractByProductId(diseaseVO.getProduct_id());
-			contracts.stream().forEach(contract -> result.add(contract));
-		}
+	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
+		List<Contract> result = new ArrayList<Contract>();
+		for (Disease disease : diseaseDModel.getAll())
+            result.addAll(getAllContractByProductId(disease.getId()));
 		return result;
 		//		return contractList.getAllDiseaseInsuranceContract();
 	}
 
-	public ArrayList<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
-		result.add(getContractById(contractVO.getId()));
-		return result;
-	} // 2. 이거로 하나 productId 찾아서 여거 contract id 갖고 여러 contract 찾을 수 있음
+	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
+//		ArrayList<Contract> result = new ArrayList<Contract>();
+//		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
+//		result.add(getContractById(contractVO.getId()));
+		return contractDModel.getAll().stream().filter(e -> e.getProduct().getId() == id).toList();
+	}
 
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		// ContractVO
-		Contract result = new Contract();
-		ContractVO contractVO = contractMapper.getById_Customer(contractId).orElse(null);
-		if (contractVO == null)
-			throw new NotExistContractException();
-		result.setId(contractVO.getId());
-		result.setDate(Date.valueOf(contractVO.getDate()));
-		result.setExpirationDate(Date.valueOf(contractVO.getExpiration_date()));
-		result.setPaymentDate(contractVO.getPayment_date());
-
-		LocalDate terminationDate = contractVO.getTermination_date();
-		if (terminationDate != null)
-			result.setTerminationDate(Date.valueOf(terminationDate));
-		result.setContractStatus(ContractStatus.values()[contractVO.getContract_status()]);
-		result.setCustomerID(contractVO.getCustomer_id());
-		result.setEmployeeID(contractVO.getEmployee_id());
-		result.setLastPaidDate(Date.valueOf(contractVO.getLastpaid_date()));
-		// ProductVO - 얜 Product 하나만 반환
-		result.setProduct(getProductById(contractVO.getProduct_id()));
-
-		// CompensationDetailVO
-		ArrayList<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
-		List<CompensationDetailVO> compensationDetailVOS = compensationDetailMapper.getAllCompensationByContractId_Customer(
-			contractId);
-		for (CompensationDetailVO compensationDetailVO : compensationDetailVOS)
-			compensationDetails.add(compensationDetailVO.getEntity());
-		result.setCompensationDetailList(compensationDetails);
-
-		// DepositDetailVO
-		ArrayList<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
-		List<DepositDetailVO> depositDetailVOS = depositDetailMapper.getAllDepositByContractId_Customer(contractId);
-		for (DepositDetailVO depositDetailVO : depositDetailVOS)
-			depositDetails.add(depositDetailVO.getEntity());
-		result.setDepositDetailList(depositDetails);
-
-		// InsuranceMoneyVO
-		ArrayList<InsuranceMoney> insuranceMoneys = new ArrayList<InsuranceMoney>();
-		List<InsuranceMoneyVO> insuranceMoneyVOS = insuranceMoneyMapper.getAllByContractId_Customer(contractId);
-		for (InsuranceMoneyVO insuranceMoneyVO : insuranceMoneyVOS)
-			insuranceMoneys.add(insuranceMoneyVO.getEntity());
-		result.setInsuranceMoneyList(insuranceMoneys);
-		return result;
+		return contractDModel.getById(contractId);
 		//		return contractList.get(contractId);
-	} // 1. 이거로 contract 하나 받아낼 수 있으면
-
-	private Product getProductById(int product_id) throws NotExistException {
-		Product product = getInsuranceByProductId(product_id);
-		if (product != null)
-			return product;
-		product = getLoanByProductId(product_id);
-		if (product != null)
-			return product;
-		throw new NotExistException();
 	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
@@ -578,44 +311,22 @@ public class CustomerSModel {
 		//		return contractList.getContractByOneAutomobileId(id);
 	}
 
-	// 위는 Contract 쭈물떡, 아래는 좀 쉬울듯
-	public ArrayList<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
-		ArrayList<Accident> result = new ArrayList<Accident>();
-		List<AccidentVO> accidentVOS = accidentMapper.getAllByCustomerId_Customer(id);
-		for (AccidentVO accidentVO : accidentVOS)
-			result.add(getAccidentById(accidentVO.getId()));
-		return result;
+	public List<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
+		return accidentDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
 		//		return accidentList.getAllByCustomer(id);
 	}
 
 	public Accident getAccidentById(int id) throws NotExistException {
-		AccidentVO accidentVO = accidentMapper.getById_Customer(id).orElse(null);
-		if (accidentVO == null)
-			throw new NotExistException();
-		int customer_id = accidentVO.getCustomer_id();
-		String customer_name = customerMapper.getNameById_Customer(customer_id).orElse(null);
-		if (customer_name == null)
-			throw new NotExistException();
-		String customer_phoneNumber = customerMapper.getPNById_Customer(customer_id).orElse(null);
-		if (customer_phoneNumber == null)
-			throw new NotExistException();
-		return new Accident(accidentVO, customer_name, customer_phoneNumber);
+		return accidentDModel.getById(id);
 	}
 
-	public ArrayList<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
-		ArrayList<Complaint> result = new ArrayList<Complaint>();
-		List<ComplaintVO> complainVOS = complaintMapper.getComplaintByCustomerId_Customer(id);
-		for (ComplaintVO complaintVO : complainVOS)
-			result.add(getComplaintById(complaintVO.getId()));
-		return result;
+	public List<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
+		return complaintDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
 		//		return complaintList.getAllByCustomerId(id);
 	}
 
 	public Complaint getComplaintById(int id) throws NotExistException {
-		ComplaintVO complaintVO = complaintMapper.getComplaintById_Customer(id).orElse(null);
-		if (complaintVO == null)
-			throw new NotExistException();
-		return new Complaint(complaintVO);
+		return complaintDModel.getById(id);
 	}
 
 	// 새로 추가됨 - controller는 아직 추가x

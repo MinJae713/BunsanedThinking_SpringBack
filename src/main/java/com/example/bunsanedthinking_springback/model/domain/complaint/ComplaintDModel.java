@@ -23,7 +23,7 @@ public class ComplaintDModel {
 	public List<Complaint> getAll() {
 		List<Complaint> complaints = new ArrayList<Complaint>();
 		complaintMapper.getAll_CustomerSupport()
-			.forEach(e -> getById(e.getId()));
+			.forEach(e -> complaints.add(getById(e.getId())));
 		return complaints;
 	}
 

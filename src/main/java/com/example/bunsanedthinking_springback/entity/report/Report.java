@@ -15,7 +15,7 @@ public class Report {
 
 	public static final int REPORT_SERIAL_NUMBER = 500;
 	private Accident accident;
-	private int damageAssessmentMoney;
+	private Integer damageAssessmentMoney;
 	private int id;
 	private int roadsideAssistanceCompanyID;
 	private int damageAssessmentCompanyID;

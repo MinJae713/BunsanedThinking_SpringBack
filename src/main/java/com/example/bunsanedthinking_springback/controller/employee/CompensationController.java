@@ -21,48 +21,6 @@ public class CompensationController {
 	@Autowired
 	private CompensationSModel compensationSModel;
 
-	//	public void requestCompensation(String accountHolder, String bank, String bankAccount, int money,
-	//									PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList, Report report, ReportList reportList, AccidentList accidentList)
-	//					throws NotExistException, AlreadyProcessedException {
-	//		compensationModel.requestCompensation(accountHolder, bank, bankAccount, money, paymentType, contractId, paymentDetailList, report, reportList, accidentList);
-	//	}
-	//	public void requestInsuranceMoney(Customer customer, int money, InsuranceMoney insuranceMoney, InsuranceMoneyList insuranceMoneyList,
-	//									  PaymentType paymentType, int contractId, PaymentDetailList paymentDetailList) throws NotExistException, AlreadyProcessedException{
-	//		compensationModel.requestInsuranceMoney(customer, money, insuranceMoney, insuranceMoneyList, paymentType, contractId, paymentDetailList);
-	//	}
-	//	public ArrayList<InsuranceMoney> getAllInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
-	//		return compensationModel.getAllInsuranceMoney(insuranceMoneyList);
-	//	}
-	//	public ArrayList<InsuranceMoney> getAllUnprocessedInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
-	//		return compensationModel.getAllUnprocessedInsuranceMoney(insuranceMoneyList);
-	//	}
-	//	public ArrayList<InsuranceMoney> getAllProcessedInsuranceMoney(InsuranceMoneyList insuranceMoneyList) {
-	//		return compensationModel.getAllProcessedInsuranceMoney(insuranceMoneyList);
-	//	}
-	//	public InsuranceMoney getInsuranceMoneyById(InsuranceMoneyList insuranceMoneyList, int id) throws NotExistException {
-	//		return compensationModel.getInsuranceMoneyById(insuranceMoneyList, id);
-	//	}
-	//	public Contract getContractById(ContractList contractList, int contractId) throws NotExistContractException {
-	//		return compensationModel.getContractById(contractList, contractId);
-	//	}
-	//	public Customer getCustomerById(CustomerList customerList, int customerID) throws NotExistException {
-	//		return compensationModel.getCustomerById(customerList, customerID);
-	//	}
-	//	public ArrayList<Report> getAllReport(ReportList reportList) {
-	//		return compensationModel.getAllReport(reportList);
-	//	}
-	//	public Report getReportById(ReportList reportList, int id) throws NotExistException {
-	//		return compensationModel.getReportById(reportList, id);
-	//	}
-	//	public ArrayList<Report> getAllUnprocessedReport(ReportList reportList) {
-	//		return compensationModel.getAllUnprocessedReport(reportList);
-	//	}
-	//	public ArrayList<Report> getAllCompletedReport(ReportList reportList) {
-	//		return compensationModel.getAllCompletedReport(reportList);
-	//	}
-	//	public Contract getAutomobileByCustomerId(ContractList contractList, int customerID) throws NotExistContractException, NotExistException {
-	//		return compensationModel.getAutomobileByCustomerId(contractList, customerID);
-	//	}
 	@PatchMapping("/requestCompensation")
 	public void requestCompensation(@RequestBody ReqCompensationDTO reqCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {
@@ -94,7 +52,7 @@ public class CompensationController {
 		 */
 		compensationSModel.requestInsuranceMoney(reqInsuranceMoneyDTO);
 	}
-
+	// get은 검증 완료
 	@GetMapping("/getAllInsuranceMoney")
 	public List<InsuranceMoney> getAllInsuranceMoney() {
 		return compensationSModel.getAllInsuranceMoney();

@@ -19,6 +19,7 @@ public class Recontract extends Contract {
 	public Recontract(Contract contract) {
 		super(contract);
 		this.setOriginalContract(contract);
+		// 이거 다른 필드값도 지정하나유
 		// TODO Auto-generated constructor stub
 	}
 
