@@ -13,5 +13,5 @@ public class CollateralDTO {
 	private int minimumAsset;
 	private int collateralType;
 	private int minimumValue;
-	private int monthlyPremium;
+	private int monthlyIncome;
 }

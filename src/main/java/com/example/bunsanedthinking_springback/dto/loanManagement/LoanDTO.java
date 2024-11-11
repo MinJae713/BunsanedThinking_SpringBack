@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoanDTO {
 	private int loanType;
-	private	String name;
+	private String name;
 	private int interestRate;
 	private int maximumMoney;
 	private int minimumAsset;
 	private int parameter;
-	private int monthlyPremium;
+	private int monthlyIncome;
 }

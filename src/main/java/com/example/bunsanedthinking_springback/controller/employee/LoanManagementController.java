@@ -1,15 +1,6 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.loanManagement.CollateralDTO;
-import com.example.bunsanedthinking_springback.dto.loanManagement.LoanDTO;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.product.Product;
-
-import com.example.bunsanedthinking_springback.model.service.employee.loanManagement.LoanManagementSModel;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.bunsanedthinking_springback.dto.loanManagement.CollateralDTO;
+import com.example.bunsanedthinking_springback.dto.loanManagement.LoanDTO;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.service.employee.loanManagement.LoanManagementSModel;
 
 @RestController
 @RequestMapping("/employee/loanManagement")
@@ -52,18 +50,13 @@ public class LoanManagementController {
 
 	@PostMapping("/requestLoan")
 	public void requestLoan(int contractId, int money, int paymentType,
-			boolean result) throws AlreadyProcessedException, NotExistContractException {
+		boolean result) throws AlreadyProcessedException, NotExistContractException {
 		loanManagementSModel.requestLoan(contractId, money, paymentType, result);
 	}
 
-	// public void updateLoanProduct(int index, String input, Collateral collateralLoan)
-	// 		throws DuplicateLoanException, NotExistException {
-	// 	loanManagementModel.updateLoanProduct(index, input, collateralLoan);
-	// }
-
 	@PatchMapping("/updateLoanProduct")
 	public void updateLoanProduct(@RequestParam("index") int index, @RequestParam("input") String input,
-			@RequestParam("loanId") int loanId) throws DuplicateLoanException, NotExistException {
+		@RequestParam("loanId") int loanId) throws DuplicateLoanException, NotExistException {
 		loanManagementSModel.updateLoanProduct(index, input, loanId);
 	}
 
@@ -73,7 +66,7 @@ public class LoanManagementController {
 	}
 
 	@GetMapping("/getAll")
-	public List<Product> getAll() {
+	public List<Loan> getAll() {
 		return loanManagementSModel.getAll();
 	}
 
