@@ -9,6 +9,7 @@ import com.example.bunsanedthinking_springback.model.service.employee.humanResou
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class HumanResourceController {
 	private HumanResourceSModel humanResourceSModel;
 
 	@PostMapping("/addEmployee")
-	public void addEmployee(@RequestBody EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException {
+	public void addEmployee(@RequestBody EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException, ParseException {
 		humanResourceSModel.addEmployee(employeeDTO);
 	}
 
