@@ -29,6 +29,7 @@ public class PartnerCompanyVO {
 		partnerCompany.setEvaluation(evaluation);
 		partnerCompany.setName(name);
 		partnerCompany.setPartnerCompanyType(PartnerCompanyType.values()[partner_company_type]);
+		partnerCompany.setPhoneNumber(phone_number);
 		partnerCompany.setReportList(reports);
 		return partnerCompany;
 	}
