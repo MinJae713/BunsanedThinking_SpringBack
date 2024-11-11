@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.customerInformationManagement.AddCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.dto.mo.UpdateCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementSModel;
@@ -33,17 +34,18 @@ public class CustomerInformationManagementController {
 	}
 
 	@GetMapping("/getCustomerInformation")
-	public CustomerVO getCustomerInformation(@RequestParam int id) throws NotExistException{
+	public Customer getCustomerInformation(@RequestParam int id) throws NotExistException{
 		return customerInformationManagementSModel.getCustomerInformation(id);
 	}
 
+	///Date 관련 데이터가 전부 이상함 ex)"postDate": "3923-05-15"
 	@PatchMapping("/updateCustomerInformation")
 	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationDTO updateCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException, NotExistException{
 		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationDTO);
 	}
 
 	@GetMapping("/getAll")
-	public List<CustomerVO> getAll() {
+	public List<Customer> getAll() {
 		return customerInformationManagementSModel.getAll();
 	}
 }

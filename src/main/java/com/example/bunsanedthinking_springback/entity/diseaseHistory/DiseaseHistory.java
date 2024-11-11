@@ -101,5 +101,33 @@ public class DiseaseHistory implements Cloneable{
 		return result;
 	}
 
+//	뭐가 맞는지모르겠다
+//public DiseaseHistoryVO findVO() {
+//	if (date_of_diagnosis == null) {
+//		throw new IllegalArgumentException("Date of diagnosis is null and cannot be converted to LocalDate.");
+//	}
+//	System.out.println("Converting date_of_diagnosis: " + date_of_diagnosis); // 디버깅용 로그 추가
+//	// Date 객체를 안전하게 LocalDate로 변환
+//	LocalDate lDate = date_of_diagnosis.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//	return new DiseaseHistoryVO(id, lDate, name, customer_id);
+//}
+//
+//	public DiseaseHistoryVO finddiseaseVO() {
+//		if (date_of_diagnosis == null) {
+//			throw new IllegalArgumentException("Date of diagnosis is null and cannot be converted to LocalDate.");
+//		}
+//		System.out.println("Converting date_of_diagnosis in finddiseaseVO: " + date_of_diagnosis); // 디버깅용 로그 추가
+//
+//		DiseaseHistoryVO result = new DiseaseHistoryVO();
+//		result.setId(id);
+//		result.setName(name);
+//		result.setCustomer_id(customer_id);
+//		// Date 객체를 안전하게 LocalDate로 변환
+//		LocalDate localDate = date_of_diagnosis.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		result.setDate_of_diagnosis(localDate);
+//
+//		return result;
+//	}
+
 
 }

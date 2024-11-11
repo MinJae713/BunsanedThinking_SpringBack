@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.entity.department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 //2024-06-02 源����쁽
 @NoArgsConstructor
+@AllArgsConstructor
 public class Department implements Cloneable {
 	private String headName;
 	private int id;
