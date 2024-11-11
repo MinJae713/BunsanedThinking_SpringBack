@@ -4,7 +4,7 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.model.service.employee.financialAccountant.FinancialAccountantSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.financialAccountant.FinancialAccountantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 @RequestMapping("/employee/financialAccountant")
 public class FinancialAccountantController {
 	@Autowired
-	private FinancialAccountantSModel financialAccountantSModel;
+	private FinancialAccountantService financialAccountantSModel;
 
 	@GetMapping("/getDepositDetail")
 	public DepositDetail getDepositDetail(@RequestParam("depositDetailId") int depositDetailId) throws

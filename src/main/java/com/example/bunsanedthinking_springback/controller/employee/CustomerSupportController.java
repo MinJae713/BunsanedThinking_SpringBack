@@ -4,7 +4,7 @@ import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.model.service.employee.customerSupport.CustomerSupportSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.customerSupport.CustomerSupportService;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/employee/customerSupport")
 public class CustomerSupportController {
 	@Autowired
-	private CustomerSupportSModel customerSupportSModel;
+	private CustomerSupportService customerSupportSModel;
 
 	@PatchMapping("/handleComplaint")
 	public void handleComplaint(@RequestParam("employeeName") String employeeName, @RequestParam("complaintId") int complaintId,

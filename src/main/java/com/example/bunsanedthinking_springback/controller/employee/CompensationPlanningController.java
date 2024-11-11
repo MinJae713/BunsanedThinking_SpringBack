@@ -1,11 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.compensationPlanning.AddPartnerCompanyDTO;
-import com.example.bunsanedthinking_springback.dto.compensationPlanning.UpdatePartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.AddPartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.UpdatePartnerCompanyDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning.CompensationPlanningSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning.CompensationPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/employee/compensationPlanning")
 public class CompensationPlanningController {
 	@Autowired
-	private CompensationPlanningSModel compensationPlanningSModel;
+	private CompensationPlanningService compensationPlanningSModel;
 
 	//	public void addPartnerCompany(String name, String phoneNumber, PartnerCompanyType partnerCompanyType, String headName, String headPhoneNumber, PartnerCompanyList partnerCompanyList) throws DuplicatePartnerCompanyException {
 	//		compensationPlanningModel.addPartnerCompany(name, phoneNumber, partnerCompanyType, headName, headPhoneNumber, partnerCompanyList);

@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.customerInformationManagement.AddCustomerInformationDTO;
-import com.example.bunsanedthinking_springback.dto.mo.UpdateCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementSModel;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,7 @@ import java.util.List;
 public class CustomerInformationManagementController {
 
 	@Autowired
-	private CustomerInformationManagementSModel customerInformationManagementSModel;
+	private CustomerInformationManagementService customerInformationManagementSModel;
 
 	@PostMapping("/addCustomerInformation")
 	public void addCustomerInformation(@RequestBody AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {

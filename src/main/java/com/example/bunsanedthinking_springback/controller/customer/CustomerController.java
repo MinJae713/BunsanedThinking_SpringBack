@@ -14,7 +14,7 @@ import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.*;
-import com.example.bunsanedthinking_springback.model.service.customer.CustomerSModel;
+import com.example.bunsanedthinking_springback.model.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
 	@Autowired
-	private CustomerSModel customerSModel;
+	private CustomerService customerSModel;
 	@PatchMapping("/applyEndorsement")
 	public void applyEndorsement(@RequestParam int index, @RequestParam int contractId)
 				throws NotExistContractException, NotExistException {

@@ -7,7 +7,7 @@ import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 
-import com.example.bunsanedthinking_springback.model.service.employee.contractManagement.ContractManagementSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.contractManagement.ContractManagementService;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/employee/contractManagement")
 public class ContractManagementController {
 	@Autowired
-	private ContractManagementSModel contractManagementSModel;
+	private ContractManagementService contractManagementSModel;
 	@PatchMapping("/requestTerminationFee")
 	public void requestTerminationFee(@RequestParam int tercontractId, @RequestParam int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {

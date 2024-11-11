@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.administrative.AddOfficeSupplyDTO;
-import com.example.bunsanedthinking_springback.dto.mo.UpdateOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyDTO;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.administrative.AdministrativeSModel;
-import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
+import com.example.bunsanedthinking_springback.model.service.employee.administrative.AdministrativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,7 @@ import java.util.List;
 public class AdministrativeController {
 
 	@Autowired
-	private AdministrativeSModel administrativeSModel;
+	private AdministrativeService administrativeSModel;
 
 //	@PostMapping("/addOfficeSupply")
 //	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {

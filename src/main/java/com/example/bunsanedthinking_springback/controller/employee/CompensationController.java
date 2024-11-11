@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.compensation.ReqCompensationDTO;
-import com.example.bunsanedthinking_springback.dto.compensation.ReqInsuranceMoneyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqCompensationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -9,7 +9,7 @@ import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.compensation.CompensationSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.compensation.CompensationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/employee/compensation")
 public class CompensationController {
 	@Autowired
-	private CompensationSModel compensationSModel;
+	private CompensationService compensationSModel;
 
 	@PatchMapping("/requestCompensation")
 	public void requestCompensation(@RequestBody ReqCompensationDTO reqCompensationDTO)

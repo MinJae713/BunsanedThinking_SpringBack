@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.partnerCompany;
 
 import com.example.bunsanedthinking_springback.dto.partnerCompany.UpdateReportDTO;
-import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanySModel;
+import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanyService;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class PartnerCompanyController {
 
 	@Autowired
-	private PartnerCompanySModel partnerCompanySModel;
+	private PartnerCompanyService partnerCompanySModel;
 
 	@GetMapping("/getPartnerCompany")
 	public PartnerCompanyVO getPartnerCompany(@RequestParam int id) throws NotExistException {

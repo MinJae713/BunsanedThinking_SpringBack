@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.mo.AddDepartmentDTO;
-import com.example.bunsanedthinking_springback.dto.mo.UpdateDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningSModel;
-import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ManagementPlanningController {
 
 	@Autowired
-	private ManagementPlanningSModel managementPlanningSModel;
+	private ManagementPlanningService managementPlanningSModel;
 
 //	@PostMapping("/addDepartment")
 //	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {

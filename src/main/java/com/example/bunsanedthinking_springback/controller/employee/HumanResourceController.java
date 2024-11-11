@@ -1,11 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.humanResource.EmployeeDTO;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.EmployeeDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/employee/humanResource")
 public class HumanResourceController {
 	@Autowired
-	private HumanResourceSModel humanResourceSModel;
+	private HumanResourceService humanResourceSModel;
 
 	@PostMapping("/addEmployee")
 	public void addEmployee(@RequestBody EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException, ParseException {

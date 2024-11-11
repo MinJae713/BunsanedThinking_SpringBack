@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.sales.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.sales.InduceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
@@ -11,7 +11,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @RequestMapping("/employee/sales")
 public class SalesController {
 	@Autowired
-	private SalesSModel salesSModel;
+	private SalesService salesSModel;
 
 	@PatchMapping("/evaluateSalesPerformance")
 	public void evaluateSalesPerformance(int evaluate, int id){

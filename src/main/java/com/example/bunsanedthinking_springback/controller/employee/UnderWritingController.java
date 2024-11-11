@@ -2,9 +2,8 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingService;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 @RequestMapping("/employee/underWriting")
 public class UnderWritingController {
 	@Autowired
-	private UnderWritingSModel underWritingSModel;
+	private UnderWritingService underWritingSModel;
 
 	@PostMapping("/applyCoperation")
 	public void applyCoperation() {

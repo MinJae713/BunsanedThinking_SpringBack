@@ -1,11 +1,11 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.ProductManagement.AutomobileDTO;
-import com.example.bunsanedthinking_springback.dto.ProductManagement.DiseaseDTO;
-import com.example.bunsanedthinking_springback.dto.ProductManagement.InjuryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AutomobileDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.DiseaseDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.InjuryDTO;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementSModel;
+import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 @RequestMapping("/employee/productManagement")
 public class ProductManagementController {
 	@Autowired
-	private ProductManagementSModel productManagementSModel;
+	private ProductManagementService productManagementSModel;
 
 	@PostMapping("/addDiseaseInsurance")
 	public void addDiseaseInsurance(@RequestBody DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
