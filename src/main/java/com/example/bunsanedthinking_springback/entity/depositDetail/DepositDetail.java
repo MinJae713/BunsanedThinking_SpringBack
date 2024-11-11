@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -45,7 +46,7 @@ public class DepositDetail {
 	}
 
 	public DepositDetailVO findVO() {
-		LocalDate lDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
+		LocalDate lDate = new java.util.Date(date.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new DepositDetailVO(id, depositorName,
 				lDate, money, path.ordinal(), contractID);
 	}

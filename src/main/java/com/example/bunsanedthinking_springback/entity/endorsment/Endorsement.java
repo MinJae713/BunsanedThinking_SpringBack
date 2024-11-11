@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.EndorsementVO;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -15,6 +16,8 @@ public class Endorsement extends Contract {
 
 	public Endorsement(Contract contract) {
 		super(contract);
+		applyDate = new Date();
+		endorsementStatus = EndorsementStatus.Unprocessed;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,7 +26,7 @@ public class Endorsement extends Contract {
 
 	// 이건 좀 생각좀 해보자
 	public EndorsementVO findEndorsementVO() {
-		LocalDate lApplyDate = LocalDate.of(applyDate.getYear(), applyDate.getMonth()+1, applyDate.getDay());
+		LocalDate lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new EndorsementVO(getId(), lApplyDate,
 				endorsementStatus.ordinal());
 	}

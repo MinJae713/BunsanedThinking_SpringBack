@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -30,17 +31,10 @@ public class ComplaintVO {
         complaint.setId(id);
         complaint.setComplaintType(ComplaintType.values()[complaint_type]);
         complaint.setContent(content);
-        complaint.setPostDate(new Date(
-                date.getYear(),
-                date.getMonthValue(),
-                date.getDayOfMonth()
-        ));
+        complaint.setPostDate(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
         complaint.setEmployeeName(employee_name);
-        complaint.setProcessingDate(new Date(
-                processing_date.getYear(),
-                processing_date.getMonth().ordinal()+1,
-                processing_date.getDayOfMonth()
-        ));
+        complaint.setProcessingDate(Date.from(processing_date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         complaint.setProcessStatus(ComplaintProcessStatus.values()[process_status]);
         complaint.setResult(result);
         complaint.setTitle(title);

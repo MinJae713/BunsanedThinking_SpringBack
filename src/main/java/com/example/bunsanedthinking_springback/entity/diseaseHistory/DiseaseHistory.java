@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -31,15 +32,12 @@ public class DiseaseHistory implements Cloneable{
 	public DiseaseHistory(DiseaseHistoryVO diseaseHistoryVO) {
 		customer_id = diseaseHistoryVO.getCustomer_id();
 		LocalDate localDate = diseaseHistoryVO.getDate_of_diagnosis();
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		int day = localDate.getDayOfMonth();
-		date_of_diagnosis = new Date(year, month, day);
+		date_of_diagnosis = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		id = diseaseHistoryVO.getId();
 		name = diseaseHistoryVO.getName();
 	}
 	public DiseaseHistoryVO findVO() {
-		LocalDate lDate = LocalDate.of(date_of_diagnosis.getYear(), date_of_diagnosis.getMonth()+1, date_of_diagnosis.getDay());
+		LocalDate lDate = new java.util.Date(date_of_diagnosis.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new DiseaseHistoryVO(id, lDate, name, customer_id);
 	}
 

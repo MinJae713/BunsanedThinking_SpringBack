@@ -52,7 +52,6 @@ public class CompensationController {
 		 */
 		compensationSModel.requestInsuranceMoney(reqInsuranceMoneyDTO);
 	}
-	// get은 검증 완료
 	@GetMapping("/getAllInsuranceMoney")
 	public List<InsuranceMoney> getAllInsuranceMoney() {
 		return compensationSModel.getAllInsuranceMoney();

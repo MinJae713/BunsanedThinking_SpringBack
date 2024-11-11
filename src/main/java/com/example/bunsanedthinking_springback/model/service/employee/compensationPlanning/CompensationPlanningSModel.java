@@ -32,7 +32,7 @@ public class CompensationPlanningSModel {
 				throw new DuplicatePartnerCompanyException();
 		int id = partnerCompanies.isEmpty() ?
 				Integer.parseInt(PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "1") :
-				partnerCompanyDModel.getMaxId();
+				getNextId(partnerCompanyDModel.getMaxId(), PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER);
 		// evaluation, reportList 지정X
 		PartnerCompany partnerCompany = new PartnerCompany(name, phoneNumber,
 				partnerCompanyType, headName, headPhoneNumber);
@@ -45,6 +45,14 @@ public class CompensationPlanningSModel {
 //		int index = Integer.parseInt(maxId.toString().substring(partnerCompanySerialLength));
 //		String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + (index + 1);
 //		id = Integer.parseInt(compound);
+	}
+
+	private int getNextId(int maxId, int serial) {
+		String maxIdStr = maxId+"";
+		int serialLength = (serial+"").length();
+		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
+		nextId++;
+		return Integer.parseInt(serial+""+nextId);
 	}
 
 	public void evaluatePartnerCompany(int evaluate, int partnerCompanyId) throws NotExistException {

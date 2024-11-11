@@ -28,9 +28,9 @@ import com.example.bunsanedthinking_springback.model.domain.termination.Terminat
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +75,7 @@ public class ContractManagementSModel {
 		totalMoney = (int) (totalMoney * 0.3);
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				paymentDetailDModel.getMaxId()+1;
+				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
 				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
 		paymentDetail.setId(paymentId);
@@ -108,6 +108,14 @@ public class ContractManagementSModel {
 		//		contractList.update(contract);
 	}
 
+	private int getNextId(int maxId, int serial) {
+		String maxIdStr = maxId+"";
+		int serialLength = (serial+"").length();
+		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
+		nextId++;
+		return Integer.parseInt(serial+""+nextId);
+	}
+
 	public void reviewEndorsement(int endorsementId, int index) throws NotExistException {
 		Endorsement encontract = endorsementDModel.getById(endorsementId);
 		if (encontract == null) throw new NotExistException();
@@ -131,15 +139,15 @@ public class ContractManagementSModel {
 		Recontract recontract = recontractDModel.getById(recontractId);
 		if (recontract == null) throw new NotExistContractException();
 		if (index == 1) {
-			Contract contract = recontract.getOriginalContract();
-			Insurance product = (Insurance) contract.getProduct();
-			contract.setContractStatus(ContractStatus.Maintaining);
-			contract.setDate(new Date());
+//			Contract contract = recontract.getOriginalContract();
+			Insurance product = (Insurance) recontract.getProduct();
+			recontract.setContractStatus(ContractStatus.Maintaining);
+			recontract.setDate(new Date());
 
 			LocalDate currentDate = LocalDate.now();
 			LocalDate expirationDate = currentDate.plusYears(product.getContractPeriod());
-			contract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-			contractDModel.update(contract);
+			recontract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//			contractDModel.update(contract);
 			recontract.setRecontractStatus(RecontractStatus.Completed);
 			recontractDModel.update(recontract);
 		} else if (index == 2) {
@@ -167,10 +175,10 @@ public class ContractManagementSModel {
 		Revival revival = revivalDModel.getById(revivalId);
 		if (revival == null) throw new NotExistContractException();
 		if (index == 1) {
-			Contract contract = revival.getOriginalContract();
-			contract.setContractStatus(ContractStatus.Maintaining);
-			contract.setDate(new Date());
-			contractDModel.update(contract);
+//			Contract contract = revival.getOriginalContract();
+			revival.setContractStatus(ContractStatus.Maintaining);
+			revival.setDate(new Date());
+//			contractDModel.update(contract);
 			revival.setRevivalStatus(RevivalStatus.Completed);
 			revivalDModel.update(revival);
 		} else if (index == 2) {

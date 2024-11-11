@@ -54,7 +54,6 @@ public class CustomerController {
 			throws NotExistContractException, NotExistException {
 		customerSModel.payInsurancefee(depositDTO);
 	}
-	// get은 검증 완
 	@GetMapping("/getCustomerById")
 	// http://localhost:8080/customer/getCustomerById?id=2002 - Get Post Patch delete
 	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {

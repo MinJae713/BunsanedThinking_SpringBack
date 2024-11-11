@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class AccidentHistory implements Cloneable{
 	}
 
 	public AccidentHistoryVO findVO() {
-		LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDate());
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new AccidentHistoryVO(id,
 				localDate, accidentDetail, customerID);
 	}
@@ -37,10 +38,7 @@ public class AccidentHistory implements Cloneable{
 	public AccidentHistory(AccidentHistoryVO accidentHistoryVO) {
 		customerID = accidentHistoryVO.getCustomer_id();
 		LocalDate localDate = accidentHistoryVO.getDate();
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		int day = localDate.getDayOfMonth();
-		date = new Date(year, month, day);
+		date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		accidentDetail = accidentHistoryVO.getDetails_of_accident();
 		id = accidentHistoryVO.getId();
 	}

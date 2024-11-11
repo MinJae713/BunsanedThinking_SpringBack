@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -21,10 +22,7 @@ public class RevivalVO {
 
 	public Revival getEntity(Contract contract) {
 		Revival result = new Revival(contract);
-		int year = apply_date.getYear();
-		int month = apply_date.getMonthValue();
-		int day = apply_date.getDayOfMonth();
-		result.setApplyDate(new Date(year, month, day));
+		result.setApplyDate(Date.from(apply_date.atZone(ZoneId.systemDefault()).toInstant()));
 		result.setRevivalStatus(RevivalStatus.values()[revival_status]);
 		return result;
 	}

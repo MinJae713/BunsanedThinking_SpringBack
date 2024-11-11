@@ -28,7 +28,7 @@ public class AccidentDModel {
 			return null;
 		String name = customerVO.getName();
 		String phoneNumber = customerVO.getPhone_number();
-		return new Accident(accidentVO, name, phoneNumber);
+		return accidentVO.getEntity(name, phoneNumber);
 	}
 
 	public List<Accident> getAll() {

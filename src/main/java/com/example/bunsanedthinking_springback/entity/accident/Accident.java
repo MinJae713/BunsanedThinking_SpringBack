@@ -38,10 +38,7 @@ public class Accident {
 		this.customerName = customerName;
 		this.customerPhoneNumber = customerPhoneNumber;
 		LocalDate localDate = accidentVO.getDate();
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		int day = localDate.getDayOfMonth();
-		date = new Date(year, month, day);
+		date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 		location = accidentVO.getLocation();
 		processStatus = AccidentProcessStatus.values()[accidentVO.getProcess_status()];
@@ -49,7 +46,7 @@ public class Accident {
 	}
 
 	public AccidentVO findVO() {
-		LocalDate localDate = date.toInstant().
+		LocalDate localDate = new java.util.Date(date.getTime()).toInstant().
 				atZone(ZoneId.systemDefault()).
 				toLocalDate();
 		return new AccidentVO(id, localDate,

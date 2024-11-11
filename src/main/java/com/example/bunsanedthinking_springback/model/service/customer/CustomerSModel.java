@@ -189,9 +189,17 @@ public class CustomerSModel {
 			throw new NotExistContractException();
 		int depositId = depositDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL+"1") :
-				depositDetailDModel.getMaxId() + 1;
+				getNextId(depositDetailDModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
 		depositDetailDModel.add(new DepositDetail(depositId, depositorName,
 				contractId, money, depositPath));
+	}
+
+	private int getNextId(int maxId, int serial) {
+		String maxIdStr = maxId+"";
+		int serialLength = (serial+"").length();
+		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
+		nextId++;
+		return Integer.parseInt(serial+""+nextId);
 	}
 
 	// 이 아래는 완료

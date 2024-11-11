@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -23,10 +24,7 @@ public class TerminationVO {
 	public Termination getEntity(Contract contract) {
 		Termination result = new Termination(contract);
 		// 위 생성자에서 contract, originCOntract 필드값 지정
-		int year = apply_date.getYear();
-		int month = apply_date.getMonthValue();
-		int day = apply_date.getDayOfMonth();
-		result.setApplyDate(new Date(year, month, day));
+		result.setApplyDate(Date.from(apply_date.atZone(ZoneId.systemDefault()).toInstant()));
 		result.setTerminationFee(termination_fee);
 		result.setTerminationStatus(TerminationStatus.values()[termination_status]);
 		return result;

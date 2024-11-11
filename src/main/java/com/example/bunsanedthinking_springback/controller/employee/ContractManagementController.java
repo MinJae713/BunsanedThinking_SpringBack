@@ -48,7 +48,6 @@ public class ContractManagementController {
 		// 예시URL - http://localhost:8080/employee/contractManagement/reviewRevival?revivalId=1001&index=1
 		contractManagementSModel.reviewRevival(revivalId, index);
 	}
-	// get은 검증 완
 	@GetMapping("/getAllDefaultContract")
 	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllDefaultContract();

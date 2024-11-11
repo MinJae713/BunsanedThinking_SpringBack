@@ -48,7 +48,7 @@
             medical_certificate        = #{medical_certificate},
             contract_id                = #{contract_id},
             bank_name                  = #{bank_name},
-            process_status             = #{status},
+            process_status             = #{process_status},
             apply_date                 = #{apply_date}
         where id = #{id}
     </update>

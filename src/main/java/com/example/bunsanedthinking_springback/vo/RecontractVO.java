@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -21,10 +22,7 @@ public class RecontractVO {
 
 	public Recontract getEntity(Contract contract) {
 		Recontract result = new Recontract(contract);
-		int year = apply_date.getYear();
-		int month = apply_date.getMonthValue();
-		int day = apply_date.getDayOfMonth();
-		result.setApplyDate(new Date(year, month, day));
+		result.setApplyDate(Date.from(apply_date.atZone(ZoneId.systemDefault()).toInstant()));
 		result.setRecontractStatus(RecontractStatus.values()[recontract_status]);
 		return result;
 	}

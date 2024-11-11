@@ -19,7 +19,8 @@ public class Recontract extends Contract {
 	public Recontract(Contract contract) {
 		super(contract);
 		this.setOriginalContract(contract);
-		// 이거 다른 필드값도 지정하나유
+		applyDate = new Date();
+		recontractStatus = RecontractStatus.Unprocessed;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -28,7 +29,7 @@ public class Recontract extends Contract {
 	private Contract originalContract;
 
 	public RecontractVO findRecontractVO() {
-		LocalDateTime lApplyDate = applyDate.toInstant().
+		LocalDateTime lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().
 				atZone(ZoneId.systemDefault()).
 				toLocalDateTime();
 		return new RecontractVO(getId(), lApplyDate,

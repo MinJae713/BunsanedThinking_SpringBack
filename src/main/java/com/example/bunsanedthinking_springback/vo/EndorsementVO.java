@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -24,10 +25,7 @@ public class EndorsementVO {
 
     public Endorsement getEntity(Contract contract) {
         Endorsement result = new Endorsement(contract);
-        int year = apply_date.getYear();
-        int month = apply_date.getMonthValue();
-        int day = apply_date.getDayOfMonth();
-        result.setApplyDate(new Date(year, month, day));
+        result.setApplyDate(Date.from(apply_date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         result.setEndorsementStatus(EndorsementStatus.values()[endorsement_status]);
         return result;
     }

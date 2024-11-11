@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -43,10 +44,7 @@ public class Counsel implements Cloneable {
 	}
 	public Counsel(CounselVO counselVO, String name, String phoneNumber, String job, int age, Gender gender) {
 		LocalDate localDate = counselVO.getCounsel_date();
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		int day = localDate.getDayOfMonth();
-		counselDate = new Date(year, month, day);
+		counselDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		customerID = counselVO.getCustomer_id();
 		id = counselVO.getId();
 		processStatus = CounselProcessStatus.values()[counselVO.getProcess_status()];
@@ -60,7 +58,7 @@ public class Counsel implements Cloneable {
 	}
 
 	public CounselVO findVO() {
-		LocalDate lCounselDate = LocalDate.of(counselDate.getYear(), counselDate.getMonth()+1, counselDate.getDay());
+		LocalDate lCounselDate = new java.util.Date(counselDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new CounselVO(id, lCounselDate,
 				processStatus.ordinal(), customerID,
 				productID);
