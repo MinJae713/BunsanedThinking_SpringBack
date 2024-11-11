@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.entity.officeSupply;
 
 
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
  * @created 27-5-2024 ���� 4:40:43
  */
 @NoArgsConstructor
+@AllArgsConstructor
 public class OfficeSupply implements Cloneable {
 
 	private int id;

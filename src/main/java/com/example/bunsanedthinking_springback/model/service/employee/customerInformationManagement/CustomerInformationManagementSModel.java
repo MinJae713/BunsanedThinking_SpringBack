@@ -7,10 +7,15 @@ import com.example.bunsanedthinking_springback.dto.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.sales.SurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.model.domain.accidentHistory.AccidentHistoryDModel;
+import com.example.bunsanedthinking_springback.model.domain.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.domain.diseaseHistory.DiseaseHistoryDModel;
+import com.example.bunsanedthinking_springback.model.domain.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
@@ -29,6 +34,14 @@ import java.util.List;
 @Service
 public class CustomerInformationManagementSModel {
 
+	@Autowired
+	private CustomerDModel customerDModel;
+	@Autowired
+	private AccidentHistoryDModel accidentHistoryDModel;
+	@Autowired
+	private SurgeryHistoryDModel surgeryHistoryDModel;
+	@Autowired
+	private DiseaseHistoryDModel diseaseHistoryDModel;
 	@Autowired
 	private CustomerMapper customerMapper;
 	@Autowired
@@ -64,7 +77,7 @@ public class CustomerInformationManagementSModel {
 				addCustomerInformationDTO.getPhoneNumber(),
 				addCustomerInformationDTO.getProperty(),
 				addCustomerInformationDTO.getResidentRegistrationNumber()
-				);
+		);
 		// VO를 DB에 추가
 		customerMapper.insert_CustomerInformationManagement(customerVO);
 
@@ -137,66 +150,74 @@ public class CustomerInformationManagementSModel {
 	}
 
 	public void deleteCustomerInformation(int id) throws NotExistException {
-		if (customerMapper.findById_CustomerInformationManagement(id) == null) {
+		Customer customer = customerDModel.getById(id);
+		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
-		accidentHistoryMapper.deleteAccidentHistoriesByCustomerId_CustomerInformationManagement(id);
-		surgeryHistoryMapper.deleteSurgeryHistoriesByCustomerId_CustomerInformationManagement(id);
-		diseaseHistoryMapper.deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement(id);
-		customerMapper.delete_CustomerInformationManagement(id);
+		customerDModel.delete(id);
 	}
 
-	public CustomerVO getCustomerInformation(int id) throws NotExistException {
-		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(id);
-		if (customerVO == null) {
+	public Customer getCustomerInformation(int id) throws NotExistException {
+		Customer customer = customerDModel.getById(id);
+		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
-		return customerVO;
+		return customer;
 	}
 
-	public void updateCustomerInformation(UpdateCustomerInformationDTO updateCustomerInformationDTO) throws NotExistException{
-		CustomerVO customerVO = customerMapper.findById_CustomerInformationManagement(updateCustomerInformationDTO.getId());
-		if (customerVO == null) {
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
-		}
+	public void updateCustomerInformation(UpdateCustomerInformationDTO updateCustomerInformationDTO)
+			throws NotExistException{
+		int id = updateCustomerInformationDTO.getId();
 		int index = updateCustomerInformationDTO.getIndex();
 		String input = updateCustomerInformationDTO.getInput();
-
+		Customer customer = customerDModel.getById(id);
+		if (customer == null) {
+			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+		}
 		switch (index) {
 			case 1:
-				customerVO.setName(input);
+				customer.setName(input);
+				customerDModel.update(customer);
 				break;
 			case 2:
-				customerVO.setPhone_number(input);
+				customer.setPhoneNumber(input);
+				customerDModel.update(customer);
 				break;
 			case 3:
-				customerVO.setJob(input);
+				customer.setJob(input);
+				customerDModel.update(customer);
 				break;
 			case 4:
-				customerVO.setAge(Integer.parseInt(input));
+				customer.setAge(Integer.parseInt(input));
+				customerDModel.update(customer);
 				break;
 			case 5:
-				customerVO.setGender(Integer.parseInt(input));
+				//customer.setGender(Integer.parseInt(input)); 이거는 int타입
+				customer.setGender(Gender.fromInt(Integer.parseInt(input))); //이거는 enum타입 둘 중에 어떤게 맞는걸까요? 일단 이렇게 해놓겠습니다
+				customerDModel.update(customer);
 				break;
 			case 6:
-				customerVO.setAddress(input);
+				customer.setAddress(input);
+				customerDModel.update(customer);
 				break;
 			case 7:
-				customerVO.setProperty((long)(Integer.parseInt(input)));
+				customer.setProperty((long)(Integer.parseInt(input)));
+				customerDModel.update(customer);
 				break;
 			case 11:
-				customerVO.setBank_name(input);
+				customer.setBankName(input);
+				customerDModel.update(customer);
 				break;
 			case 12:
-				customerVO.setBank_account(input);
+				customer.setBankAccount(input);
+				customerDModel.update(customer);
 				break;
 			default:
 				break;
 		}
-		customerMapper.update_CustomerInformationManagement(customerVO);
 	}
 
-	public List<CustomerVO> getAll() {
-		return customerMapper.getAll_CustomerInformationManagement();
+	public List<Customer> getAll() {
+		return customerDModel.getAll();
 	}
 }

@@ -44,4 +44,7 @@ public class OfficeSupplyDModel {
 		if (getById(id) == null) return;
 		officeSupplyMapper.delete_OfficeSupply(id);
 	}
+	public int getTotalInventory(){
+		return officeSupplyMapper.getTotalInventory_OfficeSupply();
+	}
 }

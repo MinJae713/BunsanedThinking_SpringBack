@@ -19,14 +19,18 @@ public class AdministrativeController {
 	@Autowired
 	private AdministrativeSModel administrativeSModel;
 
+//	@PostMapping("/addOfficeSupply")
+//	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
+//		administrativeSModel.addOfficeSupply(
+//				addOfficeSupplyDTO.getName(),
+//				addOfficeSupplyDTO.getDescription(),
+//				addOfficeSupplyDTO.getInventory(),
+//				addOfficeSupplyDTO.getTotal_inventory(),
+//				addOfficeSupplyDTO.getDepartment_id());
+//	}
 	@PostMapping("/addOfficeSupply")
 	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
-		administrativeSModel.addOfficeSupply(
-				addOfficeSupplyDTO.getName(),
-				addOfficeSupplyDTO.getDescription(),
-				addOfficeSupplyDTO.getInventory(),
-				addOfficeSupplyDTO.getTotal_inventory(),
-				addOfficeSupplyDTO.getDepartment_id());
+		administrativeSModel.addOfficeSupply(addOfficeSupplyDTO);
 	}
 
 	@DeleteMapping("/deleteOfficeSupply")
@@ -46,7 +50,7 @@ public class AdministrativeController {
 	}
 
 	@GetMapping("/getAll")
-	public List<OfficeSupplyVO> getAll() {
+	public List<OfficeSupply> getAll() {
 		return administrativeSModel.getAllOfficeSupplies();
 	}
 
