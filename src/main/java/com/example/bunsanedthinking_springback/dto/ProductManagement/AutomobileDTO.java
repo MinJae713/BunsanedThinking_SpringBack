@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AutomobileDTO {
-	private Integer id;
 	private String name;
 	private Integer maximumMoney;
 	private Integer insuranceType;

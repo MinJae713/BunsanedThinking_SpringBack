@@ -6,13 +6,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class InjuryDTO {
-	private Integer id;
 	private String name;
 	private Integer maximumMoney;
 	private Integer insuranceType;
 	private Integer monthlyPremium;
 	private Integer contractPeriod;
 	private String coverage;
-	private Integer InjuryType;
-	private Integer SurgeriesLimit;
+	private Integer injuryType;
+	private Integer surgeriesLimit;
 }

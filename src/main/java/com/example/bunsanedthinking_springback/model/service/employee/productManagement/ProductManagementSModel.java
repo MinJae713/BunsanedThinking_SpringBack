@@ -1,9 +1,22 @@
 package com.example.bunsanedthinking_springback.model.service.employee.productManagement;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.ProductManagement.AutomobileDTO;
 import com.example.bunsanedthinking_springback.dto.ProductManagement.DiseaseDTO;
 import com.example.bunsanedthinking_springback.dto.ProductManagement.InjuryDTO;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
+import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -12,14 +25,6 @@ import com.example.bunsanedthinking_springback.model.domain.disease.DiseaseDMode
 import com.example.bunsanedthinking_springback.model.domain.injury.InjuryDModel;
 import com.example.bunsanedthinking_springback.model.domain.insurance.InsuranceDModel;
 import com.example.bunsanedthinking_springback.model.domain.product.ProductDModel;
-import com.example.bunsanedthinking_springback.repository.*;
-import com.example.bunsanedthinking_springback.vo.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * @author Administrator
