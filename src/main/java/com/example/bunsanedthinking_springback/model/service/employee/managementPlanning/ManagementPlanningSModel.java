@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class ManagementPlanningSModel {
 	@Autowired
 	private DepartmentDModel departmentDModel;
-	@Autowired
-	public DepartmentMapper departmentMapper;
+//	@Autowired
+//	public DepartmentMapper departmentMapper;
 
 //	public void addDepartment(String headName, String name, String purpose, String task) throws DuplicateDepartmentException{
 //		if (departmentMapper.findByName_ManagementPlanning(name) != null) {
@@ -46,7 +46,7 @@ public class ManagementPlanningSModel {
 		if(isExistDepartmentName)
 			throw new DuplicateDepartmentException();
 
-		Integer maxId = departmentMapper.getMaxId_ManagementPlanning();
+		Integer maxId = departmentDModel.getMaxId();
 		int id;
 		if (maxId == null) {
 			id = Integer.parseInt(Department.DepartmentSerialNum + "1");

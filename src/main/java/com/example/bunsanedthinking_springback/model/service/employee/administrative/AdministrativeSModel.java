@@ -19,8 +19,8 @@ public class AdministrativeSModel {
 
 	@Autowired
 	private OfficeSupplyDModel officeSupplyDModel;
-	@Autowired
-	private OfficeSupplyMapper officeSupplyMapper;
+//	@Autowired
+//	private OfficeSupplyMapper officeSupplyMapper;
 
 //	public void addOfficeSupply(String name, String description, int inventory, int total_inventory,
 //		int department_id) throws DuplicateOfficeSupplyException {
