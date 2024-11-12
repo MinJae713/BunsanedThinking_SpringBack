@@ -1,5 +1,14 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
@@ -14,7 +23,13 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
@@ -36,14 +51,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 
 @Service
 public class SalesService {
@@ -244,8 +251,8 @@ public class SalesService {
 		return loanEntityModel.getById(id);
 	}
 
-	public ArrayList<Employee> getAllEmployee() {
-		return (ArrayList<Employee>)employeeEntityModel.getAll();
+	public List<Employee> getAllEmployee() {
+		return employeeEntityModel.getAll();
 	}
 
 	public Employee getEmployee(int id) {
@@ -256,16 +263,16 @@ public class SalesService {
 		return salesEntityModel.getById(id);
 	}
 
-	public ArrayList<Counsel> getAllCounsel() {
-		return (ArrayList<Counsel>)counselEntityModel.getAll();
+	public List<Counsel> getAllCounsel() {
+		return counselEntityModel.getAll();
 	}
 
 	public Counsel getCounsel(int id) {
 		return counselEntityModel.getById(id);
 	}
 
-	public ArrayList<Product> getAllProduct() {
-		return (ArrayList<Product>)productEntityModel.getAll();
+	public List<Product> getAllProduct() {
+		return productEntityModel.getAll();
 	}
 
 	public DiseaseHistory addDiseaseHistory(DiseaseHistoryDTO diseaseHistoryDTO) {
@@ -299,28 +306,28 @@ public class SalesService {
 		salesEntityModel.update(sales);
 	}
 
-	public ArrayList<Insurance> getAllDiseaseInsurance() {
-		return new ArrayList<>(diseaseEntityModel.getAll());
+	public List<Disease> getAllDiseaseInsurance() {
+		return diseaseEntityModel.getAll();
 	}
 
-	public ArrayList<Insurance> getAllInjuryInsurance() {
-		return new ArrayList<>(injuryEntityModel.getAll());
+	public List<Injury> getAllInjuryInsurance() {
+		return injuryEntityModel.getAll();
 	}
 
-	public ArrayList<Insurance> getAllAutomobileInsurance() {
-		return new ArrayList<>(automobileEntityModel.getAll());
+	public List<Automobile> getAllAutomobileInsurance() {
+		return automobileEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllCollateralLoan() {
-		return new ArrayList<>(collateralEntityModel.getAll());
+	public List<Collateral> getAllCollateralLoan() {
+		return collateralEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllFixedDepositLoan() {
-		return new ArrayList<>(fixedDepositEntityModel.getAll());
+	public List<FixedDeposit> getAllFixedDepositLoan() {
+		return fixedDepositEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllInsuranceContractLoan() {
-		return new ArrayList<>(insuranceContractEntityModel.getAll());
+	public List<InsuranceContract> getAllInsuranceContractLoan() {
+		return insuranceContractEntityModel.getAll();
 	}
 
 	public Sales getSalesContractCount(int id) {

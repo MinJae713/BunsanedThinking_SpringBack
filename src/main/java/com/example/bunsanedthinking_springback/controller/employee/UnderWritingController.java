@@ -1,9 +1,6 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingService;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingService;
 
 @RestController
 @RequestMapping("/employee/underWriting")
@@ -37,7 +37,7 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getAllRequestingInsurance")
-	public ArrayList<Contract> getAllRequestingInsurance(){
+	public List<Contract> getAllRequestingInsurance(){
 		return underWritingSModel.getAllRequestingInsurance();
 	}
 
@@ -52,7 +52,7 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getAllNotRequestingInsurance")
-	public ArrayList<Contract> getAllNotRequestingInsurance(){
+	public List<Contract> getAllNotRequestingInsurance(){
 		return underWritingSModel.getAllNotRequestingInsurance();
 	}
 

@@ -2,8 +2,8 @@ package com.example.bunsanedthinking_springback.model.service.employee.underwrit
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,12 +53,12 @@ public class UnderWritingService {
 		return result;
 	}
 
-	public ArrayList<Contract> getAllRequestingInsurance() {
-		return (ArrayList<Contract>)contractEntityModel.getAllRequestingInsurance();
+	public List<Contract> getAllRequestingInsurance() {
+		return contractEntityModel.getAllRequestingInsurance();
 	}
 
-	public ArrayList<Contract> getAllNotRequestingInsurance() {
-		return (ArrayList<Contract>)contractEntityModel.getAllNotRequestingInsurance();
+	public List<Contract> getAllNotRequestingInsurance() {
+		return contractEntityModel.getAllNotRequestingInsurance();
 	}
 
 	public Customer getCustomer(int id) {
