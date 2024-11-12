@@ -3,7 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.department;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
@@ -12,17 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.entity.department.Department;
-import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyDModel;
-import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
-import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 
 @Service
 public class DepartmentEntityModel {
