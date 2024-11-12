@@ -10,7 +10,7 @@
         select *
         from contract
     </select>
-    <select id="getMaxId_SalesModel" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(id)
         from contract
     </select>

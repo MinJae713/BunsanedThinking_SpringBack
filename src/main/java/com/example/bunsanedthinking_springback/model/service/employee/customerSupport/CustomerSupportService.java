@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerSupport;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -13,15 +21,9 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerSupportService {
@@ -35,6 +37,8 @@ public class CustomerSupportService {
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private ReportEntityModel reportEntityModel;
+	@Autowired
+	private EmployeeEntityModel employeeEntityModel;
 
 	public void handleComplaint(String employeeName, int complaintId, String result) throws
 		NotExistException,
@@ -42,10 +46,13 @@ public class CustomerSupportService {
 		Complaint complaint = complaintEntityModel.getById(complaintId);
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보를 찾을 수 없습니다.");
-		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed) {
+		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed)
 			throw new AlreadyProcessedException("이미 민원 처리가 완료되었습니다.");
-		}
-
+		boolean isExistEmployee = employeeEntityModel.getAll()
+			.stream()
+			.anyMatch(employee -> employee.getName().equals(employeeName));
+		if (!isExistEmployee)
+			throw new NotExistException("해당하는 직원 정보를 찾을 수 없습니다.");
 		complaint.setEmployeeName(employeeName);
 		complaint.setResult(result);
 		complaint.setProcessingDate(Date.valueOf(LocalDate.now()));

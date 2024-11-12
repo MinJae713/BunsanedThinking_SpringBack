@@ -25,54 +25,54 @@ import com.example.bunsanedthinking_springback.model.service.employee.loanManage
 @RequestMapping("/employee/loanManagement")
 public class LoanManagementController {
 	@Autowired
-	private LoanManagementService loanManagementSModel;
+	private LoanManagementService loanManagementService;
 
 	@PostMapping("/addCollateralProduct")
 	public void addLoanProduct(@RequestBody CollateralDTO collateralDTO) throws DuplicateLoanException {
-		// loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, collateralType, minimumValue, monthlyPremium);
-		loanManagementSModel.addLoanProduct(collateralDTO);
+		loanManagementService.addLoanProduct(collateralDTO);
 	}
 
 	@PostMapping("/addLoanProduct")
 	public void addLoanProduct(@RequestBody LoanDTO loanDTO) throws DuplicateLoanException {
-		// loanManagementModel.addLoanProduct(loanType, name, interestRate, limit, minimumAsset, parameter, monthlyPremium);
-		loanManagementSModel.addLoanProduct(loanDTO);
+		loanManagementService.addLoanProduct(loanDTO);
 	}
 
 	@GetMapping("/getLoanProduct")
 	public Loan getLoanProduct(@RequestParam("id") int id) throws NotExistException {
-		return loanManagementSModel.getLoanProduct(id);
+		return loanManagementService.getLoanProduct(id);
 	}
 
 	public boolean collectLoanPrincipalInterest() {
-		return loanManagementSModel.collectLoanPrincipalInterest();
+		return loanManagementService.collectLoanPrincipalInterest();
 	}
 
 	@PostMapping("/requestLoan")
-	public void requestLoan(int contractId, int money, int paymentType,
-		boolean result) throws AlreadyProcessedException, NotExistContractException {
-		loanManagementSModel.requestLoan(contractId, money, paymentType, result);
+	public void requestLoan(@RequestParam("contractId") int contractId,
+		@RequestParam("money") int money, @RequestParam("paymentType") int paymentType,
+		@RequestParam("result") boolean result)
+		throws AlreadyProcessedException, NotExistContractException {
+		loanManagementService.requestLoan(contractId, money, paymentType, result);
 	}
 
 	@PatchMapping("/updateLoanProduct")
 	public void updateLoanProduct(@RequestParam("index") int index, @RequestParam("input") String input,
 		@RequestParam("loanId") int loanId) throws DuplicateLoanException, NotExistException {
-		loanManagementSModel.updateLoanProduct(index, input, loanId);
+		loanManagementService.updateLoanProduct(index, input, loanId);
 	}
 
 	@DeleteMapping("/deleteLoanProduct")
 	public void deleteLoanProduct(@RequestParam("id") int id) throws NotExistException {
-		loanManagementSModel.deleteLoanProduct(id);
+		loanManagementService.deleteLoanProduct(id);
 	}
 
 	@GetMapping("/getAll")
 	public List<Loan> getAll() {
-		return loanManagementSModel.getAll();
+		return loanManagementService.getAll();
 	}
 
 	@GetMapping("/getOutcome")
 	public double getOutcome(@RequestParam("contractId") int contractId) throws
 		NotExistContractException, NotExistException {
-		return loanManagementSModel.getOutcome(contractId);
+		return loanManagementService.getOutcome(contractId);
 	}
 }

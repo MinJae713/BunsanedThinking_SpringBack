@@ -4,6 +4,6 @@ public class AlreadyRequestingException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public AlreadyRequestingException() {
-		super("�̹� �ɻ� ���Դϴ�.");
+		super("이미 신청한 상태입니다.");
 	}
 }

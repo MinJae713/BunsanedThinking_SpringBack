@@ -1,15 +1,5 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,6 +7,17 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ȯ
@@ -100,6 +101,7 @@ public class Contract {
 		ArrayList<DepositDetail> depositDetails,
 		ArrayList<PaymentDetail> paymentDetails,
 		Product product, ContractVO contractVO) {
+
 		setInsuranceMoneyList(insuranceMonies);
 		setCompensationDetailList(compensationDetails);
 		setDepositDetailList(depositDetails);
@@ -108,7 +110,9 @@ public class Contract {
 
 		setId(contractVO.getId());
 		setDate(java.sql.Date.valueOf(contractVO.getDate()));
-		setExpirationDate(java.sql.Date.valueOf(contractVO.getExpiration_date()));
+		LocalDate expirationDate = contractVO.getExpiration_date();
+		if (expirationDate != null)
+			setExpirationDate(java.sql.Date.valueOf(expirationDate));
 		setPaymentDate(contractVO.getPayment_date());
 
 		LocalDate terminationDate = contractVO.getTermination_date();
@@ -117,7 +121,10 @@ public class Contract {
 		setContractStatus(ContractStatus.values()[contractVO.getContract_status()]);
 		setCustomerID(contractVO.getCustomer_id());
 		setEmployeeID(contractVO.getEmployee_id());
-		setLastPaidDate(java.sql.Date.valueOf(contractVO.getLastpaid_date()));
+
+		LocalDate lastPaidDate = contractVO.getLastpaid_date();
+		if (lastPaidDate != null)
+			setLastPaidDate(java.sql.Date.valueOf(lastPaidDate));
 	}
 
 	public ContractVO findVO() {

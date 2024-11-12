@@ -10,10 +10,9 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
 import com.example.bunsanedthinking_springback.vo.EmployeeVO;
 
@@ -35,9 +34,18 @@ public class EmployeeEntityModel {
 		ArrayList<Family> families = new ArrayList<Family>();
 		ArrayList<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
 		ArrayList<Contract> contracts = new ArrayList<Contract>();
-		familyDModel.getAll().stream().filter(e -> e.getEmployeeID() == id).forEach(e -> families.add(e));
-		paymentDetailEntityModel.getAll().stream().filter(e -> e.getEmployeeId() == id).forEach(e -> paymentDetails.add(e));
-		contractEntityModel.getAll().stream().filter(e -> e.getEmployeeID() == id).forEach(e -> contracts.add(e));
+		familyDModel.getAll()
+			.stream()
+			.filter(e -> e.getEmployeeID() == id)
+			.forEach(families::add);
+		paymentDetailEntityModel.getAll()
+			.stream()
+			.filter(e -> e.getEmployeeId() != null && e.getEmployeeId() == id)
+			.forEach(paymentDetails::add);
+		contractEntityModel.getAll()
+			.stream()
+			.filter(e -> e.getEmployeeID() != null && e.getEmployeeID() == id)
+			.forEach(contracts::add);
 		return employeeVO.getEntity(families, paymentDetails, contracts);
 	}
 
@@ -63,7 +71,8 @@ public class EmployeeEntityModel {
 			families.forEach(e -> familyDModel.add(e));
 
 		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.add(e));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailEntityModel.add(e));
 
 		List<Contract> contracts = employee.getContractList();
 		if (contracts != null)
@@ -81,7 +90,8 @@ public class EmployeeEntityModel {
 			families.forEach(e -> familyDModel.update(e));
 
 		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.update(e));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailEntityModel.update(e));
 
 		List<Contract> contracts = employee.getContractList();
 		if (contracts != null)
@@ -100,7 +110,8 @@ public class EmployeeEntityModel {
 			families.forEach(e -> familyDModel.delete(e.getId()));
 
 		List<PaymentDetail> paymentDetails = employee.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.delete(e.getId()));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailEntityModel.delete(e.getId()));
 
 		List<Contract> contracts = employee.getContractList();
 		if (contracts != null)
