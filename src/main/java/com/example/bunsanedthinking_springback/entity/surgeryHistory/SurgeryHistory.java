@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
@@ -14,6 +16,7 @@ import java.util.Date;
  * @created 27-5-2024 ���� 4:40:44
  */
 //2024-06-04 김대현
+@Data
 @NoArgsConstructor
 public class SurgeryHistory implements Cloneable {
 
@@ -57,49 +60,6 @@ public class SurgeryHistory implements Cloneable {
 //	return new SurgeryHistoryVO(id, hospitalName, name, lDate, customerID);
 //}
 
-
-
-	public int getCustomerID() {
-		return customerID;
-	}
-
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
-	}
-
-	public String getDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.date);
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getHospitalName() {
-		return hospitalName;
-	}
-
-	public void setHospitalName(String hospitalName) {
-		this.hospitalName = hospitalName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public SurgeryHistory clone() {
 		SurgeryHistory surgeryHistory =new SurgeryHistory(getName(), getHospitalName(), this.date);
 		surgeryHistory.setId(getId());
@@ -108,15 +68,4 @@ public class SurgeryHistory implements Cloneable {
 		
 	}
 
-	public SurgeryHistoryVO findsurgeryVO() {
-		SurgeryHistoryVO result = new SurgeryHistoryVO();
-		result.setId(id);
-		result.setHospital_name(hospitalName);
-		result.setName(name);
-		result.setCustomer_id(customerID);
-		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		result.setDate(localDate);
-
-		return result;
-	}
 }

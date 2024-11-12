@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.entity.termination;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.TerminationVO;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -14,8 +16,14 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 4:40:44
  */
+@Data
 @NoArgsConstructor
 public class Termination extends Contract {
+
+	private Date applyDate;
+	private int terminationFee;
+	private TerminationStatus terminationStatus;
+	private Contract originalContract;
 
 	public Termination(Contract contract) {
 		super(contract);
@@ -25,56 +33,10 @@ public class Termination extends Contract {
 		// TODO Auto-generated constructor stub
 	}
 
-	private Date applyDate;
-	private int terminationFee;
-	private TerminationStatus terminationStatus;
-	private Contract originalContract;
-
 	public TerminationVO findTerminationVO() {
 		LocalDateTime lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		return new TerminationVO(getId(), lApplyDate,
 				terminationFee, originalContract.getId(),
 				terminationStatus.ordinal());
 	}
-
-	public Date getApplyDate() {
-		return applyDate;
-	}
-
-	public void setApplyDate(Date applyDate) {
-		this.applyDate = applyDate;
-	}
-
-	public int getTerminationFee() {
-		return terminationFee;
-	}
-
-	public void setTerminationFee(int terminationFee) {
-		this.terminationFee = terminationFee;
-	}
-
-	public TerminationStatus getTerminationStatus() {
-		return terminationStatus;
-	}
-
-	public void setTerminationStatus(TerminationStatus terminationStatus) {
-		this.terminationStatus = terminationStatus;
-	}
-
-	public void apply() {
-
-	}
-
-	public void requestTerminationFee() {
-
-	}
-
-	public Contract getOriginalContract() {
-		return originalContract;
-	}
-
-	public void setOriginalContract(Contract originalContract) {
-		this.originalContract = originalContract;
-	}
-
 }

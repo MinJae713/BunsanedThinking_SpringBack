@@ -8,13 +8,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import lombok.Data;
 
 /**
  * @author Administrator
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:43
  */
+@Data
 public class Recontract extends Contract {
+
+	private Date applyDate;
+	private RecontractStatus recontractStatus;
+	private Contract originalContract;
 
 	public Recontract(Contract contract) {
 		super(contract);
@@ -24,10 +30,6 @@ public class Recontract extends Contract {
 		// TODO Auto-generated constructor stub
 	}
 
-	private Date applyDate;
-	private RecontractStatus recontractStatus;
-	private Contract originalContract;
-
 	public RecontractVO findRecontractVO() {
 		LocalDateTime lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().
 				atZone(ZoneId.systemDefault()).
@@ -35,39 +37,6 @@ public class Recontract extends Contract {
 		return new RecontractVO(getId(), lApplyDate,
 				originalContract.getId(),
 				recontractStatus.ordinal());
-	}
-
-	public String getApplyDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.applyDate);
-	}
-
-	public void setApplyDate(Date applyDate) {
-		this.applyDate = applyDate;
-	}
-
-	public RecontractStatus getRecontractStatus() {
-		return recontractStatus;
-	}
-
-	public void setRecontractStatus(RecontractStatus recontractStatus) {
-		this.recontractStatus = recontractStatus;
-	}
-
-	public void apply(){
-
-	}
-
-	public void review(){
-
-	}
-
-	public Contract getOriginalContract() {
-		return originalContract;
-	}
-
-	public void setOriginalContract(Contract originalContract) {
-		this.originalContract = originalContract;
 	}
 
 }

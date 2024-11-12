@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.entity.paymentDetail;
 import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class PaymentDetail {
 
 	public static final int PAYMENT_DETAIL_SERIAL_NUMBER = 900;
@@ -70,81 +72,5 @@ public class PaymentDetail {
 
 	public PaymentDetail clone() {
 		return new PaymentDetail(this);
-	}
-
-	public void handle() {
-		this.processStatus = PaymentProcessStatus.Completed;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public PaymentProcessStatus getProcessStatus() {
-		return processStatus;
-	}
-
-	public String getAccountHolder() {
-		return accountHolder;
-	}
-
-	public String getBank() {
-		return bank;
-	}
-
-	public String getBankAccount() {
-		return bankAccount;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public PaymentType getPaymentType() {
-		return paymentType;
-	}
-
-	public Integer getContractId() {
-		return contractId;
-	}
-
-	public Integer getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setProcessStatus(PaymentProcessStatus processStatus) {
-		this.processStatus = processStatus;
-	}
-
-	public void setAccountHolder(String accountHolder) {
-		this.accountHolder = accountHolder;
-	}
-
-	public void setBank(String bank) {
-		this.bank = bank;
-	}
-
-	public void setBankAccount(String bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-	}
-
-	public void setPaymentType(PaymentType paymentType) {
-		this.paymentType = paymentType;
-	}
-
-	public void setContractId(Integer contractId) {
-		this.contractId = contractId;
-	}
-
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
 	}
 }
