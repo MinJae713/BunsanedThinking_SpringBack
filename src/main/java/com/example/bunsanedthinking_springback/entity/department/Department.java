@@ -1,13 +1,15 @@
 package com.example.bunsanedthinking_springback.entity.department;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -17,6 +19,7 @@ import java.util.List;
 //2024-06-02 源����쁽
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Department implements Cloneable {
 	private String headName;
 	private int id;
@@ -25,10 +28,10 @@ public class Department implements Cloneable {
 	private String purpose;
 	private String task;
 	private ArrayList<Employee> employeeList;
-	
+
 	public static int DepartmentSerialNum = 910;
 
-	public Department(String name, String task, String purpose, String headName){
+	public Department(String name, String task, String purpose, String headName) {
 		this.setName(name);
 		this.setTask(task);
 		this.setPurpose(purpose);
@@ -40,73 +43,12 @@ public class Department implements Cloneable {
 		return new DepartmentVO(id, headName, name, purpose, task);
 	}
 
-	public String getHeadName() {
-		return headName;
-	}
-
-	public void setHeadName(String headName) {
-		this.headName = headName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<OfficeSupply> getOfficeSupplyList() {
-		return officeSupplyList;
-	}
-
-	public void setOfficeSupplyList(List<OfficeSupply> officeSupplyList) {
-		this.officeSupplyList = officeSupplyList;
-	}
-
-	public String getPurpose() {
-		return purpose;
-	}
-
-	public void setPurpose(String purpose) {
-		this.purpose = purpose;
-	}
-
-	public String getTask() {
-		return task;
-	}
-
-	public void setTask(String task) {
-		this.task = task;
-	}
-
-	public int getEmployeeCount() {
-		return employeeList.size();
-	}
-	
-	public ArrayList<Employee> getEmployeeList() {
-		return employeeList;
-	}
-
-	public void setEmployeeList(ArrayList<Employee> employeeList) {
-		this.employeeList = employeeList;
-	}
-
 	public Department clone() {
 		Department department = new Department(getName(), getTask(), getPurpose(), getHeadName());
 		department.setId(getId());
 		department.setOfficeSupplyList(getOfficeSupplyList());
-		
+
 		return department;
 	}
-
 
 }

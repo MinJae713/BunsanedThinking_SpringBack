@@ -18,23 +18,23 @@ import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 
 @Service
 public class HumanResourceService {
 	@Autowired
-	private EmployeeDModel employeeDModel;
+	private EmployeeEntityModel employeeEntityModel;
 	@Autowired
 	private FamilyEntityModel familyDModel;
 	@Autowired
-	private DepartmentDModel departmentDModel;
+	private DepartmentEntityModel departmentEntityModel;
 
 	public void addEmployee(EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException,
 		ParseException {
 		checkResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber());
-		Integer employeeMaxId = employeeDModel.getMaxId();
+		Integer employeeMaxId = employeeEntityModel.getMaxId();
 		int employeeId;
 		if (employeeMaxId == null) {
 			employeeId = Integer.parseInt(("" + Employee.EMPLOYEE_SERIAL_NUMBER) + employeeDTO.getTeamId() + "1");
@@ -56,13 +56,13 @@ public class HumanResourceService {
 			employmentDate, employeeDTO.getBankName(), familyList, employeeId, employeeDTO.getName(),
 			null, employeeDTO.getPhoneNumber(), employeePosition,
 			employeeDTO.getResidentRegistrationNumber(), employeeDTO.getSalary(), null);
-		employeeDModel.add(employee);
+		employeeEntityModel.add(employee);
 	}
 
 	private void checkResidentRegistrationNumber(String residentRegistrationNumber)
 		throws DuplicateResidentRegistrationNumberException {
 		// TODO isExist같은 SQL로 수정 해야됨
-		for (Employee employee : employeeDModel.getAll()) {
+		for (Employee employee : employeeEntityModel.getAll()) {
 			if (employee.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
 				throw new DuplicateResidentRegistrationNumberException();
 			}
@@ -94,13 +94,13 @@ public class HumanResourceService {
 	}
 
 	public void deleteEmployee(int id) throws NotExistException {
-		if (employeeDModel.getById(id) == null)
+		if (employeeEntityModel.getById(id) == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
-		employeeDModel.delete(id);
+		employeeEntityModel.delete(id);
 	}
 
 	public Employee getEmployee(int id) throws NotExistException {
-		Employee employee = employeeDModel.getById(id);
+		Employee employee = employeeEntityModel.getById(id);
 		if (employee == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
 		return employee;
@@ -115,7 +115,7 @@ public class HumanResourceService {
 	}
 
 	public void updateEmployee(int index, String input, int employeeId) throws NotExistException {
-		Employee employee = employeeDModel.getById(employeeId);
+		Employee employee = employeeEntityModel.getById(employeeId);
 		if (employee == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
 		switch (index) {
@@ -131,19 +131,19 @@ public class HumanResourceService {
 				return;
 			}
 		}
-		employeeDModel.update(employee);
+		employeeEntityModel.update(employee);
 	}
 
 	public List<Employee> getAllEmployee() {
-		return employeeDModel.getAll();
+		return employeeEntityModel.getAll();
 	}
 
 	public List<Department> getAllDepartment() {
-		return departmentDModel.getAll();
+		return departmentEntityModel.getAll();
 	}
 
 	public Department get(int departmentID) throws NotExistException {
-		Department department = departmentDModel.getById(departmentID);
+		Department department = departmentEntityModel.getById(departmentID);
 		if (department == null)
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
 		return department;

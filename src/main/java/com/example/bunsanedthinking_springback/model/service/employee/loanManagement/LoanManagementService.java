@@ -31,13 +31,13 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistContract
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 
 @Service
 public class LoanManagementService {
@@ -52,11 +52,11 @@ public class LoanManagementService {
 	@Autowired
 	private InsuranceContractEntityModel insuranceContractDModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private CompensationDetailEntityModel compensationDetailEntityModel;
 
@@ -135,7 +135,7 @@ public class LoanManagementService {
 
 	public void requestLoan(int contractId, int money, int paymentType,
 		boolean result) throws AlreadyProcessedException, NotExistContractException {
-		Contract contract = contractDModel.getById(contractId);
+		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
 
@@ -153,12 +153,12 @@ public class LoanManagementService {
 			contract.setContractStatus(ContractStatus.Maintaining);
 		} else {
 			contract.setContractStatus(ContractStatus.Terminating);
-			contractDModel.update(contract);
+			contractEntityModel.update(contract);
 			return;
 		}
-		contractDModel.update(contract);
+		contractEntityModel.update(contract);
 
-		Customer customer = customerDModel.getById(contract.getCustomerID());
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		if (customer == null) {
 			throw new NotExistContractException();
 		}
@@ -258,7 +258,7 @@ public class LoanManagementService {
 	}
 
 	public double getOutcome(int contractId) throws NotExistContractException, NotExistException {
-		Contract contract = contractDModel.getById(contractId);
+		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
 		if (contract.getProduct() instanceof Loan loan) {

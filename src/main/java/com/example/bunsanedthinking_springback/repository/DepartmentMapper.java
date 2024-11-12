@@ -1,24 +1,23 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+
 @Mapper
 public interface DepartmentMapper {
-	List<DepartmentVO> getAll_HumanResource();
-	Optional<DepartmentVO> findById_HumanResource(int departmentID);
+	List<DepartmentVO> getAll();
 
-    public void insert_ManagementPlanning(DepartmentVO departmentVO);
-    public void delete_ManagementPlanning(int id);
-    public DepartmentVO findById_ManagementPlanning(int id);
-    public DepartmentVO findByName_ManagementPlanning(String name);
-    public void update_ManagementPlanning(DepartmentVO departmentVO);
+	Optional<DepartmentVO> getById(int departmentID);
 
-    Integer getMaxId_ManagementPlanning();
+	void deleteById(int id);
 
-    public void insert(DepartmentVO departmentVO);
+	void update(DepartmentVO departmentVO);
+
+	Integer getMaxId();
+
+	void insert(DepartmentVO departmentVO);
 }

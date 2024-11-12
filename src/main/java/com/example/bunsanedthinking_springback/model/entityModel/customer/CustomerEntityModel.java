@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.customer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -11,20 +17,15 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
-public class CustomerDModel {
+public class CustomerEntityModel {
 	@Autowired
 	private CustomerMapper customerMapper;
 	@Autowired
@@ -32,15 +33,15 @@ public class CustomerDModel {
 	@Autowired
 	private AccidentEntityModel accidentEntityModel;
 	@Autowired
-	private CounselDModel counselDModel;
+	private CounselEntityModel counselEntityModel;
 	@Autowired
 	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
 	private ComplaintEntityModel complaintEntityModel;
 	@Autowired
-	private DiseaseHistoryDModel diseaseHistoryDModel;
+	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public Customer getById(int id) {
 		CustomerVO customerVO = customerMapper.getById(id).orElse(null);
@@ -59,7 +60,7 @@ public class CustomerDModel {
 		accidentEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(accidents::add);
-		counselDModel.getAll().stream()
+		counselEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(counsels::add);
 		surgeryHistoryEntityModel.getAll().stream()
@@ -68,26 +69,26 @@ public class CustomerDModel {
 		complaintEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(complaints::add);
-		diseaseHistoryDModel.getAll().stream()
+		diseaseHistoryEntityModel.getAll().stream()
 			.filter(e -> e.getCustomer_id() == id)
 			.forEach(diseaseHistories::add);
-		contractDModel.getAll().stream()
+		contractEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(contracts::add);
 		return customerVO.getEntity(accidentHistories,
-				accidents, complaints, contracts,
-				counsels, diseaseHistories, surgeryHistories);
+			accidents, complaints, contracts,
+			counsels, diseaseHistories, surgeryHistories);
 	}
 
 	public List<Customer> getAll() {
 		List<Customer> customers = new ArrayList<Customer>();
-		customerMapper.getAll_Customer()
+		customerMapper.getAll()
 			.forEach(e -> customers.add(getById(e.getId())));
 		return customers;
 	}
 
 	public Integer getMaxId() {
-		return customerMapper.getMaxId_SalesModel();
+		return customerMapper.getMaxId();
 	}
 
 	public void add(Customer customer) {
@@ -101,8 +102,9 @@ public class CustomerDModel {
 		List<Accident> accidents = customer.getAccidentList();
 		if (accidents != null) accidents.forEach(e -> accidentEntityModel.add(e));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.add(e));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselEntityModel.add(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.add(e));
@@ -111,10 +113,12 @@ public class CustomerDModel {
 		if (complaints != null) complaints.forEach(e -> complaintEntityModel.add(e));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.add(e));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.add(e));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.add(e));
+		if (contracts != null)
+			contracts.forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Customer customer) {
@@ -127,8 +131,9 @@ public class CustomerDModel {
 		List<Accident> accidents = customer.getAccidentList();
 		if (accidents != null) accidents.forEach(e -> accidentEntityModel.update(e));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.update(e));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselEntityModel.update(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.update(e));
@@ -137,10 +142,12 @@ public class CustomerDModel {
 		if (complaints != null) complaints.forEach(e -> complaintEntityModel.update(e));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.update(e));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.update(e));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.update(e));
+		if (contracts != null)
+			contracts.forEach(e -> contractEntityModel.update(e));
 
 		customerMapper.update(customer.findVO());
 	}
@@ -155,8 +162,9 @@ public class CustomerDModel {
 		List<Accident> accidents = customer.getAccidentList();
 		if (accidents != null) accidents.forEach(e -> accidentEntityModel.delete(e.getId()));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.delete(e.getId()));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselEntityModel.delete(e.getId()));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.delete(e.getId()));
@@ -165,11 +173,13 @@ public class CustomerDModel {
 		if (complaints != null) complaints.forEach(e -> complaintEntityModel.delete(e.getId()));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.delete(e.getId()));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.delete(e.getId()));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.delete(e.getId()));
+		if (contracts != null)
+			contracts.forEach(e -> contractEntityModel.delete(e.getId()));
 
-		customerMapper.delete_CustomerInformationManagement(id);
+		customerMapper.deleteById(id);
 	}
 }

@@ -8,7 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
+import com.example.bunsanedthinking_springback.repository.TerminationMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.termination.Termination;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.TerminationMapper;
 
 @Service
@@ -16,10 +23,10 @@ public class TerminationEntityModel {
 	@Autowired
 	private TerminationMapper terminationMapper;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public Termination getById(int id) {
-		Contract contract = contractDModel.getById(id);
+		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
 			return null;
 		return terminationMapper.getById_Customer(id)
@@ -41,22 +48,27 @@ public class TerminationEntityModel {
 	}
 
 	public void add(Termination termination) {
-		if (termination == null) return;
-		if (terminationMapper.getById_Customer(termination.getId()).isPresent()) return;
-		contractDModel.add(termination);
+		if (termination == null)
+			return;
+		if (terminationMapper.getById_Customer(termination.getId()).isPresent())
+			return;
+		contractEntityModel.add(termination);
 		terminationMapper.insert(termination.findTerminationVO());
 	}
 
 	public void update(Termination termination) {
-		if (termination == null) return;
-		if (terminationMapper.getById_Customer(termination.getId()).isEmpty()) return;
+		if (termination == null)
+			return;
+		if (terminationMapper.getById_Customer(termination.getId()).isEmpty())
+			return;
 		terminationMapper.update(termination.findTerminationVO());
-		contractDModel.update(termination);
+		contractEntityModel.update(termination);
 	}
 
 	public void delete(int id) {
-		if (terminationMapper.getById_Customer(id).isEmpty()) return;
+		if (terminationMapper.getById_Customer(id).isEmpty())
+			return;
 		terminationMapper.deleteById(id);
-		contractDModel.delete(id);
+		contractEntityModel.delete(id);
 	}
 }

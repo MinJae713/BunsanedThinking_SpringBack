@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,21 +9,15 @@ import com.example.bunsanedthinking_springback.vo.EmployeeVO;
 
 @Mapper
 public interface EmployeeMapper {
-	ArrayList<EmployeeVO> getAll_SalesModel();
+	void insert(EmployeeVO employeeVO);
 
-	EmployeeVO get_SalesModel(int id);
+	void deleteById(int id);
 
-	void insert_HumanResource(EmployeeVO employeeVO);
+	Optional<EmployeeVO> getById(int id);
 
-	void delete_HumanResource(int id);
+	void update(EmployeeVO employeeVO);
 
-	Optional<EmployeeVO> findById_HumanResource(int id);
+	List<EmployeeVO> getAll();
 
-	void update_HumanResource(EmployeeVO employeeVO);
-
-	List<EmployeeVO> getAll_HumanResource();
-
-	Integer isExistResidentRegistrationNumber(String residentRegistrationNumber);
-
-	public Integer getMaxId();
+	Integer getMaxId();
 }

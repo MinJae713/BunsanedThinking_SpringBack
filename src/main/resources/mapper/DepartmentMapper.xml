@@ -1,46 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepartmentMapper">
-    <select id="getAll_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         select *
         from department
     </select>
-    <select id="findById_HumanResource" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         select *
         from department
-        where id=#{id}
-    </select>
-
-    <insert id="insert_ManagementPlanning" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
-        INSERT INTO department (id, name, task, purpose, head_name)
-        VALUES (#{id},
-                #{name},
-                #{task},
-                #{purpose},
-                #{head_name})
-    </insert>
-    <delete id="delete_ManagementPlanning" parameterType="int">
-        DELETE FROM department
-        WHERE id = #{id}
-    </delete>
-    <select id="findById_ManagementPlanning" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
-        SELECT * FROM department
-        WHERE id = #{id}
-    </select>
-    <select id="findByName_ManagementPlanning" parameterType="String" resultType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
-        SELECT * FROM department
-        WHERE name = #{name}
-    </select>
-    <update id="update_ManagementPlanning" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
-        UPDATE department
-        SET name = #{name},
-            task = #{task},
-            purpose = #{purpose},
-            head_name = #{head_name}
-        WHERE id = #{id}
-    </update>
-    <select id="getMaxId_ManagementPlanning" parameterType="int">
-        select max(id) from department
+        where id = #{id}
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
         INSERT INTO department (id, name, task, purpose, head_name)
@@ -50,4 +18,21 @@
                 #{purpose},
                 #{head_name})
     </insert>
+    <delete id="deleteById" parameterType="int">
+        DELETE
+        FROM department
+        WHERE id = #{id}
+    </delete>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DepartmentVO">
+        UPDATE department
+        SET name      = #{name},
+            task      = #{task},
+            purpose   = #{purpose},
+            head_name = #{head_name}
+        WHERE id = #{id}
+    </update>
+    <select id="getMaxId" parameterType="int">
+        select max(id)
+        from department
+    </select>
 </mapper>

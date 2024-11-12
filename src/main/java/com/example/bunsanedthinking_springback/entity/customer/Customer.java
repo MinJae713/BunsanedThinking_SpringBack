@@ -1,5 +1,10 @@
 package com.example.bunsanedthinking_springback.entity.customer;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
@@ -25,10 +30,8 @@ import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -37,6 +40,7 @@ import java.util.Date;
  */
 @ToString
 @NoArgsConstructor
+@Data
 public class Customer implements Cloneable {
 
 	private ArrayList<AccidentHistory> accidentHistoryList;
@@ -80,14 +84,15 @@ public class Customer implements Cloneable {
 		this.diseaseHistoryList = new ArrayList<>();
 		this.surgeryHistoryList = new ArrayList<>();
 	}
+
 	public Customer(CustomerVO customerVO,
-					ArrayList<AccidentHistory> accidentHistories,
-					ArrayList<Accident> accidents,
-					ArrayList<Counsel> counsels,
-					ArrayList<SurgeryHistory> surgeryHistories,
-					ArrayList<Complaint> complaints,
-					ArrayList<DiseaseHistory> diseaseHistories,
-					ArrayList<Contract> contracts) {
+		ArrayList<AccidentHistory> accidentHistories,
+		ArrayList<Accident> accidents,
+		ArrayList<Counsel> counsels,
+		ArrayList<SurgeryHistory> surgeryHistories,
+		ArrayList<Complaint> complaints,
+		ArrayList<DiseaseHistory> diseaseHistories,
+		ArrayList<Contract> contracts) {
 		this.id = customerVO.getId();
 		this.accidentList = accidents;
 		this.address = customerVO.getAddress();
@@ -110,10 +115,10 @@ public class Customer implements Cloneable {
 
 	public CustomerVO findVO() {
 		return new CustomerVO(id, address, age,
-				bankAccount, bankName,
-				gender.ordinal(), job,
-				name, phoneNumber, property,
-				residentRegistrationNumber);
+			bankAccount, bankName,
+			gender.ordinal(), job,
+			name, phoneNumber, property,
+			residentRegistrationNumber);
 	}
 
 	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,
@@ -129,7 +134,7 @@ public class Customer implements Cloneable {
 
 		this.setAccidentList(new ArrayList<>());
 		this.setComplaintList(new ArrayList<>());
-		this.setCounsel(new ArrayList<>());
+		this.setCounselList(new ArrayList<>());
 		this.setContractList(new ArrayList<>());
 		this.setName(name);
 		this.setPhoneNumber(phoneNumber);
@@ -228,150 +233,6 @@ public class Customer implements Cloneable {
 		} catch (NotExistException e) {
 			e.getMessage();
 		}
-	}
-
-	public ArrayList<AccidentHistory> getAccidentHistoryList() {
-		return accidentHistoryList;
-	}
-
-	public void setAccidentHistoryList(ArrayList<AccidentHistory> accidentHistoryList) {
-		this.accidentHistoryList = accidentHistoryList;
-	}
-
-	public ArrayList<Accident> getAccidentList() {
-		return accidentList;
-	}
-
-	public void setAccidentList(ArrayList<Accident> accidentList) {
-		this.accidentList = accidentList;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public String getBankAccount() {
-		return bankAccount;
-	}
-
-	public void setBankAccount(String bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public ArrayList<Complaint> getComplaintList() {
-		return complaintList;
-	}
-
-	public void setComplaintList(ArrayList<Complaint> complaintList) {
-		this.complaintList = complaintList;
-	}
-
-	public ArrayList<Contract> getContractList() {
-		return contractList;
-	}
-
-	public void setContractList(ArrayList<Contract> contractList) {
-		this.contractList = contractList;
-	}
-
-	public ArrayList<Counsel> getCounsel() {
-		return counselList;
-	}
-
-	public void setCounsel(ArrayList<Counsel> counsel) {
-		this.counselList = counsel;
-	}
-
-	public ArrayList<DiseaseHistory> getDiseaseHistoryList() {
-		return diseaseHistoryList;
-	}
-
-	public void setDiseaseHistoryList(ArrayList<DiseaseHistory> diseaseHistoryList) {
-		this.diseaseHistoryList = diseaseHistoryList;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getJob() {
-		return job;
-	}
-
-	public void setJob(String job) {
-		this.job = job;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public long getProperty() {
-		return property;
-	}
-
-	public void setProperty(long property) {
-		this.property = property;
-	}
-
-	public String getResidentRegistrationNumber() {
-		return residentRegistrationNumber;
-	}
-
-	public void setResidentRegistrationNumber(String residentRegistrationNumber) {
-		this.residentRegistrationNumber = residentRegistrationNumber;
-	}
-
-	public ArrayList<SurgeryHistory> getSurgeryHistoryList() {
-		return surgeryHistoryList;
-	}
-
-	public void setSurgeryHistoryList(ArrayList<SurgeryHistory> surgeryHistoryList) {
-		this.surgeryHistoryList = surgeryHistoryList;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getBankName() {
-		return this.bankName;
 	}
 
 	public Customer clone() {

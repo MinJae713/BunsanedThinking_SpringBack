@@ -9,21 +9,15 @@ import com.example.bunsanedthinking_springback.vo.EndorsementVO;
 
 @Mapper
 public interface EndorsementMapper {
-	public Optional<EndorsementVO> getById_Customer(int id);
+	Optional<EndorsementVO> getById(int id);
 
-	public Optional<EndorsementVO> getById_ContractManagement(int id);
+	List<EndorsementVO> getAll();
 
-	public List<EndorsementVO> getAll_ContractManagement();
+	Integer getMaxId();
 
-	public void addById_Customer(int contractId);
+	void insert(EndorsementVO endorsementVO);
 
-	public void updateStatus_ContractManagement(int status, int contract_id);
+	void update(EndorsementVO endorsementVO);
 
-	public Integer getMaxId();
-
-	public void insert(EndorsementVO endorsementVO);
-
-	public void update(EndorsementVO endorsementVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

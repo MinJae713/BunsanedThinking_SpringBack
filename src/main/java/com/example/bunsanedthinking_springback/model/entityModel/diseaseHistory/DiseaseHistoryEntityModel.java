@@ -1,16 +1,17 @@
 package com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory;
 
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
+import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+
 @Service
-public class DiseaseHistoryDModel {
+public class DiseaseHistoryEntityModel {
 	@Autowired
 	private DiseaseHistoryMapper diseaseHistoryMapper;
 
@@ -29,11 +30,11 @@ public class DiseaseHistoryDModel {
 	}
 
 	public Integer getMaxId() {
-		return diseaseHistoryMapper.getMaxId_SalesModel();
+		return diseaseHistoryMapper.getMaxId();
 	}
 
 	public void add(DiseaseHistory diseaseHistory) {
-		diseaseHistoryMapper.insert_SalesModel(diseaseHistory.findVO());
+		diseaseHistoryMapper.insert(diseaseHistory.findVO());
 	}
 
 	public void update(DiseaseHistory diseaseHistory) {
@@ -41,7 +42,8 @@ public class DiseaseHistoryDModel {
 	}
 
 	public void delete(int id) {
-		if (getById(id) == null) return;
+		if (getById(id) == null)
+			return;
 		diseaseHistoryMapper.deleteById(id);
 	}
 }

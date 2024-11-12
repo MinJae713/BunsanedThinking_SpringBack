@@ -14,24 +14,25 @@ import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProce
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
+
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 
 @Service
 public class FinancialAccountantService {
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private DepositDetailDModel depositDetailDModel;
+	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
 
 	public DepositDetail getDepositDetail(int id) throws NotExistException {
-		DepositDetail depositDetail = depositDetailDModel.getById(id);
+		DepositDetail depositDetail = depositDetailEntityModel.getById(id);
 		if (depositDetail == null)
 			throw new NotExistException("해당하는 입금 내역 정보가 존재하지 않습니다.");
 		return depositDetail;
@@ -81,7 +82,7 @@ public class FinancialAccountantService {
 	}
 
 	public Contract getContract(int id) throws NotExistContractException {
-		Contract contract = contractDModel.getById(id);
+		Contract contract = contractEntityModel.getById(id);
 		if (contract == null) {
 			throw new NotExistContractException();
 		}
@@ -89,13 +90,13 @@ public class FinancialAccountantService {
 	}
 
 	public Customer getCustomer(int id) throws NotExistException {
-		Customer customer = customerDModel.getById(id);
+		Customer customer = customerEntityModel.getById(id);
 		if (customer == null)
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		return customer;
 	}
 
 	public List<DepositDetail> getAllDepositDetail() {
-		return depositDetailDModel.getAll();
+		return depositDetailEntityModel.getAll();
 	}
 }

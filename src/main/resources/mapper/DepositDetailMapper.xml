@@ -1,43 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepositDetailMapper">
-    <select id="getAllDepositByContractId_Customer"
-            resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select *
-        from depositdetail
-        where contract_id = #{id}
-    </select>
-    <select id="getLastId_Customer" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(id)
         from depositdetail
     </select>
-    <select id="getCount_Customer" resultType="int">
-        select count(*)
-        from depositdetail
-    </select>
-    <insert id="add_Customer" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         insert into depositdetail (id, depositor_name, date, money, path, contract_id)
         values (#{id}, #{depositor_name}, #{date}, #{money}, #{path}, #{contract_id})
     </insert>
-    <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select *
-        from DepositDetail
-    </select>
-    <select id="getAll_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
         from depositdetail
     </select>
-    <select id="findByContractId_FinancialAccountant"
-            resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select *
-        from depositdetail
-        where contract_id = #{param1}
-    </select>
-    <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        select *
-        from depositdetail
-    </select>
-    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
         from depositdetail
         where id = #{id}

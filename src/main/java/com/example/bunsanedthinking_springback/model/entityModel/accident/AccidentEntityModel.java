@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.accident;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.repository.AccidentMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
@@ -54,7 +60,8 @@ public class AccidentEntityModel {
 	}
 
 	public void delete(int id) {
-		if (getById(id) == null) return;
- 		accidentMapper.delete(id);
+		if (getById(id) == null)
+			return;
+		accidentMapper.delete(id);
 	}
 }

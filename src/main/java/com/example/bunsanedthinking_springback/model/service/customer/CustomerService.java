@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,11 +92,11 @@ public class CustomerService {
 	@Autowired
 	private InsuranceContractEntityModel insuranceContractDModel;
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementDModel endorsementDModel;
+	private EndorsementEntityModel endorsementEntityModel;
 	@Autowired
 	private RevivalEntityModel revivalEntityModel;
 	@Autowired
@@ -107,7 +108,7 @@ public class CustomerService {
 	@Autowired
 	private ComplaintEntityModel complaintEntityModel;
 	@Autowired
-	private DepositDetailDModel depositDetailDModel;
+	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
 	private AccidentHistoryEntityModel accidentHistoryDModel;
 	@Autowired
@@ -122,11 +123,12 @@ public class CustomerService {
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,
 		// 배서 정보가 없다면 배서 하나 추가됨, 배서 정보가 그대로 있다면 해당 배서의 납부일 변경
-		Contract contract = contractDModel.getById(contractId);
-		if (contract == null) throw new NotExistContractException();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistContractException();
 		contract.setContractStatus(ContractStatus.EndorsementRequesting);
-		contractDModel.update(contract);
-		Endorsement endorsement = endorsementDModel.getById(contractId);
+		contractEntityModel.update(contract);
+		Endorsement endorsement = endorsementEntityModel.getById(contractId);
 		if (endorsement == null) {
 			// 여기서는 endorsement 테이블만 추가됨
 			// 이유는 contractId 해당 Contract는 엔티티가 있기 때문
@@ -135,12 +137,12 @@ public class CustomerService {
 			// id는 Contract랑 똑같아서 지정 x
 			endorsement = new Endorsement(contract);
 			endorsement.setPaymentDate(index);
-			endorsementDModel.add(endorsement);
+			endorsementEntityModel.add(endorsement);
 		} else {
 			// 만일 기존 endorsement가 있는 상황에서 납입일 변경이라면?
 			// 납부일 변경 및 테이블 수정
 			endorsement.setPaymentDate(index);
-			endorsementDModel.update(endorsement);
+			endorsementEntityModel.update(endorsement);
 		}
 	}
 
@@ -152,8 +154,9 @@ public class CustomerService {
 		 * Revival 테이블에 없다면 Revival 하나 추가
 		 */
 
-		Contract contract = contractDModel.getById(contractId);
-		if (contract == null) throw new NotExistContractException();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistContractException();
 		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
 			contract.setContractStatus(ContractStatus.RevivalRequesting);
 			contractDModel.update(contract);
@@ -163,17 +166,19 @@ public class CustomerService {
 			throw new NotExistTerminatedContract();
 		}
 	}
+
 	// revival, termination 안 넣은 이유? - 각각 dModel에서 추가 시에 중복 아이디가 있는지 확인하는 로직이 있음
 	// ㄴ 이건 contract dmodel 쪽에도 있고, termination dmodel 쪽에도 있어서
 	//    둘 다 정보가 있다? - 추가X, cont쪽만 있다? - rev, ter쪽만 추가,
 	//    둘 다 없다? - 둘 다 추가 이런 식임
 	public void applyInsuranceTermination(int contractId)
 		throws NotExistContractException, NotExistMaintainedContract, NotExistException {
-		Contract contract = contractDModel.getById(contractId);
-		if (contract == null) throw new NotExistContractException();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistContractException();
 		if (contract.getContractStatus() == ContractStatus.Maintaining) {
 			contract.setContractStatus(ContractStatus.TerminationRequesting);
-			contractDModel.update(contract);
+			contractEntityModel.update(contract);
 			if (terminationEntityModel.getById(contractId) != null) return;
 			terminationEntityModel.add(new Termination(contract));
 		} else {
@@ -188,11 +193,12 @@ public class CustomerService {
 		 * contract status를 RecontractRequesting로 변경
 		 * Recontract 테이블에 없다면 Recontract 하나 추가
 		 */
-		Contract contract = contractDModel.getById(contractId);
-		if (contract == null) throw new NotExistContractException();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistContractException();
 		if (contract.getContractStatus() == ContractStatus.Maturing) {
 			contract.setContractStatus(ContractStatus.RecontractRequesting);
-			contractDModel.update(contract);
+			contractEntityModel.update(contract);
 			if (recontractEntityModel.getById(contractId) != null) return;
 			recontractEntityModel.add(new Recontract(contract));
 		} else {
@@ -206,18 +212,27 @@ public class CustomerService {
 		int contractId = depositDTO.getContractId();
 		int money = depositDTO.getMoney();
 		DepositPath depositPath = DepositPath.values()[depositDTO.getDepositPath()];
-		if (contractDModel.getById(contractId) == null)
+		if (contractEntityModel.getById(contractId) == null)
 			throw new NotExistContractException();
-		int depositId = depositDetailDModel.getAll().isEmpty() ?
-				Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL+"1") :
-				NextIdGetter.getNextId(depositDetailDModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
-		depositDetailDModel.add(new DepositDetail(depositId, depositorName,
-				contractId, money, depositPath));
+		int depositId = depositDetailEntityModel.getAll().isEmpty() ?
+			Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL + "1") :
+			getNextId(depositDetailEntityModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
+		depositDetailEntityModel.add(new DepositDetail(depositId, depositorName,
+			contractId, money, depositPath));
+	}
+
+	private int getNextId(int maxId, int serial) {
+		String maxIdStr = maxId + "";
+		int serialLength = (serial + "").length();
+		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
+		nextId++;
+		return Integer.parseInt(serial + "" + nextId);
 	}
 
 	// 이 아래는 완료
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		return customerDModel.getById(id);
+		return customerEntityModel.getById(id);
+		//		return customerList.get(id);
 	}
 
 	public List<Insurance> getAllInsurance() {
@@ -263,15 +278,16 @@ public class CustomerService {
 	}
 
 	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
-		return contractDModel.getAll().stream().filter(
-				e -> e.getContractStatus() != ContractStatus.ContractRequesting &&
-						e.getExpirationDate() != null).toList();
+		return contractEntityModel.getAll().stream().filter(
+			e -> e.getContractStatus() != ContractStatus.ContractRequesting &&
+				e.getExpirationDate() != null).toList();
 		//		return contractList.getAllApprovedByCustomer(id);
 	}
 
 	public List<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
 		// 계약들의 고객 번호를 비교 - 고객 번호가 같은 계약들만 추출 - 한 고객이 신청한 계약만 나옴
-		return contractDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+		return contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+		//		return contractList.getAllByCustomer(id);
 	}
 
 	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
@@ -285,7 +301,7 @@ public class CustomerService {
 	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
 		List<Contract> result = new ArrayList<Contract>();
 		for (Injury injury : injuryDModel.getAll())
-            result.addAll(getAllContractByProductId(injury.getId()));
+			result.addAll(getAllContractByProductId(injury.getId()));
 		return result;
 		//		return contractList.getAllInjuryInsuranceContract();
 	}
@@ -293,17 +309,21 @@ public class CustomerService {
 	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
 		List<Contract> result = new ArrayList<Contract>();
 		for (Disease disease : diseaseDModel.getAll())
-            result.addAll(getAllContractByProductId(disease.getId()));
+			result.addAll(getAllContractByProductId(disease.getId()));
 		return result;
 		//		return contractList.getAllDiseaseInsuranceContract();
 	}
 
 	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
-		return contractDModel.getAll().stream().filter(e -> e.getProduct().getId() == id).toList();
+		//		ArrayList<Contract> result = new ArrayList<Contract>();
+		//		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
+		//		result.add(getContractById(contractVO.getId()));
+		return contractEntityModel.getAll().stream().filter(e -> e.getProduct().getId() == id).toList();
 	}
 
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		return contractDModel.getById(contractId);
+		return contractEntityModel.getById(contractId);
+		//		return contractList.get(contractId);
 	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {

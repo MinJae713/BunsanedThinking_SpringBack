@@ -1,19 +1,20 @@
 package com.example.bunsanedthinking_springback.model.entityModel.counsel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.repository.CounselMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CounselVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
-public class CounselDModel {
+public class CounselEntityModel {
 	@Autowired
 	private CounselMapper counselMapper;
 	@Autowired
@@ -36,7 +37,7 @@ public class CounselDModel {
 
 	public List<Counsel> getAll() {
 		List<Counsel> counsels = new ArrayList<Counsel>();
-		counselMapper.getAll_SalesModel().forEach(e -> counsels.add(getById(e.getId())));
+		counselMapper.getAll().forEach(e -> counsels.add(getById(e.getId())));
 		return counsels;
 	}
 
@@ -49,11 +50,12 @@ public class CounselDModel {
 	}
 
 	public void update(Counsel counsel) {
-		counselMapper.update_SalesModel(counsel.findVO());
+		counselMapper.update(counsel.findVO());
 	}
 
 	public void delete(int id) {
-		if (getById(id) == null) return;
+		if (getById(id) == null)
+			return;
 		counselMapper.deleteById(id);
 	}
 }

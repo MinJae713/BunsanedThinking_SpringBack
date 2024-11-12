@@ -1,5 +1,14 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
@@ -14,20 +23,14 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
@@ -44,25 +47,30 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 
 @Service
 public class SalesService {
 
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private AccidentHistoryEntityModel accidentHistoryEntityModel;
 	@Autowired
-	private DiseaseHistoryDModel diseaseHistoryDModel;
+	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
 	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 
 	@Autowired
-	private EmployeeDModel employeeDModel;
+	private EmployeeEntityModel employeeEntityModel;
 	@Autowired
 	private SalesEntityModel salesEntityModel;
 	@Autowired
-	private CounselDModel counselDModel;
+	private CounselEntityModel counselEntityModel;
 
 	@Autowired
 	private ProductEntityModel productEntityModel;
@@ -83,7 +91,7 @@ public class SalesService {
 	@Autowired
 	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public void evaluateSalesPerformance(int evaluate, int id) {
 		Sales sales = salesEntityModel.getById(id);
@@ -92,18 +100,18 @@ public class SalesService {
 	}
 
 	public void handleInsuranceConsultation(int id) throws
-			AlreadyProcessedException {
-		Counsel counsel = counselDModel.getById(id);
+		AlreadyProcessedException {
+		Counsel counsel = counselEntityModel.getById(id);
 		if (counsel.getProcessStatus() == CounselProcessStatus.Completed) {
 			throw new AlreadyProcessedException();
 		}
 		counsel.setProcessStatus(CounselProcessStatus.Completed);
-		counselDModel.update(counsel);
+		counselEntityModel.update(counsel);
 	}
 
 	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
 
-		Integer maxId = customerDModel.getMaxId();
+		Integer maxId = customerEntityModel.getMaxId();
 		int customerId;
 		if (maxId == null) {
 			customerId = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
@@ -180,7 +188,7 @@ public class SalesService {
 			}
 		}
 		if (induceDTO.getDiseaseHistoryList() != null) {
-			Integer diseaseHistoryMaxId = diseaseHistoryDModel.getMaxId();
+			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
 			int diseaseHistoryId;
 			int maxIndex;
 			if (diseaseHistoryMaxId == null) {
@@ -195,7 +203,8 @@ public class SalesService {
 			for (DiseaseHistoryDTO e : induceDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
-				LocalDate localDate = LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDate_of_diagnosis(),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				diseaseHistory.setDate_of_diagnosis(date);
 				diseaseHistory.setName(e.getName());
@@ -206,7 +215,7 @@ public class SalesService {
 			}
 		}
 
-		Integer contractMaxId = contractDModel.getMaxId();
+		Integer contractMaxId = contractEntityModel.getMaxId();
 		int contractId;
 		if (contractMaxId == null) {
 			contractId = Integer.parseInt(Contract.CONTRACT_SERIAL_NUMBER + "1");
@@ -226,7 +235,7 @@ public class SalesService {
 		contract.setProduct(productEntityModel.getById(induceDTO.getProductId()));
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);
-		customerDModel.add(customer);
+		customerEntityModel.add(customer);
 
 		return customer;
 	}
@@ -244,11 +253,11 @@ public class SalesService {
 	}
 
 	public ArrayList<Employee> getAllEmployee() {
-		return (ArrayList<Employee>)employeeDModel.getAll();
+		return (ArrayList<Employee>)employeeEntityModel.getAll();
 	}
 
 	public Employee getEmployee(int id) {
-		return employeeDModel.getById(id);
+		return employeeEntityModel.getById(id);
 	}
 
 	public Sales getSales(int id) {
@@ -256,11 +265,11 @@ public class SalesService {
 	}
 
 	public ArrayList<Counsel> getAllCounsel() {
-		return (ArrayList<Counsel>)counselDModel.getAll();
+		return (ArrayList<Counsel>)counselEntityModel.getAll();
 	}
 
 	public Counsel getCounsel(int id) {
-		return counselDModel.getById(id);
+		return counselEntityModel.getById(id);
 	}
 
 	public ArrayList<Product> getAllProduct() {
@@ -270,7 +279,7 @@ public class SalesService {
 	public DiseaseHistory addDiseaseHistory(DiseaseHistoryDTO diseaseHistoryDTO) {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 
-		Integer diseaseHistoryId = diseaseHistoryDModel.getMaxId();
+		Integer diseaseHistoryId = diseaseHistoryEntityModel.getMaxId();
 		if (diseaseHistoryId == null) {
 			diseaseHistoryId = Integer.parseInt("" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + 1);
 		} else {

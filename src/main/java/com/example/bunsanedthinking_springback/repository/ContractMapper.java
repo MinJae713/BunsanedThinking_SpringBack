@@ -1,37 +1,23 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-import org.apache.ibatis.annotations.Mapper;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+
 @Mapper
 public interface ContractMapper {
-    public Optional<ContractVO> getById_Customer(int id);
-    public Optional<ContractVO> getAllByProductId_Customer(int id);
-    public List<ContractVO> getAllByCustomerId_Customer(int id);
-    public List<ContractVO> getAll_Customer();
+	Optional<ContractVO> getById(int id);
 
-    public void updateStatus_Customer(int contractStatus, int contractId);
-    public void updatePaymentDate_Customer(LocalDate paymentDate, int contractId);
+	List<ContractVO> getAll();
 
-    public List<ContractVO> getAllByCustomerId_Compensation(int id);
-	void insert_SalesModel(ContractVO contractVO);
-
-	ContractVO get_UnderWritingModel(int id);
-
-	ArrayList<ContractVO> getAll_UnderWritingModel();
+	void insert(ContractVO contractVO);
 
 	void update(ContractVO contractVO);
-	Optional<ContractVO> findById_FinancialAccountant(int id);
 
-    public void updateTerminationDate_ContractManagement(LocalDate termination_date, int id);
-    public void updateDate_ContractManagement(LocalDate date, int id);
-    public void updateExpirationDate_ContractManagement(LocalDate expiration_date, int id);
-	Integer getMaxId_SalesModel();
+	Integer getMaxId();
 
-    public void deleteById(int id);
+	void deleteById(int id);
 }

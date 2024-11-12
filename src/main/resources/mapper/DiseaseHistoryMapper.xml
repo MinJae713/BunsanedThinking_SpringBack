@@ -1,83 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper">
-    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        select * from diseasehistory
-        where customer_id = #{id}
-    </select>
-    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        SELECT id, date_of_diagnosis, name, customer_id
-        FROM diseasehistory
-        WHERE customer_id = #{id}
-    </select>
-    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         INSERT INTO DiseaseHistory (id, date_of_diagnosis, name, customer_id)
-        VALUES (
-                   #{id},
-                   #{date_of_diagnosis},
-                   #{name},
-                   #{customer_id}
-               )
-    </insert>
-
-    <insert id="insertExcludedCustomerId_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        INSERT INTO DiseaseHistory (id, date_of_diagnosis, name)
-        VALUES (
-                   #{id},
-                   #{date_of_diagnosis},
-                   #{name}
-               )
-    </insert>
-
-    <select id="getMaxId" resultType="int">
-        select MAX(id) from DiseaseHistory
-    </select>
-    <insert id="insert_diseaseHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        INSERT INTO diseasehistory (customer_id, date_of_diagnosis, name)
-        VALUES (#{customer_id},
+        VALUES (#{id},
                 #{date_of_diagnosis},
-                #{name})
+                #{name},
+                #{customer_id})
     </insert>
-    <select id="findDiseaseHistoriesByCustomerId_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        SELECT * FROM diseasehistory
-        WHERE customer_id = #{customer_id}
-    </select>
-    <delete id="deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement" parameterType="int">
-        DELETE FROM diseasehistory
-        WHERE customer_id = #{customer_id}
-    </delete>
-    <update id="update_diseaseHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        UPDATE diseasehistory
-        SET date_of_diagnosis = #{date_of_diagnosis},
-            name = #{name}
-        WHERE id = #{id}
-    </update>
-
-    <select id="getMaxId_SalesModel" resultType="Integer">
-        select max(id)
+    <select id="getMaxId" resultType="int">
+        select MAX(id)
         from DiseaseHistory
     </select>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        select * from diseasehistory
+        select *
+        from diseasehistory
         where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        select * from diseasehistory
+        select *
+        from diseasehistory
     </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         update diseasehistory
-        set
-            date_of_diagnosis = #{date_of_diagnosis},
-            name = #{name},
-            customer_id = #{customer_id}
+        set date_of_diagnosis = #{date_of_diagnosis},
+            name              = #{name},
+            customer_id       = #{customer_id}
         where id = #{id}
     </update>
     <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        delete from diseasehistory
+        delete
+        from diseasehistory
         where id = #{id}
     </delete>
-    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
-        SELECT MAX(id) FROM diseasehistory
-    </select>
-
 </mapper>
