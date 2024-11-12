@@ -23,7 +23,7 @@ public class InjuryEntityModel {
 	private InjuryMapper injuryMapper;
 
 	public Injury getById(int id) {
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
 			return null;
 		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
@@ -50,7 +50,7 @@ public class InjuryEntityModel {
 		// 참조 무결성 제약조건 생각해서 product, insurance, injury 순서대로 데이터 추가함
 		if (injury == null) return;
 		if (injuryMapper.getById(injury.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(injury.findProductVO());
+		productMapper.insert(injury.findProductVO());
 		insuranceMapper.insert(injury.findInsuranceVO());
 		injuryMapper.insert(injury.findVO());
 	}
@@ -60,7 +60,7 @@ public class InjuryEntityModel {
 		if (injuryMapper.getById(injury.getId()).isEmpty()) return;
 		injuryMapper.update(injury.findVO());
 		insuranceMapper.update(injury.findInsuranceVO());
-		productMapper.update_LoanManagement(injury.findProductVO());
+		productMapper.update(injury.findProductVO());
 	}
 
 	public void delete(int id) {
@@ -68,6 +68,6 @@ public class InjuryEntityModel {
 		if (injuryMapper.getById(id).isEmpty()) return;
 		injuryMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
-		productMapper.delete_ProductManagementModel(id);
+		productMapper.deleteById(id);
 	}
 }

@@ -18,7 +18,7 @@ public class AdditionalAllowanceEntityModel {
 	private AdditionalAllowanceMapper additionalAllowanceMapper;
 
 	public AdditionalAllowance getById(int id) {
-		return paymentDetailMapper.findById_FinancialAccountant(id)
+		return paymentDetailMapper.getById(id)
 			.flatMap(detailVO ->
 				additionalAllowanceMapper.getById(id)
 					.map(additionalAllowanceVO -> additionalAllowanceVO.getEntity(detailVO)))
@@ -39,7 +39,7 @@ public class AdditionalAllowanceEntityModel {
 	public void add(AdditionalAllowance additionalAllowance) {
 		if (additionalAllowance == null) return;
 		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isPresent()) return;
-		paymentDetailMapper.insert_LoanManagement(additionalAllowance.findPaymentDetailVO());
+		paymentDetailMapper.insert(additionalAllowance.findPaymentDetailVO());
 		additionalAllowanceMapper.insert(additionalAllowance.findVO());
 	}
 
@@ -47,7 +47,7 @@ public class AdditionalAllowanceEntityModel {
 		if (additionalAllowance == null) return;
 		if (additionalAllowanceMapper.getById(additionalAllowance.getId()).isEmpty()) return;
 		additionalAllowanceMapper.update(additionalAllowance.findVO());
-		paymentDetailMapper.update_FinancialAccountant(additionalAllowance.findPaymentDetailVO());
+		paymentDetailMapper.update(additionalAllowance.findPaymentDetailVO());
 	}
 
 	public void delete(int id) {

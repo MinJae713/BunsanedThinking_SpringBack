@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ServiceMapper">
-    <select id="getAllByProductId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
-        select * from service
-        where product_id = #{id}
-    </select>
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
-        select * from Service
-        where product_id = #{id}
-    </select>
-
-    <delete id="delete_ProductManagementModel" parameterType="int">
-        DELETE FROM Service
-        WHERE product_id = #{product_id}
-    </delete>
-
-    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.ServiceVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ServiceVO">
         insert into Service(product_id, service)
         values (
                    #{product_id},
                    #{service}
                )
     </insert>
-    <select id="findByProductId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
+
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.ServiceVO">
         select *
         from service
         where product_id=#{param1}
     </select>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM Service
+        WHERE product_id = #{product_id}
+    </delete>
 </mapper>

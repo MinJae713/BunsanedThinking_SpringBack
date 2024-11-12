@@ -1,15 +1,16 @@
 package com.example.bunsanedthinking_springback.model.entityModel.report;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.repository.ReportMapper;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ReportEntityModel {
@@ -23,7 +24,7 @@ public class ReportEntityModel {
 		Accident accident = accidentEntityModel.getById(id);
 		if (accident == null)
 			return null;
-		return reportMapper.getById_Compensation(id)
+		return reportMapper.getById(id)
 			.map(reportVO -> reportVO.getEntity(accident))
 			.orElse(null);
 	}
@@ -63,21 +64,21 @@ public class ReportEntityModel {
 
 	public void add(Report report) {
 		if (report == null) return;
-		if (reportMapper.getById_Compensation(report.getId()).isPresent()) return;
+		if (reportMapper.getById(report.getId()).isPresent()) return;
 		accidentEntityModel.add(report.getAccident());
-		reportMapper.insert_CustomerSupport(report.findVO());
+		reportMapper.insert(report.findVO());
 	}
 
 	public void update(Report report) {
 		if (report == null) return;
-		if (reportMapper.getById_Compensation(report.getId()).isEmpty()) return;
+		if (reportMapper.getById(report.getId()).isEmpty()) return;
 		accidentEntityModel.update(report.getAccident());
 		reportMapper.update(report.findVO());
 		// 이건 사고 정보가 수정될 수도 있고 없을 수도 있어서 그대로 반영되도록 함
 	}
 
 	public void delete(int id) {
-		if (reportMapper.getById_Compensation(id).isEmpty()) return;
+		if (reportMapper.getById(id).isEmpty()) return;
 		Report report = getById(id);
 		reportMapper.deleteById(id);
 		Accident accident = report.getAccident();

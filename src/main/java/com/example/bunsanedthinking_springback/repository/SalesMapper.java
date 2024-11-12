@@ -8,17 +8,15 @@ import com.example.bunsanedthinking_springback.vo.SalesVO;
 
 @Mapper
 public interface SalesMapper {
-	SalesVO get_SalesModel(int id);
+	SalesVO getById(int id);
 
-	void updateEvaluate_SalesModel(int id, int evaluate);
+	ArrayList<SalesVO> getAll();
 
-	ArrayList<SalesVO> getAll_SalesModel();
+	Integer getMaxId();
 
-	void update_SalesModel(SalesVO salesVO);
+	void update(SalesVO salesVO);
 
-	public Integer getMaxId();
+	void insert(SalesVO salesVO);
 
-	public void insert(SalesVO salesVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

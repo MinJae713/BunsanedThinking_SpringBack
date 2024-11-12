@@ -1,50 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ProductMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        select * from product
-        where id = #{id}
-    </select>
-    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        select * from product
-        where id = #{id}
-    </select>
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        select * from product
-        where id = #{id}
-    </select>
-    <delete id="delete_ProductManagementModel" parameterType="int">
-        delete from product where id = #{id}
-    </delete>
-    <update id="updateName_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        UPDATE product
-        SET name = #{name}, maximum_money= #{maximum_money}
-        WHERE id = #{id}
-    </update>
-    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
         insert into product(id, name, maximum_money)
         values (#{id},#{name},#{maximum_money})
     </insert>
-    <select id="getAll_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        select * from product
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
         select *
         from product
     </select>
-    <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        select *
-        from product
-        where id = #{param1}
-    </select>
-    <update id="update_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
         update product
         set name=#{name},
             maximum_money=#{maximum_money}
         where id = #{id}
     </update>
-    <delete id="delete_LoanManagement">
+    <delete id="deleteById">
         delete from product
         where id=#{id}
     </delete>
-    <select id="isExistName" resultType="Integer">
-        select exists (select 1 from product where name = #{param1})
-    </select>
 </mapper>

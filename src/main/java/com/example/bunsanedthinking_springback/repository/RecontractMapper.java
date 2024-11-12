@@ -9,21 +9,15 @@ import com.example.bunsanedthinking_springback.vo.RecontractVO;
 
 @Mapper
 public interface RecontractMapper {
-	public Optional<RecontractVO> getById_Customer(int id);
+	Optional<RecontractVO> getById(int id);
 
-	public void addById_Customer(int contractId);
+	List<RecontractVO> getAll();
 
-	public Optional<RecontractVO> getById_ContractManagement(int id);
+	Integer getMaxId();
 
-	public List<RecontractVO> getAll_ContractManagement();
+	void insert(RecontractVO recontractVO);
 
-	void updateStatus_ContractManagement(int status, int id);
+	void update(RecontractVO recontractVO);
 
-	public Integer getMaxId();
-
-	public void insert(RecontractVO recontractVO);
-
-	public void update(RecontractVO recontractVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,23 +9,15 @@ import com.example.bunsanedthinking_springback.vo.TerminationVO;
 
 @Mapper
 public interface TerminationMapper {
-	public Optional<TerminationVO> getById_Customer(int id);
+	Optional<TerminationVO> getById(int id);
 
-	public void addById_Customer(int contractId);
+	List<TerminationVO> getAll();
 
-	public Optional<TerminationVO> getById_ContractManagement(int id);
+	Integer getMaxId();
 
-	public List<TerminationVO> getAll_ContractManagement();
+	void insert(TerminationVO terminationVO);
 
-	void updateStatus_ContractManagement(int status, int contract_id);
+	void update(TerminationVO terminationVO);
 
-	void updateApplyDate_ContractManagement(LocalDateTime apply_date, int contract_id);
-
-	public Integer getMaxId();
-
-	public void insert(TerminationVO terminationVO);
-
-	public void update(TerminationVO terminationVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

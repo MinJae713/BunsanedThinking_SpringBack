@@ -29,7 +29,7 @@ public class AutomobileEntityModel {
 	private ServiceMapper serviceMapper;
 
 	public Automobile getById(int id) {
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
 			return null;
 		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
@@ -38,7 +38,7 @@ public class AutomobileEntityModel {
 		AutoMobileVO autoMobileVO = automobileMapper.getById(id).orElse(null);
 		if (autoMobileVO == null)
 			return null;
-		List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
+		List<ServiceVO> serviceVOS = serviceMapper.getById(id);
 		ArrayList<ServiceType> serviceTypeList = new ArrayList<ServiceType>();
 		serviceVOS.stream()
 			.map(ServiceVO::getService)
@@ -63,12 +63,12 @@ public class AutomobileEntityModel {
 	public void add(Automobile autoMobile) {
 		if (autoMobile == null) return;
 		if (automobileMapper.getById(autoMobile.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(autoMobile.findProductVO());
+		productMapper.insert(autoMobile.findProductVO());
 		insuranceMapper.insert(autoMobile.findInsuranceVO());
 		automobileMapper.insert(autoMobile.findVO());
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes == null) return;
-		serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
+		serviceTypes.forEach(e -> serviceMapper.insert(
 				new ServiceVO(autoMobile.getId(), e.ordinal())
 		));
 	}
@@ -80,21 +80,21 @@ public class AutomobileEntityModel {
 		// productId 맞는 service들 삭제 후 파라미터에 있는 서비스들 다시 추가
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes != null) {
-			serviceMapper.delete_ProductManagementModel(autoMobile.getId());
-			serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
+			serviceMapper.deleteById(autoMobile.getId());
+			serviceTypes.forEach(e -> serviceMapper.insert(
 					new ServiceVO(autoMobile.getId(), e.ordinal())
 			));
 		}
 		automobileMapper.update(autoMobile.findVO());
 		insuranceMapper.update(autoMobile.findInsuranceVO());
-		productMapper.update_LoanManagement(autoMobile.findProductVO());
+		productMapper.update(autoMobile.findProductVO());
 	}
 
 	public void delete(int id) {
 		if (automobileMapper.getById(id).isEmpty()) return;
-		serviceMapper.delete_ProductManagementModel(id);
+		serviceMapper.deleteById(id);
 		automobileMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
-		productMapper.delete_ProductManagementModel(id);
+		productMapper.deleteById(id);
 	}
 }

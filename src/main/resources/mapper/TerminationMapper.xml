@@ -1,45 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.TerminationMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        select *
-        from termination
-        where contract_id = #{id}
-    </select>
-    <insert id="addById_Customer">
-        insert into termination(contract_id, origin_contract_id, termination_status)
-        values (#{contractId}, #{contractId}, 1)
-    </insert>
-
-    <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        select *
-        from termination
-        where contract_id = #{id}
-    </select>
-    <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        select *
-        from termination
-    </select>
-    <update id="updateStatus_ContractManagement"
-            parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        update termination
-        set termination_status = #{status}
-        where contract_id = #{contract_id}
-    </update>
-    <update id="updateApplyDate_ContractManagement"
-            parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        update termination
-        set apply_date = #{apply_date}
-        where contract_id = #{contract_id}
-    </update>
-    <select id="getMaxId" resultType="Integer">
-        SELECT MAX(contract_id)
-        FROM termination
-    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         INSERT INTO termination (contract_id, apply_date, termination_fee, origin_contract_id, termination_status)
         VALUES (#{contract_id}, #{apply_date}, #{termination_fee}, #{origin_contract_id}, #{termination_status});
     </insert>
+
+    <select id="getMaxId" resultType="Integer">
+        SELECT MAX(contract_id)
+        FROM termination
+    </select>
+
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        select *
+        from termination
+        where contract_id = #{id}
+    </select>
+
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        select *
+        from termination
+    </select>
+
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         UPDATE termination
         SET apply_date         = #{apply_date},

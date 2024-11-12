@@ -19,3 +19,7 @@ serials:
   depositDetail: 810
   diseaseHistory: 510
   employee: 600
+  product: 700
+  report: 500
+  surgeryHistory: 610
+  paymentDetail: 900

@@ -31,7 +31,7 @@ public class ProductEntityModel {
 
 	public List<Product> getAll() {
 		List<Product> products = new ArrayList<Product>();
-		productMapper.getAll_LoanManagement()
+		productMapper.getAll()
 			.forEach(e -> products.add(getById(e.getId())));
 		return products;
 	}

@@ -18,7 +18,7 @@ public class BenefitEntityModel {
 	private BenefitMapper benefitMapper;
 
 	public Benefit getById(int id) {
-		return paymentDetailMapper.findById_FinancialAccountant(id)
+		return paymentDetailMapper.getById(id)
 			.flatMap(detailVO -> benefitMapper.getById(id)
 				.map(benefitVO -> benefitVO.getEntity(detailVO)))
 			.orElse(null);
@@ -38,7 +38,7 @@ public class BenefitEntityModel {
 	public void add(Benefit benefit) {
 		if (benefit == null) return;
 		if (benefitMapper.getById(benefit.getId()).isPresent()) return;
-		paymentDetailMapper.insert_LoanManagement(benefit.findPaymentDetailVO());
+		paymentDetailMapper.insert(benefit.findPaymentDetailVO());
 		benefitMapper.insert(benefit.findVO());
 	}
 
@@ -46,7 +46,7 @@ public class BenefitEntityModel {
 		if (benefit == null) return;
 		if (benefitMapper.getById(benefit.getId()).isEmpty()) return;
 		benefitMapper.update(benefit.findVO());
-		paymentDetailMapper.update_FinancialAccountant(benefit.findPaymentDetailVO());
+		paymentDetailMapper.update(benefit.findPaymentDetailVO());
 	}
 
 	public void delete(int id) {

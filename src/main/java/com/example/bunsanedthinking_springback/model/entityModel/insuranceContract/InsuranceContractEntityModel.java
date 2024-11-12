@@ -23,7 +23,7 @@ public class InsuranceContractEntityModel {
 	private InsuranceContractMapper insuranceContractMapper;
 
 	public InsuranceContract getById(int id) {
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
 			return null;
 		LoanVO loanVO = loanMapper.getById(id).orElse(null);
@@ -50,7 +50,7 @@ public class InsuranceContractEntityModel {
 	public void add(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
 		if (insuranceContractMapper.getById(insuranceContract.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(insuranceContract.findProductVO());
+		productMapper.insert(insuranceContract.findProductVO());
 		loanMapper.insert(insuranceContract.findLoanVO());
 		insuranceContractMapper.insert(insuranceContract.findVO());
 	}
@@ -60,13 +60,13 @@ public class InsuranceContractEntityModel {
 		if (insuranceContractMapper.getById(insuranceContract.getId()).isEmpty()) return;
 		insuranceContractMapper.update(insuranceContract.findVO());
 		loanMapper.update(insuranceContract.findLoanVO());
-		productMapper.update_LoanManagement(insuranceContract.findProductVO());
+		productMapper.update(insuranceContract.findProductVO());
 	}
 
 	public void delete(int id) {
 		if (insuranceContractMapper.getById(id).isEmpty()) return;
 		insuranceContractMapper.deleteById(id);
 		loanMapper.deleteById(id);
-		productMapper.delete_LoanManagement(id);
+		productMapper.deleteById(id);
 	}
 }
