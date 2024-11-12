@@ -11,7 +11,7 @@ public interface InsuranceContractMapper {
 	public Optional<InsuranceContractVO> getById(int id);
 	public List<InsuranceContractVO> getAll();
 	public void insert(InsuranceContractVO insuranceContractVO);
-	public void delete(int id);
+	public void deleteById(int id);
 	public void update(InsuranceContractVO insuranceContractVO);
 	public Integer getMaxId();
 }

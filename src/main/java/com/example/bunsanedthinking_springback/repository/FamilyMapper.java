@@ -13,5 +13,5 @@ public interface FamilyMapper {
 	public Optional<FamilyVO> getById(int id);
 	public List<FamilyVO> getAll();
 	public void update(FamilyVO familyVO);
-	public void delete(int id);
+	public void deleteById(int id);
 }

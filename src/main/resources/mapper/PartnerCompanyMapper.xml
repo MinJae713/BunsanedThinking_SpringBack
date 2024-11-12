@@ -32,7 +32,7 @@
         select *
         from partnercompany
     </select>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete from partnercompany
         where id=#{id}
     </delete>

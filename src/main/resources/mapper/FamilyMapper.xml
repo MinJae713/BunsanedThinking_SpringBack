@@ -33,7 +33,7 @@
             employee_id = #{employee_id}
         where id = #{id}
     </update>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete from family
         where id = #{id}
     </delete>

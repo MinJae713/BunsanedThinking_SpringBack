@@ -42,7 +42,7 @@ public class OfficeSupplyEntityModel {
 
 	public void delete(int id) {
 		if (getById(id) == null) return;
-		officeSupplyMapper.delete(id);
+		officeSupplyMapper.deleteById(id);
 	}
 	public int getTotalInventory(){
 		return officeSupplyMapper.getTotalInventory();

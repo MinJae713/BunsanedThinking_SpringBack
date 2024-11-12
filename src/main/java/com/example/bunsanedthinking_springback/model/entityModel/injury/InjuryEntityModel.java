@@ -66,8 +66,8 @@ public class InjuryEntityModel {
 	public void delete(int id) {
 		// 참조 무결성 제약조건 생각해서 injury, insurnace, product 순서대로 데이터 삭제
 		if (injuryMapper.getById(id).isEmpty()) return;
-		injuryMapper.delete(id);
-		insuranceMapper.delete(id);
+		injuryMapper.deleteById(id);
+		insuranceMapper.deleteById(id);
 		productMapper.delete_ProductManagementModel(id);
 	}
 }

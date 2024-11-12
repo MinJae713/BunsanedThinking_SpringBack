@@ -22,7 +22,7 @@
             surgeries_limit = #{surgeries_limit}
         WHERE product_id = #{product_id}
     </update>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete
         from injury
         where product_id = #{id}

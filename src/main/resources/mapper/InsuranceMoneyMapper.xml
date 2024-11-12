@@ -32,7 +32,7 @@
             apply_date                 = #{apply_date}
         where id = #{id}
     </update>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete
         from insurancemoney
         where id = #{id}

@@ -94,7 +94,7 @@ public class AutomobileDModel {
 		if (automobileMapper.getById_Customer(id).isEmpty()) return;
 		serviceMapper.delete_ProductManagementModel(id);
 		automobileMapper.deleteById(id);
-		insuranceMapper.delete(id);
+		insuranceMapper.deleteById(id);
 		productMapper.delete_ProductManagementModel(id);
 	}
 }

@@ -68,7 +68,7 @@ public class DiseaseDModel {
 	public void delete(int id) {
 		if (diseaseMapper.getById_Customer(id).isEmpty()) return;
 		diseaseMapper.deleteById(id);
-		insuranceMapper.delete(id);
+		insuranceMapper.deleteById(id);
 		productMapper.delete_ProductManagementModel(id);
 	}
 }

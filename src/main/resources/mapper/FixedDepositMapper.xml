@@ -15,7 +15,7 @@
         values (#{product_id},
                 #{minimum_amount})
     </insert>
-    <delete id="delete">
+    <delete id="deleteById">
         delete
         from fixeddeposit
         where product_id = #{id}

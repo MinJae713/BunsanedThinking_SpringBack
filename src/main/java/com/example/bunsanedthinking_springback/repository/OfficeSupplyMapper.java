@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface OfficeSupplyMapper {
     public void insert(OfficeSupplyVO officeSupplyVO);
-    public void delete(int id);
+    public void deleteById(int id);
     public Optional<OfficeSupplyVO> getById(int id);
     public List<OfficeSupplyVO> getAll();
     public int getTotalInventory();

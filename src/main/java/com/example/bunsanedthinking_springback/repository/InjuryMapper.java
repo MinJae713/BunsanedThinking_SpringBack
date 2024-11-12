@@ -12,6 +12,6 @@ public interface InjuryMapper {
 	public List<InjuryVO> getAll();
 	public void insert(InjuryVO injuryVO);
 	public void update(InjuryVO injuryVO);
-	public void delete(int id);
+	public void deleteById(int id);
 	public Integer getMaxId();
 }

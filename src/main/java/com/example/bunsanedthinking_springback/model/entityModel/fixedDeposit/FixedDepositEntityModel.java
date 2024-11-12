@@ -65,8 +65,8 @@ public class FixedDepositEntityModel {
 
 	public void delete(int id) {
 		if (fixedDepositMapper.getById(id).isEmpty()) return;
-		fixedDepositMapper.delete(id);
-		loanMapper.delete(id);
+		fixedDepositMapper.deleteById(id);
+		loanMapper.deleteById(id);
 		productMapper.delete_LoanManagement(id);
 	}
 }

@@ -30,7 +30,7 @@
             interest_rate=#{interest_rate}
         where product_id=#{product_id}
     </update>
-    <delete id="delete">
+    <delete id="deleteById">
         delete from loan
         where product_id=#{id}
     </delete>

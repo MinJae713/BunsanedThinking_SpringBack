@@ -13,5 +13,5 @@ public interface LoanMapper {
 	public Integer getMaxId();
 	public void insert(LoanVO loanVO);
 	public void update(LoanVO loanVO);
-	public void delete(int id);
+	public void deleteById(int id);
 }

@@ -12,6 +12,6 @@ public interface PartnerCompanyMapper {
 	public void insert(PartnerCompanyVO partnerCompanyVO);
 	public void update(PartnerCompanyVO partnerCompanyVO);
 	public List<PartnerCompanyVO> getAll();
-	public void delete(int id);
+	public void deleteById(int id);
 	public Integer getMaxId();
 }

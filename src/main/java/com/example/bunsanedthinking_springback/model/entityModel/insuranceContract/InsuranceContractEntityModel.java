@@ -65,8 +65,8 @@ public class InsuranceContractEntityModel {
 
 	public void delete(int id) {
 		if (insuranceContractMapper.getById(id).isEmpty()) return;
-		insuranceContractMapper.delete(id);
-		loanMapper.delete(id);
+		insuranceContractMapper.deleteById(id);
+		loanMapper.deleteById(id);
 		productMapper.delete_LoanManagement(id);
 	}
 }

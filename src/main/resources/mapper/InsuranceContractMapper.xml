@@ -15,7 +15,7 @@
         values (#{product_id},
                 #{insurance_id})
     </insert>
-    <delete id="delete">
+    <delete id="deleteById">
         delete
         from insurancecontract
         where product_id = #{id}

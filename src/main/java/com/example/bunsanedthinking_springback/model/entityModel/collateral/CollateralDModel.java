@@ -68,7 +68,7 @@ public class CollateralDModel {
 	public void delete(int id) {
 		if (collateralMapper.getById_Customer(id).isEmpty()) return;
 		collateralMapper.delete_LoanManagement(id);
-		loanMapper.delete(id);
+		loanMapper.deleteById(id);
 		productMapper.delete_LoanManagement(id);
 	}
 }

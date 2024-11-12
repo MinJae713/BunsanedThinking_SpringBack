@@ -10,7 +10,7 @@
                 #{total_inventory},
                 #{department_id})
     </insert>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         DELETE FROM officesupply
         WHERE id = #{id}
     </delete>

@@ -41,6 +41,6 @@ public class FamilyEntityModel {
 
 	public void delete(int id) {
 		if (getById(id) == null) return;
-		familyMapper.delete(id);
+		familyMapper.deleteById(id);
 	}
 }

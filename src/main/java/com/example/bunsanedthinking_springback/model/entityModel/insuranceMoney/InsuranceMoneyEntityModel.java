@@ -41,6 +41,6 @@ public class InsuranceMoneyEntityModel {
 
 	public void delete(int id) {
 		if (getById(id) == null) return;
-		insuranceMoneyMapper.delete(id);
+		insuranceMoneyMapper.deleteById(id);
 	}
 }

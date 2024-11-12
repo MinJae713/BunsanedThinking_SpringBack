@@ -11,7 +11,7 @@ public interface FixedDepositMapper {
 	public Optional<FixedDepositVO> getById(int id);
 	public List<FixedDepositVO> getAll();
 	public void insert(FixedDepositVO fixedDepositVO);
-	public void delete(int id);
+	public void deleteById(int id);
 	public void update(FixedDepositVO fixedDepositVO);
 	public Integer getMaxId();
 }

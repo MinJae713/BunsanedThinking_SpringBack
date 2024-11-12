@@ -87,6 +87,6 @@ public class PartnerCompanyEntityModel {
 		List<Report> reports = partnerCompany.getReportList();
 		if (reports != null) reports.forEach(e -> reportEntityModel.delete(id));
 
-		partnerCompanyMapper.delete(id);
+		partnerCompanyMapper.deleteById(id);
 	}
 }
