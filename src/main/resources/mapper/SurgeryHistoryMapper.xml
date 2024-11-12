@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper">
-    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        INSERT INTO surgeryhistory (id, hospital_name, name, date, customer_id)
-        VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
-    </insert>
-
-    <select id="getMaxId" resultType="Integer">
-        SELECT MAX(id) FROM surgeryhistory
-    </select>
-
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         select * from surgeryhistory
         where id = #{id};
@@ -17,7 +8,13 @@
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         select * from surgeryhistory
     </select>
-
+    <select id="getMaxId" resultType="Integer">
+        SELECT MAX(id) FROM surgeryhistory
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+        INSERT INTO surgeryhistory (id, hospital_name, name, date, customer_id)
+        VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
+    </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         UPDATE surgeryhistory
         SET hospital_name = #{hospital_name},
@@ -26,7 +23,6 @@
             customer_id = #{customer_id}
         WHERE id = #{id}
     </update>
-
     <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         delete from surgeryhistory
         where id = #{id}

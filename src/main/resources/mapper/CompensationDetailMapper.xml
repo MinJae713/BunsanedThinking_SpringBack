@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CompensationDetailMapper">
-    <select id="getAllCompensationByContractId_Customer" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+    <select id="getById" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         select * from compensationdetail
-        where contract_id = #{id}
+        where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         select * from CompensationDetail
@@ -21,15 +21,6 @@
                    #{contract_id}
                )
     </insert>
-    <select id="findByContractId_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        select *
-        from compensationdetail
-        where contract_id=#{param1}
-    </select>
-    <select id="getById" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        select * from compensationdetail
-        where id = #{id}
-    </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         update compensationdetail
         set

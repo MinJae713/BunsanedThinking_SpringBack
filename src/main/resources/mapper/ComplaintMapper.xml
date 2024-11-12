@@ -6,15 +6,13 @@
         from complaint
         where id = #{id}
     </select>
-    <select id="getComplaintByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         select *
         from complaint
-        where customer_id = #{id}
     </select>
-    <select id="findById_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        select *
+    <select id="getMaxId" parameterType="Integer">
+        select max(id)
         from complaint
-        where id = #{param1}
     </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         update complaint
@@ -29,20 +27,6 @@
             customer_id=#{customer_id}
         where id = #{id}
     </update>
-    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        select *
-        from complaint
-    </select>
-    <select id="findByProcessStatus_CustomerSupport"
-            resultType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
-        select *
-        from complaint
-        where process_status = #{param1}
-    </select>
-    <select id="getMaxId" parameterType="Integer">
-        select max(id)
-        from complaint
-    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ComplaintVO">
         insert into complaint (id, complaint_type, content, date, employee_name, processing_date, process_status,
                                result, title, customer_id)

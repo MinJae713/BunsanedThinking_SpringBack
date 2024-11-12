@@ -1,19 +1,17 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.vo.EmployeeVO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author ����ȯ
@@ -31,10 +29,10 @@ public class Employee implements Cloneable {
 	private int departmentID;
 	protected Date employmentDate;
 	private String bankName;
-	private ArrayList<Family> familyList;
+	private List<Family> familyList;
 	private int id;
 	private String name;
-	private ArrayList<PaymentDetail> paymentDetailList;
+	private List<PaymentDetail> paymentDetailList;
 	private String phoneNumber;
 	protected EmployeePosition position;
 	private String residentRegistrationNumber;

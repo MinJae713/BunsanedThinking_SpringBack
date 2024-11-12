@@ -1,15 +1,14 @@
 package com.example.bunsanedthinking_springback.entity.department;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -27,7 +26,7 @@ public class Department implements Cloneable {
 	private List<OfficeSupply> officeSupplyList;
 	private String purpose;
 	private String task;
-	private ArrayList<Employee> employeeList;
+	private List<Employee> employeeList;
 
 	public static int DepartmentSerialNum = 910;
 

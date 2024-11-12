@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PaymentDetailMapper">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
+        select *
+        from paymentdetail
+    </select>
+    <select id="getMaxId" resultType="Integer">
+        select max(id)
+        from paymentdetail
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         insert into paymentdetail(id, account_holder, bank, bank_account, money, payment_type, process_status,
                                   contract_id, employee_id)
@@ -14,21 +27,6 @@
                 #{contract_id},
                 #{employee_id})
     </insert>
-
-    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
-        select *
-        from paymentdetail
-    </select>
-    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
-        select *
-        from paymentdetail
-        where id = #{id}
-    </select>
-    <select id="getMaxId" resultType="Integer">
-        select max(id)
-        from paymentdetail
-    </select>
-
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.PaymentDetailVO">
         update paymentdetail
         set account_holder=#{account_holder},
@@ -41,7 +39,6 @@
             employee_id=#{employee_id}
         where id = #{id}
     </update>
-
     <delete id="deleteById" parameterType="int">
         delete
         from paymentdetail

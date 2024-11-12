@@ -6,15 +6,13 @@
         from accident
         where id = #{id}
     </select>
-    <update id="updateStatus_Compensation">
-        update accident
-        set process_status = #{processStatus}
-        where id = #{accidentId}
-    </update>
-    <select id="findByID_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select *
         from accident
-        where id = #{param1}
+    </select>
+    <select id="getMaxId" resultType="Integer">
+        select max(id)
+        from accident
     </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         update accident
@@ -25,19 +23,6 @@
             customer_id=#{customer_id}
         where id = #{id}
     </update>
-    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
-        select *
-        from accident
-    </select>
-    <select id="findByProcessStatus_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
-        select *
-        from accident
-        where process_status = #{param1}
-    </select>
-    <select id="getMaxId" resultType="Integer">
-        select max(id)
-        from accident
-    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         insert into accident (id, date, location, process_status, service_type, customer_id)
         values (#{id},
@@ -47,7 +32,7 @@
                 #{service_type},
                 #{customer_id})
     </insert>
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete
         from accident
         where id = #{id}

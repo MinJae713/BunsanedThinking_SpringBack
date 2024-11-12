@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper">
+    <select id="getById" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
+        SELECT * FROM officesupply
+        WHERE id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
+        SELECT * FROM officesupply
+    </select>
+    <select id="getMaxId" resultType="Integer">
+        SELECT MAX(id) FROM officesupply
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
         INSERT INTO officesupply (id, name, description, inventory, total_inventory, department_id)
         VALUES (#{id},
@@ -10,23 +20,6 @@
                 #{total_inventory},
                 #{department_id})
     </insert>
-    <delete id="deleteById" parameterType="int">
-        DELETE FROM officesupply
-        WHERE id = #{id}
-    </delete>
-    <select id="getById" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        SELECT * FROM officesupply
-        WHERE id = #{id}
-    </select>
-    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        SELECT * FROM officesupply
-    </select>
-    <select id="getTotalInventory" resultType="int">
-        SELECT SUM(inventory) FROM officesupply
-    </select>
-    <select id="getMaxId" resultType="Integer">
-        SELECT MAX(id) FROM officesupply
-    </select>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
         UPDATE officesupply
         SET
@@ -37,4 +30,11 @@
             department_id = #{department_id}
         WHERE id = #{id}
     </update>
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM officesupply
+        WHERE id = #{id}
+    </delete>
+    <select id="getTotalInventory" resultType="int">
+        SELECT SUM(inventory) FROM officesupply
+    </select>
 </mapper>

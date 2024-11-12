@@ -11,12 +11,7 @@ import com.example.bunsanedthinking_springback.repository.AccidentMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AccidentEntityModel {
@@ -62,6 +57,6 @@ public class AccidentEntityModel {
 	public void delete(int id) {
 		if (getById(id) == null)
 			return;
-		accidentMapper.delete(id);
+		accidentMapper.deleteById(id);
 	}
 }

@@ -1,13 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerSupport;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -20,6 +12,7 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +22,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 
 @Service
 public class CustomerSupportService {
 	@Autowired
 	private ComplaintEntityModel complaintEntityModel;
 	@Autowired
-	private PartnerCompanyEntityModel partnerCompanyDModel;
+	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 	@Autowired
 	private AccidentEntityModel accidentEntityModel;
 	@Autowired
@@ -139,22 +131,22 @@ public class CustomerSupportService {
 	}
 
 	public List<PartnerCompany> getAllRoadAssistanceCompany() {
-		return partnerCompanyDModel.getAll_RoadsideCompany();
+		return partnerCompanyEntityModel.getAll_RoadsideCompany();
 	}
 
 	public List<PartnerCompany> getAllDamageAssessmentCompany() {
-		return partnerCompanyDModel.getAll_DamageAssesmentCompany();
+		return partnerCompanyEntityModel.getAll_DamageAssesmentCompany();
 	}
 
 	public PartnerCompany getRoadAssistanceCompany(int id) throws NotExistException {
-		PartnerCompany partnerCompany = partnerCompanyDModel.getById(id);
+		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null)
 			throw new NotExistException("해당하는 긴급 출동 업체 정보가 존재하지 않습니다.");
 		return partnerCompany;
 	}
 
 	public PartnerCompany getDamageAssessmentCompany(int id) throws NotExistException {
-		PartnerCompany partnerCompany = partnerCompanyDModel.getById(id);
+		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null)
 			throw new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다.");
 		return partnerCompany;

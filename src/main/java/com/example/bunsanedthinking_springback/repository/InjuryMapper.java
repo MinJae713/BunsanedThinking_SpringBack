@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface InjuryMapper {
 	public Optional<InjuryVO> getById(int id);
 	public List<InjuryVO> getAll();
+	public Integer getMaxId();
 	public void insert(InjuryVO injuryVO);
 	public void update(InjuryVO injuryVO);
 	public void deleteById(int id);
-	public Integer getMaxId();
 }

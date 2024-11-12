@@ -1,23 +1,17 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-
 @Mapper
 public interface ProductMapper {
-
-	void insert(ProductVO productVO);
-
-    Optional<ProductVO> getById(int id);
-
-	List<ProductVO> getAll();
-
-	void update(ProductVO productVO);
-
-	void deleteById(int id);
+	public Optional<ProductVO> getById(int id);
+	public List<ProductVO> getAll();
+	public void insert(ProductVO productVO);
+	public void update(ProductVO productVO);
+	public void deleteById(int id);
 
 }

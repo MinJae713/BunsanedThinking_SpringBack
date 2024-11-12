@@ -8,10 +8,10 @@ import java.util.Optional;
 
 @Mapper
 public interface AccidentHistoryMapper {
-	Integer getMaxId();
     public Optional<AccidentHistoryVO> getById(int id);
     public List<AccidentHistoryVO> getAll();
     public void insert(AccidentHistoryVO accidentHistoryVO);
     public void update(AccidentHistoryVO accidentHistoryVO);
     public void deleteById(int id);
+    public Integer getMaxId();
 }

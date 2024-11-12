@@ -67,7 +67,7 @@ public class CollateralEntityModel {
 
 	public void delete(int id) {
 		if (collateralMapper.getById(id).isEmpty()) return;
-		collateralMapper.delete(id);
+		collateralMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}

@@ -1,25 +1,13 @@
 package com.example.bunsanedthinking_springback.controller.partnerCompany;
 
-import com.example.bunsanedthinking_springback.dto.partnerCompany.UpdateReportDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
-import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanyService;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
-import com.example.bunsanedthinking_springback.vo.ReportVO;
-
+import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.bunsanedthinking_springback.dto.partnerCompany.UpdateReportDTO;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanyService;
-import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
+import java.util.List;
 
 @RestController
 @RequestMapping("/partnerCompany")
@@ -33,15 +21,15 @@ public class PartnerCompanyController {
 		return partnerCompanySModel.getPartnerCompany(id);
 	}
 
-	// @GetMapping("/getAllReportByDamageAssessmentCompanyID")
-	// public ArrayList<ReportVO> getAllReportByDamageAssessmentCompanyID(@RequestParam int id) {
-	// 	return partnerCompanySModel.getAllReportByDamageAssessmentCompanyID(id);
-	// }
+	 @GetMapping("/getAllReportByDamageAssessmentCompanyID")
+	 public List<Report> getAllReportByDamageAssessmentCompanyID(@RequestParam int id) throws NotExistException {
+	 	return partnerCompanySModel.getAllReportByDamageAssessmentCompanyID(id);
+	 }
 
-	// @GetMapping("/getReport")
-	// public ReportVO getReport(@RequestParam int id) throws NotExistException {
-	// 	return partnerCompanySModel.getReport(id);
-	// }
+	 @GetMapping("/getReport")
+	 public Report getReport(@RequestParam int id) throws NotExistException {
+	 	return partnerCompanySModel.getReport(id);
+	 }
 
 //	@PatchMapping("/updateReport")
 //	public void updateReport(@RequestBody UpdateReportDTO updateReportDTO) throws NotExistException {

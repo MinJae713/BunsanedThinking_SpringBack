@@ -1,5 +1,15 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
+import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,17 +17,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ȯ
@@ -31,16 +30,16 @@ public class Contract {
 
 	public static final int CONTRACT_SERIAL_NUMBER = 100;
 
-	private ArrayList<CompensationDetail> compensationDetailList;
+	private List<CompensationDetail> compensationDetailList;
 	private ContractStatus contractStatus;
 	private int customerID;
 	private Date date;
-	private ArrayList<DepositDetail> depositDetailList;
+	private List<DepositDetail> depositDetailList;
 	private Integer employeeID;
 	private Integer paymentDate; // 월 납부일
 	private Date expirationDate;
 	private int id;
-	private ArrayList<InsuranceMoney> insuranceMoneyList;
+	private List<InsuranceMoney> insuranceMoneyList;
 	private Date lastPaidDate; // 최근 납부일
 	private Product product;
 	private Date terminationDate; // 해지일

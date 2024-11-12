@@ -16,18 +16,18 @@ import java.util.List;
 public class AdministrativeService {
 
 	@Autowired
-	private OfficeSupplyEntityModel officeSupplyDModel;
+	private OfficeSupplyEntityModel officeSupplyEntityModel;
 //	@Autowired
 //	private OfficeSupplyMapper officeSupplyMapper;
 
 	public void addOfficeSupply(AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
-		boolean isExistOfficeSupplyName = officeSupplyDModel.getAll().stream()
+		boolean isExistOfficeSupplyName = officeSupplyEntityModel.getAll().stream()
 			.anyMatch(officeSupply ->
 					officeSupply.getName().equals(addOfficeSupplyDTO.getName()));
 		if(isExistOfficeSupplyName)
 			throw new DuplicateOfficeSupplyException();
 		//현재 최대 ID를 가져온다
-		Integer maxId = officeSupplyDModel.getMaxId();
+		Integer maxId = officeSupplyEntityModel.getMaxId();
 		int id;
 		if (maxId == null) {
 			id = Integer.parseInt(OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "1");
@@ -43,20 +43,20 @@ public class AdministrativeService {
 				addOfficeSupplyDTO.getDescription(),
 				addOfficeSupplyDTO.getDepartment_id()
 		);
-		officeSupplyDModel.add(officeSupply);
+		officeSupplyEntityModel.add(officeSupply);
 	}
 
 
 	public void deleteOfficeSupply(int id) throws NotExistException {
-		OfficeSupply officeSupply = officeSupplyDModel.getById(id);
+		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
-		officeSupplyDModel.delete(id);
+		officeSupplyEntityModel.delete(id);
 	}
 
 	public OfficeSupply getOfficeSupply(int id) throws NotExistException {
-		OfficeSupply officeSupply = officeSupplyDModel.getById(id);
+		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null){
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
@@ -68,36 +68,36 @@ public class AdministrativeService {
 		int id = updateOfficeSupplyDTO.getId();
 		int index = updateOfficeSupplyDTO.getIndex();
 		String input = updateOfficeSupplyDTO.getInput();
-		OfficeSupply officeSupply = officeSupplyDModel.getById(id);
+		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
 		}
 		switch (index) {
 			case 1:
-				for (OfficeSupply e : officeSupplyDModel.getAll()) {
+				for (OfficeSupply e : officeSupplyEntityModel.getAll()) {
 					if (e.getName().equals(input)) {
 						throw new DuplicateOfficeSupplyException();
 					}
 				}
 				officeSupply.setName(input);
-				officeSupplyDModel.update(officeSupply);
+				officeSupplyEntityModel.update(officeSupply);
 				break;
 			case 2:
 				officeSupply.setDescription(input);
-				officeSupplyDModel.update(officeSupply);
+				officeSupplyEntityModel.update(officeSupply);
 				break;
 			case 3:
 				officeSupply.setInventory(Integer.parseInt(input));
-				officeSupplyDModel.update(officeSupply);
+				officeSupplyEntityModel.update(officeSupply);
 				break;
 		}
     }
 
 	public List<OfficeSupply> getAllOfficeSupplies() {
-		return officeSupplyDModel.getAll();
+		return officeSupplyEntityModel.getAll();
 	}
 
 	public int getTotalInventory() {
-		return officeSupplyDModel.getTotalInventory();
+		return officeSupplyEntityModel.getTotalInventory();
 	}
 }

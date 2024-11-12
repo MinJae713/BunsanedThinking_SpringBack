@@ -1,27 +1,18 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import com.example.bunsanedthinking_springback.vo.ReportVO;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import com.example.bunsanedthinking_springback.vo.ReportVO;
-
 @Mapper
 public interface ReportMapper {
-	List<ReportVO> getAll();
-
-	Optional<ReportVO> getById(int id);
-
-	void insert(ReportVO reportVO);
-
-	void update(ReportVO reportVO);
-
-	void updateReport(ReportVO reportVO);
-
-	Integer getMaxId();
-
-	void deleteById(int id);
-
+	public Optional<ReportVO> getById(int id);
+	public List<ReportVO> getAll();
+	public Integer getMaxId();
+	public void insert(ReportVO reportVO);
+	public void update(ReportVO reportVO);
+	public void deleteById(int id);
 }
 

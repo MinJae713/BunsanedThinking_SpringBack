@@ -8,34 +8,34 @@ import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEn
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PartnerCompanyService {
 	@Autowired
-	private PartnerCompanyEntityModel partnerCompanyDModel;
+	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 	@Autowired
-	private ReportEntityModel reportDModel;
+	private ReportEntityModel reportEntityModel;
 //	@Autowired
 //	private PartnerCompanyMapper partnerCompanyMapper;
 //	@Autowired
 //	private ReportMapper reportMapper;
 
 	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
-		PartnerCompany partnerCompany = partnerCompanyDModel.getById(id);
+		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null) {
 			throw new NotExistException();
 		}
 		return partnerCompany;
 	}
 
-	public ArrayList<Report> getAllReportByDamageAssessmentCompanyID(int id) {
-		ArrayList<Report> reports = reportDModel.getAllByDamageAssessmentCId(id);
-		return reports;
+	public List<Report> getAllReportByDamageAssessmentCompanyID(int id) throws NotExistException {
+		if (partnerCompanyEntityModel.getById(id) == null) throw new NotExistException("해당 업체가 없습니다");
+		return reportEntityModel.getAll().stream().filter(e -> e.getDamageAssessmentCompanyID() == id).toList();
 	}
 
 	public Report getReport(int id) throws NotExistException {
-		Report report = reportDModel.getById(id);
+		Report report = reportEntityModel.getById(id);
 		if (report == null) {
 			throw new NotExistException();
 		}
@@ -52,11 +52,11 @@ public class PartnerCompanyService {
 //	} //모르겠음
 
 	public void setDamageAssessmentMoney(int accidentId, int damageAssessmentMoney) throws NotExistException {
-		Report report = reportDModel.getById(accidentId);
+		Report report = reportEntityModel.getById(accidentId);
 		if (report == null) {
 			throw new NotExistException("해당하는 신고 정보가 존재하지 않습니다.");
 		}
 		report.setDamageAssessmentMoney(damageAssessmentMoney);
-		reportDModel.update(report);
+		reportEntityModel.update(report);
 	}
 }

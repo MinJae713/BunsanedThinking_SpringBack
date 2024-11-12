@@ -3,7 +3,6 @@ package com.example.bunsanedthinking_springback.model.entityModel.accidentHistor
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,9 +12,6 @@ import java.util.List;
 public class AccidentHistoryEntityModel {
 	@Autowired
 	private AccidentHistoryMapper accidentHistoryMapper;
-
-	@Value("${serials.accidentHistory}")
-	public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
 
 	public AccidentHistory getById(int id) {
 		return accidentHistoryMapper.getById(id)

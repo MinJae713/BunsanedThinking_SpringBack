@@ -14,34 +14,11 @@ import com.example.bunsanedthinking_springback.model.entityModel.department.Depa
 public class ManagementPlanningService {
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
-	//	@Autowired
-	//	public DepartmentMapper departmentMapper;
-
-	//	public void addDepartment(String headName, String name, String purpose, String task) throws DuplicateDepartmentException{
-	//		if (departmentMapper.findByName_ManagementPlanning(name) != null) {
-	//			throw new DuplicateDepartmentException();
-	//		}
-	//		Integer maxId = departmentMapper.getMaxId_ManagementPlanning();
-	//		int id;
-	//		if (maxId == null) {
-	//			id = Integer.parseInt(Department.DepartmentSerialNum + "1");
-	//		} else {
-	//			String index = (maxId + "").substring((Department.DepartmentSerialNum + "").length());
-	//			id = Integer.parseInt((Department.DepartmentSerialNum + "") + (Integer.parseInt(index) + 1));
-	//		}
-	//		DepartmentVO departmentVO = new DepartmentVO();
-	//		departmentVO.setId(id); // 새로운 ID 설정
-	//		departmentVO.setName(name);
-	//		departmentVO.setTask(task);
-	//		departmentVO.setPurpose(purpose);
-	//		departmentVO.setHead_name(headName);
-	//		departmentMapper.insert_ManagementPlanning(departmentVO);
-	//	}
-	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
+	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()
-			.anyMatch(department ->
-				department.getName().equals(addDepartmentDTO.getName()));
-		if (isExistDepartmentName)
+				.anyMatch(department ->
+						department.getName().equals(addDepartmentDTO.getName()));
+		if(isExistDepartmentName)
 			throw new DuplicateDepartmentException();
 
 		Integer maxId = departmentEntityModel.getMaxId();
@@ -53,10 +30,10 @@ public class ManagementPlanningService {
 			id = Integer.parseInt((Department.DepartmentSerialNum + "") + (Integer.parseInt(index) + 1));
 		}
 		Department department = new Department(
-			addDepartmentDTO.getName(),
-			addDepartmentDTO.getTask(),
-			addDepartmentDTO.getPurpose(),
-			addDepartmentDTO.getHead_name()
+				addDepartmentDTO.getName(),
+				addDepartmentDTO.getTask(),
+				addDepartmentDTO.getPurpose(),
+				addDepartmentDTO.getHead_name()
 		);
 		department.setId(id);
 		departmentEntityModel.add(department);
@@ -79,12 +56,12 @@ public class ManagementPlanningService {
 	}
 
 	public void updateDepartment(UpdateDepartmentDTO updateDepartmentDTO)
-		throws DuplicateDepartmentException, NotExistException {
+			throws DuplicateDepartmentException, NotExistException {
 		int id = updateDepartmentDTO.getId();
 		int index = updateDepartmentDTO.getIndex();
 		String input = updateDepartmentDTO.getInput();
 		Department department = departmentEntityModel.getById(id);
-		if (department == null) {
+		if (department == null){
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
 		}
 		switch (index) {

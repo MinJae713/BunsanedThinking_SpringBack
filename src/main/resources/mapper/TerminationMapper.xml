@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.TerminationMapper">
-    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
-        INSERT INTO termination (contract_id, apply_date, termination_fee, origin_contract_id, termination_status)
-        VALUES (#{contract_id}, #{apply_date}, #{termination_fee}, #{origin_contract_id}, #{termination_status});
-    </insert>
-
-    <select id="getMaxId" resultType="Integer">
-        SELECT MAX(contract_id)
-        FROM termination
-    </select>
-
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         select *
         from termination
         where contract_id = #{id}
     </select>
-
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         select *
         from termination
     </select>
-
+    <select id="getMaxId" resultType="Integer">
+        SELECT MAX(contract_id)
+        FROM termination
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
+        INSERT INTO termination (contract_id, apply_date, termination_fee, origin_contract_id, termination_status)
+        VALUES (#{contract_id}, #{apply_date}, #{termination_fee}, #{origin_contract_id}, #{termination_status});
+    </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.TerminationVO">
         UPDATE termination
         SET apply_date         = #{apply_date},

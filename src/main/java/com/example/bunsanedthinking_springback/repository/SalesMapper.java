@@ -1,22 +1,17 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import java.util.ArrayList;
-
+import com.example.bunsanedthinking_springback.vo.SalesVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.bunsanedthinking_springback.vo.SalesVO;
+import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface SalesMapper {
-	SalesVO getById(int id);
-
-	ArrayList<SalesVO> getAll();
-
-	Integer getMaxId();
-
-	void update(SalesVO salesVO);
-
-	void insert(SalesVO salesVO);
-
-	void deleteById(int id);
+	public Optional<SalesVO> getById(int id);
+	public List<SalesVO> getAll();
+	public Integer getMaxId();
+	public void insert(SalesVO salesVO);
+	public void update(SalesVO salesVO);
+	public void deleteById(int id);
 }

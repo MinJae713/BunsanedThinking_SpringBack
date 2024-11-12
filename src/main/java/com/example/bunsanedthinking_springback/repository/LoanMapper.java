@@ -8,8 +8,8 @@ import java.util.Optional;
 
 @Mapper
 public interface LoanMapper {
-    public List<LoanVO> getAll();
 	public Optional<LoanVO> getById(int id);
+	public List<LoanVO> getAll();
 	public Integer getMaxId();
 	public void insert(LoanVO loanVO);
 	public void update(LoanVO loanVO);

@@ -1,23 +1,17 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import com.example.bunsanedthinking_springback.vo.EndorsementVO;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import com.example.bunsanedthinking_springback.vo.EndorsementVO;
-
 @Mapper
 public interface EndorsementMapper {
-	Optional<EndorsementVO> getById(int id);
-
-	List<EndorsementVO> getAll();
-
-	Integer getMaxId();
-
-	void insert(EndorsementVO endorsementVO);
-
-	void update(EndorsementVO endorsementVO);
-
-	void deleteById(int id);
+	public Optional<EndorsementVO> getById(int id);
+	public List<EndorsementVO> getAll();
+	public Integer getMaxId();
+	public void insert(EndorsementVO endorsementVO);
+	public void update(EndorsementVO endorsementVO);
+	public void deleteById(int id);
 }

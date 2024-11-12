@@ -25,7 +25,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.collateral.Coll
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
@@ -67,19 +67,19 @@ public class SalesService {
 	@Autowired
 	private ProductEntityModel productEntityModel;
 	@Autowired
-	private InsuranceEntityModel insuranceDModel;
+	private InsuranceEntityModel insuranceEntityModel;
 	@Autowired
-	private LoanEntityModel loanDModel;
+	private LoanEntityModel loanEntityModel;
 	@Autowired
 	private CollateralEntityModel collateralEntityModel;
 	@Autowired
-	private FixedDepositEntityModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositEntityModel;
 	@Autowired
-	private InsuranceContractEntityModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractEntityModel;
 	@Autowired
-	private InjuryEntityModel injuryDModel;
+	private InjuryEntityModel injuryEntityModel;
 	@Autowired
-	private DiseaseDModel diseaseDModel;
+	private DiseaseEntityModel diseaseEntityModel;
 	@Autowired
 	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
@@ -237,11 +237,11 @@ public class SalesService {
 	}
 
 	public Insurance getInsuranceProduct(int id) {
-		return insuranceDModel.getById(id);
+		return insuranceEntityModel.getById(id);
 	}
 
 	public Loan getLoanProduct(int id) {
-		return loanDModel.getById(id);
+		return loanEntityModel.getById(id);
 	}
 
 	public ArrayList<Employee> getAllEmployee() {
@@ -300,11 +300,11 @@ public class SalesService {
 	}
 
 	public ArrayList<Insurance> getAllDiseaseInsurance() {
-		return new ArrayList<>(diseaseDModel.getAll());
+		return new ArrayList<>(diseaseEntityModel.getAll());
 	}
 
 	public ArrayList<Insurance> getAllInjuryInsurance() {
-		return new ArrayList<>(injuryDModel.getAll());
+		return new ArrayList<>(injuryEntityModel.getAll());
 	}
 
 	public ArrayList<Insurance> getAllAutomobileInsurance() {
@@ -316,11 +316,11 @@ public class SalesService {
 	}
 
 	public ArrayList<Loan> getAllFixedDepositLoan() {
-		return new ArrayList<>(fixedDepositDModel.getAll());
+		return new ArrayList<>(fixedDepositEntityModel.getAll());
 	}
 
 	public ArrayList<Loan> getAllInsuranceContractLoan() {
-		return new ArrayList<>(insuranceContractDModel.getAll());
+		return new ArrayList<>(insuranceContractEntityModel.getAll());
 	}
 
 	public Sales getSalesContractCount(int id) {

@@ -1,10 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.compensation;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqCompensationDTO;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -21,6 +16,8 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistContract
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
@@ -28,13 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 
 @Service
 public class CompensationService {
 	@Autowired
-	private InsuranceMoneyEntityModel insuranceMoneyDModel;
+	private InsuranceMoneyEntityModel insuranceMoneyEntityModel;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
@@ -104,7 +99,7 @@ public class CompensationService {
 			throw new NotExistException();
 		if (customer.getId() != contract.getCustomerID())
 			throw new NotExistException();
-		InsuranceMoney insuranceMoney = insuranceMoneyDModel.getById(insuranceMoneyId);
+		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(insuranceMoneyId);
 		if (insuranceMoney == null)
 			throw new NotExistException();
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
@@ -118,7 +113,7 @@ public class CompensationService {
 		payment.setId(paymentId);
 		paymentDetailEntityModel.add(payment);
 		insuranceMoney.handle();
-		insuranceMoneyDModel.update(insuranceMoney);
+		insuranceMoneyEntityModel.update(insuranceMoney);
 
 		//		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed) {
 		//			throw new AlreadyProcessedException();
@@ -132,7 +127,7 @@ public class CompensationService {
 
 	// 아래부터 get - 아래는 완료
 	public List<InsuranceMoney> getAllInsuranceMoney() {
-		return insuranceMoneyDModel.getAll();
+		return insuranceMoneyEntityModel.getAll();
 		//		return insuranceMoneyList.getAll();
 	}
 
@@ -140,7 +135,7 @@ public class CompensationService {
 		//		return getAllInsuranceMoney().stream()
 		//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
 		//			.toList();
-		return insuranceMoneyDModel.getAll().stream()
+		return insuranceMoneyEntityModel.getAll().stream()
 			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
 			.toList();
 
@@ -150,7 +145,7 @@ public class CompensationService {
 		//		return getAllInsuranceMoney().stream()
 		//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
 		//			.toList();
-		return insuranceMoneyDModel.getAll().stream()
+		return insuranceMoneyEntityModel.getAll().stream()
 			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			.toList();
 	}
@@ -160,7 +155,7 @@ public class CompensationService {
 		//		if (insuranceMoneyVO == null)
 		//			throw new NotExistException();
 		//		return insuranceMoneyVO.getEntity();
-		return insuranceMoneyDModel.getById(id);
+		return insuranceMoneyEntityModel.getById(id);
 	}
 
 	// 여기부터 contract 하나 찾기

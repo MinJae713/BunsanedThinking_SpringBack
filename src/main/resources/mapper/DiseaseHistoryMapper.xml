@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper">
-    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
-        INSERT INTO DiseaseHistory (id, date_of_diagnosis, name, customer_id)
-        VALUES (#{id},
-                #{date_of_diagnosis},
-                #{name},
-                #{customer_id})
-    </insert>
-    <select id="getMaxId" resultType="int">
-        select MAX(id)
-        from DiseaseHistory
-    </select>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         select *
         from diseasehistory
@@ -21,6 +10,17 @@
         select *
         from diseasehistory
     </select>
+    <select id="getMaxId" resultType="int">
+        select MAX(id)
+        from DiseaseHistory
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
+        INSERT INTO DiseaseHistory (id, date_of_diagnosis, name, customer_id)
+        VALUES (#{id},
+                #{date_of_diagnosis},
+                #{name},
+                #{customer_id})
+    </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO">
         update diseasehistory
         set date_of_diagnosis = #{date_of_diagnosis},

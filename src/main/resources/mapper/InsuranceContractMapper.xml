@@ -10,23 +10,23 @@
         select *
         from insurancecontract
     </select>
+    <select id="getMaxId" parameterType="Integer">
+        select max(product_id)
+        from insurancecontract
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         insert into insurancecontract(product_id, insurance_id)
         values (#{product_id},
                 #{insurance_id})
     </insert>
-    <delete id="deleteById">
-        delete
-        from insurancecontract
-        where product_id = #{id}
-    </delete>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         update insurancecontract
         set insurance_id=#{insurance_id}
         where product_id = #{product_id}
     </update>
-    <select id="getMaxId" parameterType="Integer">
-        select max(product_id)
+    <delete id="deleteById">
+        delete
         from insurancecontract
-    </select>
+        where product_id = #{id}
+    </delete>
 </mapper>

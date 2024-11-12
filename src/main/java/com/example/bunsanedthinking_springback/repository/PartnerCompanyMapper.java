@@ -9,9 +9,9 @@ import java.util.Optional;
 @Mapper
 public interface PartnerCompanyMapper {
 	public Optional<PartnerCompanyVO> getById(int id);
+	public List<PartnerCompanyVO> getAll();
+	public Integer getMaxId();
 	public void insert(PartnerCompanyVO partnerCompanyVO);
 	public void update(PartnerCompanyVO partnerCompanyVO);
-	public List<PartnerCompanyVO> getAll();
 	public void deleteById(int id);
-	public Integer getMaxId();
 }

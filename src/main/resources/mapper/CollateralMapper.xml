@@ -10,8 +10,8 @@
         select *
         from collateral
     </select>
-    <select id="getAllCollateralLoan_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
-        select *
+    <select id="getMaxId" parameterType="Integer">
+        select max(product_id)
         from collateral
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CollateralVO">
@@ -26,13 +26,9 @@
             minimum_value=#{minimum_value}
         where product_id = #{product_id}
     </update>
-    <delete id="delete">
+    <delete id="deleteById">
         delete
         from collateral
         where product_id = #{id}
     </delete>
-    <select id="getMaxId" parameterType="Integer">
-        select max(product_id)
-        from collateral
-    </select>
 </mapper>

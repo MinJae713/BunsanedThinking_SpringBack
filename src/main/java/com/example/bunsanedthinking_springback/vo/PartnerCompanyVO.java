@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class PartnerCompanyVO {
 	private int partner_company_type;
 	private String phone_number;
 
-	public PartnerCompany getEntity(ArrayList<Report> reports) {
+	public PartnerCompany getEntity(List<Report> reports) {
 		PartnerCompany partnerCompany = new PartnerCompany();
 		partnerCompany.setId(id);
 		partnerCompany.setHeadName(head_name);

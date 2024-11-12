@@ -1,37 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper">
-    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        SELECT id, date, details_of_accident, customer_id
-        FROM AccidentHistory
-        WHERE customer_id = #{id}
-    </select>
-    <insert id="insert_accidentHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        INSERT INTO accidenthistory (id, customer_id, details_of_accident, date)
-        VALUES (#{id},
-                #{customer_id},
-                #{details_of_accident},
-                #{date})
-    </insert>
-    <select id="findAccidentHistoriesByCustomerId_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        SELECT * FROM accidenthistory
-        WHERE customer_id = #{customer_id}
-    </select>
-    <delete id="deleteAccidentHistoriesByCustomerId_CustomerInformationManagement" parameterType="int">
-        DELETE FROM accidenthistory
-        WHERE customer_id = #{customer_id}
-    </delete>
-    <update id="update_accidentHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        UPDATE accidenthistory
-        SET details_of_accident = #{details_of_accident},
-            date = #{date}
-        WHERE id = #{id}
-    </update>
-
-    <select id="getMaxId" resultType="Integer">
-        select max(id)
-        from accidenthistory
-    </select>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
         select * from accidenthistory
         where id = #{id}
@@ -54,8 +23,7 @@
         delete from accidenthistory
         where id = #{id}
     </delete>
-
-    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         SELECT MAX(id) FROM accidenthistory
     </select>
 </mapper>

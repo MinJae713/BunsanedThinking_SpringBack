@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ProductMapper">
-    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
-        insert into product(id, name, maximum_money)
-        values (#{id},#{name},#{maximum_money})
-    </insert>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.ProductVO">
         select * from product
         where id = #{id}
@@ -13,6 +9,10 @@
         select *
         from product
     </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
+        insert into product(id, name, maximum_money)
+        values (#{id},#{name},#{maximum_money})
+    </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ProductVO">
         update product
         set name=#{name},

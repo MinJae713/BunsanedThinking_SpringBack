@@ -1,14 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.humanResource;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.EmployeeDTO;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.FamilyDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
@@ -18,16 +9,24 @@ import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HumanResourceService {
 	@Autowired
 	private EmployeeEntityModel employeeEntityModel;
 	@Autowired
-	private FamilyEntityModel familyDModel;
+	private FamilyEntityModel familyEntityModel;
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
 
@@ -70,7 +69,7 @@ public class HumanResourceService {
 	}
 
 	private ArrayList<Family> createFamilyList(int employeeId, List<FamilyDTO> tempFamilyList) {
-		Integer maxId = familyDModel.getMaxId();
+		Integer maxId = familyEntityModel.getMaxId();
 		int familyId;
 		int index;
 		if (maxId == null) {

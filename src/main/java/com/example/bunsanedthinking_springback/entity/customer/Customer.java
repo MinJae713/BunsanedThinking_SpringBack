@@ -1,10 +1,5 @@
 package com.example.bunsanedthinking_springback.entity.customer;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
@@ -27,11 +22,15 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateResiden
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author 占쏙옙占쏙옙환
@@ -43,16 +42,16 @@ import lombok.NoArgsConstructor;
 @Data
 public class Customer implements Cloneable {
 
-	private ArrayList<AccidentHistory> accidentHistoryList;
-	private ArrayList<Accident> accidentList;
+	private List<AccidentHistory> accidentHistoryList;
+	private List<Accident> accidentList;
 	private String address;
 	private int age;
 	private String bankAccount;
 	private String bankName;
-	private ArrayList<Complaint> complaintList;
-	private ArrayList<Contract> contractList;
-	private ArrayList<Counsel> counselList;
-	private ArrayList<DiseaseHistory> diseaseHistoryList;
+	private List<Complaint> complaintList;
+	private List<Contract> contractList;
+	private List<Counsel> counselList;
+	private List<DiseaseHistory> diseaseHistoryList;
 	private Gender gender;
 	private int id;
 	private String job;
@@ -60,7 +59,7 @@ public class Customer implements Cloneable {
 	private String phoneNumber;
 	private long property;
 	private String residentRegistrationNumber;
-	private ArrayList<SurgeryHistory> surgeryHistoryList;
+	private List<SurgeryHistory> surgeryHistoryList;
 
 	public static final int CUSTOMER_SERIAL_NUMBER = 200;
 

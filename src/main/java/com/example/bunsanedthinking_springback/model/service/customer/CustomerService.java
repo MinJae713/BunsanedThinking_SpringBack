@@ -37,7 +37,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.contract.Contra
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
@@ -62,21 +62,21 @@ import java.util.List;
 public class CustomerService {
 
 	@Autowired
-	private InsuranceEntityModel insuranceDModel;
+	private InsuranceEntityModel insuranceEntityModel;
 	@Autowired
-	private DiseaseDModel diseaseDModel;
+	private DiseaseEntityModel diseaseEntityModel;
 	@Autowired
-	private InjuryEntityModel injuryDModel;
+	private InjuryEntityModel injuryEntityModel;
 	@Autowired
 	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
-	private LoanEntityModel loanDModel;
+	private LoanEntityModel loanEntityModel;
 	@Autowired
 	private CollateralEntityModel collateralEntityModel;
 	@Autowired
-	private FixedDepositEntityModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositEntityModel;
 	@Autowired
-	private InsuranceContractEntityModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractEntityModel;
 	@Autowired
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
@@ -96,7 +96,7 @@ public class CustomerService {
 	@Autowired
 	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
-	private AccidentHistoryEntityModel accidentHistoryDModel;
+	private AccidentHistoryEntityModel accidentHistoryEntityModel;
 	@Autowired
 	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
@@ -222,15 +222,15 @@ public class CustomerService {
 	}
 
 	public List<Insurance> getAllInsurance() {
-		return insuranceDModel.getAll();
+		return insuranceEntityModel.getAll();
 	}
 
 	public List<Disease> getAllDiseaseInsurance() {
-		return diseaseDModel.getAll();
+		return diseaseEntityModel.getAll();
 	}
 
 	public List<Injury> getAllInjuryInsurance() {
-		return injuryDModel.getAll();
+		return injuryEntityModel.getAll();
 	}
 
 	public List<Automobile> getAllAutomobileInsurance() {
@@ -239,11 +239,11 @@ public class CustomerService {
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
-		return insuranceDModel.getById(id);
+		return insuranceEntityModel.getById(id);
 	}
 
 	public List<Loan> getAllLoan() {
-		return loanDModel.getAll();
+		return loanEntityModel.getAll();
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
@@ -252,15 +252,15 @@ public class CustomerService {
 	}
 
 	public List<FixedDeposit> getAllFixedDepositLoan() {
-		return fixedDepositDModel.getAll();
+		return fixedDepositEntityModel.getAll();
 	}
 
 	public List<InsuranceContract> getAllInsuranceContractLoan(ProductList productList) {
-		return insuranceContractDModel.getAll();
+		return insuranceContractEntityModel.getAll();
 	}
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
-		return loanDModel.getById(id);
+		return loanEntityModel.getById(id);
 	}
 
 	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
@@ -286,7 +286,7 @@ public class CustomerService {
 
 	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
 		List<Contract> result = new ArrayList<Contract>();
-		for (Injury injury : injuryDModel.getAll())
+		for (Injury injury : injuryEntityModel.getAll())
 			result.addAll(getAllContractByProductId(injury.getId()));
 		return result;
 		//		return contractList.getAllInjuryInsuranceContract();
@@ -294,7 +294,7 @@ public class CustomerService {
 
 	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
 		List<Contract> result = new ArrayList<Contract>();
-		for (Disease disease : diseaseDModel.getAll())
+		for (Disease disease : diseaseEntityModel.getAll())
 			result.addAll(getAllContractByProductId(disease.getId()));
 		return result;
 		//		return contractList.getAllDiseaseInsuranceContract();
@@ -378,7 +378,7 @@ public class CustomerService {
 				e.setCustomerID(customer.getId());
 				e.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(),
 						AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER));
-				accidentHistoryDModel.add(e);
+				accidentHistoryEntityModel.add(e);
 			}
 		if (tempSurgeryHistoryList != null)
 			for (SurgeryHistory e : tempSurgeryHistoryList) {
@@ -399,7 +399,7 @@ public class CustomerService {
 	public void askInsuranceCounsel(AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
 
 		int insuranceId = askInsuranceCounselDTO.getInsuranceId();
-		if (insuranceDModel.getById(insuranceId) == null) throw new NotExistException("해당 보험이 없습니다.");
+		if (insuranceEntityModel.getById(insuranceId) == null) throw new NotExistException("해당 보험이 없습니다.");
 		int customerId = askInsuranceCounselDTO.getCustomerId();
 		Customer customer = customerEntityModel.getById(customerId);
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
@@ -424,7 +424,7 @@ public class CustomerService {
 		// employeeId는 null 허용 - 이 시점에서 직원 아이디를 받나유...??
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
-		Insurance insurance = insuranceDModel.getById(insuranceId);
+		Insurance insurance = insuranceEntityModel.getById(insuranceId);
 		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
 		Contract contract = new Contract(customerId, insurance);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), Contract.CONTRACT_SERIAL_NUMBER));
@@ -453,7 +453,7 @@ public class CustomerService {
 		Integer employeeId = loanDTO.getEmployeeId();
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
-		Loan loan = loanDModel.getById(loanId);
+		Loan loan = loanEntityModel.getById(loanId);
 		if (loan == null) throw new NotExistException("해당 대출이 없습니다.");
 		List<Contract> myContractList = contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == customerId).toList();
 		if (myContractList.isEmpty()) myContractList = new ArrayList<>();

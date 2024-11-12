@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.vo.DiseaseVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,9 +14,7 @@ import lombok.NoArgsConstructor;
  * @created 20-5-2024 ���� 7:52:24
  */
 
-//2024-05-29 김대현
-//2024-05-31 김대현
-//2024-06-02 김대현
+@Data
 @NoArgsConstructor
 public class Disease extends Insurance {
 
@@ -67,30 +66,6 @@ public class Disease extends Insurance {
 	public DiseaseVO findVO() {
 		return new DiseaseVO(getId(), diseaseName,
 				diseaseLimit, surgeriesLimit);
-	}
-	
-	public int getDiseaseLimit() {
-		return diseaseLimit;
-	}
-
-	public void setDiseaseLimit(int diseaseLimit) {
-		this.diseaseLimit = diseaseLimit;
-	}
-
-	public String getDiseaseName() {
-		return diseaseName;
-	}
-
-	public void setDiseaseName(String diseaseName) {
-		this.diseaseName = diseaseName;
-	}
-
-	public int getSurgeriesLimit() {
-		return surgeriesLimit;
-	}
-
-	public void setSurgeriesLimit(int surgeriesLimit) {
-		this.surgeriesLimit = surgeriesLimit;
 	}
 
 	@Override

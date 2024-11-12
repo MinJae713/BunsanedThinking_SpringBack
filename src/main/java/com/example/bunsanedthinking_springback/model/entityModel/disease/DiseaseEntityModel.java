@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DiseaseDModel {
+public class DiseaseEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -29,7 +29,7 @@ public class DiseaseDModel {
 		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
 		if (insuranceVO == null)
 			return null;
-		DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
+		DiseaseVO diseaseVO = diseaseMapper.getById(id).orElse(null);
 		if (diseaseVO == null)
 			return null;
 		String diseaseName = diseaseVO.getDisease_name();
@@ -40,7 +40,7 @@ public class DiseaseDModel {
 
 	public List<Disease> getAll() {
 		List<Disease> diseases = new ArrayList<Disease>();
-		diseaseMapper.getAll_Customer()
+		diseaseMapper.getAll()
 			.forEach(e -> diseases.add(getById(e.getProduct_id())));
 		return diseases;
 	}
@@ -51,22 +51,22 @@ public class DiseaseDModel {
 
 	public void add(Disease disease) {
 		if (disease == null) return;
-		if (diseaseMapper.getById_Customer(disease.getId()).isPresent()) return;
+		if (diseaseMapper.getById(disease.getId()).isPresent()) return;
 		productMapper.insert(disease.findProductVO());
 		insuranceMapper.insert(disease.findInsuranceVO());
-		diseaseMapper.insert_ProductManagement(disease.findVO());
+		diseaseMapper.insert(disease.findVO());
 	}
 
 	public void update(Disease disease) {
 		if (disease == null) return;
-		if (diseaseMapper.getById_Customer(disease.getId()).isEmpty()) return;
-		diseaseMapper.update_ProductManagementModel(disease.findVO());
+		if (diseaseMapper.getById(disease.getId()).isEmpty()) return;
+		diseaseMapper.update(disease.findVO());
 		insuranceMapper.update(disease.findInsuranceVO());
 		productMapper.update(disease.findProductVO());
 	}
 
 	public void delete(int id) {
-		if (diseaseMapper.getById_Customer(id).isEmpty()) return;
+		if (diseaseMapper.getById(id).isEmpty()) return;
 		diseaseMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);

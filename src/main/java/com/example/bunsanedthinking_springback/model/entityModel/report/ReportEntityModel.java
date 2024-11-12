@@ -1,16 +1,15 @@
 package com.example.bunsanedthinking_springback.model.entityModel.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.repository.ReportMapper;
 import com.example.bunsanedthinking_springback.vo.ReportVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ReportEntityModel {
@@ -29,29 +28,9 @@ public class ReportEntityModel {
 			.orElse(null);
 	}
 
-	public ArrayList<Report> getAllByRoadSideAssistanceCId(int id) {
-		ArrayList<Report> reports = new ArrayList<>();
-		List<ReportVO> reportVOS = reportMapper.getAllByRoadSideAssistanceCId(id);
-		for (ReportVO reportVO : reportVOS) {
-			Accident accident = accidentEntityModel.getById(reportVO.getAccident_id());
-			reports.add(reportVO.getEntity(accident));
-		}
-		return reports;
-	}
-
-	public ArrayList<Report> getAllByDamageAssessmentCId(int id) {
-		ArrayList<Report> reports = new ArrayList<>();
-		List<ReportVO> reportVOS = reportMapper.findAllByDamageAssessmentCompanyID_PartnerCompany(id);
-		for (ReportVO reportVO : reportVOS) {
-			Accident accident = accidentEntityModel.getById(reportVO.getAccident_id());
-			reports.add(reportVO.getEntity(accident));
-		}
-		return reports;
-	}
-
 	public List<Report> getAll() {
 		List<Report> reports = new ArrayList<Report>();
-		for (ReportVO reportVO : reportMapper.getAll_Compensation()) {
+		for (ReportVO reportVO : reportMapper.getAll()) {
 			Accident accident = accidentEntityModel.getById(reportVO.getAccident_id());
 			reports.add(reportVO.getEntity(accident));
 		}

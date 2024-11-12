@@ -10,6 +10,10 @@
         select *
         from injury
     </select>
+    <select id="getMaxId" parameterType="Integer">
+        select max(product_id)
+        from injury
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InjuryVO">
         insert into Injury(product_id, injury_type, surgeries_limit)
         values (#{product_id},
@@ -27,8 +31,4 @@
         from injury
         where product_id = #{id}
     </delete>
-    <select id="getMaxId" parameterType="Integer">
-        select max(product_id)
-        from injury
-    </select>
 </mapper>

@@ -1,23 +1,17 @@
 package com.example.bunsanedthinking_springback.repository;
 
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-
 @Mapper
 public interface ContractMapper {
-	Optional<ContractVO> getById(int id);
-
-	List<ContractVO> getAll();
-
-	void insert(ContractVO contractVO);
-
-	void update(ContractVO contractVO);
-
-	Integer getMaxId();
-
-	void deleteById(int id);
+	public Optional<ContractVO> getById(int id);
+	public List<ContractVO> getAll();
+	public Integer getMaxId();
+	public void insert(ContractVO contractVO);
+	public void update(ContractVO contractVO);
+	public void deleteById(int id);
 }

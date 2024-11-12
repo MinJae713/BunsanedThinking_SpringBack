@@ -1,16 +1,7 @@
 serials:
-  family: 710
-  loan: 200
-  officesupply: 920
-  partnercompany: 300
-  insurance: 100
-  accidentHistory: 410
   accident: 400
-  additionalAllowance:
-  automobile:
-  benefit:
-  collateral:
-  compensationDetail:
+  accidentHistory: 410
+  compensationDetail: -1
   complaint: 510
   contract: 100
   counsel: 520
@@ -19,7 +10,20 @@ serials:
   depositDetail: 810
   diseaseHistory: 510
   employee: 600
+  family: 710
+  insurance: 100
+  insuranceMoney: -1
+  loan: 200
+  officesupply: 920
+  paymentDetail: 900
+  partnercompany: 300
   product: 700
   report: 500
   surgeryHistory: 610
-  paymentDetail: 900
+# compensationDetail, insurnaceMoney는 serial이 없음
+#  @Value("${serials.accidentHistory}")
+#  public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
+
+#  @Value("${serials.complaint}")
+#  public static int COMPLAINT_SERIAL_NUMBER;
+#  사용 방법은 이거 참고하십쇼

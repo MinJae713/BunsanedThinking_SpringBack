@@ -10,6 +10,10 @@
         select *
         from contract
     </select>
+    <select id="getMaxId_SalesModel" resultType="Integer">
+        select max(id)
+        from contract
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
         INSERT INTO Contract (id,
                               date,
@@ -45,10 +49,6 @@
             lastpaid_date    = #{lastpaid_date}
         WHERE id = #{id}
     </update>
-    <select id="getMaxId_SalesModel" resultType="Integer">
-        select max(id)
-        from contract
-    </select>
     <delete id="deleteById" parameterType="int">
         delete
         from contract

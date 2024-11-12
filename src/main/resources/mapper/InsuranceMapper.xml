@@ -8,6 +8,10 @@
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select * from insurance
     </select>
+    <select id="getMaxId" resultType="Integer">
+        select max(product_id)
+        from insurance
+    </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         insert into Insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
         values (
@@ -19,8 +23,7 @@
                    #{coverage}
                )
     </insert>
-
-    <update id="updates" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         UPDATE insurance
         SET
             insurance_type = #{insurance_type},
@@ -30,11 +33,6 @@
             coverage = #{coverage}
         WHERE product_id = #{product_id}
     </update>
-
-    <select id="getMaxId" resultType="Integer">
-        select max(product_id)
-        from insurance
-    </select>
     <delete id="deleteById" parameterType="int">
         delete from insurance
         where product_id=#{id}

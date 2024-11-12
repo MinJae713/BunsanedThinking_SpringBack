@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CustomerMapper">
-    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        select *
-        from customer
-    </select>
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         select *
         from customer
         where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        select *
+        from customer
+    </select>
+    <select id="getMaxId" resultType="Integer">
+        select max(id)
+        from customer
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         INSERT INTO Customer (id, address, age, bank_account, bank_name, gender, job, name, phone_number, property,
@@ -25,11 +29,6 @@
                 #{property},
                 #{resident_registration_number})
     </insert>
-    <delete id="deleteById" parameterType="int">
-        DELETE
-        FROM customer
-        WHERE id = #{id}
-    </delete>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         UPDATE customer
         SET name         = #{name},
@@ -43,8 +42,9 @@
             bank_account = #{bank_account}
         WHERE id = #{id}
     </update>
-    <select id="getMaxId" resultType="Integer">
-        select max(id)
-        from customer
-    </select>
+    <delete id="deleteById" parameterType="int">
+        DELETE
+        FROM customer
+        WHERE id = #{id}
+    </delete>
 </mapper>

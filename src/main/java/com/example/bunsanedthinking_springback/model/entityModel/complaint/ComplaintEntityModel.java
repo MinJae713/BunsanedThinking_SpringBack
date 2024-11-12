@@ -4,7 +4,6 @@ import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,9 +13,6 @@ import java.util.List;
 public class ComplaintEntityModel {
 	@Autowired
 	private ComplaintMapper complaintMapper;
-
-	@Value("${serials.complaint}")
-	public static int COMPLAINT_SERIAL_NUMBER;
 
 	public Complaint getById(int id) {
 		return complaintMapper.getById(id)

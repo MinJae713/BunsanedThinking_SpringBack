@@ -8,10 +8,10 @@ import java.util.Optional;
 
 @Mapper
 public interface FamilyMapper {
-	public Integer getMaxId();
-	public void insert(FamilyVO familyVO);
 	public Optional<FamilyVO> getById(int id);
 	public List<FamilyVO> getAll();
+	public Integer getMaxId();
+	public void insert(FamilyVO familyVO);
 	public void update(FamilyVO familyVO);
 	public void deleteById(int id);
 }

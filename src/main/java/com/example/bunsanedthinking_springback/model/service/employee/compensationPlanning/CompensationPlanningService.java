@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class CompensationPlanningService {
 	@Autowired
-	private PartnerCompanyEntityModel partnerCompanyDModel;
+	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 
 	public void addPartnerCompany(AddPartnerCompanyDTO partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
@@ -33,14 +33,14 @@ public class CompensationPlanningService {
 				throw new DuplicatePartnerCompanyException();
 		int id = partnerCompanies.isEmpty() ?
 				Integer.parseInt(PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "1") :
-				NextIdGetter.getNextId(partnerCompanyDModel.getMaxId(), PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER);
+				NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER);
 		// evaluation, reportList 지정X
 		PartnerCompany partnerCompany = new PartnerCompany(name, phoneNumber,
 				partnerCompanyType, headName, headPhoneNumber);
 		partnerCompany.setId(id);
 		partnerCompany.setEvaluation(0); // 임의 지정
 		partnerCompany.setReportList(new ArrayList<Report>()); // 임의 지정
-		partnerCompanyDModel.add(partnerCompany);
+		partnerCompanyEntityModel.add(partnerCompany);
 
 //		int partnerCompanySerialLength = (PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "").length();
 //		int index = Integer.parseInt(maxId.toString().substring(partnerCompanySerialLength));
@@ -52,11 +52,11 @@ public class CompensationPlanningService {
 		PartnerCompany partnerCompany = getPartnerCompany(partnerCompanyId);
 		if (partnerCompany == null) return;
 		partnerCompany.setEvaluation(evaluate);
-		partnerCompanyDModel.update(partnerCompany);
+		partnerCompanyEntityModel.update(partnerCompany);
 	}
 
 	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
-		return partnerCompanyDModel.getById(id);
+		return partnerCompanyEntityModel.getById(id);
 	}
 
 	public void updatePartnerCompany(UpdatePartnerCompanyDTO partnerCompanyDTO)
@@ -69,21 +69,21 @@ public class CompensationPlanningService {
 		if (partnerCompany == null) return;
 		switch (index) {
 			case 1:
-				for (PartnerCompany e : partnerCompanyDModel.getAll())
+				for (PartnerCompany e : partnerCompanyEntityModel.getAll())
 					if (e.getName().equals(input))
 						throw new DuplicatePartnerCompanyException();
 				partnerCompany.setName(input);
-				partnerCompanyDModel.update(partnerCompany);
+				partnerCompanyEntityModel.update(partnerCompany);
 			case 2:
 				partnerCompany.setPhoneNumber(input);
-				partnerCompanyDModel.update(partnerCompany);
+				partnerCompanyEntityModel.update(partnerCompany);
 			case 3:
 				partnerCompany.setHeadName(input);
-				partnerCompanyDModel.update(partnerCompany);
+				partnerCompanyEntityModel.update(partnerCompany);
 				break;
 			case 4:
 				partnerCompany.setHeadPhoneNumber(input);
-				partnerCompanyDModel.update(partnerCompany);
+				partnerCompanyEntityModel.update(partnerCompany);
 				break;
 			default:
 				break;
@@ -91,10 +91,10 @@ public class CompensationPlanningService {
 	}
 
 	public void deletePartnerCompany(int id) throws NotExistException {
-		partnerCompanyDModel.delete(id);
+		partnerCompanyEntityModel.delete(id);
 	}
 
 	public List<PartnerCompany> getAll() {
-		return partnerCompanyDModel.getAll();
+		return partnerCompanyEntityModel.getAll();
 	}
 }

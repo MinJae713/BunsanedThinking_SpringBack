@@ -8,10 +8,10 @@ import java.util.Optional;
 
 @Mapper
 public interface InsuranceMapper {
-    public List<InsuranceVO> getAll();
+	public Optional<InsuranceVO> getById(int id);
+	public List<InsuranceVO> getAll();
+	public Integer getMaxId();
 	public void insert(InsuranceVO insuranceVO);
 	public void update(InsuranceVO insuranceVO);
-	public Optional<InsuranceVO> getById(int id);
-	public Integer getMaxId();
 	public void deleteById(int id);
 }

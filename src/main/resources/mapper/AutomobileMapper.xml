@@ -10,11 +10,10 @@
         select *
         from automobile
     </select>
-    <select id="getAllAutomobileInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
-        select *
-        from Automobile
+    <select id="getMaxId" parameterType="Integer">
+        select max(product_id)
+        from automobile
     </select>
-
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         insert into Automobile(product_id, vehicle_type, accident_limit)
         values (#{product_id},
@@ -32,8 +31,4 @@
         from automobile
         where product_id = #{id}
     </delete>
-    <select id="getMaxId" parameterType="Integer">
-        select max(product_id)
-        from automobile
-    </select>
 </mapper>

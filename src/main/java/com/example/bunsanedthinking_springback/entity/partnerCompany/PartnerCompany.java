@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ����ȯ
@@ -25,7 +25,7 @@ public class PartnerCompany implements Cloneable {
 	private String name;
 	private PartnerCompanyType partnerCompanyType;
 	private String phoneNumber;
-	private ArrayList<Report> reportList;
+	private List<Report> reportList;
 
 	public PartnerCompany(String name, String phoneNumber, PartnerCompanyType partnerCompanyType, String headName,String headPhoneNumber){
 		this.setName(name);
