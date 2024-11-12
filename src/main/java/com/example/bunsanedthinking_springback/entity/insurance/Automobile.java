@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 //2024-05-31 김대현
 //2024-06-02 김대현
 @NoArgsConstructor
+@Data
 public class Automobile extends Insurance {
 
 	private int accidentLimit;
@@ -72,34 +74,13 @@ public class Automobile extends Insurance {
 	public AutoMobileVO findVO() {
 		return new AutoMobileVO(getId(), vehicleType.ordinal(), accidentLimit);
 	}
-	
-	public int getAccidentLimit() {
-		return accidentLimit;
-	}
-
-	public void setAccidentLimit(int accidentLimit) {
-		this.accidentLimit = accidentLimit;
-	}
 
 	public ArrayList<ServiceType> getServiceList() {
 		return serviceList;
 	}
 
-	public void setServiceList(ArrayList<ServiceType> serviceList) {
-		this.serviceList = serviceList;
-	}
-
-	public VehicleType getVehicleType() {
-		return vehicleType;
-	}
-
-	public void setVehicleType(VehicleType vehicleType) {
-		this.vehicleType = vehicleType;
-	}
-
 	@Override
 	public Product clone() {
-		
 		Automobile cloneAutomobile =  new Automobile(getInsuranceType(),getName(), getMaximumMoney(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getAccidentLimit(), getVehicleType(), getServiceList());
 		cloneAutomobile.setId(getId());
 		return cloneAutomobile;

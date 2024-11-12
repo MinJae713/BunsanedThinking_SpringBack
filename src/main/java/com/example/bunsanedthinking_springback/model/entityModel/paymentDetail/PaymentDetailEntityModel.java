@@ -3,8 +3,8 @@ package com.example.bunsanedthinking_springback.model.entityModel.paymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.AdditionalAllowance;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.Benefit;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.model.entityModel.additionalAllowance.AdditionalAllowanceDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.benefit.BenefitDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.additionalAllowance.AdditionalAllowanceEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.benefit.BenefitEntityModel;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +18,15 @@ public class PaymentDetailEntityModel {
 	@Autowired
 	private PaymentDetailMapper paymentDetailMapper;
 	@Autowired
-	private AdditionalAllowanceDModel additionalAllowanceDModel;
+	private AdditionalAllowanceEntityModel additionalAllowanceEntityModel;
 	@Autowired
-	private BenefitDModel benefitDModel;
+	private BenefitEntityModel benefitEntityModel;
 
 	public PaymentDetail getById(int id) {
-		PaymentDetail paymentDetail = additionalAllowanceDModel.getById(id);
+		PaymentDetail paymentDetail = additionalAllowanceEntityModel.getById(id);
 		if (paymentDetail != null)
 			return paymentDetail;
-		paymentDetail = benefitDModel.getById(id);
+		paymentDetail = benefitEntityModel.getById(id);
 		if (paymentDetail != null)
 			return paymentDetail;
 		return paymentDetailMapper.findById_FinancialAccountant(id)
@@ -48,9 +48,9 @@ public class PaymentDetailEntityModel {
 	public void add(PaymentDetail paymentDetail) {
 		if (paymentDetail == null) return;
 		else if (paymentDetail instanceof AdditionalAllowance)
-			additionalAllowanceDModel.add((AdditionalAllowance) paymentDetail);
+			additionalAllowanceEntityModel.add((AdditionalAllowance) paymentDetail);
 		else if (paymentDetail instanceof Benefit)
-			benefitDModel.add((Benefit) paymentDetail);
+			benefitEntityModel.add((Benefit) paymentDetail);
 		else {
 			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isPresent()) return;
 			paymentDetailMapper.insert_LoanManagement(paymentDetail.findPaymentDetailVO());
@@ -60,9 +60,9 @@ public class PaymentDetailEntityModel {
 	public void update(PaymentDetail paymentDetail) {
 		if (paymentDetail == null) return;
 		else if (paymentDetail instanceof AdditionalAllowance)
-			additionalAllowanceDModel.update((AdditionalAllowance) paymentDetail);
+			additionalAllowanceEntityModel.update((AdditionalAllowance) paymentDetail);
 		else if (paymentDetail instanceof Benefit)
-			benefitDModel.update((Benefit) paymentDetail);
+			benefitEntityModel.update((Benefit) paymentDetail);
 		else {
 			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isEmpty()) return;
 			paymentDetailMapper.update_FinancialAccountant(paymentDetail.findPaymentDetailVO());
@@ -72,8 +72,8 @@ public class PaymentDetailEntityModel {
 	public void delete(int id) {
 		PaymentDetail paymentDetail = getById(id);
 		if (paymentDetail == null) return;
-		else if (paymentDetail instanceof AdditionalAllowance) additionalAllowanceDModel.delete(id);
-		else if (paymentDetail instanceof Benefit) benefitDModel.delete(id);
+		else if (paymentDetail instanceof AdditionalAllowance) additionalAllowanceEntityModel.delete(id);
+		else if (paymentDetail instanceof Benefit) benefitEntityModel.delete(id);
 		else {
 			if (paymentDetailMapper.findById_FinancialAccountant(id).isEmpty()) return;
 			paymentDetailMapper.deleteById(id);

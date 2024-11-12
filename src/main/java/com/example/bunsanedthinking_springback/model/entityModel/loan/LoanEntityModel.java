@@ -4,9 +4,9 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ public class LoanEntityModel {
 	@Autowired
 	private LoanMapper loanMapper;
 	@Autowired
-	private CollateralDModel collateralDModel;
+	private CollateralEntityModel collateralEntityModel;
 	@Autowired
 	private FixedDepositEntityModel fixedDepositDModel;
 	@Autowired
 	private InsuranceContractEntityModel insuranceContractDModel;
 
 	public Loan getById(int id) {
-		Loan loan = collateralDModel.getById(id);
+		Loan loan = collateralEntityModel.getById(id);
 		if (loan != null)
 			return loan;
 		loan = fixedDepositDModel.getById(id);
@@ -49,14 +49,14 @@ public class LoanEntityModel {
 
 	public void add(Loan loan) {
 		if (loan == null) return;
-		else if (loan instanceof Collateral) collateralDModel.add((Collateral) loan);
+		else if (loan instanceof Collateral) collateralEntityModel.add((Collateral) loan);
 		else if (loan instanceof FixedDeposit) fixedDepositDModel.add((FixedDeposit) loan);
 		else if (loan instanceof InsuranceContract) insuranceContractDModel.add((InsuranceContract) loan);
 	}
 
 	public void update(Loan loan) {
 		if (loan == null) return;
-		else if (loan instanceof Collateral) collateralDModel.update((Collateral) loan);
+		else if (loan instanceof Collateral) collateralEntityModel.update((Collateral) loan);
 		else if (loan instanceof FixedDeposit) fixedDepositDModel.update((FixedDeposit) loan);
 		else if (loan instanceof InsuranceContract) insuranceContractDModel.update((InsuranceContract) loan);
 	}
@@ -64,7 +64,7 @@ public class LoanEntityModel {
 	public void delete(int id) {
 		Loan loan = getById(id);
 		if (loan == null) return;
-		else if (loan instanceof Collateral) collateralDModel.delete(id);
+		else if (loan instanceof Collateral) collateralEntityModel.delete(id);
 		else if (loan instanceof FixedDeposit) fixedDepositDModel.delete(id);
 		else if (loan instanceof InsuranceContract) insuranceContractDModel.delete(id);
 	}

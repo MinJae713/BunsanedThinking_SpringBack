@@ -10,8 +10,8 @@ import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerSupportService {
 	@Autowired
-	private ComplaintDModel complaintDModel;
+	private ComplaintEntityModel complaintEntityModel;
 	@Autowired
 	private PartnerCompanyEntityModel partnerCompanyDModel;
 	@Autowired
-	private AccidentDModel accidentDModel;
+	private AccidentEntityModel accidentEntityModel;
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
@@ -39,7 +39,7 @@ public class CustomerSupportService {
 	public void handleComplaint(String employeeName, int complaintId, String result) throws
 		NotExistException,
 		AlreadyProcessedException {
-		Complaint complaint = complaintDModel.getById(complaintId);
+		Complaint complaint = complaintEntityModel.getById(complaintId);
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보를 찾을 수 없습니다.");
 		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed) {
@@ -50,12 +50,12 @@ public class CustomerSupportService {
 		complaint.setResult(result);
 		complaint.setProcessingDate(Date.valueOf(LocalDate.now()));
 		complaint.setProcessStatus(ComplaintProcessStatus.Completed);
-		complaintDModel.update(complaint);
+		complaintEntityModel.update(complaint);
 	}
 
 	public void handleAccident(int accidentId, int damageAssessmentCompanyId,
 		int roadsideAssistanceCompanyId) throws AlreadyProcessedException {
-		Accident accident = accidentDModel.getById(accidentId);
+		Accident accident = accidentEntityModel.getById(accidentId);
 		if (accident == null) {
 			return;
 		}
@@ -64,7 +64,7 @@ public class CustomerSupportService {
 			case Processing -> throw new AlreadyProcessedException("신고 처리 중입니다.");
 		}
 		accident.setProcessStatus(AccidentProcessStatus.Processing);
-		accidentDModel.update(accident);
+		accidentEntityModel.update(accident);
 
 		Report report = new Report(accident, null, accidentId, roadsideAssistanceCompanyId, damageAssessmentCompanyId,
 			ReportProcessStatus.Unprocessed);
@@ -72,7 +72,7 @@ public class CustomerSupportService {
 	}
 
 	public List<Complaint> getAllComplaint() {
-		return complaintDModel.getAll();
+		return complaintEntityModel.getAll();
 	}
 
 	public List<Complaint> getAllUnprocessedComplaint() {
@@ -84,14 +84,14 @@ public class CustomerSupportService {
 	}
 
 	private List<Complaint> getAllByProcessStatus(ComplaintProcessStatus processStatus) {
-		List<Complaint> complaintList = complaintDModel.getAll();
+		List<Complaint> complaintList = complaintEntityModel.getAll();
 		return complaintList.stream()
 			.filter(complaint -> complaint.getProcessStatus() == processStatus)
 			.collect(Collectors.toList());
 	}
 
 	public Complaint getComplaint(int id) throws NotExistException {
-		Complaint complaint = complaintDModel.getById(id);
+		Complaint complaint = complaintEntityModel.getById(id);
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
 		return complaint;
@@ -105,7 +105,7 @@ public class CustomerSupportService {
 	}
 
 	public List<Accident> getAllAccident() {
-		return accidentDModel.getAll();
+		return accidentEntityModel.getAll();
 	}
 
 	public List<Accident> getAllUnprocessedAccident() {
@@ -117,14 +117,14 @@ public class CustomerSupportService {
 	}
 
 	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
-		List<Accident> accidentList = accidentDModel.getAll();
+		List<Accident> accidentList = accidentEntityModel.getAll();
 		return accidentList.stream()
 			.filter(accident -> accident.getProcessStatus() == processStatus)
 			.collect(Collectors.toList());
 	}
 
 	public Accident getAccident(int id) throws NotExistException {
-		Accident acciednt = accidentDModel.getById(id);
+		Accident acciednt = accidentEntityModel.getById(id);
 		if (acciednt == null)
 			throw new NotExistException("해당하는 사고 정보가 존재하지 않습니다.");
 		return acciednt;

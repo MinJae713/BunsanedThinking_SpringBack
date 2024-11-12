@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AccidentHistoryDModel {
+public class AccidentHistoryEntityModel {
 	@Autowired
 	private AccidentHistoryMapper accidentHistoryMapper;
 
-	@Value("serials.accidenthistory")
-	public static int ACCIDENT_HISTORY_SERIAL;
+	@Value("${serials.accidentHistory}")
+	public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
 
 	public AccidentHistory getById(int id) {
 		return accidentHistoryMapper.getById(id)
@@ -30,7 +30,7 @@ public class AccidentHistoryDModel {
 	}
 
 	public Integer getMaxId() {
-		return accidentHistoryMapper.getMaxId_SalesModel();
+		return accidentHistoryMapper.getMaxId();
 	}
 
 	public void add(AccidentHistory accidentHistory) {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CollateralMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         select *
         from collateral
         where product_id = #{id}
     </select>
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         select *
         from collateral
     </select>
@@ -14,24 +14,19 @@
         select *
         from collateral
     </select>
-    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         insert into collateral(product_id, collateral_type, minimum_value)
         values (#{product_id},
                 #{collateral_type},
                 #{minimum_value})
     </insert>
-    <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.CollateralVO">
-        select *
-        from collateral
-        where product_id = #{param1}
-    </select>
-    <update id="update_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.CollateralVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CollateralVO">
         update collateral
         set collateral_type=#{collateral_type},
             minimum_value=#{minimum_value}
         where product_id = #{product_id}
     </update>
-    <delete id="delete_LoanManagement">
+    <delete id="delete">
         delete
         from collateral
         where product_id = #{id}

@@ -20,30 +20,6 @@ public class AdministrativeService {
 //	@Autowired
 //	private OfficeSupplyMapper officeSupplyMapper;
 
-//	public void addOfficeSupply(String name, String description, int inventory, int total_inventory,
-//		int department_id) throws DuplicateOfficeSupplyException {
-//		OfficeSupplyVO existingSupplyVO = officeSupplyMapper.findByName_OfficeSupply(name);
-//		if (existingSupplyVO != null) {
-//			throw new DuplicateOfficeSupplyException();
-//		}
-//		//현재 최대 ID를 가져온다
-//		Integer maxId = officeSupplyMapper.getMaxId_Administrative();
-//		int id;
-//		if (maxId == null) {
-//			id = Integer.parseInt(OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "1");
-//		} else {
-//			String index = (maxId + "").substring((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "").length());
-//			id = Integer.parseInt((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
-//		}
-//		OfficeSupplyVO officeSupplyVO = new OfficeSupplyVO();
-//		officeSupplyVO.setId(id); // 새로운 ID 설정
-//		officeSupplyVO.setName(name);
-//		officeSupplyVO.setDescription(description);
-//		officeSupplyVO.setInventory(inventory);
-//		officeSupplyVO.setTotal_inventory(total_inventory);
-//		officeSupplyVO.setDepartment_id(department_id);
-//		officeSupplyMapper.insert_OfficeSupply(officeSupplyVO);
-//	}
 	public void addOfficeSupply(AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
 		boolean isExistOfficeSupplyName = officeSupplyDModel.getAll().stream()
 			.anyMatch(officeSupply ->

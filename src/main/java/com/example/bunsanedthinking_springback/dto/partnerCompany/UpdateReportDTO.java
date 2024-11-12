@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UpdateReportDTO {
-    private ReportVO report;
-
+    private int accident_id;
+    private Integer damage_assessment_money;
 }

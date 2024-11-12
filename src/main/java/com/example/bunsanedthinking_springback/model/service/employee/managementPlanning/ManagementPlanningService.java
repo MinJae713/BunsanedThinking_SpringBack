@@ -13,29 +13,7 @@ import org.springframework.stereotype.Service;
 public class ManagementPlanningService {
 	@Autowired
 	private DepartmentDModel departmentDModel;
-//	@Autowired
-//	public DepartmentMapper departmentMapper;
 
-//	public void addDepartment(String headName, String name, String purpose, String task) throws DuplicateDepartmentException{
-//		if (departmentMapper.findByName_ManagementPlanning(name) != null) {
-//			throw new DuplicateDepartmentException();
-//		}
-//		Integer maxId = departmentMapper.getMaxId_ManagementPlanning();
-//		int id;
-//		if (maxId == null) {
-//			id = Integer.parseInt(Department.DepartmentSerialNum + "1");
-//		} else {
-//			String index = (maxId + "").substring((Department.DepartmentSerialNum + "").length());
-//			id = Integer.parseInt((Department.DepartmentSerialNum + "") + (Integer.parseInt(index) + 1));
-//		}
-//		DepartmentVO departmentVO = new DepartmentVO();
-//		departmentVO.setId(id); // 새로운 ID 설정
-//		departmentVO.setName(name);
-//		departmentVO.setTask(task);
-//		departmentVO.setPurpose(purpose);
-//		departmentVO.setHead_name(headName);
-//		departmentMapper.insert_ManagementPlanning(departmentVO);
-//	}
 	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentDModel.getAll().stream()
 				.anyMatch(department ->

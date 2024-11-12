@@ -18,15 +18,6 @@ public class AdministrativeController {
 	@Autowired
 	private AdministrativeService administrativeSModel;
 
-//	@PostMapping("/addOfficeSupply")
-//	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
-//		administrativeSModel.addOfficeSupply(
-//				addOfficeSupplyDTO.getName(),
-//				addOfficeSupplyDTO.getDescription(),
-//				addOfficeSupplyDTO.getInventory(),
-//				addOfficeSupplyDTO.getTotal_inventory(),
-//				addOfficeSupplyDTO.getDepartment_id());
-//	}
 	@PostMapping("/addOfficeSupply")
 	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
 		administrativeSModel.addOfficeSupply(addOfficeSupplyDTO);

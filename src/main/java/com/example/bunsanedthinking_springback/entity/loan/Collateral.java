@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  */
 //2024-06-02 김대현
 @NoArgsConstructor
+@Data
 public class Collateral extends Loan {
 
 	private CollateralType collateralType;
@@ -59,22 +61,6 @@ public class Collateral extends Loan {
 		return new CollateralVO(getId(), collateralType.ordinal(), minimumValue);
 	}
 
-	public CollateralType getCollateralType() {
-		return collateralType;
-	}
-
-	public void setCollateralType(CollateralType collateralType) {
-		this.collateralType = collateralType;
-	}
-
-	public int getMinimumValue() {
-		return minimumValue;
-	}
-
-	public void setMinimumValue(int minimumValue) {
-		this.minimumValue = minimumValue;
-	}
-	
 	@Override
 	public Product clone() {
 		Collateral collateralLoan = new Collateral(getId(), getLoanType(), getName(),getInterestRate(), getMaximumMoney(), getMinimumAsset(), getCollateralType() ,getMinimumValue(), getMonthlyIncome());

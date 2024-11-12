@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AutomobileDModel {
+public class AutomobileEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -35,7 +35,7 @@ public class AutomobileDModel {
 		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
 		if (insuranceVO == null)
 			return null;
-		AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
+		AutoMobileVO autoMobileVO = automobileMapper.getById(id).orElse(null);
 		if (autoMobileVO == null)
 			return null;
 		List<ServiceVO> serviceVOS = serviceMapper.getAllByProductId_Customer(id);
@@ -51,7 +51,7 @@ public class AutomobileDModel {
 
 	public List<Automobile> getAll() {
 		List<Automobile> automobiles = new ArrayList<>();
-		automobileMapper.getAll_Customer()
+		automobileMapper.getAll()
 			.forEach(e -> automobiles.add(getById(e.getProduct_id())));
 		return automobiles;
 	}
@@ -62,10 +62,10 @@ public class AutomobileDModel {
 
 	public void add(Automobile autoMobile) {
 		if (autoMobile == null) return;
-		if (automobileMapper.getById_Customer(autoMobile.getId()).isPresent()) return;
+		if (automobileMapper.getById(autoMobile.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(autoMobile.findProductVO());
 		insuranceMapper.insert(autoMobile.findInsuranceVO());
-		automobileMapper.insert_ProductManagement(autoMobile.findVO());
+		automobileMapper.insert(autoMobile.findVO());
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes == null) return;
 		serviceTypes.forEach(e -> serviceMapper.insert_ProductManagement(
@@ -75,7 +75,7 @@ public class AutomobileDModel {
 
 	public void update(Automobile autoMobile) {
 		if (autoMobile == null) return;
-		if (automobileMapper.getById_Customer(autoMobile.getId()).isEmpty()) return;
+		if (automobileMapper.getById(autoMobile.getId()).isEmpty()) return;
 		// service는 수정이 아니라 삭제 후 다시 추가하는 방법임
 		// productId 맞는 service들 삭제 후 파라미터에 있는 서비스들 다시 추가
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
@@ -85,13 +85,13 @@ public class AutomobileDModel {
 					new ServiceVO(autoMobile.getId(), e.ordinal())
 			));
 		}
-		automobileMapper.update_ProductManagementModel(autoMobile.findVO());
+		automobileMapper.update(autoMobile.findVO());
 		insuranceMapper.update(autoMobile.findInsuranceVO());
 		productMapper.update_LoanManagement(autoMobile.findProductVO());
 	}
 
 	public void delete(int id) {
-		if (automobileMapper.getById_Customer(id).isEmpty()) return;
+		if (automobileMapper.getById(id).isEmpty()) return;
 		serviceMapper.delete_ProductManagementModel(id);
 		automobileMapper.deleteById(id);
 		insuranceMapper.deleteById(id);

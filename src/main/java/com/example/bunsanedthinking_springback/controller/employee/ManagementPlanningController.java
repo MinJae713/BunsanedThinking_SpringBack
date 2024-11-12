@@ -16,20 +16,10 @@ public class ManagementPlanningController {
 	@Autowired
 	private ManagementPlanningService managementPlanningSModel;
 
-//	@PostMapping("/addDepartment")
-//	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
-//		managementPlanningSModel.addDepartment(
-//				addDepartmentDTO.getHead_name(),
-//				addDepartmentDTO.getName(),
-//				addDepartmentDTO.getPurpose(),
-//				addDepartmentDTO.getTask());
-//	}
-
 	@PostMapping("/addDepartment")
 	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
 		managementPlanningSModel.addDepartment(addDepartmentDTO);
 	}
-
 
 	@DeleteMapping("/deleteDepartment")
 	public void deleteDepartment(@RequestParam int id) throws NotExistException {
