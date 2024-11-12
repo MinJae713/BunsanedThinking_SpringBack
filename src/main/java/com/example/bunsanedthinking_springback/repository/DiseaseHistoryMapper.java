@@ -14,4 +14,6 @@ public interface DiseaseHistoryMapper {
 	public void insert(DiseaseHistoryVO diseaseHistoryVO);
 	public void update(DiseaseHistoryVO diseaseHistoryVO);
 	public void deleteById(int id);
+
+	Integer getCount();
 }

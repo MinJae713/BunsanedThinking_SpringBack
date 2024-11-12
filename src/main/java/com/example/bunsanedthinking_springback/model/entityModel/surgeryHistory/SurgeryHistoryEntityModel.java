@@ -43,4 +43,8 @@ public class SurgeryHistoryEntityModel {
 		if (getById(id) == null) return;
 		surgeryHistoryMapper.deleteById(id);
 	}
+
+	public Integer getCount() {
+		return surgeryHistoryMapper.getCount();
+	}
 }

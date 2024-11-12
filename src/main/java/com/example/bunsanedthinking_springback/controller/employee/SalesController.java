@@ -136,7 +136,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getSalesContractCount")
-	public Sales getSalesContractCount(int id) {
+	public int getSalesContractCount(int id) {
 		return salesSModel.getSalesContractCount(id);
 	}
 

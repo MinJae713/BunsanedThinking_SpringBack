@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.disease;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
@@ -7,11 +13,6 @@ import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import com.example.bunsanedthinking_springback.vo.DiseaseVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DiseaseEntityModel {
@@ -71,4 +72,5 @@ public class DiseaseEntityModel {
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
+
 }

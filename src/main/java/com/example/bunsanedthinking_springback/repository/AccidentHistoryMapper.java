@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 
 @Mapper
 public interface AccidentHistoryMapper {
@@ -14,4 +15,6 @@ public interface AccidentHistoryMapper {
     public void update(AccidentHistoryVO accidentHistoryVO);
     public void deleteById(int id);
     public Integer getMaxId();
+
+	int getCount();
 }

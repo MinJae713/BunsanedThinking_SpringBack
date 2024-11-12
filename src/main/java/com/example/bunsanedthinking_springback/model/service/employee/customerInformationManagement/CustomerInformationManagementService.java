@@ -1,5 +1,14 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
@@ -16,14 +25,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class CustomerInformationManagementService {
@@ -147,7 +148,7 @@ public class CustomerInformationManagementService {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 
-				LocalDate localDate = LocalDate.parse(e.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				diseaseHistory.setDate_of_diagnosis(date);
 

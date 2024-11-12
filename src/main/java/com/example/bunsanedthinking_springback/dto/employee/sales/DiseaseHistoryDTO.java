@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DiseaseHistoryDTO {
-	private String date_of_diagnosis;
+	private String dateOfDiagnosis;
 	private String name;
 }
 
