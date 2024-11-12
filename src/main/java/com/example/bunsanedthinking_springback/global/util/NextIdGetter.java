@@ -1,11 +1,13 @@
 package com.example.bunsanedthinking_springback.global.util;
 
 public class NextIdGetter {
-    public static int getNextId(int maxId, int serial) {
-        String maxIdStr = maxId+"";
-        int serialLength = (serial+"").length();
-        int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
-        nextId++;
-        return Integer.parseInt(serial+""+nextId);
+    public static int getNextId(Integer maxId, int serial) {
+        if (maxId == null) {
+            return Integer.parseInt(serial + "1");
+        }
+        String maxIdStr = maxId.toString();
+        int serialLength = Integer.toString(serial).length();
+        int nextId = Integer.parseInt(maxIdStr.substring(serialLength)) + 1;
+        return Integer.parseInt(serial + "" + nextId);
     }
 }

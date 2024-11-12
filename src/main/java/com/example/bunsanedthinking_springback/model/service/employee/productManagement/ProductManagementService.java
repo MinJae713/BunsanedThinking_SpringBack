@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.AutomobileDTO;
@@ -21,6 +22,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
@@ -47,25 +49,21 @@ public class ProductManagementService {
 	@Autowired
 	private AutomobileEntityModel automobileEntityModel;
 
+	@Value("${serials.product}")
+	private Integer PRODUCT_SERIAL_NUMBER;
+
+	@Value("${serials.insurance}")
+	private Integer INSURANCE_SERIAL_NUMBER;
+
 	public void addDiseaseInsurance(DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
 
-		for (Product product : getAll()) {
+		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(diseaseDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
 
-		Integer insuranceId = insuranceEntityModel.getMaxId();
-		if (insuranceId == null) {
-			insuranceId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
-		} else {
-			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
-			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
-			String index = (insuranceId + "").substring(productSerialLength + insuranceSerialLength);
-			index = (Integer.parseInt(index) + 1) + "";
-			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
-			insuranceId = Integer.parseInt(compound);
-		}
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Disease disease = new Disease();
 		disease.setId(insuranceId);
@@ -84,23 +82,13 @@ public class ProductManagementService {
 	}
 
 	public void addInjuryInsurance(InjuryDTO injuryDTO) throws DuplicateInsuranceException {
-		for (Product product : getAll()) {
+		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(injuryDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
 
-		Integer insuranceId = insuranceEntityModel.getMaxId();
-		if (insuranceId == null) {
-			insuranceId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
-		} else {
-			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
-			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
-			String index = (insuranceId + "").substring(productSerialLength + insuranceSerialLength);
-			index = (Integer.parseInt(index) + 1) + "";
-			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
-			insuranceId = Integer.parseInt(compound);
-		}
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Injury injury = new Injury();
 		injury.setId(insuranceId);
@@ -111,31 +99,20 @@ public class ProductManagementService {
 		injury.setContractPeriod(injuryDTO.getContractPeriod());
 		injury.setCoverage(injuryDTO.getCoverage());
 
-		injury.setInjuryType(InjuryType.fromInt(injuryDTO.getInsuranceType()));
+		injury.setInjuryType(InjuryType.fromInt(injuryDTO.getInjuryType()));
 		injury.setSurgeriesLimit(injuryDTO.getSurgeriesLimit());
 
 		injuryEntityModel.add(injury);
 	}
 
 	public void addAutomobileInsurance(AutomobileDTO automobileDTO) throws DuplicateInsuranceException {
-		for (Product product : getAll()) {
+		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(automobileDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
 
-		Integer insuranceId = injuryEntityModel.getMaxId();
-		if (insuranceId == null) {
-			insuranceId = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + 1);
-		} else {
-			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
-			int insuranceSerialLength = ("" + Insurance.INSURANCE_SERIAL_NUMBER).length();
-			String index = (insuranceId + "").substring(productSerialLength + insuranceSerialLength);
-			index = (Integer.parseInt(index) + 1) + "";
-			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Insurance.INSURANCE_SERIAL_NUMBER + index;
-			insuranceId = Integer.parseInt(compound);
-		}
-
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Automobile automobile = new Automobile();
 		automobile.setId(insuranceId);
@@ -175,7 +152,7 @@ public class ProductManagementService {
 
 		switch (index) {
 			case 1:
-				for (Product product : getAll()) {
+				for (Product product : productEntityModel.getAll()) {
 					if (product.getName().equals(input)) {
 						throw new DuplicateInsuranceException();
 					}
@@ -221,7 +198,7 @@ public class ProductManagementService {
 
 		switch (index) {
 			case 1:
-				for (Product product : getAll()) {
+				for (Product product : productEntityModel.getAll()) {
 					if (product.getName().equals(input)) {
 						throw new DuplicateInsuranceException();
 					}
@@ -269,7 +246,7 @@ public class ProductManagementService {
 
 		switch (index) {
 			case 1:
-				for (Product product : getAll()) {
+				for (Product product : productEntityModel.getAll()) {
 					if (product.getName().equals(input)) {
 						throw new DuplicateInsuranceException();
 					}
