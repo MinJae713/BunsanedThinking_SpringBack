@@ -1,29 +1,21 @@
 package com.example.bunsanedthinking_springback.model.service.partnerCompany;
 
-import com.example.bunsanedthinking_springback.dto.partnerCompany.UpdateReportDTO;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
-import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
-import com.example.bunsanedthinking_springback.repository.ReportMapper;
-import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
-import com.example.bunsanedthinking_springback.vo.ReportVO;
-
+import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PartnerCompanyService {
 	@Autowired
-	private PartnerCompanyDModel partnerCompanyDModel;
+	private PartnerCompanyEntityModel partnerCompanyDModel;
 	@Autowired
-	private ReportDModel reportDModel;
+	private ReportEntityModel reportDModel;
 //	@Autowired
 //	private PartnerCompanyMapper partnerCompanyMapper;
 //	@Autowired

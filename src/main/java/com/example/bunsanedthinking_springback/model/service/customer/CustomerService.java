@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,7 +109,7 @@ public class CustomerService {
 	@Autowired
 	private DepositDetailDModel depositDetailDModel;
 	@Autowired
-	private AccidentHistoryDModel accidentHistoryDModel;
+	private AccidentHistoryEntityModel accidentHistoryDModel;
 	@Autowired
 	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
@@ -369,7 +370,7 @@ public class CustomerService {
 		if (tempAccidentHistoryList != null)
 			for (AccidentHistory e : tempAccidentHistoryList) {
 				e.setCustomerID(customer.getId());
-				e.setId(NextIdGetter.getNextId(accidentDModel.getMaxId(),
+				e.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(),
 						AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER));
 				accidentHistoryDModel.add(e);
 			}
@@ -435,8 +436,8 @@ public class CustomerService {
 
 		if (customerDModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Complaint complaint = new Complaint(complainType, content, customerId, title);
-		complaint.setId(NextIdGetter.getNextId(complaintDModel.getMaxId(), Complaint.COMPLAINT_SERIAL));
-		complaintDModel.add(complaint);
+		complaint.setId(NextIdGetter.getNextId(complaintEntityModel.getMaxId(), Complaint.COMPLAINT_SERIAL));
+		complaintEntityModel.add(complaint);
 //		customer.complain(complaintList, customerList, complainType, title, content);
 	}
 
@@ -494,8 +495,8 @@ public class CustomerService {
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
 		Accident accident = new Accident();
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
-		accident.setId(NextIdGetter.getNextId(accidentDModel.getMaxId(), Accident.ACCIDENT_SERIAL));
-		accidentDModel.add(accident);
+		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), Accident.ACCIDENT_SERIAL));
+		accidentEntityModel.add(accident);
 //		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
 //				accidentList);
 	}

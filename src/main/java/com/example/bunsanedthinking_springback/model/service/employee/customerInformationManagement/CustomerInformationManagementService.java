@@ -16,14 +16,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.CustomerMapper;
-import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
-import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
-import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
-import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +101,7 @@ public class CustomerInformationManagementService {
 		}
 
 		if(addCustomerInformationDTO.getSurgeryHistoryList() != null) {
-			Integer surgeryHistoryMaxId = surgeryHistoryDModel.getMaxId();
+			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
 			int surgeryHistoryId;
 			int maxIndex;
 			if (surgeryHistoryMaxId == null) {
