@@ -5,14 +5,14 @@
         select * from compensationdetail
         where contract_id = #{id}
     </select>
-    <select id="getAll_UnderwritingModel" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         select * from CompensationDetail
     </select>
-    <select id="getMaxId_LoanManagement" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(id)
         from compensationdetail
     </select>
-    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
         insert into compensationdetail(id, money, payment_date, contract_id)
         values (
                    #{id},

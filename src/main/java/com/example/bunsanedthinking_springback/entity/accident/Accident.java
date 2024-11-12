@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.entity.accident;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.Date;
  */
 //05.31 ����
 @AllArgsConstructor
+@Data
 public class Accident {
 
 	public static final int ACCIDENT_SERIAL = 400;
@@ -72,70 +74,10 @@ public class Accident {
 	public void complete() {
 		this.processStatus = AccidentProcessStatus.Completed;
 	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-	
-	public ServiceType getServiceType() {
-		return this.serviceType;
-	}
-
-	public int getCustomerID() {
-		return customerID;
-	}
-
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public String getCustomerPhoneNumber() {
-		return customerPhoneNumber;
-	}
-
-	public void setCustomerPhoneNumber(String customerPhoneNumber) {
-		this.customerPhoneNumber = customerPhoneNumber;
-	}
 
 	public String getDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(this.date);
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public AccidentProcessStatus getProcessStatus() {
-		return processStatus;
-	}
-
-	public void setProcessStatus(AccidentProcessStatus processStatus) {
-		this.processStatus = processStatus;
-	}
-
-	public void setServiceType(ServiceType serviceType) {
-		this.serviceType = serviceType;
 	}
 
 }

@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
-        select *
-        from accident
-        where id = #{id}
-    </select>
-    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
-        select *
-        from accident
-        where customer_id = #{id}
-    </select>
-    <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select *
         from accident
         where id = #{id}
@@ -26,7 +16,7 @@
         from accident
         where id = #{param1}
     </select>
-    <update id="update_CustomerSupport" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         update accident
         set date=#{date},
             location=#{location},
@@ -35,7 +25,7 @@
             customer_id=#{customer_id}
         where id = #{id}
     </update>
-    <select id="getAll_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         select *
         from accident
     </select>

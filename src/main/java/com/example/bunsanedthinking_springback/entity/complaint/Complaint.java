@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.entity.complaint;
 
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
@@ -18,6 +19,7 @@ import java.util.Date;
 //0604 ����
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Complaint {
 
 	public static final int COMPLAINT_SERIAL = 510;
@@ -90,91 +92,9 @@ public class Complaint {
 		return new Complaint(this);
 	}
 
-	public void handle(String employeeName, String result){
-		this.employeeName = employeeName;
-		this.result = result;
-		this.processingDate = new Date();
-		this.processStatus = ComplaintProcessStatus.Completed;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return this.id;
-	}
-
-	public ComplaintType getComplaintType() {
-		return complaintType;
-	}
-
-	public void setComplaintType(ComplaintType complaintType) {
-		this.complaintType = complaintType;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public int getCustomerID() {
-		return customerID;
-	}
-	
-	public void setResult(String result) {
-		this.result = result;
-	}
-	
-	public String getResult() {
-		return this.result;
-	}
-
-	public String getEmployeeName() {
-		return employeeName;
-	}
-
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
-	}
-
 	public String getPostDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(this.postDate);
 	}
 
-	public Date getProcessingDate() {
-		return processingDate;
-	}
-
-	public void setProcessingDate(Date processingDate) {
-		this.processingDate = processingDate;
-	}
-
-	public ComplaintProcessStatus getProcessStatus() {
-		return processStatus;
-	}
-
-	public void setProcessStatus(ComplaintProcessStatus processStatus) {
-		this.processStatus = processStatus;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setPostDate(Date postDate) {
-		this.postDate = postDate;
-	}
-
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
 }

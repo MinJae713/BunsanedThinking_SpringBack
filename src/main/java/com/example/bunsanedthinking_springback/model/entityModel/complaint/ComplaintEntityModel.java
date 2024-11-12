@@ -4,25 +4,29 @@ import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ComplaintDModel {
+public class ComplaintEntityModel {
 	@Autowired
 	private ComplaintMapper complaintMapper;
 
+	@Value("${serials.complaint}")
+	public static int COMPLAINT_SERIAL_NUMBER;
+
 	public Complaint getById(int id) {
-		return complaintMapper.getComplaintById_Customer(id)
+		return complaintMapper.getById(id)
 			.map(ComplaintVO::getEntity)
 			.orElse(null);
 	}
 
 	public List<Complaint> getAll() {
 		List<Complaint> complaints = new ArrayList<Complaint>();
-		complaintMapper.getAll_CustomerSupport().forEach(e -> complaints.add(getById(e.getId())));
+		complaintMapper.getAll().forEach(e -> complaints.add(getById(e.getId())));
 		return complaints;
 	}
 
@@ -35,7 +39,7 @@ public class ComplaintDModel {
 	}
 
 	public void update(Complaint complaint) {
-		complaintMapper.update_CustomerSupport(complaint.findVO());
+		complaintMapper.update(complaint.findVO());
 	}
 
 	public void delete(int id) {

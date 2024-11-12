@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.accidentHistory;
 
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 //2024-06-04 김대현
 @NoArgsConstructor
+@Data
 public class AccidentHistory implements Cloneable{
 	public static final int ACCIDENT_HISTORY_SERIAL_NUMBER = 410;
 	
@@ -43,43 +45,6 @@ public class AccidentHistory implements Cloneable{
 		id = accidentHistoryVO.getId();
 	}
 
-	public int getCustomerID() {
-		return customerID;
-	}
-
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public String getDateStr() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.date);
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getAccidentDetail() {
-		return accidentDetail;
-	}
-
-	public void setAccidentDetail(String accidentDetail) {
-		this.accidentDetail = accidentDetail;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public AccidentHistory clone() {
 		AccidentHistory accidentHistory = new AccidentHistory(getAccidentDetail(), this.date);
 		accidentHistory.setId(getId());
@@ -87,14 +52,4 @@ public class AccidentHistory implements Cloneable{
 		return accidentHistory;
 	}
 
-	public AccidentHistoryVO findaccidentVO() {
-		AccidentHistoryVO result = new AccidentHistoryVO();
-		result.setId(id);
-		result.setDetails_of_accident(accidentDetail);
-		result.setCustomer_id(customerID);
-
-		LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
-		result.setDate(localDate);
-		return result;
-	}
 }

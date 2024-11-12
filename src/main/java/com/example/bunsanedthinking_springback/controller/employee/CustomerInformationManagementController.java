@@ -21,10 +21,6 @@ public class CustomerInformationManagementController {
 	@PostMapping("/addCustomerInformation")
 	public void addCustomerInformation(@RequestBody AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
 		customerInformationManagementSModel.addCustomerInformation(addCustomerInformationDTO);
-				/*name, phoneNumber, job, age, gender,
-				residentRegistrationNumber, address, property, tempAccidentHistoryList, tempSurgeryHistoryList, 
-				tempDiseaseHistoryList, bankName, bankAccount*/
-		// 이 부분도 RequestBody 물어보기
 	}
 
 	@DeleteMapping("/deleteCustomerInformation")
@@ -37,7 +33,6 @@ public class CustomerInformationManagementController {
 		return customerInformationManagementSModel.getCustomerInformation(id);
 	}
 
-	///Date 관련 데이터가 전부 이상함 ex)"postDate": "3923-05-15"
 	@PatchMapping("/updateCustomerInformation")
 	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationDTO updateCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException, NotExistException{
 		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationDTO);

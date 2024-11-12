@@ -19,9 +19,9 @@ import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
-import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
@@ -51,7 +51,7 @@ public class SalesService {
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
-	private AccidentHistoryDModel accidentHistoryDModel;
+	private AccidentHistoryEntityModel accidentHistoryEntityModel;
 	@Autowired
 	private DiseaseHistoryDModel diseaseHistoryDModel;
 	@Autowired
@@ -71,7 +71,7 @@ public class SalesService {
 	@Autowired
 	private LoanDModel loanDModel;
 	@Autowired
-	private CollateralDModel collateralDModel;
+	private CollateralEntityModel collateralEntityModel;
 	@Autowired
 	private FixedDepositDModel fixedDepositDModel;
 	@Autowired
@@ -81,7 +81,7 @@ public class SalesService {
 	@Autowired
 	private DiseaseDModel diseaseDModel;
 	@Autowired
-	private AutomobileDModel automobileDModel;
+	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
 	private ContractDModel contractDModel;
 
@@ -126,7 +126,7 @@ public class SalesService {
 		customer.setResidentRegistrationNumber(induceDTO.getResidentRegistrationNumber());
 
 		if (induceDTO.getAccidentHistoryList() != null) {
-			Integer accidentHistoryMaxId = accidentHistoryDModel.getMaxId();
+			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
 			int accidentHistoryId;
 			int maxIndex;
 			if (accidentHistoryMaxId == null) {
@@ -307,11 +307,11 @@ public class SalesService {
 	}
 
 	public ArrayList<Insurance> getAllAutomobileInsurance() {
-		return new ArrayList<>(automobileDModel.getAll());
+		return new ArrayList<>(automobileEntityModel.getAll());
 	}
 
 	public ArrayList<Loan> getAllCollateralLoan() {
-		return new ArrayList<>(collateralDModel.getAll());
+		return new ArrayList<>(collateralEntityModel.getAll());
 	}
 
 	public ArrayList<Loan> getAllFixedDepositLoan() {

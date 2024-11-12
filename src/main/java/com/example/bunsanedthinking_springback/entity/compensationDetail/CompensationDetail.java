@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
  * @created 27-5-2024 ���� 4:40:40
  */
 @NoArgsConstructor
-@Data
 @AllArgsConstructor
+@Data
 public class CompensationDetail {
 
 	private int contractID;
@@ -48,35 +48,7 @@ public class CompensationDetail {
 		return new CompensationDetail(this);
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Date getPaymentDate() {
-		return this.paymentDate;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
 	public int getContractId() {
 		return this.contractID;
-	}
-
-	public int getMoney() {
-		return this.money;
-	}
-
-	public void setContractID(int contractID) {
-		this.contractID = contractID;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-	}
-
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
 	}
 }

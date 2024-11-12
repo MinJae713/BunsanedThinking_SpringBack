@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CollateralDModel {
+public class CollateralEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -30,7 +30,7 @@ public class CollateralDModel {
 		LoanVO loanVO = loanMapper.findById_LoanManagement(id).orElse(null);
 		if (loanVO == null)
 			return null;
-		CollateralVO collateralVO = collateralMapper.getById_Customer(id).orElse(null);
+		CollateralVO collateralVO = collateralMapper.getById(id).orElse(null);
 		if (collateralVO == null)
 			return null;
 		CollateralType collateralType = CollateralType.indexOf(collateralVO.getCollateral_type());
@@ -40,7 +40,7 @@ public class CollateralDModel {
 
 	public List<Collateral> getAll() {
 		List<Collateral> collaterals = new ArrayList<Collateral>();
-		collateralMapper.getAll_Customer()
+		collateralMapper.getAll()
 			.forEach(e -> collaterals.add(getById(e.getProduct_id())));
 		return collaterals;
 	}
@@ -51,23 +51,23 @@ public class CollateralDModel {
 
 	public void add(Collateral collateral) {
 		if (collateral == null) return;
-		if (collateralMapper.getById_Customer(collateral.getId()).isPresent()) return;
+		if (collateralMapper.getById(collateral.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(collateral.findProductVO());
 		loanMapper.insert_LoanManagement(collateral.findLoanVO());
-		collateralMapper.insert_LoanManagement(collateral.findVO());
+		collateralMapper.insert(collateral.findVO());
 	}
 
 	public void update(Collateral collateral) {
 		if (collateral == null) return;
-		if (collateralMapper.getById_Customer(collateral.getId()).isEmpty()) return;
-		collateralMapper.update_LoanManagement(collateral.findVO());
+		if (collateralMapper.getById(collateral.getId()).isEmpty()) return;
+		collateralMapper.update(collateral.findVO());
 		loanMapper.update_LoanManagement(collateral.findLoanVO());
 		productMapper.update_LoanManagement(collateral.findProductVO());
 	}
 
 	public void delete(int id) {
-		if (collateralMapper.getById_Customer(id).isEmpty()) return;
-		collateralMapper.delete_LoanManagement(id);
+		if (collateralMapper.getById(id).isEmpty()) return;
+		collateralMapper.delete(id);
 		loanMapper.delete_LoanManagement(id);
 		productMapper.delete_LoanManagement(id);
 	}

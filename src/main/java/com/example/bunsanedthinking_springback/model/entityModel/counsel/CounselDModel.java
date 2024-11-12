@@ -23,7 +23,7 @@ public class CounselDModel {
 		CounselVO counselVO = counselMapper.getById(id).orElse(null);
 		if (counselVO == null)
 			return null;
-		CustomerVO customerVO = customerMapper.getById_Customer(counselVO.getCustomer_id()).orElse(null);
+		CustomerVO customerVO = customerMapper.getById(counselVO.getCustomer_id()).orElse(null);
 		if (customerVO == null)
 			return null;
 		String name = customerVO.getName();

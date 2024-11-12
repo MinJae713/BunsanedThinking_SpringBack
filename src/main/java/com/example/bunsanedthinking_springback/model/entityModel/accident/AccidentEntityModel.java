@@ -6,24 +6,28 @@ import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AccidentDModel {
+public class AccidentEntityModel {
 	@Autowired
 	private AccidentMapper accidentMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
 
+	@Value("${serials.accident}")
+	public static int ACCIDENT_SERIAL_NUMBER;
+
 	public Accident getById(int id) {
-		AccidentVO accidentVO = accidentMapper.getById_Compensation(id).orElse(null);
+		AccidentVO accidentVO = accidentMapper.getById(id).orElse(null);
 		if (accidentVO == null)
 			return null;
 		int customerId = accidentVO.getCustomer_id();
-		CustomerVO customerVO = customerMapper.getById_Customer(customerId).orElse(null);
+		CustomerVO customerVO = customerMapper.getById(customerId).orElse(null);
 		if (customerVO == null)
 			return null;
 		String name = customerVO.getName();
@@ -33,7 +37,7 @@ public class AccidentDModel {
 
 	public List<Accident> getAll() {
 		List<Accident> accidents = new ArrayList<Accident>();
-		accidentMapper.getAll_CustomerSupport().forEach(e -> accidents.add(getById(e.getId())));
+		accidentMapper.getAll().forEach(e -> accidents.add(getById(e.getId())));
 		return accidents;
 	}
 
@@ -46,7 +50,7 @@ public class AccidentDModel {
 	}
 
 	public void update(Accident accident) {
-		accidentMapper.update_CustomerSupport(accident.findVO());
+		accidentMapper.update(accident.findVO());
 	}
 
 	public void delete(int id) {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CompensationDetailDModel {
+public class CompensationDetailEntityModel {
 	@Autowired
 	private CompensationDetailMapper compensationDetailMapper;
 
@@ -22,17 +22,17 @@ public class CompensationDetailDModel {
 
 	public List<CompensationDetail> getAll() {
 		List<CompensationDetail> compensationDetails = new ArrayList<CompensationDetail>();
-		compensationDetailMapper.getAll_UnderwritingModel()
+		compensationDetailMapper.getAll()
 			.forEach(e -> compensationDetails.add(getById(e.getId())));
 		return compensationDetails;
 	}
 
 	public Integer getMaxId() {
-		return compensationDetailMapper.getMaxId_LoanManagement();
+		return compensationDetailMapper.getMaxId();
 	}
 
 	public void add(CompensationDetail compensationDetail) {
-		compensationDetailMapper.insert_LoanManagement(compensationDetail.findVO());
+		compensationDetailMapper.insert(compensationDetail.findVO());
 	}
 
 	public void update(CompensationDetail compensationDetail) {

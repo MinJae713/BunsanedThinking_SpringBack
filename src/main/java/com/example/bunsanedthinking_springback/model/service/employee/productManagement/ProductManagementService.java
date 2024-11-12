@@ -20,7 +20,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceDModel;
@@ -44,7 +44,7 @@ public class ProductManagementService {
 	@Autowired
 	private InjuryDModel injuryDModel;
 	@Autowired
-	private AutomobileDModel automobileDModel;
+	private AutomobileEntityModel automobileEntityModel;
 
 	public void addDiseaseInsurance(DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
 
@@ -149,7 +149,7 @@ public class ProductManagementService {
 		automobile.setAccidentLimit(automobileDTO.getAccidentLimit());
 		automobile.setServiceList((ArrayList<ServiceType>)automobileDTO.getServiceList());
 
-		automobileDModel.add(automobile);
+		automobileEntityModel.add(automobile);
 	}
 
 	public void deleteInsuranceProduct(int id) {
@@ -264,7 +264,7 @@ public class ProductManagementService {
 	public void updateAutomobileInsurance(int index, String input, int id,
 		ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException {
 
-		Automobile automobile = automobileDModel.getById(id);
+		Automobile automobile = automobileEntityModel.getById(id);
 
 		switch (index) {
 			case 1:
@@ -274,27 +274,27 @@ public class ProductManagementService {
 					}
 				}
 				automobile.setName(input);
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 2:
 				automobile.setAgeRange(Integer.parseInt(input));
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 3:
 				automobile.setCoverage(input);
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 4:
 				automobile.setMonthlyPremium(Integer.parseInt(input));
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 5:
 				automobile.setContractPeriod(Integer.parseInt(input));
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 6:
 				automobile.setAccidentLimit(Integer.parseInt(input));
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 7:
 				if (VehicleType.Small.ordinal() == (Integer.parseInt(input) - 1)) {
@@ -304,14 +304,14 @@ public class ProductManagementService {
 				} else if (VehicleType.Large.ordinal() == (Integer.parseInt(input) - 1)) {
 					automobile.setVehicleType(VehicleType.Large);
 				}
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			case 8:
 				ArrayList<ServiceType> distinctServiceList = (ArrayList<ServiceType>)serviceTypeList.stream()
 					.distinct()
 					.collect(Collectors.toList());
 				automobile.setServiceList(distinctServiceList);
-				automobileDModel.update(automobile);
+				automobileEntityModel.update(automobile);
 				break;
 			default:
 				break;

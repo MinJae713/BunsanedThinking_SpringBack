@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AutomobileMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select *
         from automobile
         where product_id = #{id}
     </select>
-    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
-        select *
-        from automobile
-        where product_id = #{id}
-    </select>
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select *
         from automobile
     </select>
-    <select id="getAllAutomobileInsurance_SalesModel"
-            resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
+    <select id="getAllAutomobileInsurance_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         select *
         from Automobile
     </select>
 
-    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         insert into Automobile(product_id, vehicle_type, accident_limit)
         values (#{product_id},
                 #{vehicle_type},
                 #{accident_limit})
     </insert>
-    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
         UPDATE Automobile
         SET vehicle_type   = #{vehicle_type},
             accident_limit = #{accident_limit}
         WHERE product_id = #{product_id}
     </update>
-    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
-        select *
-        from automobile
-        where product_id = #{param1}
-    </select>
     <delete id="deleteById" parameterType="int">
         delete
         from automobile

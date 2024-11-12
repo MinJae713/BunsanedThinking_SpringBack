@@ -14,7 +14,7 @@ import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyDModel;
@@ -38,7 +38,7 @@ public class CompensationService {
 	@Autowired
 	private PaymentDetailDModel paymentDetailDModel;
 	@Autowired
-	private AccidentDModel accidentDModel;
+	private AccidentEntityModel accidentEntityModel;
 
 	public void requestCompensation(ReqCompensationDTO reqCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {
@@ -65,7 +65,7 @@ public class CompensationService {
 		report.setProcessStatus(ReportProcessStatus.Completed);
 		reportDModel.update(report);
 		report.getAccident().complete();
-		accidentDModel.update(report.getAccident());
+		accidentEntityModel.update(report.getAccident());
 
 		//		if (report.getProcessStatus() == ReportProcessStatus.Completed) {
 		//			throw new AlreadyProcessedException();

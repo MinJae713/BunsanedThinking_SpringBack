@@ -34,10 +34,10 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.global.exception.*;
-import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
@@ -70,11 +70,11 @@ public class CustomerService {
 	@Autowired
 	private InjuryDModel injuryDModel;
 	@Autowired
-	private AutomobileDModel automobileDModel;
+	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
 	private LoanDModel loanDModel;
 	@Autowired
-	private CollateralDModel collateralDModel;
+	private CollateralEntityModel collateralEntityModel;
 	@Autowired
 	private FixedDepositDModel fixedDepositDModel;
 	@Autowired
@@ -92,9 +92,9 @@ public class CustomerService {
 	@Autowired
 	private RecontractDModel recontractDModel;
 	@Autowired
-	private AccidentDModel accidentDModel;
+	private AccidentEntityModel accidentEntityModel;
 	@Autowired
-	private ComplaintDModel complaintDModel;
+	private ComplaintEntityModel complaintEntityModel;
 	@Autowired
 	private DepositDetailDModel depositDetailDModel;
 
@@ -224,7 +224,7 @@ public class CustomerService {
 	}
 
 	public List<Automobile> getAllAutomobileInsurance() {
-		return automobileDModel.getAll();
+		return automobileEntityModel.getAll();
 		//		return productList.getAllAutomobileInsurance();
 	}
 
@@ -238,7 +238,7 @@ public class CustomerService {
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
-		return collateralDModel.getAll();
+		return collateralEntityModel.getAll();
 		//		return productList.getAllCollateralLoan();
 	}
 
@@ -271,7 +271,7 @@ public class CustomerService {
 
 	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
 		List<Contract> result = new ArrayList<Contract>();
-		for (Automobile automobile : automobileDModel.getAll())
+		for (Automobile automobile : automobileEntityModel.getAll())
             result.addAll(getAllContractByProductId(automobile.getId()));
 		return result;
 		//		return contractList.getAllAutomobileInsuranceContract();
@@ -320,21 +320,21 @@ public class CustomerService {
 	}
 
 	public List<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
-		return accidentDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+		return accidentEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
 		//		return accidentList.getAllByCustomer(id);
 	}
 
 	public Accident getAccidentById(int id) throws NotExistException {
-		return accidentDModel.getById(id);
+		return accidentEntityModel.getById(id);
 	}
 
 	public List<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
-		return complaintDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+		return complaintEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
 		//		return complaintList.getAllByCustomerId(id);
 	}
 
 	public Complaint getComplaintById(int id) throws NotExistException {
-		return complaintDModel.getById(id);
+		return complaintEntityModel.getById(id);
 	}
 
 	// 새로 추가됨 - controller는 아직 추가x

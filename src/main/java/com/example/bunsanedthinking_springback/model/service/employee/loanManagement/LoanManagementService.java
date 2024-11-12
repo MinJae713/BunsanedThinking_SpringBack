@@ -29,8 +29,8 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositDModel;
@@ -46,7 +46,7 @@ public class LoanManagementService {
 	@Autowired
 	private LoanDModel loanDModel;
 	@Autowired
-	private CollateralDModel collateralDModel;
+	private CollateralEntityModel collateralEntityModel;
 	@Autowired
 	private FixedDepositDModel fixedDepositDModel;
 	@Autowired
@@ -58,7 +58,7 @@ public class LoanManagementService {
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
-	private CompensationDetailDModel compensationDetailDModel;
+	private CompensationDetailEntityModel compensationDetailEntityModel;
 
 	public void addLoanProduct(CollateralDTO collateralDTO) throws DuplicateLoanException {
 		checkLoanName(collateralDTO.getName());
@@ -67,7 +67,7 @@ public class LoanManagementService {
 			collateralDTO.getName(), collateralDTO.getInterestRate(), collateralDTO.getMaximumMoney(),
 			collateralDTO.getMinimumAsset(), CollateralType.indexOf(collateralDTO.getCollateralType()),
 			collateralDTO.getMinimumValue(), collateralDTO.getMonthlyIncome());
-		collateralDModel.add(collateral);
+		collateralEntityModel.add(collateral);
 	}
 
 	public void addLoanProduct(LoanDTO loanDTO) throws DuplicateLoanException {
@@ -168,7 +168,7 @@ public class LoanManagementService {
 		paymentDetailDModel.add(paymentDetail);
 
 		CompensationDetail compensationDetail = createCompensationDetail(contractId, money);
-		compensationDetailDModel.add(compensationDetail);
+		compensationDetailEntityModel.add(compensationDetail);
 	}
 
 	private PaymentDetail createPaymentDetail(Customer customer, int money, PaymentType paymentType, int contractId) {
@@ -186,7 +186,7 @@ public class LoanManagementService {
 	}
 
 	private CompensationDetail createCompensationDetail(int contractId, int money) {
-		Integer compensationMaxId = compensationDetailDModel.getMaxId();
+		Integer compensationMaxId = compensationDetailEntityModel.getMaxId();
 		int compensationId;
 		if (compensationMaxId == null) {
 			compensationId = 1;
@@ -226,7 +226,7 @@ public class LoanManagementService {
 					case Collateral -> {
 						Collateral collateral = (Collateral)loan;
 						collateral.setCollateralType(CollateralType.indexOf(Integer.parseInt(input)));
-						collateralDModel.update(collateral);
+						collateralEntityModel.update(collateral);
 						return;
 					}
 				}
@@ -234,7 +234,7 @@ public class LoanManagementService {
 			case 6 -> {
 				Collateral collateral = (Collateral)loan;
 				collateral.setMinimumValue(Integer.parseInt(input));
-				collateralDModel.update(collateral);
+				collateralEntityModel.update(collateral);
 				return;
 			}
 			default -> throw new IllegalArgumentException("잘못된 index가 입력되었습니다.");
@@ -247,7 +247,7 @@ public class LoanManagementService {
 		if (loan == null)
 			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
 		switch (loan.getLoanType()) {
-			case Collateral -> collateralDModel.delete(id);
+			case Collateral -> collateralEntityModel.delete(id);
 			case FixedDeposit -> fixedDepositDModel.delete(id);
 			case InsuranceContract -> insuranceContractDModel.delete(id);
 		}
@@ -270,7 +270,7 @@ public class LoanManagementService {
 	}
 
 	private double getLoanOutcome(int contractId, Loan loan) {
-		List<CompensationDetail> compensationDetailList = compensationDetailDModel.getAll();
+		List<CompensationDetail> compensationDetailList = compensationDetailEntityModel.getAll();
 		compensationDetailList = compensationDetailList.stream()
 			.filter(e -> e.getContractId() == contractId)
 			.collect(Collectors.toList());
