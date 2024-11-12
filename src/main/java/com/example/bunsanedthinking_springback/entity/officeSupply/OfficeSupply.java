@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.entity.officeSupply;
 
 import com.example.bunsanedthinking_springback.vo.OfficeSupplyVO;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:43
  */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OfficeSupply implements Cloneable {
@@ -33,54 +35,6 @@ public class OfficeSupply implements Cloneable {
 		return new OfficeSupplyVO(id, inventory,
 				name, totalInventory, description,
 				departmentId);
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(int inventory) {
-		this.inventory = inventory;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getTotalInventory() {
-		return totalInventory;
-	}
-
-	public void setTotalInventory(int totalInventory) {
-		this.totalInventory = totalInventory;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(int departmentId) {
-		this.departmentId = departmentId;
 	}
 
 	public OfficeSupply clone() {

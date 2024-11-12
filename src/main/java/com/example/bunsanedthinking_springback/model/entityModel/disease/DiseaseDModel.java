@@ -26,7 +26,7 @@ public class DiseaseDModel {
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null)
 			return null;
-		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(id);
+		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
 		if (insuranceVO == null)
 			return null;
 		DiseaseVO diseaseVO = diseaseMapper.getById_Customer(id).orElse(null);
@@ -53,7 +53,7 @@ public class DiseaseDModel {
 		if (disease == null) return;
 		if (diseaseMapper.getById_Customer(disease.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(disease.findProductVO());
-		insuranceMapper.insert_ProductManagement(disease.findInsuranceVO());
+		insuranceMapper.insert(disease.findInsuranceVO());
 		diseaseMapper.insert_ProductManagement(disease.findVO());
 	}
 
@@ -61,7 +61,7 @@ public class DiseaseDModel {
 		if (disease == null) return;
 		if (diseaseMapper.getById_Customer(disease.getId()).isEmpty()) return;
 		diseaseMapper.update_ProductManagementModel(disease.findVO());
-		insuranceMapper.update_ProductManagementModel(disease.findInsuranceVO());
+		insuranceMapper.update(disease.findInsuranceVO());
 		productMapper.update_LoanManagement(disease.findProductVO());
 	}
 

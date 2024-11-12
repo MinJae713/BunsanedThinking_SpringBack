@@ -13,7 +13,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class CustomerSupportService {
 	@Autowired
 	private ComplaintDModel complaintDModel;
 	@Autowired
-	private PartnerCompanyDModel partnerCompanyDModel;
+	private PartnerCompanyEntityModel partnerCompanyDModel;
 	@Autowired
 	private AccidentDModel accidentDModel;
 	@Autowired

@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.controller.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.DepositDTO;
+import com.example.bunsanedthinking_springback.dto.customer.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -167,5 +167,41 @@ public class CustomerController {
 	@GetMapping("/getComplaintById")
 	public Complaint getComplaintById(@RequestParam int id) throws NotExistException {
 		return customerSModel.getComplaintById(id);
+	}
+
+	@PostMapping("/signUp")
+	public void signUp(@RequestBody SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
+		customerSModel.signUp(signUpDTO);
+	}
+
+	@PostMapping("/askInsuranceCounsel")
+	public void askInsuranceCounsel(@RequestBody AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
+		customerSModel.askInsuranceCounsel(askInsuranceCounselDTO);
+	}
+
+	@PostMapping("/buyInsurance")
+	public void buyInsurance(@RequestBody BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
+		customerSModel.buyInsurance(buyInsuranceDTO);
+	}
+
+	@PostMapping("/complain")
+	public void complain(@RequestBody ComplainDTO complainDTO) throws NotExistException {
+		customerSModel.complain(complainDTO);
+	}
+
+	@PostMapping("/loan")
+	public void loan(@RequestBody LoanDTO loanDTO) throws AlreadyRequestingException, NotExistException {
+		customerSModel.loan(loanDTO);
+	}
+
+	// 얜 검증 미완
+	@PostMapping("/receiveInsurance")
+	public void receiveInsurance(@RequestBody ReceiveInsuranceDTO receiveInsuranceDTO) throws NotExistContractException, NotExistException {
+		customerSModel.receiveInsurance(receiveInsuranceDTO);
+	}
+
+	@PostMapping("/reportAccident")
+	public void reportAccident(@RequestBody ReportAccidentDTO reportAccidentDTO) throws NotExistException {
+		customerSModel.reportAccident(reportAccidentDTO);
 	}
 }

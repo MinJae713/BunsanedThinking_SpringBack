@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.InsuranceMapper">
-    <select id="getInsuranceById_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select * from insurance
         where product_id = #{id}
     </select>
-    <select id="getById_ProductManagementModel" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
-        select * from insurance
-        where product_id = #{id}
-    </select>
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         select * from insurance
     </select>
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
-        select * from Insurance
-        where product_id = #{id}
-    </select>
-
-    <insert id="insert_ProductManagement" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         insert into Insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
         values (
                    #{product_id},
@@ -29,7 +20,7 @@
                )
     </insert>
 
-    <update id="update_ProductManagementModel" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
+    <update id="updates" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
         UPDATE insurance
         SET
             insurance_type = #{insurance_type},
@@ -39,13 +30,8 @@
             coverage = #{coverage}
         WHERE product_id = #{product_id}
     </update>
-    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
-        select *
-        from insurance
-        where product_id=#{id}
-    </select>
 
-    <select id="getMaxId_ProductManagementModel" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(product_id)
         from insurance
     </select>

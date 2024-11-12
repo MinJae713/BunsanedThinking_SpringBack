@@ -21,7 +21,7 @@ public class PartnerCompanyService {
 	private ReportMapper reportMapper;
 
 	public PartnerCompanyVO getPartnerCompany(int id) throws NotExistException {
-		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_PartnerCompany(id);
+		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.getById(id).orElse(null);
 		if (partnerCompanyVO == null) {
 			throw new NotExistException();
 		}

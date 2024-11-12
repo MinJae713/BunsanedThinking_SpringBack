@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InsuranceMoneyDModel {
+public class InsuranceMoneyEntityModel {
 	@Autowired
 	private InsuranceMoneyMapper insuranceMoneyMapper;
 
 	public InsuranceMoney getById(int id) {
-		return insuranceMoneyMapper.getById_Compensation(id)
+		return insuranceMoneyMapper.getById(id)
 			.map(InsuranceMoneyVO::getEntity)
 			.orElse(null);
 	}
 
 	public List<InsuranceMoney> getAll() {
 		List<InsuranceMoney> insuranceMonies = new ArrayList<InsuranceMoney>();
-		insuranceMoneyMapper.getAll_UnderwritingModel()
+		insuranceMoneyMapper.getAll()
 			.forEach(e -> insuranceMonies.add(getById(e.getId())));
 		return insuranceMonies;
 	}
@@ -41,6 +41,6 @@ public class InsuranceMoneyDModel {
 
 	public void delete(int id) {
 		if (getById(id) == null) return;
-		insuranceMoneyMapper.deleteById(id);
+		insuranceMoneyMapper.delete(id);
 	}
 }

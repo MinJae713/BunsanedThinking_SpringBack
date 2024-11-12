@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InjuryDModel {
+public class InjuryEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -26,10 +26,10 @@ public class InjuryDModel {
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null)
 			return null;
-		InsuranceVO insuranceVO = insuranceMapper.getById_ProductManagementModel(id);
+		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
 		if (insuranceVO == null)
 			return null;
-		InjuryVO injuryVO = injuryMapper.getById_Customer(id).orElse(null);
+		InjuryVO injuryVO = injuryMapper.getById(id).orElse(null);
 		if (injuryVO == null)
 			return null;
 		return injuryVO.getEntity(productVO, insuranceVO);
@@ -37,7 +37,7 @@ public class InjuryDModel {
 
 	public List<Injury> getAll() {
 		List<Injury> injuries = new ArrayList<Injury>();
-		injuryMapper.getAll_Customer()
+		injuryMapper.getAll()
 			.forEach(e -> injuries.add(getById(e.getProduct_id())));
 		return injuries;
 	}
@@ -49,24 +49,24 @@ public class InjuryDModel {
 	public void add(Injury injury) {
 		// 참조 무결성 제약조건 생각해서 product, insurance, injury 순서대로 데이터 추가함
 		if (injury == null) return;
-		if (injuryMapper.getById_Customer(injury.getId()).isPresent()) return;
+		if (injuryMapper.getById(injury.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(injury.findProductVO());
-		insuranceMapper.insert_ProductManagement(injury.findInsuranceVO());
-		injuryMapper.insert_ProductManagement(injury.findVO());
+		insuranceMapper.insert(injury.findInsuranceVO());
+		injuryMapper.insert(injury.findVO());
 	}
 
 	public void update(Injury injury) {
 		if (injury == null) return;
-		if (injuryMapper.getById_Customer(injury.getId()).isEmpty()) return;
-		injuryMapper.update_ProductManagementModel(injury.findVO());
-		insuranceMapper.update_ProductManagementModel(injury.findInsuranceVO());
+		if (injuryMapper.getById(injury.getId()).isEmpty()) return;
+		injuryMapper.update(injury.findVO());
+		insuranceMapper.update(injury.findInsuranceVO());
 		productMapper.update_LoanManagement(injury.findProductVO());
 	}
 
 	public void delete(int id) {
 		// 참조 무결성 제약조건 생각해서 injury, insurnace, product 순서대로 데이터 삭제
-		if (injuryMapper.getById_Customer(id).isEmpty()) return;
-		injuryMapper.deleteById(id);
+		if (injuryMapper.getById(id).isEmpty()) return;
+		injuryMapper.delete(id);
 		insuranceMapper.delete(id);
 		productMapper.delete_ProductManagementModel(id);
 	}

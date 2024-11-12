@@ -4,7 +4,7 @@ import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class DepartmentDModel {
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	@Autowired
-	private OfficeSupplyDModel officeSupplyDModel;
+	private OfficeSupplyEntityModel officeSupplyDModel;
 	@Autowired
 	private EmployeeDModel employeeDModel;
 

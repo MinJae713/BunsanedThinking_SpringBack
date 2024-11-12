@@ -14,10 +14,11 @@ import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import java.util.List;
 @Service
 public class CompensationService {
 	@Autowired
-	private InsuranceMoneyDModel insuranceMoneyDModel;
+	private InsuranceMoneyEntityModel insuranceMoneyDModel;
 	@Autowired
 	private ContractDModel contractDModel;
 	@Autowired
@@ -57,7 +58,7 @@ public class CompensationService {
 			throw new AlreadyProcessedException();
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(accountHolder, bank,
 				bankAccount, money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
@@ -100,7 +101,7 @@ public class CompensationService {
 			throw new AlreadyProcessedException();
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
 				customer.getBankName(), customer.getBankAccount(),
 				money, PaymentType.values()[paymentType], contractId);
@@ -117,14 +118,6 @@ public class CompensationService {
 		//		insuranceMoney.setProcessStatus(InsuranceMoneyStatus.Completed);
 		//		insuranceMoney.handle();
 		//		insuranceMoneyList.update(insuranceMoney);
-	}
-
-	private int getNextId(int maxId, int serial) {
-		String maxIdStr = maxId+"";
-		int serialLength = (serial+"").length();
-		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
-		nextId++;
-		return Integer.parseInt(serial+""+nextId);
 	}
 
 	// 아래부터 get - 아래는 완료

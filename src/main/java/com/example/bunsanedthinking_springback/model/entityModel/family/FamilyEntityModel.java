@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FamilyDModel {
+public class FamilyEntityModel {
 	@Autowired
 	private FamilyMapper familyMapper;
 
@@ -28,11 +28,11 @@ public class FamilyDModel {
 	}
 
 	public Integer getMaxId() {
-		return familyMapper.getMaxId_HumanResource();
+		return familyMapper.getMaxId();
 	}
 
 	public void add(Family family) {
-		familyMapper.insert_HumanResource(family.findVO());
+		familyMapper.insert(family.findVO());
 	}
 
 	public void update(Family family) {

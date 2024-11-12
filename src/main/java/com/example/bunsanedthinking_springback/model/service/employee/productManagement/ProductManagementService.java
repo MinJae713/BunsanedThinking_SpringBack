@@ -22,8 +22,8 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuran
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
 
 /**
@@ -38,11 +38,11 @@ public class ProductManagementService {
 	@Autowired
 	private ProductDModel productDModel;
 	@Autowired
-	private InsuranceDModel insuranceDModel;
+	private InsuranceEntityModel insuranceDModel;
 	@Autowired
 	private DiseaseDModel diseaseDModel;
 	@Autowired
-	private InjuryDModel injuryDModel;
+	private InjuryEntityModel injuryDModel;
 	@Autowired
 	private AutomobileDModel automobileDModel;
 

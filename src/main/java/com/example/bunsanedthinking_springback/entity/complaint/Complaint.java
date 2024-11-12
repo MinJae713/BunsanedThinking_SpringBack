@@ -46,8 +46,10 @@ public class Complaint {
 	}
 
 	public ComplaintVO findVO() {
-		LocalDate lPostDate = new java.util.Date(postDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate lProcessingDate = new java.util.Date(processingDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate lPostDate = postDate == null ? null :
+				new java.util.Date(postDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate lProcessingDate = processingDate == null ? null :
+				new java.util.Date(processingDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new ComplaintVO(id, complaintType.ordinal(),
 				content, lPostDate, employeeName,
 				lProcessingDate, processStatus.ordinal(),

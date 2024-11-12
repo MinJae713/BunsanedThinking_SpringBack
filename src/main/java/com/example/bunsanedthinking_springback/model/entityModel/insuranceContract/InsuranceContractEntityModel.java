@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InsuranceContractDModel {
+public class InsuranceContractEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -26,10 +26,10 @@ public class InsuranceContractDModel {
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null)
 			return null;
-		LoanVO loanVO = loanMapper.findById_LoanManagement(id).orElse(null);
+		LoanVO loanVO = loanMapper.getById(id).orElse(null);
 		if (loanVO == null)
 			return null;
-		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById_Customer(id).orElse(null);
+		InsuranceContractVO insuranceContractVO = insuranceContractMapper.getById(id).orElse(null);
 		if (insuranceContractVO == null)
 			return null;
 		int insuranceId = insuranceContractVO.getInsurance_id();
@@ -38,7 +38,7 @@ public class InsuranceContractDModel {
 
 	public List<InsuranceContract> getAll() {
 		List<InsuranceContract> insuranceContracts = new ArrayList<InsuranceContract>();
-		insuranceContractMapper.getAll_Customer()
+		insuranceContractMapper.getAll()
 			.forEach(e -> insuranceContracts.add(getById(e.getProduct_id())));
 		return insuranceContracts;
 	}
@@ -49,24 +49,24 @@ public class InsuranceContractDModel {
 
 	public void add(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
-		if (insuranceContractMapper.getById_Customer(insuranceContract.getId()).isPresent()) return;
+		if (insuranceContractMapper.getById(insuranceContract.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(insuranceContract.findProductVO());
-		loanMapper.insert_LoanManagement(insuranceContract.findLoanVO());
-		insuranceContractMapper.insert_LoanManagement(insuranceContract.findVO());
+		loanMapper.insert(insuranceContract.findLoanVO());
+		insuranceContractMapper.insert(insuranceContract.findVO());
 	}
 
 	public void update(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
-		if (insuranceContractMapper.getById_Customer(insuranceContract.getId()).isEmpty()) return;
-		insuranceContractMapper.update_LoanManagement(insuranceContract.findVO());
-		loanMapper.update_LoanManagement(insuranceContract.findLoanVO());
+		if (insuranceContractMapper.getById(insuranceContract.getId()).isEmpty()) return;
+		insuranceContractMapper.update(insuranceContract.findVO());
+		loanMapper.update(insuranceContract.findLoanVO());
 		productMapper.update_LoanManagement(insuranceContract.findProductVO());
 	}
 
 	public void delete(int id) {
-		if (insuranceContractMapper.getById_Customer(id).isEmpty()) return;
-		insuranceContractMapper.delete_LoanManagement(id);
-		loanMapper.delete_LoanManagement(id);
+		if (insuranceContractMapper.getById(id).isEmpty()) return;
+		insuranceContractMapper.delete(id);
+		loanMapper.delete(id);
 		productMapper.delete_LoanManagement(id);
 	}
 }

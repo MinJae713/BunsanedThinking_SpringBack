@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PartnerCompanyDModel {
+public class PartnerCompanyEntityModel {
 	@Autowired
 	private PartnerCompanyMapper partnerCompanyMapper;
 	@Autowired
 	private ReportDModel reportDModel;
 
 	public PartnerCompany getById(int id) {
-		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.findById_PartnerCompany(id);
+		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.getById(id).orElse(null);
 		if (partnerCompanyVO == null) return null;
 		ArrayList<Report> reports = new ArrayList<Report>();
 		if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
@@ -34,14 +34,14 @@ public class PartnerCompanyDModel {
 	public List<PartnerCompany> getAll() {
 		// 이 메소드도 마찬가지 - 아래 둘을 안쓰는데 PartnerCompany 쓰시는 분은 저에게 말씀을...!
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
-		partnerCompanyMapper.getAll_CompensationPlanning()
+		partnerCompanyMapper.getAll()
 				.forEach(e -> partnerCompanies.add(getById(e.getId())));
 		return partnerCompanies;
 	}
 
 	public List<PartnerCompany> getAll_RoadsideCompany() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
-		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll_CompensationPlanning()) {
+		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
 			ArrayList<Report> reports = reportDModel.getAllByRoadSideAssistanceCId(partnerCompanyVO.getId());
 			partnerCompanies.add(partnerCompanyVO.getEntity(reports));
 		}
@@ -50,7 +50,7 @@ public class PartnerCompanyDModel {
 
 	public List<PartnerCompany> getAll_DamageAssesmentCompany() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
-		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll_CompensationPlanning()) {
+		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
 			ArrayList<Report> reports = reportDModel.getAllByDamageAssessmentCId(partnerCompanyVO.getId());
 			partnerCompanies.add(partnerCompanyVO.getEntity(reports));
 		}
@@ -58,13 +58,13 @@ public class PartnerCompanyDModel {
 	}
 
 	public Integer getMaxId() {
-		return partnerCompanyMapper.getMaxId_CompensationPlanning();
+		return partnerCompanyMapper.getMaxId();
 	}
 
 	public void add(PartnerCompany partnerCompany) {
 		if (partnerCompany == null) return;
-		if (partnerCompanyMapper.findById_CustomerSupport(partnerCompany.getId()).isPresent()) return;
-		partnerCompanyMapper.insert_CompensationPlanning(partnerCompany.findVO());
+		if (partnerCompanyMapper.getById(partnerCompany.getId()).isPresent()) return;
+		partnerCompanyMapper.insert(partnerCompany.findVO());
 
 		List<Report> reports = partnerCompany.getReportList();
 		if (reports != null) reports.forEach(e -> reportDModel.add(e));
@@ -72,20 +72,20 @@ public class PartnerCompanyDModel {
 
 	public void update(PartnerCompany partnerCompany) {
 		if (partnerCompany == null) return;
-		if (partnerCompanyMapper.findById_CustomerSupport(partnerCompany.getId()).isEmpty()) return;
+		if (partnerCompanyMapper.getById(partnerCompany.getId()).isEmpty()) return;
 
 		List<Report> reports = partnerCompany.getReportList();
 		if (reports != null) reports.forEach(e -> reportDModel.update(e));
 
-		partnerCompanyMapper.update_CompensationPlanning(partnerCompany.findVO());
+		partnerCompanyMapper.update(partnerCompany.findVO());
 	}
 	public void delete(int id) {
-		if (partnerCompanyMapper.findById_CustomerSupport(id).isEmpty()) return;
+		if (partnerCompanyMapper.getById(id).isEmpty()) return;
 		PartnerCompany partnerCompany = getById(id);
 
 		List<Report> reports = partnerCompany.getReportList();
 		if (reports != null) reports.forEach(e -> reportDModel.delete(id));
 
-		partnerCompanyMapper.delete_CompensationPlanning(id);
+		partnerCompanyMapper.delete(id);
 	}
 }

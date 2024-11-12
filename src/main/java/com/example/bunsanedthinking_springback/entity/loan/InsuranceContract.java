@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -11,9 +12,7 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
-
-//2024-06-02 김대현
-//2024-06-04 김대현
+@Data
 @NoArgsConstructor
 public class InsuranceContract extends Loan {
 
@@ -63,14 +62,6 @@ public class InsuranceContract extends Loan {
 			getInsuranceId(), getMonthlyIncome());
 		insuranceContractLoan.setId(getId());
 		return insuranceContractLoan;
-	}
-
-	public int getInsuranceId() {
-		return insuranceId;
-	}
-
-	public void setInsuranceId(int insuranceId) {
-		this.insuranceId = insuranceId;
 	}
 
 }

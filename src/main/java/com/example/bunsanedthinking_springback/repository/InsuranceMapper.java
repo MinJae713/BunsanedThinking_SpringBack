@@ -2,23 +2,16 @@ package com.example.bunsanedthinking_springback.repository;
 
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 @Mapper
 public interface InsuranceMapper {
-    public Optional<InsuranceVO> getInsuranceById_Customer(int id);
-    public List<InsuranceVO> getAll_Customer();
-	InsuranceVO get_SalesModel(int id);
-	void insert_ProductManagement(@Param("insurance")InsuranceVO insuranceVO);
-	void update_ProductManagementModel(InsuranceVO insuranceVO);
-	Optional<InsuranceVO> findById_FinancialAccountant(int id);
-
-	InsuranceVO getById_ProductManagementModel(int productId);
-
-	Integer getMaxId_ProductManagementModel();
-
+    public List<InsuranceVO> getAll();
+	public void insert(InsuranceVO insuranceVO);
+	public void update(InsuranceVO insuranceVO);
+	public Optional<InsuranceVO> getById(int id);
+	public Integer getMaxId();
 	public void delete(int id);
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FixedDepositDModel {
+public class FixedDepositEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
@@ -26,10 +26,10 @@ public class FixedDepositDModel {
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null)
 			return null;
-		LoanVO loanVO = loanMapper.findById_LoanManagement(id).orElse(null);
+		LoanVO loanVO = loanMapper.getById(id).orElse(null);
 		if (loanVO == null)
 			return null;
-		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById_Customer(id).orElse(null);
+		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById(id).orElse(null);
 		if (fixedDepositVO == null)
 			return null;
 		int minimumAmount = fixedDepositVO.getMinimum_amount();
@@ -38,7 +38,7 @@ public class FixedDepositDModel {
 
 	public List<FixedDeposit> getAll() {
 		List<FixedDeposit> fixedDeposits = new ArrayList<FixedDeposit>();
-		fixedDepositMapper.getAll_Customer()
+		fixedDepositMapper.getAll()
 			.forEach(e -> fixedDeposits.add(getById(e.getProduct_id())));
 		return fixedDeposits;
 	}
@@ -49,24 +49,24 @@ public class FixedDepositDModel {
 
 	public void add(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
-		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isPresent()) return;
+		if (fixedDepositMapper.getById(fixedDeposit.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(fixedDeposit.findProductVO());
-		loanMapper.insert_LoanManagement(fixedDeposit.findLoanVO());
-		fixedDepositMapper.insert_LoanManagement(fixedDeposit.findVO());
+		loanMapper.insert(fixedDeposit.findLoanVO());
+		fixedDepositMapper.insert(fixedDeposit.findVO());
 	}
 
 	public void update(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
-		if (fixedDepositMapper.getById_Customer(fixedDeposit.getId()).isEmpty()) return;
-		fixedDepositMapper.update_LoanManagement(fixedDeposit.findVO());
-		loanMapper.update_LoanManagement(fixedDeposit.findLoanVO());
+		if (fixedDepositMapper.getById(fixedDeposit.getId()).isEmpty()) return;
+		fixedDepositMapper.update(fixedDeposit.findVO());
+		loanMapper.update(fixedDeposit.findLoanVO());
 		productMapper.update_LoanManagement(fixedDeposit.findProductVO());
 	}
 
 	public void delete(int id) {
-		if (fixedDepositMapper.getById_Customer(id).isEmpty()) return;
-		fixedDepositMapper.delete_LoanManagement(id);
-		loanMapper.delete_LoanManagement(id);
+		if (fixedDepositMapper.getById(id).isEmpty()) return;
+		fixedDepositMapper.delete(id);
+		loanMapper.delete(id);
 		productMapper.delete_LoanManagement(id);
 	}
 }

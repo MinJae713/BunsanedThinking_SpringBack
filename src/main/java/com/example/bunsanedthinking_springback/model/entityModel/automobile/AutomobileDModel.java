@@ -32,7 +32,7 @@ public class AutomobileDModel {
 		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
 		if (productVO == null)
 			return null;
-		InsuranceVO insuranceVO = insuranceMapper.findById_FinancialAccountant(id).orElse(null);
+		InsuranceVO insuranceVO = insuranceMapper.getById(id).orElse(null);
 		if (insuranceVO == null)
 			return null;
 		AutoMobileVO autoMobileVO = automobileMapper.getById_Customer(id).orElse(null);
@@ -64,7 +64,7 @@ public class AutomobileDModel {
 		if (autoMobile == null) return;
 		if (automobileMapper.getById_Customer(autoMobile.getId()).isPresent()) return;
 		productMapper.insert_LoanManagement(autoMobile.findProductVO());
-		insuranceMapper.insert_ProductManagement(autoMobile.findInsuranceVO());
+		insuranceMapper.insert(autoMobile.findInsuranceVO());
 		automobileMapper.insert_ProductManagement(autoMobile.findVO());
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes == null) return;
@@ -86,7 +86,7 @@ public class AutomobileDModel {
 			));
 		}
 		automobileMapper.update_ProductManagementModel(autoMobile.findVO());
-		insuranceMapper.update_ProductManagementModel(autoMobile.findInsuranceVO());
+		insuranceMapper.update(autoMobile.findInsuranceVO());
 		productMapper.update_LoanManagement(autoMobile.findProductVO());
 	}
 

@@ -5,7 +5,7 @@ import com.example.bunsanedthinking_springback.dto.employee.administrative.Updat
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AdministrativeService {
 
 	@Autowired
-	private OfficeSupplyDModel officeSupplyDModel;
+	private OfficeSupplyEntityModel officeSupplyDModel;
 //	@Autowired
 //	private OfficeSupplyMapper officeSupplyMapper;
 

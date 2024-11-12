@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.entity.family;
 
 import com.example.bunsanedthinking_springback.vo.FamilyVO;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Family implements Cloneable{
@@ -42,53 +44,9 @@ public class Family implements Cloneable{
 				employeeID);
 	}
 
-	public String getBirthDate() {
+	public String getBirthDateStr() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(this.birthDate);
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public int getEmployeeID() {
-		return employeeID;
-	}
-
-	public void setEmployeeID(int employeeID) {
-		this.employeeID = employeeID;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public RelationshipType getRelationship() {
-		return relationship;
-	}
-
-	public void setRelationship(RelationshipType relationship) {
-		this.relationship = relationship;
-	}
-
-	public boolean isSurvival() {
-		return survival;
-	}
-
-	public void setSurvival(boolean survival) {
-		this.survival = survival;
 	}
 	
 	public Family clone() {

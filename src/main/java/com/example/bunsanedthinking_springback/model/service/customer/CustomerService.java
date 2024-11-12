@@ -1,27 +1,21 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.DepositDTO;
+import com.example.bunsanedthinking_springback.dto.customer.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
-import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.CustomerList;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
@@ -31,31 +25,35 @@ import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.global.exception.*;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationDModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,21 +62,21 @@ import java.util.List;
 public class CustomerService {
 
 	@Autowired
-	private InsuranceDModel insuranceDModel;
+	private InsuranceEntityModel insuranceDModel;
 	@Autowired
 	private DiseaseDModel diseaseDModel;
 	@Autowired
-	private InjuryDModel injuryDModel;
+	private InjuryEntityModel injuryDModel;
 	@Autowired
 	private AutomobileDModel automobileDModel;
 	@Autowired
-	private LoanDModel loanDModel;
+	private LoanEntityModel loanDModel;
 	@Autowired
 	private CollateralDModel collateralDModel;
 	@Autowired
-	private FixedDepositDModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositDModel;
 	@Autowired
-	private InsuranceContractDModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractDModel;
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
@@ -97,6 +95,16 @@ public class CustomerService {
 	private ComplaintDModel complaintDModel;
 	@Autowired
 	private DepositDetailDModel depositDetailDModel;
+	@Autowired
+	private AccidentHistoryDModel accidentHistoryDModel;
+	@Autowired
+	private SurgeryHistoryDModel surgeryHistoryDModel;
+	@Autowired
+	private DiseaseHistoryDModel diseaseHistoryDModel;
+	@Autowired
+	private CounselDModel counselDModel;
+	@Autowired
+	private InsuranceMoneyEntityModel insuranceMoneyEntityModel;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,
@@ -189,43 +197,30 @@ public class CustomerService {
 			throw new NotExistContractException();
 		int depositId = depositDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL+"1") :
-				getNextId(depositDetailDModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
+				NextIdGetter.getNextId(depositDetailDModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
 		depositDetailDModel.add(new DepositDetail(depositId, depositorName,
 				contractId, money, depositPath));
-	}
-
-	private int getNextId(int maxId, int serial) {
-		String maxIdStr = maxId+"";
-		int serialLength = (serial+"").length();
-		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
-		nextId++;
-		return Integer.parseInt(serial+""+nextId);
 	}
 
 	// 이 아래는 완료
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
 		return customerDModel.getById(id);
-		//		return customerList.get(id);
 	}
 
 	public List<Insurance> getAllInsurance() {
 		return insuranceDModel.getAll();
-		//		return productList.getAllInsurance();
 	}
 
 	public List<Disease> getAllDiseaseInsurance() {
 		return diseaseDModel.getAll();
-		//		return productList.getAllDiseaseInsurance();
 	}
 
 	public List<Injury> getAllInjuryInsurance() {
 		return injuryDModel.getAll();
-		//		return productList.getAllInjuryInsurance();
 	}
 
 	public List<Automobile> getAllAutomobileInsurance() {
 		return automobileDModel.getAll();
-		//		return productList.getAllAutomobileInsurance();
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
@@ -234,22 +229,18 @@ public class CustomerService {
 
 	public List<Loan> getAllLoan() {
 		return loanDModel.getAll();
-		//		return productList.getAllLoan();
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
 		return collateralDModel.getAll();
-		//		return productList.getAllCollateralLoan();
 	}
 
 	public List<FixedDeposit> getAllFixedDepositLoan() {
 		return fixedDepositDModel.getAll();
-		//		return productList.getAllFixedDepositLoan();
 	}
 
 	public List<InsuranceContract> getAllInsuranceContractLoan(ProductList productList) {
 		return insuranceContractDModel.getAll();
-		//		return productList.getAllInsuranceContractLoan();
 	}
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
@@ -266,7 +257,6 @@ public class CustomerService {
 	public List<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
 		// 계약들의 고객 번호를 비교 - 고객 번호가 같은 계약들만 추출 - 한 고객이 신청한 계약만 나옴
 		return contractDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return contractList.getAllByCustomer(id);
 	}
 
 	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
@@ -294,15 +284,11 @@ public class CustomerService {
 	}
 
 	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
-//		ArrayList<Contract> result = new ArrayList<Contract>();
-//		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
-//		result.add(getContractById(contractVO.getId()));
 		return contractDModel.getAll().stream().filter(e -> e.getProduct().getId() == id).toList();
 	}
 
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
 		return contractDModel.getById(contractId);
-		//		return contractList.get(contractId);
 	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
@@ -321,7 +307,6 @@ public class CustomerService {
 
 	public List<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
 		return accidentDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return accidentList.getAllByCustomer(id);
 	}
 
 	public Accident getAccidentById(int id) throws NotExistException {
@@ -330,7 +315,6 @@ public class CustomerService {
 
 	public List<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
 		return complaintDModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return complaintList.getAllByCustomerId(id);
 	}
 
 	public Complaint getComplaintById(int id) throws NotExistException {
@@ -338,47 +322,165 @@ public class CustomerService {
 	}
 
 	// 새로 추가됨 - controller는 아직 추가x
-	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,
-		String residentRegistrationNumber, String address, long property,
-		ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
-		ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
-		CustomerList customerList, AccidentHistoryList accidentHistoryList, SurgeryHistoryList surgeryHistoryList,
-		DiseaseHistoryList diseaseHistoryList, Customer customer) throws
-		DuplicateResidentRegistrationNumberException {
-		customer.signUp(name, phoneNumber, job, age, gender, residentRegistrationNumber, address,
-			property, tempAccidentHistoryList, tempSurgeryHistoryList, tempDiseaseHistoryList,
-			bankName, bankAccount, customerList, accidentHistoryList, surgeryHistoryList,
-			diseaseHistoryList);
+	public void signUp(SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
+		// 이거 고객 아이디를 직접 입력받나유...???
+		String name = signUpDTO.getName();
+		String phoneNumber = signUpDTO.getPhoneNumber();
+		String job = signUpDTO.getJob();
+		int age = signUpDTO.getAge();
+		Gender gender = Gender.values()[signUpDTO.getGender()];
+		String residentRegistrationNumber = signUpDTO.getResidentRegistrationNumber();
+		String address = signUpDTO.getAddress();
+		long property = signUpDTO.getProperty();
+		String bankName = signUpDTO.getBankName();
+		String bankAccount = signUpDTO.getBankAccount();
+		List<AccidentHistory> tempAccidentHistoryList = signUpDTO.getTempAccidentHistoryList();
+		List<SurgeryHistory> tempSurgeryHistoryList = signUpDTO.getTempSurgeryHistoryList();
+		List<DiseaseHistory> tempDiseaseHistoryList = signUpDTO.getTempDiseaseHistoryList();
+
+		for (Customer customer : customerDModel.getAll())
+			if (customer.getResidentRegistrationNumber().equals(residentRegistrationNumber))
+				throw new DuplicateResidentRegistrationNumberException();
+		Customer customer = new Customer(name, phoneNumber, job, age, gender,
+				residentRegistrationNumber, address, property, bankName, bankAccount);
+
+		// 이 생성자 쓰면 엔티티 7개는 요소가 아얘 없는 ArrayList가 생김 (널포인터 방지 ㄱㄴ)
+		customer.setId(NextIdGetter.getNextId(customerDModel.getMaxId(), Customer.CUSTOMER_SERIAL_NUMBER));
+		customerDModel.add(customer);
+		// add 시점에 customer의 엔티티 7개는 요소가 아얘 없으니 dmodel add 시 각 테이블에 정보가 추가되지 않음
+		// 단, accidenthistory, surgeryhistory, diseasehistory의 경우,
+		// 파라미터로 받아온 요소가 있다면 아래 코드로 각 테이블에 추가됨 (customerDModel과 별개임)
+		if (tempAccidentHistoryList != null)
+			for (AccidentHistory e : tempAccidentHistoryList) {
+				e.setCustomerID(customer.getId());
+				e.setId(NextIdGetter.getNextId(accidentDModel.getMaxId(),
+						AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER));
+				accidentHistoryDModel.add(e);
+			}
+		if (tempSurgeryHistoryList != null)
+			for (SurgeryHistory e : tempSurgeryHistoryList) {
+				e.setCustomerID(customer.getId());
+				e.setId(NextIdGetter.getNextId(surgeryHistoryDModel.getMaxId(),
+						SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER));
+				surgeryHistoryDModel.add(e);
+			}
+		if (tempDiseaseHistoryList != null)
+			for (DiseaseHistory e : tempDiseaseHistoryList) {
+				e.setCustomer_id(customer.getId());
+				e.setId(NextIdGetter.getNextId(diseaseHistoryDModel.getMaxId(),
+						DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER));
+				diseaseHistoryDModel.add(e);
+			}
 	}
 
-	public void complain(ComplaintList complaintList, CustomerList customerList, ComplaintType complainType,
-		String title, String content, Customer customer) {
-		customer.complain(complaintList, customerList, complainType, title, content);
+	public void askInsuranceCounsel(AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
+
+		int insuranceId = askInsuranceCounselDTO.getInsuranceId();
+		if (insuranceDModel.getById(insuranceId) == null) throw new NotExistException("해당 보험이 없습니다.");
+		int customerId = askInsuranceCounselDTO.getCustomerId();
+		Customer customer = customerDModel.getById(customerId);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
+		String name = customer.getName();
+		String phoneNumber = customer.getPhoneNumber();
+		String job = customer.getJob();
+		int age = customer.getAge();
+		Gender gender = customer.getGender();
+//		askInsurnaceCounsel - name, phoneNumber, job, age, gender는 고객 정보가 아닌가 싶네유
+//		ㄴ 이거인거 같아서 파라미터에서는 뺌, customerId 받으면 해당 고객 정보에서 다섯 정보 받아내는걸로함(맞나유..?)
+		Date counselDate = askInsuranceCounselDTO.getCounselDate();
+		Counsel counsel = new Counsel(customerId, insuranceId, name, phoneNumber, counselDate, job, age, gender);
+		counsel.setId(NextIdGetter.getNextId(counselDModel.getMaxId(), Counsel.COUNSEL_SERIAL_NUMBER));
+		counselDModel.add(counsel);
+//		customer.askInsuranceCounsel(insurance, name, phoneNumber, counselDate, job, age, gender, counselList);
 	}
 
-	public void reportAccident(String customerName, String customerPhoneNumber, Date accidentDate, String location,
-		ServiceType serviceType, AccidentList accidentList, Customer customer) {
-		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
-			accidentList);
+	public void buyInsurance(BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
+		int insuranceId = buyInsuranceDTO.getInsuranceId();
+		int customerId = buyInsuranceDTO.getCustomerId();
+		Integer employeeId = buyInsuranceDTO.getEmployeeId();
+		// employeeId는 null 허용 - 이 시점에서 직원 아이디를 받나유...??
+
+		if (customerDModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
+		Insurance insurance = insuranceDModel.getById(insuranceId);
+		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
+		Contract contract = new Contract(customerId, insurance);
+		contract.setId(NextIdGetter.getNextId(contractDModel.getMaxId(), Contract.CONTRACT_SERIAL_NUMBER));
+		contract.setEmployeeID(employeeId);
+		contractDModel.add(contract);
+		// id, customerId, insurnace 이외에는 아무 정보도 지정X
+//		return customer.buyInsurance(insurance, contractList);
 	}
 
-	public boolean buyInsurance(Insurance insurance, ContractList contractList, Customer customer) {
-		return customer.buyInsurance(insurance, contractList);
+	public void complain(ComplainDTO complainDTO) throws NotExistException {
+		ComplaintType complainType = ComplaintType.values()[complainDTO.getComplainType()];
+		String title = complainDTO.getTitle();
+		String content = complainDTO.getContent();
+		int customerId = complainDTO.getCustomerId();
+
+		if (customerDModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
+		Complaint complaint = new Complaint(complainType, content, customerId, title);
+		complaint.setId(NextIdGetter.getNextId(complaintDModel.getMaxId(), Complaint.COMPLAINT_SERIAL));
+		complaintDModel.add(complaint);
+//		customer.complain(complaintList, customerList, complainType, title, content);
 	}
 
-	public void askInsuranceCounsel(Insurance insurance, String name, String phoneNumber, Date counselDate, String job,
-		int age, Gender gender, CounselList counselList, Customer customer) {
-		customer.askInsuranceCounsel(insurance, name, phoneNumber, counselDate, job, age, gender, counselList);
+	public void loan(LoanDTO loanDTO) throws AlreadyRequestingException, NotExistException {
+		int loanId = loanDTO.getLoanId();
+		int customerId = loanDTO.getCustomerId();
+		Integer employeeId = loanDTO.getEmployeeId();
+
+		if (customerDModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
+		Loan loan = loanDModel.getById(loanId);
+		if (loan == null) throw new NotExistException("해당 대출이 없습니다.");
+		List<Contract> myContractList = contractDModel.getAll().stream().filter(e -> e.getCustomerID() == customerId).toList();
+		if (myContractList.isEmpty()) myContractList = new ArrayList<>();
+		for (Contract contract : myContractList)
+			if (contract.getProduct().getId() == loanId)
+				throw new AlreadyRequestingException();
+		Contract contract = new Contract(customerId, loan);
+		contract.setId(NextIdGetter.getNextId(contractDModel.getMaxId(), Contract.CONTRACT_SERIAL_NUMBER));
+		contract.setEmployeeID(employeeId);
+		contractDModel.add(contract);
+//		return customer.loan(loan, contractList);
 	}
 
-	public boolean loan(Loan loan, ContractList contractList, Customer customer) throws AlreadyRequestingException {
-		return customer.loan(loan, contractList);
+	public void receiveInsurance(ReceiveInsuranceDTO receiveInsuranceDTO) throws NotExistContractException, NotExistException {
+		int contractId = receiveInsuranceDTO.getContractId();
+		int customerId = receiveInsuranceDTO.getCustomerId();
+		BufferedImage medicalCertificateImage = receiveInsuranceDTO.getMedicalCertificateImage();
+		BufferedImage receiptImage = receiveInsuranceDTO.getReceiptImage();
+		BufferedImage residentRegistrationCardImage = receiveInsuranceDTO.getResidentRegistrationCardImage();
+		// 일단 이미지도 DTO로 받는 형태 - 이건 다시 얘기해봅시다
+
+		if (contractDModel.getById(contractId) == null) throw new NotExistContractException();
+		Customer customer = customerDModel.getById(customerId);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
+		if (contractDModel.getById(contractId).getCustomerID() != customerId)
+			throw new NotExistException("해당 고객이 가입한 계약이 아닙니다");
+		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
+				customer.getBankAccount(), medicalCertificateImage,
+				receiptImage, residentRegistrationCardImage);
+		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), 00));
+		// InsuranceMoney가 Serial이 없네유...??
+		// serial 수정하면 더미데이터도 수정해야합니다 - 근데 넣는게 맞긴 할듯
+		insuranceMoneyEntityModel.add(insuranceMoney);
+//		customer.receiveInsurance(contract, medicalCertificateImage, receiptImage, residentRegistrationCardImage,
+//			insuranceMoneyList);
 	}
 
-	public void receiveInsurance(Contract contract, BufferedImage medicalCertificateImage, BufferedImage receiptImage,
-		BufferedImage residentRegistrationCardImage, InsuranceMoneyList insuranceMoneyList, Customer customer) throws
-		IOException {
-		customer.receiveInsurance(contract, medicalCertificateImage, receiptImage, residentRegistrationCardImage,
-			insuranceMoneyList);
+	public void reportAccident(ReportAccidentDTO reportAccidentDTO) throws NotExistException {
+		Date accidentDate = reportAccidentDTO.getAccidentDate();
+		String location = reportAccidentDTO.getLocation();
+		ServiceType serviceType = ServiceType.values()[reportAccidentDTO.getServiceType()];
+		int customerId = reportAccidentDTO.getCustomerId();
+
+		Customer customer = customerDModel.getById(customerId);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
+		Accident accident = new Accident();
+		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
+		accident.setId(NextIdGetter.getNextId(accidentDModel.getMaxId(), Accident.ACCIDENT_SERIAL));
+		accidentDModel.add(accident);
+//		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
+//				accidentList);
 	}
 }

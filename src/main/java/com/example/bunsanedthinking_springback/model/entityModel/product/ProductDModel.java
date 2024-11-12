@@ -3,8 +3,8 @@ package com.example.bunsanedthinking_springback.model.entityModel.product;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class ProductDModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
-	private InsuranceDModel insuranceDModel;
+	private InsuranceEntityModel insuranceDModel;
 	@Autowired
-	private LoanDModel loanDModel;
+	private LoanEntityModel loanDModel;
 
 	public Product getById(int id) {
 		Product product = insuranceDModel.getById(id);

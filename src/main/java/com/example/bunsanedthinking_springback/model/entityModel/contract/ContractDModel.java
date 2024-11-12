@@ -9,7 +9,7 @@ import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetai
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
 import com.example.bunsanedthinking_springback.repository.ContractMapper;
@@ -26,7 +26,7 @@ public class ContractDModel {
 	@Autowired
 	private ContractMapper contractMapper;
 	@Autowired
-	private InsuranceMoneyDModel insuranceMoneyDModel;
+	private InsuranceMoneyEntityModel insuranceMoneyDModel;
 	@Autowired
 	private CompensationDetailDModel compensationDetailDModel;
 	@Autowired
@@ -47,7 +47,7 @@ public class ContractDModel {
 		ArrayList<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
 
 		insuranceMoneyDModel.getAll().stream()
-			.filter(e -> e.getContractId() == id)
+			.filter(e -> e.getContractID() == id)
 			.forEach(insuranceMonies::add);
 		compensationDetailDModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)

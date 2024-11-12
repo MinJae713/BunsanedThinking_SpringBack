@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.vo.InjuryVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,10 +13,7 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @created 20-5-2024 ���� 7:52:25
  */
-	
-//2024-05-29 김대현
-//2024-05-31 김대현
-//2024-06-02 김대현
+@Data
 @NoArgsConstructor
 public class Injury extends Insurance {
 
@@ -62,22 +60,6 @@ public class Injury extends Insurance {
 
 	public InjuryVO findVO() {
 		return new InjuryVO(getId(), injuryType.ordinal(), surgeriesLimit);
-	}
-
-	public InjuryType getInjuryType() {
-		return injuryType;
-	}
-
-	public void setInjuryType(InjuryType injuryType) {
-		this.injuryType = injuryType;
-	}
-
-	public int getSurgeriesLimit() {
-		return surgeriesLimit;
-	}
-
-	public void setSurgeriesLimit(int surgeriesLimit) {
-		this.surgeriesLimit = surgeriesLimit;
 	}
 
 	@Override

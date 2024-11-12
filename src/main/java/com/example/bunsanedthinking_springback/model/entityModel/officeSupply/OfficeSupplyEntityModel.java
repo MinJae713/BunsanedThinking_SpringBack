@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OfficeSupplyDModel {
+public class OfficeSupplyEntityModel {
 	@Autowired
 	private OfficeSupplyMapper officeSupplyMapper;
 
 	public OfficeSupply getById(int id) {
-		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.findById_OfficeSupply(id);
+		OfficeSupplyVO officeSupplyVO = officeSupplyMapper.getById(id).orElse(null);
 		if (officeSupplyVO == null)
 			return null;
 		return officeSupplyVO.getEntity();
@@ -23,17 +23,17 @@ public class OfficeSupplyDModel {
 
 	public List<OfficeSupply> getAll() {
 		List<OfficeSupply> officeSupplies = new ArrayList<OfficeSupply>();
-		officeSupplyMapper.getAll_OfficeSupply()
+		officeSupplyMapper.getAll()
 			.forEach(e -> officeSupplies.add(e.getEntity()));
 		return officeSupplies;
 	}
 
 	public Integer getMaxId() {
-		return officeSupplyMapper.getMaxId_Administrative();
+		return officeSupplyMapper.getMaxId();
 	}
 
 	public void add(OfficeSupply officeSupply) {
-		officeSupplyMapper.insert_OfficeSupply(officeSupply.findVO());
+		officeSupplyMapper.insert(officeSupply.findVO());
 	}
 
 	public void update(OfficeSupply officeSupply) {
@@ -42,9 +42,9 @@ public class OfficeSupplyDModel {
 
 	public void delete(int id) {
 		if (getById(id) == null) return;
-		officeSupplyMapper.delete_OfficeSupply(id);
+		officeSupplyMapper.delete(id);
 	}
 	public int getTotalInventory(){
-		return officeSupplyMapper.getTotalInventory_OfficeSupply();
+		return officeSupplyMapper.getTotalInventory();
 	}
 }

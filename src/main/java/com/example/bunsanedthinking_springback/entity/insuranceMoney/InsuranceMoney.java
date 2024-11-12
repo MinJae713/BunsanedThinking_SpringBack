@@ -43,7 +43,7 @@ public class InsuranceMoney {
 	
 	private InsuranceMoney(InsuranceMoney insuranceMoney) {
 		this.id = insuranceMoney.getId();
-		this.contractID = insuranceMoney.getContractId();
+		this.contractID = insuranceMoney.getContractID();
 		this.bankAccount = insuranceMoney.getBankAccount();
 		this.bankName = insuranceMoney.getBankName();
 		this.medicalCertificate = insuranceMoney.getMedicalCertificate();
@@ -53,7 +53,7 @@ public class InsuranceMoney {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			this.applyDate = dateFormat.parse(insuranceMoney.getApplyDate());
+			this.applyDate = dateFormat.parse(insuranceMoney.getApplyDateStr());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,86 +75,14 @@ public class InsuranceMoney {
 	public InsuranceMoney clone() {
 		return new InsuranceMoney(this);
 	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return this.id;
-	}
 
 	public void handle(){
 		this.processStatus = InsuranceMoneyStatus.Completed;
 	}
 
-	public int getContractId() {
-		return this.contractID;
-	}
-
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getBankAccount() {
-		return bankAccount;
-	}
-
-	public void setBankAccount(String bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public int getContractID() {
-		return contractID;
-	}
-
-	public void setContractID(int contractID) {
-		this.contractID = contractID;
-	}
-
-	public Image getMedicalCertificate() {
-		return medicalCertificate;
-	}
-
-	public void setMedicalCertificate(Image medicalCertificate) {
-		this.medicalCertificate = medicalCertificate;
-	}
-
-	public Image getReceipt() {
-		return receipt;
-	}
-
-	public void setReceipt(Image receipt) {
-		this.receipt = receipt;
-	}
-
-	public Image getResidentRegistrationCard() {
-		return residentRegistrationCard;
-	}
-
-	public void setResidentRegistrationCard(Image residentRegistrationCard) {
-		this.residentRegistrationCard = residentRegistrationCard;
-	}
-
-	public InsuranceMoneyStatus getProcessStatus() {
-		return processStatus;
-	}
-
-	public void setProcessStatus(InsuranceMoneyStatus processStatus) {
-		this.processStatus = processStatus;
-	}
-
-	public String getApplyDate() {
+	public String getApplyDateStr() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(this.applyDate);
-	}
-
-	public void setApplyDate(Date applyDate) {
-		this.applyDate = applyDate;
 	}
 
 }

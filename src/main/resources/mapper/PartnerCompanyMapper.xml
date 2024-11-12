@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper">
-    <select id="findByPartnerType_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
-        select *
-        from partnercompany
-        where partner_company_type=#{param1}
-    </select>
-    <select id="findById_CustomerSupport" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         select *
         from partnercompany
         where id=#{id}
     </select>
-    <select id="findById_PartnerCompany" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
-        SELECT * FROM partnercompany
-        WHERE id = #{id}
-    </select>
-
-    <insert id="insert_CompensationPlanning" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         insert into partnercompany (id, head_name, head_phone_number, evaluation, name, partner_company_type, phone_number)
         values (
                 #{id},
@@ -28,7 +18,7 @@
                 #{phone_number}
                )
     </insert>
-    <update id="update_CompensationPlanning" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         update partnercompany
         set head_name=#{head_name},
             head_phone_number=#{head_phone_number},
@@ -38,15 +28,15 @@
             phone_number=#{phone_number}
         where id=#{id}
     </update>
-    <select id="getAll_CompensationPlanning" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         select *
         from partnercompany
     </select>
-    <delete id="delete_CompensationPlanning" parameterType="int">
+    <delete id="delete" parameterType="int">
         delete from partnercompany
         where id=#{id}
     </delete>
-    <select id="getMaxId_CompensationPlanning" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(id)
         from partnercompany
     </select>

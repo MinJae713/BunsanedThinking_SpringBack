@@ -2,14 +2,14 @@ package com.example.bunsanedthinking_springback.entity.loan;
 
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
+import lombok.Data;
 
 /**
  * @author ����ȯ
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
-//2024-06-02 김대현
-//2024-06-04 김대현
+@Data
 public abstract class Loan extends Product {
 
 	private int interestRate;
@@ -35,37 +35,4 @@ public abstract class Loan extends Product {
 	public void view(){
 
 	}
-
-	public int getInterestRate() {
-		return interestRate;
-	}
-
-	public void setInterestRate(int interestRate) {
-		this.interestRate = interestRate;
-	}
-
-	public LoanType getLoanType() {
-		return loanType;
-	}
-
-	public void setLoanType(LoanType loanType) {
-		this.loanType = loanType;
-	}
-
-	public int getMinimumAsset() {
-		return minimumAsset;
-	}
-
-	public void setMinimumAsset(int minimumAsset) {
-		this.minimumAsset = minimumAsset;
-	}
-
-	public int getMonthlyIncome() {
-		return monthlyIncome;
-	}
-
-	public void setMonthlyIncome(int monthlyIncome) {
-		this.monthlyIncome = monthlyIncome;
-	}
-
 }

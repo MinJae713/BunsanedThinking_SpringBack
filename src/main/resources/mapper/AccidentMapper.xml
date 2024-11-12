@@ -50,8 +50,8 @@
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AccidentVO">
         insert into accident (id, date, location, process_status, service_type, customer_id)
-        values (#{id}
-                    #{date},
+        values (#{id},
+                #{date},
                 #{location},
                 #{process_status},
                 #{service_type},

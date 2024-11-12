@@ -33,9 +33,9 @@ import com.example.bunsanedthinking_springback.model.entityModel.collateral.Coll
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
 
@@ -44,13 +44,13 @@ public class LoanManagementService {
 	@Autowired
 	private ProductDModel productDModel;
 	@Autowired
-	private LoanDModel loanDModel;
+	private LoanEntityModel loanDModel;
 	@Autowired
 	private CollateralDModel collateralDModel;
 	@Autowired
-	private FixedDepositDModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositDModel;
 	@Autowired
-	private InsuranceContractDModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractDModel;
 	@Autowired
 	private ContractDModel contractDModel;
 	@Autowired

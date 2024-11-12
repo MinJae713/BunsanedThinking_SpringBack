@@ -8,16 +8,10 @@ import java.util.Optional;
 
 @Mapper
 public interface LoanMapper {
-    public Optional<LoanVO> getLoanById_Customer(int id);
-    public List<LoanVO> getAll_Customer();
-	LoanVO get_SalesModel(int id);
-	void insert_LoanManagement(LoanVO loanVO);
-
-	Optional<LoanVO> findById_LoanManagement(int id);
-
-	void update_LoanManagement(LoanVO loanVO);
-
-	void delete_LoanManagement(int id);
-
-	Integer getMaxId_LoanManagement();
+    public List<LoanVO> getAll();
+	public Optional<LoanVO> getById(int id);
+	public Integer getMaxId();
+	public void insert(LoanVO loanVO);
+	public void update(LoanVO loanVO);
+	public void delete(int id);
 }

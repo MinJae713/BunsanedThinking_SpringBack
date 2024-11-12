@@ -36,7 +36,7 @@ public class Contract {
 	private int customerID;
 	private Date date;
 	private ArrayList<DepositDetail> depositDetailList;
-	private int employeeID;
+	private Integer employeeID;
 	private Integer paymentDate; // 월 납부일
 	private Date expirationDate;
 	private int id;
@@ -57,6 +57,7 @@ public class Contract {
 		this.terminationDate = null;
 		this.lastPaidDate = null;
 		this.insuranceMoneyList = new ArrayList<>();
+		this.paymentDetailList = new ArrayList<>();
 		this.paymentDate = 10;
 		this.product = product;
 	}
@@ -181,7 +182,7 @@ public class Contract {
 		return employeeID;
 	}
 
-	public void setEmployeeID(int employeeID) {
+	public void setEmployeeID(Integer employeeID) {
 		this.employeeID = employeeID;
 	}
 

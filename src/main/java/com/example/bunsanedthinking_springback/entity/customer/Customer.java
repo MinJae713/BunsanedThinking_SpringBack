@@ -3,7 +3,6 @@ package com.example.bunsanedthinking_springback.entity.customer;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistoryList;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
@@ -12,20 +11,19 @@ import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistoryList;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistoryList;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyRequestingException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,7 +35,7 @@ import java.util.Date;
  * @version 1.0
  * @created 27-5-2024 占쏙옙占쏙옙 4:40:41
  */
-
+@ToString
 @NoArgsConstructor
 public class Customer implements Cloneable {
 
@@ -122,8 +120,7 @@ public class Customer implements Cloneable {
 		String residentRegistrationNumber, String address, long property,
 		ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
 		ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
-		CustomerList customerList, AccidentHistoryList accidentHistoryList, SurgeryHistoryList surgeryHistoryList,
-		DiseaseHistoryList diseaseHistoryList) throws DuplicateResidentRegistrationNumberException {
+		CustomerList customerList) throws DuplicateResidentRegistrationNumberException {
 		for (Customer customer : customerList.getAll()) {
 			if (customer.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
 				throw new DuplicateResidentRegistrationNumberException();

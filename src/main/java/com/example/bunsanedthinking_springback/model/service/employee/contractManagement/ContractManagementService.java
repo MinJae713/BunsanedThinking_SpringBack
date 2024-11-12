@@ -18,6 +18,7 @@ import com.example.bunsanedthinking_springback.entity.termination.TerminationSta
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementDModel;
@@ -75,7 +76,7 @@ public class ContractManagementService {
 		totalMoney = (int) (totalMoney * 0.3);
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
 				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
 		paymentDetail.setId(paymentId);
@@ -106,14 +107,6 @@ public class ContractManagementService {
 		//		contract.setTerminationDate(tercontract.getApplyDate());
 		//		contract.setContractStatus(ContractStatus.Terminating);
 		//		contractList.update(contract);
-	}
-
-	private int getNextId(int maxId, int serial) {
-		String maxIdStr = maxId+"";
-		int serialLength = (serial+"").length();
-		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
-		nextId++;
-		return Integer.parseInt(serial+""+nextId);
 	}
 
 	public void reviewEndorsement(int endorsementId, int index) throws NotExistException {

@@ -6,7 +6,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InsuranceDModel {
+public class InsuranceEntityModel {
 	@Autowired
 	private InsuranceMapper insuranceMapper;
 	@Autowired
 	private DiseaseDModel diseaseDModel;
 	@Autowired
-	private InjuryDModel injuryDModel;
+	private InjuryEntityModel injuryDModel;
 	@Autowired
 	private AutomobileDModel automobileDModel;
 
@@ -38,13 +38,13 @@ public class InsuranceDModel {
 
 	public List<Insurance> getAll() {
 		List<Insurance> insurances = new ArrayList<Insurance>();
-		insuranceMapper.getAll_Customer()
+		insuranceMapper.getAll()
 			.forEach(e -> insurances.add(getById(e.getProduct_id())));
 		return insurances;
 	}
 
 	public Integer getMaxId() {
-		return insuranceMapper.getMaxId_ProductManagementModel();
+		return insuranceMapper.getMaxId();
 	}
 
 	public void add(Insurance insurance) {

@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,9 +13,7 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
-
-//2024-06-02 김대현
-//2024-06-04 김대현
+@Data
 @NoArgsConstructor
 public class FixedDeposit extends Loan {
 	private int minimumAmount;
@@ -55,14 +54,6 @@ public class FixedDeposit extends Loan {
 
 	public FixedDepositVO findVO() {
 		return new FixedDepositVO(getId(), minimumAmount);
-	}
-
-	public int getMinimumAmount() {
-		return minimumAmount;
-	}
-
-	public void setMinimumAmount(int minimumAmount) {
-		this.minimumAmount = minimumAmount;
 	}
 	
 	@Override

@@ -28,11 +28,11 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
@@ -67,17 +67,17 @@ public class SalesService {
 	@Autowired
 	private ProductDModel productDModel;
 	@Autowired
-	private InsuranceDModel insuranceDModel;
+	private InsuranceEntityModel insuranceDModel;
 	@Autowired
-	private LoanDModel loanDModel;
+	private LoanEntityModel loanDModel;
 	@Autowired
 	private CollateralDModel collateralDModel;
 	@Autowired
-	private FixedDepositDModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositDModel;
 	@Autowired
-	private InsuranceContractDModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractDModel;
 	@Autowired
-	private InjuryDModel injuryDModel;
+	private InjuryEntityModel injuryDModel;
 	@Autowired
 	private DiseaseDModel diseaseDModel;
 	@Autowired

@@ -5,8 +5,8 @@ import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LoanDModel {
+public class LoanEntityModel {
 	@Autowired
 	private LoanMapper loanMapper;
 	@Autowired
 	private CollateralDModel collateralDModel;
 	@Autowired
-	private FixedDepositDModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositDModel;
 	@Autowired
-	private InsuranceContractDModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractDModel;
 
 	public Loan getById(int id) {
 		Loan loan = collateralDModel.getById(id);
@@ -38,13 +38,13 @@ public class LoanDModel {
 
 	public List<Loan> getAll() {
 		List<Loan> loans = new ArrayList<Loan>();
-		loanMapper.getAll_Customer()
+		loanMapper.getAll()
 			.forEach(e -> loans.add(getById(e.getProduct_id())));
 		return loans;
 	}
 
 	public Integer getMaxId() {
-		return loanMapper.getMaxId_LoanManagement();
+		return loanMapper.getMaxId();
 	}
 
 	public void add(Loan loan) {

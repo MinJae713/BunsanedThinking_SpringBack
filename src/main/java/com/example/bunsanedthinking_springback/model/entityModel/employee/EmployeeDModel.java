@@ -5,7 +5,7 @@ import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
 import com.example.bunsanedthinking_springback.vo.EmployeeVO;
@@ -20,7 +20,7 @@ public class EmployeeDModel {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	@Autowired
-	private FamilyDModel familyDModel;
+	private FamilyEntityModel familyDModel;
 	@Autowired
 	private PaymentDetailDModel paymentDetailDModel;
 	@Autowired

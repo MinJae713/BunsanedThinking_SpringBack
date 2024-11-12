@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.LoanMapper">
-    <select id="getLoanById_Customer" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
-        select * from loan
-        where product_id = #{id}
-    </select>
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
         select * from loan
     </select>
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
-        select * from loan
-        where product_id = #{id}
-    </select>
-    <select id="findById_LoanManagement" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.LoanVO">
         select *
         from loan
         where product_id = #{id}
     </select>
-    <select id="getMaxId_LoanManagement" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(product_id)
         from loan
     </select>
-    <insert id="insert_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.LoanVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.LoanVO">
         insert into loan(product_id, loan_type, minimum_asset, monthly_income, interest_rate)
         values (#{product_id},
                 #{loan_type},
@@ -30,7 +22,7 @@
                 #{interest_rate}
                )
     </insert>
-    <update id="update_LoanManagement" parameterType="com.example.bunsanedthinking_springback.vo.LoanVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.LoanVO">
         update loan
         set loan_type=#{loan_type},
             minimum_asset=#{minimum_asset},
@@ -38,7 +30,7 @@
             interest_rate=#{interest_rate}
         where product_id=#{product_id}
     </update>
-    <delete id="delete_LoanManagement">
+    <delete id="delete">
         delete from loan
         where product_id=#{id}
     </delete>

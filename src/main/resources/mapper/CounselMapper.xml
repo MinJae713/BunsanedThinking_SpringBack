@@ -33,8 +33,8 @@
         from counsel
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        insert into counsel(counsel_date, process_status, customer_id, product_id)
-        values (#{counsel_date}, #{process_status}, #{customer_id}, #{product_id})
+        insert into counsel(id, counsel_date, process_status, customer_id, product_id)
+        values (#{id}, #{counsel_date}, #{process_status}, #{customer_id}, #{product_id})
     </insert>
     <delete id="deleteById" parameterType="int">
         delete

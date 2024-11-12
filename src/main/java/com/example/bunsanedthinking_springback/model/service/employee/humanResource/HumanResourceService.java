@@ -20,14 +20,14 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateResiden
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
 
 @Service
 public class HumanResourceService {
 	@Autowired
 	private EmployeeDModel employeeDModel;
 	@Autowired
-	private FamilyDModel familyDModel;
+	private FamilyEntityModel familyDModel;
 	@Autowired
 	private DepartmentDModel departmentDModel;
 

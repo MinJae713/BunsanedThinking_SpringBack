@@ -8,14 +8,8 @@ import java.util.Optional;
 
 @Mapper
 public interface FamilyMapper {
-	Integer getMaxId_HumanResource();
-
-	void insert_HumanResource(FamilyVO familyVO);
-
-	void deleteByEmployeeId_HumanResource(int id);
-
-	List<FamilyVO> findByEmployeeId_HumanResource(int id);
-
+	public Integer getMaxId();
+	public void insert(FamilyVO familyVO);
 	public Optional<FamilyVO> getById(int id);
 	public List<FamilyVO> getAll();
 	public void update(FamilyVO familyVO);
