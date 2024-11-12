@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ReportDModel {
+public class ReportEntityModel {
 	@Autowired
 	private ReportMapper reportMapper;
 	@Autowired

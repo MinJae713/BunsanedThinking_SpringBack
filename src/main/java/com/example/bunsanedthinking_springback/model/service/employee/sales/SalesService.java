@@ -33,9 +33,9 @@ import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEn
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,17 +55,17 @@ public class SalesService {
 	@Autowired
 	private DiseaseHistoryDModel diseaseHistoryDModel;
 	@Autowired
-	private SurgeryHistoryDModel surgeryHistoryDModel;
+	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 
 	@Autowired
 	private EmployeeDModel employeeDModel;
 	@Autowired
-	private SalesDModel salesDModel;
+	private SalesEntityModel salesEntityModel;
 	@Autowired
 	private CounselDModel counselDModel;
 
 	@Autowired
-	private ProductDModel productDModel;
+	private ProductEntityModel productEntityModel;
 	@Autowired
 	private InsuranceEntityModel insuranceDModel;
 	@Autowired
@@ -86,9 +86,9 @@ public class SalesService {
 	private ContractDModel contractDModel;
 
 	public void evaluateSalesPerformance(int evaluate, int id) {
-		Sales sales = salesDModel.getById(id);
+		Sales sales = salesEntityModel.getById(id);
 		sales.setEvaluate(evaluate);
-		salesDModel.update(sales);
+		salesEntityModel.update(sales);
 	}
 
 	public void handleInsuranceConsultation(int id) throws
@@ -153,7 +153,7 @@ public class SalesService {
 		}
 
 		if (induceDTO.getSurgeryHistoryList() != null) {
-			Integer surgeryHistoryMaxId = surgeryHistoryDModel.getMaxId();
+			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
 			int surgeryHistoryId;
 			int maxIndex;
 			if (surgeryHistoryMaxId == null) {
@@ -223,7 +223,7 @@ public class SalesService {
 		contract.setContractStatus(ContractStatus.ContractRequesting);
 		contract.setCustomerID(customerId);
 		contract.setEmployeeID(induceDTO.getEmployeeId());
-		contract.setProduct(productDModel.getById(induceDTO.getProductId()));
+		contract.setProduct(productEntityModel.getById(induceDTO.getProductId()));
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);
 		customerDModel.add(customer);
@@ -252,7 +252,7 @@ public class SalesService {
 	}
 
 	public Sales getSales(int id) {
-		return salesDModel.getById(id);
+		return salesEntityModel.getById(id);
 	}
 
 	public ArrayList<Counsel> getAllCounsel() {
@@ -264,7 +264,7 @@ public class SalesService {
 	}
 
 	public ArrayList<Product> getAllProduct() {
-		return (ArrayList<Product>)productDModel.getAll();
+		return (ArrayList<Product>)productEntityModel.getAll();
 	}
 
 	public DiseaseHistory addDiseaseHistory(DiseaseHistoryDTO diseaseHistoryDTO) {
@@ -293,9 +293,9 @@ public class SalesService {
 	}
 
 	public void updateContractCount(int id, int contractCount) {
-		Sales sales = salesDModel.getById(id);
+		Sales sales = salesEntityModel.getById(id);
 		sales.setContractCount(contractCount);
-		salesDModel.update(sales);
+		salesEntityModel.update(sales);
 	}
 
 	public ArrayList<Insurance> getAllDiseaseInsurance() {
@@ -327,8 +327,8 @@ public class SalesService {
 	}
 
 	public void setContractCount(int contractCount, int id) {
-		Sales sales = salesDModel.getById(id);
+		Sales sales = salesEntityModel.getById(id);
 		sales.setContractCount(++contractCount);
-		salesDModel.update(sales);
+		salesEntityModel.update(sales);
 	}
 }

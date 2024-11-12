@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.contractManagement;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -22,17 +30,10 @@ import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationDModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 
 /**
  * @author Administrator
@@ -46,15 +47,15 @@ public class ContractManagementService {
 	@Autowired
 	private ContractDModel contractDModel;
 	@Autowired
-	private TerminationDModel terminationDModel;
+	private TerminationEntityModel terminationEntityModel;
 	@Autowired
 	private EndorsementDModel endorsementDModel;
 	@Autowired
-	private RevivalDModel revivalDModel;
+	private RevivalEntityModel revivalEntityModel;
 	@Autowired
-	private RecontractDModel recontractDModel;
+	private RecontractEntityModel recontractEntityModel;
 	@Autowired
-	private PaymentDetailDModel paymentDetailDModel;
+	private PaymentDetailEntityModel paymentDetailEntityModel;
 
     public void requestTerminationFee(int tercontractId, int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
@@ -65,7 +66,7 @@ public class ContractManagementService {
 		// termination의 originContract 해당 Contract의 terminationDate, contractStatus 수정
 		Customer customer = customerDModel.getById(customerId);
 		if (customer == null) throw new NotExistException();
-		Termination tercontract = terminationDModel.getById(tercontractId);
+		Termination tercontract = terminationEntityModel.getById(tercontractId);
 		if (tercontract == null) throw new NotExistContractException();
 		if (tercontract.getTerminationStatus() == TerminationStatus.Completed)
 			throw new AlreadyProcessedException();
@@ -74,17 +75,17 @@ public class ContractManagementService {
 		for (DepositDetail depositDetail : depositDetailList)
 			totalMoney += depositDetail.getMoney();
 		totalMoney = (int) (totalMoney * 0.3);
-		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
+		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
 				customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
 		paymentDetail.setId(paymentId);
-		paymentDetailDModel.add(paymentDetail);
+		paymentDetailEntityModel.add(paymentDetail);
 		Contract contract = tercontract.getOriginalContract();
 		tercontract.setTerminationStatus(TerminationStatus.Completed);
 		tercontract.setApplyDate(new Date());
-		terminationDModel.update(tercontract);
+		terminationEntityModel.update(tercontract);
 		contract.setTerminationDate(tercontract.getApplyDate());
 		contract.setContractStatus(ContractStatus.Terminating);
 		contractDModel.update(contract);
@@ -129,7 +130,7 @@ public class ContractManagementService {
 	}
 
 	public void reviewRecontract(int recontractId, int index) throws NotExistContractException, NotExistException {
-		Recontract recontract = recontractDModel.getById(recontractId);
+		Recontract recontract = recontractEntityModel.getById(recontractId);
 		if (recontract == null) throw new NotExistContractException();
 		if (index == 1) {
 //			Contract contract = recontract.getOriginalContract();
@@ -142,10 +143,10 @@ public class ContractManagementService {
 			recontract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 //			contractDModel.update(contract);
 			recontract.setRecontractStatus(RecontractStatus.Completed);
-			recontractDModel.update(recontract);
+			recontractEntityModel.update(recontract);
 		} else if (index == 2) {
 			recontract.setRecontractStatus(RecontractStatus.Unprocessed);
-			recontractDModel.update(recontract);
+			recontractEntityModel.update(recontract);
 		}
 
 //		if (index == 1) {
@@ -165,7 +166,7 @@ public class ContractManagementService {
 	}
 
 	public void reviewRevival(int revivalId, int index) throws NotExistContractException {
-		Revival revival = revivalDModel.getById(revivalId);
+		Revival revival = revivalEntityModel.getById(revivalId);
 		if (revival == null) throw new NotExistContractException();
 		if (index == 1) {
 //			Contract contract = revival.getOriginalContract();
@@ -173,10 +174,10 @@ public class ContractManagementService {
 			revival.setDate(new Date());
 //			contractDModel.update(contract);
 			revival.setRevivalStatus(RevivalStatus.Completed);
-			revivalDModel.update(revival);
+			revivalEntityModel.update(revival);
 		} else if (index == 2) {
 			revival.setRevivalStatus(RevivalStatus.Unprocessed);
-			revivalDModel.update(revival);
+			revivalEntityModel.update(revival);
 		}
 
 //		if (index == 1) {
@@ -203,12 +204,12 @@ public class ContractManagementService {
         return contractDModel.getById(contractId);
     }
 	public Termination getTerminationById(int id) throws NotExistException, NotExistContractException {
-        return terminationDModel.getById(id);
+        return terminationEntityModel.getById(id);
 //		return terminationList.get(id);
 	}
 
 	public List<Termination> getAllTerminatingContract() throws NotExistContractException, NotExistException {
-		return terminationDModel.getAll();
+		return terminationEntityModel.getAll();
 		//		return terminationList.getAllTerminatingContract();
 	}
 
@@ -220,14 +221,14 @@ public class ContractManagementService {
 	public List<Termination> getAllUnprocessedTerminatingContract() throws
 		NotExistContractException,
 		NotExistException {
-		return terminationDModel.getAll().stream()
+		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Unprocessed)
 				.toList();
 		//        return terminationList.getAllUnprocessedTerminatingContract();
 	}
 
 	public List<Termination> getAllProcessedTerminatingContract() throws NotExistContractException, NotExistException {
-		return terminationDModel.getAll().stream()
+		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Completed)
 				.toList();
 		//		return terminationList.getAllProcessedTerminatingContract();
@@ -258,45 +259,45 @@ public class ContractManagementService {
 	}
 
 	public List<Recontract> getAllReContract() throws NotExistContractException, NotExistException {
-		return recontractDModel.getAll();
+		return recontractEntityModel.getAll();
 		//		return recontractList.getAllReContract();
 	}
 
 	public List<Recontract> getAllUnprocessedReContract() throws NotExistContractException, NotExistException {
-		return recontractDModel.getAll().stream()
+		return recontractEntityModel.getAll().stream()
 				.filter(e -> e.getRecontractStatus() == RecontractStatus.Unprocessed)
 				.toList();
 	}
 
 	public List<Recontract> getAllProcessedReContract() throws NotExistContractException, NotExistException {
-		return recontractDModel.getAll().stream()
+		return recontractEntityModel.getAll().stream()
 				.filter(e -> e.getRecontractStatus() == RecontractStatus.Completed)
 				.toList();
 	}
 
 	public Recontract getReContractById(int id) throws NotExistException, NotExistContractException {
-        return recontractDModel.getById(id);
+        return recontractEntityModel.getById(id);
 //		return recontractList.get(id);
 	}
 
 	public List<Revival> getAllRevivalContract() throws NotExistContractException, NotExistException {
-		return revivalDModel.getAll();
+		return revivalEntityModel.getAll();
 		//		return revivalList.getAllRevivalContract();
 	}
 
 	public Revival getRevivalById(int id) throws NotExistException, NotExistContractException {
-        return revivalDModel.getById(id);
+        return revivalEntityModel.getById(id);
 //		return revivalList.get(id);
 	}
 
 	public List<Revival> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
-		return revivalDModel.getAll().stream()
+		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Unprocessed)
 				.toList();
 	}
 
 	public List<Revival> getAllProcessedRevival() throws NotExistContractException, NotExistException {
-		return revivalDModel.getAll().stream()
+		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Completed)
 				.toList();
 	}

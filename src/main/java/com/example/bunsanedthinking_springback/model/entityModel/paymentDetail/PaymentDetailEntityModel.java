@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PaymentDetailDModel {
+public class PaymentDetailEntityModel {
 	@Autowired
 	private PaymentDetailMapper paymentDetailMapper;
 	@Autowired

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SalesDModel {
+public class SalesEntityModel {
 	@Autowired
 	private EmployeeDModel employeeDModel;
 	@Autowired

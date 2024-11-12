@@ -19,8 +19,8 @@ import com.example.bunsanedthinking_springback.model.entityModel.accident.Accide
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +35,9 @@ public class CompensationService {
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
-	private ReportDModel reportDModel;
+	private ReportEntityModel reportEntityModel;
 	@Autowired
-	private PaymentDetailDModel paymentDetailDModel;
+	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
 	private AccidentDModel accidentDModel;
 
@@ -51,20 +51,20 @@ public class CompensationService {
 		int contractId = reqCompensationDTO.getContractId();
 		int reportId = reqCompensationDTO.getReportId();
 
-		Report report = reportDModel.getById(reportId);
+		Report report = reportEntityModel.getById(reportId);
 		if (report == null) throw new NotExistException();
 		if (contractDModel.getById(contractId) == null) throw new NotExistException();
 		if (report.getProcessStatus() == ReportProcessStatus.Completed)
 			throw new AlreadyProcessedException();
-		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
+		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(accountHolder, bank,
 				bankAccount, money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
-		paymentDetailDModel.add(payment);
+		paymentDetailEntityModel.add(payment);
 		report.setProcessStatus(ReportProcessStatus.Completed);
-		reportDModel.update(report);
+		reportEntityModel.update(report);
 		report.getAccident().complete();
 		accidentDModel.update(report.getAccident());
 
@@ -99,14 +99,14 @@ public class CompensationService {
 		if (insuranceMoney == null) throw new NotExistException();
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			throw new AlreadyProcessedException();
-		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
+		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
 				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
 				customer.getBankName(), customer.getBankAccount(),
 				money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
-		paymentDetailDModel.add(payment);
+		paymentDetailEntityModel.add(payment);
 		insuranceMoney.handle();
 		insuranceMoneyDModel.update(insuranceMoney);
 
@@ -164,24 +164,24 @@ public class CompensationService {
 	}
 
 	public List<Report> getAllReport() {
-		return reportDModel.getAll();
+		return reportEntityModel.getAll();
 		//		return reportList.getAll();
 	}
 
 	public Report getReportById(int id) throws NotExistException {
-		return reportDModel.getById(id);
+		return reportEntityModel.getById(id);
 		//		return reportList.get(id);
 	}
 
 	public List<Report> getAllUnprocessedReport() {
-		return reportDModel.getAll().stream()
+		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Unprocessed)
 				.toList();
 		//		return reportList.getAllUnprocessedReport();
 	}
 
 	public List<Report> getAllCompletedReport() {
-		return reportDModel.getAll().stream()
+		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Completed)
 				.toList();
 		//		return reportList.getAllCompletedReport();

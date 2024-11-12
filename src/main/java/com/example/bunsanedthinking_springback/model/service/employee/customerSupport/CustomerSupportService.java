@@ -14,7 +14,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.accident.Accide
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class CustomerSupportService {
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
-	private ReportDModel reportDModel;
+	private ReportEntityModel reportEntityModel;
 
 	public void handleComplaint(String employeeName, int complaintId, String result) throws
 		NotExistException,
@@ -68,7 +68,7 @@ public class CustomerSupportService {
 
 		Report report = new Report(accident, null, accidentId, roadsideAssistanceCompanyId, damageAssessmentCompanyId,
 			ReportProcessStatus.Unprocessed);
-		reportDModel.add(report);
+		reportEntityModel.add(report);
 	}
 
 	public List<Complaint> getAllComplaint() {

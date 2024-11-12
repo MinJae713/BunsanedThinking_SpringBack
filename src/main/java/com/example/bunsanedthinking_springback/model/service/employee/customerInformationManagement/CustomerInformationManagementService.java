@@ -15,7 +15,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
@@ -39,7 +39,7 @@ public class CustomerInformationManagementService {
 	@Autowired
 	private AccidentHistoryDModel accidentHistoryDModel;
 	@Autowired
-	private SurgeryHistoryDModel surgeryHistoryDModel;
+	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
 	private DiseaseHistoryDModel diseaseHistoryDModel;
 	@Autowired

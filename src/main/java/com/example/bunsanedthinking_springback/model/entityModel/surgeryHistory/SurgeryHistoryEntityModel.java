@@ -1,15 +1,16 @@
 package com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory;
 
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
+
 @Service
-public class SurgeryHistoryDModel {
+public class SurgeryHistoryEntityModel {
 	@Autowired
 	private SurgeryHistoryMapper surgeryHistoryMapper;
 

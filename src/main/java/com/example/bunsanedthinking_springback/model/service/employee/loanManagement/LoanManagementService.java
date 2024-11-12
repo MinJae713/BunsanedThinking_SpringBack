@@ -36,13 +36,13 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 
 @Service
 public class LoanManagementService {
 	@Autowired
-	private ProductDModel productDModel;
+	private ProductEntityModel productEntityModel;
 	@Autowired
 	private LoanEntityModel loanDModel;
 	@Autowired
@@ -54,7 +54,7 @@ public class LoanManagementService {
 	@Autowired
 	private ContractDModel contractDModel;
 	@Autowired
-	private PaymentDetailDModel paymentDetailDModel;
+	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
@@ -100,7 +100,7 @@ public class LoanManagementService {
 		// if (isExistName == 1) {
 		// 	throw new DuplicateLoanException();
 		// }
-		for (Product product : productDModel.getAll()) {
+		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(name))
 				throw new DuplicateLoanException();
 		}
@@ -165,14 +165,14 @@ public class LoanManagementService {
 
 		PaymentDetail paymentDetail = createPaymentDetail(customer, money, PaymentType.indexOf(paymentType),
 			contractId);
-		paymentDetailDModel.add(paymentDetail);
+		paymentDetailEntityModel.add(paymentDetail);
 
 		CompensationDetail compensationDetail = createCompensationDetail(contractId, money);
 		compensationDetailDModel.add(compensationDetail);
 	}
 
 	private PaymentDetail createPaymentDetail(Customer customer, int money, PaymentType paymentType, int contractId) {
-		Integer paymentMaxId = paymentDetailDModel.getMaxId();
+		Integer paymentMaxId = paymentDetailEntityModel.getMaxId();
 		int paymentId;
 		if (paymentMaxId == null) {
 			paymentId = Integer.parseInt("" + PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + 1);

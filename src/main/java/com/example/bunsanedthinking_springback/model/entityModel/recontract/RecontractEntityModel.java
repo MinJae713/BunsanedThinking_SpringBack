@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RecontractDModel {
+public class RecontractEntityModel {
 	@Autowired
 	private RecontractMapper recontractMapper;
 	@Autowired
