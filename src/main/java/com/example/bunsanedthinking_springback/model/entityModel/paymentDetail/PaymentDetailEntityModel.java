@@ -29,20 +29,20 @@ public class PaymentDetailEntityModel {
 		paymentDetail = benefitDModel.getById(id);
 		if (paymentDetail != null)
 			return paymentDetail;
-		return paymentDetailMapper.findById_FinancialAccountant(id)
+		return paymentDetailMapper.getById(id)
 			.map(PaymentDetailVO::getEntity)
 			.orElse(null);
 	}
 
 	public List<PaymentDetail> getAll() {
 		List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
-		paymentDetailMapper.getAll_FinancialAccountant()
+		paymentDetailMapper.getAll()
 			.forEach(e -> paymentDetails.add(getById(e.getId())));
 		return paymentDetails;
 	}
 
 	public Integer getMaxId() {
-		return paymentDetailMapper.getLastId_Compensation();
+		return paymentDetailMapper.getMaxId();
 	}
 
 	public void add(PaymentDetail paymentDetail) {
@@ -52,8 +52,8 @@ public class PaymentDetailEntityModel {
 		else if (paymentDetail instanceof Benefit)
 			benefitDModel.add((Benefit) paymentDetail);
 		else {
-			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isPresent()) return;
-			paymentDetailMapper.insert_LoanManagement(paymentDetail.findPaymentDetailVO());
+			if (paymentDetailMapper.getById(paymentDetail.getId()).isPresent()) return;
+			paymentDetailMapper.insert(paymentDetail.findPaymentDetailVO());
 		}
 	}
 
@@ -64,8 +64,8 @@ public class PaymentDetailEntityModel {
 		else if (paymentDetail instanceof Benefit)
 			benefitDModel.update((Benefit) paymentDetail);
 		else {
-			if (paymentDetailMapper.findById_FinancialAccountant(paymentDetail.getId()).isEmpty()) return;
-			paymentDetailMapper.update_FinancialAccountant(paymentDetail.findPaymentDetailVO());
+			if (paymentDetailMapper.getById(paymentDetail.getId()).isEmpty()) return;
+			paymentDetailMapper.update(paymentDetail.findPaymentDetailVO());
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PaymentDetailEntityModel {
 		else if (paymentDetail instanceof AdditionalAllowance) additionalAllowanceDModel.delete(id);
 		else if (paymentDetail instanceof Benefit) benefitDModel.delete(id);
 		else {
-			if (paymentDetailMapper.findById_FinancialAccountant(id).isEmpty()) return;
+			if (paymentDetailMapper.getById(id).isEmpty()) return;
 			paymentDetailMapper.deleteById(id);
 		}
 	}

@@ -21,14 +21,14 @@ public class RecontractEntityModel {
 		Contract contract = contractDModel.getById(id);
 		if (contract == null)
 			return null;
-		return recontractMapper.getById_Customer(id)
+		return recontractMapper.getById(id)
 			.map(recontractVO -> recontractVO.getEntity(contract))
 			.orElse(null);
 	}
 
 	public List<Recontract> getAll() {
 		List<Recontract> recontracts = new ArrayList<Recontract>();
-		recontractMapper.getAll_ContractManagement()
+		recontractMapper.getAll()
 			.forEach(
 				e -> recontracts.add(getById(e.getContract_id()))
 			);
@@ -41,20 +41,20 @@ public class RecontractEntityModel {
 
 	public void add(Recontract recontract) {
 		if (recontract == null) return;
-		if (recontractMapper.getById_Customer(recontract.getId()).isPresent()) return;
+		if (recontractMapper.getById(recontract.getId()).isPresent()) return;
 		contractDModel.add(recontract);
 		recontractMapper.insert(recontract.findRecontractVO());
 	}
 
 	public void update(Recontract recontract) {
 		if (recontract == null) return;
-		if (recontractMapper.getById_Customer(recontract.getId()).isEmpty()) return;
+		if (recontractMapper.getById(recontract.getId()).isEmpty()) return;
 		recontractMapper.update(recontract.findRecontractVO());
 		contractDModel.update(recontract);
 	}
 
 	public void delete(int id) {
-		if (recontractMapper.getById_Customer(id).isEmpty()) return;
+		if (recontractMapper.getById(id).isEmpty()) return;
 		recontractMapper.deleteById(id);
 		contractDModel.delete(id);
 	}

@@ -19,7 +19,7 @@ public class SalesEntityModel {
 	private SalesMapper salesMapper;
 
 	public Sales getById(int id) {
-		SalesVO salesVO = salesMapper.get_SalesModel(id); // Optional 수정 필요
+		SalesVO salesVO = salesMapper.getById(id); // Optional 수정 필요
 		if (salesVO == null)
 			return null;
 		Employee employee = employeeDModel.getById(id);
@@ -28,7 +28,7 @@ public class SalesEntityModel {
 
 	public List<Sales> getAll() {
 		List<Sales> sales = new ArrayList<Sales>();
-		salesMapper.getAll_SalesModel().forEach(e -> sales.add(getById(e.getEmployee_id())));
+		salesMapper.getAll().forEach(e -> sales.add(getById(e.getEmployee_id())));
 		// getAll_SalesModel - List 수정 필요
 		return sales;
 	}
@@ -39,20 +39,20 @@ public class SalesEntityModel {
 	// 아래들 Optional 아니라서 그냥 등가비교
 	public void add(Sales sales) {
 		if (sales == null) return;
-		if (salesMapper.get_SalesModel(sales.getId()) != null) return;
+		if (salesMapper.getById(sales.getId()) != null) return;
 		employeeDModel.add(sales);
 		salesMapper.insert(sales.findVO());
 	}
 
 	public void update(Sales sales) {
 		if (sales == null) return;
-		if (salesMapper.get_SalesModel(sales.getId()) == null) return;
-		salesMapper.update_SalesModel(sales.findVO());
+		if (salesMapper.getById(sales.getId()) == null) return;
+		salesMapper.update(sales.findVO());
 		employeeDModel.update(sales);
 	}
 
 	public void delete(int id) {
-		if (salesMapper.get_SalesModel(id) == null) return;
+		if (salesMapper.getById(id) == null) return;
 		salesMapper.deleteById(id);
 		employeeDModel.delete(id);
 	}

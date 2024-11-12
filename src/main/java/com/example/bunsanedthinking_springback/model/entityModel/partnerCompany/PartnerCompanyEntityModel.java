@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
-import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
-import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
 
 @Service
 public class PartnerCompanyEntityModel {
@@ -21,17 +19,19 @@ public class PartnerCompanyEntityModel {
 	private ReportEntityModel reportEntityModel;
 
 	public PartnerCompany getById(int id) {
-		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.getById(id).orElse(null);
-		if (partnerCompanyVO == null) return null;
-		ArrayList<Report> reports = new ArrayList<Report>();
-		if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
-				PartnerCompanyType.RoadsideAssistanceCompany)
-			reports = reportEntityModel.getAllByRoadSideAssistanceCId(id);
-		else if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
-				PartnerCompanyType.DamageAssessmentCompany)
-			reports = reportEntityModel.getAllByDamageAssessmentCId(id);
-		return partnerCompanyVO.getEntity(reports);
+		// PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.getById(id).orElse(null);
+		// if (partnerCompanyVO == null) return null;
+		// ArrayList<Report> reports = new ArrayList<Report>();
+		// if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
+		// 		PartnerCompanyType.RoadsideAssistanceCompany)
+		// 	reports = reportEntityModel.getAllByRoadSideAssistanceCId(id);
+		// else if (PartnerCompanyType.values()[partnerCompanyVO.getPartner_company_type()] ==
+		// 		PartnerCompanyType.DamageAssessmentCompany)
+		// 	reports = reportEntityModel.getAllByDamageAssessmentCId(id);
+		// return partnerCompanyVO.getEntity(reports);
+		return null;
 	}
+
 	public List<PartnerCompany> getAll() {
 		// 이 메소드도 마찬가지 - 아래 둘을 안쓰는데 PartnerCompany 쓰시는 분은 저에게 말씀을...!
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
@@ -41,21 +41,23 @@ public class PartnerCompanyEntityModel {
 	}
 
 	public List<PartnerCompany> getAll_RoadsideCompany() {
-		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
-		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
-			ArrayList<Report> reports = reportEntityModel.getAllByRoadSideAssistanceCId(partnerCompanyVO.getId());
-			partnerCompanies.add(partnerCompanyVO.getEntity(reports));
-		}
-		return partnerCompanies;
+		// List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
+		// for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
+		// 	ArrayList<Report> reports = reportEntityModel.getAllByRoadSideAssistanceCId(partnerCompanyVO.getId());
+		// 	partnerCompanies.add(partnerCompanyVO.getEntity(reports));
+		// }
+		// return partnerCompanies;
+		return null;
 	}
 
 	public List<PartnerCompany> getAll_DamageAssesmentCompany() {
-		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
-		for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
-			ArrayList<Report> reports = reportEntityModel.getAllByDamageAssessmentCId(partnerCompanyVO.getId());
-			partnerCompanies.add(partnerCompanyVO.getEntity(reports));
-		}
-		return partnerCompanies;
+		// List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
+		// for (PartnerCompanyVO partnerCompanyVO : partnerCompanyMapper.getAll()) {
+		// 	ArrayList<Report> reports = reportEntityModel.getAllByDamageAssessmentCId(partnerCompanyVO.getId());
+		// 	partnerCompanies.add(partnerCompanyVO.getEntity(reports));
+		// }
+		// return partnerCompanies;
+		return null;
 	}
 
 	public Integer getMaxId() {
@@ -80,6 +82,7 @@ public class PartnerCompanyEntityModel {
 
 		partnerCompanyMapper.update(partnerCompany.findVO());
 	}
+
 	public void delete(int id) {
 		if (partnerCompanyMapper.getById(id).isEmpty()) return;
 		PartnerCompany partnerCompany = getById(id);

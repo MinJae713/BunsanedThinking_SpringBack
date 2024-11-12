@@ -105,7 +105,7 @@ public class CustomerInformationManagementService {
 		}
 
 		if(addCustomerInformationDTO.getSurgeryHistoryList() != null) {
-			Integer surgeryHistoryMaxId = surgeryHistoryMapper.getMaxId_CustomerInformationManagement();
+			Integer surgeryHistoryMaxId = surgeryHistoryMapper.getMaxId();
 			int surgeryHistoryId;
 			int maxIndex;
 			if (surgeryHistoryMaxId == null) {
@@ -120,7 +120,7 @@ public class CustomerInformationManagementService {
 				LocalDate date = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				SurgeryHistoryVO surgeryHistoryVO = new SurgeryHistoryVO(surgeryHistoryId, e.getHospitalName(),
 						e.getName(), date, id);
-				surgeryHistoryMapper.insert_SalesModel(surgeryHistoryVO);
+				surgeryHistoryMapper.insert(surgeryHistoryVO);
 				maxIndex++;
 				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}

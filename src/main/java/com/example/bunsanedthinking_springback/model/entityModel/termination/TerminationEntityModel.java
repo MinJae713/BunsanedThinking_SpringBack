@@ -22,14 +22,14 @@ public class TerminationEntityModel {
 		Contract contract = contractDModel.getById(id);
 		if (contract == null)
 			return null;
-		return terminationMapper.getById_Customer(id)
+		return terminationMapper.getById(id)
 			.map(terminationVO -> terminationVO.getEntity(contract))
 			.orElse(null);
 	}
 
 	public List<Termination> getAll() {
 		List<Termination> terminations = new ArrayList<>();
-		terminationMapper.getAll_ContractManagement()
+		terminationMapper.getAll()
 			.forEach(
 				e -> terminations.add(getById(e.getContract_id()))
 			);
@@ -42,20 +42,20 @@ public class TerminationEntityModel {
 
 	public void add(Termination termination) {
 		if (termination == null) return;
-		if (terminationMapper.getById_Customer(termination.getId()).isPresent()) return;
+		if (terminationMapper.getById(termination.getId()).isPresent()) return;
 		contractDModel.add(termination);
 		terminationMapper.insert(termination.findTerminationVO());
 	}
 
 	public void update(Termination termination) {
 		if (termination == null) return;
-		if (terminationMapper.getById_Customer(termination.getId()).isEmpty()) return;
+		if (terminationMapper.getById(termination.getId()).isEmpty()) return;
 		terminationMapper.update(termination.findTerminationVO());
 		contractDModel.update(termination);
 	}
 
 	public void delete(int id) {
-		if (terminationMapper.getById_Customer(id).isEmpty()) return;
+		if (terminationMapper.getById(id).isEmpty()) return;
 		terminationMapper.deleteById(id);
 		contractDModel.delete(id);
 	}

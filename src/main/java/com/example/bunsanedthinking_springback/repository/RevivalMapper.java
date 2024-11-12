@@ -9,21 +9,15 @@ import com.example.bunsanedthinking_springback.vo.RevivalVO;
 
 @Mapper
 public interface RevivalMapper {
-	public Optional<RevivalVO> getById_Customer(int id);
+	Optional<RevivalVO> getById(int id);
 
-	public void addById_Customer(int contractId);
+	List<RevivalVO> getAll();
 
-	public Optional<RevivalVO> getById_ContractManagement(int id);
+	Integer getMaxId();
 
-	public List<RevivalVO> getAll_ContractManagement();
+	void insert(RevivalVO revivalVO);
 
-	public void updateStatus_ContractManagement(int status, int id);
+	void update(RevivalVO revivalVO);
 
-	public Integer getMaxId();
-
-	public void insert(RevivalVO revivalVO);
-
-	public void update(RevivalVO revivalVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

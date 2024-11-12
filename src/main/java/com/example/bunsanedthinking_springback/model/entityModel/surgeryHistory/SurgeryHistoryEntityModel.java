@@ -28,11 +28,11 @@ public class SurgeryHistoryEntityModel {
 	}
 
 	public Integer getMaxId() {
-		return surgeryHistoryMapper.getMaxId_SalesModel();
+		return surgeryHistoryMapper.getMaxId();
 	}
 
 	public void add(SurgeryHistory surgeryHistory) {
-		surgeryHistoryMapper.insert_SalesModel(surgeryHistory.findVO());
+		surgeryHistoryMapper.insert(surgeryHistory.findVO());
 	}
 
 	public void update(SurgeryHistory surgeryHistory) {

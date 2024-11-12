@@ -23,7 +23,7 @@ public class FixedDepositEntityModel {
 	private FixedDepositMapper fixedDepositMapper;
 
 	public FixedDeposit getById(int id) {
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
 			return null;
 		LoanVO loanVO = loanMapper.getById(id).orElse(null);
@@ -50,7 +50,7 @@ public class FixedDepositEntityModel {
 	public void add(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
 		if (fixedDepositMapper.getById(fixedDeposit.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(fixedDeposit.findProductVO());
+		productMapper.insert(fixedDeposit.findProductVO());
 		loanMapper.insert(fixedDeposit.findLoanVO());
 		fixedDepositMapper.insert(fixedDeposit.findVO());
 	}
@@ -60,13 +60,13 @@ public class FixedDepositEntityModel {
 		if (fixedDepositMapper.getById(fixedDeposit.getId()).isEmpty()) return;
 		fixedDepositMapper.update(fixedDeposit.findVO());
 		loanMapper.update(fixedDeposit.findLoanVO());
-		productMapper.update_LoanManagement(fixedDeposit.findProductVO());
+		productMapper.update(fixedDeposit.findProductVO());
 	}
 
 	public void delete(int id) {
 		if (fixedDepositMapper.getById(id).isEmpty()) return;
 		fixedDepositMapper.delete(id);
 		loanMapper.delete(id);
-		productMapper.delete_LoanManagement(id);
+		productMapper.deleteById(id);
 	}
 }

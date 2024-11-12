@@ -1,16 +1,14 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.ServiceVO;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-import java.util.ArrayList;
+import com.example.bunsanedthinking_springback.vo.ServiceVO;
 
 @Mapper
 public interface ServiceMapper {
-    public List<ServiceVO> getAllByProductId_Customer(int id);
-	ArrayList<ServiceVO> get_SalesModel(int id);
-	void insert_ProductManagement(ServiceVO serviceVO);
-	void delete_ProductManagementModel(int id);
-	List<ServiceVO> findByProductId_FinancialAccountant(int id);
+    List<ServiceVO> getById(int id);
+	void insert(ServiceVO serviceVO);
+	void deleteById(int id);
 }

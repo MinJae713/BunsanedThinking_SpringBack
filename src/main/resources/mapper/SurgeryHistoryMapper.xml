@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper">
-    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        select * from surgeryhistory
-        where customer_id = #{id}
-    </select>
-    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        SELECT id, hospital_name, name, customer_id, date
-        FROM surgeryhistory
-        WHERE customer_id = #{id}
-    </select>
-    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         INSERT INTO surgeryhistory (id, hospital_name, name, date, customer_id)
         VALUES (#{id}, #{hospital_name}, #{name}, #{date}, #{customer_id})
     </insert>
 
-    <insert id="insert_surgeryHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        INSERT INTO surgeryhistory (id, customer_id, hospital_name, name, date)
-        VALUES (#{id},
-                #{customer_id},
-                #{hospital_name},
-                #{name},
-                #{date});
-    </insert>
-    <select id="findSurgeryHistoriesByCustomerId_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        SELECT * FROM surgeryhistory
-        WHERE customer_id = #{customer_id};
+    <select id="getMaxId" resultType="Integer">
+        SELECT MAX(id) FROM surgeryhistory
     </select>
-    <delete id="deleteSurgeryHistoriesByCustomerId_CustomerInformationManagement" parameterType="int">
-        DELETE FROM surgeryhistory
-        WHERE customer_id = #{customer_id};
-    </delete>
-    <update id="update_surgeryHistory_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
-        UPDATE surgeryhistory
-        SET hospital_name = #{hospital_name},
-            name = #{name},
-            date = #{date}
-        WHERE id = #{id};
-    </update>
+
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         select * from surgeryhistory
         where id = #{id};
@@ -45,6 +17,7 @@
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         select * from surgeryhistory
     </select>
+
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         UPDATE surgeryhistory
         SET hospital_name = #{hospital_name},
@@ -53,15 +26,9 @@
             customer_id = #{customer_id}
         WHERE id = #{id}
     </update>
+
     <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         delete from surgeryhistory
         where id = #{id}
     </delete>
-    <select id="getMaxId_SalesModel" resultType="Integer">
-        select max(id)
-        from surgeryhistory
-    </select>
-    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
-        SELECT MAX(id) FROM surgeryhistory
-    </select>
 </mapper>

@@ -1,29 +1,23 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.ProductVO;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.ProductVO;
+
 @Mapper
 public interface ProductMapper {
-	ProductVO get_SalesModel(int id);
 
-    public Optional<ProductVO> getById_Customer(int id);
-	void delete_ProductManagementModel(int id);
+	void insert(ProductVO productVO);
 
-	void updateName_ProductManagementModel(ProductVO productVO);
-	void insert_LoanManagement(ProductVO productVO);
+    Optional<ProductVO> getById(int id);
 
-	List<ProductVO> getAll_LoanManagement();
+	List<ProductVO> getAll();
 
-	Optional<ProductVO> findById_LoanManagement(int id);
+	void update(ProductVO productVO);
 
-	void update_LoanManagement(ProductVO productVO);
+	void deleteById(int id);
 
-	void delete_LoanManagement(int id);
-
-	Integer isExistName(String name);
-	ProductVO getById_ProductManagementModel(int productId);
 }

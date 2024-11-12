@@ -22,14 +22,14 @@ public class RevivalEntityModel {
 		Contract contract = contractDModel.getById(id);
 		if (contract == null)
 			return null;
-		return revivalMapper.getById_Customer(id)
+		return revivalMapper.getById(id)
 			.map(revivalVO -> revivalVO.getEntity(contract))
 			.orElse(null);
 	}
 
 	public List<Revival> getAll() {
 		List<Revival> revivals = new ArrayList<Revival>();
-		revivalMapper.getAll_ContractManagement()
+		revivalMapper.getAll()
 			.forEach(
 				e -> revivals.add(getById(e.getContract_id()))
 			);
@@ -42,20 +42,20 @@ public class RevivalEntityModel {
 
 	public void add(Revival revival) {
 		if (revival == null) return;
-		if (revivalMapper.getById_Customer(revival.getId()).isPresent()) return;
+		if (revivalMapper.getById(revival.getId()).isPresent()) return;
 		contractDModel.add(revival);
 		revivalMapper.insert(revival.findRevivalVO());
 	}
 
 	public void update(Revival revival) {
 		if (revival == null) return;
-		if (revivalMapper.getById_Customer(revival.getId()).isEmpty()) return;
+		if (revivalMapper.getById(revival.getId()).isEmpty()) return;
 		revivalMapper.update(revival.findRevivalVO());
 		contractDModel.update(revival);
 	}
 
 	public void delete(int id) {
-		if (revivalMapper.getById_Customer(id).isEmpty()) return;
+		if (revivalMapper.getById(id).isEmpty()) return;
 		revivalMapper.deleteById(id);
 		contractDModel.delete(id);
 	}

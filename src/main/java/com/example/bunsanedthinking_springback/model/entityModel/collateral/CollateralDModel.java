@@ -24,7 +24,7 @@ public class CollateralDModel {
 	private CollateralMapper collateralMapper;
 
 	public Collateral getById(int id) {
-		ProductVO productVO = productMapper.getById_Customer(id).orElse(null);
+		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
 			return null;
 		LoanVO loanVO = loanMapper.getById(id).orElse(null);
@@ -52,7 +52,7 @@ public class CollateralDModel {
 	public void add(Collateral collateral) {
 		if (collateral == null) return;
 		if (collateralMapper.getById_Customer(collateral.getId()).isPresent()) return;
-		productMapper.insert_LoanManagement(collateral.findProductVO());
+		productMapper.insert(collateral.findProductVO());
 		loanMapper.insert(collateral.findLoanVO());
 		collateralMapper.insert_LoanManagement(collateral.findVO());
 	}
@@ -62,13 +62,13 @@ public class CollateralDModel {
 		if (collateralMapper.getById_Customer(collateral.getId()).isEmpty()) return;
 		collateralMapper.update_LoanManagement(collateral.findVO());
 		loanMapper.update(collateral.findLoanVO());
-		productMapper.update_LoanManagement(collateral.findProductVO());
+		productMapper.update(collateral.findProductVO());
 	}
 
 	public void delete(int id) {
 		if (collateralMapper.getById_Customer(id).isEmpty()) return;
 		collateralMapper.delete_LoanManagement(id);
 		loanMapper.delete(id);
-		productMapper.delete_LoanManagement(id);
+		productMapper.deleteById(id);
 	}
 }

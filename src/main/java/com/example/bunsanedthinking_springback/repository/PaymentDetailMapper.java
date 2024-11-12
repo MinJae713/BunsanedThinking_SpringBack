@@ -9,25 +9,16 @@ import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
 
 @Mapper
 public interface PaymentDetailMapper {
-	public int getCount_Compensation();
 
-	public Integer getLastId_Compensation();
+	Integer getMaxId();
 
-	public void add_Compensation(PaymentDetailVO paymentDetailVO);
+	void insert(PaymentDetailVO paymentDetailVO);
 
-	void insert_LoanManagement(PaymentDetailVO paymentDetailVO);
+	void update(PaymentDetailVO paymentDetailVO);
 
-	Integer getMaxId_LoanManagement();
+	List<PaymentDetailVO> getAll();
 
-	void update_FinancialAccountant(PaymentDetailVO paymentDetailVO);
+	Optional<PaymentDetailVO> getById(int id);
 
-	List<PaymentDetailVO> getAll_FinancialAccountant();
-
-	List<PaymentDetailVO> findByProcessStatus_FinancialAccountant(int status);
-
-	Optional<PaymentDetailVO> findById_FinancialAccountant(int id);
-
-	List<PaymentDetailVO> findByEmployeeId_HumanResource(int id);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }
