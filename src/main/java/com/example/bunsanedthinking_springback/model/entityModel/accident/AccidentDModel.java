@@ -1,15 +1,16 @@
 package com.example.bunsanedthinking_springback.model.entityModel.accident;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.repository.AccidentMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AccidentDModel {
@@ -23,7 +24,7 @@ public class AccidentDModel {
 		if (accidentVO == null)
 			return null;
 		int customerId = accidentVO.getCustomer_id();
-		CustomerVO customerVO = customerMapper.getById_Customer(customerId).orElse(null);
+		CustomerVO customerVO = customerMapper.getById(customerId).orElse(null);
 		if (customerVO == null)
 			return null;
 		String name = customerVO.getName();
@@ -50,7 +51,8 @@ public class AccidentDModel {
 	}
 
 	public void delete(int id) {
-		if (getById(id) == null) return;
- 		accidentMapper.delete(id);
+		if (getById(id) == null)
+			return;
+		accidentMapper.delete(id);
 	}
 }

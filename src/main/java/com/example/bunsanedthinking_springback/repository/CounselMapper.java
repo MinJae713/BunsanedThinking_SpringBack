@@ -1,7 +1,6 @@
 package com.example.bunsanedthinking_springback.repository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -10,21 +9,15 @@ import com.example.bunsanedthinking_springback.vo.CounselVO;
 
 @Mapper
 public interface CounselMapper {
-	public List<CounselVO> getAllByCustomerId_Customer(int id);
+	void update(CounselVO counselVO);
 
-	void update_SalesModel(CounselVO counselVO);
+	ArrayList<CounselVO> getAll();
 
-	CounselVO get_SalesModel(int id);
+	Optional<CounselVO> getById(int id);
 
-	ArrayList<CounselVO> getAll_SalesModel();
+	Integer getMaxId();
 
-	public Optional<CounselVO> getById(int id);
+	void insert(CounselVO counselVO);
 
-	public Integer getMaxId();
-
-	public void insert(CounselVO counselVO);
-
-	public void update(CounselVO counselVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.EndorsementMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
         select *
         from endorsement
         where contract_id = #{id}
     </select>
-    <insert id="addById_Customer">
-        insert into endorsement(contract_id, endorsement_status)
-        values (#{contractId}, 1)
-    </insert>
-
-    <select id="getById_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
-        select *
-        from endorsement
-        where contract_id = #{id}
-    </select>
-    <select id="getAll_ContractManagement" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.EndorsementVO">
         select *
         from endorsement
     </select>
-    <update id="updateStatus_ContractManagement">
-        update endorsement
-        set endorsement_status = #{status}
-        where contract_id = #{contract_id}
-    </update>
-
     <select id="getMaxId" resultType="Integer">
         SELECT MAX(contract_id)
         FROM endorsement

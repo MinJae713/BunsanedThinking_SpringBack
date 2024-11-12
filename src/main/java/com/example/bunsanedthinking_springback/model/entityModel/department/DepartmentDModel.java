@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.department;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
@@ -7,11 +13,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.employee.Employ
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyDModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DepartmentDModel {
@@ -23,7 +24,7 @@ public class DepartmentDModel {
 	private EmployeeDModel employeeDModel;
 
 	public Department getById(int id) {
-		DepartmentVO departmentVO = departmentMapper.findById_HumanResource(id).orElse(null);
+		DepartmentVO departmentVO = departmentMapper.getById(id).orElse(null);
 		if (departmentVO == null)
 			return null;
 		List<OfficeSupply> officeSupplies = new ArrayList<OfficeSupply>();
@@ -35,49 +36,60 @@ public class DepartmentDModel {
 
 	public List<Department> getAll() {
 		List<Department> departments = new ArrayList<Department>();
-		departmentMapper.getAll_HumanResource().forEach(e -> departments.add(getById(e.getId())));
+		departmentMapper.getAll().forEach(e -> departments.add(getById(e.getId())));
 		return departments;
 	}
 
 	public Integer getMaxId() {
-		return departmentMapper.getMaxId_ManagementPlanning();
+		return departmentMapper.getMaxId();
 	}
 
 	public void add(Department department) {
-		if (department == null) return;
-		if (departmentMapper.findById_HumanResource(department.getId()).isPresent()) return;
+		if (department == null)
+			return;
+		if (departmentMapper.getById(department.getId()).isPresent())
+			return;
 		departmentMapper.insert(department.findVO());
 
 		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
-		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.add(e));
+		if (officeSupplies != null)
+			officeSupplies.forEach(e -> officeSupplyDModel.add(e));
 
 		List<Employee> employees = department.getEmployeeList();
-		if (employees != null) employees.forEach(e -> employeeDModel.add(e));
+		if (employees != null)
+			employees.forEach(e -> employeeDModel.add(e));
 	}
 
 	public void update(Department department) {
-		if (department == null) return;
-		if (departmentMapper.findById_HumanResource(department.getId()).isEmpty()) return;
+		if (department == null)
+			return;
+		if (departmentMapper.getById(department.getId()).isEmpty())
+			return;
 
 		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
-		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.update(e));
+		if (officeSupplies != null)
+			officeSupplies.forEach(e -> officeSupplyDModel.update(e));
 
 		List<Employee> employees = department.getEmployeeList();
-		if (employees != null) employees.forEach(e -> employeeDModel.update(e));
+		if (employees != null)
+			employees.forEach(e -> employeeDModel.update(e));
 
-		departmentMapper.update_ManagementPlanning(department.findVO());
+		departmentMapper.update(department.findVO());
 	}
 
 	public void delete(int id) {
-		if (departmentMapper.findById_HumanResource(id).isEmpty()) return;
+		if (departmentMapper.getById(id).isEmpty())
+			return;
 		Department department = getById(id);
 
 		List<OfficeSupply> officeSupplies = department.getOfficeSupplyList();
-		if (officeSupplies != null) officeSupplies.forEach(e -> officeSupplyDModel.delete(e.getId()));
+		if (officeSupplies != null)
+			officeSupplies.forEach(e -> officeSupplyDModel.delete(e.getId()));
 
 		List<Employee> employees = department.getEmployeeList();
-		if (employees != null) employees.forEach(e -> employeeDModel.delete(e.getId()));
+		if (employees != null)
+			employees.forEach(e -> employeeDModel.delete(e.getId()));
 
-		departmentMapper.delete_ManagementPlanning(id);
+		departmentMapper.deleteById(id);
 	}
 }

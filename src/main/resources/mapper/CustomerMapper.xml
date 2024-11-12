@@ -1,148 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CustomerMapper">
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        select * from customer
-    </select>
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        select * from customer
-        where id = #{id}
-    </select>
-    <select id="getNameById_Customer" resultType="String">
-        select name from customer
-        where id = #{id}
-    </select>
-    <select id="getPNById_Customer" resultType="String">
-        select phone_number from customer
-        where id = #{id}
-    </select>
-
-    <select id="getById_Compensation" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        select * from customer
-        where id = #{id}
-    </select>
-    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        SELECT
-            id,
-            name,
-            phone_number,
-            job,
-            age,
-            gender,
-            resident_registration_number,
-            address,
-            bank_account,
-            bank_name
-        FROM
-            Customer
-        WHERE
-            id = #{id}
-    </select>
-
-    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        INSERT INTO Customer (
-            id, address, age, bank_account, bank_name, gender, job, name, phone_number, property, resident_registration_number
-        ) VALUES (
-                     #{id},
-                     #{address},
-                     #{age},
-                     #{bank_account},
-                     #{bank_name},
-                     #{gender},
-                     #{job},
-                     #{name},
-                     #{phone_number},
-                     #{property},
-                     #{resident_registration_number}
-                 )
-    </insert>
-
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        select * from Customer
-        where id = #{id}
-    </select>
-    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         select *
         from customer
-        where id=#{param1}
     </select>
-
-    <insert id="insert_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        INSERT INTO customer (id, name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        select *
+        from customer
+        where id = #{id}
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+        INSERT INTO Customer (id, address, age, bank_account, bank_name, gender, job, name, phone_number, property,
+                              resident_registration_number)
         VALUES (#{id},
+                #{address},
+                #{age},
+                #{bank_account},
+                #{bank_name},
+                #{gender},
+                #{job},
                 #{name},
                 #{phone_number},
-                #{job},
-                #{age},
-                #{gender},
-                #{resident_registration_number},
-                #{address},
                 #{property},
-                #{bank_name},
-                #{bank_account})
+                #{resident_registration_number})
     </insert>
-    <delete id="delete_CustomerInformationManagement" parameterType="int">
-        DELETE FROM customer
+    <delete id="deleteById" parameterType="int">
+        DELETE
+        FROM customer
         WHERE id = #{id}
     </delete>
-    <select id="findById_CustomerInformationManagement" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        SELECT * FROM customer
-        WHERE id = #{id}
-    </select>
-    <select id="findByResidentRegistrationNumber_CustomerInformationManagement" parameterType="String" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        SELECT * FROM customer
-        WHERE resident_registration_number = #{resident_registration_number}
-    </select>
-    <update id="update_CustomerInformationManagement" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
         UPDATE customer
-        SET name = #{name},
+        SET name         = #{name},
             phone_number = #{phone_number},
-            job = #{job},
-            age = #{age},
-            gender = #{gender},
-            address = #{address},
-            property = #{property},
-            bank_name = #{bank_name},
+            job          = #{job},
+            age          = #{age},
+            gender       = #{gender},
+            address      = #{address},
+            property     = #{property},
+            bank_name    = #{bank_name},
             bank_account = #{bank_account}
         WHERE id = #{id}
     </update>
-    <select id="getAll_CustomerInformationManagement" resultType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        SELECT * FROM customer
-    </select>
-    <select id="getMaxId_CustomerInformationManagement" resultType="Integer">
-        SELECT MAX(id) FROM customer
-    </select>
-
-    <select id="getMaxId_SalesModel" resultType="Integer">
+    <select id="getMaxId" resultType="Integer">
         select max(id)
         from customer
     </select>
-    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        INSERT INTO customer (id, name, phone_number, job, age, gender, resident_registration_number, address, property, bank_name, bank_account)
-        VALUES (#{id},
-                #{name},
-                #{phone_number},
-                #{job},
-                #{age},
-                #{gender},
-                #{resident_registration_number},
-                #{address},
-                #{property},
-                #{bank_name},
-                #{bank_account})
-    </insert>
-    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        UPDATE customer
-        SET name = #{name},
-            phone_number = #{phone_number},
-            job = #{job},
-            age = #{age},
-            gender = #{gender},
-            address = #{address},
-            property = #{property},
-            bank_name = #{bank_name},
-            bank_account = #{bank_account},
-            resident_registration_number = #{resident_registration_number}
-        WHERE id = #{id}
-    </update>
 </mapper>

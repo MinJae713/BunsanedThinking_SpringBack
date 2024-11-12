@@ -1,31 +1,23 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+
 @Mapper
 public interface DiseaseHistoryMapper {
-    public List<DiseaseHistoryVO> getAllByCustomerId_Customer(int id);
-	ArrayList<DiseaseHistoryVO> get_UnderWritingModel(int id);
-	void insert_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
+	void insert(DiseaseHistoryVO diseaseHistoryVO);
 
-    Integer getMaxId_CustomerInformationManagement();
-    public void insert_diseaseHistory_CustomerInformationManagement(DiseaseHistoryVO diseaseHistoryVO);
-    public void deleteDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+	Integer getMaxId();
 
-	void insertExcludedCustomerId_SalesModel(DiseaseHistoryVO diseaseHistoryVO);
+	Optional<DiseaseHistoryVO> getById(int id);
 
-	Integer getMaxId_SalesModel();
-    public void update_diseaseHistory_CustomerInformationManagement(DiseaseHistoryVO diseaseHistoryVO);
-    public List<DiseaseHistoryVO> findDiseaseHistoriesByCustomerId_CustomerInformationManagement(int customerId);
+	List<DiseaseHistoryVO> getAll();
 
-    public Optional<DiseaseHistoryVO> getById(int id);
-    public List<DiseaseHistoryVO> getAll();
-    public void update(DiseaseHistoryVO diseaseHistoryVO);
-    public void deleteById(int id);
+	void update(DiseaseHistoryVO diseaseHistoryVO);
+
+	void deleteById(int id);
 }

@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,25 +9,15 @@ import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
 
 @Mapper
 public interface DepositDetailMapper {
-	public List<DepositDetailVO> getAllDepositByContractId_Customer(int id);
+	Integer getMaxId();
 
-	public Integer getLastId_Customer();
+	void insert(DepositDetailVO depositDetailVO);
 
-	public int getCount_Customer();
+	Optional<DepositDetailVO> getById(int id);
 
-	public void add_Customer(DepositDetailVO depositDetailVO);
+	List<DepositDetailVO> getAll();
 
-	ArrayList<DepositDetailVO> getAll_UnderwritingModel();
+	void update(DepositDetailVO depositDetailVO);
 
-	Optional<DepositDetailVO> findById_FinancialAccountant(int id);
-
-	List<DepositDetailVO> getAll_FinancialAccountant();
-
-	List<DepositDetailVO> findByContractId_FinancialAccountant(int id);
-
-	public List<DepositDetailVO> getAll_ContractManagement();
-
-	public void update(DepositDetailVO depositDetailVO);
-
-	public void deleteById(int id);
+	void deleteById(int id);
 }

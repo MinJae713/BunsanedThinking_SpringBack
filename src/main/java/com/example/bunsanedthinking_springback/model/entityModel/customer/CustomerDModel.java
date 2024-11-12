@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.customer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -17,11 +23,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CustomerDModel {
@@ -43,7 +44,7 @@ public class CustomerDModel {
 	private ContractDModel contractDModel;
 
 	public Customer getById(int id) {
-		CustomerVO customerVO = customerMapper.getById_Customer(id).orElse(null);
+		CustomerVO customerVO = customerMapper.getById(id).orElse(null);
 		if (customerVO == null)
 			return null;
 		ArrayList<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
@@ -75,101 +76,127 @@ public class CustomerDModel {
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(contracts::add);
 		return customerVO.getEntity(accidentHistories,
-				accidents, complaints, contracts,
-				counsels, diseaseHistories, surgeryHistories);
+			accidents, complaints, contracts,
+			counsels, diseaseHistories, surgeryHistories);
 	}
 
 	public List<Customer> getAll() {
 		List<Customer> customers = new ArrayList<Customer>();
-		customerMapper.getAll_Customer()
+		customerMapper.getAll()
 			.forEach(e -> customers.add(getById(e.getId())));
 		return customers;
 	}
 
 	public Integer getMaxId() {
-		return customerMapper.getMaxId_SalesModel();
+		return customerMapper.getMaxId();
 	}
 
 	public void add(Customer customer) {
-		if (customer == null) return;
-		if (customerMapper.getById_Customer(customer.getId()).isPresent()) return;
+		if (customer == null)
+			return;
+		if (customerMapper.getById(customer.getId()).isPresent())
+			return;
 		customerMapper.insert(customer.findVO());
 
 		List<AccidentHistory> accidentHistories = customer.getAccidentHistoryList();
-		if (accidentHistories != null) accidentHistories.forEach(e -> accidentHistoryDModel.add(e));
+		if (accidentHistories != null)
+			accidentHistories.forEach(e -> accidentHistoryDModel.add(e));
 
 		List<Accident> accidents = customer.getAccidentList();
-		if (accidents != null) accidents.forEach(e -> accidentDModel.add(e));
+		if (accidents != null)
+			accidents.forEach(e -> accidentDModel.add(e));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.add(e));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselDModel.add(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.add(e));
+		if (surgeryHistories != null)
+			surgeryHistories.forEach(e -> surgeryHistoryDModel.add(e));
 
 		List<Complaint> complaints = customer.getComplaintList();
-		if (complaints != null) complaints.forEach(e -> complaintDModel.add(e));
+		if (complaints != null)
+			complaints.forEach(e -> complaintDModel.add(e));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.add(e));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryDModel.add(e));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.add(e));
+		if (contracts != null)
+			contracts.forEach(e -> contractDModel.add(e));
 	}
 
 	public void update(Customer customer) {
-		if (customer == null) return;
-		if (customerMapper.getById_Customer(customer.getId()).isEmpty()) return;
+		if (customer == null)
+			return;
+		if (customerMapper.getById(customer.getId()).isEmpty())
+			return;
 
 		List<AccidentHistory> accidentHistories = customer.getAccidentHistoryList();
-		if (accidentHistories != null) accidentHistories.forEach(e -> accidentHistoryDModel.update(e));
+		if (accidentHistories != null)
+			accidentHistories.forEach(e -> accidentHistoryDModel.update(e));
 
 		List<Accident> accidents = customer.getAccidentList();
-		if (accidents != null) accidents.forEach(e -> accidentDModel.update(e));
+		if (accidents != null)
+			accidents.forEach(e -> accidentDModel.update(e));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.update(e));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselDModel.update(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.update(e));
+		if (surgeryHistories != null)
+			surgeryHistories.forEach(e -> surgeryHistoryDModel.update(e));
 
 		List<Complaint> complaints = customer.getComplaintList();
-		if (complaints != null) complaints.forEach(e -> complaintDModel.update(e));
+		if (complaints != null)
+			complaints.forEach(e -> complaintDModel.update(e));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.update(e));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryDModel.update(e));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.update(e));
+		if (contracts != null)
+			contracts.forEach(e -> contractDModel.update(e));
 
 		customerMapper.update(customer.findVO());
 	}
 
 	public void delete(int id) {
-		if (customerMapper.getById_Customer(id).isEmpty()) return;
+		if (customerMapper.getById(id).isEmpty())
+			return;
 		Customer customer = getById(id);
 
 		List<AccidentHistory> accidentHistories = customer.getAccidentHistoryList();
-		if (accidentHistories != null) accidentHistories.forEach(e -> accidentHistoryDModel.delete(e.getId()));
+		if (accidentHistories != null)
+			accidentHistories.forEach(e -> accidentHistoryDModel.delete(e.getId()));
 
 		List<Accident> accidents = customer.getAccidentList();
-		if (accidents != null) accidents.forEach(e -> accidentDModel.delete(e.getId()));
+		if (accidents != null)
+			accidents.forEach(e -> accidentDModel.delete(e.getId()));
 
-		List<Counsel> counsels = customer.getCounsel();
-		if (counsels != null) counsels.forEach(e -> counselDModel.delete(e.getId()));
+		List<Counsel> counsels = customer.getCounselList();
+		if (counsels != null)
+			counsels.forEach(e -> counselDModel.delete(e.getId()));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.delete(e.getId()));
+		if (surgeryHistories != null)
+			surgeryHistories.forEach(e -> surgeryHistoryDModel.delete(e.getId()));
 
 		List<Complaint> complaints = customer.getComplaintList();
-		if (complaints != null) complaints.forEach(e -> complaintDModel.delete(e.getId()));
+		if (complaints != null)
+			complaints.forEach(e -> complaintDModel.delete(e.getId()));
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
-		if (diseaseHistories != null) diseaseHistories.forEach(e -> diseaseHistoryDModel.delete(e.getId()));
+		if (diseaseHistories != null)
+			diseaseHistories.forEach(e -> diseaseHistoryDModel.delete(e.getId()));
 
 		List<Contract> contracts = customer.getContractList();
-		if (contracts != null) contracts.forEach(e -> contractDModel.delete(e.getId()));
+		if (contracts != null)
+			contracts.forEach(e -> contractDModel.delete(e.getId()));
 
-		customerMapper.delete_CustomerInformationManagement(id);
+		customerMapper.deleteById(id);
 	}
 }

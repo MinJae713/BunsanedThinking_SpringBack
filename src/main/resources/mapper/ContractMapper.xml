@@ -1,115 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.ContractMapper">
-    <select id="getById_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from contract
-        where id = #{id}
-    </select>
-    <select id="getAllByProductId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from contract
-        where product_id = #{id}
-    </select>
-    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from contract
-        where customer_id = #{id}
-    </select>
-    <select id="getAll_Customer" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from contract
-    </select>
-    <update id="updateStatus_Customer">
-        update contract
-        set contract_status = #{contractStatus}
-        where id = #{contractId}
-    </update>
-    <update id="updatePaymentDate_Customer">
-        update contract
-        set payment_date = #{paymentDate}
-        where id = #{contractId}
-    </update>
-
-    <select id="getAllByCustomerId_Compensation" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from contract
-        where customer_id = #{id}
-    </select>
-    <insert id="insert_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        INSERT INTO Contract (
-            id,
-            date,
-            expiration_date,
-            payment_date,
-            termination_date,
-            contract_status,
-            customer_id,
-            employee_id,
-            product_id,
-            lastpaid_date
-        ) VALUES (
-                     #{id},
-                     #{date},
-                     #{expiration_date},
-                     #{payment_date},
-                     #{termination_date},
-                     #{contract_status},
-                     #{customer_id},
-                     #{employee_id},
-                     #{product_id},
-                     #{lastpaid_date}
-                 )
-    </insert>
-
-    <select id="get_UnderWritingModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from Contract
-        where id = #{id}
-    </select>
-
-    <select id="getAll_UnderWritingModel" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        select * from Contract
-    </select>
-
-    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        UPDATE Contract
-        SET
-            date = #{date},
-            expiration_date = #{expiration_date},
-            payment_date = #{payment_date},
-            termination_date = #{termination_date},
-            contract_status = #{contract_status},
-            customer_id = #{customer_id},
-            employee_id = #{employee_id},
-            product_id = #{product_id},
-            lastpaid_date = #{lastpaid_date}
-        WHERE id = #{id}
-    </update>
-    <select id="findById_FinancialAccountant" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
         select *
         from contract
-        where id=#{param1}
+        where id = #{id}
     </select>
-    <update id="updateTerminationDate_ContractManagement"
-            parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        update contract
-        set termination_date = #{termination_date}
-        where id = #{id}
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        select *
+        from contract
+    </select>
+    <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        INSERT INTO Contract (id,
+                              date,
+                              expiration_date,
+                              payment_date,
+                              termination_date,
+                              contract_status,
+                              customer_id,
+                              employee_id,
+                              product_id,
+                              lastpaid_date)
+        VALUES (#{id},
+                #{date},
+                #{expiration_date},
+                #{payment_date},
+                #{termination_date},
+                #{contract_status},
+                #{customer_id},
+                #{employee_id},
+                #{product_id},
+                #{lastpaid_date})
+    </insert>
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
+        UPDATE Contract
+        SET date             = #{date},
+            expiration_date  = #{expiration_date},
+            payment_date     = #{payment_date},
+            termination_date = #{termination_date},
+            contract_status  = #{contract_status},
+            customer_id      = #{customer_id},
+            employee_id      = #{employee_id},
+            product_id       = #{product_id},
+            lastpaid_date    = #{lastpaid_date}
+        WHERE id = #{id}
     </update>
-    <update id="updateDate_ContractManagement"
-            parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        update contract
-        set date = #{date}
-        where id = #{id}
-    </update>
-    <update id="updateExpirationDate_ContractManagement"
-            parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        update contract
-        set expiration_date = #{expiration_date}
-        where id = #{id}
-    </update>
-
     <select id="getMaxId_SalesModel" resultType="Integer">
         select max(id)
         from contract
     </select>
     <delete id="deleteById" parameterType="int">
-        delete from contract
+        delete
+        from contract
         where id = #{id}
     </delete>
 </mapper>

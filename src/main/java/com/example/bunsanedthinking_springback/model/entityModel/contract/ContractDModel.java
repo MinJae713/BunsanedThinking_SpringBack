@@ -1,5 +1,12 @@
 package com.example.bunsanedthinking_springback.model.entityModel.contract;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
@@ -14,12 +21,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.P
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
 import com.example.bunsanedthinking_springback.repository.ContractMapper;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContractDModel {
@@ -37,7 +38,7 @@ public class ContractDModel {
 	private ProductDModel productDModel;
 
 	public Contract getById(int id) {
-		Optional<ContractVO> optionalContractVO = contractMapper.getById_Customer(id);
+		Optional<ContractVO> optionalContractVO = contractMapper.getById(id);
 		if (optionalContractVO.isEmpty())
 			return null;
 		ContractVO contractVO = optionalContractVO.get();
@@ -64,28 +65,28 @@ public class ContractDModel {
 
 	public List<Contract> getAll() {
 		List<Contract> contracts = new ArrayList<>();
-		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
+		contractMapper.getAll().forEach(e -> contracts.add(getById(e.getId())));
 		return contracts;
 	}
 
-	public List<Contract> getAllRequestingInsurance(){
+	public List<Contract> getAllRequestingInsurance() {
 		List<Contract> contracts = new ArrayList<>();
 		List<Contract> requestingInsurances = new ArrayList<>();
-		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
-		for(Contract e :contracts) {
-			if(e.getContractStatus() == ContractStatus.ContractRequesting){
+		contractMapper.getAll().forEach(e -> contracts.add(getById(e.getId())));
+		for (Contract e : contracts) {
+			if (e.getContractStatus() == ContractStatus.ContractRequesting) {
 				requestingInsurances.add(e);
 			}
 		}
 		return requestingInsurances;
 	}
 
-	public List<Contract> getAllNotRequestingInsurance(){
+	public List<Contract> getAllNotRequestingInsurance() {
 		List<Contract> contracts = new ArrayList<>();
 		List<Contract> notRequestingInsurances = new ArrayList<>();
-		contractMapper.getAll_Customer().forEach(e -> contracts.add(getById(e.getId())));
-		for(Contract e :contracts) {
-			if(e.getContractStatus() != ContractStatus.ContractRequesting){
+		contractMapper.getAll().forEach(e -> contracts.add(getById(e.getId())));
+		for (Contract e : contracts) {
+			if (e.getContractStatus() != ContractStatus.ContractRequesting) {
 				notRequestingInsurances.add(e);
 			}
 		}
@@ -93,70 +94,90 @@ public class ContractDModel {
 	}
 
 	public Integer getMaxId() {
-		return contractMapper.getMaxId_SalesModel();
+		return contractMapper.getMaxId();
 	}
 
 	public void add(Contract contract) {
-		if (contract == null) return;
-		if (contractMapper.getById_Customer(contract.getId()).isPresent()) return;
-		contractMapper.insert_SalesModel(contract.findVO());
+		if (contract == null)
+			return;
+		if (contractMapper.getById(contract.getId()).isPresent())
+			return;
+		contractMapper.insert(contract.findVO());
 
 		List<InsuranceMoney> insuranceMonies = contract.getInsuranceMoneyList();
-		if (insuranceMonies != null) insuranceMonies.forEach(e -> insuranceMoneyDModel.add(e));
+		if (insuranceMonies != null)
+			insuranceMonies.forEach(e -> insuranceMoneyDModel.add(e));
 
 		List<CompensationDetail> compensationDetails = contract.getCompensationDetailList();
-		if (insuranceMonies != null) compensationDetails.forEach(e -> compensationDetailDModel.add(e));
+		if (insuranceMonies != null)
+			compensationDetails.forEach(e -> compensationDetailDModel.add(e));
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
-		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.add(e));
+		if (depositDetails != null)
+			depositDetails.forEach(e -> depositDetailDModel.add(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.add(e));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailDModel.add(e));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.add(product);
+		if (product != null)
+			productDModel.add(product);
 	}
 
 	public void update(Contract contract) {
-		if (contract == null) return;
-		if (contractMapper.getById_Customer(contract.getId()).isEmpty()) return;
+		if (contract == null)
+			return;
+		if (contractMapper.getById(contract.getId()).isEmpty())
+			return;
 
 		List<InsuranceMoney> insuranceMonies = contract.getInsuranceMoneyList();
-		if (insuranceMonies != null) insuranceMonies.forEach(e -> insuranceMoneyDModel.update(e));
+		if (insuranceMonies != null)
+			insuranceMonies.forEach(e -> insuranceMoneyDModel.update(e));
 
 		List<CompensationDetail> compensationDetails = contract.getCompensationDetailList();
-		if (insuranceMonies != null) compensationDetails.forEach(e -> compensationDetailDModel.update(e));
+		if (insuranceMonies != null)
+			compensationDetails.forEach(e -> compensationDetailDModel.update(e));
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
-		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.update(e));
+		if (depositDetails != null)
+			depositDetails.forEach(e -> depositDetailDModel.update(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.update(e));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailDModel.update(e));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.update(product);
+		if (product != null)
+			productDModel.update(product);
 
 		contractMapper.update(contract.findVO());
 	}
 
 	public void delete(int id) {
-		if (contractMapper.getById_Customer(id).isEmpty()) return;
+		if (contractMapper.getById(id).isEmpty())
+			return;
 		Contract contract = getById(id);
 
 		List<InsuranceMoney> insuranceMonies = contract.getInsuranceMoneyList();
-		if (insuranceMonies != null) insuranceMonies.forEach(e -> insuranceMoneyDModel.delete(e.getId()));
+		if (insuranceMonies != null)
+			insuranceMonies.forEach(e -> insuranceMoneyDModel.delete(e.getId()));
 
 		List<CompensationDetail> compensationDetails = contract.getCompensationDetailList();
-		if (insuranceMonies != null) compensationDetails.forEach(e -> compensationDetailDModel.delete(e.getId()));
+		if (insuranceMonies != null)
+			compensationDetails.forEach(e -> compensationDetailDModel.delete(e.getId()));
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
-		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.delete(e.getId()));
+		if (depositDetails != null)
+			depositDetails.forEach(e -> depositDetailDModel.delete(e.getId()));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.delete(e.getId()));
+		if (paymentDetails != null)
+			paymentDetails.forEach(e -> paymentDetailDModel.delete(e.getId()));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.delete(product.getId());
+		if (product != null)
+			productDModel.delete(product.getId());
 
 		contractMapper.deleteById(id);
 	}

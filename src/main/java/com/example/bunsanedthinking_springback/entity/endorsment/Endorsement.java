@@ -1,17 +1,20 @@
 package com.example.bunsanedthinking_springback.entity.endorsment;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.vo.EndorsementVO;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.EndorsementVO;
+
+import lombok.Data;
 
 /**
  * @author Administrator
  * @version 1.0
  * @created 27-5-2024 ���� 4:40:42
  */
+@Data
 public class Endorsement extends Contract {
 
 	public Endorsement(Contract contract) {
@@ -26,33 +29,10 @@ public class Endorsement extends Contract {
 
 	// 이건 좀 생각좀 해보자
 	public EndorsementVO findEndorsementVO() {
-		LocalDate lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate lApplyDate = new java.util.Date(applyDate.getTime()).toInstant()
+			.atZone(ZoneId.systemDefault())
+			.toLocalDate();
 		return new EndorsementVO(getId(), lApplyDate,
-				endorsementStatus.ordinal());
+			endorsementStatus.ordinal());
 	}
-
-	public Date getApplyDate() {
-		return applyDate;
-	}
-
-	public void setApplyDate(Date applyDate) {
-		this.applyDate = applyDate;
-	}
-
-	public EndorsementStatus getEndorsementStatus() {
-		return endorsementStatus;
-	}
-
-	public void setEndorsementStatus(EndorsementStatus endorsementStatus) {
-		this.endorsementStatus = endorsementStatus;
-	}
-
-	public void apply(){
-
-	}
-
-	public void review(){
-
-	}
-
 }

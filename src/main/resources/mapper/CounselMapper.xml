@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CounselMapper">
-    <select id="getAllByCustomerId_Customer" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select *
-        from counsel
-        where customer_id = #{id}
-    </select>
-    <update id="update_SalesModel" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
+    <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CounselVO">
         UPDATE Counsel
         SET counsel_date   = #{counsel_date},
             process_status = #{process_status},
@@ -14,19 +9,14 @@
             product_id     = #{product_id}
         WHERE id = #{id}
     </update>
-    <select id="get_SalesModel" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
+    <select id="getById" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
         select *
         from Counsel
         where id = #{id}
     </select>
-    <select id="getAll_SalesModel" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
+    <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
         select *
         from Counsel
-    </select>
-    <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.CounselVO">
-        select *
-        from counsel
-        where id = #{id}
     </select>
     <select id="getMaxId" resultType="Integer">
         select max(id)
