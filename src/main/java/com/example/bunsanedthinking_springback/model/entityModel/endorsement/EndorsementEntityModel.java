@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
 
 @Service
-public class EndorsementDModel {
+public class EndorsementEntityModel {
 	@Autowired
 	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public Endorsement getById(int id) {
-		Contract contract = contractDModel.getById(id);
+		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
 			return null;
 		return endorsementMapper.getById(id)
@@ -45,7 +45,7 @@ public class EndorsementDModel {
 			return;
 		if (endorsementMapper.getById(endorsement.getId()).isPresent())
 			return;
-		contractDModel.add(endorsement);
+		contractEntityModel.add(endorsement);
 		endorsementMapper.insert(endorsement.findEndorsementVO());
 	}
 
@@ -55,13 +55,13 @@ public class EndorsementDModel {
 		if (endorsementMapper.getById(endorsement.getId()).isEmpty())
 			return;
 		endorsementMapper.update(endorsement.findEndorsementVO());
-		contractDModel.update(endorsement);
+		contractEntityModel.update(endorsement);
 	}
 
 	public void delete(int id) {
 		if (endorsementMapper.getById(id).isEmpty())
 			return;
 		endorsementMapper.deleteById(id);
-		contractDModel.delete(id);
+		contractEntityModel.delete(id);
 	}
 }

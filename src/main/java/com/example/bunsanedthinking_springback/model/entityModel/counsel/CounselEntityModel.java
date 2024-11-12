@@ -14,7 +14,7 @@ import com.example.bunsanedthinking_springback.vo.CounselVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 
 @Service
-public class CounselDModel {
+public class CounselEntityModel {
 	@Autowired
 	private CounselMapper counselMapper;
 	@Autowired

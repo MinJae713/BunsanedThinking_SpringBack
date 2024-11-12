@@ -11,7 +11,7 @@ import com.example.bunsanedthinking_springback.repository.DiseaseHistoryMapper;
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 
 @Service
-public class DiseaseHistoryDModel {
+public class DiseaseHistoryEntityModel {
 	@Autowired
 	private DiseaseHistoryMapper diseaseHistoryMapper;
 

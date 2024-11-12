@@ -15,7 +15,7 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
@@ -23,7 +23,7 @@ import com.example.bunsanedthinking_springback.repository.ContractMapper;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 
 @Service
-public class ContractDModel {
+public class ContractEntityModel {
 	@Autowired
 	private ContractMapper contractMapper;
 	@Autowired
@@ -31,7 +31,7 @@ public class ContractDModel {
 	@Autowired
 	private CompensationDetailDModel compensationDetailDModel;
 	@Autowired
-	private DepositDetailDModel depositDetailDModel;
+	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
 	private PaymentDetailDModel paymentDetailDModel;
 	@Autowired
@@ -53,7 +53,7 @@ public class ContractDModel {
 		compensationDetailDModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(compensationDetails::add);
-		depositDetailDModel.getAll().stream()
+		depositDetailEntityModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(depositDetails::add);
 		paymentDetailDModel.getAll().stream()
@@ -114,7 +114,7 @@ public class ContractDModel {
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
 		if (depositDetails != null)
-			depositDetails.forEach(e -> depositDetailDModel.add(e));
+			depositDetails.forEach(e -> depositDetailEntityModel.add(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null)
@@ -141,7 +141,7 @@ public class ContractDModel {
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
 		if (depositDetails != null)
-			depositDetails.forEach(e -> depositDetailDModel.update(e));
+			depositDetails.forEach(e -> depositDetailEntityModel.update(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null)
@@ -169,7 +169,7 @@ public class ContractDModel {
 
 		List<DepositDetail> depositDetails = contract.getDepositDetailList();
 		if (depositDetails != null)
-			depositDetails.forEach(e -> depositDetailDModel.delete(e.getId()));
+			depositDetails.forEach(e -> depositDetailEntityModel.delete(e.getId()));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null)

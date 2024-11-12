@@ -11,7 +11,7 @@ import com.example.bunsanedthinking_springback.repository.DepositDetailMapper;
 import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
 
 @Service
-public class DepositDetailDModel {
+public class DepositDetailEntityModel {
 	@Autowired
 	private DepositDetailMapper depositDetailMapper;
 

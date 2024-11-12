@@ -17,15 +17,15 @@ import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHist
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 
 @Service
-public class CustomerDModel {
+public class CustomerEntityModel {
 	@Autowired
 	private CustomerMapper customerMapper;
 	@Autowired
@@ -33,15 +33,15 @@ public class CustomerDModel {
 	@Autowired
 	private AccidentDModel accidentDModel;
 	@Autowired
-	private CounselDModel counselDModel;
+	private CounselEntityModel counselEntityModel;
 	@Autowired
 	private SurgeryHistoryDModel surgeryHistoryDModel;
 	@Autowired
 	private ComplaintDModel complaintDModel;
 	@Autowired
-	private DiseaseHistoryDModel diseaseHistoryDModel;
+	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public Customer getById(int id) {
 		CustomerVO customerVO = customerMapper.getById(id).orElse(null);
@@ -60,7 +60,7 @@ public class CustomerDModel {
 		accidentDModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(accidents::add);
-		counselDModel.getAll().stream()
+		counselEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(counsels::add);
 		surgeryHistoryDModel.getAll().stream()
@@ -69,10 +69,10 @@ public class CustomerDModel {
 		complaintDModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(complaints::add);
-		diseaseHistoryDModel.getAll().stream()
+		diseaseHistoryEntityModel.getAll().stream()
 			.filter(e -> e.getCustomer_id() == id)
 			.forEach(diseaseHistories::add);
-		contractDModel.getAll().stream()
+		contractEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(contracts::add);
 		return customerVO.getEntity(accidentHistories,
@@ -108,7 +108,7 @@ public class CustomerDModel {
 
 		List<Counsel> counsels = customer.getCounselList();
 		if (counsels != null)
-			counsels.forEach(e -> counselDModel.add(e));
+			counsels.forEach(e -> counselEntityModel.add(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null)
@@ -120,11 +120,11 @@ public class CustomerDModel {
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
 		if (diseaseHistories != null)
-			diseaseHistories.forEach(e -> diseaseHistoryDModel.add(e));
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.add(e));
 
 		List<Contract> contracts = customer.getContractList();
 		if (contracts != null)
-			contracts.forEach(e -> contractDModel.add(e));
+			contracts.forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Customer customer) {
@@ -143,7 +143,7 @@ public class CustomerDModel {
 
 		List<Counsel> counsels = customer.getCounselList();
 		if (counsels != null)
-			counsels.forEach(e -> counselDModel.update(e));
+			counsels.forEach(e -> counselEntityModel.update(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null)
@@ -155,11 +155,11 @@ public class CustomerDModel {
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
 		if (diseaseHistories != null)
-			diseaseHistories.forEach(e -> diseaseHistoryDModel.update(e));
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.update(e));
 
 		List<Contract> contracts = customer.getContractList();
 		if (contracts != null)
-			contracts.forEach(e -> contractDModel.update(e));
+			contracts.forEach(e -> contractEntityModel.update(e));
 
 		customerMapper.update(customer.findVO());
 	}
@@ -179,7 +179,7 @@ public class CustomerDModel {
 
 		List<Counsel> counsels = customer.getCounselList();
 		if (counsels != null)
-			counsels.forEach(e -> counselDModel.delete(e.getId()));
+			counsels.forEach(e -> counselEntityModel.delete(e.getId()));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
 		if (surgeryHistories != null)
@@ -191,11 +191,11 @@ public class CustomerDModel {
 
 		List<DiseaseHistory> diseaseHistories = customer.getDiseaseHistoryList();
 		if (diseaseHistories != null)
-			diseaseHistories.forEach(e -> diseaseHistoryDModel.delete(e.getId()));
+			diseaseHistories.forEach(e -> diseaseHistoryEntityModel.delete(e.getId()));
 
 		List<Contract> contracts = customer.getContractList();
 		if (contracts != null)
-			contracts.forEach(e -> contractDModel.delete(e.getId()));
+			contracts.forEach(e -> contractEntityModel.delete(e.getId()));
 
 		customerMapper.deleteById(id);
 	}

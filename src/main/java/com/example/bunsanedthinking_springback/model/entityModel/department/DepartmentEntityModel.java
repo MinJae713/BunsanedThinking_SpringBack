@@ -9,19 +9,19 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyDModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
 
 @Service
-public class DepartmentDModel {
+public class DepartmentEntityModel {
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	@Autowired
 	private OfficeSupplyDModel officeSupplyDModel;
 	@Autowired
-	private EmployeeDModel employeeDModel;
+	private EmployeeEntityModel employeeEntityModel;
 
 	public Department getById(int id) {
 		DepartmentVO departmentVO = departmentMapper.getById(id).orElse(null);
@@ -30,7 +30,7 @@ public class DepartmentDModel {
 		List<OfficeSupply> officeSupplies = new ArrayList<OfficeSupply>();
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		officeSupplyDModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(officeSupplies::add);
-		employeeDModel.getAll().stream().filter(e -> e.getDepartmentID() == id).forEach(employees::add);
+		employeeEntityModel.getAll().stream().filter(e -> e.getDepartmentID() == id).forEach(employees::add);
 		return departmentVO.getEntity(officeSupplies, employees);
 	}
 
@@ -57,7 +57,7 @@ public class DepartmentDModel {
 
 		List<Employee> employees = department.getEmployeeList();
 		if (employees != null)
-			employees.forEach(e -> employeeDModel.add(e));
+			employees.forEach(e -> employeeEntityModel.add(e));
 	}
 
 	public void update(Department department) {
@@ -72,7 +72,7 @@ public class DepartmentDModel {
 
 		List<Employee> employees = department.getEmployeeList();
 		if (employees != null)
-			employees.forEach(e -> employeeDModel.update(e));
+			employees.forEach(e -> employeeEntityModel.update(e));
 
 		departmentMapper.update(department.findVO());
 	}
@@ -88,7 +88,7 @@ public class DepartmentDModel {
 
 		List<Employee> employees = department.getEmployeeList();
 		if (employees != null)
-			employees.forEach(e -> employeeDModel.delete(e.getId()));
+			employees.forEach(e -> employeeEntityModel.delete(e.getId()));
 
 		departmentMapper.deleteById(id);
 	}

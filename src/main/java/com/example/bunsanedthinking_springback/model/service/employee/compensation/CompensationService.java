@@ -1,5 +1,10 @@
 package com.example.bunsanedthinking_springback.model.service.employee.compensation;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqCompensationDTO;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -15,24 +20,20 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CompensationService {
 	@Autowired
 	private InsuranceMoneyDModel insuranceMoneyDModel;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private ReportDModel reportDModel;
 	@Autowired
@@ -51,15 +52,17 @@ public class CompensationService {
 		int reportId = reqCompensationDTO.getReportId();
 
 		Report report = reportDModel.getById(reportId);
-		if (report == null) throw new NotExistException();
-		if (contractDModel.getById(contractId) == null) throw new NotExistException();
+		if (report == null)
+			throw new NotExistException();
+		if (contractEntityModel.getById(contractId) == null)
+			throw new NotExistException();
 		if (report.getProcessStatus() == ReportProcessStatus.Completed)
 			throw new AlreadyProcessedException();
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
-				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+			Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "1") :
+			getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(accountHolder, bank,
-				bankAccount, money, PaymentType.values()[paymentType], contractId);
+			bankAccount, money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
 		paymentDetailDModel.add(payment);
 		report.setProcessStatus(ReportProcessStatus.Completed);
@@ -88,22 +91,25 @@ public class CompensationService {
 		int paymentType = reqInsuranceMoneyDTO.getPaymentType();
 		int contractId = reqInsuranceMoneyDTO.getContractId();
 
-		Contract contract = contractDModel.getById(contractId);
-		if (contract == null) throw new NotExistException();
-		Customer customer = customerDModel.getById(customerId);
-		if (customer == null) throw new NotExistException();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistException();
+		Customer customer = customerEntityModel.getById(customerId);
+		if (customer == null)
+			throw new NotExistException();
 		if (customer.getId() != contract.getCustomerID())
 			throw new NotExistException();
 		InsuranceMoney insuranceMoney = insuranceMoneyDModel.getById(insuranceMoneyId);
-		if (insuranceMoney == null) throw new NotExistException();
+		if (insuranceMoney == null)
+			throw new NotExistException();
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			throw new AlreadyProcessedException();
 		int paymentId = paymentDetailDModel.getAll().isEmpty() ?
-				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+			Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "1") :
+			getNextId(paymentDetailDModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
-				customer.getBankName(), customer.getBankAccount(),
-				money, PaymentType.values()[paymentType], contractId);
+			customer.getBankName(), customer.getBankAccount(),
+			money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
 		paymentDetailDModel.add(payment);
 		insuranceMoney.handle();
@@ -120,11 +126,11 @@ public class CompensationService {
 	}
 
 	private int getNextId(int maxId, int serial) {
-		String maxIdStr = maxId+"";
-		int serialLength = (serial+"").length();
+		String maxIdStr = maxId + "";
+		int serialLength = (serial + "").length();
 		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
 		nextId++;
-		return Integer.parseInt(serial+""+nextId);
+		return Integer.parseInt(serial + "" + nextId);
 	}
 
 	// 아래부터 get - 아래는 완료
@@ -134,39 +140,40 @@ public class CompensationService {
 	}
 
 	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
-//		return getAllInsuranceMoney().stream()
-//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
-//			.toList();
+		//		return getAllInsuranceMoney().stream()
+		//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
+		//			.toList();
 		return insuranceMoneyDModel.getAll().stream()
-				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
-				.toList();
+			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
+			.toList();
 
 	}
 
 	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
-//		return getAllInsuranceMoney().stream()
-//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
-//			.toList();
+		//		return getAllInsuranceMoney().stream()
+		//			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
+		//			.toList();
 		return insuranceMoneyDModel.getAll().stream()
-				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
-				.toList();
+			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
+			.toList();
 	}
 
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
-//		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(id).orElse(null);
-//		if (insuranceMoneyVO == null)
-//			throw new NotExistException();
-//		return insuranceMoneyVO.getEntity();
+		//		InsuranceMoneyVO insuranceMoneyVO = insuranceMoneyMapper.getById_Compensation(id).orElse(null);
+		//		if (insuranceMoneyVO == null)
+		//			throw new NotExistException();
+		//		return insuranceMoneyVO.getEntity();
 		return insuranceMoneyDModel.getById(id);
 	}
 
 	// 여기부터 contract 하나 찾기
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		return contractDModel.getById(contractId);
+		return contractEntityModel.getById(contractId);
 		//		return contractList.get(contractId);
 	}
+
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		return customerDModel.getById(id);
+		return customerEntityModel.getById(id);
 		//		return customerList.get(customerID);
 	}
 
@@ -182,30 +189,32 @@ public class CompensationService {
 
 	public List<Report> getAllUnprocessedReport() {
 		return reportDModel.getAll().stream()
-				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Unprocessed)
-				.toList();
+			.filter(e -> e.getProcessStatus() == ReportProcessStatus.Unprocessed)
+			.toList();
 		//		return reportList.getAllUnprocessedReport();
 	}
 
 	public List<Report> getAllCompletedReport() {
 		return reportDModel.getAll().stream()
-				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Completed)
-				.toList();
+			.filter(e -> e.getProcessStatus() == ReportProcessStatus.Completed)
+			.toList();
 		//		return reportList.getAllCompletedReport();
 	}
 
 	public Contract getAutomobileByCustomerId(int customerID) throws NotExistContractException, NotExistException {
-//		List<ContractVO> contractVOS = contractMapper.getAllByCustomerId_Compensation(customerID);
-//		for (ContractVO contractVO : contractVOS) {
-//			Product product = getProductById(contractVO.getProduct_id());
-//			if (product instanceof Automobile)
-//				return getContractById(contractVO.getId());
-//		}
-//		throw new NotExistContractException();
-		Customer customer = customerDModel.getById(customerID);
-		if (customer == null) throw new NotExistException();
+		//		List<ContractVO> contractVOS = contractMapper.getAllByCustomerId_Compensation(customerID);
+		//		for (ContractVO contractVO : contractVOS) {
+		//			Product product = getProductById(contractVO.getProduct_id());
+		//			if (product instanceof Automobile)
+		//				return getContractById(contractVO.getId());
+		//		}
+		//		throw new NotExistContractException();
+		Customer customer = customerEntityModel.getById(customerID);
+		if (customer == null)
+			throw new NotExistException();
 		List<Contract> customerContracts = customer.getContractList();
-		if (customerContracts == null) throw new NotExistException();
+		if (customerContracts == null)
+			throw new NotExistException();
 		for (Contract contract : customerContracts)
 			if (contract.getProduct() instanceof Automobile)
 				return contract;

@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerSupport;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -12,16 +20,9 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportDModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerSupportService {
@@ -32,7 +33,7 @@ public class CustomerSupportService {
 	@Autowired
 	private AccidentDModel accidentDModel;
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private ReportDModel reportDModel;
 
@@ -98,7 +99,7 @@ public class CustomerSupportService {
 	}
 
 	public Customer getCustomer(int customerID) throws NotExistException {
-		Customer customer = customerDModel.getById(customerID);
+		Customer customer = customerEntityModel.getById(customerID);
 		if (customer == null)
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		return customer;

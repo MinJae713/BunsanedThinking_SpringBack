@@ -12,8 +12,8 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
 import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
@@ -24,13 +24,13 @@ import com.example.bunsanedthinking_springback.repository.SurgeryHistoryMapper;
 public class CustomerInformationManagementService {
 
 	@Autowired
-	private CustomerDModel customerDModel;
+	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private AccidentHistoryDModel accidentHistoryDModel;
 	@Autowired
 	private SurgeryHistoryDModel surgeryHistoryDModel;
 	@Autowired
-	private DiseaseHistoryDModel diseaseHistoryDModel;
+	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
 	private CustomerMapper customerMapper;
 	@Autowired
@@ -144,15 +144,15 @@ public class CustomerInformationManagementService {
 	}
 
 	public void deleteCustomerInformation(int id) throws NotExistException {
-		Customer customer = customerDModel.getById(id);
+		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
-		customerDModel.delete(id);
+		customerEntityModel.delete(id);
 	}
 
 	public Customer getCustomerInformation(int id) throws NotExistException {
-		Customer customer = customerDModel.getById(id);
+		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
@@ -164,47 +164,47 @@ public class CustomerInformationManagementService {
 		int id = updateCustomerInformationDTO.getId();
 		int index = updateCustomerInformationDTO.getIndex();
 		String input = updateCustomerInformationDTO.getInput();
-		Customer customer = customerDModel.getById(id);
+		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
 		}
 		switch (index) {
 			case 1:
 				customer.setName(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 2:
 				customer.setPhoneNumber(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 3:
 				customer.setJob(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 4:
 				customer.setAge(Integer.parseInt(input));
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 5:
 				//customer.setGender(Integer.parseInt(input)); 이거는 int타입
 				customer.setGender(Gender.fromInt(Integer.parseInt(input))); //이거는 enum타입 둘 중에 어떤게 맞는걸까요? 일단 이렇게 해놓겠습니다
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 6:
 				customer.setAddress(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 7:
 				customer.setProperty((long)(Integer.parseInt(input)));
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 11:
 				customer.setBankName(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			case 12:
 				customer.setBankAccount(input);
-				customerDModel.update(customer);
+				customerEntityModel.update(customer);
 				break;
 			default:
 				break;
@@ -212,6 +212,6 @@ public class CustomerInformationManagementService {
 	}
 
 	public List<Customer> getAll() {
-		return customerDModel.getAll();
+		return customerEntityModel.getAll();
 	}
 }

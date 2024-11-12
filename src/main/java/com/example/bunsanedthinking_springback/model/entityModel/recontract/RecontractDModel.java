@@ -1,24 +1,25 @@
 package com.example.bunsanedthinking_springback.model.entityModel.recontract;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
-import com.example.bunsanedthinking_springback.repository.RecontractMapper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.repository.RecontractMapper;
 
 @Service
 public class RecontractDModel {
 	@Autowired
 	private RecontractMapper recontractMapper;
 	@Autowired
-	private ContractDModel contractDModel;
+	private ContractEntityModel contractEntityModel;
 
 	public Recontract getById(int id) {
-		Contract contract = contractDModel.getById(id);
+		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
 			return null;
 		return recontractMapper.getById_Customer(id)
@@ -40,22 +41,27 @@ public class RecontractDModel {
 	}
 
 	public void add(Recontract recontract) {
-		if (recontract == null) return;
-		if (recontractMapper.getById_Customer(recontract.getId()).isPresent()) return;
-		contractDModel.add(recontract);
+		if (recontract == null)
+			return;
+		if (recontractMapper.getById_Customer(recontract.getId()).isPresent())
+			return;
+		contractEntityModel.add(recontract);
 		recontractMapper.insert(recontract.findRecontractVO());
 	}
 
 	public void update(Recontract recontract) {
-		if (recontract == null) return;
-		if (recontractMapper.getById_Customer(recontract.getId()).isEmpty()) return;
+		if (recontract == null)
+			return;
+		if (recontractMapper.getById_Customer(recontract.getId()).isEmpty())
+			return;
 		recontractMapper.update(recontract.findRecontractVO());
-		contractDModel.update(recontract);
+		contractEntityModel.update(recontract);
 	}
 
 	public void delete(int id) {
-		if (recontractMapper.getById_Customer(id).isEmpty()) return;
+		if (recontractMapper.getById_Customer(id).isEmpty())
+			return;
 		recontractMapper.deleteById(id);
-		contractDModel.delete(id);
+		contractEntityModel.delete(id);
 	}
 }
