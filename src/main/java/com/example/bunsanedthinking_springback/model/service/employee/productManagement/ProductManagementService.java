@@ -24,7 +24,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.automobile.Auto
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 
 /**
  * @author Administrator
@@ -36,7 +36,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.product.Product
 public class ProductManagementService {
 
 	@Autowired
-	private ProductDModel productDModel;
+	private ProductEntityModel productEntityModel;
 	@Autowired
 	private InsuranceEntityModel insuranceDModel;
 	@Autowired
@@ -153,7 +153,7 @@ public class ProductManagementService {
 	}
 
 	public void deleteInsuranceProduct(int id) {
-		productDModel.delete(id);
+		productEntityModel.delete(id);
 	}
 
 	public Insurance getInsuranceProduct(int id) throws NotExistException {
@@ -320,6 +320,6 @@ public class ProductManagementService {
 	}
 
 	public ArrayList<Product> getAll() {
-		return (ArrayList<Product>)productDModel.getAll();
+		return (ArrayList<Product>)productEntityModel.getAll();
 	}
 }

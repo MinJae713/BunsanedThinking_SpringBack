@@ -1,6 +1,21 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.*;
+import java.awt.image.BufferedImage;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.bunsanedthinking_springback.dto.customer.AskInsuranceCounselDTO;
+import com.example.bunsanedthinking_springback.dto.customer.BuyInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.customer.ComplainDTO;
+import com.example.bunsanedthinking_springback.dto.customer.DepositDTO;
+import com.example.bunsanedthinking_springback.dto.customer.LoanDTO;
+import com.example.bunsanedthinking_springback.dto.customer.ReceiveInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.customer.ReportAccidentDTO;
+import com.example.bunsanedthinking_springback.dto.customer.SignUpDTO;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -14,7 +29,12 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.example.bunsanedthinking_springback.entity.insurance.*;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
+import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
@@ -26,7 +46,13 @@ import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
-import com.example.bunsanedthinking_springback.global.exception.*;
+import com.example.bunsanedthinking_springback.global.exception.AlreadyRequestingException;
+import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistExpiredContract;
+import com.example.bunsanedthinking_springback.global.exception.NotExistMaintainedContract;
+import com.example.bunsanedthinking_springback.global.exception.NotExistTerminatedContract;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryDModel;
@@ -46,17 +72,10 @@ import com.example.bunsanedthinking_springback.model.entityModel.insurance.Insur
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationDModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.awt.image.BufferedImage;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 
 @Service
 public class CustomerService {
@@ -84,11 +103,11 @@ public class CustomerService {
 	@Autowired
 	private EndorsementDModel endorsementDModel;
 	@Autowired
-	private RevivalDModel revivalDModel;
+	private RevivalEntityModel revivalEntityModel;
 	@Autowired
-	private TerminationDModel terminationDModel;
+	private TerminationEntityModel terminationEntityModel;
 	@Autowired
-	private RecontractDModel recontractDModel;
+	private RecontractEntityModel recontractEntityModel;
 	@Autowired
 	private AccidentDModel accidentDModel;
 	@Autowired
@@ -98,7 +117,7 @@ public class CustomerService {
 	@Autowired
 	private AccidentHistoryDModel accidentHistoryDModel;
 	@Autowired
-	private SurgeryHistoryDModel surgeryHistoryDModel;
+	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
 	private DiseaseHistoryDModel diseaseHistoryDModel;
 	@Autowired
@@ -144,8 +163,8 @@ public class CustomerService {
 		if (contract.getContractStatus() == ContractStatus.Terminating && contract.getExpirationDate() != null) {
 			contract.setContractStatus(ContractStatus.RevivalRequesting);
 			contractDModel.update(contract);
-			if (revivalDModel.getById(contractId) != null) return;
-			revivalDModel.add(new Revival(contract));
+			if (revivalEntityModel.getById(contractId) != null) return;
+			revivalEntityModel.add(new Revival(contract));
 		} else {
 			throw new NotExistTerminatedContract();
 		}
@@ -161,8 +180,8 @@ public class CustomerService {
 		if (contract.getContractStatus() == ContractStatus.Maintaining) {
 			contract.setContractStatus(ContractStatus.TerminationRequesting);
 			contractDModel.update(contract);
-			if (terminationDModel.getById(contractId) != null) return;
-			terminationDModel.add(new Termination(contract));
+			if (terminationEntityModel.getById(contractId) != null) return;
+			terminationEntityModel.add(new Termination(contract));
 		} else {
 			throw new NotExistMaintainedContract();
 		}
@@ -180,8 +199,8 @@ public class CustomerService {
 		if (contract.getContractStatus() == ContractStatus.Maturing) {
 			contract.setContractStatus(ContractStatus.RecontractRequesting);
 			contractDModel.update(contract);
-			if (recontractDModel.getById(contractId) != null) return;
-			recontractDModel.add(new Recontract(contract));
+			if (recontractEntityModel.getById(contractId) != null) return;
+			recontractEntityModel.add(new Recontract(contract));
 		} else {
 			throw new NotExistExpiredContract();
 		}
@@ -360,9 +379,9 @@ public class CustomerService {
 		if (tempSurgeryHistoryList != null)
 			for (SurgeryHistory e : tempSurgeryHistoryList) {
 				e.setCustomerID(customer.getId());
-				e.setId(NextIdGetter.getNextId(surgeryHistoryDModel.getMaxId(),
+				e.setId(NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(),
 						SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER));
-				surgeryHistoryDModel.add(e);
+				surgeryHistoryEntityModel.add(e);
 			}
 		if (tempDiseaseHistoryList != null)
 			for (DiseaseHistory e : tempDiseaseHistoryList) {

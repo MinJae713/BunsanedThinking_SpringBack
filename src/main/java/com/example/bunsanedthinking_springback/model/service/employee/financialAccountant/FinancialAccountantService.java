@@ -17,7 +17,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 
 @Service
 public class FinancialAccountantService {
@@ -28,7 +28,7 @@ public class FinancialAccountantService {
 	@Autowired
 	private CustomerDModel customerDModel;
 	@Autowired
-	private PaymentDetailDModel paymentDetailDModel;
+	private PaymentDetailEntityModel paymentDetailEntityModel;
 
 	public DepositDetail getDepositDetail(int id) throws NotExistException {
 		DepositDetail depositDetail = depositDetailDModel.getById(id);
@@ -43,7 +43,7 @@ public class FinancialAccountantService {
 
 	public void handlePayment(int paymentDetailId) throws NotExistException, AlreadyProcessedException {
 		// TODO if문 - 보험사 운영시간이 아닙니다. 다른 시간에 다시 이용해주세요 - 데코레이터 추가
-		PaymentDetail paymentDetail = paymentDetailDModel.getById(paymentDetailId);
+		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(paymentDetailId);
 		if (paymentDetail == null) {
 			throw new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다.");
 		}
@@ -51,11 +51,11 @@ public class FinancialAccountantService {
 			throw new AlreadyProcessedException("이미 지급이 완료되었습니다.");
 		}
 		paymentDetail.setProcessStatus(PaymentProcessStatus.Completed);
-		paymentDetailDModel.update(paymentDetail);
+		paymentDetailEntityModel.update(paymentDetail);
 	}
 
 	public List<PaymentDetail> getAllPaymentDetail() {
-		return paymentDetailDModel.getAll();
+		return paymentDetailEntityModel.getAll();
 	}
 
 	public List<PaymentDetail> getAllUnprocessedPaymentDetail() {
@@ -67,14 +67,14 @@ public class FinancialAccountantService {
 	}
 
 	private List<PaymentDetail> getAllPaymentDetailByProcessStatus(PaymentProcessStatus processStatus) {
-		List<PaymentDetail> paymentDetailList = paymentDetailDModel.getAll();
+		List<PaymentDetail> paymentDetailList = paymentDetailEntityModel.getAll();
 		return paymentDetailList.stream()
 			.filter(paymentDetail -> paymentDetail.getProcessStatus() == processStatus)
 			.collect(Collectors.toList());
 	}
 
 	public PaymentDetail getPaymentDetail(int id) throws NotExistException {
-		PaymentDetail paymentDetail = paymentDetailDModel.getById(id);
+		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(id);
 		if (paymentDetail == null)
 			throw new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다.");
 		return paymentDetail;

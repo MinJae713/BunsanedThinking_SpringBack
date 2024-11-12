@@ -14,7 +14,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.complaint.Compl
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class CustomerDModel {
 	@Autowired
 	private CounselDModel counselDModel;
 	@Autowired
-	private SurgeryHistoryDModel surgeryHistoryDModel;
+	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
 	private ComplaintDModel complaintDModel;
 	@Autowired
@@ -62,7 +62,7 @@ public class CustomerDModel {
 		counselDModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(counsels::add);
-		surgeryHistoryDModel.getAll().stream()
+		surgeryHistoryEntityModel.getAll().stream()
 			.filter(e -> e.getCustomerID() == id)
 			.forEach(surgeryHistories::add);
 		complaintDModel.getAll().stream()
@@ -105,7 +105,7 @@ public class CustomerDModel {
 		if (counsels != null) counsels.forEach(e -> counselDModel.add(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.add(e));
+		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.add(e));
 
 		List<Complaint> complaints = customer.getComplaintList();
 		if (complaints != null) complaints.forEach(e -> complaintDModel.add(e));
@@ -131,7 +131,7 @@ public class CustomerDModel {
 		if (counsels != null) counsels.forEach(e -> counselDModel.update(e));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.update(e));
+		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.update(e));
 
 		List<Complaint> complaints = customer.getComplaintList();
 		if (complaints != null) complaints.forEach(e -> complaintDModel.update(e));
@@ -159,7 +159,7 @@ public class CustomerDModel {
 		if (counsels != null) counsels.forEach(e -> counselDModel.delete(e.getId()));
 
 		List<SurgeryHistory> surgeryHistories = customer.getSurgeryHistoryList();
-		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryDModel.delete(e.getId()));
+		if (surgeryHistories != null) surgeryHistories.forEach(e -> surgeryHistoryEntityModel.delete(e.getId()));
 
 		List<Complaint> complaints = customer.getComplaintList();
 		if (complaints != null) complaints.forEach(e -> complaintDModel.delete(e.getId()));

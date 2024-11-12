@@ -10,8 +10,8 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailDModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailDModel;
-import com.example.bunsanedthinking_springback.model.entityModel.product.ProductDModel;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.repository.ContractMapper;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,9 @@ public class ContractDModel {
 	@Autowired
 	private DepositDetailDModel depositDetailDModel;
 	@Autowired
-	private PaymentDetailDModel paymentDetailDModel;
+	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
-	private ProductDModel productDModel;
+	private ProductEntityModel productEntityModel;
 
 	public Contract getById(int id) {
 		Optional<ContractVO> optionalContractVO = contractMapper.getById_Customer(id);
@@ -55,10 +55,10 @@ public class ContractDModel {
 		depositDetailDModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(depositDetails::add);
-		paymentDetailDModel.getAll().stream()
+		paymentDetailEntityModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(paymentDetails::add);
-		Product product = productDModel.getById(contractVO.getProduct_id());
+		Product product = productEntityModel.getById(contractVO.getProduct_id());
 		return new Contract(insuranceMonies, compensationDetails, depositDetails, paymentDetails, product, contractVO);
 	}
 
@@ -111,10 +111,10 @@ public class ContractDModel {
 		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.add(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.add(e));
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.add(e));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.add(product);
+		if (product != null) productEntityModel.add(product);
 	}
 
 	public void update(Contract contract) {
@@ -131,10 +131,10 @@ public class ContractDModel {
 		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.update(e));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.update(e));
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.update(e));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.update(product);
+		if (product != null) productEntityModel.update(product);
 
 		contractMapper.update(contract.findVO());
 	}
@@ -153,10 +153,10 @@ public class ContractDModel {
 		if (depositDetails != null) depositDetails.forEach(e -> depositDetailDModel.delete(e.getId()));
 
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
-		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailDModel.delete(e.getId()));
+		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.delete(e.getId()));
 
 		Product product = contract.getProduct();
-		if (product != null) productDModel.delete(product.getId());
+		if (product != null) productEntityModel.delete(product.getId());
 
 		contractMapper.deleteById(id);
 	}
