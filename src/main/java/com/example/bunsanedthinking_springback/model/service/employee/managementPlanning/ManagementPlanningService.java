@@ -14,6 +14,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.department.Depa
 public class ManagementPlanningService {
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
+
 	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()
 				.anyMatch(department ->

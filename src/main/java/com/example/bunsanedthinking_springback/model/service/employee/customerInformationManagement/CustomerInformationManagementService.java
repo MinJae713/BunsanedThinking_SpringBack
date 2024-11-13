@@ -95,6 +95,8 @@ public class CustomerInformationManagementService {
 				accidentHistory.setCustomerID(id);
 
 				customer.getAccidentHistoryList().add(accidentHistory);
+				accidentHistoryEntityModel.add(accidentHistory);
+
 				maxIndex++;
 				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
@@ -124,7 +126,10 @@ public class CustomerInformationManagementService {
 				surgeryHistory.setDate(date);
 
 				surgeryHistory.setCustomerID(id);
+
 				customer.getSurgeryHistoryList().add(surgeryHistory);
+				surgeryHistoryEntityModel.add(surgeryHistory);
+
 				maxIndex++;
 				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
@@ -153,7 +158,10 @@ public class CustomerInformationManagementService {
 
 				diseaseHistory.setName(e.getName());
 				diseaseHistory.setCustomer_id(id);
+
 				customer.getDiseaseHistoryList().add(diseaseHistory);
+				diseaseHistoryEntityModel.add(diseaseHistory);
+
 				maxIndex++;
 				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
 			}
