@@ -18,6 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public abstract class Product implements Cloneable {
+
+	public static final int PRODUCT_SERIAL_NUMBER = 700;
 	
 	private int id;
 	private int maximumMoney;

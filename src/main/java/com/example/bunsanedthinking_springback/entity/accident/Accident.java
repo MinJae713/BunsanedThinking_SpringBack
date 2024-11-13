@@ -19,6 +19,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 public class Accident {
+
+	public static final int ACCIDENT_SERIAL = 400;
 	
 	private int customerID;
 	private String customerName;

@@ -15,6 +15,4 @@ public interface AccidentHistoryMapper {
     public void update(AccidentHistoryVO accidentHistoryVO);
     public void deleteById(int id);
     public Integer getMaxId();
-
-	int getCount();
 }
