@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.product;
 
-import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
+import java.util.ArrayList;
+
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
@@ -9,9 +10,8 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-
-import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -41,12 +41,12 @@ public class ProductListImpl implements ProductList {
 	public void add(Product product) {
 		if (product instanceof Insurance) {
 			index++;
-			String compound = Product.PRODUCT_SERIAL_NUMBER + "" + Insurance.INSURANCE_SERIAL_NUMBER + "" + index;
-			product.setId(Integer.parseInt(compound));
+			// String compound = Product.PRODUCT_SERIAL_NUMBER + "" + Insurance.INSURANCE_SERIAL_NUMBER + "" + index;
+			// product.setId(Integer.parseInt(compound));
 		} else if (product instanceof Loan) {
 			index++;
-			String compound = Product.PRODUCT_SERIAL_NUMBER + "" + Loan.LOAN_SERIAL_NUMBER + "" + index;
-			product.setId(Integer.parseInt(compound));
+			// String compound = Product.PRODUCT_SERIAL_NUMBER + "" + Loan.LOAN_SERIAL_NUMBER + "" + index;
+			// product.setId(Integer.parseInt(compound));
 		}
 		productList.add(product);
 	}

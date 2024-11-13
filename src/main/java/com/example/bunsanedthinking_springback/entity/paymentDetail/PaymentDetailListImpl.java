@@ -25,8 +25,8 @@ public class PaymentDetailListImpl implements PaymentDetailList {
 	public void add(PaymentDetail paymentDetail) {
 
 		index++;
-		String compound = PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "" + index;
-		paymentDetail.setId(Integer.parseInt(compound));
+		// String compound = PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "" + index;
+		// paymentDetail.setId(Integer.parseInt(compound));
 		this.paymentDetailList.add(paymentDetail);
 	}
 

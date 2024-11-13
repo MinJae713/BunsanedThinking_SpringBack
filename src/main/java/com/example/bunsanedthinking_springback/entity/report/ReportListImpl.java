@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.report;
 
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-
 import java.util.ArrayList;
+
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 
 /**
  * @author KimChan
@@ -23,8 +23,8 @@ public class ReportListImpl implements ReportList {
 	 * @param report
 	 */
 	public void add(Report report) {
-		String compose = "" + Report.REPORT_SERIAL_NUMBER + (++index);
-		report.setId(Integer.parseInt(compose));
+		// String compose = "" + Report.REPORT_SERIAL_NUMBER + (++index);
+		// report.setId(Integer.parseInt(compose));
 		this.reportList.add(report);
 	}
 

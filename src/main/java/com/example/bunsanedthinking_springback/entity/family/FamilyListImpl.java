@@ -22,8 +22,8 @@ public class FamilyListImpl implements FamilyList {
 	 */
 	public void add(Family family){
 		index++;
-		String compound = Family.FAMILY_SERIAL_NUMBER + "" +index;
-		family.setId(Integer.parseInt(compound));
+		// String compound = Family.FAMILY_SERIAL_NUMBER + "" +index;
+		// family.setId(Integer.parseInt(compound));
 		this.familyList.add(family);
 	}
 

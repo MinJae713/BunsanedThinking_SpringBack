@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.partnerCompany;
 
+import java.util.ArrayList;
+
 import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-
-import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -29,8 +29,8 @@ public class PartnerCompanyListImpl implements PartnerCompanyList {
 	public void add(PartnerCompany partnerCompany) {
 
 		index++;
-		String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + index;
-		partnerCompany.setId(Integer.parseInt(compound));
+		// String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + index;
+		// partnerCompany.setId(Integer.parseInt(compound));
 		this.partnerCompanyList.add(partnerCompany);
 	}
 

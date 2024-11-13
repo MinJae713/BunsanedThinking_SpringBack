@@ -1,11 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
-import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.vo.InsuranceVO;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.vo.InsuranceVO;
+
+import lombok.Data;
 
 
 /**
@@ -16,9 +17,6 @@ import java.util.Date;
 @Data
 public abstract class Insurance extends Product {
 
-	public static final int INSURANCE_SERIAL_NUMBER = 100;
-
-	
 	private int ageRange;
 	private int contractPeriod;
 	private String coverage;
