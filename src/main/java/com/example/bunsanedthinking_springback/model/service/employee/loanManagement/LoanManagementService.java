@@ -74,7 +74,10 @@ public class LoanManagementService {
 	public void addLoanProduct(AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws DuplicateLoanException {
 		checkLoanName(addCollateralLoanProductDTO.getName());
 		int productId = createProductId();
-		Collateral collateral = new Collateral(productId, LoanType.indexOf(addCollateralLoanProductDTO.getLoanType()),
+		if (addCollateralLoanProductDTO.getLoanType() != LoanType.Collateral.ordinal()) {
+			throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
+		}
+		Collateral collateral = new Collateral(productId, LoanType.Collateral,
 			addCollateralLoanProductDTO.getName(), addCollateralLoanProductDTO.getInterestRate(),
 			addCollateralLoanProductDTO.getMaximumMoney(),
 			addCollateralLoanProductDTO.getMinimumAsset(),
@@ -105,7 +108,7 @@ public class LoanManagementService {
 				insuranceContractEntityModel.add(insuranceContract);
 			}
 			default -> {
-				//
+				throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
 			}
 		}
 	}
