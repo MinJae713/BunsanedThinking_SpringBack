@@ -1,5 +1,14 @@
 package com.example.bunsanedthinking_springback.model.service.employee.loanManagement;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.CollateralDTO;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.LoanDTO;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
@@ -7,7 +16,12 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.*;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
@@ -16,6 +30,7 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
@@ -25,13 +40,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.insuranceContra
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LoanManagementService {
@@ -53,6 +61,15 @@ public class LoanManagementService {
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private CompensationDetailEntityModel compensationDetailEntityModel;
+
+	@Value("${serials.product}")
+	private int PRODUCT_SERIAL_NUMBER;
+
+	@Value("${serials.loan}")
+	private int LOAN_SERIAL_NUMBER;
+
+	@Value("${serials.paymentDetail}")
+	private int PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void addLoanProduct(CollateralDTO collateralDTO) throws DuplicateLoanException {
 		checkLoanName(collateralDTO.getName());
@@ -101,19 +118,15 @@ public class LoanManagementService {
 	}
 
 	private int createProductId() {
-		Integer maxId = loanEntityModel.getMaxId();
-		int id;
-		if (maxId == null) {
-			id = Integer.parseInt("" + Product.PRODUCT_SERIAL_NUMBER + Loan.LOAN_SERIAL_NUMBER + 1);
+		Integer productMaxId = loanEntityModel.getMaxId();
+		int productId;
+		if (productMaxId == null) {
+			productId = Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER + 1);
 		} else {
-			int productSerialLength = ("" + Product.PRODUCT_SERIAL_NUMBER).length();
-			int loanSerialLength = ("" + Loan.LOAN_SERIAL_NUMBER).length();
-			String index = (maxId + "").substring(productSerialLength + loanSerialLength);
-			index = (Integer.parseInt(index) + 1) + "";
-			String compound = "" + Product.PRODUCT_SERIAL_NUMBER + Loan.LOAN_SERIAL_NUMBER + index;
-			id = Integer.parseInt(compound);
+			String serial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+			productId = NextIdGetter.getNextId(productMaxId, Integer.parseInt(serial));
 		}
-		return id;
+		return productId;
 	}
 
 	public Loan getLoanProduct(int id) throws NotExistException {
@@ -136,7 +149,6 @@ public class LoanManagementService {
 		if (contract.getContractStatus() != ContractStatus.ContractRequesting)
 			throw new AlreadyProcessedException();
 
-//		Product product = contract.getProduct(); - 찬님 이거 contract에 product 빼면서 로직 수정했습니다...!
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (result) {
 			LocalDate currentDate = LocalDate.now();
@@ -170,11 +182,9 @@ public class LoanManagementService {
 		Integer paymentMaxId = paymentDetailEntityModel.getMaxId();
 		int paymentId;
 		if (paymentMaxId == null) {
-			paymentId = Integer.parseInt("" + PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + 1);
+			paymentId = Integer.parseInt("" + PAYMENT_DETAIL_SERIAL_NUMBER + 1);
 		} else {
-			String index = (paymentMaxId + "").substring((PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "").length());
-			paymentId = Integer.parseInt(
-				(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
+			paymentId = NextIdGetter.getNextId(paymentMaxId, PAYMENT_DETAIL_SERIAL_NUMBER);
 		}
 		return new PaymentDetail(paymentId, PaymentProcessStatus.Unprocessed, customer.getName(),
 			customer.getBankName(), customer.getBankAccount(), money, paymentType, contractId, null);
@@ -257,6 +267,8 @@ public class LoanManagementService {
 		if (contract == null)
 			throw new NotExistContractException();
 		Product product = productEntityModel.getById(contract.getProductId());
+		if (product == null)
+			throw new NotExistException("해당하는 상품 정보가 존재하지 않습니다.");
 		if (product instanceof Loan loan) {
 			return getLoanOutcome(contractId, loan);
 		} else if (product instanceof Insurance insurance) {

@@ -1,5 +1,15 @@
 package com.example.bunsanedthinking_springback.model.service.employee.humanResource;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.EmployeeDTO;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.FamilyDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
@@ -9,17 +19,10 @@ import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class HumanResourceService {
@@ -30,18 +33,21 @@ public class HumanResourceService {
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
 
+	@Value("${serials.employee}")
+	private int EMPLOYEE_SERIAL_NUMBER;
+
+	@Value("${serials.family}")
+	private int FAMILY_SERIAL_NUMBER;
+
 	public void addEmployee(EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException,
 		ParseException {
 		checkResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber());
 		Integer employeeMaxId = employeeEntityModel.getMaxId();
 		int employeeId;
 		if (employeeMaxId == null) {
-			employeeId = Integer.parseInt(("" + Employee.EMPLOYEE_SERIAL_NUMBER) + employeeDTO.getTeamId() + "1");
+			employeeId = Integer.parseInt(EMPLOYEE_SERIAL_NUMBER + "1");
 		} else {
-			int employeeSerialLength = ("" + Employee.EMPLOYEE_SERIAL_NUMBER).length();
-			int teamIdLength = 3;
-			int index = Integer.parseInt((employeeMaxId + "").substring(employeeSerialLength + teamIdLength)) + 1;
-			employeeId = Integer.parseInt((Employee.EMPLOYEE_SERIAL_NUMBER + "") + employeeDTO.getTeamId() + index);
+			employeeId = NextIdGetter.getNextId(employeeMaxId, EMPLOYEE_SERIAL_NUMBER);
 		}
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,7 +57,7 @@ public class HumanResourceService {
 		ArrayList<Family> familyList = createFamilyList(employeeId, employeeDTO.getTempFamilyList());
 
 		Employee employee = new Employee(employeeDTO.getAddress(), employeeDTO.getBankAccount(),
-			employeeDTO.getTeamId(),
+			employeeDTO.getDepartmentId(),
 			employmentDate, employeeDTO.getBankName(), familyList, employeeId, employeeDTO.getName(),
 			null, employeeDTO.getPhoneNumber(), employeePosition,
 			employeeDTO.getResidentRegistrationNumber(), employeeDTO.getSalary(), null);
@@ -69,25 +75,22 @@ public class HumanResourceService {
 	}
 
 	private ArrayList<Family> createFamilyList(int employeeId, List<FamilyDTO> tempFamilyList) {
-		Integer maxId = familyEntityModel.getMaxId();
+		Integer familyMaxId = familyEntityModel.getMaxId();
 		int familyId;
-		int index;
-		if (maxId == null) {
-			familyId = Integer.parseInt(("" + Family.FAMILY_SERIAL_NUMBER) + 1);
-			index = 1;
+		if (familyMaxId == null) {
+			familyId = Integer.parseInt(("" + FAMILY_SERIAL_NUMBER) + 1);
 		} else {
-			int familySerialLength = ("" + Family.FAMILY_SERIAL_NUMBER).length();
-			index = Integer.parseInt((maxId + "").substring(familySerialLength)) + 1;
-			familyId = Integer.parseInt(("" + Family.FAMILY_SERIAL_NUMBER) + index);
+			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
 		}
+		familyMaxId = familyId;
 		ArrayList<Family> familyList = new ArrayList<>();
 		for (FamilyDTO familyDTO : tempFamilyList) {
 			RelationshipType relationshipType = RelationshipType.indexOf(familyDTO.getRelationship());
 			Family family = new Family(Date.valueOf(familyDTO.getBirthDate()), employeeId, familyId,
 				familyDTO.getName(), relationshipType, familyDTO.isSurvival());
 			familyList.add(family);
-			index++;
-			familyId = Integer.parseInt(("" + Family.FAMILY_SERIAL_NUMBER) + index);
+			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
+			familyMaxId = familyId;
 		}
 		return familyList;
 	}

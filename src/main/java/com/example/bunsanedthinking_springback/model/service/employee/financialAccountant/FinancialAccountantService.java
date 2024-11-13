@@ -9,16 +9,17 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
-
-import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 
 @Service
 public class FinancialAccountantService {
@@ -30,6 +31,8 @@ public class FinancialAccountantService {
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
+	@Autowired
+	private EmployeeEntityModel employeeEntityModel;
 
 	public DepositDetail getDepositDetail(int id) throws NotExistException {
 		DepositDetail depositDetail = depositDetailEntityModel.getById(id);
@@ -42,7 +45,7 @@ public class FinancialAccountantService {
 		//
 	}
 
-	public void handlePayment(int paymentDetailId) throws NotExistException, AlreadyProcessedException {
+	public void handlePayment(int paymentDetailId, int employeeId) throws NotExistException, AlreadyProcessedException {
 		// TODO if문 - 보험사 운영시간이 아닙니다. 다른 시간에 다시 이용해주세요 - 데코레이터 추가
 		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(paymentDetailId);
 		if (paymentDetail == null) {
@@ -51,7 +54,12 @@ public class FinancialAccountantService {
 		if (paymentDetail.getProcessStatus() == PaymentProcessStatus.Completed) {
 			throw new AlreadyProcessedException("이미 지급이 완료되었습니다.");
 		}
+		Employee employee = employeeEntityModel.getById(employeeId);
+		if (employee == null) {
+			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+		}
 		paymentDetail.setProcessStatus(PaymentProcessStatus.Completed);
+		paymentDetail.setEmployeeId(employeeId);
 		paymentDetailEntityModel.update(paymentDetail);
 	}
 
