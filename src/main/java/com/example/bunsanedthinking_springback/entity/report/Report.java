@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Report {
 
+	public static final int REPORT_SERIAL_NUMBER = 500;
 	private Accident accident;
 	private Integer damageAssessmentMoney;
 	private int id;

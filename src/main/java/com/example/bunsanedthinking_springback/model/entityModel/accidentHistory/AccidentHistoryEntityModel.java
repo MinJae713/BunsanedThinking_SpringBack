@@ -43,7 +43,4 @@ public class AccidentHistoryEntityModel {
 		accidentHistoryMapper.deleteById(id);
 	}
 
-	public Integer getCount() {
-		return accidentHistoryMapper.getCount();
-	}
 }

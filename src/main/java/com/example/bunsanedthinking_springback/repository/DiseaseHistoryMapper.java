@@ -1,10 +1,11 @@
 package com.example.bunsanedthinking_springback.repository;
 
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 
 @Mapper
 public interface DiseaseHistoryMapper {
@@ -15,5 +16,4 @@ public interface DiseaseHistoryMapper {
 	public void update(DiseaseHistoryVO diseaseHistoryVO);
 	public void deleteById(int id);
 
-	Integer getCount();
 }

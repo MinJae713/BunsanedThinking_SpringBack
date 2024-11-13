@@ -10,10 +10,6 @@
         select *
         from diseasehistory
     </select>
-    <select id="getCount" resultType="Integer">
-        select Count(*)
-        from diseasehistory
-    </select>
     <select id="getMaxId" resultType="int">
         select MAX(id)
         from DiseaseHistory
