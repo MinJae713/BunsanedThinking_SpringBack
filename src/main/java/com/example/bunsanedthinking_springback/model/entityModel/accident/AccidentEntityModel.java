@@ -11,7 +11,6 @@ import com.example.bunsanedthinking_springback.repository.AccidentMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
-import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AccidentEntityModel {
@@ -19,9 +18,6 @@ public class AccidentEntityModel {
 	private AccidentMapper accidentMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
-
-	@Value("${serials.accident}")
-	public static int ACCIDENT_SERIAL_NUMBER;
 
 	public Accident getById(int id) {
 		AccidentVO accidentVO = accidentMapper.getById(id).orElse(null);
