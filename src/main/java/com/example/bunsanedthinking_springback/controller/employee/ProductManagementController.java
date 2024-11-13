@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.AutomobileDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.DiseaseDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.InjuryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddAutomobileInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddDiseaseInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddInjuryInsuranceDTO;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
@@ -29,18 +29,18 @@ public class ProductManagementController {
 	private ProductManagementService productManagementSModel;
 
 	@PostMapping("/addDiseaseInsurance")
-	public void addDiseaseInsurance(@RequestBody DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addDiseaseInsurance(diseaseDTO);
+	public void addDiseaseInsurance(@RequestBody AddDiseaseInsuranceDTO addDiseaseInsuranceDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addDiseaseInsurance(addDiseaseInsuranceDTO);
 	}
 
 	@PostMapping("/addInjuryInsurance")
-	public void addInjuryInsurance(@RequestBody InjuryDTO injuryDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addInjuryInsurance(injuryDTO);
+	public void addInjuryInsurance(@RequestBody AddInjuryInsuranceDTO addInjuryInsuranceDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addInjuryInsurance(addInjuryInsuranceDTO);
 	}
 
 	@PostMapping("/addAutomobileInsurance")
-	public void addAutomobileInsurance(@RequestBody AutomobileDTO automobileDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addAutomobileInsurance(automobileDTO);
+	public void addAutomobileInsurance(@RequestBody AddAutomobileInsuranceDTO addAutomobileInsuranceDTO) throws DuplicateInsuranceException {
+		productManagementSModel.addAutomobileInsurance(addAutomobileInsuranceDTO);
 	}
 
 	@DeleteMapping("/deleteInsuranceProduct")

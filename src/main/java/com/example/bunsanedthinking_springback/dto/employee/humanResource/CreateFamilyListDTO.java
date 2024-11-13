@@ -1,13 +1,13 @@
 package com.example.bunsanedthinking_springback.dto.employee.humanResource;
 
-import java.time.LocalDate;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
-public class FamilyDTO {
+public class CreateFamilyListDTO {
 	private LocalDate birthDate;
 	private String name;
 	private int relationship;

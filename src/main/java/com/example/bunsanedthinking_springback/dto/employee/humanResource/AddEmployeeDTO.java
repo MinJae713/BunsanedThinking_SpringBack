@@ -1,13 +1,13 @@
 package com.example.bunsanedthinking_springback.dto.employee.humanResource;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
-public class EmployeeDTO {
+public class AddEmployeeDTO {
 	private int departmentId;
 	private String name;
 	private int employeePosition;
@@ -18,5 +18,5 @@ public class EmployeeDTO {
 	private String residentRegistrationNumber;
 	private int salary;
 	private String employmentDate;
-	private List<FamilyDTO> tempFamilyList;
+	private List<CreateFamilyListDTO> tempFamilyList;
 }

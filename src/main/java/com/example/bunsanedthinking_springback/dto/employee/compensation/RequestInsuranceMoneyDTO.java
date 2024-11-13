@@ -5,12 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ReqCompensationDTO {
-    private String accountHolder;
-    private String bank;
-    private String bankAccount;
+public class RequestInsuranceMoneyDTO {
+    private int customerId;
     private int money;
+    private int insuranceMoneyId;
     private int paymentType;
     private int contractId;
-    private int reportId;
 }

@@ -1,17 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.employee.humanResource;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.humanResource.EmployeeDTO;
-import com.example.bunsanedthinking_springback.dto.employee.humanResource.FamilyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.AddEmployeeDTO;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.CreateFamilyListDTO;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
@@ -23,6 +13,15 @@ import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HumanResourceService {
@@ -39,9 +38,9 @@ public class HumanResourceService {
 	@Value("${serials.family}")
 	private int FAMILY_SERIAL_NUMBER;
 
-	public void addEmployee(EmployeeDTO employeeDTO) throws DuplicateResidentRegistrationNumberException,
+	public void addEmployee(AddEmployeeDTO addEmployeeDTO) throws DuplicateResidentRegistrationNumberException,
 		ParseException {
-		checkResidentRegistrationNumber(employeeDTO.getResidentRegistrationNumber());
+		checkResidentRegistrationNumber(addEmployeeDTO.getResidentRegistrationNumber());
 		Integer employeeMaxId = employeeEntityModel.getMaxId();
 		int employeeId;
 		if (employeeMaxId == null) {
@@ -51,16 +50,16 @@ public class HumanResourceService {
 		}
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date employmentDate = formatter.parse(employeeDTO.getEmploymentDate());
-		EmployeePosition employeePosition = EmployeePosition.indexOf(employeeDTO.getEmployeePosition());
+		java.util.Date employmentDate = formatter.parse(addEmployeeDTO.getEmploymentDate());
+		EmployeePosition employeePosition = EmployeePosition.indexOf(addEmployeeDTO.getEmployeePosition());
 
-		ArrayList<Family> familyList = createFamilyList(employeeId, employeeDTO.getTempFamilyList());
+		ArrayList<Family> familyList = createFamilyList(employeeId, addEmployeeDTO.getTempFamilyList());
 
-		Employee employee = new Employee(employeeDTO.getAddress(), employeeDTO.getBankAccount(),
-			employeeDTO.getDepartmentId(),
-			employmentDate, employeeDTO.getBankName(), familyList, employeeId, employeeDTO.getName(),
-			null, employeeDTO.getPhoneNumber(), employeePosition,
-			employeeDTO.getResidentRegistrationNumber(), employeeDTO.getSalary(), null);
+		Employee employee = new Employee(addEmployeeDTO.getAddress(), addEmployeeDTO.getBankAccount(),
+			addEmployeeDTO.getDepartmentId(),
+			employmentDate, addEmployeeDTO.getBankName(), familyList, employeeId, addEmployeeDTO.getName(),
+			null, addEmployeeDTO.getPhoneNumber(), employeePosition,
+			addEmployeeDTO.getResidentRegistrationNumber(), addEmployeeDTO.getSalary(), null);
 		employeeEntityModel.add(employee);
 	}
 
@@ -74,7 +73,7 @@ public class HumanResourceService {
 		}
 	}
 
-	private ArrayList<Family> createFamilyList(int employeeId, List<FamilyDTO> tempFamilyList) {
+	private ArrayList<Family> createFamilyList(int employeeId, List<CreateFamilyListDTO> tempFamilyList) {
 		Integer familyMaxId = familyEntityModel.getMaxId();
 		int familyId;
 		if (familyMaxId == null) {
@@ -84,10 +83,10 @@ public class HumanResourceService {
 		}
 		familyMaxId = familyId;
 		ArrayList<Family> familyList = new ArrayList<>();
-		for (FamilyDTO familyDTO : tempFamilyList) {
-			RelationshipType relationshipType = RelationshipType.indexOf(familyDTO.getRelationship());
-			Family family = new Family(Date.valueOf(familyDTO.getBirthDate()), employeeId, familyId,
-				familyDTO.getName(), relationshipType, familyDTO.isSurvival());
+		for (CreateFamilyListDTO createFamilyListDTO : tempFamilyList) {
+			RelationshipType relationshipType = RelationshipType.indexOf(createFamilyListDTO.getRelationship());
+			Family family = new Family(Date.valueOf(createFamilyListDTO.getBirthDate()), employeeId, familyId,
+				createFamilyListDTO.getName(), relationshipType, createFamilyListDTO.isSurvival());
 			familyList.add(family);
 			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
 			familyMaxId = familyId;

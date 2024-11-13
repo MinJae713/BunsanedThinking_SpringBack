@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class InduceDTO {
+public class InduceInsuranceProductDTO {
 	private String name;
 	private String address;
 	private String bankAccount;
@@ -18,9 +18,9 @@ public class InduceDTO {
 	private String residentRegistrationNumber;
 	private int age;
 	private int gender;
-	private List<DiseaseHistoryDTO> diseaseHistoryList;
-	private List<SurgeryHistoryDTO> surgeryHistoryList;
-	private List<AccidentHistoryDTO> accidentHistoryList;
+	private List<InduceDiseaseHistoryDTO> diseaseHistoryList;
+	private List<InduceSurgeryHistoryDTO> surgeryHistoryList;
+	private List<InduceAccidentHistoryDTO> accidentHistoryList;
 	private int productId;
 	private int employeeId;
 }

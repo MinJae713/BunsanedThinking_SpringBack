@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqCompensationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqInsuranceMoneyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestCompensationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -22,7 +22,7 @@ public class CompensationController {
 	private CompensationService compensationSModel;
 
 	@PatchMapping("/requestCompensation")
-	public void requestCompensation(@RequestBody ReqCompensationDTO reqCompensationDTO)
+	public void requestCompensation(@RequestBody RequestCompensationDTO requestCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {
 		/*
 		{
@@ -35,11 +35,11 @@ public class CompensationController {
 			"paymentType": 0
 		}
 		 */
-		compensationSModel.requestCompensation(reqCompensationDTO);
+		compensationSModel.requestCompensation(requestCompensationDTO);
 	}
 
 	@PatchMapping("/requestInsuranceMoney")
-	public void requestInsuranceMoney(@RequestBody ReqInsuranceMoneyDTO reqInsuranceMoneyDTO)
+	public void requestInsuranceMoney(@RequestBody RequestInsuranceMoneyDTO requestInsuranceMoneyDTO)
 		throws NotExistException, AlreadyProcessedException {
 		/*
 		{
@@ -50,7 +50,7 @@ public class CompensationController {
 			"contractId": 1001
 		}
 		 */
-		compensationSModel.requestInsuranceMoney(reqInsuranceMoneyDTO);
+		compensationSModel.requestInsuranceMoney(requestInsuranceMoneyDTO);
 	}
 	@GetMapping("/getAllInsuranceMoney")
 	public List<InsuranceMoney> getAllInsuranceMoney() {

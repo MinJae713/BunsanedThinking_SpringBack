@@ -1,27 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.loanManagement;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.CollateralDTO;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.LoanDTO;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddCollateralLoanProductDTO;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddFixesDepositLoanProductDTO;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
@@ -40,6 +26,14 @@ import com.example.bunsanedthinking_springback.model.entityModel.insuranceContra
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LoanManagementService {
@@ -71,32 +65,32 @@ public class LoanManagementService {
 	@Value("${serials.paymentDetail}")
 	private int PAYMENT_DETAIL_SERIAL_NUMBER;
 
-	public void addLoanProduct(CollateralDTO collateralDTO) throws DuplicateLoanException {
-		checkLoanName(collateralDTO.getName());
+	public void addLoanProduct(AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws DuplicateLoanException {
+		checkLoanName(addCollateralLoanProductDTO.getName());
 		int productId = createProductId();
-		Collateral collateral = new Collateral(productId, LoanType.indexOf(collateralDTO.getLoanType()),
-			collateralDTO.getName(), collateralDTO.getInterestRate(), collateralDTO.getMaximumMoney(),
-			collateralDTO.getMinimumAsset(), CollateralType.indexOf(collateralDTO.getCollateralType()),
-			collateralDTO.getMinimumValue(), collateralDTO.getMonthlyIncome());
+		Collateral collateral = new Collateral(productId, LoanType.indexOf(addCollateralLoanProductDTO.getLoanType()),
+			addCollateralLoanProductDTO.getName(), addCollateralLoanProductDTO.getInterestRate(), addCollateralLoanProductDTO.getMaximumMoney(),
+			addCollateralLoanProductDTO.getMinimumAsset(), CollateralType.indexOf(addCollateralLoanProductDTO.getCollateralType()),
+			addCollateralLoanProductDTO.getMinimumValue(), addCollateralLoanProductDTO.getMonthlyIncome());
 		collateralEntityModel.add(collateral);
 	}
 
-	public void addLoanProduct(LoanDTO loanDTO) throws DuplicateLoanException {
-		checkLoanName(loanDTO.getName());
+	public void addLoanProduct(AddFixesDepositLoanProductDTO addFixesDepositLoanProductDTO) throws DuplicateLoanException {
+		checkLoanName(addFixesDepositLoanProductDTO.getName());
 		int productId = createProductId();
 
-		LoanType loanType = LoanType.indexOf(loanDTO.getLoanType());
+		LoanType loanType = LoanType.indexOf(addFixesDepositLoanProductDTO.getLoanType());
 		switch (loanType) {
 			case FixedDeposit -> {
-				FixedDeposit fixedDeposit = new FixedDeposit(productId, loanType, loanDTO.getName(),
-					loanDTO.getInterestRate(), loanDTO.getMaximumMoney(), loanDTO.getMinimumAsset(),
-					loanDTO.getParameter(), loanDTO.getMonthlyIncome());
+				FixedDeposit fixedDeposit = new FixedDeposit(productId, loanType, addFixesDepositLoanProductDTO.getName(),
+					addFixesDepositLoanProductDTO.getInterestRate(), addFixesDepositLoanProductDTO.getMaximumMoney(), addFixesDepositLoanProductDTO.getMinimumAsset(),
+					addFixesDepositLoanProductDTO.getParameter(), addFixesDepositLoanProductDTO.getMonthlyIncome());
 				fixedDepositEntityModel.add(fixedDeposit);
 			}
 			case InsuranceContract -> {
-				InsuranceContract insuranceContract = new InsuranceContract(productId, loanType, loanDTO.getName(),
-					loanDTO.getInterestRate(), loanDTO.getMaximumMoney(), loanDTO.getMinimumAsset(),
-					loanDTO.getParameter(), loanDTO.getMonthlyIncome());
+				InsuranceContract insuranceContract = new InsuranceContract(productId, loanType, addFixesDepositLoanProductDTO.getName(),
+					addFixesDepositLoanProductDTO.getInterestRate(), addFixesDepositLoanProductDTO.getMaximumMoney(), addFixesDepositLoanProductDTO.getMinimumAsset(),
+					addFixesDepositLoanProductDTO.getParameter(), addFixesDepositLoanProductDTO.getMonthlyIncome());
 				insuranceContractEntityModel.add(insuranceContract);
 			}
 			default -> {

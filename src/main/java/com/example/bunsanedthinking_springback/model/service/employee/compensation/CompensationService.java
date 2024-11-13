@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.employee.compensation;
 
-import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqCompensationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.ReqInsuranceMoneyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestCompensationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestInsuranceMoneyDTO;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
@@ -49,15 +49,15 @@ public class CompensationService {
 	@Value("${serials.paymentDetail}")
 	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
-	public void requestCompensation(ReqCompensationDTO reqCompensationDTO)
+	public void requestCompensation(RequestCompensationDTO requestCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {
-		String accountHolder = reqCompensationDTO.getAccountHolder();
-		String bank = reqCompensationDTO.getBank();
-		String bankAccount = reqCompensationDTO.getBankAccount();
-		int money = reqCompensationDTO.getMoney();
-		int paymentType = reqCompensationDTO.getPaymentType();
-		int contractId = reqCompensationDTO.getContractId();
-		int reportId = reqCompensationDTO.getReportId();
+		String accountHolder = requestCompensationDTO.getAccountHolder();
+		String bank = requestCompensationDTO.getBank();
+		String bankAccount = requestCompensationDTO.getBankAccount();
+		int money = requestCompensationDTO.getMoney();
+		int paymentType = requestCompensationDTO.getPaymentType();
+		int contractId = requestCompensationDTO.getContractId();
+		int reportId = requestCompensationDTO.getReportId();
 
 		Report report = reportEntityModel.getById(reportId);
 		if (report == null)
@@ -87,15 +87,15 @@ public class CompensationService {
 		//		accidentList.update(report.getAccident());
 	}
 
-	public void requestInsuranceMoney(ReqInsuranceMoneyDTO reqInsuranceMoneyDTO) throws
+	public void requestInsuranceMoney(RequestInsuranceMoneyDTO requestInsuranceMoneyDTO) throws
 		NotExistException,
 		AlreadyProcessedException {
 
-		int customerId = reqInsuranceMoneyDTO.getCustomerId();
-		int money = reqInsuranceMoneyDTO.getMoney();
-		int insuranceMoneyId = reqInsuranceMoneyDTO.getInsuranceMoneyId();
-		int paymentType = reqInsuranceMoneyDTO.getPaymentType();
-		int contractId = reqInsuranceMoneyDTO.getContractId();
+		int customerId = requestInsuranceMoneyDTO.getCustomerId();
+		int money = requestInsuranceMoneyDTO.getMoney();
+		int insuranceMoneyId = requestInsuranceMoneyDTO.getInsuranceMoneyId();
+		int paymentType = requestInsuranceMoneyDTO.getPaymentType();
+		int contractId = requestInsuranceMoneyDTO.getContractId();
 
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)

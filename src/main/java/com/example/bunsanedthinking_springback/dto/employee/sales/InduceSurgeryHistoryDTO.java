@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SurgeryHistoryDTO {
+public class InduceSurgeryHistoryDTO {
 	private String date;
 	private String hospitalName;
 	private String name;

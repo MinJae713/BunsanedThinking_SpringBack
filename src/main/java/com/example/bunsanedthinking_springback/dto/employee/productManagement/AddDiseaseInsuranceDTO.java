@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DiseaseDTO {
+public class AddDiseaseInsuranceDTO {
 	private String name;
 	private Integer maximumMoney;
 	private Integer insuranceType;

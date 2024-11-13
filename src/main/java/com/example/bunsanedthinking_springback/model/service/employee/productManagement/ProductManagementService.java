@@ -1,24 +1,9 @@
 package com.example.bunsanedthinking_springback.model.service.employee.productManagement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.AutomobileDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.DiseaseDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.InjuryDTO;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddAutomobileInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddDiseaseInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddInjuryInsuranceDTO;
+import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -28,6 +13,13 @@ import com.example.bunsanedthinking_springback.model.entityModel.disease.Disease
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -55,10 +47,10 @@ public class ProductManagementService {
 	@Value("${serials.insurance}")
 	private Integer INSURANCE_SERIAL_NUMBER;
 
-	public void addDiseaseInsurance(DiseaseDTO diseaseDTO) throws DuplicateInsuranceException {
+	public void addDiseaseInsurance(AddDiseaseInsuranceDTO addDiseaseInsuranceDTO) throws DuplicateInsuranceException {
 
 		for (Product product : productEntityModel.getAll()) {
-			if (product.getName().equals(diseaseDTO.getName())) {
+			if (product.getName().equals(addDiseaseInsuranceDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
@@ -67,23 +59,23 @@ public class ProductManagementService {
 
 		Disease disease = new Disease();
 		disease.setId(insuranceId);
-		disease.setName(diseaseDTO.getName());
-		disease.setMaximumMoney(diseaseDTO.getMaximumMoney());
-		disease.setInsuranceType(InsuranceType.fromInt(diseaseDTO.getInsuranceType()));
-		disease.setMonthlyPremium(diseaseDTO.getMonthlyPremium());
-		disease.setContractPeriod(diseaseDTO.getContractPeriod());
-		disease.setCoverage(diseaseDTO.getCoverage());
+		disease.setName(addDiseaseInsuranceDTO.getName());
+		disease.setMaximumMoney(addDiseaseInsuranceDTO.getMaximumMoney());
+		disease.setInsuranceType(InsuranceType.fromInt(addDiseaseInsuranceDTO.getInsuranceType()));
+		disease.setMonthlyPremium(addDiseaseInsuranceDTO.getMonthlyPremium());
+		disease.setContractPeriod(addDiseaseInsuranceDTO.getContractPeriod());
+		disease.setCoverage(addDiseaseInsuranceDTO.getCoverage());
 
 		disease.setDiseaseName(disease.getDiseaseName());
-		disease.setDiseaseLimit(diseaseDTO.getDiseaseLimit());
-		disease.setSurgeriesLimit(diseaseDTO.getSurgeriesLimit());
+		disease.setDiseaseLimit(addDiseaseInsuranceDTO.getDiseaseLimit());
+		disease.setSurgeriesLimit(addDiseaseInsuranceDTO.getSurgeriesLimit());
 
 		diseaseEntityModel.add(disease);
 	}
 
-	public void addInjuryInsurance(InjuryDTO injuryDTO) throws DuplicateInsuranceException {
+	public void addInjuryInsurance(AddInjuryInsuranceDTO addInjuryInsuranceDTO) throws DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
-			if (product.getName().equals(injuryDTO.getName())) {
+			if (product.getName().equals(addInjuryInsuranceDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
@@ -92,22 +84,22 @@ public class ProductManagementService {
 
 		Injury injury = new Injury();
 		injury.setId(insuranceId);
-		injury.setName(injuryDTO.getName());
-		injury.setMaximumMoney(injuryDTO.getMaximumMoney());
-		injury.setInsuranceType(InsuranceType.fromInt(injuryDTO.getInsuranceType()));
-		injury.setMonthlyPremium(injuryDTO.getMonthlyPremium());
-		injury.setContractPeriod(injuryDTO.getContractPeriod());
-		injury.setCoverage(injuryDTO.getCoverage());
+		injury.setName(addInjuryInsuranceDTO.getName());
+		injury.setMaximumMoney(addInjuryInsuranceDTO.getMaximumMoney());
+		injury.setInsuranceType(InsuranceType.fromInt(addInjuryInsuranceDTO.getInsuranceType()));
+		injury.setMonthlyPremium(addInjuryInsuranceDTO.getMonthlyPremium());
+		injury.setContractPeriod(addInjuryInsuranceDTO.getContractPeriod());
+		injury.setCoverage(addInjuryInsuranceDTO.getCoverage());
 
-		injury.setInjuryType(InjuryType.fromInt(injuryDTO.getInjuryType()));
-		injury.setSurgeriesLimit(injuryDTO.getSurgeriesLimit());
+		injury.setInjuryType(InjuryType.fromInt(addInjuryInsuranceDTO.getInjuryType()));
+		injury.setSurgeriesLimit(addInjuryInsuranceDTO.getSurgeriesLimit());
 
 		injuryEntityModel.add(injury);
 	}
 
-	public void addAutomobileInsurance(AutomobileDTO automobileDTO) throws DuplicateInsuranceException {
+	public void addAutomobileInsurance(AddAutomobileInsuranceDTO addAutomobileInsuranceDTO) throws DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
-			if (product.getName().equals(automobileDTO.getName())) {
+			if (product.getName().equals(addAutomobileInsuranceDTO.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
@@ -116,16 +108,16 @@ public class ProductManagementService {
 
 		Automobile automobile = new Automobile();
 		automobile.setId(insuranceId);
-		automobile.setName(automobileDTO.getName());
-		automobile.setMaximumMoney(automobileDTO.getMaximumMoney());
-		automobile.setInsuranceType(InsuranceType.fromInt(automobileDTO.getInsuranceType()));
-		automobile.setMonthlyPremium(automobileDTO.getMonthlyPremium());
-		automobile.setContractPeriod(automobileDTO.getContractPeriod());
-		automobile.setCoverage(automobileDTO.getCoverage());
+		automobile.setName(addAutomobileInsuranceDTO.getName());
+		automobile.setMaximumMoney(addAutomobileInsuranceDTO.getMaximumMoney());
+		automobile.setInsuranceType(InsuranceType.fromInt(addAutomobileInsuranceDTO.getInsuranceType()));
+		automobile.setMonthlyPremium(addAutomobileInsuranceDTO.getMonthlyPremium());
+		automobile.setContractPeriod(addAutomobileInsuranceDTO.getContractPeriod());
+		automobile.setCoverage(addAutomobileInsuranceDTO.getCoverage());
 
-		automobile.setVehicleType(VehicleType.fromInt(automobileDTO.getVehicleType()));
-		automobile.setAccidentLimit(automobileDTO.getAccidentLimit());
-		automobile.setServiceList((ArrayList<ServiceType>)automobileDTO.getServiceList());
+		automobile.setVehicleType(VehicleType.fromInt(addAutomobileInsuranceDTO.getVehicleType()));
+		automobile.setAccidentLimit(addAutomobileInsuranceDTO.getAccidentLimit());
+		automobile.setServiceList((ArrayList<ServiceType>) addAutomobileInsuranceDTO.getServiceList());
 
 		automobileEntityModel.add(automobile);
 	}

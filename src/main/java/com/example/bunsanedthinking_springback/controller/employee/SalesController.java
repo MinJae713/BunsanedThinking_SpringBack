@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceInsuranceProductDTO;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
@@ -46,13 +46,13 @@ public class SalesController {
 	}
 
 	@PostMapping("/induceInsuranceProduct")
-	public Customer induceInsuranceProduct(@RequestBody InduceDTO induceDTO) {
-		return salesSModel.induceInsuranceProduct(induceDTO);
+	public Customer induceInsuranceProduct(@RequestBody InduceInsuranceProductDTO induceInsuranceProductDTO) {
+		return salesSModel.induceInsuranceProduct(induceInsuranceProductDTO);
 	}
 
 	@PostMapping("/induceLoanProduct")
-	public Customer induceLoanProduct(@RequestBody InduceDTO induceDTO) {
-		return salesSModel.induceLoanProduct(induceDTO);
+	public Customer induceLoanProduct(@RequestBody InduceInsuranceProductDTO induceInsuranceProductDTO) {
+		return salesSModel.induceLoanProduct(induceInsuranceProductDTO);
 	}
 
 	@GetMapping("/getInsuranceProduct")
@@ -96,8 +96,8 @@ public class SalesController {
 	}
 
 	@PostMapping("/addDiseaseHistory")
-	public DiseaseHistory addDiseaseHistory(@RequestBody DiseaseHistoryDTO diseaseHistoryDTO) {
-		return salesSModel.addDiseaseHistory(diseaseHistoryDTO);
+	public DiseaseHistory addDiseaseHistory(@RequestBody InduceDiseaseHistoryDTO induceDiseaseHistoryDTO) {
+		return salesSModel.addDiseaseHistory(induceDiseaseHistoryDTO);
 	}
 
 	@PatchMapping("/updateContractCount")

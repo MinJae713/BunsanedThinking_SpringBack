@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement;
 
-import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.SurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceAccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceSurgeryHistoryDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,9 +19,9 @@ public class AddCustomerInformationDTO {
     private String residentRegistrationNumber;
     private String address;
     private long property;
-    private List<AccidentHistoryDTO> accidentHistoryList;
-    private List<SurgeryHistoryDTO> surgeryHistoryList;
-    private List<DiseaseHistoryDTO> diseaseHistoryList;
+    private List<InduceAccidentHistoryDTO> accidentHistoryList;
+    private List<InduceSurgeryHistoryDTO> surgeryHistoryList;
+    private List<InduceDiseaseHistoryDTO> diseaseHistoryList;
     private String bankName;
     private String bankAccount;
 }
