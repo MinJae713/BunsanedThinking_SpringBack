@@ -28,8 +28,6 @@ public class Department implements Cloneable {
 	private String task;
 	private List<Employee> employeeList;
 
-	public static int DepartmentSerialNum = 910;
-
 	public Department(String name, String task, String purpose, String headName) {
 		this.setName(name);
 		this.setTask(task);

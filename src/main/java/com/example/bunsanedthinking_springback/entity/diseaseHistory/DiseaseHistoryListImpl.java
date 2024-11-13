@@ -23,9 +23,9 @@ public class DiseaseHistoryListImpl implements DiseaseHistoryList {
 	 * @param diseaseHistory
 	 */
 	public void add(DiseaseHistory diseaseHistory) {
-		String compound = DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "" + (++index);
-		diseaseHistory.setId(Integer.parseInt(compound));
-		diseaseHistoryList.add(diseaseHistory);
+//		String compound = DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "" + (++index);
+//		diseaseHistory.setId(Integer.parseInt(compound));
+//		diseaseHistoryList.add(diseaseHistory);
 	}
 
 	/**
@@ -54,10 +54,6 @@ public class DiseaseHistoryListImpl implements DiseaseHistoryList {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param id
-	 */
 	public void update(DiseaseHistory diseaseHistory) {
 		for (int i = 0; i < diseaseHistoryList.size(); i++) {
 			if (diseaseHistoryList.get(i).getId() == diseaseHistory.getId()) {

@@ -22,7 +22,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class Employee implements Cloneable {
-	public static final int EMPLOYEE_SERIAL_NUMBER = 600;
 
 	private String address;
 	private String bankAccount;

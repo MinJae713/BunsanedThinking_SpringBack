@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.employee;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
+import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -100,11 +100,11 @@ public class EmployeeListImpl implements EmployeeList {
 		//		} else if (employee instanceof LoanManagementModel) {
 		//			compound = Employee.EMPLOYEE_SERIAL_NUMBER + "" + LoanManagementModel.LOAN_MANAGEMENT_SERIAL_NUMBER + "" + index;
 		//		}
-		EDeparts departs = EDeparts.values()[eCounter % EDeparts.values().length];
-		compound = Employee.EMPLOYEE_SERIAL_NUMBER + "" + departs.getSerial() + "" + index;
-		employee.setId(Integer.parseInt(compound));
-		employeeList.add(employee);
-		eCounter++;
+//		EDeparts departs = EDeparts.values()[eCounter % EDeparts.values().length];
+//		compound = Employee.EMPLOYEE_SERIAL_NUMBER + "" + departs.getSerial() + "" + index;
+//		employee.setId(Integer.parseInt(compound));
+//		employeeList.add(employee);
+//		eCounter++;
 	}
 
 	/**

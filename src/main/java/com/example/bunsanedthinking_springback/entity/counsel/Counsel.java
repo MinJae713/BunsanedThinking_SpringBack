@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.counsel;
 
+import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.vo.CounselVO;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
-import com.example.bunsanedthinking_springback.vo.CounselVO;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -18,8 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Counsel implements Cloneable {
-
-	public static int COUNSEL_SERIAL_NUMBER = 520;
 
 	private Date counselDate;
 	private int customerID;

@@ -24,9 +24,9 @@ public class AccidentHistoryListImpl implements AccidentHistoryList {
 	 * @param accidentHistory
 	 */
 	public void add(AccidentHistory accidentHistory){
-		String compound = AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "" + (++index);
-		accidentHistory.setId(Integer.parseInt(compound));
-		accidentHistoryList.add(accidentHistory);
+//		String compound = AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "" + (++index);
+//		accidentHistory.setId(Integer.parseInt(compound));
+//		accidentHistoryList.add(accidentHistory);
 	}
 
 	/**
