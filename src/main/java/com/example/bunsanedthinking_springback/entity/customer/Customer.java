@@ -180,7 +180,7 @@ public class Customer implements Cloneable {
 
 	public boolean buyInsurance(Insurance insurance, ContractList contractList) {
 		try {
-			Contract contract = new Contract(this.id, insurance);
+			Contract contract = new Contract(this.id, insurance.getId());
 			this.contractList.add(contract);
 			contractList.add(contract);
 		} catch (Exception e) {
@@ -208,7 +208,7 @@ public class Customer implements Cloneable {
 				throw new AlreadyRequestingException();
 			}
 		}
-		Contract contract = new Contract(this.id, loan);
+		Contract contract = new Contract(this.id, loan.getId());
 		this.contractList.add(contract);
 		contractList.add(contract);
 		return true;

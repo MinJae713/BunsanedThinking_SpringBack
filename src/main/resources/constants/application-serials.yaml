@@ -20,10 +20,3 @@ serials:
   product: 700
   report: 500
   surgeryHistory: 610
-# compensationDetail, insurnaceMoney는 serial이 없음
-#  @Value("${serials.accidentHistory}")
-#  public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
-
-#  @Value("${serials.complaint}")
-#  public static int COMPLAINT_SERIAL_NUMBER;
-#  사용 방법은 이거 참고하십쇼

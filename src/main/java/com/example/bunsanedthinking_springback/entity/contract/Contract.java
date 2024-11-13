@@ -1,5 +1,14 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
+import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
+import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.vo.ContractVO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,17 +16,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.vo.ContractVO;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ȯ
@@ -42,12 +40,11 @@ public class Contract {
 	private int id;
 	private List<InsuranceMoney> insuranceMoneyList;
 	private Date lastPaidDate; // 최근 납부일
-//	private Product product;
 	private int productId;
 	private Date terminationDate; // 해지일
 	private List<PaymentDetail> paymentDetailList;
 
-	public Contract(int customerID, Product product) {
+	public Contract(int customerID, int productId) {
 		this.compensationDetailList = new ArrayList<>();
 		this.contractStatus = ContractStatus.ContractRequesting;
 		this.customerID = customerID;
@@ -61,7 +58,7 @@ public class Contract {
 		this.paymentDetailList = new ArrayList<>();
 		this.paymentDate = 10;
 //		this.product = product;
-		this.productId = product.getId();
+		this.productId = productId;
 		// 일단 프로덕트 아이디만 받것숨다 - 파라미터 건드리면 문제가 클듯
 	}
 

@@ -439,7 +439,7 @@ public class CustomerService {
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
 		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
-		Contract contract = new Contract(customerId, insurance);
+		Contract contract = new Contract(customerId, insuranceId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(employeeId);
 		contractEntityModel.add(contract);
@@ -473,7 +473,7 @@ public class CustomerService {
 		for (Contract contract : myContractList)
 			if (contract.getProductId() == loanId)
 				throw new AlreadyRequestingException();
-		Contract contract = new Contract(customerId, loan);
+		Contract contract = new Contract(customerId, loanId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(employeeId);
 		contractEntityModel.add(contract);
