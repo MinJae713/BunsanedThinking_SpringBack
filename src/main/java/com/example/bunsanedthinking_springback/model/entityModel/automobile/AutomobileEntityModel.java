@@ -5,6 +5,10 @@ import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -31,6 +35,15 @@ public class AutomobileEntityModel {
 	private ServiceMapper serviceMapper;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
+	@Autowired
+	private EndorsementEntityModel endorsementEntityModel;
+	@Autowired
+	private RevivalEntityModel revivalEntityModel;
+	@Autowired
+	private TerminationEntityModel terminationEntityModel;
+	@Autowired
+	private RecontractEntityModel recontractEntityModel;
+
 
 	public Automobile getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -104,10 +117,18 @@ public class AutomobileEntityModel {
 		if (automobileMapper.getById(id).isEmpty()) return;
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
-				forEach(e -> contractEntityModel.delete(e.getId()));
+				forEach(e -> deleteContract(e));
 		serviceMapper.deleteById(id);
 		automobileMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);
+	}
+
+	private void deleteContract(Contract contract) {
+		endorsementEntityModel.delete(contract.getId());
+		revivalEntityModel.delete(contract.getId());
+		terminationEntityModel.delete(contract.getId());
+		recontractEntityModel.delete(contract.getId());
+		contractEntityModel.delete(contract.getId());
 	}
 }
