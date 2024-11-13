@@ -6,7 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
@@ -38,22 +40,24 @@ public class CustomerInformationManagementService {
 	@Autowired
 	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 
+	@Value("${serials.customer}")
+	public int CUSTOMER_SERIAL_NUMBER;
+	@Value("${serials.accidentHistory}")
+	public int ACCIDENT_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.surgeryHistory}")
+	public int SURGERY_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.diseaseHistory}")
+	public int DISEASE_HISTORY_SERIAL_NUMBER;
+
 	public void addCustomerInformation(AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
 
 		boolean isExistCustomerResidentRegistrationNumber = customerEntityModel.getAll().stream()
-				.anyMatch(customer ->
-						customer.getResidentRegistrationNumber().equals(addCustomerInformationDTO.getResidentRegistrationNumber()));
+				.anyMatch(customer -> customer.getResidentRegistrationNumber().equals(addCustomerInformationDTO.getResidentRegistrationNumber()));
 		if(isExistCustomerResidentRegistrationNumber)
 			throw new DuplicateResidentRegistrationNumberException();
 
 		Integer maxId = customerEntityModel.getMaxId();
-		int id;
-		if (maxId == null) {
-			id = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
-		} else {
-			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER + "").length());
-			id = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
-		}
+		int id = NextIdGetter.getNextId(maxId, CUSTOMER_SERIAL_NUMBER);
 
 		Customer customer = new Customer(
 				addCustomerInformationDTO.getName(),
@@ -71,19 +75,10 @@ public class CustomerInformationManagementService {
 		// VO를 DB에 추가
 		customerEntityModel.add(customer);
 
-
-		if(addCustomerInformationDTO.getAccidentHistoryList() != null) {
+		if (addCustomerInformationDTO.getAccidentHistoryList() != null) {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
-			int accidentHistoryId;
-			int maxIndex;
-			if (accidentHistoryMaxId == null) {
-				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else{
-				String index = (accidentHistoryMaxId + "").substring((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
-			}
+			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+
 			for (AccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
@@ -98,24 +93,14 @@ public class CustomerInformationManagementService {
 				customer.getAccidentHistoryList().add(accidentHistory);
 				accidentHistoryEntityModel.add(accidentHistory);
 
-				maxIndex++;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
+				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
 
-		if(addCustomerInformationDTO.getSurgeryHistoryList() != null) {
+		if (addCustomerInformationDTO.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
-			int surgeryHistoryId;
-			int maxIndex;
-			if (surgeryHistoryMaxId == null) {
-				surgeryHistoryId = Integer.parseInt(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else{
-				String index = (surgeryHistoryMaxId + "").substring(
-						(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
-			}
+			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, SURGERY_HISTORY_SERIAL_NUMBER);
+
 			for (SurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
@@ -131,24 +116,14 @@ public class CustomerInformationManagementService {
 				customer.getSurgeryHistoryList().add(surgeryHistory);
 				surgeryHistoryEntityModel.add(surgeryHistory);
 
-				maxIndex++;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
+				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
 			}
 		}
 
-		if(addCustomerInformationDTO.getDiseaseHistoryList() != null) {
+		if (addCustomerInformationDTO.getDiseaseHistoryList() != null) {
 			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
-			int diseaseHistoryId;
-			int maxIndex;
-			if (diseaseHistoryMaxId == null) {
-				diseaseHistoryId = Integer.parseInt(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else {
-				String index = (diseaseHistoryMaxId + "").substring(
-						(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
-			}
+			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, DISEASE_HISTORY_SERIAL_NUMBER);
+
 			for (DiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
@@ -163,8 +138,7 @@ public class CustomerInformationManagementService {
 				customer.getDiseaseHistoryList().add(diseaseHistory);
 				diseaseHistoryEntityModel.add(diseaseHistory);
 
-				maxIndex++;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
+				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, DISEASE_HISTORY_SERIAL_NUMBER);
 			}
 		}
 	}

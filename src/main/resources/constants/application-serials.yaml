@@ -20,3 +20,6 @@ serials:
   product: 700
   report: 500
   surgeryHistory: 610
+
+#  @Value("${serials.accident}")
+#  public int ACCIDENT_SERIAL_NUMBER;

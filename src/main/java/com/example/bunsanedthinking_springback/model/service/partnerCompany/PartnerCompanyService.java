@@ -16,10 +16,6 @@ public class PartnerCompanyService {
 	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 	@Autowired
 	private ReportEntityModel reportEntityModel;
-//	@Autowired
-//	private PartnerCompanyMapper partnerCompanyMapper;
-//	@Autowired
-//	private ReportMapper reportMapper;
 
 	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
 		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
