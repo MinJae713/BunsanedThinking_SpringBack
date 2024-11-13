@@ -20,8 +20,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class Family implements Cloneable{
 
-	public static int FAMILY_SERIAL_NUMBER = 710;
-	
 	private Date birthDate;
 	private int employeeID;
 	private int id;

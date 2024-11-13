@@ -21,8 +21,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class Complaint {
-
-	public static final int COMPLAINT_SERIAL = 510;
 	
 	private ComplaintType complaintType;
 	private String content;

@@ -22,9 +22,7 @@ public class OfficeSupply implements Cloneable {
 	private int totalInventory;
 	private String description;
 	private int departmentId;
-	public static final int OFFICESUPPLY_SERIAL_NUMBER = 920;
-	
-	
+
 	public OfficeSupply(String name, String description, int inventory){
 		this.setName(name);
 		this.setDescription(description);

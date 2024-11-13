@@ -1,13 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 
+import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -18,7 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class DiseaseHistory implements Cloneable {
-	public static final int DISEASE_HISTORY_SERIAL_NUMBER = 510;
 
 	//	diagnosisDate -> date_of_diagnosis
 	//	customerID -> customer_id

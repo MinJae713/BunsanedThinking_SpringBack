@@ -15,10 +15,6 @@ import java.util.Date;
  */
 @Data
 public abstract class Insurance extends Product {
-
-	public static final int INSURANCE_SERIAL_NUMBER = 100;
-
-	
 	private int ageRange;
 	private int contractPeriod;
 	private String coverage;

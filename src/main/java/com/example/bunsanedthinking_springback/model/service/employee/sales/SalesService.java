@@ -1,16 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
@@ -54,6 +43,16 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class SalesService {
@@ -162,6 +161,7 @@ public class SalesService {
 
 		if (induceDTO.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
+//			Integer nextIndex = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
 			Integer nextIndex = surgeryHistoryEntityModel.getCount()+1;
 			for (SurgeryHistoryDTO e : induceDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();

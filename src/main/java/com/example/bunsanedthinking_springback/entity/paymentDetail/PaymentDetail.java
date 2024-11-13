@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class PaymentDetail {
 
-	public static final int PAYMENT_DETAIL_SERIAL_NUMBER = 900;
 	private int id;
 	private PaymentProcessStatus processStatus;
 	private String accountHolder;
