@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.model.entityModel.injury;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.InjuryMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -21,6 +23,8 @@ public class InjuryEntityModel {
 	private InsuranceMapper insuranceMapper;
 	@Autowired
 	private InjuryMapper injuryMapper;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public Injury getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -32,7 +36,9 @@ public class InjuryEntityModel {
 		InjuryVO injuryVO = injuryMapper.getById(id).orElse(null);
 		if (injuryVO == null)
 			return null;
-		return injuryVO.getEntity(productVO, insuranceVO);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getProductId() == id).toList();
+		return injuryVO.getEntity(productVO, insuranceVO, contracts);
 	}
 
 	public List<Injury> getAll() {
@@ -53,11 +59,15 @@ public class InjuryEntityModel {
 		productMapper.insert(injury.findProductVO());
 		insuranceMapper.insert(injury.findInsuranceVO());
 		injuryMapper.insert(injury.findVO());
+		if (injury.getContractList() == null) return;
+		injury.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Injury injury) {
 		if (injury == null) return;
 		if (injuryMapper.getById(injury.getId()).isEmpty()) return;
+		List<Contract> contracts = injury.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		injuryMapper.update(injury.findVO());
 		insuranceMapper.update(injury.findInsuranceVO());
 		productMapper.update(injury.findProductVO());
@@ -66,6 +76,9 @@ public class InjuryEntityModel {
 	public void delete(int id) {
 		// 참조 무결성 제약조건 생각해서 injury, insurnace, product 순서대로 데이터 삭제
 		if (injuryMapper.getById(id).isEmpty()) return;
+		contractEntityModel.getAll().stream().
+				filter(e -> e.getProductId() == id).
+				forEach(e -> contractEntityModel.delete(e.getId()));
 		injuryMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);

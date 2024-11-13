@@ -1,11 +1,14 @@
 package com.example.bunsanedthinking_springback.vo;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +17,7 @@ public class FixedDepositVO {
     private int product_id;
     private int minimum_amount;
 
-    public FixedDeposit getEntity(ProductVO productVO, LoanVO loanVO) {
+    public FixedDeposit getEntity(ProductVO productVO, LoanVO loanVO, List<Contract> contracts) {
         FixedDeposit fixedDeposit = new FixedDeposit();
         fixedDeposit.setMinimumAmount(minimum_amount);
 
@@ -26,6 +29,8 @@ public class FixedDepositVO {
         fixedDeposit.setId(productVO.getId());
         fixedDeposit.setMaximumMoney(productVO.getMaximum_money());
         fixedDeposit.setName(productVO.getName());
+
+        fixedDeposit.setContractList(contracts);
         return fixedDeposit;
     }
 	

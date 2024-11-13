@@ -1,7 +1,8 @@
 package com.example.bunsanedthinking_springback.model.entityModel.collateral;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.CollateralMapper;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -22,6 +23,8 @@ public class CollateralEntityModel {
 	private LoanMapper loanMapper;
 	@Autowired
 	private CollateralMapper collateralMapper;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public Collateral getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -33,9 +36,10 @@ public class CollateralEntityModel {
 		CollateralVO collateralVO = collateralMapper.getById(id).orElse(null);
 		if (collateralVO == null)
 			return null;
-		CollateralType collateralType = CollateralType.indexOf(collateralVO.getCollateral_type());
-		int minimumValue = collateralVO.getMinimum_value();
-		return new Collateral(productVO, loanVO, collateralType, minimumValue);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getProductId() == id).toList();
+		return collateralVO.getEntity(productVO, loanVO, contracts);
+//		return new Collateral(productVO, loanVO, collateralType, minimumValue);
 	}
 
 	public List<Collateral> getAll() {
@@ -55,11 +59,15 @@ public class CollateralEntityModel {
 		productMapper.insert(collateral.findProductVO());
 		loanMapper.insert(collateral.findLoanVO());
 		collateralMapper.insert(collateral.findVO());
+		if (collateral.getContractList() == null) return;
+		collateral.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Collateral collateral) {
 		if (collateral == null) return;
 		if (collateralMapper.getById(collateral.getId()).isEmpty()) return;
+		List<Contract> contracts = collateral.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		collateralMapper.update(collateral.findVO());
 		loanMapper.update(collateral.findLoanVO());
 		productMapper.update(collateral.findProductVO());
@@ -67,6 +75,9 @@ public class CollateralEntityModel {
 
 	public void delete(int id) {
 		if (collateralMapper.getById(id).isEmpty()) return;
+		contractEntityModel.getAll().stream().
+				filter(e -> e.getProductId() == id).
+				forEach(e -> contractEntityModel.delete(e.getId()));
 		collateralMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);

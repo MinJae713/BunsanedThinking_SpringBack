@@ -1,8 +1,10 @@
 package com.example.bunsanedthinking_springback.model.entityModel.automobile;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -27,6 +29,8 @@ public class AutomobileEntityModel {
 	private AutomobileMapper automobileMapper;
 	@Autowired
 	private ServiceMapper serviceMapper;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public Automobile getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -46,7 +50,9 @@ public class AutomobileEntityModel {
 			.forEach(serviceTypeList::add);
 		VehicleType vehicleType = VehicleType.indexOf(autoMobileVO.getVehicle_type());
 		int accidentLimit = autoMobileVO.getAccident_limit();
-		return new Automobile(productVO, insuranceVO, accidentLimit, vehicleType, serviceTypeList);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getProductId() == id).toList();
+		return new Automobile(productVO, insuranceVO, accidentLimit, vehicleType, serviceTypeList, contracts);
 	}
 
 	public List<Automobile> getAll() {
@@ -71,6 +77,8 @@ public class AutomobileEntityModel {
 		serviceTypes.forEach(e -> serviceMapper.insert(
 				new ServiceVO(autoMobile.getId(), e.ordinal())
 		));
+		if (autoMobile.getContractList() == null) return;
+		autoMobile.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Automobile autoMobile) {
@@ -78,6 +86,8 @@ public class AutomobileEntityModel {
 		if (automobileMapper.getById(autoMobile.getId()).isEmpty()) return;
 		// service는 수정이 아니라 삭제 후 다시 추가하는 방법임
 		// productId 맞는 service들 삭제 후 파라미터에 있는 서비스들 다시 추가
+		List<Contract> contracts = autoMobile.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
 		if (serviceTypes != null) {
 			serviceMapper.deleteById(autoMobile.getId());
@@ -92,6 +102,9 @@ public class AutomobileEntityModel {
 
 	public void delete(int id) {
 		if (automobileMapper.getById(id).isEmpty()) return;
+		contractEntityModel.getAll().stream().
+				filter(e -> e.getProductId() == id).
+				forEach(e -> contractEntityModel.delete(e.getId()));
 		serviceMapper.deleteById(id);
 		automobileMapper.deleteById(id);
 		insuranceMapper.deleteById(id);

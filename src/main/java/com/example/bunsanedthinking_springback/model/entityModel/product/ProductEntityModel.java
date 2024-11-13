@@ -1,10 +1,8 @@
 package com.example.bunsanedthinking_springback.model.entityModel.product;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -22,8 +20,6 @@ public class ProductEntityModel {
 	private InsuranceEntityModel insuranceEntityModel;
 	@Autowired
 	private LoanEntityModel loanEntityModel;
-	@Autowired
-	private ContractEntityModel contractEntityModel;
 
 	public Product getById(int id) {
 		Product product = insuranceEntityModel.getById(id);
@@ -60,10 +56,7 @@ public class ProductEntityModel {
 	public void delete(int id) {
 		Product product = getById(id);
 		if (product == null) return;
-		for (Contract contract : contractEntityModel.getAll())
-			if (contract.getProductId() == id)
-				contractEntityModel.delete(contract.getId());
-		if (product instanceof Insurance) insuranceEntityModel.delete(id);
+		else if (product instanceof Insurance) insuranceEntityModel.delete(id);
 		else if (product instanceof Loan) loanEntityModel.delete(id);
 	}
 }

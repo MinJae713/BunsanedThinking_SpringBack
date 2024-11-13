@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +46,8 @@ public class Automobile extends Insurance {
 
 	public Automobile(ProductVO productVO, InsuranceVO insuranceVO,
 					  int accidentLimit, VehicleType vehicleType,
-					  ArrayList<ServiceType> serviceTypeList) {
+					  ArrayList<ServiceType> serviceTypeList,
+					  List<Contract> contracts) {
 		int productID = productVO.getId();
 		String name = productVO.getName();
 		int maximum_money = productVO.getMaximum_money();
@@ -69,14 +72,12 @@ public class Automobile extends Insurance {
 		this.setAccidentLimit(accidentLimit);
 		this.setServiceList((ArrayList<ServiceType>) serviceTypeList.stream().distinct().collect(Collectors.toList()));
 		this.setVehicleType(vehicleType);
+
+		this.setContractList(contracts);
 	}
 
 	public AutoMobileVO findVO() {
 		return new AutoMobileVO(getId(), vehicleType.ordinal(), accidentLimit);
-	}
-
-	public ArrayList<ServiceType> getServiceList() {
-		return serviceList;
 	}
 
 	@Override

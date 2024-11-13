@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.model.entityModel.disease;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
 import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -21,6 +23,8 @@ public class DiseaseEntityModel {
 	private InsuranceMapper insuranceMapper;
 	@Autowired
 	private DiseaseMapper diseaseMapper;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public Disease getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -32,10 +36,10 @@ public class DiseaseEntityModel {
 		DiseaseVO diseaseVO = diseaseMapper.getById(id).orElse(null);
 		if (diseaseVO == null)
 			return null;
-		String diseaseName = diseaseVO.getDisease_name();
-		int diseaseLimit = diseaseVO.getDisease_limit();
-		int surgeriesLimit = diseaseVO.getSurgeries_limit();
-		return new Disease(productVO, insuranceVO, diseaseName, diseaseLimit, surgeriesLimit);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getProductId() == id).toList();
+		return diseaseVO.getEntity(productVO, insuranceVO, contracts);
+//		return new Disease(productVO, insuranceVO, diseaseName, diseaseLimit, surgeriesLimit);
 	}
 
 	public List<Disease> getAll() {
@@ -55,11 +59,15 @@ public class DiseaseEntityModel {
 		productMapper.insert(disease.findProductVO());
 		insuranceMapper.insert(disease.findInsuranceVO());
 		diseaseMapper.insert(disease.findVO());
+		if (disease.getContractList() == null) return;
+		disease.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Disease disease) {
 		if (disease == null) return;
 		if (diseaseMapper.getById(disease.getId()).isEmpty()) return;
+		List<Contract> contracts = disease.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		diseaseMapper.update(disease.findVO());
 		insuranceMapper.update(disease.findInsuranceVO());
 		productMapper.update(disease.findProductVO());
@@ -67,6 +75,9 @@ public class DiseaseEntityModel {
 
 	public void delete(int id) {
 		if (diseaseMapper.getById(id).isEmpty()) return;
+		contractEntityModel.getAll().stream().
+				filter(e -> e.getProductId() == id).
+				forEach(e -> contractEntityModel.delete(e.getId()));
 		diseaseMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);

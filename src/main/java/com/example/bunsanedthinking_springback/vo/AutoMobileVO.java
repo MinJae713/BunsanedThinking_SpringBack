@@ -1,11 +1,14 @@
 package com.example.bunsanedthinking_springback.vo;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +18,7 @@ public class AutoMobileVO {
     private int vehicle_type;
     private int accident_limit;
 
-    public Automobile getEntity(ProductVO productVO, InsuranceVO insuranceVO) {
+    public Automobile getEntity(ProductVO productVO, InsuranceVO insuranceVO, List<Contract> contractList) {
         Automobile automobile = new Automobile();
         automobile.setVehicleType(VehicleType.values()[vehicle_type]);
         automobile.setAccidentLimit(accident_limit);
@@ -29,6 +32,8 @@ public class AutoMobileVO {
         automobile.setId(product_id);
         automobile.setMaximumMoney(productVO.getMaximum_money());
         automobile.setName(productVO.getName());
+
+        automobile.setContractList(contractList);
 
         return automobile;
     }

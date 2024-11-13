@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
 import com.example.bunsanedthinking_springback.repository.LoanMapper;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -21,6 +23,8 @@ public class FixedDepositEntityModel {
 	private LoanMapper loanMapper;
 	@Autowired
 	private FixedDepositMapper fixedDepositMapper;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public FixedDeposit getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -32,8 +36,10 @@ public class FixedDepositEntityModel {
 		FixedDepositVO fixedDepositVO = fixedDepositMapper.getById(id).orElse(null);
 		if (fixedDepositVO == null)
 			return null;
-		int minimumAmount = fixedDepositVO.getMinimum_amount();
-		return new FixedDeposit(productVO, loanVO, minimumAmount);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getProductId() == id).toList();
+		return fixedDepositVO.getEntity(productVO, loanVO, contracts);
+//		return new FixedDeposit(productVO, loanVO, minimumAmount);
 	}
 
 	public List<FixedDeposit> getAll() {
@@ -53,11 +59,15 @@ public class FixedDepositEntityModel {
 		productMapper.insert(fixedDeposit.findProductVO());
 		loanMapper.insert(fixedDeposit.findLoanVO());
 		fixedDepositMapper.insert(fixedDeposit.findVO());
+		if (fixedDeposit.getContractList() == null) return;
+		fixedDeposit.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
 		if (fixedDepositMapper.getById(fixedDeposit.getId()).isEmpty()) return;
+		List<Contract> contracts = fixedDeposit.getContractList();
+		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		fixedDepositMapper.update(fixedDeposit.findVO());
 		loanMapper.update(fixedDeposit.findLoanVO());
 		productMapper.update(fixedDeposit.findProductVO());
@@ -65,6 +75,9 @@ public class FixedDepositEntityModel {
 
 	public void delete(int id) {
 		if (fixedDepositMapper.getById(id).isEmpty()) return;
+		contractEntityModel.getAll().stream().
+				filter(e -> e.getProductId() == id).
+				forEach(e -> contractEntityModel.delete(e.getId()));
 		fixedDepositMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);
