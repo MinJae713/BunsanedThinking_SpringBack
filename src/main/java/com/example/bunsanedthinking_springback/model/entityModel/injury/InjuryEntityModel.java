@@ -1,15 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.injury;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.InjuryMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.InjuryVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
@@ -28,15 +24,17 @@ public class InjuryEntityModel {
 	@Autowired
 	private InjuryMapper injuryMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
+	private RecontractMapper recontractMapper;
 
 	public Injury getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -50,7 +48,9 @@ public class InjuryEntityModel {
 			return null;
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return injuryVO.getEntity(productVO, insuranceVO, contracts);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return injuryVO.getEntity(productVO, insuranceVO, contracts, counsels);
 	}
 
 	public List<Injury> getAll() {
@@ -71,13 +71,18 @@ public class InjuryEntityModel {
 		productMapper.insert(injury.findProductVO());
 		insuranceMapper.insert(injury.findInsuranceVO());
 		injuryMapper.insert(injury.findVO());
-		if (injury.getContractList() == null) return;
-		injury.getContractList().forEach(e -> contractEntityModel.add(e));
+		if (injury.getCounselList() != null)
+			injury.getCounselList().forEach(e -> counselEntityModel.add(e));
+		if (injury.getContractList() != null)
+			injury.getContractList().forEach(e -> contractEntityModel.add(e));
+
 	}
 
 	public void update(Injury injury) {
 		if (injury == null) return;
 		if (injuryMapper.getById(injury.getId()).isEmpty()) return;
+		List<Counsel> counsels = injury.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = injury.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		injuryMapper.update(injury.findVO());
@@ -91,16 +96,19 @@ public class InjuryEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		injuryMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }

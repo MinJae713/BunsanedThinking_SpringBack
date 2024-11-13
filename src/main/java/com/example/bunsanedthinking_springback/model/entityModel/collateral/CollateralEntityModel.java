@@ -1,15 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.collateral;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.CollateralMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.CollateralVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
@@ -28,16 +24,17 @@ public class CollateralEntityModel {
 	@Autowired
 	private CollateralMapper collateralMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
-
+	private RecontractMapper recontractMapper;
 
 	public Collateral getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
@@ -51,7 +48,9 @@ public class CollateralEntityModel {
 			return null;
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return collateralVO.getEntity(productVO, loanVO, contracts);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return collateralVO.getEntity(productVO, loanVO, contracts, counsels);
 //		return new Collateral(productVO, loanVO, collateralType, minimumValue);
 	}
 
@@ -72,13 +71,17 @@ public class CollateralEntityModel {
 		productMapper.insert(collateral.findProductVO());
 		loanMapper.insert(collateral.findLoanVO());
 		collateralMapper.insert(collateral.findVO());
-		if (collateral.getContractList() == null) return;
-		collateral.getContractList().forEach(e -> contractEntityModel.add(e));
+		if (collateral.getCounselList() != null)
+			collateral.getCounselList().forEach(e -> counselEntityModel.add(e));
+		if (collateral.getContractList() != null)
+			collateral.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Collateral collateral) {
 		if (collateral == null) return;
 		if (collateralMapper.getById(collateral.getId()).isEmpty()) return;
+		List<Counsel> counsels = collateral.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = collateral.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		collateralMapper.update(collateral.findVO());
@@ -91,16 +94,19 @@ public class CollateralEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		collateralMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }

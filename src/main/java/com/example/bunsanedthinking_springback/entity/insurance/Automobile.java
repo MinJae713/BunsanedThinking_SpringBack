@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.insurance;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
@@ -47,7 +48,7 @@ public class Automobile extends Insurance {
 	public Automobile(ProductVO productVO, InsuranceVO insuranceVO,
 					  int accidentLimit, VehicleType vehicleType,
 					  ArrayList<ServiceType> serviceTypeList,
-					  List<Contract> contracts) {
+					  List<Contract> contracts, List<Counsel> counsels) {
 		int productID = productVO.getId();
 		String name = productVO.getName();
 		int maximum_money = productVO.getMaximum_money();
@@ -74,6 +75,7 @@ public class Automobile extends Insurance {
 		this.setVehicleType(vehicleType);
 
 		this.setContractList(contracts);
+		this.setCounselList(counsels);
 	}
 
 	public AutoMobileVO findVO() {

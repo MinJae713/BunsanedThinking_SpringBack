@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,8 @@ public class DiseaseVO {
     private int disease_limit;
     private int surgeries_limit;
 
-    public Disease getEntity(ProductVO productVO, InsuranceVO insuranceVO, List<Contract> contracts) {
+    public Disease getEntity(ProductVO productVO, InsuranceVO insuranceVO,
+                             List<Contract> contracts, List<Counsel> counsels) {
         Disease disease = new Disease();
         disease.setDiseaseLimit(disease_limit);
         disease.setDiseaseName(disease_name);
@@ -35,6 +37,7 @@ public class DiseaseVO {
         disease.setName(productVO.getName());
 
         disease.setContractList(contracts);
+        disease.setCounselList(counsels);
         return disease;
     }
 }

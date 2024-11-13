@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
@@ -19,7 +20,7 @@ public class CollateralVO {
     private int collateral_type;
     private int minimum_value;
 
-    public Collateral getEntity(ProductVO productVO, LoanVO loanVO, List<Contract> contracts) {
+    public Collateral getEntity(ProductVO productVO, LoanVO loanVO, List<Contract> contracts, List<Counsel> counsels) {
         Collateral collateral = new Collateral();
         collateral.setCollateralType(CollateralType.values()[collateral_type]);
         collateral.setMinimumValue(minimum_value);
@@ -34,6 +35,7 @@ public class CollateralVO {
         collateral.setName(productVO.getName());
 
         collateral.setContractList(contracts);
+        collateral.setCounselList(counsels);
         return collateral;
     }
 

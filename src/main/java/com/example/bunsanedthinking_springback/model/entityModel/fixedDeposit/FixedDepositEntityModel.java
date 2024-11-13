@@ -1,15 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
@@ -28,15 +24,17 @@ public class FixedDepositEntityModel {
 	@Autowired
 	private FixedDepositMapper fixedDepositMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
+	private RecontractMapper recontractMapper;
 
 
 	public FixedDeposit getById(int id) {
@@ -51,7 +49,9 @@ public class FixedDepositEntityModel {
 			return null;
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return fixedDepositVO.getEntity(productVO, loanVO, contracts);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return fixedDepositVO.getEntity(productVO, loanVO, contracts, counsels);
 //		return new FixedDeposit(productVO, loanVO, minimumAmount);
 	}
 
@@ -72,13 +72,17 @@ public class FixedDepositEntityModel {
 		productMapper.insert(fixedDeposit.findProductVO());
 		loanMapper.insert(fixedDeposit.findLoanVO());
 		fixedDepositMapper.insert(fixedDeposit.findVO());
-		if (fixedDeposit.getContractList() == null) return;
-		fixedDeposit.getContractList().forEach(e -> contractEntityModel.add(e));
+		if (fixedDeposit.getCounselList() != null)
+			fixedDeposit.getCounselList().forEach(e -> counselEntityModel.add(e));
+		if (fixedDeposit.getContractList() == null)
+			fixedDeposit.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(FixedDeposit fixedDeposit) {
 		if (fixedDeposit == null) return;
 		if (fixedDepositMapper.getById(fixedDeposit.getId()).isEmpty()) return;
+		List<Counsel> counsels = fixedDeposit.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = fixedDeposit.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		fixedDepositMapper.update(fixedDeposit.findVO());
@@ -91,16 +95,19 @@ public class FixedDepositEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		fixedDepositMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }

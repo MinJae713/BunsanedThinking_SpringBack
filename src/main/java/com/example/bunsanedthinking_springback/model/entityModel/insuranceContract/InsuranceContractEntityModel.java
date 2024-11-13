@@ -1,15 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.insuranceContract;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.InsuranceContractMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.InsuranceContractVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
@@ -28,15 +24,17 @@ public class InsuranceContractEntityModel {
 	@Autowired
 	private InsuranceContractMapper insuranceContractMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
+	private RecontractMapper recontractMapper;
 
 
 	public InsuranceContract getById(int id) {
@@ -51,7 +49,9 @@ public class InsuranceContractEntityModel {
 			return null;
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return insuranceContractVO.getEntity(productVO, loanVO, contracts);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return insuranceContractVO.getEntity(productVO, loanVO, contracts, counsels);
 //		return new InsuranceContract(productVO, loanVO, insuranceId);
 	}
 
@@ -72,13 +72,17 @@ public class InsuranceContractEntityModel {
 		productMapper.insert(insuranceContract.findProductVO());
 		loanMapper.insert(insuranceContract.findLoanVO());
 		insuranceContractMapper.insert(insuranceContract.findVO());
+		if (insuranceContract.getCounselList() != null)
+			insuranceContract.getCounselList().forEach(e -> counselEntityModel.add(e));
 		if (insuranceContract.getContractList() == null) return;
-		insuranceContract.getContractList().forEach(e -> contractEntityModel.add(e));
+			insuranceContract.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(InsuranceContract insuranceContract) {
 		if (insuranceContract == null) return;
 		if (insuranceContractMapper.getById(insuranceContract.getId()).isEmpty()) return;
+		List<Counsel> counsels = insuranceContract.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = insuranceContract.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		insuranceContractMapper.update(insuranceContract.findVO());
@@ -91,16 +95,19 @@ public class InsuranceContractEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		insuranceContractMapper.deleteById(id);
 		loanMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
@@ -18,7 +19,8 @@ public class InjuryVO {
 	private int injury_type;
 	private int surgeries_limit;
 
-	public Injury getEntity(ProductVO productVO, InsuranceVO insuranceVO, List<Contract> contracts) {
+	public Injury getEntity(ProductVO productVO, InsuranceVO insuranceVO,
+							List<Contract> contracts, List<Counsel> counsels) {
 		Injury injury = new Injury();
 		injury.setInjuryType(InjuryType.values()[injury_type]);
 		injury.setSurgeriesLimit(surgeries_limit);
@@ -34,6 +36,7 @@ public class InjuryVO {
 		injury.setName(productVO.getName());
 
 		injury.setContractList(contracts);
+		injury.setCounselList(counsels);
 		return injury;
 	}
 }

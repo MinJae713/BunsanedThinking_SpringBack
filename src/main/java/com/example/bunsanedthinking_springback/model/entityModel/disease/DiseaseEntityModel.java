@@ -1,24 +1,19 @@
 package com.example.bunsanedthinking_springback.model.entityModel.disease;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.DiseaseMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.DiseaseVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DiseaseEntityModel {
@@ -29,15 +24,17 @@ public class DiseaseEntityModel {
 	@Autowired
 	private DiseaseMapper diseaseMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
+	private RecontractMapper recontractMapper;
 
 
 	public Disease getById(int id) {
@@ -52,8 +49,9 @@ public class DiseaseEntityModel {
 			return null;
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return diseaseVO.getEntity(productVO, insuranceVO, contracts);
-//		return new Disease(productVO, insuranceVO, diseaseName, diseaseLimit, surgeriesLimit);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return diseaseVO.getEntity(productVO, insuranceVO, contracts, counsels);
 	}
 
 	public List<Disease> getAll() {
@@ -73,13 +71,18 @@ public class DiseaseEntityModel {
 		productMapper.insert(disease.findProductVO());
 		insuranceMapper.insert(disease.findInsuranceVO());
 		diseaseMapper.insert(disease.findVO());
-		if (disease.getContractList() == null) return;
-		disease.getContractList().forEach(e -> contractEntityModel.add(e));
+		if (disease.getCounselList() != null)
+			disease.getCounselList().forEach(e -> counselEntityModel.add(e));
+		if (disease.getContractList() != null)
+			disease.getContractList().forEach(e -> contractEntityModel.add(e));
+
 	}
 
 	public void update(Disease disease) {
 		if (disease == null) return;
 		if (diseaseMapper.getById(disease.getId()).isEmpty()) return;
+		List<Counsel> counsels = disease.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = disease.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		diseaseMapper.update(disease.findVO());
@@ -92,16 +95,19 @@ public class DiseaseEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		diseaseMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
 		productMapper.deleteById(id);
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }

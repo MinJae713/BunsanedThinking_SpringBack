@@ -1,7 +1,7 @@
 serials:
   accident: 400
   accidentHistory: 410
-  compensationDetail: -1
+  compensationDetail: 930
   complaint: 510
   contract: 100
   counsel: 520
@@ -12,7 +12,7 @@ serials:
   employee: 600
   family: 710
   insurance: 100
-  insuranceMoney: -1
+  insuranceMoney: 110
   loan: 200
   officesupply: 920
   paymentDetail: 900

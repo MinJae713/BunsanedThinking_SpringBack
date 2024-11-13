@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.vo;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 
@@ -17,7 +18,7 @@ public class InsuranceContractVO {
 	private int product_id;
 	private int insurance_id;
 
-	public InsuranceContract getEntity(ProductVO productVO, LoanVO loanVO, List<Contract> contracts) {
+	public InsuranceContract getEntity(ProductVO productVO, LoanVO loanVO, List<Contract> contracts, List<Counsel> counsels) {
 		InsuranceContract insuranceContract = new InsuranceContract();
 		insuranceContract.setInsuranceId(insurance_id);
 
@@ -31,6 +32,7 @@ public class InsuranceContractVO {
 		insuranceContract.setName(productVO.getName());
 
 		insuranceContract.setContractList(contracts);
+		insuranceContract.setCounselList(counsels);
 		return insuranceContract;
 	}
 	public static InsuranceContractVO from(InsuranceContract insuranceContract) {

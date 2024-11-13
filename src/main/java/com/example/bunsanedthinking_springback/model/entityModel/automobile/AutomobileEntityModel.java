@@ -1,18 +1,13 @@
 package com.example.bunsanedthinking_springback.model.entityModel.automobile;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.repository.AutomobileMapper;
-import com.example.bunsanedthinking_springback.repository.InsuranceMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.ServiceMapper;
+import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.AutoMobileVO;
 import com.example.bunsanedthinking_springback.vo.InsuranceVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
@@ -32,17 +27,19 @@ public class AutomobileEntityModel {
 	@Autowired
 	private AutomobileMapper automobileMapper;
 	@Autowired
+	private CounselEntityModel counselEntityModel;
+	@Autowired
 	private ServiceMapper serviceMapper;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
 	@Autowired
-	private EndorsementEntityModel endorsementEntityModel;
+	private EndorsementMapper endorsementMapper;
 	@Autowired
-	private RevivalEntityModel revivalEntityModel;
+	private RevivalMapper revivalMapper;
 	@Autowired
-	private TerminationEntityModel terminationEntityModel;
+	private TerminationMapper terminationMapper;
 	@Autowired
-	private RecontractEntityModel recontractEntityModel;
+	private RecontractMapper recontractMapper;
 
 
 	public Automobile getById(int id) {
@@ -65,7 +62,9 @@ public class AutomobileEntityModel {
 		int accidentLimit = autoMobileVO.getAccident_limit();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getProductId() == id).toList();
-		return new Automobile(productVO, insuranceVO, accidentLimit, vehicleType, serviceTypeList, contracts);
+		List<Counsel> counsels = counselEntityModel.getAll().
+				stream().filter(e -> e.getProductID() == id).toList();
+		return new Automobile(productVO, insuranceVO, accidentLimit, vehicleType, serviceTypeList, contracts, counsels);
 	}
 
 	public List<Automobile> getAll() {
@@ -90,8 +89,10 @@ public class AutomobileEntityModel {
 		serviceTypes.forEach(e -> serviceMapper.insert(
 				new ServiceVO(autoMobile.getId(), e.ordinal())
 		));
-		if (autoMobile.getContractList() == null) return;
-		autoMobile.getContractList().forEach(e -> contractEntityModel.add(e));
+		if (autoMobile.getCounselList() != null)
+			autoMobile.getCounselList().forEach(e -> counselEntityModel.add(e));
+		if (autoMobile.getContractList() != null)
+			autoMobile.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
 	public void update(Automobile autoMobile) {
@@ -99,6 +100,8 @@ public class AutomobileEntityModel {
 		if (automobileMapper.getById(autoMobile.getId()).isEmpty()) return;
 		// service는 수정이 아니라 삭제 후 다시 추가하는 방법임
 		// productId 맞는 service들 삭제 후 파라미터에 있는 서비스들 다시 추가
+		List<Counsel> counsels = autoMobile.getCounselList();
+		if (counsels != null) counsels.forEach(e -> counselEntityModel.update(e));
 		List<Contract> contracts = autoMobile.getContractList();
 		if (contracts != null) contracts.forEach(e -> contractEntityModel.update(e));
 		List<ServiceType> serviceTypes = autoMobile.getServiceList();
@@ -118,6 +121,9 @@ public class AutomobileEntityModel {
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
 				forEach(e -> deleteContract(e));
+		counselEntityModel.getAll().stream().
+				filter(e -> e.getProductID() == id).
+				forEach(e -> counselEntityModel.delete(e.getId()));
 		serviceMapper.deleteById(id);
 		automobileMapper.deleteById(id);
 		insuranceMapper.deleteById(id);
@@ -125,10 +131,10 @@ public class AutomobileEntityModel {
 	}
 
 	private void deleteContract(Contract contract) {
-		endorsementEntityModel.delete(contract.getId());
-		revivalEntityModel.delete(contract.getId());
-		terminationEntityModel.delete(contract.getId());
-		recontractEntityModel.delete(contract.getId());
+		endorsementMapper.deleteById(contract.getId());
+		revivalMapper.deleteById(contract.getId());
+		terminationMapper.deleteById(contract.getId());
+		recontractMapper.deleteById(contract.getId());
 		contractEntityModel.delete(contract.getId());
 	}
 }
