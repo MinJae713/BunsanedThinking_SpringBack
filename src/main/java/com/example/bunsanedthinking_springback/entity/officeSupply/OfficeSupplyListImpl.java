@@ -31,8 +31,8 @@ public class OfficeSupplyListImpl implements OfficeSupplyList {
 	 */
 	public void add(OfficeSupply officeSupply) {
 		index++;
-		String compound = OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "" + index;
-		officeSupply.setId(Integer.parseInt(compound));
+		// String compound = OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "" + index;
+		// officeSupply.setId(Integer.parseInt(compound));
 		officeSupplyList.add(officeSupply);
 	}
 

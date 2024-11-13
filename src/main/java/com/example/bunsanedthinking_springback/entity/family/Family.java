@@ -1,14 +1,15 @@
 package com.example.bunsanedthinking_springback.entity.family;
 
-import com.example.bunsanedthinking_springback.vo.FamilyVO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+
+import com.example.bunsanedthinking_springback.vo.FamilyVO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -20,8 +21,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class Family implements Cloneable{
 
-	public static int FAMILY_SERIAL_NUMBER = 710;
-	
 	private Date birthDate;
 	private int employeeID;
 	private int id;

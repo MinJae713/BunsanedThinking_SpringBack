@@ -23,8 +23,8 @@ public class SurgeryHistoryListImpl implements SurgeryHistoryList {
 	 * @param surgeryHistory
 	 */
 	public void add(SurgeryHistory surgeryHistory){
-		String compound = SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "" +(++index);
-		surgeryHistory.setId(Integer.parseInt(compound));
+		// String compound = SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "" +(++index);
+		// surgeryHistory.setId(Integer.parseInt(compound));
 		surgeryHistoryList.add(surgeryHistory);
 	}
 

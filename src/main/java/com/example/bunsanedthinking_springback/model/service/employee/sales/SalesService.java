@@ -170,7 +170,7 @@ public class SalesService {
 				surgeryHistory.setDate(date);
 				surgeryHistory.setCustomerID(customerId);
 				customer.getSurgeryHistoryList().add(surgeryHistory);
-				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
+				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
 		if (induceDTO.getDiseaseHistoryList() != null) {
@@ -185,7 +185,7 @@ public class SalesService {
 				diseaseHistory.setName(e.getName());
 				diseaseHistory.setCustomer_id(customerId);
 				customer.getDiseaseHistoryList().add(diseaseHistory);
-				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, DISEASE_HISTORY_SERIAL_NUMBER);
+				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
 

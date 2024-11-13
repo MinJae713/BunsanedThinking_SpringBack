@@ -1,13 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.product;
 
+import java.util.List;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 /**
  * @author ����ȯ
@@ -19,8 +19,6 @@ import java.util.List;
 @Data
 public abstract class Product implements Cloneable {
 
-	public static final int PRODUCT_SERIAL_NUMBER = 700;
-	
 	private int id;
 	private int maximumMoney;
 	private String name;

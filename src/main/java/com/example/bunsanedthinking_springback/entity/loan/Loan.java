@@ -17,8 +17,6 @@ public abstract class Loan extends Product {
 	private int minimumAsset;
 	private int monthlyIncome;
 
-	public static final int LOAN_SERIAL_NUMBER = 200;
-	
 	public Loan(){
 
 	}

@@ -1,14 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * @author ����ȯ
@@ -20,8 +19,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class SurgeryHistory implements Cloneable {
 
-	public static final int SURGERYHISTORY_SERIAL_NUMBER = 610;
-	
 	private int customerID;
 	private Date date;
 	private String hospitalName;
