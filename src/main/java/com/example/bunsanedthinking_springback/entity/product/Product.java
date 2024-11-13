@@ -1,10 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.product;
 
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author ����ȯ
@@ -21,6 +23,8 @@ public abstract class Product implements Cloneable {
 	private int id;
 	private int maximumMoney;
 	private String name;
+	private List<Contract> contractList;
+	// contractList 신규 추가 (1-n 관계 명시)
 
 	public ProductVO findProductVO() {
 		return new ProductVO(id, name, maximumMoney);

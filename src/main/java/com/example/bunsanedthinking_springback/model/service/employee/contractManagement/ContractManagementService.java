@@ -1,13 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.contractManagement;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -27,13 +19,22 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.endorsement.EndorsementEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -56,6 +57,11 @@ public class ContractManagementService {
 	private RecontractEntityModel recontractEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
+	@Autowired
+	private InsuranceEntityModel insuranceEntityModel;
+
+	@Value("${serials.paymentDetail}")
+	public static int PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestTerminationFee(int tercontractId, int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
@@ -76,9 +82,7 @@ public class ContractManagementService {
 		for (DepositDetail depositDetail : depositDetailList)
 			totalMoney += depositDetail.getMoney();
 		totalMoney = (int) (totalMoney * 0.3);
-		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
-				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
 			customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
 		paymentDetail.setId(paymentId);
@@ -136,7 +140,9 @@ public class ContractManagementService {
 		if (recontract == null) throw new NotExistContractException();
 		if (index == 1) {
 			//			Contract contract = recontract.getOriginalContract();
-			Insurance product = (Insurance)recontract.getProduct();
+//			Insurance product = (Insurance)recontract.getProduct();
+			Insurance product = insuranceEntityModel.getById(recontract.getProductId());
+			if (product == null) throw new NotExistException();
 			recontract.setContractStatus(ContractStatus.Maintaining);
 			recontract.setDate(new Date());
 
@@ -306,12 +312,4 @@ public class ContractManagementService {
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Completed)
 				.toList();
 	}
-
-	//    public Recontract getRecontractById(RecontractList recontractList, int id) {
-	//        return recontractList.get(id);
-	//    } - getReContractById 대체
-
-	//	public Revival get(RevivalList revivalList, int id) {
-	//		return revivalList.get(id);
-	//	} - getRevivalById 대체
 }

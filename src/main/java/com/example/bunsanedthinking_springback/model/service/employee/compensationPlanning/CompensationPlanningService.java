@@ -10,6 +10,7 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistExceptio
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import java.util.List;
 public class CompensationPlanningService {
 	@Autowired
 	private PartnerCompanyEntityModel partnerCompanyEntityModel;
+
+	@Value("${serials.partnercompany}")
+	public static int PARTNER_COMPANY_SERIAL_NUMBER;
 
 	public void addPartnerCompany(AddPartnerCompanyDTO partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
@@ -31,9 +35,7 @@ public class CompensationPlanningService {
 		for (PartnerCompany partnerCompany : partnerCompanies)
 			if (partnerCompany.getName().equals(name))
 				throw new DuplicatePartnerCompanyException();
-		int id = partnerCompanies.isEmpty() ?
-				Integer.parseInt(PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "1") :
-				NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER);
+		int id = NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), PARTNER_COMPANY_SERIAL_NUMBER);
 		// evaluation, reportList 지정X
 		PartnerCompany partnerCompany = new PartnerCompany(name, phoneNumber,
 				partnerCompanyType, headName, headPhoneNumber);

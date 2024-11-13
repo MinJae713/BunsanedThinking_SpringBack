@@ -1,26 +1,23 @@
 package com.example.bunsanedthinking_springback.model.entityModel.contract;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
-import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.repository.ContractMapper;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractEntityModel {
@@ -34,8 +31,8 @@ public class ContractEntityModel {
 	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
-	@Autowired
-	private ProductEntityModel productEntityModel;
+//	@Autowired
+//	private ProductEntityModel productEntityModel;
 
 	public Contract getById(int id) {
 		Optional<ContractVO> optionalContractVO = contractMapper.getById(id);
@@ -59,8 +56,8 @@ public class ContractEntityModel {
 		paymentDetailEntityModel.getAll().stream()
 			.filter(e -> e.getContractId() == id)
 			.forEach(paymentDetails::add);
-		Product product = productEntityModel.getById(contractVO.getProduct_id());
-		return new Contract(insuranceMonies, compensationDetails, depositDetails, paymentDetails, product, contractVO);
+//		Product product = productEntityModel.getById(contractVO.getProduct_id());
+		return new Contract(insuranceMonies, compensationDetails, depositDetails, paymentDetails, contractVO);
 	}
 
 	public List<Contract> getAll() {
@@ -118,8 +115,8 @@ public class ContractEntityModel {
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.add(e));
 
-		Product product = contract.getProduct();
-		if (product != null) productEntityModel.add(product);
+//		Product product = contract.getProduct();
+//		if (product != null) productEntityModel.add(product);
 	}
 
 	public void update(Contract contract) {
@@ -142,8 +139,8 @@ public class ContractEntityModel {
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.update(e));
 
-		Product product = contract.getProduct();
-		if (product != null) productEntityModel.update(product);
+//		Product product = contract.getProduct();
+//		if (product != null) productEntityModel.update(product);
 
 		contractMapper.update(contract.findVO());
 	}
@@ -167,8 +164,8 @@ public class ContractEntityModel {
 		List<PaymentDetail> paymentDetails = contract.getPaymentDetailList();
 		if (paymentDetails != null) paymentDetails.forEach(e -> paymentDetailEntityModel.delete(e.getId()));
 
-		Product product = contract.getProduct();
-		if (product != null) productEntityModel.delete(product.getId());
+//		Product product = contract.getProduct();
+//		if (product != null) productEntityModel.delete(product.getId());
 
 		contractMapper.deleteById(id);
 	}

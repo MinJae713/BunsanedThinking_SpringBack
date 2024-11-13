@@ -1,7 +1,5 @@
 package com.example.bunsanedthinking_springback.entity.contract;
 
-import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 
 import java.text.ParseException;
@@ -81,7 +79,7 @@ public class ContractListImpl implements ContractList {
 	public ArrayList<Contract> getContractByProductId(int id) {
 		ArrayList<Contract> contractList = new ArrayList<>();
 		for (Contract contract : this.contractList) {
-			if (contract.getProduct().getId() == id) {
+			if (contract.getProductId() == id) {
 				contractList.add(contract);
 			}
 		}
@@ -90,31 +88,31 @@ public class ContractListImpl implements ContractList {
 
 	public ArrayList<Contract> getAllAutomobileInsuranceContract() {
 		ArrayList<Contract> automobilecontractList = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Automobile) {
-				automobilecontractList.add(contract);
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Automobile) {
+//				automobilecontractList.add(contract);
+//			}
+//		}
 		return automobilecontractList;
 	}
 
 	public ArrayList<Contract> getAllInjuryInsuranceContract() {
 		ArrayList<Contract> injurycontractList = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Injury) {
-				injurycontractList.add(contract);
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Injury) {
+//				injurycontractList.add(contract);
+//			}
+//		}
 		return injurycontractList;
 	}
 
 	public ArrayList<Contract> getAllDiseaseInsuranceContract() {
 		ArrayList<Contract> injurycontractList = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Disease) {
-				injurycontractList.add(contract);
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Disease) {
+//				injurycontractList.add(contract);
+//			}
+//		}
 		return injurycontractList;
 	}
 	//// 吏곸썝///
@@ -135,42 +133,42 @@ public class ContractListImpl implements ContractList {
 
 	@Override
 	public Contract getContractByOneAutomobileId(int customerID) throws NotExistContractException {
-		for (Contract contract : contractList) {
-			if (contract.getCustomerID() != customerID) {
-				continue;
-			}
-			if (!(contract.getProduct() instanceof Insurance)) {
-				continue;
-			}
-			Insurance insurance = (Insurance)contract.getProduct();
-			if (insurance.getInsuranceType() == InsuranceType.Automobile) {
-				return contract.clone();
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getCustomerID() != customerID) {
+//				continue;
+//			}
+//			if (!(contract.getProduct() instanceof Insurance)) {
+//				continue;
+//			}
+//			Insurance insurance = (Insurance)contract.getProduct();
+//			if (insurance.getInsuranceType() == InsuranceType.Automobile) {
+//				return contract.clone();
+//			}
+//		}
 		throw new NotExistContractException();
 	}
 
 	@Override
 	public ArrayList<Contract> getAllRequestingInsurance() {
 		ArrayList<Contract> result = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Insurance
-				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
-				result.add(contract.clone());
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Insurance
+//				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+//				result.add(contract.clone());
+//			}
+//		}
 		return result;
 	}
 
 	@Override
 	public ArrayList<Contract> getAllNotRequestingInsurance() {
 		ArrayList<Contract> result = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Insurance
-				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
-				result.add(contract.clone());
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Insurance
+//				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+//				result.add(contract.clone());
+//			}
+//		}
 		return result;
 	}
 
@@ -199,94 +197,94 @@ public class ContractListImpl implements ContractList {
 	@Override
 	public ArrayList<Contract> getAllRequestingLoan() {
 		ArrayList<Contract> result = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Loan
-				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
-				result.add(contract.clone());
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Loan
+//				&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+//				result.add(contract.clone());
+//			}
+//		}
 		return result;
 	}
 
 	@Override
 	public ArrayList<Contract> getAllNotRequestingLoan() {
 		ArrayList<Contract> result = new ArrayList<>();
-		for (Contract contract : contractList) {
-			if (contract.getProduct() instanceof Loan
-				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
-				result.add(contract.clone());
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getProduct() instanceof Loan
+//				&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+//				result.add(contract.clone());
+//			}
+//		}
 		return result;
 	}
 
 	@Override
 	public Contract getRequestingLoan(int id) throws NotExistContractException {
-		for (Contract contract : contractList) {
-			if (contract.getId() == id) {
-				if (contract.getProduct() instanceof Loan
-					&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
-					return contract;
-				} else {
-					break;
-				}
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getId() == id) {
+//				if (contract.getProduct() instanceof Loan
+//					&& contract.getContractStatus() == ContractStatus.ContractRequesting) {
+//					return contract;
+//				} else {
+//					break;
+//				}
+//			}
+//		}
 		throw new NotExistContractException();
 	}
 
 	@Override
 	public ArrayList<Contract> getAllLoanContract() {
-		ArrayList<Contract> contractList = new ArrayList<>();
-		for (Contract contract : this.contractList) {
-			if (contract.getProduct() instanceof Loan) {
-				contractList.add(contract);
-			}
-		}
+//		ArrayList<Contract> contractList = new ArrayList<>();
+//		for (Contract contract : this.contractList) {
+//			if (contract.getProduct() instanceof Loan) {
+//				contractList.add(contract);
+//			}
+//		}
 		return contractList;
 	}
 
 	@Override
 	public Contract getLoanContract(int id) throws NotExistContractException {
-		for (Contract contract : this.contractList) {
-			if (contract.getId() == id) {
-				if (contract.getProduct() instanceof Loan) {
-					return contract;
-				} else {
-					throw new NotExistContractException();
-				}
-			}
-		}
+//		for (Contract contract : this.contractList) {
+//			if (contract.getId() == id) {
+//				if (contract.getProduct() instanceof Loan) {
+//					return contract;
+//				} else {
+//					throw new NotExistContractException();
+//				}
+//			}
+//		}
 		throw new NotExistContractException();
 	}
 
 	@Override
 	public Contract getNotRequestingLoan(int id) throws NotExistContractException {
-		for (Contract contract : contractList) {
-			if (contract.getId() == id) {
-				if (contract.getProduct() instanceof Loan
-					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
-					return contract;
-				} else {
-					break;
-				}
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getId() == id) {
+//				if (contract.getProduct() instanceof Loan
+//					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+//					return contract;
+//				} else {
+//					break;
+//				}
+//			}
+//		}
 		throw new NotExistContractException();
 	}
 
 	@Override
 	public Contract getNotRequestingLoanByCustomer(int id) throws NotExistContractException {
-		for (Contract contract : contractList) {
-			if (contract.getCustomerID() == id) {
-				if (contract.getProduct() instanceof Loan
-					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
-					return contract;
-				} else {
-					break;
-				}
-			}
-		}
+//		for (Contract contract : contractList) {
+//			if (contract.getCustomerID() == id) {
+//				if (contract.getProduct() instanceof Loan
+//					&& contract.getContractStatus() != ContractStatus.ContractRequesting) {
+//					return contract;
+//				} else {
+//					break;
+//				}
+//			}
+//		}
 		throw new NotExistContractException();
 	}
 

@@ -1,8 +1,10 @@
 package com.example.bunsanedthinking_springback.model.entityModel.product;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -17,15 +19,17 @@ public class ProductEntityModel {
 	@Autowired
 	private ProductMapper productMapper;
 	@Autowired
-	private InsuranceEntityModel insuranceDModel;
+	private InsuranceEntityModel insuranceEntityModel;
 	@Autowired
-	private LoanEntityModel loanDModel;
+	private LoanEntityModel loanEntityModel;
+	@Autowired
+	private ContractEntityModel contractEntityModel;
 
 	public Product getById(int id) {
-		Product product = insuranceDModel.getById(id);
+		Product product = insuranceEntityModel.getById(id);
 		if (product != null)
 			return product;
-		product = loanDModel.getById(id);
+		product = loanEntityModel.getById(id);
 		return product;
 	}
 
@@ -43,20 +47,23 @@ public class ProductEntityModel {
 
 	public void add(Product product) {
 		if (product == null) return;
-		else if (product instanceof Insurance) insuranceDModel.add((Insurance) product);
-		else if (product instanceof Loan) loanDModel.add((Loan) product);
+		else if (product instanceof Insurance) insuranceEntityModel.add((Insurance) product);
+		else if (product instanceof Loan) loanEntityModel.add((Loan) product);
 	}
 
 	public void update(Product product) {
 		if (product == null) return;
-		else if (product instanceof Insurance) insuranceDModel.update((Insurance) product);
-		else if (product instanceof Loan) loanDModel.update((Loan) product);
+		else if (product instanceof Insurance) insuranceEntityModel.update((Insurance) product);
+		else if (product instanceof Loan) loanEntityModel.update((Loan) product);
 	}
 
 	public void delete(int id) {
 		Product product = getById(id);
 		if (product == null) return;
-		else if (product instanceof Insurance) insuranceDModel.delete(id);
-		else if (product instanceof Loan) loanDModel.delete(id);
+		for (Contract contract : contractEntityModel.getAll())
+			if (contract.getProductId() == id)
+				contractEntityModel.delete(contract.getId());
+		if (product instanceof Insurance) insuranceEntityModel.delete(id);
+		else if (product instanceof Loan) loanEntityModel.delete(id);
 	}
 }

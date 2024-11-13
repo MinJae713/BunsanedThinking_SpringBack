@@ -9,6 +9,7 @@ import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMo
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
+import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
@@ -20,8 +21,10 @@ import com.example.bunsanedthinking_springback.model.entityModel.contract.Contra
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +43,11 @@ public class CompensationService {
 	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
 	private AccidentEntityModel accidentEntityModel;
+	@Autowired
+	private ProductEntityModel productEntityModel;
+
+	@Value("${serials.paymentDetail}")
+	public static int PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestCompensation(ReqCompensationDTO reqCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {
@@ -58,9 +66,7 @@ public class CompensationService {
 			throw new NotExistException();
 		if (report.getProcessStatus() == ReportProcessStatus.Completed)
 			throw new AlreadyProcessedException();
-		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
-				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(accountHolder, bank,
 			bankAccount, money, PaymentType.values()[paymentType], contractId);
 		payment.setId(paymentId);
@@ -104,9 +110,7 @@ public class CompensationService {
 			throw new NotExistException();
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			throw new AlreadyProcessedException();
-		int paymentId = paymentDetailEntityModel.getAll().isEmpty() ?
-				Integer.parseInt(PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER+"1") :
-				NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PaymentDetail.PAYMENT_DETAIL_SERIAL_NUMBER);
+		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
 			customer.getBankName(), customer.getBankAccount(),
 			money, PaymentType.values()[paymentType], contractId);
@@ -207,9 +211,11 @@ public class CompensationService {
 		List<Contract> customerContracts = customer.getContractList();
 		if (customerContracts == null)
 			throw new NotExistException();
-		for (Contract contract : customerContracts)
-			if (contract.getProduct() instanceof Automobile)
+		for (Contract contract : customerContracts) {
+			Product product = productEntityModel.getById(contract.getProductId());
+			if (product instanceof Automobile)
 				return contract;
+		}
 		throw new NotExistContractException();
 		//		return contractList.getContractByOneAutomobileId(customerID);
 	}

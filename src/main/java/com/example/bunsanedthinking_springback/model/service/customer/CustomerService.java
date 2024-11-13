@@ -46,11 +46,13 @@ import com.example.bunsanedthinking_springback.model.entityModel.insurance.Insur
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.recontract.RecontractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -105,6 +107,27 @@ public class CustomerService {
 	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
 	private CounselEntityModel counselEntityModel;
+	@Autowired
+	private ProductEntityModel productEntityModel;
+
+	@Value("${serials.customer}")
+	public static int CUSTOMER_SERIAL_NUMBER;
+	@Value("${serials.depositDetail}")
+	public static int DEPOSIT_DETAIL_SERIAL_NUMBER;
+	@Value("${serials.counsel}")
+	public static int COUNSEL_SERIAL_NUMBER;
+	@Value("${serials.contract}")
+	public static int CONTRACT_SERIAL_NUMBER;
+	@Value("${serials.complaint}")
+	public static int COMPLAINT_SERIAL_NUMBER;
+	@Value("${serials.accident}")
+	public static int ACCIDENT_SERIAL_NUMBER;
+	@Value("${serials.accidentHistory}")
+	public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.surgeryHistory}")
+	public static int SURGERY_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.diseaseHistory}")
+	public static int DISEASE_HISTORY_SERIAL_NUMBER;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,
@@ -200,19 +223,9 @@ public class CustomerService {
 		DepositPath depositPath = DepositPath.values()[depositDTO.getDepositPath()];
 		if (contractEntityModel.getById(contractId) == null)
 			throw new NotExistContractException();
-		int depositId = depositDetailEntityModel.getAll().isEmpty() ?
-			Integer.parseInt(DepositDetail.DEPOSIT_DETAIL_SERIAL + "1") :
-			getNextId(depositDetailEntityModel.getMaxId(), DepositDetail.DEPOSIT_DETAIL_SERIAL);
+		int depositId = NextIdGetter.getNextId(depositDetailEntityModel.getMaxId(), DEPOSIT_DETAIL_SERIAL_NUMBER);
 		depositDetailEntityModel.add(new DepositDetail(depositId, depositorName,
 			contractId, money, depositPath));
-	}
-
-	private int getNextId(int maxId, int serial) {
-		String maxIdStr = maxId + "";
-		int serialLength = (serial + "").length();
-		int nextId = Integer.parseInt(maxIdStr.substring(serialLength));
-		nextId++;
-		return Integer.parseInt(serial + "" + nextId);
 	}
 
 	// 이 아래는 완료
@@ -304,7 +317,7 @@ public class CustomerService {
 		//		ArrayList<Contract> result = new ArrayList<Contract>();
 		//		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
 		//		result.add(getContractById(contractVO.getId()));
-		return contractEntityModel.getAll().stream().filter(e -> e.getProduct().getId() == id).toList();
+		return contractEntityModel.getAll().stream().filter(e -> e.getProductId() == id).toList();
 	}
 
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
@@ -315,7 +328,7 @@ public class CustomerService {
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
 		List<Contract> contracts = getAllContractByCustomerId(id);
 		for (Contract contract : contracts) {
-			Product product = contract.getProduct();
+			Product product = productEntityModel.getById(contract.getProductId());
 			if (product instanceof Insurance) {
 				Insurance insurance = (Insurance)product;
 				if (insurance.getInsuranceType() == InsuranceType.Automobile)
@@ -368,7 +381,7 @@ public class CustomerService {
 				residentRegistrationNumber, address, property, bankName, bankAccount);
 
 		// 이 생성자 쓰면 엔티티 7개는 요소가 아얘 없는 ArrayList가 생김 (널포인터 방지 ㄱㄴ)
-		customer.setId(NextIdGetter.getNextId(customerEntityModel.getMaxId(), Customer.CUSTOMER_SERIAL_NUMBER));
+		customer.setId(NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER));
 		customerEntityModel.add(customer);
 		// add 시점에 customer의 엔티티 7개는 요소가 아얘 없으니 dmodel add 시 각 테이블에 정보가 추가되지 않음
 		// 단, accidenthistory, surgeryhistory, diseasehistory의 경우,
@@ -377,21 +390,21 @@ public class CustomerService {
 			for (AccidentHistory e : tempAccidentHistoryList) {
 				e.setCustomerID(customer.getId());
 				e.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(),
-						AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER));
+						ACCIDENT_HISTORY_SERIAL_NUMBER));
 				accidentHistoryEntityModel.add(e);
 			}
 		if (tempSurgeryHistoryList != null)
 			for (SurgeryHistory e : tempSurgeryHistoryList) {
 				e.setCustomerID(customer.getId());
 				e.setId(NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(),
-						SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER));
+						SURGERY_HISTORY_SERIAL_NUMBER));
 				surgeryHistoryEntityModel.add(e);
 			}
 		if (tempDiseaseHistoryList != null)
 			for (DiseaseHistory e : tempDiseaseHistoryList) {
 				e.setCustomer_id(customer.getId());
 				e.setId(NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(),
-						DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER));
+						DISEASE_HISTORY_SERIAL_NUMBER));
 				diseaseHistoryEntityModel.add(e);
 			}
 	}
@@ -412,7 +425,7 @@ public class CustomerService {
 //		ㄴ 이거인거 같아서 파라미터에서는 뺌, customerId 받으면 해당 고객 정보에서 다섯 정보 받아내는걸로함(맞나유..?)
 		Date counselDate = askInsuranceCounselDTO.getCounselDate();
 		Counsel counsel = new Counsel(customerId, insuranceId, name, phoneNumber, counselDate, job, age, gender);
-		counsel.setId(NextIdGetter.getNextId(counselEntityModel.getMaxId(), Counsel.COUNSEL_SERIAL_NUMBER));
+		counsel.setId(NextIdGetter.getNextId(counselEntityModel.getMaxId(), COUNSEL_SERIAL_NUMBER));
 		counselEntityModel.add(counsel);
 //		customer.askInsuranceCounsel(insurance, name, phoneNumber, counselDate, job, age, gender, counselList);
 	}
@@ -427,7 +440,7 @@ public class CustomerService {
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
 		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
 		Contract contract = new Contract(customerId, insurance);
-		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), Contract.CONTRACT_SERIAL_NUMBER));
+		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(employeeId);
 		contractEntityModel.add(contract);
 		// id, customerId, insurnace 이외에는 아무 정보도 지정X
@@ -442,7 +455,7 @@ public class CustomerService {
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Complaint complaint = new Complaint(complainType, content, customerId, title);
-		complaint.setId(NextIdGetter.getNextId(complaintEntityModel.getMaxId(), Complaint.COMPLAINT_SERIAL));
+		complaint.setId(NextIdGetter.getNextId(complaintEntityModel.getMaxId(), COMPLAINT_SERIAL_NUMBER));
 		complaintEntityModel.add(complaint);
 //		customer.complain(complaintList, customerList, complainType, title, content);
 	}
@@ -458,10 +471,10 @@ public class CustomerService {
 		List<Contract> myContractList = contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == customerId).toList();
 		if (myContractList.isEmpty()) myContractList = new ArrayList<>();
 		for (Contract contract : myContractList)
-			if (contract.getProduct().getId() == loanId)
+			if (contract.getProductId() == loanId)
 				throw new AlreadyRequestingException();
 		Contract contract = new Contract(customerId, loan);
-		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), Contract.CONTRACT_SERIAL_NUMBER));
+		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(employeeId);
 		contractEntityModel.add(contract);
 //		return customer.loan(loan, contractList);
@@ -501,7 +514,7 @@ public class CustomerService {
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
 		Accident accident = new Accident();
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
-		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), Accident.ACCIDENT_SERIAL));
+		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), ACCIDENT_SERIAL_NUMBER));
 		accidentEntityModel.add(accident);
 //		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
 //				accidentList);

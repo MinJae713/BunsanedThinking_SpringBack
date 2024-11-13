@@ -204,7 +204,7 @@ public class Customer implements Cloneable {
 			myContractList = new ArrayList<>();
 		}
 		for (Contract contract : myContractList) {
-			if (contract.getProduct().getId() == loan.getId()) {
+			if (contract.getProductId() == loan.getId()) {
 				throw new AlreadyRequestingException();
 			}
 		}

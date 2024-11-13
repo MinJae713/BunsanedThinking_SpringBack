@@ -41,7 +41,8 @@ public class Contract {
 	private int id;
 	private List<InsuranceMoney> insuranceMoneyList;
 	private Date lastPaidDate; // 최근 납부일
-	private Product product;
+//	private Product product;
+	private int productId;
 	private Date terminationDate; // 해지일
 	private List<PaymentDetail> paymentDetailList;
 
@@ -58,7 +59,9 @@ public class Contract {
 		this.insuranceMoneyList = new ArrayList<>();
 		this.paymentDetailList = new ArrayList<>();
 		this.paymentDate = 10;
-		this.product = product;
+//		this.product = product;
+		this.productId = product.getId();
+		// 일단 프로덕트 아이디만 받것숨다 - 파라미터 건드리면 문제가 클듯
 	}
 
 	public Contract(Contract contract) {
@@ -91,7 +94,8 @@ public class Contract {
 		this.depositDetailList = contract.getDepositDetailList();
 		this.employeeID = contract.getEmployeeID();
 		this.insuranceMoneyList = contract.getInsuranceMoneyList();
-		this.product = contract.getProduct();
+//		this.product = contract.getProduct();
+		this.productId = contract.getProductId();
 		this.paymentDetailList = contract.getPaymentDetailList();
 	}
 
@@ -99,12 +103,13 @@ public class Contract {
 		ArrayList<CompensationDetail> compensationDetails,
 		ArrayList<DepositDetail> depositDetails,
 		ArrayList<PaymentDetail> paymentDetails,
-		Product product, ContractVO contractVO) {
+		ContractVO contractVO) {
 		setInsuranceMoneyList(insuranceMonies);
 		setCompensationDetailList(compensationDetails);
 		setDepositDetailList(depositDetails);
 		setPaymentDetailList(paymentDetails);
-		setProduct(product);
+//		setProduct(product);
+		setProductId(contractVO.getProduct_id());
 
 		setId(contractVO.getId());
 		setDate(java.sql.Date.valueOf(contractVO.getDate()));
@@ -133,7 +138,7 @@ public class Contract {
 			paymentDate, lTerminationDate,
 			contractStatus.ordinal(),
 			customerID, employeeID,
-			product.getId(), lLastPaidDate);
+			productId, lLastPaidDate);
 	}
 
 	public Contract clone() {

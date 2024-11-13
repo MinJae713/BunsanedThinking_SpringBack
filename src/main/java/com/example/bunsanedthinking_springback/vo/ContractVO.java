@@ -7,15 +7,13 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Data
@@ -52,7 +50,7 @@ public class ContractVO {
 		contract.setCompensationDetailList(compensationDetails);
 		contract.setDepositDetailList(depositDetails);
 		contract.setInsuranceMoneyList(insuranceMonies);
-		contract.setProduct(product);
+		contract.setProductId(product.getId());
 		contract.setPaymentDetailList(paymentDetails);
 		return contract;
 	}
@@ -69,7 +67,7 @@ public class ContractVO {
 			contract.getLastPaidDate() == null ? null : LocalDate.parse(contract.getLastPaidDate(), formatter);
 		return new ContractVO(contract.getId(), date, expirationDate,
 			contract.getPaymentDate(), terminationDate, contract.getContractStatus().ordinal(),
-			contract.getCustomerID(), contract.getEmployeeID(), contract.getProduct().getId(),
+			contract.getCustomerID(), contract.getEmployeeID(), contract.getProductId(),
 			lastPaidDate);
 	}
 }

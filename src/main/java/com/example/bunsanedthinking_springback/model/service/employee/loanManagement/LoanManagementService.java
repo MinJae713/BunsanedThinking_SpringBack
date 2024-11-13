@@ -136,7 +136,8 @@ public class LoanManagementService {
 		if (contract.getContractStatus() != ContractStatus.ContractRequesting)
 			throw new AlreadyProcessedException();
 
-		Product product = contract.getProduct();
+//		Product product = contract.getProduct(); - 찬님 이거 contract에 product 빼면서 로직 수정했습니다...!
+		Product product = productEntityModel.getById(contract.getProductId());
 		if (result) {
 			LocalDate currentDate = LocalDate.now();
 			if (product instanceof Insurance insurance) {
@@ -255,11 +256,18 @@ public class LoanManagementService {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
-		if (contract.getProduct() instanceof Loan loan) {
+		Product product = productEntityModel.getById(contract.getProductId());
+		if (product instanceof Loan loan) {
 			return getLoanOutcome(contractId, loan);
-		} else if (contract.getProduct() instanceof Insurance insurance) {
+		} else if (product instanceof Insurance insurance) {
 			return insurance.getMonthlyPremium();
 		}
+//		- 찬님 이거 contract에 product 빼면서 로직 수정했습니다...!
+//		if (contract.getProduct() instanceof Loan loan) {
+//			return getLoanOutcome(contractId, loan);
+//		} else if (contract.getProduct() instanceof Insurance insurance) {
+//			return insurance.getMonthlyPremium();
+//		}
 		return 0;
 	}
 
