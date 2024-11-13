@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddCollateralLoanProductDTO;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddFixesDepositLoanProductDTO;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddLoanProductDTO;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
@@ -28,13 +28,14 @@ public class LoanManagementController {
 	private LoanManagementService loanManagementService;
 
 	@PostMapping("/addCollateralProduct")
-	public void addLoanProduct(@RequestBody AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws DuplicateLoanException {
+	public void addLoanProduct(@RequestBody AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws
+		DuplicateLoanException {
 		loanManagementService.addLoanProduct(addCollateralLoanProductDTO);
 	}
 
 	@PostMapping("/addLoanProduct")
-	public void addLoanProduct(@RequestBody AddFixesDepositLoanProductDTO addFixesDepositLoanProductDTO) throws DuplicateLoanException {
-		loanManagementService.addLoanProduct(addFixesDepositLoanProductDTO);
+	public void addLoanProduct(@RequestBody AddLoanProductDTO addLoanProductDTO) throws DuplicateLoanException {
+		loanManagementService.addLoanProduct(addLoanProductDTO);
 	}
 
 	@GetMapping("/getLoanProduct")
