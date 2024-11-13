@@ -205,7 +205,7 @@ public class SalesService {
 		contract.setContractStatus(ContractStatus.ContractRequesting);
 		contract.setCustomerID(customerId);
 		contract.setEmployeeID(induceDTO.getEmployeeId());
-		contract.setProduct(productEntityModel.getById(induceDTO.getProductId()));
+		contract.setProductId(induceDTO.getProductId());
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);
 		customerEntityModel.add(customer);

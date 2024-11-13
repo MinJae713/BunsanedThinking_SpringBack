@@ -12,9 +12,11 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 
 @Service
 public class UnderWritingService {
@@ -23,6 +25,8 @@ public class UnderWritingService {
 	private ContractEntityModel contractEntityModel;
 	@Autowired
 	private CustomerEntityModel customerEntityModel;
+	@Autowired
+	private ProductEntityModel productEntityModel;
 
 	public void applyCoperation() {
 
@@ -38,9 +42,10 @@ public class UnderWritingService {
 			throw new AlreadyProcessedException();
 		}
 		if (result) {
-			if (contract.getProduct() != null) {
+			Product product = productEntityModel.getById(contract.getProductId());
+			if (product != null) {
 				contract.setExpirationDate(Date.from(LocalDate.now()
-					.plusYears(((Insurance)contract.getProduct()).getContractPeriod())
+					.plusYears(((Insurance)product).getContractPeriod())
 					.atStartOfDay(ZoneId.systemDefault())
 					.toInstant()));
 			}
