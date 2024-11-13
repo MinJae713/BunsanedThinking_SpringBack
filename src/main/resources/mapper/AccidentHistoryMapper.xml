@@ -27,7 +27,4 @@
         SELECT MAX(id) FROM accidenthistory
     </select>
 
-    <select id="getCount" resultType="Integer">
-        select COUNT(*) from accidenthistory
-    </select>
 </mapper>

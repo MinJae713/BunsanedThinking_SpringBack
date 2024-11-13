@@ -47,7 +47,4 @@ public class DiseaseHistoryEntityModel {
 		diseaseHistoryMapper.deleteById(id);
 	}
 
-	public Integer getCount() {
-		return diseaseHistoryMapper.getCount();
-	}
 }
