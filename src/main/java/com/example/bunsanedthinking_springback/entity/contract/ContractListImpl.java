@@ -28,10 +28,10 @@ public class ContractListImpl implements ContractList {
 	 * @param contract
 	 */
 	public void add(Contract contract) {
-		String compose = "" + Contract.CONTRACT_SERIAL_NUMBER + ContractListImpl.index;
-		contract.setId(Integer.parseInt(compose));
-		ContractListImpl.index++;
-		this.contractList.add(contract);
+//		String compose = "" + Contract.CONTRACT_SERIAL_NUMBER + ContractListImpl.index;
+//		contract.setId(Integer.parseInt(compose));
+//		ContractListImpl.index++;
+//		this.contractList.add(contract);
 	}
 
 	/**

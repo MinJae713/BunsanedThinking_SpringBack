@@ -24,9 +24,9 @@ public class AccidentListImpl implements AccidentList {
 	 * @param accident
 	 */
 	public int add(Accident accident) {
-		String compose = "" + Accident.ACCIDENT_SERIAL + AccidentListImpl.index++;
-		accident.setId(Integer.parseInt(compose));
-		accidentList.add(accident);
+//		String compose = "" + Accident.ACCIDENT_SERIAL + AccidentListImpl.index++;
+//		accident.setId(Integer.parseInt(compose));
+//		accidentList.add(accident);
 		return accident.getId();
 	}
 

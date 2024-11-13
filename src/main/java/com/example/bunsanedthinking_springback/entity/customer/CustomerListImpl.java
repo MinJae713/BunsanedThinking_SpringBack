@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.customer;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
+import java.util.ArrayList;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -34,9 +34,9 @@ public class CustomerListImpl implements CustomerList {
 	 * @param customer
 	 */
 	public void add(Customer customer) {
-		String compound = Customer.CUSTOMER_SERIAL_NUMBER + "" + (++index);
-		customer.setId(Integer.parseInt(compound));
-		customerList.add(customer);
+//		String compound = Customer.CUSTOMER_SERIAL_NUMBER + "" + (++index);
+//		customer.setId(Integer.parseInt(compound));
+//		customerList.add(customer);
 	}
 
 	/**

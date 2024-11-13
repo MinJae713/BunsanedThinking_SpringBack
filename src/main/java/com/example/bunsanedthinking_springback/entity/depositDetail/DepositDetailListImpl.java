@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
+import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -23,10 +23,10 @@ public class DepositDetailListImpl implements DepositDetailList {
 	 * @param depositDetail
 	 */
 	public void add(DepositDetail depositDetail) {
-		String compose = "" + DepositDetail.DEPOSIT_DETAIL_SERIAL + DepositDetailListImpl.index;
-		depositDetail.setId(Integer.parseInt(compose));
-		DepositDetailListImpl.index++;
-		this.depositDetailList.add(depositDetail);
+//		String compose = "" + DepositDetail.DEPOSIT_DETAIL_SERIAL + DepositDetailListImpl.index;
+//		depositDetail.setId(Integer.parseInt(compose));
+//		DepositDetailListImpl.index++;
+//		this.depositDetailList.add(depositDetail);
 	}
 
 	/**

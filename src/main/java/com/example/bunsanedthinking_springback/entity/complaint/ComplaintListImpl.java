@@ -26,10 +26,10 @@ public class ComplaintListImpl implements ComplaintList {
 	 * @param complaint
 	 */
 	public void add(Complaint complaint) {
-		String compose = "" + Complaint.COMPLAINT_SERIAL + ComplaintListImpl.index;
-		complaint.setId(Integer.parseInt(compose));
-		ComplaintListImpl.index++;
-		this.complaintList.add(complaint);
+//		String compose = "" + Complaint.COMPLAINT_SERIAL + ComplaintListImpl.index;
+//		complaint.setId(Integer.parseInt(compose));
+//		ComplaintListImpl.index++;
+//		this.complaintList.add(complaint);
 	}
 
 	/**

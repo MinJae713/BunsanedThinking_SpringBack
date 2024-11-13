@@ -1,8 +1,8 @@
 package com.example.bunsanedthinking_springback.entity.counsel;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
+import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -23,9 +23,9 @@ public class CounselListImpl implements CounselList {
 	 * @param counsel
 	 */
 	public void add(Counsel counsel) {
-		String compound = Counsel.COUNSEL_SERIAL_NUMBER + "" + (++index);
-		counsel.setId(Integer.parseInt(compound));
-		counselList.add(counsel);
+//		String compound = Counsel.COUNSEL_SERIAL_NUMBER + "" + (++index);
+//		counsel.setId(Integer.parseInt(compound));
+//		counselList.add(counsel);
 	}
 
 	/**

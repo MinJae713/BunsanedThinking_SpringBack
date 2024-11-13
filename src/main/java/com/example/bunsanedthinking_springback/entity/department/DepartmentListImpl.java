@@ -1,9 +1,9 @@
 package com.example.bunsanedthinking_springback.entity.department;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.global.constants.DumyObjs;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+
+import java.util.ArrayList;
 
 /**
  * @author KimChan
@@ -30,9 +30,9 @@ public class DepartmentListImpl implements DepartmentList {
 	 */
 	public void add(Department department) {
 		DepartmentId++;
-		String compound = Department.DepartmentSerialNum + "" + DepartmentId;
-		department.setId(Integer.parseInt(compound));
-		departmentList.add(department);
+//		String compound = Department.DepartmentSerialNum + "" + DepartmentId;
+//		department.setId(Integer.parseInt(compound));
+//		departmentList.add(department);
 	}
 
 	/**

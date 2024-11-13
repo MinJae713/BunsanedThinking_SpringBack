@@ -4,7 +4,6 @@ import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -19,7 +18,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class AccidentHistory implements Cloneable{
-	public static final int ACCIDENT_HISTORY_SERIAL_NUMBER = 410;
 	
 	private int customerID;
 	private Date date;
