@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.SurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceAccidentHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.InduceSurgeryHistoryDTO;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
@@ -84,7 +84,7 @@ public class CustomerInformationManagementService {
 				maxIndex = Integer.parseInt(index) + 1;
 				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
-			for (AccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
+			for (InduceAccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 
@@ -116,7 +116,7 @@ public class CustomerInformationManagementService {
 				maxIndex = Integer.parseInt(index) + 1;
 				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
-			for (SurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
+			for (InduceSurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -149,7 +149,7 @@ public class CustomerInformationManagementService {
 				maxIndex = Integer.parseInt(index) + 1;
 				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER+ "") + maxIndex);
 			}
-			for (DiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
+			for (InduceDiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 
