@@ -1,21 +1,6 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-
-import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceAccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceSurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.*;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
@@ -23,10 +8,20 @@ import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHist
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomerInformationManagementService {
@@ -79,7 +74,7 @@ public class CustomerInformationManagementService {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
 			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 
-			for (AccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
+			for (UpdateAccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 
@@ -101,7 +96,7 @@ public class CustomerInformationManagementService {
 			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
 			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, SURGERY_HISTORY_SERIAL_NUMBER);
 
-			for (SurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
+			for (UpdateSurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -124,7 +119,7 @@ public class CustomerInformationManagementService {
 			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
 			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, DISEASE_HISTORY_SERIAL_NUMBER);
 
-			for (DiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
+			for (UpdateDiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 

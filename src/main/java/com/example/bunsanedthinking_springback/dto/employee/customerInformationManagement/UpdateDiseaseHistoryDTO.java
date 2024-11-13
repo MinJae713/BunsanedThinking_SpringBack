@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UpdateDiseaseHistoryDTO {
-    private int id;
-    private String date_of_diagnosis;
+    private String dateOfDiagnosis;
     private String name;
 }
