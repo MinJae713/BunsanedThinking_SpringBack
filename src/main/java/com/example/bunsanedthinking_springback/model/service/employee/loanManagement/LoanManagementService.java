@@ -267,6 +267,8 @@ public class LoanManagementService {
 		if (contract == null)
 			throw new NotExistContractException();
 		Product product = productEntityModel.getById(contract.getProductId());
+		if (product == null)
+			throw new NotExistException("해당하는 상품 정보가 존재하지 않습니다.");
 		if (product instanceof Loan loan) {
 			return getLoanOutcome(contractId, loan);
 		} else if (product instanceof Insurance insurance) {
