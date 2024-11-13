@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddFixesDepositLoanProductDTO {
+public class AddLoanProductDTO {
 	private int loanType;
 	private String name;
 	private int interestRate;
