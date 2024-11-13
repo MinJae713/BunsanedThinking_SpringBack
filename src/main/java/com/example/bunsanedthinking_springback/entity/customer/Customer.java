@@ -61,6 +61,8 @@ public class Customer implements Cloneable {
 	private String residentRegistrationNumber;
 	private List<SurgeryHistory> surgeryHistoryList;
 
+	public static final int CUSTOMER_SERIAL_NUMBER = 200;
+
 	public Customer(String name, String phoneNumber, String job, int age, Gender gender,
 		String residentRegistrationNumber, String address, long property, String bankName, String bankAccount) {
 		this.accidentList = new ArrayList<>();

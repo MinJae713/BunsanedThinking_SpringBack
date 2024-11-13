@@ -16,5 +16,4 @@ public interface SurgeryHistoryMapper {
     public void update(SurgeryHistoryVO surgeryHistoryVO);
     public void deleteById(int id);
 
-	Integer getCount();
 }

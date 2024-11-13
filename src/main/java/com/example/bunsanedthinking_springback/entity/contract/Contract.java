@@ -27,6 +27,8 @@ import java.util.List;
 @Data
 public class Contract {
 
+	public static final int CONTRACT_SERIAL_NUMBER = 100;
+
 	private List<CompensationDetail> compensationDetailList;
 	private ContractStatus contractStatus;
 	private int customerID;

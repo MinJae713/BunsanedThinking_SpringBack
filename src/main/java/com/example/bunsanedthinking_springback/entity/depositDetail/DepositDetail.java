@@ -1,13 +1,14 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
-import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+
+import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -18,6 +19,7 @@ import java.util.Date;
 @Data
 public class DepositDetail {
 
+	public static final int DEPOSIT_DETAIL_SERIAL = 810;
 	private int contractId;
 	private Date date;
 	private String depositorName;

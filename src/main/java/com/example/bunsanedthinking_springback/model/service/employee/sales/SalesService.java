@@ -1,5 +1,16 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
@@ -43,16 +54,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class SalesService {
@@ -144,7 +145,6 @@ public class SalesService {
 
 		if (induceDTO.getAccidentHistoryList() != null) {
 			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), ACCIDENT_HISTORY_SERIAL_NUMBER);
-			Integer nextIndex = accidentHistoryEntityModel.getCount()+1;
 			for (AccidentHistoryDTO e : induceDTO.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
@@ -154,15 +154,12 @@ public class SalesService {
 				accidentHistory.setAccidentDetail(e.getAccidentDetail());
 				accidentHistory.setCustomerID(customerId);
 				customer.getAccidentHistoryList().add(accidentHistory);
-				String combinedStr = String.valueOf(ACCIDENT_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
-				accidentHistoryId = Integer.parseInt(combinedStr);
+				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
 
 		if (induceDTO.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
-//			Integer nextIndex = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
-			Integer nextIndex = surgeryHistoryEntityModel.getCount()+1;
 			for (SurgeryHistoryDTO e : induceDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
@@ -173,13 +170,11 @@ public class SalesService {
 				surgeryHistory.setDate(date);
 				surgeryHistory.setCustomerID(customerId);
 				customer.getSurgeryHistoryList().add(surgeryHistory);
-				String combinedStr = String.valueOf(SURGERY_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
-				surgeryHistoryId = Integer.parseInt(combinedStr);
+				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
 			}
 		}
 		if (induceDTO.getDiseaseHistoryList() != null) {
 			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
-			Integer nextIndex = diseaseHistoryEntityModel.getCount()+1;
 			for (DiseaseHistoryDTO e : induceDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
@@ -190,8 +185,7 @@ public class SalesService {
 				diseaseHistory.setName(e.getName());
 				diseaseHistory.setCustomer_id(customerId);
 				customer.getDiseaseHistoryList().add(diseaseHistory);
-				String combinedStr = String.valueOf(DISEASE_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
-				diseaseHistoryId = Integer.parseInt(combinedStr);
+				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, DISEASE_HISTORY_SERIAL_NUMBER);
 			}
 		}
 
