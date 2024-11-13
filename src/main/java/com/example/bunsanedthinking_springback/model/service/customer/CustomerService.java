@@ -111,23 +111,23 @@ public class CustomerService {
 	private ProductEntityModel productEntityModel;
 
 	@Value("${serials.customer}")
-	public static int CUSTOMER_SERIAL_NUMBER;
+	public Integer CUSTOMER_SERIAL_NUMBER;
 	@Value("${serials.depositDetail}")
-	public static int DEPOSIT_DETAIL_SERIAL_NUMBER;
+	public Integer DEPOSIT_DETAIL_SERIAL_NUMBER;
 	@Value("${serials.counsel}")
-	public static int COUNSEL_SERIAL_NUMBER;
+	public Integer COUNSEL_SERIAL_NUMBER;
 	@Value("${serials.contract}")
-	public static int CONTRACT_SERIAL_NUMBER;
+	public Integer CONTRACT_SERIAL_NUMBER;
 	@Value("${serials.complaint}")
-	public static int COMPLAINT_SERIAL_NUMBER;
+	public Integer COMPLAINT_SERIAL_NUMBER;
 	@Value("${serials.accident}")
-	public static int ACCIDENT_SERIAL_NUMBER;
+	public Integer ACCIDENT_SERIAL_NUMBER;
 	@Value("${serials.accidentHistory}")
-	public static int ACCIDENT_HISTORY_SERIAL_NUMBER;
+	public Integer ACCIDENT_HISTORY_SERIAL_NUMBER;
 	@Value("${serials.surgeryHistory}")
-	public static int SURGERY_HISTORY_SERIAL_NUMBER;
+	public Integer SURGERY_HISTORY_SERIAL_NUMBER;
 	@Value("${serials.diseaseHistory}")
-	public static int DISEASE_HISTORY_SERIAL_NUMBER;
+	public Integer DISEASE_HISTORY_SERIAL_NUMBER;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,

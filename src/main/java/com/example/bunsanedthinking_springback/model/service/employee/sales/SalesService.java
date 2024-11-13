@@ -226,6 +226,7 @@ public class SalesService {
 		contract.setEmployeeID(induceDTO.getEmployeeId());
 //		contract.setProduct(productEntityModel.getById(induceDTO.getProductId()));
 		// 대현님 이거 contract에 product 빼면서 로직 수정했습니다...!
+		// 합칠 때 컨플릭트 나면 아래 버전으로 바꿀게유
 		contract.setProductId(induceDTO.getProductId());
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);

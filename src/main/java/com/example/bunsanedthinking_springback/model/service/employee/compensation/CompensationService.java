@@ -47,7 +47,7 @@ public class CompensationService {
 	private ProductEntityModel productEntityModel;
 
 	@Value("${serials.paymentDetail}")
-	public static int PAYMENT_DETAIL_SERIAL_NUMBER;
+	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestCompensation(ReqCompensationDTO reqCompensationDTO)
 		throws NotExistException, AlreadyProcessedException {

@@ -61,7 +61,7 @@ public class ContractManagementService {
 	private InsuranceEntityModel insuranceEntityModel;
 
 	@Value("${serials.paymentDetail}")
-	public static int PAYMENT_DETAIL_SERIAL_NUMBER;
+	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestTerminationFee(int tercontractId, int customerId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {

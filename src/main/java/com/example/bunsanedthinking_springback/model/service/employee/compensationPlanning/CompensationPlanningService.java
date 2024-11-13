@@ -22,7 +22,7 @@ public class CompensationPlanningService {
 	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 
 	@Value("${serials.partnercompany}")
-	public static int PARTNER_COMPANY_SERIAL_NUMBER;
+	public Integer PARTNER_COMPANY_SERIAL_NUMBER;
 
 	public void addPartnerCompany(AddPartnerCompanyDTO partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
