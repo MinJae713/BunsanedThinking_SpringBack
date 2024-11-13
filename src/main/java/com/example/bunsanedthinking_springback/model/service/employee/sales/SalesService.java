@@ -1,5 +1,16 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.dto.employee.sales.AccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
@@ -14,11 +25,18 @@ import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.collateral.CollateralEntityModel;
@@ -36,14 +54,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 
 @Service
 public class SalesService {
@@ -85,6 +95,17 @@ public class SalesService {
 	@Autowired
 	private ContractEntityModel contractEntityModel;
 
+	@Value("${serials.customer}")
+	private Integer CUSTOMER_SERIAL_NUMBER;
+	@Value("${serials.diseaseHistory}")
+	private Integer DISEASE_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.accidentHistory}")
+	private Integer ACCIDENT_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.surgeryHistory}")
+	private Integer SURGERY_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.contract}")
+	private Integer CONTRACT_SERIAL_NUMBER;
+
 	public void evaluateSalesPerformance(int evaluate, int id) {
 		Sales sales = salesEntityModel.getById(id);
 		sales.setEvaluate(evaluate);
@@ -103,14 +124,7 @@ public class SalesService {
 
 	public Customer induceInsuranceProduct(InduceDTO induceDTO) {
 
-		Integer maxId = customerEntityModel.getMaxId();
-		int customerId;
-		if (maxId == null) {
-			customerId = Integer.parseInt(Customer.CUSTOMER_SERIAL_NUMBER + "1");
-		} else {
-			String index = (maxId + "").substring((Customer.CUSTOMER_SERIAL_NUMBER + "").length());
-			customerId = Integer.parseInt((Customer.CUSTOMER_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
-		}
+		Integer customerId = NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER);
 
 		Customer customer = new Customer();
 		customer.setId(customerId);
@@ -124,20 +138,14 @@ public class SalesService {
 		customer.setPhoneNumber(induceDTO.getPhoneNumber());
 		customer.setProperty(induceDTO.getProperty());
 		customer.setResidentRegistrationNumber(induceDTO.getResidentRegistrationNumber());
+		customer.setAccidentHistoryList(new ArrayList<>());
+		customer.setSurgeryHistoryList(new ArrayList<>());
+		customer.setDiseaseHistoryList(new ArrayList<>());
+		customer.setContractList(new ArrayList<>());
 
 		if (induceDTO.getAccidentHistoryList() != null) {
-			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
-			int accidentHistoryId;
-			int maxIndex;
-			if (accidentHistoryMaxId == null) {
-				accidentHistoryId = Integer.parseInt(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else {
-				String index = (accidentHistoryMaxId + "").substring(
-					(AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
-			}
+			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), ACCIDENT_HISTORY_SERIAL_NUMBER);
+			Integer nextIndex = accidentHistoryEntityModel.getCount()+1;
 			for (AccidentHistoryDTO e : induceDTO.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
@@ -147,24 +155,14 @@ public class SalesService {
 				accidentHistory.setAccidentDetail(e.getAccidentDetail());
 				accidentHistory.setCustomerID(customerId);
 				customer.getAccidentHistoryList().add(accidentHistory);
-				maxIndex++;
-				accidentHistoryId = Integer.parseInt((AccidentHistory.ACCIDENT_HISTORY_SERIAL_NUMBER + "") + maxIndex);
+				String combinedStr = String.valueOf(ACCIDENT_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
+				accidentHistoryId = Integer.parseInt(combinedStr);
 			}
 		}
 
 		if (induceDTO.getSurgeryHistoryList() != null) {
-			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
-			int surgeryHistoryId;
-			int maxIndex;
-			if (surgeryHistoryMaxId == null) {
-				surgeryHistoryId = Integer.parseInt(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else {
-				String index = (surgeryHistoryMaxId + "").substring(
-					(SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
-			}
+			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
+			Integer nextIndex = surgeryHistoryEntityModel.getCount()+1;
 			for (SurgeryHistoryDTO e : induceDTO.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
@@ -175,58 +173,38 @@ public class SalesService {
 				surgeryHistory.setDate(date);
 				surgeryHistory.setCustomerID(customerId);
 				customer.getSurgeryHistoryList().add(surgeryHistory);
-				maxIndex++;
-				surgeryHistoryId = Integer.parseInt((SurgeryHistory.SURGERYHISTORY_SERIAL_NUMBER + "") + maxIndex);
+				String combinedStr = String.valueOf(SURGERY_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
+				surgeryHistoryId = Integer.parseInt(combinedStr);
 			}
 		}
 		if (induceDTO.getDiseaseHistoryList() != null) {
-			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
-			int diseaseHistoryId;
-			int maxIndex;
-			if (diseaseHistoryMaxId == null) {
-				diseaseHistoryId = Integer.parseInt(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "1");
-				maxIndex = 1;
-			} else {
-				String index = (diseaseHistoryMaxId + "").substring(
-					(DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "").length());
-				maxIndex = Integer.parseInt(index) + 1;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
-			}
+			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
+			Integer nextIndex = diseaseHistoryEntityModel.getCount()+1;
 			for (DiseaseHistoryDTO e : induceDTO.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
-				LocalDate localDate = LocalDate.parse(e.getDate_of_diagnosis(),
+				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(),
 					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				diseaseHistory.setDate_of_diagnosis(date);
 				diseaseHistory.setName(e.getName());
 				diseaseHistory.setCustomer_id(customerId);
 				customer.getDiseaseHistoryList().add(diseaseHistory);
-				maxIndex++;
-				diseaseHistoryId = Integer.parseInt((DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + "") + maxIndex);
+				String combinedStr = String.valueOf(DISEASE_HISTORY_SERIAL_NUMBER) + String.valueOf(++nextIndex);
+				diseaseHistoryId = Integer.parseInt(combinedStr);
 			}
 		}
 
-		Integer contractMaxId = contractEntityModel.getMaxId();
-		int contractId;
-		if (contractMaxId == null) {
-			contractId = Integer.parseInt(Contract.CONTRACT_SERIAL_NUMBER + "1");
-		} else {
-			String index = (contractMaxId + "").substring((Contract.CONTRACT_SERIAL_NUMBER + "").length());
-			contractId = Integer.parseInt((Contract.CONTRACT_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
-		}
+		int contractId = NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER);
 		Contract contract = new Contract();
 		contract.setId(contractId);
-		contract.setDate(null);
+		contract.setDate(new Date());
 		contract.setExpirationDate(null);
 		contract.setPaymentDate(null);
 		contract.setTerminationDate(null);
 		contract.setContractStatus(ContractStatus.ContractRequesting);
 		contract.setCustomerID(customerId);
 		contract.setEmployeeID(induceDTO.getEmployeeId());
-//		contract.setProduct(productEntityModel.getById(induceDTO.getProductId()));
-		// 대현님 이거 contract에 product 빼면서 로직 수정했습니다...!
-		// 합칠 때 컨플릭트 나면 아래 버전으로 바꿀게유
 		contract.setProductId(induceDTO.getProductId());
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);
@@ -247,8 +225,8 @@ public class SalesService {
 		return loanEntityModel.getById(id);
 	}
 
-	public ArrayList<Employee> getAllEmployee() {
-		return (ArrayList<Employee>)employeeEntityModel.getAll();
+	public List<Employee> getAllEmployee() {
+		return employeeEntityModel.getAll();
 	}
 
 	public Employee getEmployee(int id) {
@@ -259,35 +237,26 @@ public class SalesService {
 		return salesEntityModel.getById(id);
 	}
 
-	public ArrayList<Counsel> getAllCounsel() {
-		return (ArrayList<Counsel>)counselEntityModel.getAll();
+	public List<Counsel> getAllCounsel() {
+		return counselEntityModel.getAll();
 	}
 
 	public Counsel getCounsel(int id) {
 		return counselEntityModel.getById(id);
 	}
 
-	public ArrayList<Product> getAllProduct() {
-		return (ArrayList<Product>)productEntityModel.getAll();
+	public List<Product> getAllProduct() {
+		return productEntityModel.getAll();
 	}
 
 	public DiseaseHistory addDiseaseHistory(DiseaseHistoryDTO diseaseHistoryDTO) {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 
-		Integer diseaseHistoryId = diseaseHistoryEntityModel.getMaxId();
-		if (diseaseHistoryId == null) {
-			diseaseHistoryId = Integer.parseInt("" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + 1);
-		} else {
-			int diseaseHistorySerialLength = ("" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER).length();
-			String index = (diseaseHistoryId + "").substring(diseaseHistorySerialLength);
-			index = (Integer.parseInt(index) + 1) + "";
-			String compound = "" + DiseaseHistory.DISEASE_HISTORY_SERIAL_NUMBER + index;
-			diseaseHistoryId = Integer.parseInt(compound);
-		}
+		Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
 
 		diseaseHistory.setId(diseaseHistoryId);
 		diseaseHistory.setDate_of_diagnosis(Date.from(
-			LocalDate.parse(diseaseHistoryDTO.getDate_of_diagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+			LocalDate.parse(diseaseHistoryDTO.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 				.atStartOfDay(ZoneId.systemDefault())
 				.toInstant()
 		));
@@ -302,32 +271,32 @@ public class SalesService {
 		salesEntityModel.update(sales);
 	}
 
-	public ArrayList<Insurance> getAllDiseaseInsurance() {
-		return new ArrayList<>(diseaseEntityModel.getAll());
+	public List<Disease> getAllDiseaseInsurance() {
+		return diseaseEntityModel.getAll();
 	}
 
-	public ArrayList<Insurance> getAllInjuryInsurance() {
-		return new ArrayList<>(injuryEntityModel.getAll());
+	public List<Injury> getAllInjuryInsurance() {
+		return injuryEntityModel.getAll();
 	}
 
-	public ArrayList<Insurance> getAllAutomobileInsurance() {
-		return new ArrayList<>(automobileEntityModel.getAll());
+	public List<Automobile> getAllAutomobileInsurance() {
+		return automobileEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllCollateralLoan() {
-		return new ArrayList<>(collateralEntityModel.getAll());
+	public List<Collateral> getAllCollateralLoan() {
+		return collateralEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllFixedDepositLoan() {
-		return new ArrayList<>(fixedDepositEntityModel.getAll());
+	public List<FixedDeposit> getAllFixedDepositLoan() {
+		return fixedDepositEntityModel.getAll();
 	}
 
-	public ArrayList<Loan> getAllInsuranceContractLoan() {
-		return new ArrayList<>(insuranceContractEntityModel.getAll());
+	public List<InsuranceContract> getAllInsuranceContractLoan() {
+		return insuranceContractEntityModel.getAll();
 	}
 
-	public Sales getSalesContractCount(int id) {
-		return getSales(id);
+	public int getSalesContractCount(int id) {
+		return getSales(id).getContractCount();
 	}
 
 	public void setContractCount(int contractCount, int id) {

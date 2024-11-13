@@ -8,6 +8,9 @@
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO">
         select * from surgeryhistory
     </select>
+    <select id="getCount" resultType="Integer">
+        select COUNT(*) from surgeryhistory
+    </select>
     <select id="getMaxId" resultType="Integer">
         SELECT MAX(id) FROM surgeryhistory
     </select>

@@ -1,5 +1,13 @@
 package com.example.bunsanedthinking_springback.model.service.employee.underwriting;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -9,13 +17,6 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
 
 @Service
 public class UnderWritingService {
@@ -44,17 +45,10 @@ public class UnderWritingService {
 			Product product = productEntityModel.getById(contract.getProductId());
 			if (product != null) {
 				contract.setExpirationDate(Date.from(LocalDate.now()
-						.plusYears(((Insurance)product).getContractPeriod())
-						.atStartOfDay(ZoneId.systemDefault())
-						.toInstant()));
+					.plusYears(((Insurance)product).getContractPeriod())
+					.atStartOfDay(ZoneId.systemDefault())
+					.toInstant()));
 			}
-			// 대현님 이거 로직 수정했심다...! 한번 검토해줍쇼
-//			if (contract.getProduct() != null) {
-//				contract.setExpirationDate(Date.from(LocalDate.now()
-//					.plusYears(((Insurance)contract.getProduct()).getContractPeriod())
-//					.atStartOfDay(ZoneId.systemDefault())
-//					.toInstant()));
-//			}
 			contract.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 			contract.setContractStatus(ContractStatus.Maintaining);
 		} else {
@@ -64,12 +58,12 @@ public class UnderWritingService {
 		return result;
 	}
 
-	public ArrayList<Contract> getAllRequestingInsurance() {
-		return (ArrayList<Contract>)contractEntityModel.getAllRequestingInsurance();
+	public List<Contract> getAllRequestingInsurance() {
+		return contractEntityModel.getAllRequestingInsurance();
 	}
 
-	public ArrayList<Contract> getAllNotRequestingInsurance() {
-		return (ArrayList<Contract>)contractEntityModel.getAllNotRequestingInsurance();
+	public List<Contract> getAllNotRequestingInsurance() {
+		return contractEntityModel.getAllNotRequestingInsurance();
 	}
 
 	public Customer getCustomer(int id) {

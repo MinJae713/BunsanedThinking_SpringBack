@@ -1,5 +1,15 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.bunsanedthinking_springback.dto.employee.sales.DiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDTO;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
@@ -7,15 +17,17 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
+import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/employee/sales")
@@ -54,7 +66,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllEmployee")
-	public ArrayList<Employee> getAllEmployee() {
+	public List<Employee> getAllEmployee() {
 		return salesSModel.getAllEmployee();
 	}
 
@@ -69,7 +81,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllCounsel")
-	public ArrayList<Counsel> getAllCounsel() {
+	public List<Counsel> getAllCounsel() {
 		return salesSModel.getAllCounsel();
 	}
 
@@ -79,7 +91,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllProduct")
-	public ArrayList<Product> getAllProduct() {
+	public List<Product> getAllProduct() {
 		return salesSModel.getAllProduct();
 	}
 
@@ -94,37 +106,37 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllDiseaseInsurance")
-	public ArrayList<Insurance> getAllDiseaseInsurance() {
+	public List<Disease> getAllDiseaseInsurance() {
 		return salesSModel.getAllDiseaseInsurance();
 	}
 
 	@GetMapping("/getAllInjuryInsurance")
-	public ArrayList<Insurance> getAllInjuryInsurance() {
+	public List<Injury> getAllInjuryInsurance() {
 		return salesSModel.getAllInjuryInsurance();
 	}
 
 	@GetMapping("/getAllAutomobileInsurance")
-	public ArrayList<Insurance> getAllAutomobileInsurance() {
+	public List<Automobile> getAllAutomobileInsurance() {
 		return salesSModel.getAllAutomobileInsurance();
 	}
 
 	@GetMapping("getAllCollateralLoan")
-	public ArrayList<Loan> getAllCollateralLoan() {
+	public List<Collateral> getAllCollateralLoan() {
 		return salesSModel.getAllCollateralLoan();
 	}
 
 	@GetMapping("/getAllFixedDepositLoan")
-	public ArrayList<Loan> getAllFixedDepositLoan() {
+	public List<FixedDeposit> getAllFixedDepositLoan() {
 		return salesSModel.getAllFixedDepositLoan();
 	}
 
 	@GetMapping("/getAllInsuranceContractLoan")
-	public ArrayList<Loan> getAllInsuranceContractLoan() {
+	public List<InsuranceContract> getAllInsuranceContractLoan() {
 		return salesSModel.getAllInsuranceContractLoan();
 	}
 
 	@GetMapping("/getSalesContractCount")
-	public Sales getSalesContractCount(int id) {
+	public int getSalesContractCount(int id) {
 		return salesSModel.getSalesContractCount(id);
 	}
 
