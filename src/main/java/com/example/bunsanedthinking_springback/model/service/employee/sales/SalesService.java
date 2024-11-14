@@ -1,5 +1,17 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.example.bunsanedthinking_springback.dto.employee.sales.AddDiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceAccidentHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceInsuranceProductDTO;
@@ -43,16 +55,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class SalesService {
@@ -242,18 +244,18 @@ public class SalesService {
 		return productEntityModel.getAll();
 	}
 
-	public DiseaseHistory addDiseaseHistory(InduceDiseaseHistoryDTO induceDiseaseHistoryDTO) {
+	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryDTO addDiseaseHistoryDTO) {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 
 		Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
 
 		diseaseHistory.setId(diseaseHistoryId);
 		diseaseHistory.setDate_of_diagnosis(Date.from(
-			LocalDate.parse(induceDiseaseHistoryDTO.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+			LocalDate.parse(addDiseaseHistoryDTO.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 				.atStartOfDay(ZoneId.systemDefault())
 				.toInstant()
 		));
-		diseaseHistory.setName(induceDiseaseHistoryDTO.getName());
+		diseaseHistory.setName(addDiseaseHistoryDTO.getName());
 
 		return diseaseHistory;
 	}

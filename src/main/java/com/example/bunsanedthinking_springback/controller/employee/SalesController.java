@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.AddDiseaseHistoryDTO;
 import com.example.bunsanedthinking_springback.dto.employee.sales.InduceInsuranceProductDTO;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -96,8 +96,8 @@ public class SalesController {
 	}
 
 	@PostMapping("/addDiseaseHistory")
-	public DiseaseHistory addDiseaseHistory(@RequestBody InduceDiseaseHistoryDTO induceDiseaseHistoryDTO) {
-		return salesSModel.addDiseaseHistory(induceDiseaseHistoryDTO);
+	public DiseaseHistory addDiseaseHistory(@RequestBody AddDiseaseHistoryDTO addDiseaseHistoryDTO) {
+		return salesSModel.addDiseaseHistory(addDiseaseHistoryDTO);
 	}
 
 	@PatchMapping("/updateContractCount")
