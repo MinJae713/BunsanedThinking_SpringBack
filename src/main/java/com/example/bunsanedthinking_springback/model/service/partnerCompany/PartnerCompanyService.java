@@ -45,7 +45,7 @@ public class PartnerCompanyService {
 //		}
 //		report.setDamageAssessmentMoney(updateReportDTO.getDamage_assessment_money());
 //		reportDModel.update(report);
-//	} //모르겠음
+//	} // 사용안되는 것 같아서 일단 막아둠
 
 	public void setDamageAssessmentMoney(int accidentId, int damageAssessmentMoney) throws NotExistException {
 		Report report = reportEntityModel.getById(accidentId);

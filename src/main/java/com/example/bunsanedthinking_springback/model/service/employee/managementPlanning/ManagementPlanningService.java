@@ -20,31 +20,6 @@ public class ManagementPlanningService {
 	@Value("${serials.department}")
 	public int DEPARTMENT_SERIAL_NUMBER;
 
-//	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
-//		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()
-//				.anyMatch(department ->
-//						department.getName().equals(addDepartmentDTO.getName()));
-//		if(isExistDepartmentName)
-//			throw new DuplicateDepartmentException();
-//
-//		Integer maxId = departmentEntityModel.getMaxId();
-//		int id;
-//		if (maxId == null) {
-//			id = Integer.parseInt(Department.DepartmentSerialNum + "1");
-//		} else {
-//			String index = (maxId + "").substring((Department.DepartmentSerialNum + "").length());
-//			id = Integer.parseInt((Department.DepartmentSerialNum + "") + (Integer.parseInt(index) + 1));
-//		}
-//		Department department = new Department(
-//				addDepartmentDTO.getName(),
-//				addDepartmentDTO.getTask(),
-//				addDepartmentDTO.getPurpose(),
-//				addDepartmentDTO.getHead_name()
-//		);
-//		department.setId(id);
-//		departmentEntityModel.add(department);
-//	}
-
 	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()
 				.anyMatch(department -> department.getName().equals(addDepartmentDTO.getName()));

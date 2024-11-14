@@ -23,31 +23,6 @@ public class AdministrativeService {
 	@Value("${serials.officesupply}")
 	public int OFFICESUPPLY_SERIAL_NUMBER;
 
-//	public void addOfficeSupply(AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
-//		boolean isExistOfficeSupplyName = officeSupplyEntityModel.getAll().stream()
-//			.anyMatch(officeSupply ->
-//					officeSupply.getName().equals(addOfficeSupplyDTO.getName()));
-//		if(isExistOfficeSupplyName)
-//			throw new DuplicateOfficeSupplyException();
-//		//현재 최대 ID를 가져온다
-//		Integer maxId = officeSupplyEntityModel.getMaxId();
-//		int id;
-//		if (maxId == null) {
-//			id = Integer.parseInt(OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "1");
-//		} else {
-//			String index = (maxId + "").substring((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "").length());
-//			id = Integer.parseInt((OfficeSupply.OFFICESUPPLY_SERIAL_NUMBER + "") + (Integer.parseInt(index) + 1));
-//		}
-//		OfficeSupply officeSupply = new OfficeSupply(
-//				id,
-//				addOfficeSupplyDTO.getInventory(),
-//				addOfficeSupplyDTO.getName(),
-//				addOfficeSupplyDTO.getTotal_inventory(),
-//				addOfficeSupplyDTO.getDescription(),
-//				addOfficeSupplyDTO.getDepartment_id()
-//		);
-//		officeSupplyEntityModel.add(officeSupply);
-//	}
 	public void addOfficeSupply(AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
 		boolean isExistOfficeSupplyName = officeSupplyEntityModel.getAll().stream()
 				.anyMatch(officeSupply -> officeSupply.getName().equals(addOfficeSupplyDTO.getName()));
@@ -55,7 +30,6 @@ public class AdministrativeService {
 		if (isExistOfficeSupplyName) {
 			throw new DuplicateOfficeSupplyException();
 		}
-
 		// 현재 최대 ID를 가져와서 NextIdGetter를 사용하여 새로운 ID 생성
 		Integer maxId = officeSupplyEntityModel.getMaxId();
 		int id = NextIdGetter.getNextId(maxId, OFFICESUPPLY_SERIAL_NUMBER);

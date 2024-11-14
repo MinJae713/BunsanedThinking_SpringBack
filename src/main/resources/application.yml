@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bunsaninsurance
     username: root
-    password: Godyell713!
+    password: 29499805
   profiles:
     include: serials
   config:
