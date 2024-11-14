@@ -33,6 +33,7 @@ public class ProductManagementController {
 		productManagementSModel.addDiseaseInsurance(addDiseaseInsuranceDTO);
 	}
 
+
 	@PostMapping("/addInjuryInsurance")
 	public void addInjuryInsurance(@RequestBody AddInjuryInsuranceDTO addInjuryInsuranceDTO) throws DuplicateInsuranceException {
 		productManagementSModel.addInjuryInsurance(addInjuryInsuranceDTO);
