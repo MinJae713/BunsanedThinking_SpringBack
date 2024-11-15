@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
@@ -71,6 +72,11 @@ public class FinancialAccountantController {
 	@GetMapping("/getCustomer")
 	public Customer getCustomer(@RequestParam("customerId") int customerId) throws NotExistException {
 		return financialAccountantService.getCustomer(customerId);
+	}
+
+	@GetMapping("/getEmployee")
+	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
+		return financialAccountantService.getEmployee(employeeId);
 	}
 
 	@GetMapping("/getAllDepositDetail")

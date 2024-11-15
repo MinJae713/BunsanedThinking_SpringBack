@@ -107,4 +107,11 @@ public class FinancialAccountantService {
 	public List<DepositDetail> getAllDepositDetail() {
 		return depositDetailEntityModel.getAll();
 	}
+
+	public Employee getEmployee(int employeeId) throws NotExistException {
+		Employee employee = employeeEntityModel.getById(employeeId);
+		if (employee == null)
+			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+		return employee;
+	}
 }
