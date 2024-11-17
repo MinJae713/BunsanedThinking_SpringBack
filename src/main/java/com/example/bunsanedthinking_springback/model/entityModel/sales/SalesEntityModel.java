@@ -29,7 +29,6 @@ public class SalesEntityModel {
 	public List<Sales> getAll() {
 		List<Sales> sales = new ArrayList<Sales>();
 		salesMapper.getAll().forEach(e -> sales.add(getById(e.getEmployee_id())));
-		// getAll_SalesModel - List 수정 필요
 		return sales;
 	}
 
