@@ -240,8 +240,12 @@ public class SalesService {
 		return counselEntityModel.getById(id);
 	}
 
-	public List<Product> getAllProduct() {
-		return productEntityModel.getAll();
+	public List<Loan> getAllLoanProduct() {
+		return loanEntityModel.getAll();
+	}
+
+	public List<Insurance> getAllInsuranceProduct() {
+		return insuranceEntityModel.getAll();
 	}
 
 	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryDTO addDiseaseHistoryDTO) {

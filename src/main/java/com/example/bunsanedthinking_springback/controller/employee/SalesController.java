@@ -90,9 +90,14 @@ public class SalesController {
 		return salesSModel.getCounsel(id);
 	}
 
-	@GetMapping("/getAllProduct")
-	public List<Product> getAllProduct() {
-		return salesSModel.getAllProduct();
+	@GetMapping("/getAllInsuranceProduct")
+	public List<Insurance> getAllInsuranceProduct() {
+		return salesSModel.getAllInsuranceProduct();
+	}
+
+	@GetMapping("/getAllLoanProduct")
+	public List<Loan> getAllLoanProduct() {
+		return salesSModel.getAllLoanProduct();
 	}
 
 	@PostMapping("/addDiseaseHistory")
