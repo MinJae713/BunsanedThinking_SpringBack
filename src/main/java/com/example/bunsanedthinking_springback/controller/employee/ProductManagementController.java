@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddAutomobileInsuranceDTO;
@@ -65,7 +66,7 @@ public class ProductManagementController {
 	}
 
 	@PatchMapping("/updateAutomobileInsurance")
-	public void updateAutomobileInsurance(int index, String input, int id, ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException{
+	public void updateAutomobileInsurance(@RequestParam int index,@RequestParam String input,@RequestParam int id,@RequestBody(required = false) ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException{
 		productManagementSModel.updateAutomobileInsurance(index, input, id, serviceTypeList);
 	}
 
