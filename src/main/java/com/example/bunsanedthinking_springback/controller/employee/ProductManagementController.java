@@ -18,7 +18,6 @@ import com.example.bunsanedthinking_springback.dto.employee.productManagement.Ad
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddInjuryInsuranceDTO;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementService;
@@ -71,7 +70,7 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("/getAll")
-	public List<Product> getAll(){
+	public List<Insurance> getAll(){
 		return productManagementSModel.getAll();
 	}
 }

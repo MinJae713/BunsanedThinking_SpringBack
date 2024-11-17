@@ -289,7 +289,7 @@ public class ProductManagementService {
 
 	}
 
-	public List<Product> getAll() {
-		return productEntityModel.getAll();
+	public List<Insurance> getAll() {
+		return insuranceEntityModel.getAll();
 	}
 }
