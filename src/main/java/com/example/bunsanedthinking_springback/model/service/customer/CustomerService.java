@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.*;
+import com.example.bunsanedthinking_springback.dto.customer.request.*;
+import com.example.bunsanedthinking_springback.dto.customer.response.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -130,8 +131,6 @@ public class CustomerService {
 	public Integer DISEASE_HISTORY_SERIAL_NUMBER;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
-		// 배서(Endorsement) 납부일만 변경됨 - 기존 내용은 유지&ContractStatus만 변경,
-		// 배서 정보가 없다면 배서 하나 추가됨, 배서 정보가 그대로 있다면 해당 배서의 납부일 변경
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -139,17 +138,10 @@ public class CustomerService {
 		contractEntityModel.update(contract);
 		Endorsement endorsement = endorsementEntityModel.getById(contractId);
 		if (endorsement == null) {
-			// 여기서는 endorsement 테이블만 추가됨
-			// 이유는 contractId 해당 Contract는 엔티티가 있기 때문
-			// dmodel에서 add할 때 contract의 dmodel까지 들어가긴 하지만
-			// contract dmodel은 아무것도 안하고 그냥 종료되는 형태
-			// id는 Contract랑 똑같아서 지정 x
 			endorsement = new Endorsement(contract);
 			endorsement.setPaymentDate(index);
 			endorsementEntityModel.add(endorsement);
 		} else {
-			// 만일 기존 endorsement가 있는 상황에서 납입일 변경이라면?
-			// 납부일 변경 및 테이블 수정
 			endorsement.setPaymentDate(index);
 			endorsementEntityModel.update(endorsement);
 		}
@@ -157,12 +149,6 @@ public class CustomerService {
 
 	public void applyInsuranceRevival(int contractId)
 		throws NotExistContractException, NotExistTerminatedContract, NotExistException {
-		/*
-		 * contract status가 Terminating이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
-		 * contract status를 RevivalRequesting로 변경
-		 * Revival 테이블에 없다면 Revival 하나 추가
-		 */
-
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -176,10 +162,6 @@ public class CustomerService {
 		}
 	}
 
-	// revival, termination 안 넣은 이유? - 각각 dModel에서 추가 시에 중복 아이디가 있는지 확인하는 로직이 있음
-	// ㄴ 이건 contract dmodel 쪽에도 있고, termination dmodel 쪽에도 있어서
-	//    둘 다 정보가 있다? - 추가X, cont쪽만 있다? - rev, ter쪽만 추가,
-	//    둘 다 없다? - 둘 다 추가 이런 식임
 	public void applyInsuranceTermination(int contractId)
 		throws NotExistContractException, NotExistMaintainedContract, NotExistException {
 		Contract contract = contractEntityModel.getById(contractId);
@@ -197,11 +179,6 @@ public class CustomerService {
 
 	public void applyRecontract(int contractId) throws NotExistContractException,
 		NotExistExpiredContract, NotExistException {
-		/*
-		 * contract status가 Maturing이라면 실행 ㄱㄴ - 이 status를 DB에서 받음
-		 * contract status를 RecontractRequesting로 변경
-		 * Recontract 테이블에 없다면 Recontract 하나 추가
-		 */
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -228,14 +205,22 @@ public class CustomerService {
 			contractId, money, depositPath));
 	}
 
-	// 이 아래는 완료
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
 		return customerEntityModel.getById(id);
-		//		return customerList.get(id);
 	}
 
-	public List<Insurance> getAllInsurance() {
-		return insuranceEntityModel.getAll();
+	public List<GetAllInsuranceResponse> getAllInsurance() {
+		List<GetAllInsuranceResponse> result = new ArrayList<GetAllInsuranceResponse>();
+		for (Insurance insurance : insuranceEntityModel.getAll()) {
+			String name = insurance.getName();
+			String insuranceType = insurance.getInsuranceType().getName();
+			int id = insurance.getId();
+			int ageRange = insurance.getAgeRange();
+			int monthlyPremium = insurance.getMonthlyPremium();
+			result.add(new GetAllInsuranceResponse(name,
+					insuranceType, id, ageRange, monthlyPremium));
+		}
+		return result;
 	}
 
 	public List<Disease> getAllDiseaseInsurance() {
@@ -248,20 +233,28 @@ public class CustomerService {
 
 	public List<Automobile> getAllAutomobileInsurance() {
 		return automobileEntityModel.getAll();
-		//		return productList.getAllAutomobileInsurance();
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
 		return insuranceEntityModel.getById(id);
 	}
 
-	public List<Loan> getAllLoan() {
-		return loanEntityModel.getAll();
+	public List<GetAllLoanReponse> getAllLoan() {
+		List<GetAllLoanReponse> result = new ArrayList<GetAllLoanReponse>();
+		for (Loan loan : loanEntityModel.getAll()) {
+			String name = loan.getName();
+			String loanType = loan.getLoanType().getName();
+			int id = loan.getId();
+			int interestRate = loan.getInterestRate();
+			int maximumMoney = loan.getMaximumMoney();
+			result.add(new GetAllLoanReponse(name, loanType,
+					id, interestRate, maximumMoney));
+		}
+		return result;
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
 		return collateralEntityModel.getAll();
-		//		return productList.getAllCollateralLoan();
 	}
 
 	public List<FixedDeposit> getAllFixedDepositLoan() {
@@ -280,13 +273,32 @@ public class CustomerService {
 		return contractEntityModel.getAll().stream().filter(
 			e -> e.getContractStatus() != ContractStatus.ContractRequesting &&
 				e.getExpirationDate() != null).toList();
-		//		return contractList.getAllApprovedByCustomer(id);
 	}
 
-	public List<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
-		// 계약들의 고객 번호를 비교 - 고객 번호가 같은 계약들만 추출 - 한 고객이 신청한 계약만 나옴
-		return contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return contractList.getAllByCustomer(id);
+	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(int id)
+			throws NotExistContractException, NotExistException {
+		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Contract contract : contracts) {
+			Product product = productEntityModel.getById(contract.getProductId());
+			if (!(product instanceof Insurance)) continue;
+			Insurance insurance = (Insurance) product;
+
+			String name = insurance.getName();
+			String type = insurance.getInsuranceType().getName();
+			int insuranceId = insurance.getId();
+			int ageRange = insurance.getAgeRange();
+			int monthlyPremium = insurance.getMonthlyPremium();
+			String expirationDate = contract.getExpirationDate();
+			String date = contract.getDate();
+			int paymentDate = contract.getPaymentDate();
+			String status = contract.getContractStatus().getText();
+			result.add(new GetAllContractByCustomerIdResponse(name,
+					type, insuranceId, ageRange, monthlyPremium,
+					expirationDate, date, paymentDate, status));
+		}
+		return result;
 	}
 
 	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
@@ -302,7 +314,6 @@ public class CustomerService {
 		for (Injury injury : injuryEntityModel.getAll())
 			result.addAll(getAllContractByProductId(injury.getId()));
 		return result;
-		//		return contractList.getAllInjuryInsuranceContract();
 	}
 
 	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
@@ -310,23 +321,19 @@ public class CustomerService {
 		for (Disease disease : diseaseEntityModel.getAll())
 			result.addAll(getAllContractByProductId(disease.getId()));
 		return result;
-		//		return contractList.getAllDiseaseInsuranceContract();
 	}
 
 	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
-		//		ArrayList<Contract> result = new ArrayList<Contract>();
-		//		ContractVO contractVO = contractMapper.getAllByProductId_Customer(id).orElse(null);
-		//		result.add(getContractById(contractVO.getId()));
 		return contractEntityModel.getAll().stream().filter(e -> e.getProductId() == id).toList();
 	}
 
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
 		return contractEntityModel.getById(contractId);
-		//		return contractList.get(contractId);
 	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
-		List<Contract> contracts = getAllContractByCustomerId(id);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
 		for (Contract contract : contracts) {
 			Product product = productEntityModel.getById(contract.getProductId());
 			if (product instanceof Insurance) {
@@ -336,21 +343,46 @@ public class CustomerService {
 			}
 		}
 		throw new NotExistContractException();
-		//		return contractList.getContractByOneAutomobileId(id);
 	}
 
-	public List<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
-		return accidentEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return accidentList.getAllByCustomer(id);
+	public List<GetAllAccidentByCustomerIdResponse> getAllAccidentByCustomerId(int id) throws NotExistException {
+		List<GetAllAccidentByCustomerIdResponse> result = new ArrayList<GetAllAccidentByCustomerIdResponse>();
+		List<Accident> accidents = accidentEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Accident accident : accidents) {
+			int accidentId  = accident.getId();
+			String serviceType = accident.getServiceType().getName();
+			String date = accident.getDate();
+			String customerName = accident.getCustomerName();
+			String customerPhoneNumber = accident.getCustomerPhoneNumber();
+			String processStatus = accident.getProcessStatus().getName();
+			result.add(new GetAllAccidentByCustomerIdResponse(accidentId, serviceType, date,
+					customerName, customerPhoneNumber, processStatus));
+		}
+		return result;
 	}
 
 	public Accident getAccidentById(int id) throws NotExistException {
 		return accidentEntityModel.getById(id);
 	}
 
-	public List<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
-		return complaintEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
-		//		return complaintList.getAllByCustomerId(id);
+	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(int id)
+			throws NotExistException {
+		List<GetAllComplaintsByCustomerIdResponse> result =
+				new ArrayList<GetAllComplaintsByCustomerIdResponse>();
+		List<Complaint> complaints = complaintEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Complaint complaint : complaints) {
+			String type = complaint.getComplaintType().getName();
+			int complaintId = complaint.getId();
+			String title = complaint.getTitle();
+			String postDate = complaint.getPostDate();
+			java.util.Date processingDate = complaint.getProcessingDate();
+			String status = complaint.getProcessStatus().getText();
+			result.add(new GetAllComplaintsByCustomerIdResponse(type, complaintId,
+					title, postDate, processingDate, status));
+		}
+		return result;
 	}
 
 	public Complaint getComplaintById(int id) throws NotExistException {

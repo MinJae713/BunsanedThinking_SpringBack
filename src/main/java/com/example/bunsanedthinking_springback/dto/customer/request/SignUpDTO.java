@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.customer;
+package com.example.bunsanedthinking_springback.dto.customer.request;
 
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;

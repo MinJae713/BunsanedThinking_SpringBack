@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddCollateralLoanProductDTO;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddLoanProductDTO;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.GetLoanRequestResponse;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
@@ -35,6 +37,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.collateral.Coll
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
@@ -70,41 +73,44 @@ public class LoanManagementService {
 
 	@Value("${serials.paymentDetail}")
 	private int PAYMENT_DETAIL_SERIAL_NUMBER;
+	@Autowired
+	private EmployeeEntityModel employeeEntityModel;
 
-	public void addLoanProduct(AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws DuplicateLoanException {
-		checkLoanName(addCollateralLoanProductDTO.getName());
+	public void addLoanProduct(AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
+		DuplicateLoanException {
+		checkLoanName(addCollateralLoanProductRequest.getName());
 		int productId = createProductId();
-		if (addCollateralLoanProductDTO.getLoanType() != LoanType.Collateral.ordinal()) {
+		if (addCollateralLoanProductRequest.getLoanType() != LoanType.Collateral.ordinal()) {
 			throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
 		}
 		Collateral collateral = new Collateral(productId, LoanType.Collateral,
-			addCollateralLoanProductDTO.getName(), addCollateralLoanProductDTO.getInterestRate(),
-			addCollateralLoanProductDTO.getMaximumMoney(),
-			addCollateralLoanProductDTO.getMinimumAsset(),
-			CollateralType.indexOf(addCollateralLoanProductDTO.getCollateralType()),
-			addCollateralLoanProductDTO.getMinimumValue(), addCollateralLoanProductDTO.getMonthlyIncome());
+			addCollateralLoanProductRequest.getName(), addCollateralLoanProductRequest.getInterestRate(),
+			addCollateralLoanProductRequest.getMaximumMoney(),
+			addCollateralLoanProductRequest.getMinimumAsset(),
+			CollateralType.indexOf(addCollateralLoanProductRequest.getCollateralType()),
+			addCollateralLoanProductRequest.getMinimumValue(), addCollateralLoanProductRequest.getMonthlyIncome());
 		collateralEntityModel.add(collateral);
 	}
 
-	public void addLoanProduct(AddLoanProductDTO addLoanProductDTO) throws DuplicateLoanException {
-		checkLoanName(addLoanProductDTO.getName());
+	public void addLoanProduct(AddLoanProductRequest addLoanProductRequest) throws DuplicateLoanException {
+		checkLoanName(addLoanProductRequest.getName());
 		int productId = createProductId();
 
-		LoanType loanType = LoanType.indexOf(addLoanProductDTO.getLoanType());
+		LoanType loanType = LoanType.indexOf(addLoanProductRequest.getLoanType());
 		switch (loanType) {
 			case FixedDeposit -> {
-				FixedDeposit fixedDeposit = new FixedDeposit(productId, loanType, addLoanProductDTO.getName(),
-					addLoanProductDTO.getInterestRate(), addLoanProductDTO.getMaximumMoney(),
-					addLoanProductDTO.getMinimumAsset(),
-					addLoanProductDTO.getParameter(), addLoanProductDTO.getMonthlyIncome());
+				FixedDeposit fixedDeposit = new FixedDeposit(productId, loanType, addLoanProductRequest.getName(),
+					addLoanProductRequest.getInterestRate(), addLoanProductRequest.getMaximumMoney(),
+					addLoanProductRequest.getMinimumAsset(),
+					addLoanProductRequest.getParameter(), addLoanProductRequest.getMonthlyIncome());
 				fixedDepositEntityModel.add(fixedDeposit);
 			}
 			case InsuranceContract -> {
 				InsuranceContract insuranceContract = new InsuranceContract(productId, loanType,
-					addLoanProductDTO.getName(),
-					addLoanProductDTO.getInterestRate(), addLoanProductDTO.getMaximumMoney(),
-					addLoanProductDTO.getMinimumAsset(),
-					addLoanProductDTO.getParameter(), addLoanProductDTO.getMonthlyIncome());
+					addLoanProductRequest.getName(),
+					addLoanProductRequest.getInterestRate(), addLoanProductRequest.getMaximumMoney(),
+					addLoanProductRequest.getMinimumAsset(),
+					addLoanProductRequest.getParameter(), addLoanProductRequest.getMonthlyIncome());
 				insuranceContractEntityModel.add(insuranceContract);
 			}
 			default -> {
@@ -303,5 +309,38 @@ public class LoanManagementService {
 			totalMoney += compensationDetail.getMoney();
 		}
 		return (double)(totalMoney * loan.getInterestRate()) / 100;
+	}
+
+	public List<GetLoanRequestResponse> getAllLoanRequest() {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		return contractEntityModel.getAll().stream()
+			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
+			.map(contract -> new GetLoanRequestResponse(
+				loanEntityModel.getById(contract.getProductId()),
+				customerEntityModel.getById(contract.getCustomerID()),
+				contract))
+			.toList();
+
+	}
+
+	public GetLoanRequestResponse getLoanRequest(int id) throws NotExistContractException {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		Contract contract = contractEntityModel.getById(id);
+		if (contract == null
+			|| !(contract.getProductId() + "").startsWith(loanProductSerial)
+			|| contract.getContractStatus() != ContractStatus.ContractRequesting) {
+			throw new NotExistContractException();
+		}
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		Loan loan = loanEntityModel.getById(contract.getProductId());
+		return new GetLoanRequestResponse(loan, customer, contract);
+	}
+
+	public Employee getEmployee(int employeeId) throws NotExistException {
+		Employee employee = employeeEntityModel.getById(employeeId);
+		if (employee == null)
+			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+		return employee;
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.customer;
+package com.example.bunsanedthinking_springback.dto.customer.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

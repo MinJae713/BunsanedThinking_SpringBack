@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddCollateralLoanProductDTO;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.AddLoanProductDTO;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.GetLoanRequestResponse;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
@@ -28,19 +30,34 @@ public class LoanManagementController {
 	private LoanManagementService loanManagementService;
 
 	@PostMapping("/addCollateralProduct")
-	public void addLoanProduct(@RequestBody AddCollateralLoanProductDTO addCollateralLoanProductDTO) throws
+	public void addLoanProduct(@RequestBody AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
 		DuplicateLoanException {
-		loanManagementService.addLoanProduct(addCollateralLoanProductDTO);
+		loanManagementService.addLoanProduct(addCollateralLoanProductRequest);
 	}
 
 	@PostMapping("/addLoanProduct")
-	public void addLoanProduct(@RequestBody AddLoanProductDTO addLoanProductDTO) throws DuplicateLoanException {
-		loanManagementService.addLoanProduct(addLoanProductDTO);
+	public void addLoanProduct(@RequestBody AddLoanProductRequest addLoanProductRequest) throws DuplicateLoanException {
+		loanManagementService.addLoanProduct(addLoanProductRequest);
 	}
 
 	@GetMapping("/getLoanProduct")
 	public Loan getLoanProduct(@RequestParam("id") int id) throws NotExistException {
 		return loanManagementService.getLoanProduct(id);
+	}
+
+	@GetMapping("/getAllLoanRequest")
+	public List<GetLoanRequestResponse> getAllLoanRequest() {
+		return loanManagementService.getAllLoanRequest();
+	}
+
+	@GetMapping("/getEmployee")
+	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
+		return loanManagementService.getEmployee(employeeId);
+	}
+
+	@GetMapping("/getLoanRequest")
+	public GetLoanRequestResponse getLoanRequest(@RequestParam("id") int id) throws NotExistContractException {
+		return loanManagementService.getLoanRequest(id);
 	}
 
 	public boolean collectLoanPrincipalInterest() {
