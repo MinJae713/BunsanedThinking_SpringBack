@@ -34,9 +34,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -143,23 +143,11 @@ public class ContractManagementService {
 
 	public List<GetAllDefaultContractResponse> getAllDefaultContract()
 			throws NotExistContractException, NotExistException {
-		List<GetAllDefaultContractResponse> result = new ArrayList<GetAllDefaultContractResponse>();
-		for (Contract contract : contractEntityModel.getAll()) {
-			Customer customer = customerEntityModel.getById(contract.getCustomerID());
-			String name = customer.getName();
-			String phoneNumber = customer.getPhoneNumber();
-			String gender = customer.getGender().getName();
-			String residentRegistrationNumber = customer.getResidentRegistrationNumber();
-			String address = customer.getAddress();
-			CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(name,
-					phoneNumber, gender, residentRegistrationNumber, address);
-			int productId = contract.getProductId();
-			String lastPaidDate = contract.getLastPaidDate();
-			result.add(new GetAllDefaultContractResponse(
-					customerInfoResponse, productId, lastPaidDate));
-		}
-
-		return result;
+		return contractEntityModel.getAll().stream()
+				.map(contract -> GetAllDefaultContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(contract.getCustomerID())),
+						contract))
+				.collect(Collectors.toList());
 	}
 
 	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
@@ -174,77 +162,38 @@ public class ContractManagementService {
         return terminationEntityModel.getById(id);
 	}
 
-	public List<GetAllTerminatingContractResponse> getAllTerminatingContract() throws NotExistContractException, NotExistException {
-		List<GetAllTerminatingContractResponse> result = new ArrayList<GetAllTerminatingContractResponse>();
-		for (Termination termination : terminationEntityModel.getAll()){
-			Customer customer = customerEntityModel.getById(termination.getCustomerID());
-			String name = customer.getName();
-			String phoneNumber = customer.getPhoneNumber();
-			String gender = customer.getGender().getName();
-			String residentRegistrationNumber = customer.getResidentRegistrationNumber();
-			String address = customer.getAddress();
-			CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(name,
-					phoneNumber, gender, residentRegistrationNumber, address);
-			int productId = termination.getProductId();
-			Date applyDate = termination.getApplyDate();
-			String terminationStatus = termination.getTerminationStatus().getText();
-			result.add(new GetAllTerminatingContractResponse(customerInfoResponse,
-					productId, applyDate, terminationStatus));
-		}
-		return result;
-	}
-
 	public Termination getTerminatingContractById(int id) throws NotExistContractException, NotExistException {
 		return getTerminationById(id);
 	}
 
-	public List<Termination> getAllUnprocessedTerminatingContract() throws
+	public List<GetAllTerminatingContractResponse> getAllTerminatingContract()
+			throws NotExistContractException, NotExistException {
+		return terminationEntityModel.getAll().stream()
+				.map(termination -> GetAllTerminatingContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(termination.getCustomerID())),
+						termination))
+				.collect(Collectors.toList());
+	}
+
+	public List<GetAllTerminatingContractResponse> getAllUnprocessedTerminatingContract() throws
 		NotExistContractException,
 		NotExistException {
 		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Unprocessed)
-				.toList();
+				.map(termination -> GetAllTerminatingContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(termination.getCustomerID())),
+						termination))
+				.collect(Collectors.toList());
 	}
 
-	public List<Termination> getAllProcessedTerminatingContract() throws NotExistContractException, NotExistException {
+	public List<GetAllTerminatingContractResponse> getAllProcessedTerminatingContract()
+			throws NotExistContractException, NotExistException {
 		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Completed)
-				.toList();
-	}
-
-	public List<GetAllEndorsementContractResponse> getAllEndorsementContract()
-			throws NotExistContractException, NotExistException {
-		List<GetAllEndorsementContractResponse> result = new ArrayList<GetAllEndorsementContractResponse>();
-		for (Endorsement endorsement : endorsementEntityModel.getAll()) {
-			Customer customer = customerEntityModel.getById(endorsement.getCustomerID());
-			String name = customer.getName();
-			String phoneNumber = customer.getPhoneNumber();
-			String gender = customer.getGender().getName();
-			String residentRegistrationNumber = customer.getResidentRegistrationNumber();
-			String address = customer.getAddress();
-			CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(name,
-					phoneNumber, gender, residentRegistrationNumber, address);
-			int productId = endorsement.getProductId();
-			Date applyDate = endorsement.getApplyDate();
-			String endorsementStatus = endorsement.getEndorsementStatus().getText();
-			result.add(new GetAllEndorsementContractResponse(customerInfoResponse,
-					productId, applyDate, endorsementStatus));
-		}
-		return result;
-	}
-
-	public List<Endorsement> getAllUnprocessedEndorsementContract() throws
-		NotExistContractException,
-		NotExistException {
-		return endorsementEntityModel.getAll().stream()
-			.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Unprocessed)
-			.toList();
-	}
-
-	public List<Endorsement> getAllProcessedEndorsementContract() throws NotExistContractException, NotExistException {
-		return endorsementEntityModel.getAll().stream()
-			.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Completed)
-			.toList();
+				.map(termination -> GetAllTerminatingContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(termination.getCustomerID())),
+						termination))
+				.collect(Collectors.toList());
 	}
 
 	public Endorsement getEndorsementById(int id) throws NotExistException, NotExistContractException {
@@ -252,78 +201,97 @@ public class ContractManagementService {
 		//		return endorsementList.get(id);
 	}
 
-	public List<GetAllReContractResponse> getAllReContract()
+	public List<GetAllEndorsementContractResponse> getAllEndorsementContract()
 			throws NotExistContractException, NotExistException {
-		List<GetAllReContractResponse> result = new ArrayList<GetAllReContractResponse>();
-		for (Recontract recontract : recontractEntityModel.getAll()) {
-			Customer customer = customerEntityModel.getById(recontract.getCustomerID());
-			String name = customer.getName();
-			String phoneNumber = customer.getPhoneNumber();
-			String gender = customer.getGender().getName();
-			String residentRegistrationNumber = customer.getResidentRegistrationNumber();
-			String address = customer.getAddress();
-			CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(name,
-					phoneNumber, gender, residentRegistrationNumber, address);
-			int productId = recontract.getProductId();
-			String expirationDate = recontract.getExpirationDate();
-			String reContractStatus = recontract.getRecontractStatus().getText();
-			result.add(new GetAllReContractResponse(customerInfoResponse, productId,
-					expirationDate, reContractStatus));
-		}
-		return result;
+		return endorsementEntityModel.getAll().stream()
+				.map(endorsement -> GetAllEndorsementContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(endorsement.getCustomerID())),
+						endorsement))
+				.collect(Collectors.toList());
 	}
 
-	public List<Recontract> getAllUnprocessedReContract() throws NotExistContractException, NotExistException {
-		return recontractEntityModel.getAll().stream()
-				.filter(e -> e.getRecontractStatus() == RecontractStatus.Unprocessed)
-				.toList();
+	public List<GetAllEndorsementContractResponse> getAllUnprocessedEndorsementContract() throws
+		NotExistContractException,
+		NotExistException {
+		return endorsementEntityModel.getAll().stream()
+				.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Unprocessed)
+				.map(endorsement -> GetAllEndorsementContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(endorsement.getCustomerID())),
+						endorsement))
+				.collect(Collectors.toList());
 	}
 
-	public List<Recontract> getAllProcessedReContract() throws NotExistContractException, NotExistException {
-		return recontractEntityModel.getAll().stream()
-				.filter(e -> e.getRecontractStatus() == RecontractStatus.Completed)
-				.toList();
+	public List<GetAllEndorsementContractResponse> getAllProcessedEndorsementContract()
+			throws NotExistContractException, NotExistException {
+		return endorsementEntityModel.getAll().stream()
+				.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Completed)
+				.map(endorsement -> GetAllEndorsementContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(endorsement.getCustomerID())),
+						endorsement))
+				.collect(Collectors.toList());
 	}
 
 	public Recontract getReContractById(int id) throws NotExistException, NotExistContractException {
-        return recontractEntityModel.getById(id);
+		return recontractEntityModel.getById(id);
+	}
+
+	public List<GetAllReContractResponse> getAllReContract()
+			throws NotExistContractException, NotExistException {
+		return recontractEntityModel.getAll().stream()
+				.map(recontract -> GetAllReContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(recontract.getCustomerID())),
+						recontract))
+				.collect(Collectors.toList());
+	}
+
+	public List<GetAllReContractResponse> getAllUnprocessedReContract()
+			throws NotExistContractException, NotExistException {
+		return recontractEntityModel.getAll().stream()
+				.filter(e -> e.getRecontractStatus() == RecontractStatus.Unprocessed)
+				.map(recontract -> GetAllReContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(recontract.getCustomerID())),
+						recontract))
+				.collect(Collectors.toList());
+	}
+
+	public List<GetAllReContractResponse> getAllProcessedReContract()
+			throws NotExistContractException, NotExistException {
+		return recontractEntityModel.getAll().stream()
+				.filter(e -> e.getRecontractStatus() == RecontractStatus.Completed)
+				.map(recontract -> GetAllReContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(recontract.getCustomerID())),
+						recontract))
+				.collect(Collectors.toList());
+	}
+
+	public Revival getRevivalById(int id) throws NotExistException, NotExistContractException {
+		return revivalEntityModel.getById(id);
 	}
 
 	public List<GetAllRevivalContractResponse> getAllRevivalContract()
 			throws NotExistContractException, NotExistException {
-		List<GetAllRevivalContractResponse> result = new ArrayList<GetAllRevivalContractResponse>();
-		for (Revival revival : revivalEntityModel.getAll()) {
-			Customer customer = customerEntityModel.getById(revival.getCustomerID());
-			String name = customer.getName();
-			String phoneNumber = customer.getPhoneNumber();
-			String gender = customer.getGender().getName();
-			String residentRegistrationNumber = customer.getResidentRegistrationNumber();
-			String address = customer.getAddress();
-			CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(name,
-					phoneNumber, gender, residentRegistrationNumber, address);
-			int productId = revival.getProductId();
-			String terminationDate = revival.getTerminationDate() == null ?
-					"" : revival.getTerminationDate();
-			String revivalStatus = revival.getRevivalStatus().getText();
-			result.add(new GetAllRevivalContractResponse(customerInfoResponse,
-					productId, terminationDate, revivalStatus));
-		}
-		return result;
+		return revivalEntityModel.getAll().stream()
+				.map(revival -> GetAllRevivalContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(revival.getCustomerID())),
+						revival))
+				.collect(Collectors.toList());
 	}
 
-	public Revival getRevivalById(int id) throws NotExistException, NotExistContractException {
-        return revivalEntityModel.getById(id);
-	}
-
-	public List<Revival> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
+	public List<GetAllRevivalContractResponse> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
 		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Unprocessed)
-				.toList();
+				.map(revival -> GetAllRevivalContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(revival.getCustomerID())),
+						revival))
+				.collect(Collectors.toList());
 	}
 
-	public List<Revival> getAllProcessedRevival() throws NotExistContractException, NotExistException {
+	public List<GetAllRevivalContractResponse> getAllProcessedRevival() throws NotExistContractException, NotExistException {
 		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Completed)
-				.toList();
+				.map(revival -> GetAllRevivalContractResponse.of(
+						CustomerInfoResponse.from(customerEntityModel.getById(revival.getCustomerID())),
+						revival))
+				.collect(Collectors.toList());
 	}
 }

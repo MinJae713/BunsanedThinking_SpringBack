@@ -60,6 +60,7 @@ import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -210,17 +211,9 @@ public class CustomerService {
 	}
 
 	public List<GetAllInsuranceResponse> getAllInsurance() {
-		List<GetAllInsuranceResponse> result = new ArrayList<GetAllInsuranceResponse>();
-		for (Insurance insurance : insuranceEntityModel.getAll()) {
-			String name = insurance.getName();
-			String insuranceType = insurance.getInsuranceType().getName();
-			int id = insurance.getId();
-			int ageRange = insurance.getAgeRange();
-			int monthlyPremium = insurance.getMonthlyPremium();
-			result.add(new GetAllInsuranceResponse(name,
-					insuranceType, id, ageRange, monthlyPremium));
-		}
-		return result;
+		return insuranceEntityModel.getAll().stream()
+				.map(GetAllInsuranceResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public List<Disease> getAllDiseaseInsurance() {
@@ -240,17 +233,9 @@ public class CustomerService {
 	}
 
 	public List<GetAllLoanReponse> getAllLoan() {
-		List<GetAllLoanReponse> result = new ArrayList<GetAllLoanReponse>();
-		for (Loan loan : loanEntityModel.getAll()) {
-			String name = loan.getName();
-			String loanType = loan.getLoanType().getName();
-			int id = loan.getId();
-			int interestRate = loan.getInterestRate();
-			int maximumMoney = loan.getMaximumMoney();
-			result.add(new GetAllLoanReponse(name, loanType,
-					id, interestRate, maximumMoney));
-		}
-		return result;
+		return loanEntityModel.getAll().stream()
+				.map(GetAllLoanReponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
@@ -277,28 +262,16 @@ public class CustomerService {
 
 	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(int id)
 			throws NotExistContractException, NotExistException {
-		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
-		List<Contract> contracts = contractEntityModel.getAll().
-				stream().filter(e -> e.getCustomerID() == id).toList();
-		for (Contract contract : contracts) {
-			Product product = productEntityModel.getById(contract.getProductId());
-			if (!(product instanceof Insurance)) continue;
-			Insurance insurance = (Insurance) product;
+		return contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id)
+				.map(this::getOneContractByCustomerId)
+				.collect(Collectors.toList());
+	}
 
-			String name = insurance.getName();
-			String type = insurance.getInsuranceType().getName();
-			int insuranceId = insurance.getId();
-			int ageRange = insurance.getAgeRange();
-			int monthlyPremium = insurance.getMonthlyPremium();
-			String expirationDate = contract.getExpirationDate();
-			String date = contract.getDate();
-			int paymentDate = contract.getPaymentDate();
-			String status = contract.getContractStatus().getText();
-			result.add(new GetAllContractByCustomerIdResponse(name,
-					type, insuranceId, ageRange, monthlyPremium,
-					expirationDate, date, paymentDate, status));
-		}
-		return result;
+	private GetAllContractByCustomerIdResponse getOneContractByCustomerId(Contract contract) {
+		Product product = productEntityModel.getById(contract.getProductId());
+		if (!(product instanceof Insurance insurance)) return null;
+		return GetAllContractByCustomerIdResponse.of(contract, insurance);
 	}
 
 	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
@@ -346,20 +319,10 @@ public class CustomerService {
 	}
 
 	public List<GetAllAccidentByCustomerIdResponse> getAllAccidentByCustomerId(int id) throws NotExistException {
-		List<GetAllAccidentByCustomerIdResponse> result = new ArrayList<GetAllAccidentByCustomerIdResponse>();
-		List<Accident> accidents = accidentEntityModel.getAll().
-				stream().filter(e -> e.getCustomerID() == id).toList();
-		for (Accident accident : accidents) {
-			int accidentId  = accident.getId();
-			String serviceType = accident.getServiceType().getName();
-			String date = accident.getDate();
-			String customerName = accident.getCustomerName();
-			String customerPhoneNumber = accident.getCustomerPhoneNumber();
-			String processStatus = accident.getProcessStatus().getName();
-			result.add(new GetAllAccidentByCustomerIdResponse(accidentId, serviceType, date,
-					customerName, customerPhoneNumber, processStatus));
-		}
-		return result;
+		return accidentEntityModel.getAll().stream()
+				.filter(e -> e.getCustomerID() == id)
+				.map(GetAllAccidentByCustomerIdResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Accident getAccidentById(int id) throws NotExistException {
@@ -368,21 +331,10 @@ public class CustomerService {
 
 	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(int id)
 			throws NotExistException {
-		List<GetAllComplaintsByCustomerIdResponse> result =
-				new ArrayList<GetAllComplaintsByCustomerIdResponse>();
-		List<Complaint> complaints = complaintEntityModel.getAll().
-				stream().filter(e -> e.getCustomerID() == id).toList();
-		for (Complaint complaint : complaints) {
-			String type = complaint.getComplaintType().getName();
-			int complaintId = complaint.getId();
-			String title = complaint.getTitle();
-			String postDate = complaint.getPostDate();
-			java.util.Date processingDate = complaint.getProcessingDate();
-			String status = complaint.getProcessStatus().getText();
-			result.add(new GetAllComplaintsByCustomerIdResponse(type, complaintId,
-					title, postDate, processingDate, status));
-		}
-		return result;
+		return complaintEntityModel.getAll().stream()
+				.filter(e -> e.getCustomerID() == id)
+				.map(GetAllComplaintsByCustomerIdResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Complaint getComplaintById(int id) throws NotExistException {

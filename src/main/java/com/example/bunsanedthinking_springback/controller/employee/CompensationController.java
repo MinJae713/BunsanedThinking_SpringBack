@@ -60,12 +60,12 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getAllUnprocessedInsuranceMoney")
-	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
+	public List<GetAllInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
 		return compensationSModel.getAllUnprocessedInsuranceMoney();
 	}
 
 	@GetMapping("/getAllProcessedInsuranceMoney")
-	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
+	public List<GetAllInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
 		return compensationSModel.getAllProcessedInsuranceMoney();
 	}
 
@@ -95,12 +95,12 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getAllUnprocessedReport")
-	public List<Report> getAllUnprocessedReport() {
+	public List<GetAllReportResponse> getAllUnprocessedReport() {
 		return compensationSModel.getAllUnprocessedReport();
 	}
 
 	@GetMapping("/getAllCompletedReport")
-	public List<Report> getAllCompletedReport() {
+	public List<GetAllReportResponse> getAllCompletedReport() {
 		return compensationSModel.getAllCompletedReport();
 	}
 
