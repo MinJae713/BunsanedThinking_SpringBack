@@ -116,8 +116,7 @@ public class CompensationService {
 
 	public List<GetAllInsuranceMoneyResponse> getAllInsuranceMoney() {
 		List<GetAllInsuranceMoneyResponse> result = new ArrayList<GetAllInsuranceMoneyResponse>();
-		List<InsuranceMoney> insuranceMonies = insuranceMoneyEntityModel.getAll();
-		for (InsuranceMoney insuranceMoney : insuranceMonies) {
+		for (InsuranceMoney insuranceMoney : insuranceMoneyEntityModel.getAll()) {
 			Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
 			Product product = productEntityModel.getById(contract.getProductId());
 			Customer customer = customerEntityModel.getById(contract.getCustomerID());
@@ -158,8 +157,7 @@ public class CompensationService {
 
 	public List<GetAllReportResponse> getAllReport() {
 		List<GetAllReportResponse> result = new ArrayList<GetAllReportResponse>();
-		List<Report> reports = reportEntityModel.getAll();
-		for (Report report : reports) {
+		for (Report report : reportEntityModel.getAll()) {
 			int id = report.getAccident().getId();
 			String serviceType = report.getAccident().getServiceType().getName();
 			String date = report.getAccident().getDate();
