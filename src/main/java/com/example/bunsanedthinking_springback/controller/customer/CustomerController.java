@@ -6,13 +6,7 @@ import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.model.service.customer.CustomerService;
@@ -67,17 +61,17 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllDiseaseInsurance")
-	public List<Disease> getAllDiseaseInsurance() {
+	public List<GetAllInsuranceResponse> getAllDiseaseInsurance() {
 		return customerSModel.getAllDiseaseInsurance();
 	}
 
 	@GetMapping("/getAllInjuryInsurance")
-	public List<Injury> getAllInjuryInsurance() {
+	public List<GetAllInsuranceResponse> getAllInjuryInsurance() {
 		return customerSModel.getAllInjuryInsurance();
 	}
 
 	@GetMapping("/getAllAutomobileInsurance")
-	public List<Automobile> getAllAutomobileInsurance() {
+	public List<GetAllInsuranceResponse> getAllAutomobileInsurance() {
 		return customerSModel.getAllAutomobileInsurance();
 	}
 
@@ -92,17 +86,17 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllCollateralLoan")
-	public List<Collateral> getAllCollateralLoan() {
+	public List<GetAllLoanReponse> getAllCollateralLoan() {
 		return customerSModel.getAllCollateralLoan();
 	}
 
 	@GetMapping("/getAllFixedDepositLoan")
-	public List<FixedDeposit> getAllFixedDepositLoan() {
+	public List<GetAllLoanReponse> getAllFixedDepositLoan() {
 		return customerSModel.getAllFixedDepositLoan();
 	}
 
 	@GetMapping("/getAllInsuranceContractLoan")
-	public List<InsuranceContract> getAllInsuranceContractLoan() {
+	public List<GetAllLoanReponse> getAllInsuranceContractLoan() {
 		return customerSModel.getAllInsuranceContractLoan(null);
 	}
 

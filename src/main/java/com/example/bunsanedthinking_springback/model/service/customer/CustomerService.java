@@ -17,9 +17,6 @@ import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHist
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.product.ProductList;
@@ -216,16 +213,22 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	}
 
-	public List<Disease> getAllDiseaseInsurance() {
-		return diseaseEntityModel.getAll();
+	public List<GetAllInsuranceResponse> getAllDiseaseInsurance() {
+		return diseaseEntityModel.getAll().stream()
+				.map(GetAllInsuranceResponse::of)
+				.collect(Collectors.toList());
 	}
 
-	public List<Injury> getAllInjuryInsurance() {
-		return injuryEntityModel.getAll();
+	public List<GetAllInsuranceResponse> getAllInjuryInsurance() {
+		return injuryEntityModel.getAll().stream()
+				.map(GetAllInsuranceResponse::of)
+				.collect(Collectors.toList());
 	}
 
-	public List<Automobile> getAllAutomobileInsurance() {
-		return automobileEntityModel.getAll();
+	public List<GetAllInsuranceResponse> getAllAutomobileInsurance() {
+		return automobileEntityModel.getAll().stream()
+				.map(GetAllInsuranceResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
@@ -238,16 +241,22 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	}
 
-	public List<Collateral> getAllCollateralLoan() {
-		return collateralEntityModel.getAll();
+	public List<GetAllLoanReponse> getAllCollateralLoan() {
+		return collateralEntityModel.getAll().stream()
+				.map(GetAllLoanReponse::of)
+				.collect(Collectors.toList());
 	}
 
-	public List<FixedDeposit> getAllFixedDepositLoan() {
-		return fixedDepositEntityModel.getAll();
+	public List<GetAllLoanReponse> getAllFixedDepositLoan() {
+		return fixedDepositEntityModel.getAll().stream()
+				.map(GetAllLoanReponse::of)
+				.collect(Collectors.toList());
 	}
 
-	public List<InsuranceContract> getAllInsuranceContractLoan(ProductList productList) {
-		return insuranceContractEntityModel.getAll();
+	public List<GetAllLoanReponse> getAllInsuranceContractLoan(ProductList productList) {
+		return insuranceContractEntityModel.getAll().stream()
+				.map(GetAllLoanReponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
@@ -279,7 +288,6 @@ public class CustomerService {
 		for (Automobile automobile : automobileEntityModel.getAll())
             result.addAll(getAllContractByProductId(automobile.getId()));
 		return result;
-		//		return contractList.getAllAutomobileInsuranceContract();
 	}
 
 	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
@@ -309,11 +317,9 @@ public class CustomerService {
 				stream().filter(e -> e.getCustomerID() == id).toList();
 		for (Contract contract : contracts) {
 			Product product = productEntityModel.getById(contract.getProductId());
-			if (product instanceof Insurance) {
-				Insurance insurance = (Insurance)product;
-				if (insurance.getInsuranceType() == InsuranceType.Automobile)
+			if (product instanceof Insurance insurance)
+                if (insurance.getInsuranceType() == InsuranceType.Automobile)
 					return contract;
-			}
 		}
 		throw new NotExistContractException();
 	}
