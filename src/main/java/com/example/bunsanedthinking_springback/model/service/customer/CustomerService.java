@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.*;
+import com.example.bunsanedthinking_springback.dto.customer.request.*;
+import com.example.bunsanedthinking_springback.dto.customer.response.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -234,8 +235,19 @@ public class CustomerService {
 		//		return customerList.get(id);
 	}
 
-	public List<Insurance> getAllInsurance() {
-		return insuranceEntityModel.getAll();
+	public List<GetAllInsuranceResponse> getAllInsurance() {
+		List<GetAllInsuranceResponse> result = new ArrayList<GetAllInsuranceResponse>();
+		List<Insurance> insurances = insuranceEntityModel.getAll();
+		for (Insurance insurance : insurances) {
+			String name = insurance.getName();
+			String insuranceType = insurance.getInsuranceType().getName();
+			int id = insurance.getId();
+			int ageRange = insurance.getAgeRange();
+			int monthlyPremium = insurance.getMonthlyPremium();
+			result.add(new GetAllInsuranceResponse(name,
+					insuranceType, id, ageRange, monthlyPremium));
+		}
+		return result;
 	}
 
 	public List<Disease> getAllDiseaseInsurance() {
@@ -255,8 +267,19 @@ public class CustomerService {
 		return insuranceEntityModel.getById(id);
 	}
 
-	public List<Loan> getAllLoan() {
-		return loanEntityModel.getAll();
+	public List<GetAllLoanReponse> getAllLoan() {
+		List<GetAllLoanReponse> result = new ArrayList<GetAllLoanReponse>();
+		List<Loan> loans = loanEntityModel.getAll();
+		for (Loan loan : loans) {
+			String name = loan.getName();
+			String loanType = loan.getLoanType().getName();
+			int id = loan.getId();
+			int interestRate = loan.getInterestRate();
+			int maximumMoney = loan.getMaximumMoney();
+			result.add(new GetAllLoanReponse(name, loanType,
+					id, interestRate, maximumMoney));
+		}
+		return result;
 	}
 
 	public List<Collateral> getAllCollateralLoan() {
@@ -283,9 +306,31 @@ public class CustomerService {
 		//		return contractList.getAllApprovedByCustomer(id);
 	}
 
-	public List<Contract> getAllContractByCustomerId(int id) throws NotExistContractException, NotExistException {
+	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(int id)
+			throws NotExistContractException, NotExistException {
 		// 계약들의 고객 번호를 비교 - 고객 번호가 같은 계약들만 추출 - 한 고객이 신청한 계약만 나옴
-		return contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Contract contract : contracts) {
+			Product product = productEntityModel.getById(contract.getProductId());
+			if (!(product instanceof Insurance)) continue;
+			Insurance insurance = (Insurance) product;
+
+			String name = insurance.getName();
+			String type = insurance.getInsuranceType().getName();
+			int insuranceId = insurance.getId();
+			int ageRange = insurance.getAgeRange();
+			int monthlyPremium = insurance.getMonthlyPremium();
+			String expirationDate = contract.getExpirationDate();
+			String date = contract.getDate();
+			int paymentDate = contract.getPaymentDate();
+			String status = contract.getContractStatus().getText();
+			result.add(new GetAllContractByCustomerIdResponse(name,
+					type, insuranceId, ageRange, monthlyPremium,
+					expirationDate, date, paymentDate, status));
+		}
+		return result;
 		//		return contractList.getAllByCustomer(id);
 	}
 
@@ -326,7 +371,8 @@ public class CustomerService {
 	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
-		List<Contract> contracts = getAllContractByCustomerId(id);
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
 		for (Contract contract : contracts) {
 			Product product = productEntityModel.getById(contract.getProductId());
 			if (product instanceof Insurance) {
@@ -339,8 +385,21 @@ public class CustomerService {
 		//		return contractList.getContractByOneAutomobileId(id);
 	}
 
-	public List<Accident> getAllAccidentByCustomerId(int id) throws NotExistException {
-		return accidentEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+	public List<GetAllAccidentByCustomerIdResponse> getAllAccidentByCustomerId(int id) throws NotExistException {
+		List<GetAllAccidentByCustomerIdResponse> result = new ArrayList<GetAllAccidentByCustomerIdResponse>();
+		List<Accident> accidents = accidentEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Accident accident : accidents) {
+			int accidentId  = accident.getId();
+			String serviceType = accident.getServiceType().getName();
+			String date = accident.getDate();
+			String customerName = accident.getCustomerName();
+			String customerPhoneNumber = accident.getCustomerPhoneNumber();
+			String processStatus = accident.getProcessStatus().getName();
+			result.add(new GetAllAccidentByCustomerIdResponse(accidentId, serviceType, date,
+					customerName, customerPhoneNumber, processStatus));
+		}
+		return result;
 		//		return accidentList.getAllByCustomer(id);
 	}
 
@@ -348,8 +407,23 @@ public class CustomerService {
 		return accidentEntityModel.getById(id);
 	}
 
-	public List<Complaint> getAllComplaintsByCustomerId(int id) throws NotExistException {
-		return complaintEntityModel.getAll().stream().filter(e -> e.getCustomerID() == id).toList();
+	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(int id)
+			throws NotExistException {
+		List<GetAllComplaintsByCustomerIdResponse> result =
+				new ArrayList<GetAllComplaintsByCustomerIdResponse>();
+		List<Complaint> complaints = complaintEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == id).toList();
+		for (Complaint complaint : complaints) {
+			String type = complaint.getComplaintType().getName();
+			int complaintId = complaint.getId();
+			String title = complaint.getTitle();
+			String postDate = complaint.getPostDate();
+			java.util.Date processingDate = complaint.getProcessingDate();
+			String status = complaint.getProcessStatus().getText();
+			result.add(new GetAllComplaintsByCustomerIdResponse(type, complaintId,
+					title, postDate, processingDate, status));
+		}
+		return result;
 		//		return complaintList.getAllByCustomerId(id);
 	}
 

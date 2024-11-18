@@ -1,7 +1,9 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestCompensationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.RequestInsuranceMoneyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.request.CompensationRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.request.InsuranceMoneyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllInsuranceMoneyResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllReportResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -22,7 +24,7 @@ public class CompensationController {
 	private CompensationService compensationSModel;
 
 	@PatchMapping("/requestCompensation")
-	public void requestCompensation(@RequestBody RequestCompensationDTO requestCompensationDTO)
+	public void requestCompensation(@RequestBody CompensationRequest compensationRequest)
 		throws NotExistException, AlreadyProcessedException {
 		/*
 		{
@@ -35,11 +37,11 @@ public class CompensationController {
 			"paymentType": 0
 		}
 		 */
-		compensationSModel.requestCompensation(requestCompensationDTO);
+		compensationSModel.requestCompensation(compensationRequest);
 	}
 
 	@PatchMapping("/requestInsuranceMoney")
-	public void requestInsuranceMoney(@RequestBody RequestInsuranceMoneyDTO requestInsuranceMoneyDTO)
+	public void requestInsuranceMoney(@RequestBody InsuranceMoneyRequest insuranceMoneyRequest)
 		throws NotExistException, AlreadyProcessedException {
 		/*
 		{
@@ -50,10 +52,10 @@ public class CompensationController {
 			"contractId": 1001
 		}
 		 */
-		compensationSModel.requestInsuranceMoney(requestInsuranceMoneyDTO);
+		compensationSModel.requestInsuranceMoney(insuranceMoneyRequest);
 	}
 	@GetMapping("/getAllInsuranceMoney")
-	public List<InsuranceMoney> getAllInsuranceMoney() {
+	public List<GetAllInsuranceMoneyResponse> getAllInsuranceMoney() {
 		return compensationSModel.getAllInsuranceMoney();
 	}
 
@@ -83,7 +85,7 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getAllReport")
-	public List<Report> getAllReport() {
+	public List<GetAllReportResponse> getAllReport() {
 		return compensationSModel.getAllReport();
 	}
 
