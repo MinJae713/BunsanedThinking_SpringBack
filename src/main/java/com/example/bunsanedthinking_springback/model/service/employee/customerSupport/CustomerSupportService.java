@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.GetComplaintResponse;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
@@ -78,16 +80,28 @@ public class CustomerSupportService {
 		reportEntityModel.add(report);
 	}
 
-	public List<Complaint> getAllComplaint() {
-		return complaintEntityModel.getAll();
+	public List<GetComplaintResponse> getAllComplaint() {
+		List<Complaint> complaintList = complaintEntityModel.getAll();
+		return complaintList.stream()
+			.map(complaint -> new GetComplaintResponse(complaint,
+				customerEntityModel.getById(complaint.getCustomerID())))
+			.toList();
 	}
 
-	public List<Complaint> getAllUnprocessedComplaint() {
-		return getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
+	public List<GetComplaintResponse> getAllUnprocessedComplaint() {
+		List<Complaint> complaintList = getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
+		return complaintList.stream()
+			.map(complaint -> new GetComplaintResponse(complaint,
+				customerEntityModel.getById(complaint.getCustomerID())))
+			.toList();
 	}
 
-	public List<Complaint> getAllProcessedComplaint() {
-		return getAllByProcessStatus(ComplaintProcessStatus.Completed);
+	public List<GetComplaintResponse> getAllProcessedComplaint() {
+		List<Complaint> complaintList = getAllByProcessStatus(ComplaintProcessStatus.Completed);
+		return complaintList.stream()
+			.map(complaint -> new GetComplaintResponse(complaint,
+				customerEntityModel.getById(complaint.getCustomerID())))
+			.toList();
 	}
 
 	private List<Complaint> getAllByProcessStatus(ComplaintProcessStatus processStatus) {
@@ -97,11 +111,14 @@ public class CustomerSupportService {
 			.collect(Collectors.toList());
 	}
 
-	public Complaint getComplaint(int id) throws NotExistException {
+	public GetComplaintResponse getComplaint(int id) throws NotExistException {
 		Complaint complaint = complaintEntityModel.getById(id);
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
-		return complaint;
+		Customer customer = customerEntityModel.getById(complaint.getCustomerID());
+		if (customer == null)
+			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+		return new GetComplaintResponse(complaint, customer);
 	}
 
 	public Customer getCustomer(int customerID) throws NotExistException {
@@ -157,5 +174,12 @@ public class CustomerSupportService {
 		if (partnerCompany == null)
 			throw new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다.");
 		return partnerCompany;
+	}
+
+	public Employee getEmployee(int employeeId) throws NotExistException {
+		Employee employee = employeeEntityModel.getById(employeeId);
+		if (employee == null)
+			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+		return employee;
 	}
 }

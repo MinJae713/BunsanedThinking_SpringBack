@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.GetComplaintResponse;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
+import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -37,23 +38,28 @@ public class CustomerSupportController {
 		customerSupportService.handleAccident(accidentId, damageAssessmentCompanyId, roadsideAssistanceCompanyId);
 	}
 
+	@GetMapping("/getEmployee")
+	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
+		return customerSupportService.getEmployee(employeeId);
+	}
+
 	@GetMapping("/getAllComplaint")
-	public List<Complaint> getAllComplaint() {
+	public List<GetComplaintResponse> getAllComplaint() {
 		return customerSupportService.getAllComplaint();
 	}
 
 	@GetMapping("/getAllUnprocessedComplaint")
-	public List<Complaint> getAllUnprocessedComplaint() {
+	public List<GetComplaintResponse> getAllUnprocessedComplaint() {
 		return customerSupportService.getAllUnprocessedComplaint();
 	}
 
 	@GetMapping("/getAllProcessedComplaint")
-	public List<Complaint> getAllProcessedComplaint() {
+	public List<GetComplaintResponse> getAllProcessedComplaint() {
 		return customerSupportService.getAllProcessedComplaint();
 	}
 
 	@GetMapping("/getComplaint")
-	public Complaint getComplaint(@RequestParam("complaintId") int complaintId) throws NotExistException {
+	public GetComplaintResponse getComplaint(@RequestParam("complaintId") int complaintId) throws NotExistException {
 		return customerSupportService.getComplaint(complaintId);
 	}
 
