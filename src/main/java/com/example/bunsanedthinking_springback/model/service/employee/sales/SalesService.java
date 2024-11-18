@@ -34,7 +34,6 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -220,8 +219,8 @@ public class SalesService {
 		return loanEntityModel.getById(id);
 	}
 
-	public List<Employee> getAllEmployee() {
-		return employeeEntityModel.getAll();
+	public List<Sales> getAllSales() {
+		return salesEntityModel.getAll();
 	}
 
 	public Employee getEmployee(int id) {
@@ -240,8 +239,12 @@ public class SalesService {
 		return counselEntityModel.getById(id);
 	}
 
-	public List<Product> getAllProduct() {
-		return productEntityModel.getAll();
+	public List<Loan> getAllLoanProduct() {
+		return loanEntityModel.getAll();
+	}
+
+	public List<Insurance> getAllInsuranceProduct() {
+		return insuranceEntityModel.getAll();
 	}
 
 	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryDTO addDiseaseHistoryDTO) {

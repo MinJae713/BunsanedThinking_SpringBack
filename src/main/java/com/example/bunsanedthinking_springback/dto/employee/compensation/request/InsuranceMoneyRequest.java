@@ -1,11 +1,11 @@
-package com.example.bunsanedthinking_springback.dto.employee.compensation;
+package com.example.bunsanedthinking_springback.dto.employee.compensation.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RequestInsuranceMoneyDTO {
+public class InsuranceMoneyRequest {
     private int customerId;
     private int money;
     private int insuranceMoneyId;

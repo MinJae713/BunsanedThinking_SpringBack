@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
+import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.*;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
@@ -49,7 +50,7 @@ public class ContractManagementController {
 		contractManagementSModel.reviewRevival(revivalId, index);
 	}
 	@GetMapping("/getAllDefaultContract")
-	public List<Contract> getAllDefaultContract() throws NotExistContractException, NotExistException {
+	public List<GetAllDefaultContractResponse> getAllDefaultContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllDefaultContract();
 	}
 
@@ -69,7 +70,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getAllTerminatingContract")
-	public List<Termination> getAllTerminatingContract() throws NotExistContractException, NotExistException {
+	public List<GetAllTerminatingContractResponse> getAllTerminatingContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllTerminatingContract();
 	}
 
@@ -92,7 +93,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getAllEndorsementContract")
-	public List<Endorsement> getAllEndorsementContract() throws NotExistContractException, NotExistException {
+	public List<GetAllEndorsementContractResponse> getAllEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllEndorsementContract();
 	}
 
@@ -112,7 +113,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getAllReContract")
-	public List<Recontract> getAllReContract() throws NotExistContractException, NotExistException {
+	public List<GetAllReContractResponse> getAllReContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllReContract();
 	}
 
@@ -132,7 +133,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getAllRevivalContract")
-	public List<Revival> getAllRevivalContract() throws NotExistContractException, NotExistException {
+	public List<GetAllRevivalContractResponse> getAllRevivalContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllRevivalContract();
 	}
 

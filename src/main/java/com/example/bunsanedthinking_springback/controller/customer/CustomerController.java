@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.customer;
 
-import com.example.bunsanedthinking_springback.dto.customer.*;
+import com.example.bunsanedthinking_springback.dto.customer.request.*;
+import com.example.bunsanedthinking_springback.dto.customer.response.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -61,7 +62,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllInsurance")
-	public List<Insurance> getAllInsurance() {
+	public List<GetAllInsuranceResponse> getAllInsurance() {
 		return customerSModel.getAllInsurance();
 	}
 
@@ -86,7 +87,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllLoan")
-	public List<Loan> getAllLoan() {
+	public List<GetAllLoanReponse> getAllLoan() {
 		return customerSModel.getAllLoan();
 	}
 
@@ -116,7 +117,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllContractByCustomerId")
-	public List<Contract> getAllContractByCustomerId(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return customerSModel.getAllContractByCustomerId(id);
 	}
 
@@ -151,7 +152,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllAccidentByCustomerId")
-	public List<Accident> getAllAccidentByCustomerId(@RequestParam int id) throws NotExistException {
+	public List<GetAllAccidentByCustomerIdResponse> getAllAccidentByCustomerId(@RequestParam int id) throws NotExistException {
 		return customerSModel.getAllAccidentByCustomerId(id);
     }
 	@GetMapping("/getAccidentById")
@@ -160,7 +161,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllComplaintsByCustomerId")
-	public List<Complaint> getAllComplaintsByCustomerId(@RequestParam int id) throws NotExistException {
+	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(@RequestParam int id) throws NotExistException {
 		return customerSModel.getAllComplaintsByCustomerId(id);
 	}
 

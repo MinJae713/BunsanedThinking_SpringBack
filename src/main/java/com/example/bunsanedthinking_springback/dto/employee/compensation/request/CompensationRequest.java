@@ -1,11 +1,11 @@
-package com.example.bunsanedthinking_springback.dto.employee.compensation;
+package com.example.bunsanedthinking_springback.dto.employee.compensation.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RequestCompensationDTO {
+public class CompensationRequest {
     private String accountHolder;
     private String bank;
     private String bankAccount;

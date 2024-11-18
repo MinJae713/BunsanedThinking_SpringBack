@@ -25,7 +25,6 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
 
@@ -65,9 +64,9 @@ public class SalesController {
 		return salesSModel.getLoanProduct(id);
 	}
 
-	@GetMapping("/getAllEmployee")
-	public List<Employee> getAllEmployee() {
-		return salesSModel.getAllEmployee();
+	@GetMapping("/getAllSales")
+	public List<Sales> getAllSales() {
+		return salesSModel.getAllSales();
 	}
 
 	@GetMapping("/getEmployee")
@@ -90,9 +89,14 @@ public class SalesController {
 		return salesSModel.getCounsel(id);
 	}
 
-	@GetMapping("/getAllProduct")
-	public List<Product> getAllProduct() {
-		return salesSModel.getAllProduct();
+	@GetMapping("/getAllInsuranceProduct")
+	public List<Insurance> getAllInsuranceProduct() {
+		return salesSModel.getAllInsuranceProduct();
+	}
+
+	@GetMapping("/getAllLoanProduct")
+	public List<Loan> getAllLoanProduct() {
+		return salesSModel.getAllLoanProduct();
 	}
 
 	@PostMapping("/addDiseaseHistory")
