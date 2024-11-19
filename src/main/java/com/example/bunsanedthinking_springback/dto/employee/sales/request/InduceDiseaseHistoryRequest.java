@@ -1,11 +1,12 @@
-package com.example.bunsanedthinking_springback.dto.employee.sales;
+package com.example.bunsanedthinking_springback.dto.employee.sales.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddDiseaseHistoryDTO {
+public class InduceDiseaseHistoryRequest {
 	private String dateOfDiagnosis;
 	private String name;
 }
+

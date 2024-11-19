@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.productManagement;
+package com.example.bunsanedthinking_springback.dto.employee.productManagement.request;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddAutomobileInsuranceDTO {
+public class AddAutomobileInsuranceRequest {
 	private String name;
 	private Integer maximumMoney;
 	private Integer insuranceType;

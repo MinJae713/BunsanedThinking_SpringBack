@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.GetAllRequestingInsuranceResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
@@ -37,7 +38,7 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getAllRequestingInsurance")
-	public List<Contract> getAllRequestingInsurance(){
+	public List<GetAllRequestingInsuranceResponse> getAllRequestingInsurance(){
 		return underWritingSModel.getAllRequestingInsurance();
 	}
 
