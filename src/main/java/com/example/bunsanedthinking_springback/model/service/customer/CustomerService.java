@@ -19,7 +19,6 @@ import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.example.bunsanedthinking_springback.entity.product.ProductList;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
@@ -235,6 +234,10 @@ public class CustomerService {
 		return insuranceEntityModel.getById(id);
 	}
 
+    public GetAllInsuranceResponse getInsuranceRowByProductId(int id) throws NotExistException {
+        return GetAllInsuranceResponse.of(getInsuranceByProductId(id));
+    } // 추가
+
 	public List<GetAllLoanReponse> getAllLoan() {
 		return loanEntityModel.getAll().stream()
 				.map(GetAllLoanReponse::of)
@@ -253,7 +256,7 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	}
 
-	public List<GetAllLoanReponse> getAllInsuranceContractLoan(ProductList productList) {
+	public List<GetAllLoanReponse> getAllInsuranceContractLoan() {
 		return insuranceContractEntityModel.getAll().stream()
 				.map(GetAllLoanReponse::of)
 				.collect(Collectors.toList());
@@ -262,6 +265,10 @@ public class CustomerService {
 	public Loan getLoanByProductId(int id) throws NotExistException {
 		return loanEntityModel.getById(id);
 	}
+
+	public GetAllLoanReponse getLoanRowByProductId(int id) {
+		return GetAllLoanReponse.of(loanEntityModel.getById(id));
+	} // 추가
 
 	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
 		return contractEntityModel.getAll().stream().filter(
@@ -312,6 +319,13 @@ public class CustomerService {
 		return contractEntityModel.getById(contractId);
 	}
 
+	public GetAllContractByCustomerIdResponse getContractRowById(int id) throws NotExistException {
+		Contract contract = contractEntityModel.getById(id);
+		Product product = productEntityModel.getById(contract.getProductId());
+		if (!(product instanceof Insurance insurance)) throw new NotExistException();
+		return GetAllContractByCustomerIdResponse.of(contract, insurance);
+	} // 추가
+
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == id).toList();
@@ -329,11 +343,15 @@ public class CustomerService {
 				.filter(e -> e.getCustomerID() == id)
 				.map(GetAllAccidentByCustomerIdResponse::of)
 				.collect(Collectors.toList());
-	}
+	} // 추가
 
 	public Accident getAccidentById(int id) throws NotExistException {
 		return accidentEntityModel.getById(id);
 	}
+
+	public GetAllAccidentByCustomerIdResponse getAccidentRowById(int id) {
+		return GetAllAccidentByCustomerIdResponse.of(accidentEntityModel.getById(id));
+	} // 추가
 
 	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(int id)
 			throws NotExistException {
@@ -346,7 +364,9 @@ public class CustomerService {
 	public Complaint getComplaintById(int id) throws NotExistException {
 		return complaintEntityModel.getById(id);
 	}
-
+	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(int id) {
+		return GetAllComplaintsByCustomerIdResponse.of(complaintEntityModel.getById(id));
+	} // 추가
 	// 새로 추가됨 - controller는 아직 추가x
 	public void signUp(SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
 		// 이거 고객 아이디를 직접 입력받나유...???
