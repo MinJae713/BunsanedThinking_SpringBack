@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllEndorsementContractResponse {
+    private int id;
     private CustomerInfoResponse customerInfoResponse;
     private int productId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -19,9 +20,10 @@ public class GetAllEndorsementContractResponse {
     private String endorsementStatus;
 
     public static GetAllEndorsementContractResponse of(CustomerInfoResponse customerInfoResponse, Endorsement endorsement) {
+        int id = endorsement.getId();
         int productId = endorsement.getProductId();
         Date applyDate = endorsement.getApplyDate();
         String endorsementStatus = endorsement.getEndorsementStatus().getText();
-        return new GetAllEndorsementContractResponse(customerInfoResponse, productId, applyDate, endorsementStatus);
+        return new GetAllEndorsementContractResponse(id, customerInfoResponse, productId, applyDate, endorsementStatus);
     }
 }

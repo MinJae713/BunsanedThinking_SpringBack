@@ -62,9 +62,19 @@ public class ContractManagementController {
 		return contractManagementSModel.getContractById(id);
 	}
 
+	@GetMapping("/getContractRowById")
+	public GetAllDefaultContractResponse getContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementSModel.getContractRowById(id);
+	}
+
 	@GetMapping("/getTerminationById")
 	public Termination getTerminationById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getTerminationById(id);
+	}
+
+	@GetMapping("/getTerminationRowById")
+	public GetAllTerminatingContractResponse getTerminationRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementSModel.getTerminationRowById(id);
 	}
 
 	@GetMapping("/getTerminatingContractById")
@@ -95,6 +105,11 @@ public class ContractManagementController {
 		return contractManagementSModel.getEndorsementById(id);
 	}
 
+	@GetMapping("/getEndorsementRowById")
+	public GetAllEndorsementContractResponse getEndorsementRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementSModel.getEndorsementRowById(id);
+	}
+
 	@GetMapping("/getAllEndorsementContract")
 	public List<GetAllEndorsementContractResponse> getAllEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllEndorsementContract();
@@ -115,6 +130,11 @@ public class ContractManagementController {
 		return contractManagementSModel.getReContractById(id);
 	}
 
+	@GetMapping("/getReContractRowById")
+	public GetAllReContractResponse getReContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementSModel.getReContractRowById(id);
+	}
+
 	@GetMapping("/getAllReContract")
 	public List<GetAllReContractResponse> getAllReContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllReContract();
@@ -133,6 +153,11 @@ public class ContractManagementController {
 	@GetMapping("/getRevivalById")
 	public Revival getRevivalById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getRevivalById(id);
+	}
+
+	@GetMapping("/getRevivalRowById")
+	public GetAllRevivalContractResponse getRevivalRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+		return contractManagementSModel.getRevivalRowById(id);
 	}
 
 	@GetMapping("/getAllRevivalContract")

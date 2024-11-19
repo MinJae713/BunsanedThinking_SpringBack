@@ -367,7 +367,6 @@ public class CustomerService {
 	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(int id) {
 		return GetAllComplaintsByCustomerIdResponse.of(complaintEntityModel.getById(id));
 	} // 추가
-	// 새로 추가됨 - controller는 아직 추가x
 	public void signUp(SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
 		// 이거 고객 아이디를 직접 입력받나유...???
 		String name = signUpDTO.getName();

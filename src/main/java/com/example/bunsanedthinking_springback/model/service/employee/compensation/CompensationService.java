@@ -144,6 +144,9 @@ public class CompensationService {
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
 		return insuranceMoneyEntityModel.getById(id);
 	}
+	public GetAllInsuranceMoneyResponse getInsuranceMoneyRowById(int id) throws NotExistException {
+		return getOneInsuranceMoney(getInsuranceMoneyById(id));
+	}
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
 		return contractEntityModel.getById(contractId);
 	}
@@ -160,6 +163,10 @@ public class CompensationService {
 
 	public Report getReportById(int id) throws NotExistException {
 		return reportEntityModel.getById(id);
+	}
+
+	public GetAllReportResponse getReportRowById(int id) throws NotExistException {
+		return GetAllReportResponse.of(getReportById(id));
 	}
 
 	public List<GetAllReportResponse> getAllUnprocessedReport() {

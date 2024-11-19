@@ -1,7 +1,8 @@
 package com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning;
 
-import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.AddPartnerCompanyDTO;
-import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.UpdatePartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.AddPartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.UpdatePartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyResponse;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompensationPlanningService {
@@ -24,14 +26,14 @@ public class CompensationPlanningService {
 	@Value("${serials.partnercompany}")
 	public Integer PARTNER_COMPANY_SERIAL_NUMBER;
 
-	public void addPartnerCompany(AddPartnerCompanyDTO partnerCompanyDTO) throws DuplicatePartnerCompanyException {
+	public void addPartnerCompany(AddPartnerCompanyRequest partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
 		String phoneNumber = partnerCompanyDTO.getPhoneNumber();
 		PartnerCompanyType partnerCompanyType = PartnerCompanyType.values()[partnerCompanyDTO.getPartnerCompanyType()];
 		String headName = partnerCompanyDTO.getHeadName();
 		String headPhoneNumber = partnerCompanyDTO.getHeadPhoneNumber();
 
-		List<PartnerCompany> partnerCompanies = getAll();
+		List<PartnerCompany> partnerCompanies = partnerCompanyEntityModel.getAll();
 		for (PartnerCompany partnerCompany : partnerCompanies)
 			if (partnerCompany.getName().equals(name))
 				throw new DuplicatePartnerCompanyException();
@@ -43,31 +45,30 @@ public class CompensationPlanningService {
 		partnerCompany.setEvaluation(0); // 임의 지정
 		partnerCompany.setReportList(new ArrayList<Report>()); // 임의 지정
 		partnerCompanyEntityModel.add(partnerCompany);
-
-//		int partnerCompanySerialLength = (PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "").length();
-//		int index = Integer.parseInt(maxId.toString().substring(partnerCompanySerialLength));
-//		String compound = PartnerCompany.PARTNER_COMPANY_SERIAL_NUMBER + "" + (index + 1);
-//		id = Integer.parseInt(compound);
 	}
 
 	public void evaluatePartnerCompany(int evaluate, int partnerCompanyId) throws NotExistException {
-		PartnerCompany partnerCompany = getPartnerCompany(partnerCompanyId);
+		PartnerCompany partnerCompany = getPartnerCompanyById(partnerCompanyId);
 		if (partnerCompany == null) return;
 		partnerCompany.setEvaluation(evaluate);
 		partnerCompanyEntityModel.update(partnerCompany);
 	}
 
-	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
+	public PartnerCompany getPartnerCompanyById(int id) throws NotExistException {
 		return partnerCompanyEntityModel.getById(id);
 	}
 
-	public void updatePartnerCompany(UpdatePartnerCompanyDTO partnerCompanyDTO)
+	public PartnerCompanyResponse getPartnerCompanyRowById(int id) throws NotExistException {
+		return PartnerCompanyResponse.of(getPartnerCompanyById(id));
+	}
+
+	public void updatePartnerCompany(UpdatePartnerCompanyRequest partnerCompanyDTO)
 		throws DuplicatePartnerCompanyException, NotExistException {
 		int index = partnerCompanyDTO.getIndex();
 		String input = partnerCompanyDTO.getInput();
 		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
 
-		PartnerCompany partnerCompany = getPartnerCompany(partnerCompanyId);
+		PartnerCompany partnerCompany = getPartnerCompanyById(partnerCompanyId);
 		if (partnerCompany == null) return;
 		switch (index) {
 			case 1:
@@ -96,7 +97,9 @@ public class CompensationPlanningService {
 		partnerCompanyEntityModel.delete(id);
 	}
 
-	public List<PartnerCompany> getAll() {
-		return partnerCompanyEntityModel.getAll();
+	public List<PartnerCompanyResponse> getAll() {
+		return partnerCompanyEntityModel.getAll().stream()
+				.map(PartnerCompanyResponse::of)
+				.collect(Collectors.toList());
 	}
 }

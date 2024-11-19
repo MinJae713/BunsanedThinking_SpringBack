@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllTerminatingContractResponse {
+    private int id;
     private CustomerInfoResponse customerInfoResponse;
     private int productId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -19,9 +20,10 @@ public class GetAllTerminatingContractResponse {
     private String terminationStatus;
 
     public static GetAllTerminatingContractResponse of(CustomerInfoResponse customerInfoResponse, Termination termination) {
+        int id = termination.getId();
         int productId = termination.getProductId();
         Date applyDate = termination.getApplyDate();
         String terminationStatus = termination.getTerminationStatus().getText();
-        return new GetAllTerminatingContractResponse(customerInfoResponse, productId, applyDate, terminationStatus);
+        return new GetAllTerminatingContractResponse(id, customerInfoResponse, productId, applyDate, terminationStatus);
     }
 }

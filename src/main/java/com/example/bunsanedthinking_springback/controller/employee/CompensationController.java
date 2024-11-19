@@ -74,6 +74,11 @@ public class CompensationController {
 		return compensationSModel.getInsuranceMoneyById(id);
 	}
 
+	@GetMapping("/getInsuranceMoneyRowById")
+	public GetAllInsuranceMoneyResponse getInsuranceMoneyRowById(@RequestParam int id) throws NotExistException {
+		return compensationSModel.getInsuranceMoneyRowById(id);
+	}
+
 	@GetMapping("/getContractById")
 	public Contract getContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return compensationSModel.getContractById(id);
@@ -92,6 +97,11 @@ public class CompensationController {
 	@GetMapping("/getReportById")
 	public Report getReportById(@RequestParam int id) throws NotExistException {
 		return compensationSModel.getReportById(id);
+	}
+
+	@GetMapping("/getReportRowById")
+	public GetAllReportResponse getReportRowById(@RequestParam int id) throws NotExistException {
+		return compensationSModel.getReportRowById(id);
 	}
 
 	@GetMapping("/getAllUnprocessedReport")

@@ -158,8 +158,24 @@ public class ContractManagementService {
 		return contractEntityModel.getById(contractId);
 	}
 
+	public GetAllDefaultContractResponse getContractRowById(int id) throws NotExistContractException, NotExistException {
+		Contract contract = getContractById(id);
+		if (contract == null) throw new NotExistContractException();
+		Customer customer = getCustomerById(contract.getCustomerID());
+		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
+		return GetAllDefaultContractResponse.of(customerInfoResponse, contract);
+	}
+
 	public Termination getTerminationById(int id) throws NotExistException, NotExistContractException {
         return terminationEntityModel.getById(id);
+	}
+
+	public GetAllTerminatingContractResponse getTerminationRowById(int id) throws NotExistContractException, NotExistException {
+		Termination termination = getTerminationById(id);
+		if (termination == null) throw new NotExistContractException();
+		Customer customer = getCustomerById(termination.getCustomerID());
+		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
+		return GetAllTerminatingContractResponse.of(customerInfoResponse, termination);
 	}
 
 	public Termination getTerminatingContractById(int id) throws NotExistContractException, NotExistException {
@@ -198,7 +214,14 @@ public class ContractManagementService {
 
 	public Endorsement getEndorsementById(int id) throws NotExistException, NotExistContractException {
 		return endorsementEntityModel.getById(id);
-		//		return endorsementList.get(id);
+	}
+
+	public GetAllEndorsementContractResponse getEndorsementRowById(int id) throws NotExistContractException, NotExistException {
+		Endorsement endorsement = getEndorsementById(id);
+		if (endorsement == null) throw new NotExistContractException();
+		Customer customer = getCustomerById(endorsement.getCustomerID());
+		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
+		return GetAllEndorsementContractResponse.of(customerInfoResponse, endorsement);
 	}
 
 	public List<GetAllEndorsementContractResponse> getAllEndorsementContract()
@@ -235,6 +258,14 @@ public class ContractManagementService {
 		return recontractEntityModel.getById(id);
 	}
 
+	public GetAllReContractResponse getReContractRowById(int id) throws NotExistContractException, NotExistException {
+		Recontract recontract = getReContractById(id);
+		if (recontract == null) throw new NotExistContractException();
+		Customer customer = getCustomerById(recontract.getCustomerID());
+		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
+		return GetAllReContractResponse.of(customerInfoResponse, recontract);
+	}
+
 	public List<GetAllReContractResponse> getAllReContract()
 			throws NotExistContractException, NotExistException {
 		return recontractEntityModel.getAll().stream()
@@ -266,6 +297,14 @@ public class ContractManagementService {
 
 	public Revival getRevivalById(int id) throws NotExistException, NotExistContractException {
 		return revivalEntityModel.getById(id);
+	}
+
+	public GetAllRevivalContractResponse getRevivalRowById(int id) throws NotExistContractException, NotExistException {
+		Revival revival = getRevivalById(id);
+		if (revival == null) throw new NotExistContractException();
+		Customer customer = getCustomerById(revival.getCustomerID());
+		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
+		return GetAllRevivalContractResponse.of(customerInfoResponse, revival);
 	}
 
 	public List<GetAllRevivalContractResponse> getAllRevivalContract()

@@ -1,7 +1,8 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.AddPartnerCompanyDTO;
-import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.UpdatePartnerCompanyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.AddPartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.UpdatePartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyResponse;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -17,7 +18,7 @@ public class CompensationPlanningController {
 	@Autowired
 	private CompensationPlanningService compensationPlanningSModel;
 	@PostMapping("/addPartnerCompany")
-	public void addPartnerCompany(@RequestBody AddPartnerCompanyDTO partnerCompanyDTO)
+	public void addPartnerCompany(@RequestBody AddPartnerCompanyRequest partnerCompanyDTO)
 		throws DuplicatePartnerCompanyException {
 		/*
 		{
@@ -36,13 +37,18 @@ public class CompensationPlanningController {
 		compensationPlanningSModel.evaluatePartnerCompany(evaluate, partnerCompanyId);
 	}
 
-	@GetMapping("/getPartnerCompany")
-	public PartnerCompany getPartnerCompany(@RequestParam int id) throws NotExistException {
-		return compensationPlanningSModel.getPartnerCompany(id);
+	@GetMapping("/getPartnerCompanyById")
+	public PartnerCompany getPartnerCompanyById(@RequestParam int id) throws NotExistException {
+		return compensationPlanningSModel.getPartnerCompanyById(id);
+	}
+
+	@GetMapping("/getPartnerCompanyRowById")
+	public PartnerCompanyResponse getPartnerCompanyRowById(@RequestParam int id) throws NotExistException {
+		return compensationPlanningSModel.getPartnerCompanyRowById(id);
 	}
 
 	@PatchMapping("/updatePartnerCompany")
-	public void updatePartnerCompany(@RequestBody UpdatePartnerCompanyDTO partnerCompanyDTO)
+	public void updatePartnerCompany(@RequestBody UpdatePartnerCompanyRequest partnerCompanyDTO)
 		throws DuplicatePartnerCompanyException, NotExistException {
 		/*
 		{
@@ -60,7 +66,7 @@ public class CompensationPlanningController {
 	}
 
 	@GetMapping("/getAll")
-	public List<PartnerCompany> getAll() {
+	public List<PartnerCompanyResponse> getAll() {
 		return compensationPlanningSModel.getAll();
 	}
 	// get은 검증 완
