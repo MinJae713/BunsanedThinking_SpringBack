@@ -29,9 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompensationService {
@@ -115,33 +114,31 @@ public class CompensationService {
 	}
 
 	public List<GetAllInsuranceMoneyResponse> getAllInsuranceMoney() {
-		List<GetAllInsuranceMoneyResponse> result = new ArrayList<GetAllInsuranceMoneyResponse>();
-		for (InsuranceMoney insuranceMoney : insuranceMoneyEntityModel.getAll()) {
-			Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
-			Product product = productEntityModel.getById(contract.getProductId());
-			Customer customer = customerEntityModel.getById(contract.getCustomerID());
-
-			int id = insuranceMoney.getId();
-			String productType = product.getName();
-			Date date = insuranceMoney.getApplyDate();
-			String customerName = customer.getName();
-			String status = insuranceMoney.getProcessStatus().getName();
-			result.add(new GetAllInsuranceMoneyResponse(id, productType, date, customerName, status));
-		}
-		return result;
+		return insuranceMoneyEntityModel.getAll().stream()
+				.map(this::getOneInsuranceMoney)
+				.collect(Collectors.toList());
 	}
 
-	public List<InsuranceMoney> getAllUnprocessedInsuranceMoney() {
+	public List<GetAllInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
 		return insuranceMoneyEntityModel.getAll().stream()
-			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
-			.toList();
+				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
+				.map(this::getOneInsuranceMoney)
+				.collect(Collectors.toList());
 
 	}
 
-	public List<InsuranceMoney> getAllProcessedInsuranceMoney() {
+	public List<GetAllInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
 		return insuranceMoneyEntityModel.getAll().stream()
-			.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
-			.toList();
+				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
+				.map(this::getOneInsuranceMoney)
+				.collect(Collectors.toList());
+	}
+
+	private GetAllInsuranceMoneyResponse getOneInsuranceMoney(InsuranceMoney insuranceMoney) {
+		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
+		Product product = productEntityModel.getById(contract.getProductId());
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		return GetAllInsuranceMoneyResponse.of(insuranceMoney, product, customer);
 	}
 
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
@@ -156,39 +153,27 @@ public class CompensationService {
 	}
 
 	public List<GetAllReportResponse> getAllReport() {
-		List<GetAllReportResponse> result = new ArrayList<GetAllReportResponse>();
-		for (Report report : reportEntityModel.getAll()) {
-			int id = report.getAccident().getId();
-			String serviceType = report.getAccident().getServiceType().getName();
-			String date = report.getAccident().getDate();
-			String location = report.getAccident().getLocation();
-			String customerName = report.getAccident().getCustomerName();
-			String customerPhoneNumber = report.getAccident().getCustomerPhoneNumber();
-			String accidentProcessStatus = report.getAccident().getProcessStatus().getName();
-			String processStatus = report.getProcessStatus().getName();
-			int damageAssessmentMoney = report.getDamageAssessmentMoney();
-			result.add(new GetAllReportResponse(id, serviceType, date, location, customerName,
-					customerPhoneNumber, accidentProcessStatus,
-					processStatus, damageAssessmentMoney));
-		}
-
-		return result;
+		return reportEntityModel.getAll().stream()
+				.map(GetAllReportResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Report getReportById(int id) throws NotExistException {
 		return reportEntityModel.getById(id);
 	}
 
-	public List<Report> getAllUnprocessedReport() {
+	public List<GetAllReportResponse> getAllUnprocessedReport() {
 		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Unprocessed)
-				.toList();
+				.map(GetAllReportResponse::of)
+				.collect(Collectors.toList());
 	}
 
-	public List<Report> getAllCompletedReport() {
+	public List<GetAllReportResponse> getAllCompletedReport() {
 		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Completed)
-				.toList();
+				.map(GetAllReportResponse::of)
+				.collect(Collectors.toList());
 	}
 
 	public Contract getAutomobileByCustomerId(int customerID) throws NotExistContractException, NotExistException {
