@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.sales.AddDiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceInsuranceProductDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllCounselResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllInsuranceProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllSalesResponse;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
@@ -45,13 +48,13 @@ public class SalesController {
 	}
 
 	@PostMapping("/induceInsuranceProduct")
-	public Customer induceInsuranceProduct(@RequestBody InduceInsuranceProductDTO induceInsuranceProductDTO) {
-		return salesSModel.induceInsuranceProduct(induceInsuranceProductDTO);
+	public Customer induceInsuranceProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		return salesSModel.induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
 	@PostMapping("/induceLoanProduct")
-	public Customer induceLoanProduct(@RequestBody InduceInsuranceProductDTO induceInsuranceProductDTO) {
-		return salesSModel.induceLoanProduct(induceInsuranceProductDTO);
+	public Customer induceLoanProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		return salesSModel.induceLoanProduct(induceInsuranceProductRequest);
 	}
 
 	@GetMapping("/getInsuranceProduct")
@@ -65,7 +68,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllSales")
-	public List<Sales> getAllSales() {
+	public List<GetAllSalesResponse> getAllSales() {
 		return salesSModel.getAllSales();
 	}
 
@@ -80,7 +83,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllCounsel")
-	public List<Counsel> getAllCounsel() {
+	public List<GetAllCounselResponse> getAllCounsel() {
 		return salesSModel.getAllCounsel();
 	}
 
@@ -90,7 +93,7 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllInsuranceProduct")
-	public List<Insurance> getAllInsuranceProduct() {
+	public List<GetAllInsuranceProductResponse> getAllInsuranceProduct() {
 		return salesSModel.getAllInsuranceProduct();
 	}
 
@@ -100,8 +103,8 @@ public class SalesController {
 	}
 
 	@PostMapping("/addDiseaseHistory")
-	public DiseaseHistory addDiseaseHistory(@RequestBody AddDiseaseHistoryDTO addDiseaseHistoryDTO) {
-		return salesSModel.addDiseaseHistory(addDiseaseHistoryDTO);
+	public DiseaseHistory addDiseaseHistory(@RequestBody AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
+		return salesSModel.addDiseaseHistory(addDiseaseHistoryRequest);
 	}
 
 	@PatchMapping("/updateContractCount")

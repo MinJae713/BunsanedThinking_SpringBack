@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddAutomobileInsuranceDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddDiseaseInsuranceDTO;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.AddInjuryInsuranceDTO;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.GetAllResponseResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
@@ -29,19 +30,19 @@ public class ProductManagementController {
 	private ProductManagementService productManagementSModel;
 
 	@PostMapping("/addDiseaseInsurance")
-	public void addDiseaseInsurance(@RequestBody AddDiseaseInsuranceDTO addDiseaseInsuranceDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addDiseaseInsurance(addDiseaseInsuranceDTO);
+	public void addDiseaseInsurance(@RequestBody AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws DuplicateInsuranceException {
+		productManagementSModel.addDiseaseInsurance(addDiseaseInsuranceRequest);
 	}
 
 
 	@PostMapping("/addInjuryInsurance")
-	public void addInjuryInsurance(@RequestBody AddInjuryInsuranceDTO addInjuryInsuranceDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addInjuryInsurance(addInjuryInsuranceDTO);
+	public void addInjuryInsurance(@RequestBody AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws DuplicateInsuranceException {
+		productManagementSModel.addInjuryInsurance(addInjuryInsuranceRequest);
 	}
 
 	@PostMapping("/addAutomobileInsurance")
-	public void addAutomobileInsurance(@RequestBody AddAutomobileInsuranceDTO addAutomobileInsuranceDTO) throws DuplicateInsuranceException {
-		productManagementSModel.addAutomobileInsurance(addAutomobileInsuranceDTO);
+	public void addAutomobileInsurance(@RequestBody AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws DuplicateInsuranceException {
+		productManagementSModel.addAutomobileInsurance(addAutomobileInsuranceRequest);
 	}
 
 	@DeleteMapping("/deleteInsuranceProduct")
@@ -70,7 +71,7 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("/getAll")
-	public List<Insurance> getAll(){
+	public List<GetAllResponseResponse> getAll(){
 		return productManagementSModel.getAll();
 	}
 }
