@@ -1,11 +1,11 @@
-package com.example.bunsanedthinking_springback.dto.employee.productManagement;
+package com.example.bunsanedthinking_springback.dto.employee.productManagement.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddDiseaseInsuranceDTO {
+public class AddDiseaseInsuranceRequest {
 	private String name;
 	private Integer maximumMoney;
 	private Integer insuranceType;

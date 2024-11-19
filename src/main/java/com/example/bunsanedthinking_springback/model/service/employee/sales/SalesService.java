@@ -6,16 +6,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.sales.AddDiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceAccidentHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceDiseaseHistoryDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceInsuranceProductDTO;
-import com.example.bunsanedthinking_springback.dto.employee.sales.InduceSurgeryHistoryDTO;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceAccidentHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceDiseaseHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceSurgeryHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllCounselResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllInsuranceProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllSalesResponse;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
@@ -122,30 +126,30 @@ public class SalesService {
 		counselEntityModel.update(counsel);
 	}
 
-	public Customer induceInsuranceProduct(InduceInsuranceProductDTO induceInsuranceProductDTO) {
+	public Customer induceInsuranceProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
 
 		Integer customerId = NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER);
 
 		Customer customer = new Customer();
 		customer.setId(customerId);
-		customer.setAddress(induceInsuranceProductDTO.getAddress());
-		customer.setAge(induceInsuranceProductDTO.getAge());
-		customer.setBankAccount(induceInsuranceProductDTO.getBankAccount());
-		customer.setBankName(induceInsuranceProductDTO.getBankName());
-		customer.setGender(Gender.fromInt(induceInsuranceProductDTO.getGender()));
-		customer.setJob(induceInsuranceProductDTO.getJob());
-		customer.setName(induceInsuranceProductDTO.getName());
-		customer.setPhoneNumber(induceInsuranceProductDTO.getPhoneNumber());
-		customer.setProperty(induceInsuranceProductDTO.getProperty());
-		customer.setResidentRegistrationNumber(induceInsuranceProductDTO.getResidentRegistrationNumber());
+		customer.setAddress(induceInsuranceProductRequest.getAddress());
+		customer.setAge(induceInsuranceProductRequest.getAge());
+		customer.setBankAccount(induceInsuranceProductRequest.getBankAccount());
+		customer.setBankName(induceInsuranceProductRequest.getBankName());
+		customer.setGender(Gender.fromInt(induceInsuranceProductRequest.getGender()));
+		customer.setJob(induceInsuranceProductRequest.getJob());
+		customer.setName(induceInsuranceProductRequest.getName());
+		customer.setPhoneNumber(induceInsuranceProductRequest.getPhoneNumber());
+		customer.setProperty(induceInsuranceProductRequest.getProperty());
+		customer.setResidentRegistrationNumber(induceInsuranceProductRequest.getResidentRegistrationNumber());
 		customer.setAccidentHistoryList(new ArrayList<>());
 		customer.setSurgeryHistoryList(new ArrayList<>());
 		customer.setDiseaseHistoryList(new ArrayList<>());
 		customer.setContractList(new ArrayList<>());
 
-		if (induceInsuranceProductDTO.getAccidentHistoryList() != null) {
+		if (induceInsuranceProductRequest.getAccidentHistoryList() != null) {
 			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), ACCIDENT_HISTORY_SERIAL_NUMBER);
-			for (InduceAccidentHistoryDTO e : induceInsuranceProductDTO.getAccidentHistoryList()) {
+			for (InduceAccidentHistoryRequest e : induceInsuranceProductRequest.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -158,9 +162,9 @@ public class SalesService {
 			}
 		}
 
-		if (induceInsuranceProductDTO.getSurgeryHistoryList() != null) {
+		if (induceInsuranceProductRequest.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
-			for (InduceSurgeryHistoryDTO e : induceInsuranceProductDTO.getSurgeryHistoryList()) {
+			for (InduceSurgeryHistoryRequest e : induceInsuranceProductRequest.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -173,9 +177,9 @@ public class SalesService {
 				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
-		if (induceInsuranceProductDTO.getDiseaseHistoryList() != null) {
+		if (induceInsuranceProductRequest.getDiseaseHistoryList() != null) {
 			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
-			for (InduceDiseaseHistoryDTO e : induceInsuranceProductDTO.getDiseaseHistoryList()) {
+			for (InduceDiseaseHistoryRequest e : induceInsuranceProductRequest.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(),
@@ -198,8 +202,8 @@ public class SalesService {
 		contract.setTerminationDate(null);
 		contract.setContractStatus(ContractStatus.ContractRequesting);
 		contract.setCustomerID(customerId);
-		contract.setEmployeeID(induceInsuranceProductDTO.getEmployeeId());
-		contract.setProductId(induceInsuranceProductDTO.getProductId());
+		contract.setEmployeeID(induceInsuranceProductRequest.getEmployeeId());
+		contract.setProductId(induceInsuranceProductRequest.getProductId());
 		contract.setLastPaidDate(null);
 		customer.getContractList().add(contract);
 		customerEntityModel.add(customer);
@@ -207,8 +211,8 @@ public class SalesService {
 		return customer;
 	}
 
-	public Customer induceLoanProduct(InduceInsuranceProductDTO induceInsuranceProductDTO) {
-		return induceInsuranceProduct(induceInsuranceProductDTO);
+	public Customer induceLoanProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		return induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
 	public Insurance getInsuranceProduct(int id) {
@@ -219,8 +223,9 @@ public class SalesService {
 		return loanEntityModel.getById(id);
 	}
 
-	public List<Sales> getAllSales() {
-		return salesEntityModel.getAll();
+	public List<GetAllSalesResponse> getAllSales() {
+		List<Sales> sales = salesEntityModel.getAll();
+		return sales.stream().map(GetAllSalesResponse::of).collect(Collectors.toList());
 	}
 
 	public Employee getEmployee(int id) {
@@ -231,8 +236,9 @@ public class SalesService {
 		return salesEntityModel.getById(id);
 	}
 
-	public List<Counsel> getAllCounsel() {
-		return counselEntityModel.getAll();
+	public List<GetAllCounselResponse> getAllCounsel() {
+		List<Counsel> counsels =  counselEntityModel.getAll();
+		return counsels.stream().map(GetAllCounselResponse::of).collect(Collectors.toList());
 	}
 
 	public Counsel getCounsel(int id) {
@@ -243,22 +249,23 @@ public class SalesService {
 		return loanEntityModel.getAll();
 	}
 
-	public List<Insurance> getAllInsuranceProduct() {
-		return insuranceEntityModel.getAll();
+	public List<GetAllInsuranceProductResponse> getAllInsuranceProduct() {
+		List<Insurance> insurance = insuranceEntityModel.getAll();
+		return insurance.stream().map(GetAllInsuranceProductResponse::of).collect(Collectors.toList());
 	}
 
-	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryDTO addDiseaseHistoryDTO) {
+	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 
 		Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
 
 		diseaseHistory.setId(diseaseHistoryId);
 		diseaseHistory.setDate_of_diagnosis(Date.from(
-			LocalDate.parse(addDiseaseHistoryDTO.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+			LocalDate.parse(addDiseaseHistoryRequest.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 				.atStartOfDay(ZoneId.systemDefault())
 				.toInstant()
 		));
-		diseaseHistory.setName(addDiseaseHistoryDTO.getName());
+		diseaseHistory.setName(addDiseaseHistoryRequest.getName());
 
 		return diseaseHistory;
 	}

@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.GetAllRequestingInsuranceResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -58,8 +60,11 @@ public class UnderWritingService {
 		return result;
 	}
 
-	public List<Contract> getAllRequestingInsurance() {
-		return contractEntityModel.getAllRequestingInsurance();
+	public List<GetAllRequestingInsuranceResponse> getAllRequestingInsurance() {
+		List<Contract> requestingInsurances = contractEntityModel.getAllRequestingInsurance();
+		return requestingInsurances.stream()
+			.map(e -> GetAllRequestingInsuranceResponse.from(customerEntityModel.getById(e.getCustomerID()),e))
+			.collect(Collectors.toList());
 	}
 
 	public List<Contract> getAllNotRequestingInsurance() {
