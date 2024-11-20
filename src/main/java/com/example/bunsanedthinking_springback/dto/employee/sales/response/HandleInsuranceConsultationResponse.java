@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllCounselResponse {
+public class HandleInsuranceConsultationResponse {
 	private String name;
 	private String phoneNumber;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -25,8 +25,8 @@ public class GetAllCounselResponse {
 	private Integer id;
 	private CounselProcessStatus processStatus;
 
-	public static GetAllCounselResponse of(Counsel counsel) {
-		return GetAllCounselResponse.builder()
+	public static HandleInsuranceConsultationResponse from(Counsel counsel) {
+		return HandleInsuranceConsultationResponse.builder()
 			.name(counsel.getName())
 			.phoneNumber(counsel.getPhoneNumber())
 			.counselDate(counsel.getCounselDate())

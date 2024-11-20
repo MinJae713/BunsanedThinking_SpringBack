@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.GetAllResponseResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
@@ -298,8 +298,23 @@ public class ProductManagementService {
 
 	}
 
-	public List<GetAllResponseResponse> getAll() {
+	public List<ManageInsuranceProductResponse> getAllInsurance() {
 		List<Insurance> insurances = insuranceEntityModel.getAll();
-		return insurances.stream().map(GetAllResponseResponse::of).collect(Collectors.toList());
+		return insurances.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
+	}
+
+	public List<ManageInsuranceProductResponse> getAllinJuryInsurance() {
+		List<Injury> injuries = injuryEntityModel.getAll();
+		return injuries.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
+	}
+
+	public List<ManageInsuranceProductResponse> getAllAutomobileInsurance() {
+		List<Automobile> automobiles = automobileEntityModel.getAll();
+		return automobiles.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
+	}
+
+	public List<ManageInsuranceProductResponse> getAllDiseaseInsurance() {
+		List<Disease> diseases = diseaseEntityModel.getAll();
+		return diseases.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 }

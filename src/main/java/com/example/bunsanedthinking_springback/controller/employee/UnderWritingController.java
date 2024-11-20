@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.GetAllRequestingInsuranceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
@@ -37,11 +37,6 @@ public class UnderWritingController {
 		return underWritingSModel.reviewAcquisition(contractId, result);
 	}
 
-	@GetMapping("/getAllRequestingInsurance")
-	public List<GetAllRequestingInsuranceResponse> getAllRequestingInsurance(){
-		return underWritingSModel.getAllRequestingInsurance();
-	}
-
 	@GetMapping("/getCustomer")
 	public Customer getCustomer(int id)  {
 		return underWritingSModel.getCustomer(id);
@@ -52,8 +47,18 @@ public class UnderWritingController {
 		return underWritingSModel.getContract(id);
 	}
 
+	@GetMapping("/getAllContract")
+	public List<ReviewAcquisitionResponse> getAllContract(){
+		return underWritingSModel.getAllContract();
+	}
+
+	@GetMapping("/getAllRequestingInsurance")
+	public List<ReviewAcquisitionResponse> getAllRequestingInsurance(){
+		return underWritingSModel.getAllRequestingInsurance();
+	}
+
 	@GetMapping("/getAllNotRequestingInsurance")
-	public List<Contract> getAllNotRequestingInsurance(){
+	public List<ReviewAcquisitionResponse> getAllNotRequestingInsurance(){
 		return underWritingSModel.getAllNotRequestingInsurance();
 	}
 
