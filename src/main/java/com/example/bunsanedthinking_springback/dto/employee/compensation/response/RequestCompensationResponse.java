@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllReportResponse {
+public class RequestCompensationResponse {
     private int id;
     private String serviceType;
     private String date;
@@ -19,7 +19,7 @@ public class GetAllReportResponse {
     private String processStatus;
     private int damageAssessmentMoney;
 
-    public static GetAllReportResponse of(Report report) {
+    public static RequestCompensationResponse of(Report report) {
         int id = report.getAccident().getId();
         String serviceType = report.getAccident().getServiceType().getName();
         String date = report.getAccident().getDate();
@@ -29,7 +29,7 @@ public class GetAllReportResponse {
         String accidentProcessStatus = report.getAccident().getProcessStatus().getName();
         String processStatus = report.getProcessStatus().getName();
         int damageAssessmentMoney = report.getDamageAssessmentMoney();
-        return new GetAllReportResponse(id, serviceType, date, location, customerName,
+        return new RequestCompensationResponse(id, serviceType, date, location, customerName,
                 customerPhoneNumber, accidentProcessStatus,
                 processStatus, damageAssessmentMoney);
     }

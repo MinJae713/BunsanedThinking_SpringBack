@@ -2,8 +2,8 @@ package com.example.bunsanedthinking_springback.model.service.employee.compensat
 
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.CompensationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.InsuranceMoneyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllInsuranceMoneyResponse;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllReportResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestCompensationResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
@@ -113,13 +113,13 @@ public class CompensationService {
 		insuranceMoneyEntityModel.update(insuranceMoney);
 	}
 
-	public List<GetAllInsuranceMoneyResponse> getAllInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllInsuranceMoney() {
 		return insuranceMoneyEntityModel.getAll().stream()
 				.map(this::getOneInsuranceMoney)
 				.collect(Collectors.toList());
 	}
 
-	public List<GetAllInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
 		return insuranceMoneyEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Unprocessed)
 				.map(this::getOneInsuranceMoney)
@@ -127,24 +127,24 @@ public class CompensationService {
 
 	}
 
-	public List<GetAllInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
 		return insuranceMoneyEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == InsuranceMoneyStatus.Completed)
 				.map(this::getOneInsuranceMoney)
 				.collect(Collectors.toList());
 	}
 
-	private GetAllInsuranceMoneyResponse getOneInsuranceMoney(InsuranceMoney insuranceMoney) {
+	private RequestInsuranceMoneyResponse getOneInsuranceMoney(InsuranceMoney insuranceMoney) {
 		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
 		Product product = productEntityModel.getById(contract.getProductId());
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
-		return GetAllInsuranceMoneyResponse.of(insuranceMoney, product, customer);
+		return RequestInsuranceMoneyResponse.of(insuranceMoney, product, customer);
 	}
 
 	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
 		return insuranceMoneyEntityModel.getById(id);
 	}
-	public GetAllInsuranceMoneyResponse getInsuranceMoneyRowById(int id) throws NotExistException {
+	public RequestInsuranceMoneyResponse getInsuranceMoneyRowById(int id) throws NotExistException {
 		return getOneInsuranceMoney(getInsuranceMoneyById(id));
 	}
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
@@ -155,9 +155,9 @@ public class CompensationService {
 		return customerEntityModel.getById(id);
 	}
 
-	public List<GetAllReportResponse> getAllReport() {
+	public List<RequestCompensationResponse> getAllReport() {
 		return reportEntityModel.getAll().stream()
-				.map(GetAllReportResponse::of)
+				.map(RequestCompensationResponse::of)
 				.collect(Collectors.toList());
 	}
 
@@ -165,21 +165,21 @@ public class CompensationService {
 		return reportEntityModel.getById(id);
 	}
 
-	public GetAllReportResponse getReportRowById(int id) throws NotExistException {
-		return GetAllReportResponse.of(getReportById(id));
+	public RequestCompensationResponse getReportRowById(int id) throws NotExistException {
+		return RequestCompensationResponse.of(getReportById(id));
 	}
 
-	public List<GetAllReportResponse> getAllUnprocessedReport() {
+	public List<RequestCompensationResponse> getAllUnprocessedReport() {
 		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Unprocessed)
-				.map(GetAllReportResponse::of)
+				.map(RequestCompensationResponse::of)
 				.collect(Collectors.toList());
 	}
 
-	public List<GetAllReportResponse> getAllCompletedReport() {
+	public List<RequestCompensationResponse> getAllCompletedReport() {
 		return reportEntityModel.getAll().stream()
 				.filter(e -> e.getProcessStatus() == ReportProcessStatus.Completed)
-				.map(GetAllReportResponse::of)
+				.map(RequestCompensationResponse::of)
 				.collect(Collectors.toList());
 	}
 

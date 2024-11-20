@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllInsuranceResponse {
+public class InsuranceListResponse {
     private String name;
     private String insuranceType;
     private int id;
     private int ageRange;
     private int monthlyPremium;
 
-    public static GetAllInsuranceResponse of(Insurance insurance) {
+    public static InsuranceListResponse of(Insurance insurance) {
         String name = insurance.getName();
         String insuranceType = insurance.getInsuranceType().getName();
         int id = insurance.getId();
         int ageRange = insurance.getAgeRange();
         int monthlyPremium = insurance.getMonthlyPremium();
-        return new GetAllInsuranceResponse(name,
+        return new InsuranceListResponse(name,
                 insuranceType, id, ageRange, monthlyPremium);
     }
 }

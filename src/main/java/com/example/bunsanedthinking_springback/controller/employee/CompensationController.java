@@ -2,8 +2,8 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.CompensationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.InsuranceMoneyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllInsuranceMoneyResponse;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.GetAllReportResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestCompensationResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -55,17 +55,17 @@ public class CompensationController {
 		compensationSModel.requestInsuranceMoney(insuranceMoneyRequest);
 	}
 	@GetMapping("/getAllInsuranceMoney")
-	public List<GetAllInsuranceMoneyResponse> getAllInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllInsuranceMoney() {
 		return compensationSModel.getAllInsuranceMoney();
 	}
 
 	@GetMapping("/getAllUnprocessedInsuranceMoney")
-	public List<GetAllInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllUnprocessedInsuranceMoney() {
 		return compensationSModel.getAllUnprocessedInsuranceMoney();
 	}
 
 	@GetMapping("/getAllProcessedInsuranceMoney")
-	public List<GetAllInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
+	public List<RequestInsuranceMoneyResponse> getAllProcessedInsuranceMoney() {
 		return compensationSModel.getAllProcessedInsuranceMoney();
 	}
 
@@ -75,7 +75,7 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getInsuranceMoneyRowById")
-	public GetAllInsuranceMoneyResponse getInsuranceMoneyRowById(@RequestParam int id) throws NotExistException {
+	public RequestInsuranceMoneyResponse getInsuranceMoneyRowById(@RequestParam int id) throws NotExistException {
 		return compensationSModel.getInsuranceMoneyRowById(id);
 	}
 
@@ -90,7 +90,7 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getAllReport")
-	public List<GetAllReportResponse> getAllReport() {
+	public List<RequestCompensationResponse> getAllReport() {
 		return compensationSModel.getAllReport();
 	}
 
@@ -100,17 +100,17 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getReportRowById")
-	public GetAllReportResponse getReportRowById(@RequestParam int id) throws NotExistException {
+	public RequestCompensationResponse getReportRowById(@RequestParam int id) throws NotExistException {
 		return compensationSModel.getReportRowById(id);
 	}
 
 	@GetMapping("/getAllUnprocessedReport")
-	public List<GetAllReportResponse> getAllUnprocessedReport() {
+	public List<RequestCompensationResponse> getAllUnprocessedReport() {
 		return compensationSModel.getAllUnprocessedReport();
 	}
 
 	@GetMapping("/getAllCompletedReport")
-	public List<GetAllReportResponse> getAllCompletedReport() {
+	public List<RequestCompensationResponse> getAllCompletedReport() {
 		return compensationSModel.getAllCompletedReport();
 	}
 

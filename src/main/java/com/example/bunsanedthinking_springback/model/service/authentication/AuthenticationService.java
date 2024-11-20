@@ -64,7 +64,7 @@ public class AuthenticationService {
 
     public LoginResponse loginPartnerCompany(int id) {
         try {
-            PartnerCompany partnerCompany = partnerCompanyService.getPartnerCompany(id);
+            PartnerCompany partnerCompany = partnerCompanyService.getPartnerCompanyById(id);
             return new LoginResponse(partnerCompany.getName(), UserType.PARTNERCOMPANY.name());
         } catch (NotExistException e) {
             return null;

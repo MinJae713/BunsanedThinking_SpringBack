@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllEndorsementContractResponse {
+public class EndorsementResponse {
     private int id;
     private CustomerInfoResponse customerInfoResponse;
     private int productId;
@@ -19,11 +19,11 @@ public class GetAllEndorsementContractResponse {
     private Date applyDate;
     private String endorsementStatus;
 
-    public static GetAllEndorsementContractResponse of(CustomerInfoResponse customerInfoResponse, Endorsement endorsement) {
+    public static EndorsementResponse of(CustomerInfoResponse customerInfoResponse, Endorsement endorsement) {
         int id = endorsement.getId();
         int productId = endorsement.getProductId();
         Date applyDate = endorsement.getApplyDate();
         String endorsementStatus = endorsement.getEndorsementStatus().getText();
-        return new GetAllEndorsementContractResponse(id, customerInfoResponse, productId, applyDate, endorsementStatus);
+        return new EndorsementResponse(id, customerInfoResponse, productId, applyDate, endorsementStatus);
     }
 }

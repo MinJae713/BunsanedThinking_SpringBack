@@ -8,19 +8,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllRevivalContractResponse {
+public class RevivalResponse {
     private int id;
     private CustomerInfoResponse customerInfoResponse;
     private int productId;
     private String terminationDate;
     private String revivalStatus;
 
-    public static GetAllRevivalContractResponse of(CustomerInfoResponse customerInfoResponse, Revival revival) {
+    public static RevivalResponse of(CustomerInfoResponse customerInfoResponse, Revival revival) {
         int id = revival.getId();
         int productId = revival.getProductId();
         String terminationDate = revival.getTerminationDate();
         String revivalStatus = revival.getRevivalStatus().getText();
-        return new GetAllRevivalContractResponse(id, customerInfoResponse, productId,
+        return new RevivalResponse(id, customerInfoResponse, productId,
                 terminationDate == null ? "" : terminationDate, revivalStatus);
     }
 }

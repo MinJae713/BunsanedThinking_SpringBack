@@ -16,9 +16,9 @@ public class PartnerCompanyController {
 	@Autowired
 	private PartnerCompanyService partnerCompanySModel;
 
-	@GetMapping("/getPartnerCompany")
-	public PartnerCompany getPartnerCompany(@RequestParam int id) throws NotExistException {
-		return partnerCompanySModel.getPartnerCompany(id);
+	@GetMapping("/getPartnerCompanyById")
+	public PartnerCompany getPartnerCompanyById(@RequestParam int id) throws NotExistException {
+		return partnerCompanySModel.getPartnerCompanyById(id);
 	}
 
 	 @GetMapping("/getAllReportByDamageAssessmentCompanyID")

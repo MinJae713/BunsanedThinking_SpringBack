@@ -17,7 +17,7 @@ public class PartnerCompanyService {
 	@Autowired
 	private ReportEntityModel reportEntityModel;
 
-	public PartnerCompany getPartnerCompany(int id) throws NotExistException {
+	public PartnerCompany getPartnerCompanyById(int id) throws NotExistException {
 		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null) {
 			throw new NotExistException();

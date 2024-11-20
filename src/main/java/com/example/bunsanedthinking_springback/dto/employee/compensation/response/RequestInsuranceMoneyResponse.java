@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllInsuranceMoneyResponse {
+public class RequestInsuranceMoneyResponse {
     private int id;
     private String productType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -21,13 +21,13 @@ public class GetAllInsuranceMoneyResponse {
     private String customerName;
     private String status;
 
-    public static GetAllInsuranceMoneyResponse of(
+    public static RequestInsuranceMoneyResponse of(
             InsuranceMoney insuranceMoney, Product product, Customer customer) {
         int id = insuranceMoney.getId();
         String productType = product.getName();
         Date date = insuranceMoney.getApplyDate();
         String customerName = customer.getName();
         String status = insuranceMoney.getProcessStatus().getName();
-        return new GetAllInsuranceMoneyResponse(id, productType, date, customerName, status);
+        return new RequestInsuranceMoneyResponse(id, productType, date, customerName, status);
     }
 }

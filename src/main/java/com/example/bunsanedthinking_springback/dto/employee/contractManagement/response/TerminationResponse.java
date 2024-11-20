@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllTerminatingContractResponse {
+public class TerminationResponse {
     private int id;
     private CustomerInfoResponse customerInfoResponse;
     private int productId;
@@ -19,11 +19,11 @@ public class GetAllTerminatingContractResponse {
     private Date applyDate;
     private String terminationStatus;
 
-    public static GetAllTerminatingContractResponse of(CustomerInfoResponse customerInfoResponse, Termination termination) {
+    public static TerminationResponse of(CustomerInfoResponse customerInfoResponse, Termination termination) {
         int id = termination.getId();
         int productId = termination.getProductId();
         Date applyDate = termination.getApplyDate();
         String terminationStatus = termination.getTerminationStatus().getText();
-        return new GetAllTerminatingContractResponse(id, customerInfoResponse, productId, applyDate, terminationStatus);
+        return new TerminationResponse(id, customerInfoResponse, productId, applyDate, terminationStatus);
     }
 }

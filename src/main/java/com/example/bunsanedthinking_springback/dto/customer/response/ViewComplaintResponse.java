@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllComplaintsByCustomerIdResponse {
+public class ViewComplaintResponse {
     private String type;
     private int id;
     private String title;
@@ -20,14 +20,14 @@ public class GetAllComplaintsByCustomerIdResponse {
     private Date processingDate;
     private String status;
 
-    public static GetAllComplaintsByCustomerIdResponse of(Complaint complaint) {
+    public static ViewComplaintResponse of(Complaint complaint) {
         String type = complaint.getComplaintType().getName();
         int complaintId = complaint.getId();
         String title = complaint.getTitle();
         String postDate = complaint.getPostDate();
         java.util.Date processingDate = complaint.getProcessingDate();
         String status = complaint.getProcessStatus().getText();
-        return new GetAllComplaintsByCustomerIdResponse(type, complaintId,
+        return new ViewComplaintResponse(type, complaintId,
                 title, postDate, processingDate, status);
     }
 }

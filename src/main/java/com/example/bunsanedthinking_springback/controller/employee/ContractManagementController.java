@@ -48,7 +48,7 @@ public class ContractManagementController {
 		contractManagementSModel.reviewRevival(revivalId, index);
 	}
 	@GetMapping("/getAllDefaultContract")
-	public List<GetAllDefaultContractResponse> getAllDefaultContract() throws NotExistContractException, NotExistException {
+	public List<DefaultContractResponse> getAllDefaultContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllDefaultContract();
 	}
 
@@ -63,7 +63,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getContractRowById")
-	public GetAllDefaultContractResponse getContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public DefaultContractResponse getContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getContractRowById(id);
 	}
 
@@ -73,7 +73,7 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getTerminationRowById")
-	public GetAllTerminatingContractResponse getTerminationRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public TerminationResponse getTerminationRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getTerminationRowById(id);
 	}
 
@@ -86,17 +86,17 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getAllTerminatingContract")
-	public List<GetAllTerminatingContractResponse> getAllTerminatingContract() throws NotExistContractException, NotExistException {
+	public List<TerminationResponse> getAllTerminatingContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllTerminatingContract();
 	}
 
 	@GetMapping("/getAllUnprocessedTerminatingContract")
-	public List<GetAllTerminatingContractResponse> getAllUnprocessedTerminatingContract() throws NotExistContractException, NotExistException {
+	public List<TerminationResponse> getAllUnprocessedTerminatingContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllUnprocessedTerminatingContract();
 	}
 
 	@GetMapping("/getAllProcessedTerminatingContract")
-	public List<GetAllTerminatingContractResponse> getAllProcessedTerminatingContract() throws NotExistContractException, NotExistException {
+	public List<TerminationResponse> getAllProcessedTerminatingContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllProcessedTerminatingContract();
 	}
 
@@ -106,22 +106,22 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getEndorsementRowById")
-	public GetAllEndorsementContractResponse getEndorsementRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public EndorsementResponse getEndorsementRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getEndorsementRowById(id);
 	}
 
 	@GetMapping("/getAllEndorsementContract")
-	public List<GetAllEndorsementContractResponse> getAllEndorsementContract() throws NotExistContractException, NotExistException {
+	public List<EndorsementResponse> getAllEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllEndorsementContract();
 	}
 
 	@GetMapping("/getAllUnprocessedEndorsementContract")
-	public List<GetAllEndorsementContractResponse> getAllUnprocessedEndorsementContract() throws NotExistContractException, NotExistException {
+	public List<EndorsementResponse> getAllUnprocessedEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllUnprocessedEndorsementContract();
 	}
 
 	@GetMapping("/getAllProcessedEndorsementContract")
-	public List<GetAllEndorsementContractResponse> getAllProcessedEndorsementContract() throws NotExistContractException, NotExistException {
+	public List<EndorsementResponse> getAllProcessedEndorsementContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllProcessedEndorsementContract();
 	}
 
@@ -131,22 +131,22 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getReContractRowById")
-	public GetAllReContractResponse getReContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public ReContractResponse getReContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getReContractRowById(id);
 	}
 
 	@GetMapping("/getAllReContract")
-	public List<GetAllReContractResponse> getAllReContract() throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllReContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllReContract();
 	}
 
 	@GetMapping("/getAllUnprocessedReContract")
-	public List<GetAllReContractResponse> getAllUnprocessedReContract() throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllUnprocessedReContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllUnprocessedReContract();
 	}
 
 	@GetMapping("/getAllProcessedReContract")
-	public List<GetAllReContractResponse> getAllProcessedReContract() throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllProcessedReContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllProcessedReContract();
 	}
 
@@ -156,22 +156,22 @@ public class ContractManagementController {
 	}
 
 	@GetMapping("/getRevivalRowById")
-	public GetAllRevivalContractResponse getRevivalRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public RevivalResponse getRevivalRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getRevivalRowById(id);
 	}
 
 	@GetMapping("/getAllRevivalContract")
-	public List<GetAllRevivalContractResponse> getAllRevivalContract() throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllRevivalContract() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllRevivalContract();
 	}
 
 	@GetMapping("/getAllUnprocessedRevival")
-	public List<GetAllRevivalContractResponse> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllUnprocessedRevival();
 	}
 
 	@GetMapping("/getAllProcessedRevival")
-	public List<GetAllRevivalContractResponse> getAllProcessedRevival() throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllProcessedRevival() throws NotExistContractException, NotExistException {
 		return contractManagementSModel.getAllProcessedRevival();
 	}
 }
