@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationDTO;
-import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationDTO;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.AddCustomerInformationRequest;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.UpdateCustomerInformationRequest;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -19,8 +19,8 @@ public class CustomerInformationManagementController {
 	private CustomerInformationManagementService customerInformationManagementSModel;
 
 	@PostMapping("/addCustomerInformation")
-	public void addCustomerInformation(@RequestBody AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
-		customerInformationManagementSModel.addCustomerInformation(addCustomerInformationDTO);
+	public void addCustomerInformation(@RequestBody AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
+		customerInformationManagementSModel.addCustomerInformation(addCustomerInformationRequest);
 	}
 
 	@DeleteMapping("/deleteCustomerInformation")
@@ -34,8 +34,8 @@ public class CustomerInformationManagementController {
 	}
 
 	@PatchMapping("/updateCustomerInformation")
-	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationDTO updateCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException, NotExistException{
-		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationDTO);
+	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationRequest updateCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException, NotExistException{
+		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationRequest);
 	}
 
 	@GetMapping("/getAll")

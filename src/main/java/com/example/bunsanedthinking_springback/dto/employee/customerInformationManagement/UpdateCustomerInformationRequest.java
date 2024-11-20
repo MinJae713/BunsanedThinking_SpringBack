@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UpdateCustomerInformationDTO {
+public class UpdateCustomerInformationRequest {
     private int index;
     private String input;
     private int id; // 고객 ID

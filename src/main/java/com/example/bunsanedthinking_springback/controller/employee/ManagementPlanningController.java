@@ -1,13 +1,14 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentDTO;
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentRequest;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/employee/managementPlanning")
@@ -17,8 +18,8 @@ public class ManagementPlanningController {
 	private ManagementPlanningService managementPlanningSModel;
 
 	@PostMapping("/addDepartment")
-	public void addDepartment(@RequestBody AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException {
-		managementPlanningSModel.addDepartment(addDepartmentDTO);
+	public void addDepartment(@RequestBody AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException {
+		managementPlanningSModel.addDepartment(addDepartmentRequest);
 	}
 
 	@DeleteMapping("/deleteDepartment")
@@ -32,8 +33,8 @@ public class ManagementPlanningController {
 	}
 
 	@PatchMapping("/updateDepartment")
-	public void updateDepartment(@RequestBody UpdateDepartmentDTO updateDepartmentDTO)
+	public void updateDepartment(@RequestBody UpdateDepartmentRequest updateDepartmentRequest)
 			throws DuplicateDepartmentException, NotExistException {
-		managementPlanningSModel.updateDepartment(updateDepartmentDTO);
+		managementPlanningSModel.updateDepartment(updateDepartmentRequest);
 	}
 }

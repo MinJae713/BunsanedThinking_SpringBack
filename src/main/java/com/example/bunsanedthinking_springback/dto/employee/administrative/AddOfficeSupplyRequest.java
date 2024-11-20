@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddOfficeSupplyDTO {
+public class AddOfficeSupplyRequest {
     private String name;
     private String description;
     private int inventory;

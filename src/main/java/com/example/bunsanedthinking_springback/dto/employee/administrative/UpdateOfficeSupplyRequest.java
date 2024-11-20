@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UpdateOfficeSupplyDTO {
+public class UpdateOfficeSupplyRequest {
     private int id;
     private int index;
     private String input;

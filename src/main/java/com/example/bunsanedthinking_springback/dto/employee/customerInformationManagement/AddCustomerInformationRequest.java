@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class AddCustomerInformationDTO {
+public class AddCustomerInformationRequest {
     private String name;
     private String phoneNumber;
     private String job;

@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyDTO;
-import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -19,8 +19,8 @@ public class AdministrativeController {
 	private AdministrativeService administrativeSModel;
 
 	@PostMapping("/addOfficeSupply")
-	public void addOfficeSupply(@RequestBody AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
-		administrativeSModel.addOfficeSupply(addOfficeSupplyDTO);
+	public void addOfficeSupply(@RequestBody AddOfficeSupplyRequest addOfficeSupplyRequest) throws DuplicateOfficeSupplyException {
+		administrativeSModel.addOfficeSupply(addOfficeSupplyRequest);
 	}
 
 	@DeleteMapping("/deleteOfficeSupply")
@@ -34,9 +34,9 @@ public class AdministrativeController {
 	}
 
 	@PatchMapping("/updateOfficeSupply")
-	public void updateOfficeSupply(@RequestBody UpdateOfficeSupplyDTO updateOfficeSupplyDTO)
+	public void updateOfficeSupply(@RequestBody UpdateOfficeSupplyRequest updateOfficeSupplyRequest)
 			throws NotExistException, DuplicateOfficeSupplyException {
-		administrativeSModel.updateOfficeSupply(updateOfficeSupplyDTO);
+		administrativeSModel.updateOfficeSupply(updateOfficeSupplyRequest);
 	}
 
 	@GetMapping("/getAll")
