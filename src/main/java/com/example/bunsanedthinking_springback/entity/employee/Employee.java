@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Employee implements Cloneable {
+public class Employee {
 
 	private String address;
 	private String bankAccount;

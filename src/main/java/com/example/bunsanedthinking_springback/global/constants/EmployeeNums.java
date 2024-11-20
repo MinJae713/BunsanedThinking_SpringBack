@@ -8,7 +8,7 @@ public class EmployeeNums {
 	public static final int CONTRACT_MANAGEMENT_SERIAL_NUMBER = 220;
 	public static final int CUSTOMER_INFORMATION_MANAGEMENT_SERIAL_NUMBER = 170;
 	public static final int CUSTOMER_SUPPORT_SERIAL_NUMBER = 140;
-	public static final int FINANCIAL_ACCOUNTANT_ACCOUNTANT_SERIAL_NUMBER = 110;
+	public static final int FINANCIAL_ACCOUNTANT_SERIAL_NUMBER = 110;
 	public static final int HUMANRESOURCE_SERIAL_NUMBER = 160;
 	public static final int LOAN_MANAGEMENT_SERIAL_NUMBER = 230;
 	public static final int MANAGEMENT_PLANNING_SERIAL_NUMBER = 150;

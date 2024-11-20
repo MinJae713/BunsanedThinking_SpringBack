@@ -202,7 +202,7 @@ public class CustomerService {
 			contractId, money, depositPath));
 	}
 
-	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
+	public Customer getCustomerById(int id) {
 		return customerEntityModel.getById(id);
 	}
 
