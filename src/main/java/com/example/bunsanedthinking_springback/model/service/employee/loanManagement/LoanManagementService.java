@@ -315,21 +315,18 @@ public class LoanManagementService {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
-			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
 			.map(contract -> new GetLoanRequestResponse(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
 			.toList();
-
 	}
 
 	public GetLoanRequestResponse getLoanRequest(int id) throws NotExistContractException {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null
-			|| !(contract.getProductId() + "").startsWith(loanProductSerial)
-			|| contract.getContractStatus() != ContractStatus.ContractRequesting) {
+			|| !(contract.getProductId() + "").startsWith(loanProductSerial)) {
 			throw new NotExistContractException();
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
@@ -342,5 +339,30 @@ public class LoanManagementService {
 		if (employee == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
 		return employee;
+	}
+
+	public List<GetLoanRequestResponse> getAllCompletedLoanRequest() {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		return contractEntityModel.getAll().stream()
+			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> contract.getContractStatus() != ContractStatus.ContractRequesting)
+			.map(contract -> new GetLoanRequestResponse(
+				loanEntityModel.getById(contract.getProductId()),
+				customerEntityModel.getById(contract.getCustomerID()),
+				contract))
+			.toList();
+	}
+
+	public List<GetLoanRequestResponse> getAllUnprocessedLoanRequest() {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		return contractEntityModel.getAll().stream()
+			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
+			.map(contract -> new GetLoanRequestResponse(
+				loanEntityModel.getById(contract.getProductId()),
+				customerEntityModel.getById(contract.getCustomerID()),
+				contract))
+			.toList();
+
 	}
 }
