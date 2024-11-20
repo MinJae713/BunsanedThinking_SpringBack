@@ -146,8 +146,8 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getContractById")
-	public Contract getContractById(@RequestParam int id, @RequestParam int customerId) throws NotExistContractException, NotExistException {
-		return customerSModel.getContractById(id, customerId);
+	public ManagementContractResponse getContractById(@RequestParam int id, @RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getContractRowById(id, customerId);
 	}
 
 	@GetMapping("/getContractRowById")
