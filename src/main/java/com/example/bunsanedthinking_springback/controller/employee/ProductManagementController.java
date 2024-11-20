@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.GetAllResponseResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
@@ -70,8 +70,23 @@ public class ProductManagementController {
 		productManagementSModel.updateAutomobileInsurance(index, input, id, serviceTypeList);
 	}
 
-	@GetMapping("/getAll")
-	public List<GetAllResponseResponse> getAll(){
-		return productManagementSModel.getAll();
+	@GetMapping("/getAllInsurance")
+	public List<ManageInsuranceProductResponse> getAllInsurance(){
+		return productManagementSModel.getAllInsurance();
+	}
+
+	@GetMapping("/getAllinJuryInsurance")
+	public List<ManageInsuranceProductResponse> getAllinJuryInsurance(){
+		return productManagementSModel.getAllinJuryInsurance();
+	}
+
+	@GetMapping("/getAllAutomobileInsurance")
+	public List<ManageInsuranceProductResponse> getAllAutomobileInsurance(){
+		return productManagementSModel.getAllAutomobileInsurance();
+	}
+
+	@GetMapping("/getAllDiseaseInsurance")
+	public List<ManageInsuranceProductResponse> getAllDiseaseInsurance(){
+		return productManagementSModel.getAllDiseaseInsurance();
 	}
 }

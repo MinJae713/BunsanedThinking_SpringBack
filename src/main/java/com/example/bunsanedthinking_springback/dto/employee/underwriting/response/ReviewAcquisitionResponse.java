@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetAllRequestingInsuranceResponse {
+public class ReviewAcquisitionResponse {
+	private Integer id;
 	private String name;
 	private String phoneNumber;
 	private String job;
@@ -25,8 +26,8 @@ public class GetAllRequestingInsuranceResponse {
 	private Integer productId;
 	private ContractStatus contractStatus;
 
-	public static GetAllRequestingInsuranceResponse from(Customer customer, Contract contract) {
-		return GetAllRequestingInsuranceResponse.builder().name(customer.getName()).phoneNumber(customer.getPhoneNumber()).job(customer.getJob())
+	public static ReviewAcquisitionResponse of(Customer customer, Contract contract) {
+		return ReviewAcquisitionResponse.builder().id(contract.getId()).name(customer.getName()).phoneNumber(customer.getPhoneNumber()).job(customer.getJob())
 			.age(customer.getAge()).gender(customer.getGender()).residentRegistrationNumber(customer.getResidentRegistrationNumber()).address(customer.getAddress())
 			.productId(contract.getProductId()).contractStatus(contract.getContractStatus()).build();
 	}

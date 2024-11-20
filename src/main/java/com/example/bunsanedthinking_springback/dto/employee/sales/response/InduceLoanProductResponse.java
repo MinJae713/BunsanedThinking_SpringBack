@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetAllLoanProductResponse {
+public class InduceLoanProductResponse {
 	private String name;
 	private LoanType loanType;
 	private Integer id;
 	private Integer interestRate;
 	private Integer maximumMoney;
 
-	public static GetAllLoanProductResponse of(Loan loan){
-		return GetAllLoanProductResponse.builder()
+	public static InduceLoanProductResponse from(Loan loan){
+		return InduceLoanProductResponse.builder()
 			.name(loan.getName())
 			.loanType(loan.getLoanType())
 			.id(loan.getId())
