@@ -121,23 +121,23 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getAllContractByCustomerId")
-	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(@RequestParam int id) throws NotExistContractException, NotExistException {
-		return customerSModel.getAllContractByCustomerId(id);
+	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(@RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getAllContractByCustomerId(customerId);
 	}
 
-	@GetMapping("/getAllAutomobileInsuranceContract")
-	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
-		return customerSModel.getAllAutomobileInsuranceContract();
+	@GetMapping("/getAllAutomobileContractByCustomerId")
+	public List<GetAllContractByCustomerIdResponse> getAllAutomobileContractByCustomerId(@RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getAllAutomobileContractByCustomerId(customerId);
 	}
 
-	@GetMapping("/getAllInjuryInsuranceContract")
-	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
-		return customerSModel.getAllInjuryInsuranceContract();
+	@GetMapping("/getAllInjuryContractByCustomerId")
+	public List<GetAllContractByCustomerIdResponse> getAllInjuryContractByCustomerId(@RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getAllInjuryContractByCustomerId(customerId);
 	}
 
-	@GetMapping("/getAllDiseaseInsuranceContract")
-	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
-		return customerSModel.getAllDiseaseInsuranceContract();
+	@GetMapping("/getAllDiseaseContractByCustomerId")
+	public List<GetAllContractByCustomerIdResponse> getAllDiseaseContractByCustomerId(@RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getAllDiseaseContractByCustomerId(customerId);
 	}
 
 	@GetMapping("/getAllContractByProductId")
@@ -146,13 +146,13 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getContractById")
-	public Contract getContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
-		return customerSModel.getContractById(id);
+	public Contract getContractById(@RequestParam int id, @RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getContractById(id, customerId);
 	}
 
 	@GetMapping("/getContractRowById")
-	public GetAllContractByCustomerIdResponse getContractRowById(@RequestParam int id) throws NotExistContractException, NotExistException {
-		return customerSModel.getContractRowById(id);
+	public GetAllContractByCustomerIdResponse getContractRowById(@RequestParam int id, @RequestParam int customerId) throws NotExistContractException, NotExistException {
+		return customerSModel.getContractRowById(id, customerId);
 	}
 
 	@GetMapping("/getContractByOneAutomobileId")
@@ -165,12 +165,12 @@ public class CustomerController {
 		return customerSModel.getAllAccidentByCustomerId(id);
     }
 	@GetMapping("/getAccidentById")
-	public Accident getAccidentById(@RequestParam int id) throws NotExistException {
-		return customerSModel.getAccidentById(id);
+	public Accident getAccidentById(@RequestParam int id, @RequestParam int customerId) throws NotExistException, IllegalArgumentException {
+		return customerSModel.getAccidentById(id, customerId);
 	}
 	@GetMapping("/getAccidentRowById")
-	public GetAllAccidentByCustomerIdResponse getAccidentRowById(@RequestParam int id) throws NotExistException {
-		return customerSModel.getAccidentRowById(id);
+	public GetAllAccidentByCustomerIdResponse getAccidentRowById(@RequestParam int id, @RequestParam int customerId) throws NotExistException, IllegalArgumentException {
+		return customerSModel.getAccidentRowById(id, customerId);
 	}
 	@GetMapping("/getAllComplaintsByCustomerId")
 	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(@RequestParam int id) throws NotExistException {
@@ -178,12 +178,12 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getComplaintById")
-	public Complaint getComplaintById(@RequestParam int id) throws NotExistException {
-		return customerSModel.getComplaintById(id);
+	public Complaint getComplaintById(@RequestParam int id, @RequestParam int customerId) throws NotExistException, IllegalArgumentException {
+		return customerSModel.getComplaintById(id, customerId);
 	}
 	@GetMapping("/getComplaintRowById")
-	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(@RequestParam int id) throws NotExistException {
-		return customerSModel.getComplaintRowById(id);
+	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(@RequestParam int id, @RequestParam int customerId) throws NotExistException, IllegalArgumentException {
+		return customerSModel.getComplaintRowById(id, customerId);
 	}
 	@PostMapping("/signUp")
 	public void signUp(@RequestBody SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {

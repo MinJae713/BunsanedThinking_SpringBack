@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllContractByCustomerIdResponse {
+    private int id;
     private String name;
     private String type;
     private int insuranceId;
@@ -21,6 +22,7 @@ public class GetAllContractByCustomerIdResponse {
     private String status;
 
     public static GetAllContractByCustomerIdResponse of(Contract contract, Insurance insurance) {
+        int id = contract.getId();
         String name = insurance.getName();
         String type = insurance.getInsuranceType().getName();
         int insuranceId = insurance.getId();
@@ -30,7 +32,7 @@ public class GetAllContractByCustomerIdResponse {
         String date = contract.getDate();
         int paymentDate = contract.getPaymentDate();
         String status = contract.getContractStatus().getText();
-        return new GetAllContractByCustomerIdResponse(name,
+        return new GetAllContractByCustomerIdResponse(id, name,
                 type, insuranceId, ageRange, monthlyPremium,
                 expirationDate, date, paymentDate, status);
     }

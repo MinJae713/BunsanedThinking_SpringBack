@@ -231,7 +231,9 @@ public class CustomerService {
 	}
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
-		return insuranceEntityModel.getById(id);
+		Insurance insurance = insuranceEntityModel.getById(id);
+		if (insurance == null) throw new NotExistException();
+		return insurance;
 	}
 
     public GetAllInsuranceResponse getInsuranceRowByProductId(int id) throws NotExistException {
@@ -263,11 +265,13 @@ public class CustomerService {
 	}
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
-		return loanEntityModel.getById(id);
+		Loan loan = loanEntityModel.getById(id);
+		if (loan == null) throw new NotExistException();
+		return loan;
 	}
 
-	public GetAllLoanReponse getLoanRowByProductId(int id) {
-		return GetAllLoanReponse.of(loanEntityModel.getById(id));
+	public GetAllLoanReponse getLoanRowByProductId(int id) throws NotExistException {
+		return GetAllLoanReponse.of(getLoanByProductId(id));
 	} // 추가
 
 	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
@@ -276,10 +280,10 @@ public class CustomerService {
 				e.getExpirationDate() != null).toList();
 	}
 
-	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(int id)
+	public List<GetAllContractByCustomerIdResponse> getAllContractByCustomerId(int customerId)
 			throws NotExistContractException, NotExistException {
 		return contractEntityModel.getAll().
-				stream().filter(e -> e.getCustomerID() == id)
+				stream().filter(e -> e.getCustomerID() == customerId)
 				.map(this::getOneContractByCustomerId)
 				.collect(Collectors.toList());
 	}
@@ -289,40 +293,56 @@ public class CustomerService {
 		if (!(product instanceof Insurance insurance)) return null;
 		return GetAllContractByCustomerIdResponse.of(contract, insurance);
 	}
-
-	public List<Contract> getAllAutomobileInsuranceContract() throws NotExistContractException, NotExistException {
-		List<Contract> result = new ArrayList<Contract>();
-		for (Automobile automobile : automobileEntityModel.getAll())
-            result.addAll(getAllContractByProductId(automobile.getId()));
+	public List<GetAllContractByCustomerIdResponse> getAllAutomobileContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == customerId).toList();
+		for (Contract contract : contracts) {
+			Automobile automobile = automobileEntityModel.getById(contract.getProductId());
+			if (automobile == null) continue;
+			result.add(GetAllContractByCustomerIdResponse.of(contract, automobile));
+		}
 		return result;
 	}
 
-	public List<Contract> getAllInjuryInsuranceContract() throws NotExistContractException, NotExistException {
-		List<Contract> result = new ArrayList<Contract>();
-		for (Injury injury : injuryEntityModel.getAll())
-			result.addAll(getAllContractByProductId(injury.getId()));
+	public List<GetAllContractByCustomerIdResponse> getAllInjuryContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == customerId).toList();
+		for (Contract contract : contracts) {
+			Injury injury = injuryEntityModel.getById(contract.getProductId());
+			if (injury == null) continue;
+			result.add(GetAllContractByCustomerIdResponse.of(contract, injury));
+		}
 		return result;
 	}
 
-	public List<Contract> getAllDiseaseInsuranceContract() throws NotExistContractException, NotExistException {
-		List<Contract> result = new ArrayList<Contract>();
-		for (Disease disease : diseaseEntityModel.getAll())
-			result.addAll(getAllContractByProductId(disease.getId()));
+	public List<GetAllContractByCustomerIdResponse> getAllDiseaseContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+		List<GetAllContractByCustomerIdResponse> result = new ArrayList<GetAllContractByCustomerIdResponse>();
+		List<Contract> contracts = contractEntityModel.getAll().
+				stream().filter(e -> e.getCustomerID() == customerId).toList();
+		for (Contract contract : contracts) {
+			Disease disease = diseaseEntityModel.getById(contract.getProductId());
+			if (disease == null) continue;
+			result.add(GetAllContractByCustomerIdResponse.of(contract, disease));
+		}
 		return result;
 	}
-
 	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
 		return contractEntityModel.getAll().stream().filter(e -> e.getProductId() == id).toList();
 	}
 
-	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		return contractEntityModel.getById(contractId);
+	public Contract getContractById(int id, int customerId) throws NotExistContractException, IllegalArgumentException {
+		Contract contract = contractEntityModel.getById(id);
+		if (contract == null) throw new NotExistContractException();
+		if (contract.getCustomerID() != customerId) throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
+		return contract;
 	}
 
-	public GetAllContractByCustomerIdResponse getContractRowById(int id) throws NotExistException {
-		Contract contract = contractEntityModel.getById(id);
+	public GetAllContractByCustomerIdResponse getContractRowById(int id, int customerId) throws NotExistContractException, IllegalArgumentException {
+		Contract contract = getContractById(id, customerId);
 		Product product = productEntityModel.getById(contract.getProductId());
-		if (!(product instanceof Insurance insurance)) throw new NotExistException();
+		if (!(product instanceof Insurance insurance)) throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
 		return GetAllContractByCustomerIdResponse.of(contract, insurance);
 	} // 추가
 
@@ -345,12 +365,18 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	} // 추가
 
-	public Accident getAccidentById(int id) throws NotExistException {
-		return accidentEntityModel.getById(id);
+	public Accident getAccidentById(int id, int customerId)
+			throws NotExistException, IllegalArgumentException {
+		Accident accident = accidentEntityModel.getById(id);
+		if (accident == null) throw new NotExistException();
+		if (accident.getCustomerID() != customerId)
+			throw new IllegalArgumentException("고객이 신청한 사고 내역이 아닙니다");
+		return accident;
 	}
 
-	public GetAllAccidentByCustomerIdResponse getAccidentRowById(int id) {
-		return GetAllAccidentByCustomerIdResponse.of(accidentEntityModel.getById(id));
+	public GetAllAccidentByCustomerIdResponse getAccidentRowById(int id, int customerId)
+			throws NotExistException, IllegalArgumentException {
+		return GetAllAccidentByCustomerIdResponse.of(getAccidentById(id, customerId));
 	} // 추가
 
 	public List<GetAllComplaintsByCustomerIdResponse> getAllComplaintsByCustomerId(int id)
@@ -361,11 +387,17 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	}
 
-	public Complaint getComplaintById(int id) throws NotExistException {
-		return complaintEntityModel.getById(id);
+	public Complaint getComplaintById(int id, int customerId)
+			throws NotExistException, IllegalArgumentException {
+		Complaint complaint = complaintEntityModel.getById(id);
+		if (complaint == null) throw new NotExistException();
+		if (complaint.getCustomerID() != customerId)
+			throw new IllegalArgumentException("고객이 신청한 민원 신청 내역이 아닙니다");
+		return complaint;
 	}
-	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(int id) {
-		return GetAllComplaintsByCustomerIdResponse.of(complaintEntityModel.getById(id));
+	public GetAllComplaintsByCustomerIdResponse getComplaintRowById(int id, int customerId)
+			throws NotExistException, IllegalArgumentException {
+		return GetAllComplaintsByCustomerIdResponse.of(getComplaintById(id, customerId));
 	} // 추가
 	public void signUp(SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
 		// 이거 고객 아이디를 직접 입력받나유...???
