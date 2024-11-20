@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentDTO;
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentDTO;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentRequest;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -20,9 +20,9 @@ public class ManagementPlanningService {
 	@Value("${serials.department}")
 	public int DEPARTMENT_SERIAL_NUMBER;
 
-	public void addDepartment(AddDepartmentDTO addDepartmentDTO) throws DuplicateDepartmentException{
+	public void addDepartment(AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()
-				.anyMatch(department -> department.getName().equals(addDepartmentDTO.getName()));
+				.anyMatch(department -> department.getName().equals(addDepartmentRequest.getName()));
 		if(isExistDepartmentName) {
 			throw new DuplicateDepartmentException();
 		}
@@ -31,10 +31,10 @@ public class ManagementPlanningService {
 		int id = NextIdGetter.getNextId(maxId, DEPARTMENT_SERIAL_NUMBER);
 
 		Department department = new Department(
-				addDepartmentDTO.getName(),
-				addDepartmentDTO.getTask(),
-				addDepartmentDTO.getPurpose(),
-				addDepartmentDTO.getHead_name()
+				addDepartmentRequest.getName(),
+				addDepartmentRequest.getTask(),
+				addDepartmentRequest.getPurpose(),
+				addDepartmentRequest.getHead_name()
 		);
 		department.setId(id);
 		departmentEntityModel.add(department);
@@ -56,11 +56,11 @@ public class ManagementPlanningService {
 		return department;
 	}
 
-	public void updateDepartment(UpdateDepartmentDTO updateDepartmentDTO)
+	public void updateDepartment(UpdateDepartmentRequest updateDepartmentRequest)
 			throws DuplicateDepartmentException, NotExistException {
-		int id = updateDepartmentDTO.getId();
-		int index = updateDepartmentDTO.getIndex();
-		String input = updateDepartmentDTO.getInput();
+		int id = updateDepartmentRequest.getId();
+		int index = updateDepartmentRequest.getIndex();
+		String input = updateDepartmentRequest.getInput();
 		Department department = departmentEntityModel.getById(id);
 		if (department == null){
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");

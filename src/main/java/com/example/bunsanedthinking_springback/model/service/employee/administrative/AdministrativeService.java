@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.employee.administrative;
 
-import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyDTO;
-import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyDTO;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -23,9 +23,9 @@ public class AdministrativeService {
 	@Value("${serials.officesupply}")
 	public int OFFICESUPPLY_SERIAL_NUMBER;
 
-	public void addOfficeSupply(AddOfficeSupplyDTO addOfficeSupplyDTO) throws DuplicateOfficeSupplyException {
+	public void addOfficeSupply(AddOfficeSupplyRequest addOfficeSupplyRequest) throws DuplicateOfficeSupplyException {
 		boolean isExistOfficeSupplyName = officeSupplyEntityModel.getAll().stream()
-				.anyMatch(officeSupply -> officeSupply.getName().equals(addOfficeSupplyDTO.getName()));
+				.anyMatch(officeSupply -> officeSupply.getName().equals(addOfficeSupplyRequest.getName()));
 
 		if (isExistOfficeSupplyName) {
 			throw new DuplicateOfficeSupplyException();
@@ -36,11 +36,11 @@ public class AdministrativeService {
 
 		OfficeSupply officeSupply = new OfficeSupply(
 				id,
-				addOfficeSupplyDTO.getInventory(),
-				addOfficeSupplyDTO.getName(),
-				addOfficeSupplyDTO.getTotal_inventory(),
-				addOfficeSupplyDTO.getDescription(),
-				addOfficeSupplyDTO.getDepartment_id()
+				addOfficeSupplyRequest.getInventory(),
+				addOfficeSupplyRequest.getName(),
+				addOfficeSupplyRequest.getTotal_inventory(),
+				addOfficeSupplyRequest.getDescription(),
+				addOfficeSupplyRequest.getDepartment_id()
 		);
 		officeSupplyEntityModel.add(officeSupply);
 	}
@@ -61,11 +61,11 @@ public class AdministrativeService {
 		return officeSupply;
 	}
 
-	public void updateOfficeSupply(UpdateOfficeSupplyDTO updateOfficeSupplyDTO)
+	public void updateOfficeSupply(UpdateOfficeSupplyRequest updateOfficeSupplyRequest)
 			throws NotExistException, DuplicateOfficeSupplyException{
-		int id = updateOfficeSupplyDTO.getId();
-		int index = updateOfficeSupplyDTO.getIndex();
-		String input = updateOfficeSupplyDTO.getInput();
+		int id = updateOfficeSupplyRequest.getId();
+		int index = updateOfficeSupplyRequest.getIndex();
+		String input = updateOfficeSupplyRequest.getInput();
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
 			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");

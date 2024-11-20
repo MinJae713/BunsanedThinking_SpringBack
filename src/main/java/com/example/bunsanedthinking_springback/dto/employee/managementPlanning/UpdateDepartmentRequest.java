@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UpdateDepartmentDTO {
+public class UpdateDepartmentRequest {
     private int index;
     private String input;
     private int id;

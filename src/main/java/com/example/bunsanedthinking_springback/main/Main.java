@@ -250,7 +250,7 @@ public class Main {
 	//		} catch (NotExistException e) {
 	//			System.out.println("해당하는 사고 " + e.getMessage());
 	//			return;
-	//		}
+	//		}GetReport
 	//		System.out.print("손해 예상 금액: ");
 	//		try {
 	//			input = scanner.next();

@@ -44,10 +44,10 @@ public class CustomerInformationManagementService {
 	@Value("${serials.diseaseHistory}")
 	public int DISEASE_HISTORY_SERIAL_NUMBER;
 
-	public void addCustomerInformation(AddCustomerInformationDTO addCustomerInformationDTO) throws DuplicateResidentRegistrationNumberException {
+	public void addCustomerInformation(AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
 
 		boolean isExistCustomerResidentRegistrationNumber = customerEntityModel.getAll().stream()
-				.anyMatch(customer -> customer.getResidentRegistrationNumber().equals(addCustomerInformationDTO.getResidentRegistrationNumber()));
+				.anyMatch(customer -> customer.getResidentRegistrationNumber().equals(addCustomerInformationRequest.getResidentRegistrationNumber()));
 		if(isExistCustomerResidentRegistrationNumber)
 			throw new DuplicateResidentRegistrationNumberException();
 
@@ -55,26 +55,26 @@ public class CustomerInformationManagementService {
 		int id = NextIdGetter.getNextId(maxId, CUSTOMER_SERIAL_NUMBER);
 
 		Customer customer = new Customer(
-				addCustomerInformationDTO.getName(),
-				addCustomerInformationDTO.getPhoneNumber(),
-				addCustomerInformationDTO.getJob(),
-				addCustomerInformationDTO.getAge(),
-				Gender.fromInt(addCustomerInformationDTO.getGender()),
-				addCustomerInformationDTO.getResidentRegistrationNumber(),
-				addCustomerInformationDTO.getAddress(),
-				addCustomerInformationDTO.getProperty(),
-				addCustomerInformationDTO.getBankName(),
-				addCustomerInformationDTO.getBankAccount()
+				addCustomerInformationRequest.getName(),
+				addCustomerInformationRequest.getPhoneNumber(),
+				addCustomerInformationRequest.getJob(),
+				addCustomerInformationRequest.getAge(),
+				Gender.fromInt(addCustomerInformationRequest.getGender()),
+				addCustomerInformationRequest.getResidentRegistrationNumber(),
+				addCustomerInformationRequest.getAddress(),
+				addCustomerInformationRequest.getProperty(),
+				addCustomerInformationRequest.getBankName(),
+				addCustomerInformationRequest.getBankAccount()
 		);
 		customer.setId(id);
 		// VO를 DB에 추가
 		customerEntityModel.add(customer);
 
-		if (addCustomerInformationDTO.getAccidentHistoryList() != null) {
+		if (addCustomerInformationRequest.getAccidentHistoryList() != null) {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
 			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 
-			for (UpdateAccidentHistoryDTO e : addCustomerInformationDTO.getAccidentHistoryList()) {
+			for (UpdateAccidentHistoryDTO e : addCustomerInformationRequest.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 
@@ -92,11 +92,11 @@ public class CustomerInformationManagementService {
 			}
 		}
 
-		if (addCustomerInformationDTO.getSurgeryHistoryList() != null) {
+		if (addCustomerInformationRequest.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
 			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, SURGERY_HISTORY_SERIAL_NUMBER);
 
-			for (UpdateSurgeryHistoryDTO e : addCustomerInformationDTO.getSurgeryHistoryList()) {
+			for (UpdateSurgeryHistoryDTO e : addCustomerInformationRequest.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -115,11 +115,11 @@ public class CustomerInformationManagementService {
 			}
 		}
 
-		if (addCustomerInformationDTO.getDiseaseHistoryList() != null) {
+		if (addCustomerInformationRequest.getDiseaseHistoryList() != null) {
 			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
 			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, DISEASE_HISTORY_SERIAL_NUMBER);
 
-			for (UpdateDiseaseHistoryDTO e : addCustomerInformationDTO.getDiseaseHistoryList()) {
+			for (UpdateDiseaseHistoryDTO e : addCustomerInformationRequest.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 
@@ -154,11 +154,11 @@ public class CustomerInformationManagementService {
 		return customer;
 	}
 
-	public void updateCustomerInformation(UpdateCustomerInformationDTO updateCustomerInformationDTO)
+	public void updateCustomerInformation(UpdateCustomerInformationRequest updateCustomerInformationRequest)
 			throws NotExistException{
-		int id = updateCustomerInformationDTO.getId();
-		int index = updateCustomerInformationDTO.getIndex();
-		String input = updateCustomerInformationDTO.getInput();
+		int id = updateCustomerInformationRequest.getId();
+		int index = updateCustomerInformationRequest.getIndex();
+		String input = updateCustomerInformationRequest.getInput();
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");

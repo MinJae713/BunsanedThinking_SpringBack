@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddDepartmentDTO {
+public class AddDepartmentRequest {
     private String head_name;
     private String name;
     private String purpose;
