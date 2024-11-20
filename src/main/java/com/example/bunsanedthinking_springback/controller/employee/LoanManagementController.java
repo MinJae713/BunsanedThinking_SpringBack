@@ -93,4 +93,14 @@ public class LoanManagementController {
 		NotExistContractException, NotExistException {
 		return loanManagementService.getOutcome(contractId);
 	}
+
+	@GetMapping("/getAllCompletedLoanRequest")
+	public List<GetLoanRequestResponse> getAllCompletedLoanRequest() {
+		return loanManagementService.getAllCompletedLoanRequest();
+	}
+
+	@GetMapping("/getAllUnprocessedLoanRequest")
+	public List<GetLoanRequestResponse> getAllUnprocessedLoanRequest() {
+		return loanManagementService.getAllUnprocessedLoanRequest();
+	}
 }
