@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
@@ -53,6 +54,11 @@ public class ProductManagementController {
 	@GetMapping("/getInsuranceProduct")
 	public Insurance getInsuranceProduct(int id) throws NotExistException {
 		return productManagementSModel.getInsuranceProduct(id);
+	}
+
+	@GetMapping("/getInsuranceProductDetail")
+	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		return productManagementSModel.getInsuranceProductDetail(id);
 	}
 
 	@PatchMapping("/updateDiseaseInsurance")

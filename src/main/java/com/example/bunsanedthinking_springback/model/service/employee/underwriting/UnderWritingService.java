@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
@@ -85,8 +86,13 @@ public class UnderWritingService {
 		return customerEntityModel.getById(id);
 	}
 
-	public Contract getContract(int id) {
-		return contractEntityModel.getById(id);
+	public ReviewAcquisitionDetailResponse getContractDetail(int id) {
+		Contract contract = contractEntityModel.getById(id);
+		return ReviewAcquisitionDetailResponse.of(customerEntityModel.getById(contract.getCustomerID()),contract);
 	}
 
+	public ReviewAcquisitionResponse getContract(int id) {
+		Contract contract = contractEntityModel.getById(id);
+		return ReviewAcquisitionResponse.of(customerEntityModel.getById(contract.getCustomerID()),contract);
+	}
 }

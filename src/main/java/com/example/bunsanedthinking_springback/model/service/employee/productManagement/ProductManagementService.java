@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductInjuryDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
@@ -316,5 +320,16 @@ public class ProductManagementService {
 	public List<ManageInsuranceProductResponse> getAllDiseaseInsurance() {
 		List<Disease> diseases = diseaseEntityModel.getAll();
 		return diseases.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
+	}
+
+	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		Insurance insurance = insuranceEntityModel.getById(id);
+		if(insurance instanceof Injury)
+			return ManageInsuranceProductInjuryDetailResponse.from((Injury)insurance);
+		else if (insurance instanceof Disease)
+			return ManageInsuranceProductDiseaseDetailResponse.from((Disease)insurance);
+		else if (insurance instanceof Automobile)
+			return ManageInsuranceProductAutomobileDetailResponse.from((Automobile)insurance);
+		throw new NotExistException();
 	}
 }

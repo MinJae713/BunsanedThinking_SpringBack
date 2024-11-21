@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -43,8 +44,13 @@ public class UnderWritingController {
 	}
 
 	@GetMapping("/getContract")
-	public Contract getContract(int id){
+	public ReviewAcquisitionResponse getContract(int id){
 		return underWritingSModel.getContract(id);
+	}
+
+	@GetMapping("/getContractDetail")
+	public ReviewAcquisitionDetailResponse getContractDetail(int id){
+		return underWritingSModel.getContractDetail(id);
 	}
 
 	@GetMapping("/getAllContract")
