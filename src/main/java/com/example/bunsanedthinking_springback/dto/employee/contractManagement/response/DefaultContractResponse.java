@@ -3,16 +3,20 @@ package com.example.bunsanedthinking_springback.dto.employee.contractManagement.
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DefaultContractResponse {
-    private int id;
-    private CustomerInfoResponse customerInfoResponse;
-    private int productId;
-    private String lastPaidDate;
+public class DefaultContractResponse extends AbstractContractResponse {
+    private String lastPaidDate; // 납부 날짜
+
+    public DefaultContractResponse(int id, CustomerInfoResponse customerInfoResponse, int productId, String lastPaidDate) {
+        super(id, customerInfoResponse, productId);
+        this.lastPaidDate = lastPaidDate;
+    }
 
     public static DefaultContractResponse of(CustomerInfoResponse customerInfoResponse, Contract contract) {
         int id = contract.getId();

@@ -154,24 +154,16 @@ public class ContractManagementService {
 		return customerEntityModel.getById(id);
 	}
 
-	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		return contractEntityModel.getById(contractId);
-	}
-
-	public DefaultContractResponse getContractRowById(int id) throws NotExistContractException, NotExistException {
-		Contract contract = getContractById(id);
+	public DefaultContractResponse getContractById(int contractId) throws NotExistContractException, NotExistException {
+		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = getCustomerById(contract.getCustomerID());
 		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
 		return DefaultContractResponse.of(customerInfoResponse, contract);
 	}
 
-	public Termination getTerminationById(int id) throws NotExistException, NotExistContractException {
-        return terminationEntityModel.getById(id);
-	}
-
-	public TerminationResponse getTerminationRowById(int id) throws NotExistContractException, NotExistException {
-		Termination termination = getTerminationById(id);
+	public TerminationResponse getTerminationById(int id) throws NotExistException, NotExistContractException {
+		Termination termination = terminationEntityModel.getById(id);
 		if (termination == null) throw new NotExistContractException();
 		Customer customer = getCustomerById(termination.getCustomerID());
 		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
@@ -179,7 +171,7 @@ public class ContractManagementService {
 	}
 
 	public Termination getTerminatingContractById(int id) throws NotExistContractException, NotExistException {
-		return getTerminationById(id);
+		return terminationEntityModel.getById(id);
 	}
 
 	public List<TerminationResponse> getAllTerminatingContract()
@@ -212,12 +204,8 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public Endorsement getEndorsementById(int id) throws NotExistException, NotExistContractException {
-		return endorsementEntityModel.getById(id);
-	}
-
-	public EndorsementResponse getEndorsementRowById(int id) throws NotExistContractException, NotExistException {
-		Endorsement endorsement = getEndorsementById(id);
+	public EndorsementResponse getEndorsementById(int id) throws NotExistException, NotExistContractException {
+		Endorsement endorsement = endorsementEntityModel.getById(id);
 		if (endorsement == null) throw new NotExistContractException();
 		Customer customer = getCustomerById(endorsement.getCustomerID());
 		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
@@ -254,12 +242,8 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public Recontract getReContractById(int id) throws NotExistException, NotExistContractException {
-		return recontractEntityModel.getById(id);
-	}
-
-	public ReContractResponse getReContractRowById(int id) throws NotExistContractException, NotExistException {
-		Recontract recontract = getReContractById(id);
+	public ReContractResponse getReContractById(int id) throws NotExistException, NotExistContractException {
+		Recontract recontract = recontractEntityModel.getById(id);
 		if (recontract == null) throw new NotExistContractException();
 		Customer customer = getCustomerById(recontract.getCustomerID());
 		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);
@@ -295,12 +279,8 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public Revival getRevivalById(int id) throws NotExistException, NotExistContractException {
-		return revivalEntityModel.getById(id);
-	}
-
-	public RevivalResponse getRevivalRowById(int id) throws NotExistContractException, NotExistException {
-		Revival revival = getRevivalById(id);
+	public RevivalResponse getRevivalById(int id) throws NotExistException, NotExistContractException {
+		Revival revival = revivalEntityModel.getById(id);
 		if (revival == null) throw new NotExistContractException();
 		Customer customer = getCustomerById(revival.getCustomerID());
 		CustomerInfoResponse customerInfoResponse = CustomerInfoResponse.from(customer);

@@ -1,13 +1,13 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
+import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ����ȯ
@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class SurgeryHistory implements Cloneable {
 
 	private int customerID;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date date;
 	private String hospitalName;
 	private int id;

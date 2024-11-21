@@ -3,17 +3,22 @@ package com.example.bunsanedthinking_springback.dto.employee.contractManagement.
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RevivalResponse {
-    private int id;
-    private CustomerInfoResponse customerInfoResponse;
-    private int productId;
-    private String terminationDate;
-    private String revivalStatus;
+public class RevivalResponse extends AbstractContractResponse {
+    private String terminationDate; // 정지 날짜
+    private String revivalStatus; // 심사 상태
+
+    public RevivalResponse(int id, CustomerInfoResponse customerInfoResponse, int productId, String terminationDate, String revivalStatus) {
+        super(id, customerInfoResponse, productId);
+        this.terminationDate = terminationDate;
+        this.revivalStatus = revivalStatus;
+    }
 
     public static RevivalResponse of(CustomerInfoResponse customerInfoResponse, Revival revival) {
         int id = revival.getId();
