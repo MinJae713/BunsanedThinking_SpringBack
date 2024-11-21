@@ -83,6 +83,11 @@ public class CustomerSupportController {
 		return customerSupportService.getAllCompletedAccident();
 	}
 
+	@GetMapping("/getAllProcessingAccident")
+	public List<Accident> getAllProcessingAccident() {
+		return customerSupportService.getAllProcessingAccident();
+	}
+
 	@GetMapping("/getAccident")
 	public Accident getAccident(@RequestParam("accidentId") int accidentId) throws NotExistException {
 		return customerSupportService.getAccident(accidentId);
