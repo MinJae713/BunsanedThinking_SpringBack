@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse;
+package com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse;
 
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public abstract class ManageInsuranceProductDetailResponse {
+public abstract class InduceInsuranceProductDetailResponse {
 	protected Integer id;
 	protected String name;
 	protected InsuranceType insuranceType;

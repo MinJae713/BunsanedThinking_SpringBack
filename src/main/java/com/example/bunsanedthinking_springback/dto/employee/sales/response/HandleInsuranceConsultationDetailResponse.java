@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HandleInsuranceConsultationResponse {
+public class HandleInsuranceConsultationDetailResponse {
 	private Integer id;
 	private String name;
 	private String phoneNumber;
@@ -24,15 +24,19 @@ public class HandleInsuranceConsultationResponse {
 	private Date counselDate;
 	private Gender gender;
 	private CounselProcessStatus processStatus;
+	private String job;
+	private Integer age;
 
-	public static HandleInsuranceConsultationResponse from(Counsel counsel) {
-		return HandleInsuranceConsultationResponse.builder()
+	public static HandleInsuranceConsultationDetailResponse from(Counsel counsel) {
+		return HandleInsuranceConsultationDetailResponse.builder()
 			.id(counsel.getId())
 			.name(counsel.getName())
 			.phoneNumber(counsel.getPhoneNumber())
 			.counselDate(counsel.getCounselDate())
 			.gender(counsel.getGender())
 			.processStatus(counsel.getProcessStatus())
+			.job(counsel.getJob())
+			.age(counsel.getAge())
 			.build();
 	}
 }
