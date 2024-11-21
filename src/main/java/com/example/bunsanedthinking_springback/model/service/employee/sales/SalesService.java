@@ -12,14 +12,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductInjuryDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceAccidentHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceSurgeryHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductAutomobileDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDiseaseDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductInjuryDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductCollateralDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductFixedDepositDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductInsuranceContractDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -41,6 +54,7 @@ import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
@@ -233,8 +247,12 @@ public class SalesService {
 		return employeeEntityModel.getById(id);
 	}
 
-	public Sales getSales(int id) {
-		return salesEntityModel.getById(id);
+	public EvaluateSalesPerformanceResponse getSales(int id) {
+		return EvaluateSalesPerformanceResponse.from(salesEntityModel.getById(id));
+	}
+
+	public EvaluateSalesPerformanceDetailResponse getSalesDetail(int id) {
+		return EvaluateSalesPerformanceDetailResponse.from(salesEntityModel.getById(id));
 	}
 
 	public List<HandleInsuranceConsultationResponse> getAllCounsel() {
@@ -245,6 +263,11 @@ public class SalesService {
 	public HandleInsuranceConsultationResponse getCounsel(int id) {
 		Counsel counsel = counselEntityModel.getById(id);
 		return HandleInsuranceConsultationResponse.from(counsel);
+	}
+
+	public HandleInsuranceConsultationDetailResponse getCounselDetail(int id) {
+		Counsel counsel = counselEntityModel.getById(id);
+		return HandleInsuranceConsultationDetailResponse.from(counsel);
 	}
 
 	public List<InduceLoanProductResponse> getAllLoanProduct() {
@@ -327,5 +350,27 @@ public class SalesService {
 	public List<HandleInsuranceConsultationResponse> getAllUnprocessedCounsel() {
 		List<Counsel> counsels =  counselEntityModel.getAllUnprocessed();
 		return counsels.stream().map(HandleInsuranceConsultationResponse::from).collect(Collectors.toList());
+	}
+
+	public InduceInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		Insurance insurance = insuranceEntityModel.getById(id);
+		if(insurance instanceof Injury)
+			return InduceInsuranceProductInjuryDetailResponse.from((Injury)insurance);
+		else if (insurance instanceof Disease)
+			return InduceInsuranceProductDiseaseDetailResponse.from((Disease)insurance);
+		else if (insurance instanceof Automobile)
+			return InduceInsuranceProductAutomobileDetailResponse.from((Automobile)insurance);
+		throw new NotExistException();
+	}
+
+	public InduceLoanProductDetailResponse getLoanProductDetail(int id) throws NotExistException {
+		Loan loan = loanEntityModel.getById(id);
+		if(loan instanceof Collateral)
+			return InduceLoanProductCollateralDetailResponse.from((Collateral)loan);
+		else if (loan instanceof FixedDeposit)
+			return InduceLoanProductFixedDepositDetailResponse.from((FixedDeposit)loan);
+		else if (loan instanceof InsuranceContract)
+			return InduceLoanProductInsuranceContractDetailResponse.from((InsuranceContract)loan);
+		throw new NotExistException();
 	}
 }

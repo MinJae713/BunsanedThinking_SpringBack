@@ -12,21 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.Sales;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
 
 @RestController
@@ -60,9 +58,19 @@ public class SalesController {
 		return salesSModel.getInsuranceProduct(id);
 	}
 
+	@GetMapping("/getInsuranceProductDetail")
+	public InduceInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		return salesSModel.getInsuranceProductDetail(id);
+	}
+
 	@GetMapping("/getLoanProduct")
 	public InduceLoanProductResponse getLoanProduct(int id) {
 		return salesSModel.getLoanProduct(id);
+	}
+
+	@GetMapping("/getLoanProductDetail")
+	public InduceLoanProductDetailResponse getLoanProductDetail(int id) throws NotExistException {
+		return salesSModel.getLoanProductDetail(id);
 	}
 
 	@GetMapping("/getAllSales")
@@ -76,8 +84,13 @@ public class SalesController {
 	}
 
 	@GetMapping("/getSales")
-	public Sales getSales(int id) {
+	public EvaluateSalesPerformanceResponse getSales(int id) {
 		return salesSModel.getSales(id);
+	}
+
+	@GetMapping("/getSalesDetail")
+	public EvaluateSalesPerformanceDetailResponse getSalesDetail(int id) {
+		return salesSModel.getSalesDetail(id);
 	}
 
 	@GetMapping("/getAllCounsel")
@@ -88,6 +101,11 @@ public class SalesController {
 	@GetMapping("/getCounsel")
 	public HandleInsuranceConsultationResponse getCounsel(int id) {
 		return salesSModel.getCounsel(id);
+	}
+
+	@GetMapping("/getCounselDetail")
+	public HandleInsuranceConsultationDetailResponse getCounselDetail(int id) {
+		return salesSModel.getCounselDetail(id);
 	}
 
 	@GetMapping("/getAllCompletedCounsel")

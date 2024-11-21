@@ -19,7 +19,7 @@ public class ManageInsuranceProductInjuryDetailResponse extends ManageInsuranceP
 	private Integer surgeriesLimit;
 
 	public static ManageInsuranceProductDetailResponse from(Injury injury){
-		return ManageInsuranceProductInjuryDetailResponse.builder().name(injury.getName()).insuranceType(injury.getInsuranceType())
+		return ManageInsuranceProductInjuryDetailResponse.builder().id(injury.getId()).name(injury.getName()).insuranceType(injury.getInsuranceType())
 			.ageRange(injury.getAgeRange()).coverage(injury.getCoverage()).monthlyPremium(injury.getMonthlyPremium())
 			.contractPeriod(injury.getContractPeriod()).injuryType(injury.getInjuryType()).surgeriesLimit(injury.getSurgeriesLimit()).build();
 	}
