@@ -21,6 +21,6 @@ public class ManageInsuranceProductAutomobileDetailResponse extends ManageInsura
 		return ManageInsuranceProductAutomobileDetailResponse.builder().id(automobile.getId()).name(automobile.getName()).insuranceType(automobile.getInsuranceType())
 			.ageRange(automobile.getAgeRange()).coverage(automobile.getCoverage()).monthlyPremium(automobile.getMonthlyPremium())
 			.contractPeriod(automobile.getContractPeriod()).accidentLimit(automobile.getAccidentLimit())
-			.vehicleType(automobile.getVehicleType()).serviceTypes(automobile.getServiceList()).build();
+			.vehicleType(automobile.getVehicleType()).serviceTypes(automobile.getServiceList()).maximumMoney(automobile.getMaximumMoney()).build();
 	}
 }

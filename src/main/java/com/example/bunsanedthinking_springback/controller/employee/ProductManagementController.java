@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateAutomobileInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateDiseaseInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateInjuryInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
@@ -62,18 +65,18 @@ public class ProductManagementController {
 	}
 
 	@PatchMapping("/updateDiseaseInsurance")
-	public void updateDiseaseInsurance(int index, String input,int id) throws DuplicateInsuranceException{
-		productManagementSModel.updateDiseaseInsurance(index, input, id);
+	public void updateDiseaseInsurance(@RequestBody UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateDiseaseInsurance(updateDiseaseInsuranceRequest);
 	}
 
 	@PatchMapping("/updateInjuryInsurance")
-	public void updateInjuryInsurance(int index, String input,int id) throws DuplicateInsuranceException{
-		productManagementSModel.updateInjuryInsurance(index, input, id);
+	public void updateInjuryInsurance(@RequestBody UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateInjuryInsurance(updateInjuryInsuranceRequest);
 	}
 
 	@PatchMapping("/updateAutomobileInsurance")
-	public void updateAutomobileInsurance(@RequestParam int index,@RequestParam String input,@RequestParam int id,@RequestBody(required = false) ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException{
-		productManagementSModel.updateAutomobileInsurance(index, input, id, serviceTypeList);
+	public void updateAutomobileInsurance(@RequestBody UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateAutomobileInsurance(updateAutomobileInsuranceRequest);
 	}
 
 	@GetMapping("/getAllInsurance")

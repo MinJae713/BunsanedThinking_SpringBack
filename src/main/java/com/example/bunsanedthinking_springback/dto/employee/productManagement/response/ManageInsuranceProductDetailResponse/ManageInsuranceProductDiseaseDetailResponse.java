@@ -17,6 +17,7 @@ public class ManageInsuranceProductDiseaseDetailResponse extends ManageInsurance
 		return ManageInsuranceProductDiseaseDetailResponse.builder().id(disease.getId()).name(disease.getName()).insuranceType(disease.getInsuranceType())
 			.ageRange(disease.getAgeRange()).coverage(disease.getCoverage()).monthlyPremium(disease.getMonthlyPremium())
 			.contractPeriod(disease.getContractPeriod()).diseaseLimit(disease.getDiseaseLimit())
-			.diseaseName(disease.getDiseaseName()).surgeriesLimit(disease.getSurgeriesLimit()).build();
+			.diseaseName(disease.getDiseaseName()).surgeriesLimit(disease.getSurgeriesLimit())
+			.maximumMoney(disease.getMaximumMoney()).build();
 	}
 }

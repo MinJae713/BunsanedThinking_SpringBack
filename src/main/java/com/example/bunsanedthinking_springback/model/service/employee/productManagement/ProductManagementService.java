@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateAutomobileInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateDiseaseInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateInjuryInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
@@ -60,7 +63,8 @@ public class ProductManagementService {
 	@Value("${serials.insurance}")
 	private Integer INSURANCE_SERIAL_NUMBER;
 
-	public void addDiseaseInsurance(AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws DuplicateInsuranceException {
+	public void addDiseaseInsurance(AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws
+		DuplicateInsuranceException {
 
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addDiseaseInsuranceRequest.getName())) {
@@ -68,13 +72,14 @@ public class ProductManagementService {
 			}
 		}
 
-		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
+			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Disease disease = new Disease();
 		disease.setId(insuranceId);
 		disease.setName(addDiseaseInsuranceRequest.getName());
 		disease.setMaximumMoney(addDiseaseInsuranceRequest.getMaximumMoney());
-		disease.setInsuranceType(InsuranceType.fromInt(addDiseaseInsuranceRequest.getInsuranceType()));
+		disease.setInsuranceType(addDiseaseInsuranceRequest.getInsuranceType());
 		disease.setMonthlyPremium(addDiseaseInsuranceRequest.getMonthlyPremium());
 		disease.setContractPeriod(addDiseaseInsuranceRequest.getContractPeriod());
 		disease.setCoverage(addDiseaseInsuranceRequest.getCoverage());
@@ -86,51 +91,55 @@ public class ProductManagementService {
 		diseaseEntityModel.add(disease);
 	}
 
-	public void addInjuryInsurance(AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws DuplicateInsuranceException {
+	public void addInjuryInsurance(AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws
+		DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addInjuryInsuranceRequest.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
 
-		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
+			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Injury injury = new Injury();
 		injury.setId(insuranceId);
 		injury.setName(addInjuryInsuranceRequest.getName());
 		injury.setMaximumMoney(addInjuryInsuranceRequest.getMaximumMoney());
-		injury.setInsuranceType(InsuranceType.fromInt(addInjuryInsuranceRequest.getInsuranceType()));
+		injury.setInsuranceType(addInjuryInsuranceRequest.getInsuranceType());
 		injury.setMonthlyPremium(addInjuryInsuranceRequest.getMonthlyPremium());
 		injury.setContractPeriod(addInjuryInsuranceRequest.getContractPeriod());
 		injury.setCoverage(addInjuryInsuranceRequest.getCoverage());
 
-		injury.setInjuryType(InjuryType.fromInt(addInjuryInsuranceRequest.getInjuryType()));
+		injury.setInjuryType(addInjuryInsuranceRequest.getInjuryType());
 		injury.setSurgeriesLimit(addInjuryInsuranceRequest.getSurgeriesLimit());
 
 		injuryEntityModel.add(injury);
 	}
 
-	public void addAutomobileInsurance(AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws DuplicateInsuranceException {
+	public void addAutomobileInsurance(AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws
+		DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addAutomobileInsuranceRequest.getName())) {
 				throw new DuplicateInsuranceException();
 			}
 		}
 
-		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(), Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
+			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
 
 		Automobile automobile = new Automobile();
 		automobile.setId(insuranceId);
 		automobile.setName(addAutomobileInsuranceRequest.getName());
 		automobile.setMaximumMoney(addAutomobileInsuranceRequest.getMaximumMoney());
-		automobile.setInsuranceType(InsuranceType.fromInt(addAutomobileInsuranceRequest.getInsuranceType()));
+		automobile.setInsuranceType(addAutomobileInsuranceRequest.getInsuranceType());
 		automobile.setMonthlyPremium(addAutomobileInsuranceRequest.getMonthlyPremium());
 		automobile.setContractPeriod(addAutomobileInsuranceRequest.getContractPeriod());
 		automobile.setCoverage(addAutomobileInsuranceRequest.getCoverage());
 
 		automobile.setVehicleType(VehicleType.fromInt(addAutomobileInsuranceRequest.getVehicleType()));
 		automobile.setAccidentLimit(addAutomobileInsuranceRequest.getAccidentLimit());
-		automobile.setServiceList((ArrayList<ServiceType>) addAutomobileInsuranceRequest.getServiceList());
+		automobile.setServiceList((ArrayList<ServiceType>)addAutomobileInsuranceRequest.getServiceList());
 
 		automobileEntityModel.add(automobile);
 	}
@@ -151,155 +160,45 @@ public class ProductManagementService {
 		}
 	}
 
-	public void updateDiseaseInsurance(int index, String input, int id) throws DuplicateInsuranceException {
+	public void updateDiseaseInsurance(UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws
+		DuplicateInsuranceException {
 
-		Disease disease = diseaseEntityModel.getById(id);
-
-		switch (index) {
-			case 1:
-				for (Product product : productEntityModel.getAll()) {
-					if (product.getName().equals(input)) {
-						throw new DuplicateInsuranceException();
-					}
+		Disease origin = diseaseEntityModel.getById(updateDiseaseInsuranceRequest.getId());
+		if (!updateDiseaseInsuranceRequest.getName().equals(origin.getName())) {
+			for (Product product : productEntityModel.getAll()) {
+				if (product.getName().equals(updateDiseaseInsuranceRequest.getName())) {
+					throw new DuplicateInsuranceException();
 				}
-				disease.setName(input);
-				diseaseEntityModel.update(disease);
-				break;
-			case 2:
-				disease.setAgeRange(Integer.parseInt(input));
-				diseaseEntityModel.update(disease);
-				break;
-			case 3:
-				disease.setCoverage(input);
-				diseaseEntityModel.update(disease);
-				break;
-			case 4:
-				disease.setMonthlyPremium(Integer.parseInt(input));
-				diseaseEntityModel.update(disease);
-				break;
-			case 5:
-				disease.setContractPeriod(Integer.parseInt(input));
-				diseaseEntityModel.update(disease);
-				break;
-			case 6:
-				disease.setDiseaseLimit(Integer.parseInt(input));
-				diseaseEntityModel.update(disease);
-				break;
-			case 7:
-				disease.setDiseaseName(input);
-				diseaseEntityModel.update(disease);
-				break;
-			case 8:
-				disease.setSurgeriesLimit(Integer.parseInt(input));
-				diseaseEntityModel.update(disease);
-				break;
-			default:
-				break;
+			}
 		}
+		diseaseEntityModel.update(updateDiseaseInsuranceRequest.toEntity());
 	}
 
-	public void updateInjuryInsurance(int index, String input, int id) throws DuplicateInsuranceException {
-		Injury injury = injuryEntityModel.getById(id);
+	public void updateInjuryInsurance(UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws
+		DuplicateInsuranceException {
 
-		switch (index) {
-			case 1:
-				for (Product product : productEntityModel.getAll()) {
-					if (product.getName().equals(input)) {
-						throw new DuplicateInsuranceException();
-					}
+		Injury origin = injuryEntityModel.getById(updateInjuryInsuranceRequest.getId());
+		if (!updateInjuryInsuranceRequest.getName().equals(origin.getName())) {
+			for (Product product : productEntityModel.getAll()) {
+				if (product.getName().equals(updateInjuryInsuranceRequest.getName())) {
+					throw new DuplicateInsuranceException();
 				}
-				injury.setName(input);
-				injuryEntityModel.update(injury);
-				break;
-			case 2:
-				injury.setAgeRange(Integer.parseInt(input));
-				injuryEntityModel.update(injury);
-				break;
-			case 3:
-				injury.setCoverage(input);
-				injuryEntityModel.update(injury);
-				break;
-			case 4:
-				injury.setMonthlyPremium(Integer.parseInt(input));
-				injuryEntityModel.update(injury);
-				break;
-			case 5:
-				injury.setContractPeriod(Integer.parseInt(input));
-				injuryEntityModel.update(injury);
-				break;
-			case 6:
-				if (InjuryType.Minor.ordinal() == (Integer.parseInt(input) - 1)) {
-					injury.setInjuryType(InjuryType.Minor);
-				} else if (InjuryType.Serious.ordinal() == (Integer.parseInt(input) - 1)) {
-					injury.setInjuryType(InjuryType.Serious);
-				}
-				injuryEntityModel.update(injury);
-				break;
-			case 7:
-				injury.setSurgeriesLimit(Integer.parseInt(input));
-				injuryEntityModel.update(injury);
-				break;
-			default:
-				break;
+			}
 		}
+		injuryEntityModel.update(updateInjuryInsuranceRequest.toEntity());
 	}
 
-	public void updateAutomobileInsurance(int index, String input, int id,
-		ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException {
-
-		Automobile automobile = automobileEntityModel.getById(id);
-
-		switch (index) {
-			case 1:
-				for (Product product : productEntityModel.getAll()) {
-					if (product.getName().equals(input)) {
-						throw new DuplicateInsuranceException();
-					}
+	public void updateAutomobileInsurance(UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws
+		DuplicateInsuranceException {
+		Automobile origin = automobileEntityModel.getById(updateAutomobileInsuranceRequest.getId());
+		if (!updateAutomobileInsuranceRequest.getName().equals(origin.getName())) {
+			for (Product product : productEntityModel.getAll()) {
+				if (product.getName().equals(updateAutomobileInsuranceRequest.getName())) {
+					throw new DuplicateInsuranceException();
 				}
-				automobile.setName(input);
-				automobileEntityModel.update(automobile);
-				break;
-			case 2:
-				automobile.setAgeRange(Integer.parseInt(input));
-				automobileEntityModel.update(automobile);
-				break;
-			case 3:
-				automobile.setCoverage(input);
-				automobileEntityModel.update(automobile);
-				break;
-			case 4:
-				automobile.setMonthlyPremium(Integer.parseInt(input));
-				automobileEntityModel.update(automobile);
-				break;
-			case 5:
-				automobile.setContractPeriod(Integer.parseInt(input));
-				automobileEntityModel.update(automobile);
-				break;
-			case 6:
-				automobile.setAccidentLimit(Integer.parseInt(input));
-				automobileEntityModel.update(automobile);
-				break;
-			case 7:
-				if (VehicleType.Small.ordinal() == (Integer.parseInt(input) - 1)) {
-					automobile.setVehicleType(VehicleType.Small);
-				} else if (VehicleType.Medium.ordinal() == (Integer.parseInt(input) - 1)) {
-					automobile.setVehicleType(VehicleType.Medium);
-				} else if (VehicleType.Large.ordinal() == (Integer.parseInt(input) - 1)) {
-					automobile.setVehicleType(VehicleType.Large);
-				}
-				automobileEntityModel.update(automobile);
-				break;
-			case 8:
-				ArrayList<ServiceType> distinctServiceList = (ArrayList<ServiceType>)serviceTypeList.stream()
-					.distinct()
-					.collect(Collectors.toList());
-				automobile.setServiceList(distinctServiceList);
-				automobileEntityModel.update(automobile);
-				break;
-			default:
-				break;
+			}
 		}
-
+		automobileEntityModel.update(updateAutomobileInsuranceRequest.toEntity());
 	}
 
 	public List<ManageInsuranceProductResponse> getAllInsurance() {
@@ -324,7 +223,7 @@ public class ProductManagementService {
 
 	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
 		Insurance insurance = insuranceEntityModel.getById(id);
-		if(insurance instanceof Injury)
+		if (insurance instanceof Injury)
 			return ManageInsuranceProductInjuryDetailResponse.from((Injury)insurance);
 		else if (insurance instanceof Disease)
 			return ManageInsuranceProductDiseaseDetailResponse.from((Disease)insurance);
