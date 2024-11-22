@@ -74,7 +74,7 @@ public class InsuranceContractEntityModel {
 		insuranceContractMapper.insert(insuranceContract.findVO());
 		if (insuranceContract.getCounselList() != null)
 			insuranceContract.getCounselList().forEach(e -> counselEntityModel.add(e));
-		if (insuranceContract.getContractList() == null) return;
+		if (insuranceContract.getContractList() != null)
 			insuranceContract.getContractList().forEach(e -> contractEntityModel.add(e));
 	}
 
@@ -94,7 +94,7 @@ public class InsuranceContractEntityModel {
 		if (insuranceContractMapper.getById(id).isEmpty()) return;
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
-				forEach(e -> deleteContract(e));
+				forEach(this::deleteContract);
 		counselEntityModel.getAll().stream().
 				filter(e -> e.getProductID() == id).
 				forEach(e -> counselEntityModel.delete(e.getId()));

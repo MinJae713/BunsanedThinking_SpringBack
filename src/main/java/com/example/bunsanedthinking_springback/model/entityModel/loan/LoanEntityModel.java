@@ -21,18 +21,18 @@ public class LoanEntityModel {
 	@Autowired
 	private CollateralEntityModel collateralEntityModel;
 	@Autowired
-	private FixedDepositEntityModel fixedDepositDModel;
+	private FixedDepositEntityModel fixedDepositEntityModel;
 	@Autowired
-	private InsuranceContractEntityModel insuranceContractDModel;
+	private InsuranceContractEntityModel insuranceContractEntityModel;
 
 	public Loan getById(int id) {
 		Loan loan = collateralEntityModel.getById(id);
 		if (loan != null)
 			return loan;
-		loan = fixedDepositDModel.getById(id);
+		loan = fixedDepositEntityModel.getById(id);
 		if (loan != null)
 			return loan;
-		loan = insuranceContractDModel.getById(id);
+		loan = insuranceContractEntityModel.getById(id);
 		return loan;
 	}
 
@@ -50,22 +50,22 @@ public class LoanEntityModel {
 	public void add(Loan loan) {
 		if (loan == null) return;
 		else if (loan instanceof Collateral) collateralEntityModel.add((Collateral) loan);
-		else if (loan instanceof FixedDeposit) fixedDepositDModel.add((FixedDeposit) loan);
-		else if (loan instanceof InsuranceContract) insuranceContractDModel.add((InsuranceContract) loan);
+		else if (loan instanceof FixedDeposit) fixedDepositEntityModel.add((FixedDeposit) loan);
+		else if (loan instanceof InsuranceContract) insuranceContractEntityModel.add((InsuranceContract) loan);
 	}
 
 	public void update(Loan loan) {
 		if (loan == null) return;
 		else if (loan instanceof Collateral) collateralEntityModel.update((Collateral) loan);
-		else if (loan instanceof FixedDeposit) fixedDepositDModel.update((FixedDeposit) loan);
-		else if (loan instanceof InsuranceContract) insuranceContractDModel.update((InsuranceContract) loan);
+		else if (loan instanceof FixedDeposit) fixedDepositEntityModel.update((FixedDeposit) loan);
+		else if (loan instanceof InsuranceContract) insuranceContractEntityModel.update((InsuranceContract) loan);
 	}
 
 	public void delete(int id) {
 		Loan loan = getById(id);
 		if (loan == null) return;
 		else if (loan instanceof Collateral) collateralEntityModel.delete(id);
-		else if (loan instanceof FixedDeposit) fixedDepositDModel.delete(id);
-		else if (loan instanceof InsuranceContract) insuranceContractDModel.delete(id);
+		else if (loan instanceof FixedDeposit) fixedDepositEntityModel.delete(id);
+		else if (loan instanceof InsuranceContract) insuranceContractEntityModel.delete(id);
 	}
 }
