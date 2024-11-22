@@ -2,11 +2,11 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.CompensationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.InsuranceMoneyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestCompensationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
@@ -70,7 +70,8 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getInsuranceMoneyById")
-	public InsuranceMoney getInsuranceMoneyById(@RequestParam int id) throws NotExistException {
+	public RequestInsuranceMoneyDetailResponse getInsuranceMoneyById(@RequestParam int id)
+			throws NotExistException, NotExistContractException {
 		return compensationSModel.getInsuranceMoneyById(id);
 	}
 

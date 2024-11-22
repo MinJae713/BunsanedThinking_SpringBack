@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetAllResponseResponse {
+public class ManageInsuranceProductResponse {
 	private String name;
 	private InsuranceType insuranceType;
 	private Integer id;
 	private Integer ageRange;
 	private Integer monthlyPremium;
+	private Integer maximumMoney;
 
-	public static GetAllResponseResponse of(Insurance insurance){
-		return GetAllResponseResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium()).build();
+	public static ManageInsuranceProductResponse from(Insurance insurance){
+		return ManageInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium())
+			.maximumMoney(insurance.getMaximumMoney()).build();
 	}
 }

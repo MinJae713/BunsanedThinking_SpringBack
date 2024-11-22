@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
+import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.repository.CounselMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
@@ -57,5 +58,17 @@ public class CounselEntityModel {
 		if (getById(id) == null)
 			return;
 		counselMapper.deleteById(id);
+	}
+
+	public List<Counsel> getAllCompleted() {
+		List<Counsel> counsels = new ArrayList<Counsel>();
+		counselMapper.getAll().stream().filter(e-> e.getProcess_status() == CounselProcessStatus.Completed.getValue()).forEach(e -> counsels.add(getById(e.getId())));
+		return counsels;
+	}
+
+	public List<Counsel> getAllUnprocessed() {
+		List<Counsel> counsels = new ArrayList<Counsel>();
+		counselMapper.getAll().stream().filter(e-> e.getProcess_status() == CounselProcessStatus.Unprocessed.getValue()).forEach(e -> counsels.add(getById(e.getId())));
+		return counsels;
 	}
 }

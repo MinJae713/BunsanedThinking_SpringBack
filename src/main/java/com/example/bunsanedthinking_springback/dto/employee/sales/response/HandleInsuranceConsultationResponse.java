@@ -16,22 +16,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllCounselResponse {
+public class HandleInsuranceConsultationResponse {
+	private Integer id;
 	private String name;
 	private String phoneNumber;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date counselDate;
 	private Gender gender;
-	private Integer id;
 	private CounselProcessStatus processStatus;
 
-	public static GetAllCounselResponse of(Counsel counsel) {
-		return GetAllCounselResponse.builder()
+	public static HandleInsuranceConsultationResponse from(Counsel counsel) {
+		return HandleInsuranceConsultationResponse.builder()
+			.id(counsel.getId())
 			.name(counsel.getName())
 			.phoneNumber(counsel.getPhoneNumber())
 			.counselDate(counsel.getCounselDate())
 			.gender(counsel.getGender())
-			.id(counsel.getId())
 			.processStatus(counsel.getProcessStatus())
 			.build();
 	}

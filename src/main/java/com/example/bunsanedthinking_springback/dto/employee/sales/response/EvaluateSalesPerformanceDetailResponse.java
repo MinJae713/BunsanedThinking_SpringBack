@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetAllSalesResponse {
+public class EvaluateSalesPerformanceDetailResponse {
 	private Integer id;
 	private String name;
 	private EmployeePosition position;
 	private Integer contractCount;
+	private Integer salary;
 
-	public static GetAllSalesResponse of(Sales sales){
-		return GetAllSalesResponse.builder().id(sales.getId()).name(sales.getName()).position(sales.getPosition()).contractCount(sales.getContractCount()).build();
+	public static EvaluateSalesPerformanceDetailResponse from(Sales sales){
+		return EvaluateSalesPerformanceDetailResponse.builder().id(sales.getId()).name(sales.getName()).position(sales.getPosition()).contractCount(sales.getContractCount())
+			.salary(sales.getSalary()).build();
 	}
 
 }

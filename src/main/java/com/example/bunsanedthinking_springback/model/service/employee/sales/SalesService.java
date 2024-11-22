@@ -12,14 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductInjuryDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceAccidentHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceSurgeryHistoryRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllCounselResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllInsuranceProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllSalesResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductAutomobileDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDiseaseDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductInjuryDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductCollateralDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductFixedDepositDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductInsuranceContractDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
@@ -40,6 +54,7 @@ import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
@@ -215,43 +230,54 @@ public class SalesService {
 		return induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
-	public Insurance getInsuranceProduct(int id) {
-		return insuranceEntityModel.getById(id);
+	public InduceInsuranceProductResponse getInsuranceProduct(int id) {
+		return InduceInsuranceProductResponse.from(insuranceEntityModel.getById(id));
 	}
 
-	public Loan getLoanProduct(int id) {
-		return loanEntityModel.getById(id);
+	public InduceLoanProductResponse getLoanProduct(int id) {
+		return InduceLoanProductResponse.from(loanEntityModel.getById(id));
 	}
 
-	public List<GetAllSalesResponse> getAllSales() {
+	public List<EvaluateSalesPerformanceResponse> getAllSales() {
 		List<Sales> sales = salesEntityModel.getAll();
-		return sales.stream().map(GetAllSalesResponse::of).collect(Collectors.toList());
+		return sales.stream().map(EvaluateSalesPerformanceResponse::from).collect(Collectors.toList());
 	}
 
 	public Employee getEmployee(int id) {
 		return employeeEntityModel.getById(id);
 	}
 
-	public Sales getSales(int id) {
-		return salesEntityModel.getById(id);
+	public EvaluateSalesPerformanceResponse getSales(int id) {
+		return EvaluateSalesPerformanceResponse.from(salesEntityModel.getById(id));
 	}
 
-	public List<GetAllCounselResponse> getAllCounsel() {
+	public EvaluateSalesPerformanceDetailResponse getSalesDetail(int id) {
+		return EvaluateSalesPerformanceDetailResponse.from(salesEntityModel.getById(id));
+	}
+
+	public List<HandleInsuranceConsultationResponse> getAllCounsel() {
 		List<Counsel> counsels =  counselEntityModel.getAll();
-		return counsels.stream().map(GetAllCounselResponse::of).collect(Collectors.toList());
+		return counsels.stream().map(HandleInsuranceConsultationResponse::from).collect(Collectors.toList());
 	}
 
-	public Counsel getCounsel(int id) {
-		return counselEntityModel.getById(id);
+	public HandleInsuranceConsultationResponse getCounsel(int id) {
+		Counsel counsel = counselEntityModel.getById(id);
+		return HandleInsuranceConsultationResponse.from(counsel);
 	}
 
-	public List<Loan> getAllLoanProduct() {
-		return loanEntityModel.getAll();
+	public HandleInsuranceConsultationDetailResponse getCounselDetail(int id) {
+		Counsel counsel = counselEntityModel.getById(id);
+		return HandleInsuranceConsultationDetailResponse.from(counsel);
 	}
 
-	public List<GetAllInsuranceProductResponse> getAllInsuranceProduct() {
+	public List<InduceLoanProductResponse> getAllLoanProduct() {
+		List<Loan> loans = loanEntityModel.getAll();
+		return loans.stream().map(InduceLoanProductResponse::from).collect(Collectors.toList());
+	}
+
+	public List<InduceInsuranceProductResponse> getAllInsuranceProduct() {
 		List<Insurance> insurance = insuranceEntityModel.getAll();
-		return insurance.stream().map(GetAllInsuranceProductResponse::of).collect(Collectors.toList());
+		return insurance.stream().map(InduceInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 
 	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
@@ -276,28 +302,34 @@ public class SalesService {
 		salesEntityModel.update(sales);
 	}
 
-	public List<Disease> getAllDiseaseInsurance() {
-		return diseaseEntityModel.getAll();
+	public List<InduceInsuranceProductResponse> getAllDiseaseInsurance() {
+		List<Disease> diseases = diseaseEntityModel.getAll();
+		return diseases.stream().map(InduceInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 
-	public List<Injury> getAllInjuryInsurance() {
-		return injuryEntityModel.getAll();
+	public List<InduceInsuranceProductResponse> getAllInjuryInsurance() {
+		List<Injury> injuries = injuryEntityModel.getAll();
+		return injuries.stream().map(InduceInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 
-	public List<Automobile> getAllAutomobileInsurance() {
-		return automobileEntityModel.getAll();
+	public List<InduceInsuranceProductResponse> getAllAutomobileInsurance() {
+		List<Automobile> automobiles = automobileEntityModel.getAll();
+		return automobiles.stream().map(InduceInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 
-	public List<Collateral> getAllCollateralLoan() {
-		return collateralEntityModel.getAll();
+	public List<InduceLoanProductResponse> getAllCollateralLoan() {
+		List<Collateral> collaterals = collateralEntityModel.getAll();
+		return collaterals.stream().map(InduceLoanProductResponse::from).collect(Collectors.toList());
 	}
 
-	public List<FixedDeposit> getAllFixedDepositLoan() {
-		return fixedDepositEntityModel.getAll();
+	public List<InduceLoanProductResponse> getAllFixedDepositLoan() {
+		List<FixedDeposit> fixedDeposits = fixedDepositEntityModel.getAll();
+		return fixedDeposits.stream().map(InduceLoanProductResponse::from).collect(Collectors.toList());
 	}
 
-	public List<InsuranceContract> getAllInsuranceContractLoan() {
-		return insuranceContractEntityModel.getAll();
+	public List<InduceLoanProductResponse> getAllInsuranceContractLoan() {
+		List<InsuranceContract> insuranceContracts = insuranceContractEntityModel.getAll();
+		return insuranceContracts.stream().map(InduceLoanProductResponse::from).collect(Collectors.toList());
 	}
 
 	public int getSalesContractCount(int id) {
@@ -308,5 +340,37 @@ public class SalesService {
 		Sales sales = salesEntityModel.getById(id);
 		sales.setContractCount(++contractCount);
 		salesEntityModel.update(sales);
+	}
+
+	public List<HandleInsuranceConsultationResponse> getAllCompletedCounsel() {
+		List<Counsel> counsels =  counselEntityModel.getAllCompleted();
+		return counsels.stream().map(HandleInsuranceConsultationResponse::from).collect(Collectors.toList());
+	}
+
+	public List<HandleInsuranceConsultationResponse> getAllUnprocessedCounsel() {
+		List<Counsel> counsels =  counselEntityModel.getAllUnprocessed();
+		return counsels.stream().map(HandleInsuranceConsultationResponse::from).collect(Collectors.toList());
+	}
+
+	public InduceInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		Insurance insurance = insuranceEntityModel.getById(id);
+		if(insurance instanceof Injury)
+			return InduceInsuranceProductInjuryDetailResponse.from((Injury)insurance);
+		else if (insurance instanceof Disease)
+			return InduceInsuranceProductDiseaseDetailResponse.from((Disease)insurance);
+		else if (insurance instanceof Automobile)
+			return InduceInsuranceProductAutomobileDetailResponse.from((Automobile)insurance);
+		throw new NotExistException();
+	}
+
+	public InduceLoanProductDetailResponse getLoanProductDetail(int id) throws NotExistException {
+		Loan loan = loanEntityModel.getById(id);
+		if(loan instanceof Collateral)
+			return InduceLoanProductCollateralDetailResponse.from((Collateral)loan);
+		else if (loan instanceof FixedDeposit)
+			return InduceLoanProductFixedDepositDetailResponse.from((FixedDeposit)loan);
+		else if (loan instanceof InsuranceContract)
+			return InduceLoanProductInsuranceContractDetailResponse.from((InsuranceContract)loan);
+		throw new NotExistException();
 	}
 }

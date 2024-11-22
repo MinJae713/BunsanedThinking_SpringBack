@@ -12,23 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllCounselResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllInsuranceProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.GetAllSalesResponse;
-import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.Sales;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
 
 @RestController
@@ -58,17 +54,27 @@ public class SalesController {
 	}
 
 	@GetMapping("/getInsuranceProduct")
-	public Insurance getInsuranceProduct(int id) {
+	public InduceInsuranceProductResponse getInsuranceProduct(int id) {
 		return salesSModel.getInsuranceProduct(id);
 	}
 
+	@GetMapping("/getInsuranceProductDetail")
+	public InduceInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		return salesSModel.getInsuranceProductDetail(id);
+	}
+
 	@GetMapping("/getLoanProduct")
-	public Loan getLoanProduct(int id) {
+	public InduceLoanProductResponse getLoanProduct(int id) {
 		return salesSModel.getLoanProduct(id);
 	}
 
+	@GetMapping("/getLoanProductDetail")
+	public InduceLoanProductDetailResponse getLoanProductDetail(int id) throws NotExistException {
+		return salesSModel.getLoanProductDetail(id);
+	}
+
 	@GetMapping("/getAllSales")
-	public List<GetAllSalesResponse> getAllSales() {
+	public List<EvaluateSalesPerformanceResponse> getAllSales() {
 		return salesSModel.getAllSales();
 	}
 
@@ -78,27 +84,47 @@ public class SalesController {
 	}
 
 	@GetMapping("/getSales")
-	public Sales getSales(int id) {
+	public EvaluateSalesPerformanceResponse getSales(int id) {
 		return salesSModel.getSales(id);
 	}
 
+	@GetMapping("/getSalesDetail")
+	public EvaluateSalesPerformanceDetailResponse getSalesDetail(int id) {
+		return salesSModel.getSalesDetail(id);
+	}
+
 	@GetMapping("/getAllCounsel")
-	public List<GetAllCounselResponse> getAllCounsel() {
+	public List<HandleInsuranceConsultationResponse> getAllCounsel() {
 		return salesSModel.getAllCounsel();
 	}
 
 	@GetMapping("/getCounsel")
-	public Counsel getCounsel(int id) {
+	public HandleInsuranceConsultationResponse getCounsel(int id) {
 		return salesSModel.getCounsel(id);
 	}
 
+	@GetMapping("/getCounselDetail")
+	public HandleInsuranceConsultationDetailResponse getCounselDetail(int id) {
+		return salesSModel.getCounselDetail(id);
+	}
+
+	@GetMapping("/getAllCompletedCounsel")
+	public List<HandleInsuranceConsultationResponse> getAllCompletedCounsel() {
+		return salesSModel.getAllCompletedCounsel();
+	}
+
+	@GetMapping("/getAllUnprocessedCounsel")
+	public List<HandleInsuranceConsultationResponse> getAllUnprocessedCounsel() {
+		return salesSModel.getAllUnprocessedCounsel();
+	}
+
 	@GetMapping("/getAllInsuranceProduct")
-	public List<GetAllInsuranceProductResponse> getAllInsuranceProduct() {
+	public List<InduceInsuranceProductResponse> getAllInsuranceProduct() {
 		return salesSModel.getAllInsuranceProduct();
 	}
 
 	@GetMapping("/getAllLoanProduct")
-	public List<Loan> getAllLoanProduct() {
+	public List<InduceLoanProductResponse> getAllLoanProduct() {
 		return salesSModel.getAllLoanProduct();
 	}
 
@@ -113,32 +139,32 @@ public class SalesController {
 	}
 
 	@GetMapping("/getAllDiseaseInsurance")
-	public List<Disease> getAllDiseaseInsurance() {
+	public List<InduceInsuranceProductResponse> getAllDiseaseInsurance() {
 		return salesSModel.getAllDiseaseInsurance();
 	}
 
 	@GetMapping("/getAllInjuryInsurance")
-	public List<Injury> getAllInjuryInsurance() {
+	public List<InduceInsuranceProductResponse> getAllInjuryInsurance() {
 		return salesSModel.getAllInjuryInsurance();
 	}
 
 	@GetMapping("/getAllAutomobileInsurance")
-	public List<Automobile> getAllAutomobileInsurance() {
+	public List<InduceInsuranceProductResponse> getAllAutomobileInsurance() {
 		return salesSModel.getAllAutomobileInsurance();
 	}
 
 	@GetMapping("getAllCollateralLoan")
-	public List<Collateral> getAllCollateralLoan() {
+	public List<InduceLoanProductResponse> getAllCollateralLoan() {
 		return salesSModel.getAllCollateralLoan();
 	}
 
 	@GetMapping("/getAllFixedDepositLoan")
-	public List<FixedDeposit> getAllFixedDepositLoan() {
+	public List<InduceLoanProductResponse> getAllFixedDepositLoan() {
 		return salesSModel.getAllFixedDepositLoan();
 	}
 
 	@GetMapping("/getAllInsuranceContractLoan")
-	public List<InsuranceContract> getAllInsuranceContractLoan() {
+	public List<InduceLoanProductResponse> getAllInsuranceContractLoan() {
 		return salesSModel.getAllInsuranceContractLoan();
 	}
 

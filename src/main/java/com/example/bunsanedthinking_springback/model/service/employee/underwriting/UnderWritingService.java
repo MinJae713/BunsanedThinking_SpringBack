@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.GetAllRequestingInsuranceResponse;
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
@@ -60,23 +61,38 @@ public class UnderWritingService {
 		return result;
 	}
 
-	public List<GetAllRequestingInsuranceResponse> getAllRequestingInsurance() {
+	public List<ReviewAcquisitionResponse> getAllRequestingInsurance() {
 		List<Contract> requestingInsurances = contractEntityModel.getAllRequestingInsurance();
 		return requestingInsurances.stream()
-			.map(e -> GetAllRequestingInsuranceResponse.from(customerEntityModel.getById(e.getCustomerID()),e))
+			.map(e -> ReviewAcquisitionResponse.of(customerEntityModel.getById(e.getCustomerID()),e))
 			.collect(Collectors.toList());
 	}
 
-	public List<Contract> getAllNotRequestingInsurance() {
-		return contractEntityModel.getAllNotRequestingInsurance();
+	public List<ReviewAcquisitionResponse> getAllNotRequestingInsurance() {
+		List<Contract> requestingInsurances = contractEntityModel.getAllNotRequestingInsurance();
+		return requestingInsurances.stream()
+			.map(e -> ReviewAcquisitionResponse.of(customerEntityModel.getById(e.getCustomerID()),e))
+			.collect(Collectors.toList());
+	}
+
+	public List<ReviewAcquisitionResponse> getAllContract() {
+		List<Contract> contracts = contractEntityModel.getAll();
+		return contracts.stream()
+			.map(e -> ReviewAcquisitionResponse.of(customerEntityModel.getById(e.getCustomerID()),e))
+			.collect(Collectors.toList());
 	}
 
 	public Customer getCustomer(int id) {
 		return customerEntityModel.getById(id);
 	}
 
-	public Contract getContract(int id) {
-		return contractEntityModel.getById(id);
+	public ReviewAcquisitionDetailResponse getContractDetail(int id) {
+		Contract contract = contractEntityModel.getById(id);
+		return ReviewAcquisitionDetailResponse.of(customerEntityModel.getById(contract.getCustomerID()),contract);
 	}
 
+	public ReviewAcquisitionResponse getContract(int id) {
+		Contract contract = contractEntityModel.getById(id);
+		return ReviewAcquisitionResponse.of(customerEntityModel.getById(contract.getCustomerID()),contract);
+	}
 }

@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.GetAllResponseResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateAutomobileInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateDiseaseInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
@@ -55,23 +59,43 @@ public class ProductManagementController {
 		return productManagementSModel.getInsuranceProduct(id);
 	}
 
+	@GetMapping("/getInsuranceProductDetail")
+	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+		return productManagementSModel.getInsuranceProductDetail(id);
+	}
+
 	@PatchMapping("/updateDiseaseInsurance")
-	public void updateDiseaseInsurance(int index, String input,int id) throws DuplicateInsuranceException{
-		productManagementSModel.updateDiseaseInsurance(index, input, id);
+	public void updateDiseaseInsurance(@RequestBody UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateDiseaseInsurance(updateDiseaseInsuranceRequest);
 	}
 
 	@PatchMapping("/updateInjuryInsurance")
-	public void updateInjuryInsurance(int index, String input,int id) throws DuplicateInsuranceException{
-		productManagementSModel.updateInjuryInsurance(index, input, id);
+	public void updateInjuryInsurance(@RequestBody UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateInjuryInsurance(updateInjuryInsuranceRequest);
 	}
 
 	@PatchMapping("/updateAutomobileInsurance")
-	public void updateAutomobileInsurance(@RequestParam int index,@RequestParam String input,@RequestParam int id,@RequestBody(required = false) ArrayList<ServiceType> serviceTypeList) throws DuplicateInsuranceException{
-		productManagementSModel.updateAutomobileInsurance(index, input, id, serviceTypeList);
+	public void updateAutomobileInsurance(@RequestBody UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws DuplicateInsuranceException{
+		productManagementSModel.updateAutomobileInsurance(updateAutomobileInsuranceRequest);
 	}
 
-	@GetMapping("/getAll")
-	public List<GetAllResponseResponse> getAll(){
-		return productManagementSModel.getAll();
+	@GetMapping("/getAllInsurance")
+	public List<ManageInsuranceProductResponse> getAllInsurance(){
+		return productManagementSModel.getAllInsurance();
+	}
+
+	@GetMapping("/getAllinJuryInsurance")
+	public List<ManageInsuranceProductResponse> getAllinJuryInsurance(){
+		return productManagementSModel.getAllinJuryInsurance();
+	}
+
+	@GetMapping("/getAllAutomobileInsurance")
+	public List<ManageInsuranceProductResponse> getAllAutomobileInsurance(){
+		return productManagementSModel.getAllAutomobileInsurance();
+	}
+
+	@GetMapping("/getAllDiseaseInsurance")
+	public List<ManageInsuranceProductResponse> getAllDiseaseInsurance(){
+		return productManagementSModel.getAllDiseaseInsurance();
 	}
 }

@@ -2,11 +2,13 @@ package com.example.bunsanedthinking_springback.model.service.employee.compensat
 
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.CompensationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.request.InsuranceMoneyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
 import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestCompensationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.compensation.response.RequestInsuranceMoneyResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
+import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
@@ -141,11 +143,18 @@ public class CompensationService {
 		return RequestInsuranceMoneyResponse.of(insuranceMoney, product, customer);
 	}
 
-	public InsuranceMoney getInsuranceMoneyById(int id) throws NotExistException {
-		return insuranceMoneyEntityModel.getById(id);
+	public RequestInsuranceMoneyDetailResponse getInsuranceMoneyById(int id) throws NotExistException, NotExistContractException {
+		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(id);
+		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
+		if (contract == null) throw new NotExistContractException();
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		if (customer == null) throw new NotExistException("해당 고객이 존재하지 않습니다");
+		Product product = productEntityModel.getById(contract.getProductId());
+		if (!(product instanceof Insurance insurance)) throw new NotExistException("해당 상품이 존재하지 않습니다");
+		return RequestInsuranceMoneyDetailResponse.of(insuranceMoney, insurance, customer);
 	}
 	public RequestInsuranceMoneyResponse getInsuranceMoneyRowById(int id) throws NotExistException {
-		return getOneInsuranceMoney(getInsuranceMoneyById(id));
+		return getOneInsuranceMoney(insuranceMoneyEntityModel.getById(id));
 	}
 	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
 		return contractEntityModel.getById(contractId);

@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.accidentHistory;
 
 import com.example.bunsanedthinking_springback.vo.AccidentHistoryVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 public class AccidentHistory implements Cloneable{
 	
 	private int customerID;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date date;
 	private String accidentDetail;
 	private int id;
