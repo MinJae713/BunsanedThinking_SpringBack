@@ -17,4 +17,5 @@ public abstract class ManageInsuranceProductDetailResponse {
 	protected String coverage;
 	protected Integer monthlyPremium;
 	protected Integer contractPeriod;
+	protected Integer maximumMoney;
 }

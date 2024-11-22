@@ -18,8 +18,10 @@ public class ManageInsuranceProductResponse {
 	private Integer id;
 	private Integer ageRange;
 	private Integer monthlyPremium;
+	private Integer maximumMoney;
 
 	public static ManageInsuranceProductResponse from(Insurance insurance){
-		return ManageInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium()).build();
+		return ManageInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium())
+			.maximumMoney(insurance.getMaximumMoney()).build();
 	}
 }
