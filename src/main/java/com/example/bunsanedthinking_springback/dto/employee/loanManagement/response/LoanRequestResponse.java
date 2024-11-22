@@ -9,8 +9,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class GetLoanRequestResponse {
+public class LoanRequestResponse {
 	Loan loan;
 	Customer customer;
 	Contract contract;
+
+	public static LoanRequestResponse of(Loan loan, Customer customer, Contract contract) {
+		return new LoanRequestResponse(loan, customer, contract);
+	}
 }

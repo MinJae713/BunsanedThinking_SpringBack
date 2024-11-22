@@ -140,6 +140,10 @@ public class CustomerSupportService {
 		return getAllByProcessStatus(AccidentProcessStatus.Completed);
 	}
 
+	public List<Accident> getAllProcessingAccident() {
+		return getAllByProcessStatus(AccidentProcessStatus.Processing);
+	}
+
 	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
 		List<Accident> accidentList = accidentEntityModel.getAll();
 		return accidentList.stream()
