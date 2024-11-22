@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
@@ -21,8 +19,6 @@ import com.example.bunsanedthinking_springback.dto.employee.productManagement.re
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateInjuryInsuranceRequest;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementService;
@@ -46,6 +42,7 @@ public class ProductManagementController {
 
 	@PostMapping("/addAutomobileInsurance")
 	public void addAutomobileInsurance(@RequestBody AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws DuplicateInsuranceException {
+
 		productManagementSModel.addAutomobileInsurance(addAutomobileInsuranceRequest);
 	}
 
@@ -55,7 +52,7 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("/getInsuranceProduct")
-	public Insurance getInsuranceProduct(int id) throws NotExistException {
+	public ManageInsuranceProductResponse getInsuranceProduct(int id) throws NotExistException {
 		return productManagementSModel.getInsuranceProduct(id);
 	}
 
