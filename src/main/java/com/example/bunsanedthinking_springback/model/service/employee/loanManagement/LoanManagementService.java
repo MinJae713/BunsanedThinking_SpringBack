@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.GetLoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementCollateralProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementFixedDepositProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementInsuranceContractProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
@@ -37,7 +40,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.collateral.Coll
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit.FixedDepositEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceContract.InsuranceContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
@@ -73,8 +75,6 @@ public class LoanManagementService {
 
 	@Value("${serials.paymentDetail}")
 	private int PAYMENT_DETAIL_SERIAL_NUMBER;
-	@Autowired
-	private EmployeeEntityModel employeeEntityModel;
 
 	public void addLoanProduct(AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
 		DuplicateLoanException {
@@ -143,11 +143,22 @@ public class LoanManagementService {
 		return productId;
 	}
 
-	public Loan getLoanProduct(int id) throws NotExistException {
+	public ManagementLoanProductResponse getLoanProduct(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
 		if (loan == null)
 			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
-		return loan;
+		return ManagementLoanProductResponse.from(loan);
+	}
+
+	public ManagementLoanProductResponse getLoanProductDetail(int id) throws NotExistException {
+		Loan loan = loanEntityModel.getById(id);
+		if (loan == null)
+			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+		return switch (loan.getLoanType()) {
+			case Collateral -> ManagementCollateralProductResponse.from((Collateral)loan);
+			case FixedDeposit -> ManagementFixedDepositProductResponse.from((FixedDeposit)loan);
+			case InsuranceContract -> ManagementInsuranceContractProductResponse.from((InsuranceContract)loan);
+		};
 	}
 
 	public boolean collectLoanPrincipalInterest() {
@@ -311,18 +322,18 @@ public class LoanManagementService {
 		return (double)(totalMoney * loan.getInterestRate()) / 100;
 	}
 
-	public List<GetLoanRequestResponse> getAllLoanRequest() {
+	public List<LoanRequestResponse> getAllLoanRequest() {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
-			.map(contract -> new GetLoanRequestResponse(
+			.map(contract -> new LoanRequestResponse(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
 			.toList();
 	}
 
-	public GetLoanRequestResponse getLoanRequest(int id) throws NotExistContractException {
+	public LoanRequestResponse getLoanRequest(int id) throws NotExistContractException {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null
@@ -331,34 +342,27 @@ public class LoanManagementService {
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		Loan loan = loanEntityModel.getById(contract.getProductId());
-		return new GetLoanRequestResponse(loan, customer, contract);
+		return new LoanRequestResponse(loan, customer, contract);
 	}
 
-	public Employee getEmployee(int employeeId) throws NotExistException {
-		Employee employee = employeeEntityModel.getById(employeeId);
-		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
-		return employee;
-	}
-
-	public List<GetLoanRequestResponse> getAllCompletedLoanRequest() {
+	public List<LoanRequestResponse> getAllCompletedLoanRequest() {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() != ContractStatus.ContractRequesting)
-			.map(contract -> new GetLoanRequestResponse(
+			.map(contract -> new LoanRequestResponse(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
 			.toList();
 	}
 
-	public List<GetLoanRequestResponse> getAllUnprocessedLoanRequest() {
+	public List<LoanRequestResponse> getAllUnprocessedLoanRequest() {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
-			.map(contract -> new GetLoanRequestResponse(
+			.map(contract -> new LoanRequestResponse(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))

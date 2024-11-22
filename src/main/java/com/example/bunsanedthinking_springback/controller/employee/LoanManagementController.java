@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.GetLoanRequestResponse;
-import com.example.bunsanedthinking_springback.entity.employee.Employee;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
@@ -41,22 +41,22 @@ public class LoanManagementController {
 	}
 
 	@GetMapping("/getLoanProduct")
-	public Loan getLoanProduct(@RequestParam("id") int id) throws NotExistException {
+	public ManagementLoanProductResponse getLoanProduct(@RequestParam("id") int id) throws NotExistException {
 		return loanManagementService.getLoanProduct(id);
 	}
 
+	@GetMapping("/getLoanProductDetail")
+	public ManagementLoanProductResponse getLoanProductDetail(@RequestParam("id") int id) throws NotExistException {
+		return loanManagementService.getLoanProductDetail(id);
+	}
+
 	@GetMapping("/getAllLoanRequest")
-	public List<GetLoanRequestResponse> getAllLoanRequest() {
+	public List<LoanRequestResponse> getAllLoanRequest() {
 		return loanManagementService.getAllLoanRequest();
 	}
 
-	@GetMapping("/getEmployee")
-	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
-		return loanManagementService.getEmployee(employeeId);
-	}
-
 	@GetMapping("/getLoanRequest")
-	public GetLoanRequestResponse getLoanRequest(@RequestParam("id") int id) throws NotExistContractException {
+	public LoanRequestResponse getLoanRequest(@RequestParam("id") int id) throws NotExistContractException {
 		return loanManagementService.getLoanRequest(id);
 	}
 
@@ -95,12 +95,12 @@ public class LoanManagementController {
 	}
 
 	@GetMapping("/getAllCompletedLoanRequest")
-	public List<GetLoanRequestResponse> getAllCompletedLoanRequest() {
+	public List<LoanRequestResponse> getAllCompletedLoanRequest() {
 		return loanManagementService.getAllCompletedLoanRequest();
 	}
 
 	@GetMapping("/getAllUnprocessedLoanRequest")
-	public List<GetLoanRequestResponse> getAllUnprocessedLoanRequest() {
+	public List<LoanRequestResponse> getAllUnprocessedLoanRequest() {
 		return loanManagementService.getAllUnprocessedLoanRequest();
 	}
 }
