@@ -22,11 +22,8 @@ import com.example.bunsanedthinking_springback.dto.employee.productManagement.re
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -83,8 +80,9 @@ public class ProductManagementService {
 		disease.setMonthlyPremium(addDiseaseInsuranceRequest.getMonthlyPremium());
 		disease.setContractPeriod(addDiseaseInsuranceRequest.getContractPeriod());
 		disease.setCoverage(addDiseaseInsuranceRequest.getCoverage());
+		disease.setAgeRange(addDiseaseInsuranceRequest.getAgeRange());
 
-		disease.setDiseaseName(disease.getDiseaseName());
+		disease.setDiseaseName(addDiseaseInsuranceRequest.getDiseaseName());
 		disease.setDiseaseLimit(addDiseaseInsuranceRequest.getDiseaseLimit());
 		disease.setSurgeriesLimit(addDiseaseInsuranceRequest.getSurgeriesLimit());
 
@@ -110,6 +108,7 @@ public class ProductManagementService {
 		injury.setMonthlyPremium(addInjuryInsuranceRequest.getMonthlyPremium());
 		injury.setContractPeriod(addInjuryInsuranceRequest.getContractPeriod());
 		injury.setCoverage(addInjuryInsuranceRequest.getCoverage());
+		injury.setAgeRange(addInjuryInsuranceRequest.getAgeRange());
 
 		injury.setInjuryType(addInjuryInsuranceRequest.getInjuryType());
 		injury.setSurgeriesLimit(addInjuryInsuranceRequest.getSurgeriesLimit());
@@ -136,10 +135,11 @@ public class ProductManagementService {
 		automobile.setMonthlyPremium(addAutomobileInsuranceRequest.getMonthlyPremium());
 		automobile.setContractPeriod(addAutomobileInsuranceRequest.getContractPeriod());
 		automobile.setCoverage(addAutomobileInsuranceRequest.getCoverage());
+		automobile.setAgeRange(addAutomobileInsuranceRequest.getAgeRange());
 
-		automobile.setVehicleType(VehicleType.fromInt(addAutomobileInsuranceRequest.getVehicleType()));
+		automobile.setVehicleType(addAutomobileInsuranceRequest.getVehicleType());
 		automobile.setAccidentLimit(addAutomobileInsuranceRequest.getAccidentLimit());
-		automobile.setServiceList((ArrayList<ServiceType>)addAutomobileInsuranceRequest.getServiceList());
+		automobile.setServiceList((ArrayList<ServiceType>)addAutomobileInsuranceRequest.getServiceTypes());
 
 		automobileEntityModel.add(automobile);
 	}
@@ -148,13 +148,13 @@ public class ProductManagementService {
 		productEntityModel.delete(id);
 	}
 
-	public Insurance getInsuranceProduct(int id) throws NotExistException {
+	public ManageInsuranceProductResponse getInsuranceProduct(int id) throws NotExistException {
 		try {
 			Insurance insurance = insuranceEntityModel.getById(id);
 			if (insurance == null) {
 				throw new NotExistException("해당하는 보험 상품 정보가 존재하지 않습니다.");
 			}
-			return insurance;
+			return ManageInsuranceProductResponse.from(insurance);
 		} catch (NotExistException e) {
 			throw new NotExistException("해당하는 보험 상품 정보가 존재하지 않습니다.");
 		}
