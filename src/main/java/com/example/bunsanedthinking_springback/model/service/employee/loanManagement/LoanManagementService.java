@@ -87,7 +87,7 @@ public class LoanManagementService {
 			addCollateralLoanProductRequest.getName(), addCollateralLoanProductRequest.getInterestRate(),
 			addCollateralLoanProductRequest.getMaximumMoney(),
 			addCollateralLoanProductRequest.getMinimumAsset(),
-			CollateralType.indexOf(addCollateralLoanProductRequest.getCollateralType()),
+			addCollateralLoanProductRequest.getCollateralType(),
 			addCollateralLoanProductRequest.getMinimumValue(), addCollateralLoanProductRequest.getMonthlyIncome());
 		collateralEntityModel.add(collateral);
 	}
