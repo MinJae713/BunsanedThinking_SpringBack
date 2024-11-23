@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DepositDTO {
-    private String depositorName;
+//    private String depositorName;
     private int contractId;
     private int money;
     private int depositPath;

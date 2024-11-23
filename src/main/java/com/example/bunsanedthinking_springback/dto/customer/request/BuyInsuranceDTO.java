@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 public class BuyInsuranceDTO {
     private int insuranceId;
     private int customerId;
-    private Integer employeeId;
+//    private Integer employeeId;
 }

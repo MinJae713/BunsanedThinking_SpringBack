@@ -191,12 +191,16 @@ public class CustomerService {
 
 	public void payInsurancefee(DepositDTO depositDTO)
 		throws NotExistContractException, NotExistException {
-		String depositorName = depositDTO.getDepositorName();
 		int contractId = depositDTO.getContractId();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null)
+			throw new NotExistContractException();
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		if (customer == null) throw new NotExistException();
+		String depositorName = customer.getName();
 		int money = depositDTO.getMoney();
 		DepositPath depositPath = DepositPath.values()[depositDTO.getDepositPath()];
-		if (contractEntityModel.getById(contractId) == null)
-			throw new NotExistContractException();
+
 		int depositId = NextIdGetter.getNextId(depositDetailEntityModel.getMaxId(), DEPOSIT_DETAIL_SERIAL_NUMBER);
 		depositDetailEntityModel.add(new DepositDetail(depositId, depositorName,
 			contractId, money, depositPath));
@@ -474,15 +478,13 @@ public class CustomerService {
 	public void buyInsurance(BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
 		int insuranceId = buyInsuranceDTO.getInsuranceId();
 		int customerId = buyInsuranceDTO.getCustomerId();
-		Integer employeeId = buyInsuranceDTO.getEmployeeId();
-		// employeeId는 null 허용 - 이 시점에서 직원 아이디를 받나유...??
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
 		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
 		Contract contract = new Contract(customerId, insuranceId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
-		contract.setEmployeeID(employeeId);
+		contract.setEmployeeID(null);
 		contractEntityModel.add(contract);
 		// id, customerId, insurnace 이외에는 아무 정보도 지정X
 //		return customer.buyInsurance(insurance, contractList);
@@ -504,7 +506,6 @@ public class CustomerService {
 	public void loan(LoanDTO loanDTO) throws AlreadyRequestingException, NotExistException {
 		int loanId = loanDTO.getLoanId();
 		int customerId = loanDTO.getCustomerId();
-		Integer employeeId = loanDTO.getEmployeeId();
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Loan loan = loanEntityModel.getById(loanId);
@@ -516,23 +517,24 @@ public class CustomerService {
 				throw new AlreadyRequestingException();
 		Contract contract = new Contract(customerId, loanId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
-		contract.setEmployeeID(employeeId);
+		contract.setEmployeeID(null);
 		contractEntityModel.add(contract);
 //		return customer.loan(loan, contractList);
 	}
 
 	public void receiveInsurance(ReceiveInsuranceDTO receiveInsuranceDTO) throws NotExistContractException, NotExistException {
 		int contractId = receiveInsuranceDTO.getContractId();
-		int customerId = receiveInsuranceDTO.getCustomerId();
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
 		BufferedImage medicalCertificateImage = receiveInsuranceDTO.getMedicalCertificateImage();
 		BufferedImage receiptImage = receiveInsuranceDTO.getReceiptImage();
 		BufferedImage residentRegistrationCardImage = receiveInsuranceDTO.getResidentRegistrationCardImage();
 		// 일단 이미지도 DTO로 받는 형태 - 이건 다시 얘기해봅시다
 
-		if (contractEntityModel.getById(contractId) == null) throw new NotExistContractException();
-		Customer customer = customerEntityModel.getById(customerId);
-		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
-		if (contractEntityModel.getById(contractId).getCustomerID() != customerId)
+
+		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
 			throw new NotExistException("해당 고객이 가입한 계약이 아닙니다");
 		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
 				customer.getBankAccount(), medicalCertificateImage,

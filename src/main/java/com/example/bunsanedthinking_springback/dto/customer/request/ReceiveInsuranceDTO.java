@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 @NoArgsConstructor
 public class ReceiveInsuranceDTO {
     private int contractId;
-    private int customerId;
     private BufferedImage medicalCertificateImage;
     private BufferedImage receiptImage;
     private BufferedImage residentRegistrationCardImage;
