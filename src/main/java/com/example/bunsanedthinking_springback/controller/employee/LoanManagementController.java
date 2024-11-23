@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateCollateralRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateFixedDepositRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateInsuranceContractRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
@@ -78,6 +81,28 @@ public class LoanManagementController {
 	public void updateLoanProduct(@RequestParam("index") int index, @RequestParam("input") String input,
 		@RequestParam("loanId") int loanId) throws DuplicateLoanException, NotExistException {
 		loanManagementService.updateLoanProduct(index, input, loanId);
+	}
+
+	@PatchMapping("/updateCollateralProduct")
+	public void updateCollateralProduct(@RequestBody UpdateCollateralRequest updateCollateralRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateCollateralRequest);
+	}
+
+	@PatchMapping("/updateFixedDepositProduct")
+	public void updateFixedDepositProduct(@RequestBody UpdateFixedDepositRequest updateFixedDepositRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateFixedDepositRequest);
+	}
+
+	@PatchMapping("/updateInsuranceContractProduct")
+	public void updateInsuranceContractProduct(
+		@RequestBody UpdateInsuranceContractRequest updateInsuranceContractRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateInsuranceContractRequest);
 	}
 
 	@DeleteMapping("/deleteLoanProduct")
