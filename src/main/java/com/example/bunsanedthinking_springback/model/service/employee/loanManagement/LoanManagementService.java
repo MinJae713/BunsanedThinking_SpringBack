@@ -165,7 +165,7 @@ public class LoanManagementService {
 		return true;
 	}
 
-	public void requestLoan(int contractId, int money, int paymentType,
+	public void requestLoan(int contractId, Integer money, PaymentType paymentType,
 		boolean result) throws AlreadyProcessedException, NotExistContractException {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
@@ -173,6 +173,9 @@ public class LoanManagementService {
 
 		if (contract.getContractStatus() != ContractStatus.ContractRequesting)
 			throw new AlreadyProcessedException();
+
+		if (result && (money == null || paymentType == null))
+			throw new IllegalArgumentException("Money 또는 Payment Type이 입력되지 않았습니다.");
 
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (result) {
@@ -195,8 +198,7 @@ public class LoanManagementService {
 			throw new NotExistContractException();
 		}
 
-		PaymentDetail paymentDetail = createPaymentDetail(customer, money, PaymentType.indexOf(paymentType),
-			contractId);
+		PaymentDetail paymentDetail = createPaymentDetail(customer, money, paymentType, contractId);
 		paymentDetailEntityModel.add(paymentDetail);
 
 		CompensationDetail compensationDetail = createCompensationDetail(contractId, money);

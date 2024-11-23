@@ -17,6 +17,7 @@ import com.example.bunsanedthinking_springback.dto.employee.loanManagement.reque
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
@@ -66,7 +67,8 @@ public class LoanManagementController {
 
 	@PostMapping("/requestLoan")
 	public void requestLoan(@RequestParam("contractId") int contractId,
-		@RequestParam("money") int money, @RequestParam("paymentType") int paymentType,
+		@RequestParam(value = "money", required = false) Integer money,
+		@RequestParam(value = "paymentType", required = false) PaymentType paymentType,
 		@RequestParam("result") boolean result)
 		throws AlreadyProcessedException, NotExistContractException {
 		loanManagementService.requestLoan(contractId, money, paymentType, result);
