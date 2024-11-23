@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.AddPartnerCompanyRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.UpdatePartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyResponse;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
@@ -40,6 +41,11 @@ public class CompensationPlanningController {
 	@GetMapping("/getPartnerCompanyById")
 	public PartnerCompany getPartnerCompanyById(@RequestParam int id) throws NotExistException {
 		return compensationPlanningSModel.getPartnerCompanyById(id);
+	}
+
+	@GetMapping("/getPartnerCompanyDetailById")
+	public PartnerCompanyDetailResponse getPartnerCompanyDetailById(@RequestParam int id) throws NotExistException {
+		return compensationPlanningSModel.getPartnerCompanyDetailById(id);
 	}
 
 	@GetMapping("/getPartnerCompanyRowById")

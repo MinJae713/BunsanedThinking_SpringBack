@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.service.employee.compensat
 
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.AddPartnerCompanyRequest;
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request.UpdatePartnerCompanyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.response.PartnerCompanyResponse;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
@@ -56,6 +57,12 @@ public class CompensationPlanningService {
 
 	public PartnerCompany getPartnerCompanyById(int id) throws NotExistException {
 		return partnerCompanyEntityModel.getById(id);
+	}
+
+	public PartnerCompanyDetailResponse getPartnerCompanyDetailById(int id) throws NotExistException {
+		PartnerCompany partnerCompany = getPartnerCompanyById(id);
+		if (partnerCompany == null) throw new NotExistException("아이디 해당 협력업체가 없습니다");
+		return PartnerCompanyDetailResponse.of(partnerCompany);
 	}
 
 	public PartnerCompanyResponse getPartnerCompanyRowById(int id) throws NotExistException {

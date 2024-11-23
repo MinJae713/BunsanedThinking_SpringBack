@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CompensationRequest {
-    private String accountHolder;
-    private String bank;
-    private String bankAccount;
+//    private String accountHolder;
+//    private String bank;
+//    private String bankAccount;
     private int money;
     private int paymentType;
-    private int contractId;
+//    private int contractId;
     private int reportId;
 }

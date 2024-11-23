@@ -18,10 +18,10 @@ public class ContractManagementController {
 	@Autowired
 	private ContractManagementService contractManagementSModel;
 	@PatchMapping("/requestTerminationFee")
-	public void requestTerminationFee(@RequestParam int tercontractId, @RequestParam int customerId)
+	public void requestTerminationFee(@RequestParam int tercontractId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
-		// 예시URL - http://localhost:8080/employee/contractManagement/requestTerminationFee?tercontractId=1002&customerId=2002
-		contractManagementSModel.requestTerminationFee(tercontractId, customerId);
+		// 예시URL - http://localhost:8080/employee/contractManagement/requestTerminationFee?tercontractId=1002
+		contractManagementSModel.requestTerminationFee(tercontractId);
 	}
 
 	@PatchMapping("/reviewEndorsement")

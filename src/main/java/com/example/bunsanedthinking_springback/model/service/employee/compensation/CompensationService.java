@@ -55,25 +55,26 @@ public class CompensationService {
 	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestCompensation(CompensationRequest compensationRequest)
-		throws NotExistException, AlreadyProcessedException {
-		String accountHolder = compensationRequest.getAccountHolder();
-		String bank = compensationRequest.getBank();
-		String bankAccount = compensationRequest.getBankAccount();
+            throws NotExistException, AlreadyProcessedException, NotExistContractException {
 		int money = compensationRequest.getMoney();
 		int paymentType = compensationRequest.getPaymentType();
-		int contractId = compensationRequest.getContractId();
 		int reportId = compensationRequest.getReportId();
-
 		Report report = reportEntityModel.getById(reportId);
 		if (report == null)
 			throw new NotExistException();
-		if (contractEntityModel.getById(contractId) == null)
-			throw new NotExistException();
+		int customerId = report.getAccident().getCustomerID();
+		Customer customer = customerEntityModel.getById(customerId);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		String accountHolder = customer.getName();
+		String bank = customer.getBankName();
+		String bankAccount = customer.getBankAccount();
+		Contract contract = getAutomobileByCustomerId(customerId);
+		if (contract == null) throw new NotExistException();
 		if (report.getProcessStatus() == ReportProcessStatus.Completed)
 			throw new AlreadyProcessedException();
 		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(accountHolder, bank,
-			bankAccount, money, PaymentType.values()[paymentType], contractId);
+			bankAccount, money, PaymentType.values()[paymentType], contract.getId());
 		payment.setId(paymentId);
 		paymentDetailEntityModel.add(payment);
 		report.setProcessStatus(ReportProcessStatus.Completed);
@@ -85,30 +86,22 @@ public class CompensationService {
 	public void requestInsuranceMoney(InsuranceMoneyRequest insuranceMoneyRequest) throws
 		NotExistException,
 		AlreadyProcessedException {
-
-		int customerId = insuranceMoneyRequest.getCustomerId();
 		int money = insuranceMoneyRequest.getMoney();
 		int insuranceMoneyId = insuranceMoneyRequest.getInsuranceMoneyId();
 		int paymentType = insuranceMoneyRequest.getPaymentType();
-		int contractId = insuranceMoneyRequest.getContractId();
-
-		Contract contract = contractEntityModel.getById(contractId);
-		if (contract == null)
-			throw new NotExistException();
-		Customer customer = customerEntityModel.getById(customerId);
-		if (customer == null)
-			throw new NotExistException();
-		if (customer.getId() != contract.getCustomerID())
-			throw new NotExistException();
 		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(insuranceMoneyId);
-		if (insuranceMoney == null)
-			throw new NotExistException();
+		if (insuranceMoney == null) throw new NotExistException();
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			throw new AlreadyProcessedException();
+		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
+		if (contract == null) throw new NotExistException();
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		if (customer == null) throw new NotExistException();
+		if (customer.getId() != contract.getCustomerID()) throw new NotExistException();
 		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
 			customer.getBankName(), customer.getBankAccount(),
-			money, PaymentType.values()[paymentType], contractId);
+			money, PaymentType.values()[paymentType], contract.getId());
 		payment.setId(paymentId);
 		paymentDetailEntityModel.add(payment);
 		insuranceMoney.handle();

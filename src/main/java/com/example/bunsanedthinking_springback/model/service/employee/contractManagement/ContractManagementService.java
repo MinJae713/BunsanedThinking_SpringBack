@@ -65,15 +65,14 @@ public class ContractManagementService {
 	@Value("${serials.paymentDetail}")
 	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
-	public void requestTerminationFee(int tercontractId, int customerId)
+	public void requestTerminationFee(int tercontractId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
-		Customer customer = customerEntityModel.getById(customerId);
-		if (customer == null)
-			throw new NotExistException();
 		Termination tercontract = terminationEntityModel.getById(tercontractId);
 		if (tercontract == null) throw new NotExistContractException();
 		if (tercontract.getTerminationStatus() == TerminationStatus.Completed)
 			throw new AlreadyProcessedException();
+		Customer customer = customerEntityModel.getById(tercontract.getCustomerID());
+		if (customer == null) throw new NotExistException();
 		List<DepositDetail> depositDetailList = tercontract.getDepositDetailList();
 		int totalMoney = 0;
 		for (DepositDetail depositDetail : depositDetailList)

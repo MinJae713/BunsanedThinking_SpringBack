@@ -25,14 +25,10 @@ public class CompensationController {
 
 	@PatchMapping("/requestCompensation")
 	public void requestCompensation(@RequestBody CompensationRequest compensationRequest)
-		throws NotExistException, AlreadyProcessedException {
+            throws NotExistException, AlreadyProcessedException, NotExistContractException {
 		/*
 		{
-			"accountHolder": "김찬",
-			"bank": "모환",
-			"bankAccount": "김찬어카운트",
 			"money": 3000000,
-			"contractId": 1001,
 			"reportId": 4002,
 			"paymentType": 0
 		}
@@ -45,11 +41,9 @@ public class CompensationController {
 		throws NotExistException, AlreadyProcessedException {
 		/*
 		{
-			"customerId": 2001,
 			"money": 185000,
 			"insuranceMoneyId": 2,
-			"paymentType": 0,
-			"contractId": 1001
+			"paymentType": 0
 		}
 		 */
 		compensationSModel.requestInsuranceMoney(insuranceMoneyRequest);
