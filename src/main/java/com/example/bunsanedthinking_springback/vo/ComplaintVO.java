@@ -34,7 +34,8 @@ public class ComplaintVO {
         complaint.setPostDate(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         complaint.setEmployeeName(employee_name);
-        complaint.setProcessingDate(Date.from(processing_date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        complaint.setProcessingDate(processing_date == null ? null :
+                Date.from(processing_date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         complaint.setProcessStatus(ComplaintProcessStatus.values()[process_status]);
         complaint.setResult(result);
         complaint.setTitle(title);
