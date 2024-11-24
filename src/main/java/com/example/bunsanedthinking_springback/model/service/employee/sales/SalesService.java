@@ -141,7 +141,7 @@ public class SalesService {
 		counselEntityModel.update(counsel);
 	}
 
-	public Customer induceInsuranceProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
+	public void induceInsuranceProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
 
 		Integer customerId = NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER);
 
@@ -151,7 +151,7 @@ public class SalesService {
 		customer.setAge(induceInsuranceProductRequest.getAge());
 		customer.setBankAccount(induceInsuranceProductRequest.getBankAccount());
 		customer.setBankName(induceInsuranceProductRequest.getBankName());
-		customer.setGender(Gender.fromInt(induceInsuranceProductRequest.getGender()));
+		customer.setGender(induceInsuranceProductRequest.getGender());
 		customer.setJob(induceInsuranceProductRequest.getJob());
 		customer.setName(induceInsuranceProductRequest.getName());
 		customer.setPhoneNumber(induceInsuranceProductRequest.getPhoneNumber());
@@ -162,9 +162,9 @@ public class SalesService {
 		customer.setDiseaseHistoryList(new ArrayList<>());
 		customer.setContractList(new ArrayList<>());
 
-		if (induceInsuranceProductRequest.getAccidentHistoryList() != null) {
+		if (induceInsuranceProductRequest.getAccidentHistories()!= null) {
 			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), ACCIDENT_HISTORY_SERIAL_NUMBER);
-			for (InduceAccidentHistoryRequest e : induceInsuranceProductRequest.getAccidentHistoryList()) {
+			for (InduceAccidentHistoryRequest e : induceInsuranceProductRequest.getAccidentHistories()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -177,9 +177,9 @@ public class SalesService {
 			}
 		}
 
-		if (induceInsuranceProductRequest.getSurgeryHistoryList() != null) {
+		if (induceInsuranceProductRequest.getSurgeryHistories() != null) {
 			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
-			for (InduceSurgeryHistoryRequest e : induceInsuranceProductRequest.getSurgeryHistoryList()) {
+			for (InduceSurgeryHistoryRequest e : induceInsuranceProductRequest.getSurgeryHistories()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -192,9 +192,9 @@ public class SalesService {
 				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 			}
 		}
-		if (induceInsuranceProductRequest.getDiseaseHistoryList() != null) {
+		if (induceInsuranceProductRequest.getDiseaseHistories() != null) {
 			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
-			for (InduceDiseaseHistoryRequest e : induceInsuranceProductRequest.getDiseaseHistoryList()) {
+			for (InduceDiseaseHistoryRequest e : induceInsuranceProductRequest.getDiseaseHistories()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(),
@@ -223,11 +223,14 @@ public class SalesService {
 		customer.getContractList().add(contract);
 		customerEntityModel.add(customer);
 
-		return customer;
+		Sales sales = salesEntityModel.getById(induceInsuranceProductRequest.getEmployeeId());
+		int contractCount = sales.getContractCount();
+		sales.setContractCount(++contractCount);
+		salesEntityModel.update(sales);
 	}
 
-	public Customer induceLoanProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
-		return induceInsuranceProduct(induceInsuranceProductRequest);
+	public void induceLoanProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
 	public InduceInsuranceProductResponse getInsuranceProduct(int id) {
