@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.example.bunsanedthinking_springback.entity.customer.Gender;
+
 @Data
 @NoArgsConstructor
 public class InduceInsuranceProductRequest {
@@ -17,10 +19,10 @@ public class InduceInsuranceProductRequest {
 	private long property;
 	private String residentRegistrationNumber;
 	private int age;
-	private int gender;
-	private List<InduceDiseaseHistoryRequest> diseaseHistoryList;
-	private List<InduceSurgeryHistoryRequest> surgeryHistoryList;
-	private List<InduceAccidentHistoryRequest> accidentHistoryList;
+	private Gender gender;
+	private List<InduceDiseaseHistoryRequest> diseaseHistories;
+	private List<InduceSurgeryHistoryRequest> surgeryHistories;
+	private List<InduceAccidentHistoryRequest> accidentHistories;
 	private int productId;
 	private int employeeId;
 }

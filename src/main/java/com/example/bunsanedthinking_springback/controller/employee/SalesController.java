@@ -44,13 +44,13 @@ public class SalesController {
 	}
 
 	@PostMapping("/induceInsuranceProduct")
-	public Customer induceInsuranceProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
-		return salesSModel.induceInsuranceProduct(induceInsuranceProductRequest);
+	public void induceInsuranceProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		salesSModel.induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
 	@PostMapping("/induceLoanProduct")
-	public Customer induceLoanProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
-		return salesSModel.induceLoanProduct(induceInsuranceProductRequest);
+	public void induceLoanProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+		salesSModel.induceLoanProduct(induceInsuranceProductRequest);
 	}
 
 	@GetMapping("/getInsuranceProduct")
