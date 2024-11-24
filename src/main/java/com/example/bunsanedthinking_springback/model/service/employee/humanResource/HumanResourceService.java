@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.AddEmployeeRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.CreateFamilyListRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateFamilyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 import com.example.bunsanedthinking_springback.entity.family.Family;
-import com.example.bunsanedthinking_springback.entity.family.RelationshipType;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -52,14 +54,13 @@ public class HumanResourceService {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date employmentDate = formatter.parse(addEmployeeRequest.getEmploymentDate());
-		EmployeePosition employeePosition = EmployeePosition.indexOf(addEmployeeRequest.getEmployeePosition());
 
 		ArrayList<Family> familyList = createFamilyList(employeeId, addEmployeeRequest.getTempFamilyList());
 
 		Employee employee = new Employee(addEmployeeRequest.getAddress(), addEmployeeRequest.getBankAccount(),
 			addEmployeeRequest.getDepartmentId(),
 			employmentDate, addEmployeeRequest.getBankName(), familyList, employeeId, addEmployeeRequest.getName(),
-			null, addEmployeeRequest.getPhoneNumber(), employeePosition,
+			null, addEmployeeRequest.getPhoneNumber(), addEmployeeRequest.getEmployeePosition(),
 			addEmployeeRequest.getResidentRegistrationNumber(), addEmployeeRequest.getSalary(), null);
 		employeeEntityModel.add(employee);
 	}
@@ -85,9 +86,9 @@ public class HumanResourceService {
 		familyMaxId = familyId;
 		ArrayList<Family> familyList = new ArrayList<>();
 		for (CreateFamilyListRequest createFamilyListRequest : tempFamilyList) {
-			RelationshipType relationshipType = RelationshipType.indexOf(createFamilyListRequest.getRelationship());
 			Family family = new Family(Date.valueOf(createFamilyListRequest.getBirthDate()), employeeId, familyId,
-				createFamilyListRequest.getName(), relationshipType, createFamilyListRequest.isSurvival());
+				createFamilyListRequest.getName(), createFamilyListRequest.getRelationship(),
+				createFamilyListRequest.isSurvival());
 			familyList.add(family);
 			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
 			familyMaxId = familyId;
@@ -116,38 +117,39 @@ public class HumanResourceService {
 		System.out.println("Request Benefit");
 	}
 
-	public void updateEmployee(int index, String input, int employeeId) throws NotExistException {
-		Employee employee = employeeEntityModel.getById(employeeId);
+	public void updateEmployee(UpdateEmployeeRequest updateEmployeeRequest) throws NotExistException, ParseException {
+		Employee employee = employeeEntityModel.getById(updateEmployeeRequest.getId());
 		if (employee == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
-		switch (index) {
-			case 1 -> employee.setName(input);
-			case 2 -> employee.setPosition(EmployeePosition.indexOf(Integer.parseInt(input)));
-			case 3 -> employee.setAddress(input);
-			case 4 -> employee.setPhoneNumber(input);
-			case 5 -> employee.setBankName(input);
-			case 6 -> employee.setBankAccount(input);
-			case 8 -> employee.setDepartmentID(Integer.parseInt(input));
-			case 9 -> employee.setSalary(Integer.parseInt(input));
-			default -> {
-				return;
-			}
+		List<UpdateFamilyRequest> updateFamilyRequestList = updateEmployeeRequest.getTempFamilyList();
+		for (UpdateFamilyRequest updateFamilyRequest : updateFamilyRequestList) {
+			System.out.println(updateFamilyRequest.getId());
 		}
-		employeeEntityModel.update(employee);
+		List<CreateFamilyListRequest> newFamilyRequestList = updateFamilyRequestList.stream()
+			.filter(updateFamilyRequest -> updateFamilyRequest.getId() == null)
+			.map(UpdateFamilyRequest::toCreateRequest)
+			.collect(Collectors.toList());
+
+		List<Family> newFamilyList = createFamilyList(employee.getId(), newFamilyRequestList);
+		newFamilyList.forEach(familyEntityModel::add);
+		Employee updatedEmployee = updateEmployeeRequest.toEntity(employee);
+		employeeEntityModel.update(updatedEmployee);
 	}
 
 	public List<Employee> getAllEmployee() {
 		return employeeEntityModel.getAll();
 	}
 
-	public List<Department> getAllDepartment() {
-		return departmentEntityModel.getAll();
+	public List<ManagementEmployeeResponse> getAllDepartment() {
+		return departmentEntityModel.getAll().stream()
+			.map(ManagementEmployeeResponse::from)
+			.toList();
 	}
 
-	public Department get(int departmentID) throws NotExistException {
+	public ManagementEmployeeResponse get(int departmentID) throws NotExistException {
 		Department department = departmentEntityModel.getById(departmentID);
 		if (department == null)
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
-		return department;
+		return ManagementEmployeeResponse.from(department);
 	}
 }

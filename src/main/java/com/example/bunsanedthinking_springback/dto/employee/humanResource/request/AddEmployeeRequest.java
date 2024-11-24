@@ -2,6 +2,8 @@ package com.example.bunsanedthinking_springback.dto.employee.humanResource.reque
 
 import java.util.List;
 
+import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AddEmployeeRequest {
 	private int departmentId;
 	private String name;
-	private int employeePosition;
+	private EmployeePosition employeePosition;
 	private String address;
 	private String phoneNumber;
 	private String bankName;

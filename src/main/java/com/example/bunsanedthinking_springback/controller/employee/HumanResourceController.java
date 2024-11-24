@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.AddEmployeeRequest;
-import com.example.bunsanedthinking_springback.entity.department.Department;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -52,9 +53,10 @@ public class HumanResourceController {
 	}
 
 	@PatchMapping("/updateEmployee")
-	public void updateEmployee(@RequestParam("index") int index, @RequestParam("input") String input,
-		@RequestParam("employeeId") int employeeId) throws NotExistException {
-		humanResourceService.updateEmployee(index, input, employeeId);
+	public void updateEmployee(@RequestBody UpdateEmployeeRequest updateEmployeeRequest) throws
+		NotExistException,
+		ParseException {
+		humanResourceService.updateEmployee(updateEmployeeRequest);
 	}
 
 	@GetMapping("/getAllEmployee")
@@ -63,12 +65,13 @@ public class HumanResourceController {
 	}
 
 	@GetMapping("/getAllDepartment")
-	public List<Department> getAllDepartment() {
+	public List<ManagementEmployeeResponse> getAllDepartment() {
 		return humanResourceService.getAllDepartment();
 	}
 
 	@GetMapping("/getDepartment")
-	public Department getDepartment(@RequestParam("departmentId") int departmentId) throws NotExistException {
+	public ManagementEmployeeResponse getDepartment(@RequestParam("departmentId") int departmentId) throws
+		NotExistException {
 		return humanResourceService.get(departmentId);
 	}
 }

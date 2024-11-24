@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import com.example.bunsanedthinking_springback.vo.FamilyVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Family implements Cloneable{
+public class Family implements Cloneable {
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	private int employeeID;
 	private int id;
@@ -28,28 +30,30 @@ public class Family implements Cloneable{
 	private RelationshipType relationship;
 	private boolean survival;
 
-	public Family(RelationshipType relationshipType, String familyName, boolean survival, Date date){
+	public Family(RelationshipType relationshipType, String familyName, boolean survival, Date date) {
 		this.setRelationship(relationshipType);
 		this.setName(familyName);
 		this.setSurvival(survival);
 		this.setBirthDate(date);
-		
+
 	}
 
 	public FamilyVO findVO() {
-		LocalDate lBirthDate = new java.util.Date(birthDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate lBirthDate = new java.util.Date(birthDate.getTime()).toInstant()
+			.atZone(ZoneId.systemDefault())
+			.toLocalDate();
 		return new FamilyVO(id, lBirthDate, name,
-				relationship.ordinal(), survival,
-				employeeID);
+			relationship.ordinal(), survival,
+			employeeID);
 	}
 
 	public String getBirthDateStr() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.birthDate);
+		return dateFormat.format(this.birthDate);
 	}
-	
+
 	public Family clone() {
-		Family cloneFamily =  new Family(getRelationship(),getName(), isSurvival(), this.birthDate);
+		Family cloneFamily = new Family(getRelationship(), getName(), isSurvival(), this.birthDate);
 		cloneFamily.setId(getId());
 		return cloneFamily;
 	}
