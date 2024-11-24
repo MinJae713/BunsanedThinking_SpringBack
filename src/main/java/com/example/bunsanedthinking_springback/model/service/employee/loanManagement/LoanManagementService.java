@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateLoanRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementCollateralProductResponse;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementFixedDepositProductResponse;
@@ -80,14 +81,14 @@ public class LoanManagementService {
 		DuplicateLoanException {
 		checkLoanName(addCollateralLoanProductRequest.getName());
 		int productId = createProductId();
-		if (addCollateralLoanProductRequest.getLoanType() != LoanType.Collateral.ordinal()) {
+		if (addCollateralLoanProductRequest.getLoanType() != LoanType.Collateral) {
 			throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
 		}
 		Collateral collateral = new Collateral(productId, LoanType.Collateral,
 			addCollateralLoanProductRequest.getName(), addCollateralLoanProductRequest.getInterestRate(),
 			addCollateralLoanProductRequest.getMaximumMoney(),
 			addCollateralLoanProductRequest.getMinimumAsset(),
-			CollateralType.indexOf(addCollateralLoanProductRequest.getCollateralType()),
+			addCollateralLoanProductRequest.getCollateralType(),
 			addCollateralLoanProductRequest.getMinimumValue(), addCollateralLoanProductRequest.getMonthlyIncome());
 		collateralEntityModel.add(collateral);
 	}
@@ -96,7 +97,7 @@ public class LoanManagementService {
 		checkLoanName(addLoanProductRequest.getName());
 		int productId = createProductId();
 
-		LoanType loanType = LoanType.indexOf(addLoanProductRequest.getLoanType());
+		LoanType loanType = addLoanProductRequest.getLoanType();
 		switch (loanType) {
 			case FixedDeposit -> {
 				FixedDeposit fixedDeposit = new FixedDeposit(productId, loanType, addLoanProductRequest.getName(),
@@ -165,7 +166,7 @@ public class LoanManagementService {
 		return true;
 	}
 
-	public void requestLoan(int contractId, int money, int paymentType,
+	public void requestLoan(int contractId, Integer money, PaymentType paymentType,
 		boolean result) throws AlreadyProcessedException, NotExistContractException {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
@@ -173,6 +174,9 @@ public class LoanManagementService {
 
 		if (contract.getContractStatus() != ContractStatus.ContractRequesting)
 			throw new AlreadyProcessedException();
+
+		if (result && (money == null || paymentType == null))
+			throw new IllegalArgumentException("Money 또는 Payment Type이 입력되지 않았습니다.");
 
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (result) {
@@ -195,8 +199,7 @@ public class LoanManagementService {
 			throw new NotExistContractException();
 		}
 
-		PaymentDetail paymentDetail = createPaymentDetail(customer, money, PaymentType.indexOf(paymentType),
-			contractId);
+		PaymentDetail paymentDetail = createPaymentDetail(customer, money, paymentType, contractId);
 		paymentDetailEntityModel.add(paymentDetail);
 
 		CompensationDetail compensationDetail = createCompensationDetail(contractId, money);
@@ -224,6 +227,20 @@ public class LoanManagementService {
 			compensationId = compensationMaxId + 1;
 		}
 		return new CompensationDetail(contractId, compensationId, money, Date.valueOf(LocalDate.now()));
+	}
+
+	public void updateLoanProduct(UpdateLoanRequest updateLoanRequest) throws NotExistException,
+		DuplicateLoanException {
+		Loan loan = loanEntityModel.getById(updateLoanRequest.getId());
+		if (loan == null)
+			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+		boolean checkName = loanEntityModel.getAll().stream()
+			.filter(e -> e.getName().equals(updateLoanRequest.getName()))
+			.anyMatch(e -> e.getId() != loan.getId());
+		if (checkName)
+			throw new DuplicateLoanException();
+		Loan updatedLoan = updateLoanRequest.toEntity();
+		loanEntityModel.update(updatedLoan);
 	}
 
 	public void updateLoanProduct(int index, String input, int loanId)

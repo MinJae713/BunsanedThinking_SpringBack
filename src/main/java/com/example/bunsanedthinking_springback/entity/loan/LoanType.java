@@ -1,6 +1,5 @@
 package com.example.bunsanedthinking_springback.entity.loan;
 
-
 /**
  * @author KimChan
  * @version 1.0
@@ -23,6 +22,7 @@ public enum LoanType {
 	public String getName() {
 		return this.name;
 	}
+
 	public int getValue() {
 		return this.value;
 	}
@@ -35,6 +35,7 @@ public enum LoanType {
 		}
 		throw new IllegalArgumentException("Invalid int value for LoanType: " + value);
 	}
+
 	public static LoanType indexOf(int index) {
 		for (LoanType type : LoanType.values()) {
 			if (type.ordinal() == index) {

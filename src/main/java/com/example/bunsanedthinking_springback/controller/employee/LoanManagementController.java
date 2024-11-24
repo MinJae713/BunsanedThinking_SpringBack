@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateCollateralRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateFixedDepositRequest;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateInsuranceContractRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
@@ -66,7 +70,8 @@ public class LoanManagementController {
 
 	@PostMapping("/requestLoan")
 	public void requestLoan(@RequestParam("contractId") int contractId,
-		@RequestParam("money") int money, @RequestParam("paymentType") int paymentType,
+		@RequestParam(value = "money", required = false) Integer money,
+		@RequestParam(value = "paymentType", required = false) PaymentType paymentType,
 		@RequestParam("result") boolean result)
 		throws AlreadyProcessedException, NotExistContractException {
 		loanManagementService.requestLoan(contractId, money, paymentType, result);
@@ -76,6 +81,28 @@ public class LoanManagementController {
 	public void updateLoanProduct(@RequestParam("index") int index, @RequestParam("input") String input,
 		@RequestParam("loanId") int loanId) throws DuplicateLoanException, NotExistException {
 		loanManagementService.updateLoanProduct(index, input, loanId);
+	}
+
+	@PatchMapping("/updateCollateralProduct")
+	public void updateCollateralProduct(@RequestBody UpdateCollateralRequest updateCollateralRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateCollateralRequest);
+	}
+
+	@PatchMapping("/updateFixedDepositProduct")
+	public void updateFixedDepositProduct(@RequestBody UpdateFixedDepositRequest updateFixedDepositRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateFixedDepositRequest);
+	}
+
+	@PatchMapping("/updateInsuranceContractProduct")
+	public void updateInsuranceContractProduct(
+		@RequestBody UpdateInsuranceContractRequest updateInsuranceContractRequest) throws
+		DuplicateLoanException,
+		NotExistException {
+		loanManagementService.updateLoanProduct(updateInsuranceContractRequest);
 	}
 
 	@DeleteMapping("/deleteLoanProduct")
