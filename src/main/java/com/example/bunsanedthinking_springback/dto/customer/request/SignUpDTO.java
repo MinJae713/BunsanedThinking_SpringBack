@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.customer.request;
 
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
+import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class SignUpDTO {
     private String phoneNumber;
     private String job;
     private int age;
-    private int gender;
+    private Gender gender;
     private String residentRegistrationNumber;
     private String address;
     private long property;

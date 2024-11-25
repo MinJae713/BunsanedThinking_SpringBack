@@ -409,7 +409,7 @@ public class CustomerService {
 		String phoneNumber = signUpDTO.getPhoneNumber();
 		String job = signUpDTO.getJob();
 		int age = signUpDTO.getAge();
-		Gender gender = Gender.values()[signUpDTO.getGender()];
+		Gender gender = signUpDTO.getGender();
 		String residentRegistrationNumber = signUpDTO.getResidentRegistrationNumber();
 		String address = signUpDTO.getAddress();
 		long property = signUpDTO.getProperty();
