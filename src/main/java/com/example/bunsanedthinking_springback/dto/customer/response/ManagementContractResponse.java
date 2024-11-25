@@ -18,7 +18,7 @@ public class ManagementContractResponse {
     private int monthlyPremium;
     private String expirationDate;
     private String date;
-    private int paymentDate;
+    private Integer paymentDate;
     private String status;
 
     public static ManagementContractResponse of(Contract contract, Insurance insurance) {
@@ -30,7 +30,7 @@ public class ManagementContractResponse {
         int monthlyPremium = insurance.getMonthlyPremium();
         String expirationDate = contract.getExpirationDate();
         String date = contract.getDate();
-        int paymentDate = contract.getPaymentDate();
+        Integer paymentDate = contract.getPaymentDate();
         String status = contract.getContractStatus().getText();
         return new ManagementContractResponse(id, name,
                 type, insuranceId, ageRange, monthlyPremium,

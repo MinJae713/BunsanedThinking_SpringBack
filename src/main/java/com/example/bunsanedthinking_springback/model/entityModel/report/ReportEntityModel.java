@@ -44,7 +44,7 @@ public class ReportEntityModel {
 	public void add(Report report) {
 		if (report == null) return;
 		if (reportMapper.getById(report.getId()).isPresent()) return;
-		accidentEntityModel.add(report.getAccident());
+//		accidentEntityModel.add(report.getAccident());
 		reportMapper.insert(report.findVO());
 	}
 

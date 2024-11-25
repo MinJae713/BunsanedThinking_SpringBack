@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class DiseaseHistory implements Cloneable {
 	//	diagnosisDate -> date_of_diagnosis
 	//	customerID -> customer_id
 	private int customer_id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date date_of_diagnosis;
 	private int id;
 	private String name;
