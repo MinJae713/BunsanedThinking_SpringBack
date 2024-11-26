@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.bunsanedthinking_springback.dto.authentication.LoginResponse;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.customer.CustomerService;
@@ -57,7 +57,7 @@ public class AuthenticationService {
 
 	public LoginResponse loginEmployee(int id) {
 		try {
-			Employee employee = humanResourceService.getEmployee(id);
+			ManagementEmployeeResponse employee = humanResourceService.getEmployee(id);
 			for (UserType userType : UserType.values())
 				if (userType.getDepartmentId() == employee.getDepartmentId())
 					return new LoginResponse(employee.getName(), userType.name());

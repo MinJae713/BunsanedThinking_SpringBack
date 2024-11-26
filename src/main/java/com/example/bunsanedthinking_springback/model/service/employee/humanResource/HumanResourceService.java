@@ -15,6 +15,8 @@ import com.example.bunsanedthinking_springback.dto.employee.humanResource.reques
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.CreateFamilyListRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateFamilyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.DepartmentResponse;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
@@ -102,11 +104,18 @@ public class HumanResourceService {
 		employeeEntityModel.delete(id);
 	}
 
-	public Employee getEmployee(int id) throws NotExistException {
+	public ManagementEmployeeResponse getEmployee(int id) throws NotExistException {
 		Employee employee = employeeEntityModel.getById(id);
 		if (employee == null)
 			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
-		return employee;
+		return ManagementEmployeeResponse.from(employee);
+	}
+
+	public ManagementEmployeeDetailResponse getEmployeeDetail(int id) throws NotExistException {
+		Employee employee = employeeEntityModel.getById(id);
+		if (employee == null)
+			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+		return ManagementEmployeeResponse.fromWithDetail(employee);
 	}
 
 	public void requestAdditionalAllowance() {
@@ -136,20 +145,22 @@ public class HumanResourceService {
 		employeeEntityModel.update(updatedEmployee);
 	}
 
-	public List<Employee> getAllEmployee() {
-		return employeeEntityModel.getAll();
-	}
-
-	public List<ManagementEmployeeResponse> getAllDepartment() {
-		return departmentEntityModel.getAll().stream()
+	public List<ManagementEmployeeResponse> getAllEmployee() {
+		return employeeEntityModel.getAll().stream()
 			.map(ManagementEmployeeResponse::from)
 			.toList();
 	}
 
-	public ManagementEmployeeResponse get(int departmentID) throws NotExistException {
+	public List<DepartmentResponse> getAllDepartment() {
+		return departmentEntityModel.getAll().stream()
+			.map(DepartmentResponse::from)
+			.toList();
+	}
+
+	public DepartmentResponse get(int departmentID) throws NotExistException {
 		Department department = departmentEntityModel.getById(departmentID);
 		if (department == null)
 			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
-		return ManagementEmployeeResponse.from(department);
+		return DepartmentResponse.from(department);
 	}
 }

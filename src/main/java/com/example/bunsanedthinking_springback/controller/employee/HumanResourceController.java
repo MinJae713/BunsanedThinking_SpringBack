@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.AddEmployeeRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
+import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.DepartmentResponse;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
-import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceService;
@@ -40,8 +40,14 @@ public class HumanResourceController {
 	}
 
 	@GetMapping("/getEmployee")
-	public Employee getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
+	public ManagementEmployeeResponse getEmployee(@RequestParam("employeeId") int employeeId) throws NotExistException {
 		return humanResourceService.getEmployee(employeeId);
+	}
+
+	@GetMapping("/getEmployeeDetail")
+	public ManagementEmployeeResponse getEmployeeDetail(@RequestParam("employeeId") int employeeId) throws
+		NotExistException {
+		return humanResourceService.getEmployeeDetail(employeeId);
 	}
 
 	public void requestAdditionalAllowance() {
@@ -60,17 +66,17 @@ public class HumanResourceController {
 	}
 
 	@GetMapping("/getAllEmployee")
-	public List<Employee> getAllEmployee() {
+	public List<ManagementEmployeeResponse> getAllEmployee() {
 		return humanResourceService.getAllEmployee();
 	}
 
 	@GetMapping("/getAllDepartment")
-	public List<ManagementEmployeeResponse> getAllDepartment() {
+	public List<DepartmentResponse> getAllDepartment() {
 		return humanResourceService.getAllDepartment();
 	}
 
 	@GetMapping("/getDepartment")
-	public ManagementEmployeeResponse getDepartment(@RequestParam("departmentId") int departmentId) throws
+	public DepartmentResponse getDepartment(@RequestParam("departmentId") int departmentId) throws
 		NotExistException {
 		return humanResourceService.get(departmentId);
 	}
