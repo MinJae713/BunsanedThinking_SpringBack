@@ -1,5 +1,11 @@
 package com.example.bunsanedthinking_springback.model.entityModel.department;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
@@ -7,11 +13,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.employee.Employ
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DepartmentEntityModel {
@@ -29,7 +30,7 @@ public class DepartmentEntityModel {
 		List<OfficeSupply> officeSupplies = new ArrayList<OfficeSupply>();
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		officeSupplyDModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(officeSupplies::add);
-		employeeEntityModel.getAll().stream().filter(e -> e.getDepartmentID() == id).forEach(employees::add);
+		employeeEntityModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(employees::add);
 		return departmentVO.getEntity(officeSupplies, employees);
 	}
 

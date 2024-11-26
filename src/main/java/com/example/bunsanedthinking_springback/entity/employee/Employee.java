@@ -27,7 +27,7 @@ public class Employee {
 
 	private String address;
 	private String bankAccount;
-	private int departmentID;
+	private int departmentId;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	protected Date employmentDate;
 	private String bankName;
@@ -43,7 +43,7 @@ public class Employee {
 
 	public Employee(String name, EmployeePosition employeePosition, String address,
 		String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber,
-		int departmentID, int salary, Date dateOfemployment) {
+		int departmentId, int salary, Date dateOfemployment) {
 		this.setName(name);
 		this.setPosition(employeePosition);
 		this.setAddress(address);
@@ -51,7 +51,7 @@ public class Employee {
 		this.setBankName(bankName);
 		this.setBankAccount(bankAccount);
 		this.setResidentRegistrationNumber(residentRegistrationNumber);
-		this.setDepartmentID(departmentID);
+		this.setDepartmentId(departmentId);
 		this.setSalary(salary);
 		this.setEmploymentDate(dateOfemployment);
 	}
@@ -59,7 +59,7 @@ public class Employee {
 	public Employee(Employee employee) {
 		address = employee.getAddress();
 		bankAccount = employee.getBankAccount();
-		departmentID = employee.getDepartmentID();
+		departmentId = employee.getDepartmentId();
 		employmentDate = employee.getEmploymentDate();
 		bankName = employee.getBankName();
 		id = employee.getId();
@@ -82,7 +82,7 @@ public class Employee {
 			bankAccount, lEmploymentDate, name,
 			phoneNumber, position.ordinal(),
 			residentRegistrationNumber,
-			salary, departmentID);
+			salary, departmentId);
 	}
 }
 

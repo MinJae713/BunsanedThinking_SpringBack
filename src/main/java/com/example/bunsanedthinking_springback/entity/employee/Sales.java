@@ -44,7 +44,7 @@ public class Sales extends Employee {
 	@Override
 	public Employee clone() {
 		Employee employee = new Sales(getName(), getPosition(), getAddress(), getPhoneNumber(), getBankName(),
-			getBankAccount(), getResidentRegistrationNumber(), getDepartmentID(), getSalary(), this.employmentDate);
+			getBankAccount(), getResidentRegistrationNumber(), getDepartmentId(), getSalary(), this.employmentDate);
 		employee.setId(getId());
 		return employee;
 	}

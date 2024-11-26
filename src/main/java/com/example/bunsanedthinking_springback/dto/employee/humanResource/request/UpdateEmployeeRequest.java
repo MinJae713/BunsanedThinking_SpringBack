@@ -28,7 +28,7 @@ public class UpdateEmployeeRequest {
 
 	public Employee toEntity(Employee origin) throws ParseException {
 		Employee copy = new Employee(origin);
-		copy.setDepartmentID(this.departmentId);
+		copy.setDepartmentId(this.departmentId);
 		copy.setName(name);
 		copy.setPosition(employeePosition);
 		copy.setAddress(address);
