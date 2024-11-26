@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.customer;
 
 import com.example.bunsanedthinking_springback.dto.customer.request.*;
+import com.example.bunsanedthinking_springback.dto.customer.request.signUp.SignUpRequest;
 import com.example.bunsanedthinking_springback.dto.customer.response.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -13,6 +14,7 @@ import com.example.bunsanedthinking_springback.model.service.customer.CustomerSe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -186,8 +188,8 @@ public class CustomerController {
 		return customerSModel.getComplaintRowById(id, customerId);
 	}
 	@PostMapping("/signUp")
-	public void signUp(@RequestBody SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
-		customerSModel.signUp(signUpDTO);
+	public void signUp(@RequestBody SignUpRequest signUpRequest) throws DuplicateResidentRegistrationNumberException, ParseException {
+		customerSModel.signUp(signUpRequest);
 	}
 
 	@PostMapping("/askInsuranceCounsel")

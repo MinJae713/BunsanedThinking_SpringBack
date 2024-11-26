@@ -1,9 +1,12 @@
 package com.example.bunsanedthinking_springback.model.service.customer;
 
 import com.example.bunsanedthinking_springback.dto.customer.request.*;
+import com.example.bunsanedthinking_springback.dto.customer.request.signUp.SignUpAccidentHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.customer.request.signUp.SignUpDiseaseHistoryRequest;
+import com.example.bunsanedthinking_springback.dto.customer.request.signUp.SignUpRequest;
+import com.example.bunsanedthinking_springback.dto.customer.request.signUp.SignUpSurgeryHistoryRequest;
 import com.example.bunsanedthinking_springback.dto.customer.response.*;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
 import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -13,7 +16,6 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
@@ -21,7 +23,6 @@ import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -54,6 +55,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -402,22 +404,21 @@ public class CustomerService {
 	public ViewComplaintResponse getComplaintRowById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		return ViewComplaintResponse.of(getComplaintById(id, customerId));
-	} // 추가
-	public void signUp(SignUpDTO signUpDTO) throws DuplicateResidentRegistrationNumberException {
-		// 이거 고객 아이디를 직접 입력받나유...???
-		String name = signUpDTO.getName();
-		String phoneNumber = signUpDTO.getPhoneNumber();
-		String job = signUpDTO.getJob();
-		int age = signUpDTO.getAge();
-		Gender gender = signUpDTO.getGender();
-		String residentRegistrationNumber = signUpDTO.getResidentRegistrationNumber();
-		String address = signUpDTO.getAddress();
-		long property = signUpDTO.getProperty();
-		String bankName = signUpDTO.getBankName();
-		String bankAccount = signUpDTO.getBankAccount();
-		List<AccidentHistory> tempAccidentHistoryList = signUpDTO.getTempAccidentHistoryList();
-		List<SurgeryHistory> tempSurgeryHistoryList = signUpDTO.getTempSurgeryHistoryList();
-		List<DiseaseHistory> tempDiseaseHistoryList = signUpDTO.getTempDiseaseHistoryList();
+	}
+	public void signUp(SignUpRequest signUpRequest) throws DuplicateResidentRegistrationNumberException, ParseException {
+		String name = signUpRequest.getName();
+		String phoneNumber = signUpRequest.getPhoneNumber();
+		String job = signUpRequest.getJob();
+		int age = signUpRequest.getAge();
+		Gender gender = signUpRequest.getGender();
+		String residentRegistrationNumber = signUpRequest.getResidentRegistrationNumber();
+		String address = signUpRequest.getAddress();
+		long property = signUpRequest.getProperty();
+		String bankName = signUpRequest.getBankName();
+		String bankAccount = signUpRequest.getBankAccount();
+		List<SignUpAccidentHistoryRequest> tempAccidentHistoryList = signUpRequest.getTempAccidentHistoryList();
+		List<SignUpSurgeryHistoryRequest> tempSurgeryHistoryList = signUpRequest.getTempSurgeryHistoryList();
+		List<SignUpDiseaseHistoryRequest> tempDiseaseHistoryList = signUpRequest.getTempDiseaseHistoryList();
 
 		for (Customer customer : customerEntityModel.getAll())
 			if (customer.getResidentRegistrationNumber().equals(residentRegistrationNumber))
@@ -425,33 +426,23 @@ public class CustomerService {
 		Customer customer = new Customer(name, phoneNumber, job, age, gender,
 				residentRegistrationNumber, address, property, bankName, bankAccount);
 
-		// 이 생성자 쓰면 엔티티 7개는 요소가 아얘 없는 ArrayList가 생김 (널포인터 방지 ㄱㄴ)
 		customer.setId(NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER));
 		customerEntityModel.add(customer);
-		// add 시점에 customer의 엔티티 7개는 요소가 아얘 없으니 dmodel add 시 각 테이블에 정보가 추가되지 않음
-		// 단, accidenthistory, surgeryhistory, diseasehistory의 경우,
-		// 파라미터로 받아온 요소가 있다면 아래 코드로 각 테이블에 추가됨 (customerDModel과 별개임)
 		if (tempAccidentHistoryList != null)
-			for (AccidentHistory e : tempAccidentHistoryList) {
-				e.setCustomerID(customer.getId());
-				e.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(),
-						ACCIDENT_HISTORY_SERIAL_NUMBER));
-				accidentHistoryEntityModel.add(e);
-			}
+			for (SignUpAccidentHistoryRequest e : tempAccidentHistoryList)
+				if (!e.isNull()) accidentHistoryEntityModel.add(e.from(customer.getId(),
+						NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(),
+								ACCIDENT_HISTORY_SERIAL_NUMBER)));
 		if (tempSurgeryHistoryList != null)
-			for (SurgeryHistory e : tempSurgeryHistoryList) {
-				e.setCustomerID(customer.getId());
-				e.setId(NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(),
-						SURGERY_HISTORY_SERIAL_NUMBER));
-				surgeryHistoryEntityModel.add(e);
-			}
+			for (SignUpSurgeryHistoryRequest e : tempSurgeryHistoryList)
+				if (!e.isNull()) surgeryHistoryEntityModel.add(e.from(customer.getId(),
+						NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(),
+							SURGERY_HISTORY_SERIAL_NUMBER)));
 		if (tempDiseaseHistoryList != null)
-			for (DiseaseHistory e : tempDiseaseHistoryList) {
-				e.setCustomer_id(customer.getId());
-				e.setId(NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(),
-						DISEASE_HISTORY_SERIAL_NUMBER));
-				diseaseHistoryEntityModel.add(e);
-			}
+			for (SignUpDiseaseHistoryRequest e : tempDiseaseHistoryList)
+				if (!e.isNull()) diseaseHistoryEntityModel.add(e.from(customer.getId(),
+						NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(),
+								DISEASE_HISTORY_SERIAL_NUMBER)));
 	}
 
 	public void askInsuranceCounsel(AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
@@ -466,13 +457,10 @@ public class CustomerService {
 		String job = customer.getJob();
 		int age = customer.getAge();
 		Gender gender = customer.getGender();
-//		askInsurnaceCounsel - name, phoneNumber, job, age, gender는 고객 정보가 아닌가 싶네유
-//		ㄴ 이거인거 같아서 파라미터에서는 뺌, customerId 받으면 해당 고객 정보에서 다섯 정보 받아내는걸로함(맞나유..?)
 		Date counselDate = askInsuranceCounselDTO.getCounselDate();
 		Counsel counsel = new Counsel(customerId, insuranceId, name, phoneNumber, counselDate, job, age, gender);
 		counsel.setId(NextIdGetter.getNextId(counselEntityModel.getMaxId(), COUNSEL_SERIAL_NUMBER));
 		counselEntityModel.add(counsel);
-//		customer.askInsuranceCounsel(insurance, name, phoneNumber, counselDate, job, age, gender, counselList);
 	}
 
 	public void buyInsurance(BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
