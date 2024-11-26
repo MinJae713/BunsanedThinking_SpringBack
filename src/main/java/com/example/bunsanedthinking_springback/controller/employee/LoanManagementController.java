@@ -17,8 +17,8 @@ import com.example.bunsanedthinking_springback.dto.employee.loanManagement.reque
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateCollateralRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateFixedDepositRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateInsuranceContractRequest;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequest.LoanRequestResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProduct.ManagementLoanProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.loanRequest.LoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;

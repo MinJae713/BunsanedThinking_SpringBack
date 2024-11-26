@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequest;
+package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.loanRequest;
 
 import java.util.List;
 

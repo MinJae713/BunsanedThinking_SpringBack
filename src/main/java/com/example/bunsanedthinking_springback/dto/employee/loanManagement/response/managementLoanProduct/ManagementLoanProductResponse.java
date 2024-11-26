@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProduct;
+package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct;
 
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 
