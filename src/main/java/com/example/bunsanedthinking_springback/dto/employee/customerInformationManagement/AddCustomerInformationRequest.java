@@ -16,9 +16,9 @@ public class AddCustomerInformationRequest {
     private String residentRegistrationNumber;
     private String address;
     private long property;
-    private List<UpdateAccidentHistoryDTO> accidentHistoryList;
-    private List<UpdateSurgeryHistoryDTO> surgeryHistoryList;
-    private List<UpdateDiseaseHistoryDTO> diseaseHistoryList;
+    private List<AddAccidentHistoryDTO> accidentHistoryList;
+    private List<AddSurgeryHistoryDTO> surgeryHistoryList;
+    private List<AddDiseaseHistoryDTO> diseaseHistoryList;
     private String bankName;
     private String bankAccount;
 }
