@@ -5,8 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LoanDTO {
-    private int loanId;
-    private int customerId;
-//    private Integer employeeId;
+public class DepositRequest {
+//    private String depositorName;
+    private int contractId;
+    private int money;
+    private int depositPath;
 }

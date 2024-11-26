@@ -191,17 +191,17 @@ public class CustomerService {
 		}
 	}
 
-	public void payInsurancefee(DepositDTO depositDTO)
+	public void payInsurancefee(DepositRequest depositRequest)
 		throws NotExistContractException, NotExistException {
-		int contractId = depositDTO.getContractId();
+		int contractId = depositRequest.getContractId();
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		if (customer == null) throw new NotExistException();
 		String depositorName = customer.getName();
-		int money = depositDTO.getMoney();
-		DepositPath depositPath = DepositPath.values()[depositDTO.getDepositPath()];
+		int money = depositRequest.getMoney();
+		DepositPath depositPath = DepositPath.values()[depositRequest.getDepositPath()];
 
 		int depositId = NextIdGetter.getNextId(depositDetailEntityModel.getMaxId(), DEPOSIT_DETAIL_SERIAL_NUMBER);
 		depositDetailEntityModel.add(new DepositDetail(depositId, depositorName,
@@ -445,11 +445,11 @@ public class CustomerService {
 								DISEASE_HISTORY_SERIAL_NUMBER)));
 	}
 
-	public void askInsuranceCounsel(AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
+	public void askInsuranceCounsel(AskInsuranceCounselRequest askInsuranceCounselRequest) throws NotExistException {
 
-		int insuranceId = askInsuranceCounselDTO.getInsuranceId();
+		int insuranceId = askInsuranceCounselRequest.getInsuranceId();
 		if (insuranceEntityModel.getById(insuranceId) == null) throw new NotExistException("해당 보험이 없습니다.");
-		int customerId = askInsuranceCounselDTO.getCustomerId();
+		int customerId = askInsuranceCounselRequest.getCustomerId();
 		Customer customer = customerEntityModel.getById(customerId);
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
 		String name = customer.getName();
@@ -457,15 +457,15 @@ public class CustomerService {
 		String job = customer.getJob();
 		int age = customer.getAge();
 		Gender gender = customer.getGender();
-		Date counselDate = askInsuranceCounselDTO.getCounselDate();
+		Date counselDate = askInsuranceCounselRequest.getCounselDate();
 		Counsel counsel = new Counsel(customerId, insuranceId, name, phoneNumber, counselDate, job, age, gender);
 		counsel.setId(NextIdGetter.getNextId(counselEntityModel.getMaxId(), COUNSEL_SERIAL_NUMBER));
 		counselEntityModel.add(counsel);
 	}
 
-	public void buyInsurance(BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
-		int insuranceId = buyInsuranceDTO.getInsuranceId();
-		int customerId = buyInsuranceDTO.getCustomerId();
+	public void buyInsurance(BuyInsuranceRequest buyInsuranceRequest) throws NotExistException {
+		int insuranceId = buyInsuranceRequest.getInsuranceId();
+		int customerId = buyInsuranceRequest.getCustomerId();
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
@@ -478,11 +478,11 @@ public class CustomerService {
 //		return customer.buyInsurance(insurance, contractList);
 	}
 
-	public void complain(ComplainDTO complainDTO) throws NotExistException {
-		ComplaintType complainType = ComplaintType.values()[complainDTO.getComplainType()];
-		String title = complainDTO.getTitle();
-		String content = complainDTO.getContent();
-		int customerId = complainDTO.getCustomerId();
+	public void complain(ComplainRequest complainRequest) throws NotExistException {
+		ComplaintType complainType = ComplaintType.values()[complainRequest.getComplainType()];
+		String title = complainRequest.getTitle();
+		String content = complainRequest.getContent();
+		int customerId = complainRequest.getCustomerId();
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Complaint complaint = new Complaint(complainType, content, customerId, title);
@@ -491,9 +491,9 @@ public class CustomerService {
 //		customer.complain(complaintList, customerList, complainType, title, content);
 	}
 
-	public void loan(LoanDTO loanDTO) throws AlreadyRequestingException, NotExistException {
-		int loanId = loanDTO.getLoanId();
-		int customerId = loanDTO.getCustomerId();
+	public void loan(LoanRequest loanRequest) throws AlreadyRequestingException, NotExistException {
+		int loanId = loanRequest.getLoanId();
+		int customerId = loanRequest.getCustomerId();
 
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Loan loan = loanEntityModel.getById(loanId);
@@ -510,15 +510,15 @@ public class CustomerService {
 //		return customer.loan(loan, contractList);
 	}
 
-	public void receiveInsurance(ReceiveInsuranceDTO receiveInsuranceDTO) throws NotExistContractException, NotExistException {
-		int contractId = receiveInsuranceDTO.getContractId();
+	public void receiveInsurance(ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
+		int contractId = receiveInsuranceRequest.getContractId();
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
-		BufferedImage medicalCertificateImage = receiveInsuranceDTO.getMedicalCertificateImage();
-		BufferedImage receiptImage = receiveInsuranceDTO.getReceiptImage();
-		BufferedImage residentRegistrationCardImage = receiveInsuranceDTO.getResidentRegistrationCardImage();
+		BufferedImage medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificateImage();
+		BufferedImage receiptImage = receiveInsuranceRequest.getReceiptImage();
+		BufferedImage residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCardImage();
 		// 일단 이미지도 DTO로 받는 형태 - 이건 다시 얘기해봅시다
 
 
@@ -535,11 +535,11 @@ public class CustomerService {
 //			insuranceMoneyList);
 	}
 
-	public void reportAccident(ReportAccidentDTO reportAccidentDTO) throws NotExistException {
-		Date accidentDate = reportAccidentDTO.getAccidentDate();
-		String location = reportAccidentDTO.getLocation();
-		ServiceType serviceType = ServiceType.values()[reportAccidentDTO.getServiceType()];
-		int customerId = reportAccidentDTO.getCustomerId();
+	public void reportAccident(ReportAccidentRequest reportAccidentRequest) throws NotExistException {
+		Date accidentDate = reportAccidentRequest.getAccidentDate();
+		String location = reportAccidentRequest.getLocation();
+		ServiceType serviceType = ServiceType.values()[reportAccidentRequest.getServiceType()];
+		int customerId = reportAccidentRequest.getCustomerId();
 
 		Customer customer = customerEntityModel.getById(customerId);
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");

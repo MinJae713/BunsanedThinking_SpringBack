@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 @Data
 @NoArgsConstructor
-public class ReceiveInsuranceDTO {
+public class ReceiveInsuranceRequest {
     private int contractId;
     private BufferedImage medicalCertificateImage;
     private BufferedImage receiptImage;

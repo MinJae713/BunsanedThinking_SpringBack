@@ -47,9 +47,9 @@ public class CustomerController {
 	}
 
 	@PostMapping("/payInsurancefee")
-	public void payInsurancefee(@RequestBody DepositDTO depositDTO)
+	public void payInsurancefee(@RequestBody DepositRequest depositRequest)
 			throws NotExistContractException, NotExistException {
-		customerSModel.payInsurancefee(depositDTO);
+		customerSModel.payInsurancefee(depositRequest);
 	}
 	@GetMapping("/getCustomerById")
 	// http://localhost:8080/customer/getCustomerById?id=2002 - Get Post Patch delete
@@ -193,33 +193,33 @@ public class CustomerController {
 	}
 
 	@PostMapping("/askInsuranceCounsel")
-	public void askInsuranceCounsel(@RequestBody AskInsuranceCounselDTO askInsuranceCounselDTO) throws NotExistException {
-		customerSModel.askInsuranceCounsel(askInsuranceCounselDTO);
+	public void askInsuranceCounsel(@RequestBody AskInsuranceCounselRequest askInsuranceCounselRequest) throws NotExistException {
+		customerSModel.askInsuranceCounsel(askInsuranceCounselRequest);
 	}
 
 	@PostMapping("/buyInsurance")
-	public void buyInsurance(@RequestBody BuyInsuranceDTO buyInsuranceDTO) throws NotExistException {
-		customerSModel.buyInsurance(buyInsuranceDTO);
+	public void buyInsurance(@RequestBody BuyInsuranceRequest buyInsuranceRequest) throws NotExistException {
+		customerSModel.buyInsurance(buyInsuranceRequest);
 	}
 
 	@PostMapping("/complain")
-	public void complain(@RequestBody ComplainDTO complainDTO) throws NotExistException {
-		customerSModel.complain(complainDTO);
+	public void complain(@RequestBody ComplainRequest complainRequest) throws NotExistException {
+		customerSModel.complain(complainRequest);
 	}
 
 	@PostMapping("/loan")
-	public void loan(@RequestBody LoanDTO loanDTO) throws AlreadyRequestingException, NotExistException {
-		customerSModel.loan(loanDTO);
+	public void loan(@RequestBody LoanRequest loanRequest) throws AlreadyRequestingException, NotExistException {
+		customerSModel.loan(loanRequest);
 	}
 
 	// 얜 검증 미완
 	@PostMapping("/receiveInsurance")
-	public void receiveInsurance(@RequestBody ReceiveInsuranceDTO receiveInsuranceDTO) throws NotExistContractException, NotExistException {
-		customerSModel.receiveInsurance(receiveInsuranceDTO);
+	public void receiveInsurance(@RequestBody ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
+		customerSModel.receiveInsurance(receiveInsuranceRequest);
 	}
 
 	@PostMapping("/reportAccident")
-	public void reportAccident(@RequestBody ReportAccidentDTO reportAccidentDTO) throws NotExistException {
-		customerSModel.reportAccident(reportAccidentDTO);
+	public void reportAccident(@RequestBody ReportAccidentRequest reportAccidentRequest) throws NotExistException {
+		customerSModel.reportAccident(reportAccidentRequest);
 	}
 }

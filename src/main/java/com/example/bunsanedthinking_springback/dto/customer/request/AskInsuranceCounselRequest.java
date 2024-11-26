@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @Data
 @NoArgsConstructor
-public class AskInsuranceCounselDTO {
+public class AskInsuranceCounselRequest {
     private int customerId;
     private int insuranceId;
 //    private String name;
