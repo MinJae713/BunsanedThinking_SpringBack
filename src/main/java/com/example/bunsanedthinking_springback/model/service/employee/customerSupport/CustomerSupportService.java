@@ -3,12 +3,14 @@ package com.example.bunsanedthinking_springback.model.service.employee.customerS
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.GetComplaintResponse;
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleComplaint.HandleComplaintResponse;
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleReport.HandleReportResponse;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accident.AccidentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -80,26 +82,26 @@ public class CustomerSupportService {
 		reportEntityModel.add(report);
 	}
 
-	public List<GetComplaintResponse> getAllComplaint() {
+	public List<HandleComplaintResponse> getAllComplaint() {
 		List<Complaint> complaintList = complaintEntityModel.getAll();
 		return complaintList.stream()
-			.map(complaint -> new GetComplaintResponse(complaint,
+			.map(complaint -> HandleComplaintResponse.of(complaint,
 				customerEntityModel.getById(complaint.getCustomerID())))
 			.toList();
 	}
 
-	public List<GetComplaintResponse> getAllUnprocessedComplaint() {
+	public List<HandleComplaintResponse> getAllUnprocessedComplaint() {
 		List<Complaint> complaintList = getAllByProcessStatus(ComplaintProcessStatus.Unprocessed);
 		return complaintList.stream()
-			.map(complaint -> new GetComplaintResponse(complaint,
+			.map(complaint -> HandleComplaintResponse.of(complaint,
 				customerEntityModel.getById(complaint.getCustomerID())))
 			.toList();
 	}
 
-	public List<GetComplaintResponse> getAllProcessedComplaint() {
+	public List<HandleComplaintResponse> getAllProcessedComplaint() {
 		List<Complaint> complaintList = getAllByProcessStatus(ComplaintProcessStatus.Completed);
 		return complaintList.stream()
-			.map(complaint -> new GetComplaintResponse(complaint,
+			.map(complaint -> HandleComplaintResponse.of(complaint,
 				customerEntityModel.getById(complaint.getCustomerID())))
 			.toList();
 	}
@@ -111,14 +113,24 @@ public class CustomerSupportService {
 			.collect(Collectors.toList());
 	}
 
-	public GetComplaintResponse getComplaint(int id) throws NotExistException {
+	public HandleComplaintResponse getComplaint(int id) throws NotExistException {
 		Complaint complaint = complaintEntityModel.getById(id);
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
 		Customer customer = customerEntityModel.getById(complaint.getCustomerID());
 		if (customer == null)
 			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
-		return new GetComplaintResponse(complaint, customer);
+		return HandleComplaintResponse.of(complaint, customer);
+	}
+
+	public HandleComplaintResponse getComplaintDetail(int id) throws NotExistException {
+		Complaint complaint = complaintEntityModel.getById(id);
+		if (complaint == null)
+			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
+		Customer customer = customerEntityModel.getById(complaint.getCustomerID());
+		if (customer == null)
+			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+		return HandleComplaintResponse.ofWithDetail(complaint, customer);
 	}
 
 	public Customer getCustomer(int customerID) throws NotExistException {
@@ -128,34 +140,39 @@ public class CustomerSupportService {
 		return customer;
 	}
 
-	public List<Accident> getAllAccident() {
-		return accidentEntityModel.getAll();
-	}
-
-	public List<Accident> getAllUnprocessedAccident() {
-		return getAllByProcessStatus(AccidentProcessStatus.Unprocessed);
-	}
-
-	public List<Accident> getAllCompletedAccident() {
-		return getAllByProcessStatus(AccidentProcessStatus.Completed);
-	}
-
-	public List<Accident> getAllProcessingAccident() {
-		return getAllByProcessStatus(AccidentProcessStatus.Processing);
-	}
-
-	private List<Accident> getAllByProcessStatus(AccidentProcessStatus processStatus) {
-		List<Accident> accidentList = accidentEntityModel.getAll();
-		return accidentList.stream()
-			.filter(accident -> accident.getProcessStatus() == processStatus)
+	public List<HandleReportResponse> getAllAccident() {
+		return accidentEntityModel.getAll().stream()
+			.map(HandleReportResponse::from)
+			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
 	}
 
-	public Accident getAccident(int id) throws NotExistException {
-		Accident acciednt = accidentEntityModel.getById(id);
-		if (acciednt == null)
+	public List<HandleReportResponse> getAllUnprocessedAccident() {
+		return getAllByProcessStatus(AccidentProcessStatus.Unprocessed);
+	}
+
+	public List<HandleReportResponse> getAllCompletedAccident() {
+		return getAllByProcessStatus(AccidentProcessStatus.Completed);
+	}
+
+	public List<HandleReportResponse> getAllProcessingAccident() {
+		return getAllByProcessStatus(AccidentProcessStatus.Processing);
+	}
+
+	private List<HandleReportResponse> getAllByProcessStatus(AccidentProcessStatus processStatus) {
+		List<Accident> accidentList = accidentEntityModel.getAll();
+		return accidentList.stream()
+			.filter(accident -> accident.getProcessStatus() == processStatus)
+			.map(HandleReportResponse::from)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
+	}
+
+	public HandleReportResponse getAccident(int id) throws NotExistException {
+		Accident accident = accidentEntityModel.getById(id);
+		if (accident == null)
 			throw new NotExistException("해당하는 사고 정보가 존재하지 않습니다.");
-		return acciednt;
+		return HandleReportResponse.from(accident);
 	}
 
 	public List<PartnerCompany> getAllRoadAssistanceCompany() {

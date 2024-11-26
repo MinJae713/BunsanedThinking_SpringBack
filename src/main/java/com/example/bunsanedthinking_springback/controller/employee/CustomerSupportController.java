@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.GetComplaintResponse;
-import com.example.bunsanedthinking_springback.entity.accident.Accident;
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleComplaint.HandleComplaintResponse;
+import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleReport.HandleReportResponse;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
@@ -44,23 +44,29 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllComplaint")
-	public List<GetComplaintResponse> getAllComplaint() {
+	public List<HandleComplaintResponse> getAllComplaint() {
 		return customerSupportService.getAllComplaint();
 	}
 
 	@GetMapping("/getAllUnprocessedComplaint")
-	public List<GetComplaintResponse> getAllUnprocessedComplaint() {
+	public List<HandleComplaintResponse> getAllUnprocessedComplaint() {
 		return customerSupportService.getAllUnprocessedComplaint();
 	}
 
 	@GetMapping("/getAllProcessedComplaint")
-	public List<GetComplaintResponse> getAllProcessedComplaint() {
+	public List<HandleComplaintResponse> getAllProcessedComplaint() {
 		return customerSupportService.getAllProcessedComplaint();
 	}
 
 	@GetMapping("/getComplaint")
-	public GetComplaintResponse getComplaint(@RequestParam("complaintId") int complaintId) throws NotExistException {
+	public HandleComplaintResponse getComplaint(@RequestParam("complaintId") int complaintId) throws NotExistException {
 		return customerSupportService.getComplaint(complaintId);
+	}
+
+	@GetMapping("/getComplaintDetail")
+	public HandleComplaintResponse getComplaintDetail(@RequestParam("complaintId") int complaintId) throws
+		NotExistException {
+		return customerSupportService.getComplaintDetail(complaintId);
 	}
 
 	@GetMapping("/getCustomer")
@@ -69,27 +75,27 @@ public class CustomerSupportController {
 	}
 
 	@GetMapping("/getAllAccident")
-	public List<Accident> getAllAccident() {
+	public List<HandleReportResponse> getAllAccident() {
 		return customerSupportService.getAllAccident();
 	}
 
 	@GetMapping("/getAllUnprocessedAccident")
-	public List<Accident> getAllUnprocessedAccident() {
+	public List<HandleReportResponse> getAllUnprocessedAccident() {
 		return customerSupportService.getAllUnprocessedAccident();
 	}
 
 	@GetMapping("/getAllCompletedAccident")
-	public List<Accident> getAllCompletedAccident() {
+	public List<HandleReportResponse> getAllCompletedAccident() {
 		return customerSupportService.getAllCompletedAccident();
 	}
 
 	@GetMapping("/getAllProcessingAccident")
-	public List<Accident> getAllProcessingAccident() {
+	public List<HandleReportResponse> getAllProcessingAccident() {
 		return customerSupportService.getAllProcessingAccident();
 	}
 
 	@GetMapping("/getAccident")
-	public Accident getAccident(@RequestParam("accidentId") int accidentId) throws NotExistException {
+	public HandleReportResponse getAccident(@RequestParam("accidentId") int accidentId) throws NotExistException {
 		return customerSupportService.getAccident(accidentId);
 	}
 
