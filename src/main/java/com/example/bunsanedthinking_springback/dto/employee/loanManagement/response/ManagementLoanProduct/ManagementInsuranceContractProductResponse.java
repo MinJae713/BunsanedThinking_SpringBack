@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response;
+package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProduct;
 
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
@@ -11,7 +11,7 @@ public class ManagementInsuranceContractProductResponse extends ManagementLoanPr
 
 	public ManagementInsuranceContractProductResponse(int id, int maximumMoney, String name, int interestRate,
 		LoanType loanType, int minimumAsset, int monthlyIncome, int insuranceId) {
-		super(id, maximumMoney, name, interestRate, loanType, minimumAsset, monthlyIncome);
+		super(id, maximumMoney, name, interestRate, loanType.getName(), minimumAsset, monthlyIncome);
 		this.insuranceId = insuranceId;
 	}
 
