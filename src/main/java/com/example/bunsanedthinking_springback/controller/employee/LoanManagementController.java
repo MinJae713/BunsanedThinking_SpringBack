@@ -63,6 +63,11 @@ public class LoanManagementController {
 		return loanManagementService.getLoanRequest(id);
 	}
 
+	@GetMapping("/getLoanRequestDetail")
+	public LoanRequestResponse getLoanRequestDetail(@RequestParam("id") int id) throws NotExistContractException {
+		return loanManagementService.getLoanRequestDetail(id);
+	}
+
 	public boolean collectLoanPrincipalInterest() {
 		return loanManagementService.collectLoanPrincipalInterest();
 	}

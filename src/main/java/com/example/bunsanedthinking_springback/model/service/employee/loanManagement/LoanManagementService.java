@@ -361,6 +361,18 @@ public class LoanManagementService {
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		Loan loan = loanEntityModel.getById(contract.getProductId());
+		return LoanRequestResponse.of(loan, customer, contract);
+	}
+
+	public LoanRequestResponse getLoanRequestDetail(int id) throws NotExistContractException {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		Contract contract = contractEntityModel.getById(id);
+		if (contract == null
+			|| !(contract.getProductId() + "").startsWith(loanProductSerial)) {
+			throw new NotExistContractException();
+		}
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		Loan loan = loanEntityModel.getById(contract.getProductId());
 		return LoanRequestResponse.ofWithDetail(loan, customer, contract);
 	}
 
