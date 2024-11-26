@@ -1,11 +1,14 @@
 package com.example.bunsanedthinking_springback.model.service.employee.financialAccountant;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.handlePaymentDetail.HandlePaymentResponse;
+import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.viewDepositDetail.ViewDepositResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
@@ -34,11 +37,11 @@ public class FinancialAccountantService {
 	@Autowired
 	private EmployeeEntityModel employeeEntityModel;
 
-	public DepositDetail getDepositDetail(int id) throws NotExistException {
+	public ViewDepositResponse getDepositDetail(int id) throws NotExistException {
 		DepositDetail depositDetail = depositDetailEntityModel.getById(id);
 		if (depositDetail == null)
 			throw new NotExistException("해당하는 입금 내역 정보가 존재하지 않습니다.");
-		return depositDetail;
+		return ViewDepositResponse.from(depositDetail);
 	}
 
 	public void getTaxPaymentDetail() {
@@ -63,30 +66,33 @@ public class FinancialAccountantService {
 		paymentDetailEntityModel.update(paymentDetail);
 	}
 
-	public List<PaymentDetail> getAllPaymentDetail() {
-		return paymentDetailEntityModel.getAll();
-	}
-
-	public List<PaymentDetail> getAllUnprocessedPaymentDetail() {
-		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Unprocessed);
-	}
-
-	public List<PaymentDetail> getAllCompletedPaymentDetail() {
-		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Completed);
-	}
-
-	private List<PaymentDetail> getAllPaymentDetailByProcessStatus(PaymentProcessStatus processStatus) {
-		List<PaymentDetail> paymentDetailList = paymentDetailEntityModel.getAll();
-		return paymentDetailList.stream()
-			.filter(paymentDetail -> paymentDetail.getProcessStatus() == processStatus)
+	public List<HandlePaymentResponse> getAllPaymentDetail() {
+		return paymentDetailEntityModel.getAll().stream()
+			.map(HandlePaymentResponse::from)
 			.collect(Collectors.toList());
 	}
 
-	public PaymentDetail getPaymentDetail(int id) throws NotExistException {
+	public List<HandlePaymentResponse> getAllUnprocessedPaymentDetail() {
+		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Unprocessed);
+	}
+
+	public List<HandlePaymentResponse> getAllCompletedPaymentDetail() {
+		return getAllPaymentDetailByProcessStatus(PaymentProcessStatus.Completed);
+	}
+
+	private List<HandlePaymentResponse> getAllPaymentDetailByProcessStatus(PaymentProcessStatus processStatus) {
+		List<PaymentDetail> paymentDetailList = paymentDetailEntityModel.getAll();
+		return paymentDetailList.stream()
+			.filter(paymentDetail -> paymentDetail.getProcessStatus() == processStatus)
+			.map(HandlePaymentResponse::from)
+			.collect(Collectors.toList());
+	}
+
+	public HandlePaymentResponse getPaymentDetail(int id) throws NotExistException {
 		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(id);
 		if (paymentDetail == null)
 			throw new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다.");
-		return paymentDetail;
+		return HandlePaymentResponse.from(paymentDetail);
 	}
 
 	public Contract getContract(int id) throws NotExistContractException {
@@ -104,8 +110,11 @@ public class FinancialAccountantService {
 		return customer;
 	}
 
-	public List<DepositDetail> getAllDepositDetail() {
-		return depositDetailEntityModel.getAll();
+	public List<ViewDepositResponse> getAllDepositDetail() {
+		return depositDetailEntityModel.getAll().stream()
+			.map(ViewDepositResponse::from)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
 	}
 
 	public Employee getEmployee(int employeeId) throws NotExistException {

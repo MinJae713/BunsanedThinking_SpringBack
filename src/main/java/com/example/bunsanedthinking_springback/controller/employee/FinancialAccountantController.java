@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.handlePaymentDetail.HandlePaymentResponse;
+import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.viewDepositDetail.ViewDepositResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
-import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -26,7 +26,7 @@ public class FinancialAccountantController {
 	private FinancialAccountantService financialAccountantService;
 
 	@GetMapping("/getDepositDetail")
-	public DepositDetail getDepositDetail(@RequestParam("depositDetailId") int depositDetailId) throws
+	public ViewDepositResponse getDepositDetail(@RequestParam("depositDetailId") int depositDetailId) throws
 		NotExistException {
 		return financialAccountantService.getDepositDetail(depositDetailId);
 	}
@@ -44,22 +44,22 @@ public class FinancialAccountantController {
 	}
 
 	@GetMapping("/getAllPaymentDetail")
-	public List<PaymentDetail> getAllPaymentDetail() {
+	public List<HandlePaymentResponse> getAllPaymentDetail() {
 		return financialAccountantService.getAllPaymentDetail();
 	}
 
 	@GetMapping("/getAllUnprocessedPaymentDetail")
-	public List<PaymentDetail> getAllUnprocessedPaymentDetail() {
+	public List<HandlePaymentResponse> getAllUnprocessedPaymentDetail() {
 		return financialAccountantService.getAllUnprocessedPaymentDetail();
 	}
 
 	@GetMapping("/getAllCompletedPaymentDetail")
-	public List<PaymentDetail> getAllCompletedPaymentDetail() {
+	public List<HandlePaymentResponse> getAllCompletedPaymentDetail() {
 		return financialAccountantService.getAllCompletedPaymentDetail();
 	}
 
 	@GetMapping("/getPaymentDetail")
-	public PaymentDetail getPaymentDetail(@RequestParam("paymentDetailId") int paymentDetailId) throws
+	public HandlePaymentResponse getPaymentDetail(@RequestParam("paymentDetailId") int paymentDetailId) throws
 		NotExistException {
 		return financialAccountantService.getPaymentDetail(paymentDetailId);
 	}
@@ -80,7 +80,7 @@ public class FinancialAccountantController {
 	}
 
 	@GetMapping("/getAllDepositDetail")
-	public List<DepositDetail> getAllDepositDetail() {
+	public List<ViewDepositResponse> getAllDepositDetail() {
 		return financialAccountantService.getAllDepositDetail();
 	}
 }
