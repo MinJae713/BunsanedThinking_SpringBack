@@ -17,10 +17,15 @@ public class FamilyResponse {
 	private int id;
 	private String name;
 	private String relationship;
-	private boolean survival;
+	private String survival;
 
 	public static FamilyResponse from(Family family) {
+		String survival;
+		if (family.isSurvival())
+			survival = "생존";
+		else
+			survival = "사망";
 		return new FamilyResponse(family.getBirthDate(), family.getEmployeeId(), family.getId(), family.getName(),
-			family.getRelationship().getName(), family.isSurvival());
+			family.getRelationship().getName(), survival);
 	}
 }
