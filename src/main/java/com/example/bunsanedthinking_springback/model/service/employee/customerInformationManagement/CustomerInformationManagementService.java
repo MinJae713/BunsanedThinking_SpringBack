@@ -229,6 +229,10 @@ public class CustomerInformationManagementService {
 						System.err.println("ID로 사고 이력을 찾을 수 없습니다: " + dto.getId());
 						continue;
 					}
+					if (accidentHistory.getCustomerID() != customer.getId()) {
+						System.err.println("해당 고객의 사고 이력이 아닙니다: " + dto.getId());
+						continue; // 해당 이력 무시
+					}
 					// 날짜 값이 유효한 경우 변환
 					Date date = null;
 					if (dto.getDate() != null && !dto.getDate().isEmpty()) {
@@ -237,10 +241,10 @@ public class CustomerInformationManagementService {
 					}
 					// 기존 사고 이력 업데이트
 					if (date != null) {
-						accidentHistory.setDate(date); // 유효한 날짜만 설정
+						accidentHistory.setDate(date);
 					}
 					accidentHistory.setAccidentDetail(dto.getAccidentDetail());
-					accidentHistoryEntityModel.update(accidentHistory); // 업데이트 호출
+					accidentHistoryEntityModel.update(accidentHistory);
 				} catch (Exception e) {
 					System.err.println("사고 이력 업데이트 중 오류 발생: " + e.getMessage());
 					e.printStackTrace();
@@ -248,7 +252,6 @@ public class CustomerInformationManagementService {
 			}
 		}
 	}
-
 	private void updateSurgeryHistories(List<UpdateSurgeryHistoryDTO> surgeryHistoryList, Customer customer) {
 		if (surgeryHistoryList != null) {
 			for (UpdateSurgeryHistoryDTO dto : surgeryHistoryList) {
@@ -258,28 +261,30 @@ public class CustomerInformationManagementService {
 						System.err.println("유효하지 않은 ID로 인해 수술 이력 업데이트가 무시되었습니다: " + dto);
 						continue;
 					}
-
 					// 기존 수술 이력을 ID로 조회
 					SurgeryHistory surgeryHistory = surgeryHistoryEntityModel.getById(dto.getId());
 					if (surgeryHistory == null) {
 						System.err.println("ID로 수술 이력을 찾을 수 없습니다: " + dto.getId());
 						continue;
 					}
-
+					// 고객 소유권 확인
+					if (surgeryHistory.getCustomerID() != customer.getId()) {
+						System.err.println("해당 고객의 수술 이력이 아닙니다: " + dto.getId());
+						continue; // 해당 이력 무시
+					}
 					// 날짜 값이 유효한 경우 변환
 					Date date = null;
 					if (dto.getDate() != null && !dto.getDate().isEmpty()) {
 						LocalDate localDate = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 						date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 					}
-
 					// 기존 수술 이력 업데이트
 					if (date != null) {
-						surgeryHistory.setDate(date); // 유효한 날짜만 설정
+						surgeryHistory.setDate(date);
 					}
 					surgeryHistory.setHospitalName(dto.getHospitalName());
 					surgeryHistory.setName(dto.getName());
-					surgeryHistoryEntityModel.update(surgeryHistory); // 업데이트 호출
+					surgeryHistoryEntityModel.update(surgeryHistory);
 
 				} catch (Exception e) {
 					System.err.println("수술 이력 업데이트 중 오류 발생: " + e.getMessage());
@@ -288,8 +293,6 @@ public class CustomerInformationManagementService {
 			}
 		}
 	}
-
-
 	private void updateDiseaseHistories(List<UpdateDiseaseHistoryDTO> diseaseHistoryList, Customer customer) {
 		if (diseaseHistoryList != null) {
 			for (UpdateDiseaseHistoryDTO dto : diseaseHistoryList) {
@@ -299,21 +302,23 @@ public class CustomerInformationManagementService {
 						System.err.println("유효하지 않은 ID로 인해 병력 업데이트가 무시되었습니다: " + dto);
 						continue;
 					}
-
 					// 기존 병력을 ID로 조회
 					DiseaseHistory diseaseHistory = diseaseHistoryEntityModel.getById(dto.getId());
 					if (diseaseHistory == null) {
 						System.err.println("ID로 병력을 찾을 수 없습니다: " + dto.getId());
 						continue;
 					}
-
+					// 고객 소유권 확인
+					if (diseaseHistory.getCustomer_id() != customer.getId()) {
+						System.err.println("해당 고객의 병력이 아닙니다: " + dto.getId());
+						continue; // 해당 이력 무시
+					}
 					// 날짜 값이 유효한 경우 변환
 					Date dateOfDiagnosis = null;
 					if (dto.getDateOfDiagnosis() != null && !dto.getDateOfDiagnosis().isEmpty()) {
 						LocalDate localDate = LocalDate.parse(dto.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 						dateOfDiagnosis = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 					}
-
 					// 기존 병력 업데이트
 					if (dateOfDiagnosis != null) {
 						diseaseHistory.setDate_of_diagnosis(dateOfDiagnosis); // 유효한 날짜만 설정
@@ -328,7 +333,6 @@ public class CustomerInformationManagementService {
 			}
 		}
 	}
-
 
 	public List<Customer> getAll() {
 		return customerEntityModel.getAll();
