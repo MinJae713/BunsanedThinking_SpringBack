@@ -48,31 +48,26 @@ public class AuthenticationService {
 		}
 	}
 
-	public LoginResponse loginCustomer(int id) {
+	public LoginResponse loginCustomer(int id) throws NotExistException {
 		Customer customer = customerService.getCustomerById(id);
-		if (customer == null)
-			return null;
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
 		return new LoginResponse(customer.getName(), UserType.CUSTOMER.name());
 	}
 
-	public LoginResponse loginEmployee(int id) {
-		try {
-			ManagementEmployeeResponse employee = humanResourceService.getEmployee(id);
-			for (UserType userType : UserType.values())
-				if (userType.getDepartmentId() == employee.getDepartmentId())
-					return new LoginResponse(employee.getName(), userType.name());
-			return null;
-		} catch (NotExistException e) {
-			return null;
-		}
+	public LoginResponse loginEmployee(int id) throws NotExistException {
+		ManagementEmployeeResponse employee = humanResourceService.getEmployee(id);
+		for (UserType userType : UserType.values())
+			if (userType.getDepartmentId() == employee.getDepartmentId())
+				return new LoginResponse(employee.getName(), userType.name());
+		throw new NotExistException("해당 직원이 없습니다");
 	}
 
-	public LoginResponse loginPartnerCompany(int id) {
+	public LoginResponse loginPartnerCompany(int id) throws NotExistException {
 		try {
 			PartnerCompany partnerCompany = partnerCompanyService.getPartnerCompanyById(id);
 			return new LoginResponse(partnerCompany.getName(), UserType.PARTNERCOMPANY.name());
 		} catch (NotExistException e) {
-			return null;
+			throw new NotExistException("해당 협력업체 정보가 존재하지 않습니다");
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.authentication;
 
 import com.example.bunsanedthinking_springback.dto.authentication.LoginResponse;
+import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.authentication.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +16,17 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @GetMapping("/loginCustomer")
-    public LoginResponse loginCustomer(@RequestParam int id) {
+    public LoginResponse loginCustomer(@RequestParam int id) throws NotExistException {
         return authenticationService.loginCustomer(id);
     }
 
     @GetMapping("/loginEmployee")
-    public LoginResponse loginEmployee(@RequestParam int id) {
+    public LoginResponse loginEmployee(@RequestParam int id) throws NotExistException {
         return authenticationService.loginEmployee(id);
     }
 
     @GetMapping("/loginPartnerCompany")
-    public LoginResponse loginPartnerCompany(@RequestParam int id) {
+    public LoginResponse loginPartnerCompany(@RequestParam int id) throws NotExistException {
         return authenticationService.loginPartnerCompany(id);
     }
 }
