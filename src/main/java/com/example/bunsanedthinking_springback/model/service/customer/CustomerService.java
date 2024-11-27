@@ -18,7 +18,6 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
@@ -52,8 +51,8 @@ import com.example.bunsanedthinking_springback.model.entityModel.termination.Ter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -128,6 +127,8 @@ public class CustomerService {
 	public Integer SURGERY_HISTORY_SERIAL_NUMBER;
 	@Value("${serials.diseaseHistory}")
 	public Integer DISEASE_HISTORY_SERIAL_NUMBER;
+	@Value("${serials.insuranceMoney}")
+	public Integer INSURANCE_MONEY_SERIAL_NUMBER;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
 		Contract contract = contractEntityModel.getById(contractId);
@@ -516,23 +517,19 @@ public class CustomerService {
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
-		BufferedImage medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificateImage();
-		BufferedImage receiptImage = receiveInsuranceRequest.getReceiptImage();
-		BufferedImage residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCardImage();
-		// 일단 이미지도 DTO로 받는 형태 - 이건 다시 얘기해봅시다
-
-
+		MultipartFile medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificateImage();
+		MultipartFile receiptImage = receiveInsuranceRequest.getReceiptImage();
+		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCardImage();
 		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
 			throw new NotExistException("해당 고객이 가입한 계약이 아닙니다");
-		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
-				customer.getBankAccount(), medicalCertificateImage,
-				receiptImage, residentRegistrationCardImage);
-		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), 00));
-		// InsuranceMoney가 Serial이 없네유...??
-		// serial 수정하면 더미데이터도 수정해야합니다 - 근데 넣는게 맞긴 할듯
-		insuranceMoneyEntityModel.add(insuranceMoney);
-//		customer.receiveInsurance(contract, medicalCertificateImage, receiptImage, residentRegistrationCardImage,
-//			insuranceMoneyList);
+		System.out.println(medicalCertificateImage);
+		System.out.println(receiptImage);
+		System.out.println(residentRegistrationCardImage);
+//		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
+//				customer.getBankAccount(), medicalCertificateImage,
+//				receiptImage, residentRegistrationCardImage);
+//		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), INSURANCE_MONEY_SERIAL_NUMBER));
+//		insuranceMoneyEntityModel.add(insuranceMoney);
 	}
 
 	public void reportAccident(ReportAccidentRequest reportAccidentRequest) throws NotExistException {
