@@ -24,7 +24,7 @@ public class Family implements Cloneable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthDate;
-	private int employeeID;
+	private int employeeId;
 	private int id;
 	private String name;
 	private RelationshipType relationship;
@@ -44,7 +44,7 @@ public class Family implements Cloneable {
 			.toLocalDate();
 		return new FamilyVO(id, lBirthDate, name,
 			relationship.ordinal(), survival,
-			employeeID);
+			employeeId);
 	}
 
 	public String getBirthDateStr() {

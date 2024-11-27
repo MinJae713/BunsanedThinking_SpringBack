@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response;
+package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct;
 
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
@@ -8,14 +8,14 @@ import lombok.Getter;
 
 @Getter
 public class ManagementCollateralProductResponse extends ManagementLoanProductResponse {
-	private CollateralType collateralType;
+	private String collateralType;
 	private int minimumValue;
 
 	public ManagementCollateralProductResponse(int id, int maximumMoney, String name, int interestRate,
 		LoanType loanType,
 		int minimumAsset, int monthlyIncome, CollateralType collateralType, int minimumValue) {
-		super(id, maximumMoney, name, interestRate, loanType, minimumAsset, monthlyIncome);
-		this.collateralType = collateralType;
+		super(id, maximumMoney, name, interestRate, loanType.getName(), minimumAsset, monthlyIncome);
+		this.collateralType = collateralType.getName();
 		this.minimumValue = minimumValue;
 	}
 

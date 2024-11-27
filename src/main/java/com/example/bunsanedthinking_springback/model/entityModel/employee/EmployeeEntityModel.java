@@ -36,7 +36,7 @@ public class EmployeeEntityModel {
 		ArrayList<Contract> contracts = new ArrayList<Contract>();
 		familyDModel.getAll()
 			.stream()
-			.filter(e -> e.getEmployeeID() == id)
+			.filter(e -> e.getEmployeeId() == id)
 			.forEach(families::add);
 		paymentDetailEntityModel.getAll()
 			.stream()

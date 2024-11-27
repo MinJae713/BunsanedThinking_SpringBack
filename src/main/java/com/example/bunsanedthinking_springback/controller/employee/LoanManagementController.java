@@ -17,9 +17,8 @@ import com.example.bunsanedthinking_springback.dto.employee.loanManagement.reque
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateCollateralRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateFixedDepositRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateInsuranceContractRequest;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.loanRequest.LoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
@@ -62,6 +61,11 @@ public class LoanManagementController {
 	@GetMapping("/getLoanRequest")
 	public LoanRequestResponse getLoanRequest(@RequestParam("id") int id) throws NotExistContractException {
 		return loanManagementService.getLoanRequest(id);
+	}
+
+	@GetMapping("/getLoanRequestDetail")
+	public LoanRequestResponse getLoanRequestDetail(@RequestParam("id") int id) throws NotExistContractException {
+		return loanManagementService.getLoanRequestDetail(id);
 	}
 
 	public boolean collectLoanPrincipalInterest() {
@@ -111,7 +115,7 @@ public class LoanManagementController {
 	}
 
 	@GetMapping("/getAll")
-	public List<Loan> getAll() {
+	public List<ManagementLoanProductResponse> getAll() {
 		return loanManagementService.getAll();
 	}
 

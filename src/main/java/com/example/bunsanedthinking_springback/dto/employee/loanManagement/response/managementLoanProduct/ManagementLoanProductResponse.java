@@ -1,7 +1,6 @@
-package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response;
+package com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct;
 
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +12,12 @@ public class ManagementLoanProductResponse {
 	private int maximumMoney;
 	private String name;
 	private int interestRate;
-	private LoanType loanType;
+	private String loanType;
 	private int minimumAsset;
 	private int monthlyIncome;
 
 	public static ManagementLoanProductResponse from(Loan loan) {
 		return new ManagementLoanProductResponse(loan.getId(), loan.getMaximumMoney(), loan.getName(),
-			loan.getInterestRate(), loan.getLoanType(), loan.getMinimumAsset(), loan.getMonthlyIncome());
+			loan.getInterestRate(), loan.getLoanType().getName(), loan.getMinimumAsset(), loan.getMonthlyIncome());
 	}
 }

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateLoanRequest;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.LoanRequestResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementCollateralProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementFixedDepositProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementInsuranceContractProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.ManagementLoanProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.loanRequest.LoanRequestResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementCollateralProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementFixedDepositProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementInsuranceContractProductResponse;
+import com.example.bunsanedthinking_springback.dto.employee.loanManagement.response.managementLoanProduct.ManagementLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.compensationDetail.CompensationDetail;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
@@ -300,8 +300,10 @@ public class LoanManagementService {
 		}
 	}
 
-	public List<Loan> getAll() {
-		return loanEntityModel.getAll();
+	public List<ManagementLoanProductResponse> getAll() {
+		return loanEntityModel.getAll().stream()
+			.map(ManagementLoanProductResponse::from)
+			.toList();
 	}
 
 	public double getOutcome(int contractId) throws NotExistContractException, NotExistException {
@@ -343,7 +345,7 @@ public class LoanManagementService {
 		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
-			.map(contract -> new LoanRequestResponse(
+			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
@@ -359,7 +361,19 @@ public class LoanManagementService {
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		Loan loan = loanEntityModel.getById(contract.getProductId());
-		return new LoanRequestResponse(loan, customer, contract);
+		return LoanRequestResponse.of(loan, customer, contract);
+	}
+
+	public LoanRequestResponse getLoanRequestDetail(int id) throws NotExistContractException {
+		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		Contract contract = contractEntityModel.getById(id);
+		if (contract == null
+			|| !(contract.getProductId() + "").startsWith(loanProductSerial)) {
+			throw new NotExistContractException();
+		}
+		Customer customer = customerEntityModel.getById(contract.getCustomerID());
+		Loan loan = loanEntityModel.getById(contract.getProductId());
+		return LoanRequestResponse.ofWithDetail(loan, customer, contract);
 	}
 
 	public List<LoanRequestResponse> getAllCompletedLoanRequest() {
@@ -367,7 +381,7 @@ public class LoanManagementService {
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() != ContractStatus.ContractRequesting)
-			.map(contract -> new LoanRequestResponse(
+			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
@@ -379,7 +393,7 @@ public class LoanManagementService {
 		return contractEntityModel.getAll().stream()
 			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
-			.map(contract -> new LoanRequestResponse(
+			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
