@@ -130,7 +130,7 @@ public class CustomerService {
 	@Value("${serials.insuranceMoney}")
 	public Integer INSURANCE_MONEY_SERIAL_NUMBER;
 
-	public void applyEndorsement(int index, int contractId) throws NotExistContractException, NotExistException {
+	public void applyEndorsement(int index, int contractId) throws NotExistContractException {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -148,7 +148,7 @@ public class CustomerService {
 	}
 
 	public void applyInsuranceRevival(int contractId)
-		throws NotExistContractException, NotExistTerminatedContract, NotExistException {
+		throws NotExistContractException, NotExistTerminatedContract {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -163,7 +163,7 @@ public class CustomerService {
 	}
 
 	public void applyInsuranceTermination(int contractId)
-		throws NotExistContractException, NotExistMaintainedContract, NotExistException {
+		throws NotExistContractException, NotExistMaintainedContract {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -178,7 +178,7 @@ public class CustomerService {
 	}
 
 	public void applyRecontract(int contractId) throws NotExistContractException,
-		NotExistExpiredContract, NotExistException {
+		NotExistExpiredContract {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null)
 			throw new NotExistContractException();
@@ -209,14 +209,18 @@ public class CustomerService {
 			contractId, money, depositPath));
 	}
 
-	public Customer getCustomerById(int id) {
-		return customerEntityModel.getById(id);
+	public Customer getCustomerById(int id) throws NotExistException {
+		Customer customer = customerEntityModel.getById(id);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		return customer;
 	}
 
-	public List<InsuranceListResponse> getAllInsurance() {
-		return insuranceEntityModel.getAll().stream()
+	public List<InsuranceListResponse> getAllInsurance() throws NotExistException {
+		List<InsuranceListResponse> result = insuranceEntityModel.getAll().stream()
 				.map(InsuranceListResponse::of)
 				.collect(Collectors.toList());
+		if (result.isEmpty()) throw new NotExistException("보험 정보가 아무것도 없습니다");
+		return result;
 	}
 
 	public List<InsuranceListResponse> getAllDiseaseInsurance() {
@@ -239,7 +243,7 @@ public class CustomerService {
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
 		Insurance insurance = insuranceEntityModel.getById(id);
-		if (insurance == null) throw new NotExistException();
+		if (insurance == null) throw new NotExistException("해당 보험 정보가 없습니다");
 		return insurance;
 	}
 
@@ -273,13 +277,13 @@ public class CustomerService {
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
-		if (loan == null) throw new NotExistException();
+		if (loan == null) throw new NotExistException("해당 대출 정보가 아무것도 없습니다");
 		return loan;
 	}
 
 	public LoanListReponse getLoanRowByProductId(int id) throws NotExistException {
 		return LoanListReponse.of(getLoanByProductId(id));
-	} // 추가
+	}
 
 	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
 		return contractEntityModel.getAll().stream().filter(
@@ -300,7 +304,8 @@ public class CustomerService {
 		if (!(product instanceof Insurance insurance)) return null;
 		return ManagementContractResponse.of(contract, insurance);
 	}
-	public List<ManagementContractResponse> getAllAutomobileContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+	public List<ManagementContractResponse> getAllAutomobileContractByCustomerId(int customerId)
+			throws NotExistContractException {
 		List<ManagementContractResponse> result = new ArrayList<ManagementContractResponse>();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId).toList();
@@ -312,7 +317,8 @@ public class CustomerService {
 		return result;
 	}
 
-	public List<ManagementContractResponse> getAllInjuryContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+	public List<ManagementContractResponse> getAllInjuryContractByCustomerId(int customerId)
+			throws NotExistContractException {
 		List<ManagementContractResponse> result = new ArrayList<ManagementContractResponse>();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId).toList();
@@ -351,7 +357,7 @@ public class CustomerService {
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (!(product instanceof Insurance insurance)) throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
 		return ManagementContractResponse.of(contract, insurance);
-	} // 추가
+	}
 
 	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
 		List<Contract> contracts = contractEntityModel.getAll().
@@ -375,7 +381,7 @@ public class CustomerService {
 	public Accident getAccidentById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		Accident accident = accidentEntityModel.getById(id);
-		if (accident == null) throw new NotExistException();
+		if (accident == null) throw new NotExistException("해당 사고가 없습니다");
 		if (accident.getCustomerID() != customerId)
 			throw new IllegalArgumentException("고객이 신청한 사고 내역이 아닙니다");
 		return accident;
@@ -397,7 +403,7 @@ public class CustomerService {
 	public Complaint getComplaintById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		Complaint complaint = complaintEntityModel.getById(id);
-		if (complaint == null) throw new NotExistException();
+		if (complaint == null) throw new NotExistException("해당 민원이 없습니다");
 		if (complaint.getCustomerID() != customerId)
 			throw new IllegalArgumentException("고객이 신청한 민원 신청 내역이 아닙니다");
 		return complaint;

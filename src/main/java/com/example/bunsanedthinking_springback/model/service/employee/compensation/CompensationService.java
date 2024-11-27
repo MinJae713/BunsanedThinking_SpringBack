@@ -60,8 +60,7 @@ public class CompensationService {
 		int paymentType = compensationRequest.getPaymentType();
 		int reportId = compensationRequest.getReportId();
 		Report report = reportEntityModel.getById(reportId);
-		if (report == null)
-			throw new NotExistException();
+		if (report == null) throw new NotExistException("해당 신고 정보가 존재하지 않습니다");
 		int customerId = report.getAccident().getCustomerID();
 		Customer customer = customerEntityModel.getById(customerId);
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
@@ -69,7 +68,7 @@ public class CompensationService {
 		String bank = customer.getBankName();
 		String bankAccount = customer.getBankAccount();
 		Contract contract = getAutomobileByCustomerId(customerId);
-		if (contract == null) throw new NotExistException();
+		if (contract == null) throw new NotExistContractException();
 		if (report.getProcessStatus() == ReportProcessStatus.Completed)
 			throw new AlreadyProcessedException();
 		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
@@ -84,19 +83,19 @@ public class CompensationService {
 	}
 
 	public void requestInsuranceMoney(InsuranceMoneyRequest insuranceMoneyRequest) throws
-		NotExistException,
-		AlreadyProcessedException {
+            NotExistException,
+            AlreadyProcessedException, NotExistContractException {
 		int money = insuranceMoneyRequest.getMoney();
 		int insuranceMoneyId = insuranceMoneyRequest.getInsuranceMoneyId();
 		int paymentType = insuranceMoneyRequest.getPaymentType();
 		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(insuranceMoneyId);
-		if (insuranceMoney == null) throw new NotExistException();
+		if (insuranceMoney == null) throw new NotExistException("해당 보험금이 없습니다");
 		if (insuranceMoney.getProcessStatus() == InsuranceMoneyStatus.Completed)
 			throw new AlreadyProcessedException();
 		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
-		if (contract == null) throw new NotExistException();
+		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
-		if (customer == null) throw new NotExistException();
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
 		if (customer.getId() != contract.getCustomerID()) throw new NotExistException();
 		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
 		PaymentDetail payment = new PaymentDetail(customer.getName(),
@@ -147,14 +146,20 @@ public class CompensationService {
 		return RequestInsuranceMoneyDetailResponse.of(insuranceMoney, insurance, customer);
 	}
 	public RequestInsuranceMoneyResponse getInsuranceMoneyRowById(int id) throws NotExistException {
-		return getOneInsuranceMoney(insuranceMoneyEntityModel.getById(id));
+		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(id);
+		if (insuranceMoney == null) throw new NotExistException("해당 보험금이 없습니다");
+		return getOneInsuranceMoney(insuranceMoney);
 	}
-	public Contract getContractById(int contractId) throws NotExistContractException, NotExistException {
-		return contractEntityModel.getById(contractId);
+	public Contract getContractById(int contractId) throws NotExistContractException {
+		Contract contract = contractEntityModel.getById(contractId);
+		if (contract == null) throw new NotExistContractException();
+		return contract;
 	}
 
-	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		return customerEntityModel.getById(id);
+	public Customer getCustomerById(int id) throws NotExistException {
+		Customer customer = customerEntityModel.getById(id);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		return customer;
 	}
 
 	public List<RequestCompensationResponse> getAllReport() {
@@ -164,7 +169,9 @@ public class CompensationService {
 	}
 
 	public Report getReportById(int id) throws NotExistException {
-		return reportEntityModel.getById(id);
+		Report report = reportEntityModel.getById(id);
+		if (report == null) throw new NotExistException("해당 신고가 없습니다");
+		return report;
 	}
 
 	public RequestCompensationResponse getReportRowById(int id) throws NotExistException {
@@ -188,10 +195,10 @@ public class CompensationService {
 	public Contract getAutomobileByCustomerId(int customerID) throws NotExistContractException, NotExistException {
 		Customer customer = customerEntityModel.getById(customerID);
 		if (customer == null)
-			throw new NotExistException();
+			throw new NotExistException("해당 고객이 없습니다");
 		List<Contract> customerContracts = customer.getContractList();
 		if (customerContracts == null)
-			throw new NotExistException();
+			throw new NotExistException("해당 고객이 가입한 계약이 없습니다");
 		for (Contract contract : customerContracts) {
 			Product product = productEntityModel.getById(contract.getProductId());
 			if (product instanceof Automobile)

@@ -38,7 +38,7 @@ public class CompensationController {
 
 	@PatchMapping("/requestInsuranceMoney")
 	public void requestInsuranceMoney(@RequestBody InsuranceMoneyRequest insuranceMoneyRequest)
-		throws NotExistException, AlreadyProcessedException {
+            throws NotExistException, AlreadyProcessedException, NotExistContractException {
 		/*
 		{
 			"money": 185000,
@@ -75,12 +75,12 @@ public class CompensationController {
 	}
 
 	@GetMapping("/getContractById")
-	public Contract getContractById(@RequestParam int id) throws NotExistContractException, NotExistException {
+	public Contract getContractById(@RequestParam int id) throws NotExistContractException {
 		return compensationSModel.getContractById(id);
 	}
 
 	@GetMapping("/getCustomerById")
-	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
+	public Customer getCustomerById(@RequestParam int id) throws NotExistException {
 		return compensationSModel.getCustomerById(id);
 	}
 

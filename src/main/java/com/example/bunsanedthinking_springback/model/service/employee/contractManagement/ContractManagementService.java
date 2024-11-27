@@ -73,7 +73,7 @@ public class ContractManagementService {
 		if (tercontract.getTerminationStatus() == TerminationStatus.Completed)
 			throw new AlreadyProcessedException();
 		Customer customer = customerEntityModel.getById(tercontract.getCustomerID());
-		if (customer == null) throw new NotExistException();
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
 		List<DepositDetail> depositDetailList = tercontract.getDepositDetailList();
 		int totalMoney = 0;
 		for (DepositDetail depositDetail : depositDetailList)
@@ -93,10 +93,9 @@ public class ContractManagementService {
 		contractEntityModel.update(contract);
 	}
 
-	public void reviewEndorsement(int endorsementId, int index) throws NotExistException {
+	public void reviewEndorsement(int endorsementId, int index) throws NotExistContractException {
 		Endorsement encontract = endorsementEntityModel.getById(endorsementId);
-		if (encontract == null)
-			throw new NotExistException();
+		if (encontract == null) throw new NotExistContractException();
 		if (index == 1) {
 			encontract.setEndorsementStatus(EndorsementStatus.Completed);
 			endorsementEntityModel.update(encontract);
@@ -118,7 +117,6 @@ public class ContractManagementService {
 			LocalDate currentDate = LocalDate.now();
 			LocalDate expirationDate = currentDate.plusYears(product.getContractPeriod());
 			recontract.setExpirationDate(Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-			//			contractDModel.update(contract);
 			recontract.setRecontractStatus(RecontractStatus.Completed);
 			recontractEntityModel.update(recontract);
 		} else if (index == 2) {
@@ -141,8 +139,7 @@ public class ContractManagementService {
 		}
 	}
 
-	public List<DefaultContractResponse> getAllDefaultContract()
-			throws NotExistContractException, NotExistException {
+	public List<DefaultContractResponse> getAllDefaultContract() {
 		return contractEntityModel.getAll().stream()
 				.map(contract -> DefaultContractResponse.of(
 						CustomerInfoResponse.from(customerEntityModel.getById(contract.getCustomerID())),
@@ -150,8 +147,10 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public Customer getCustomerById(int id) throws NotExistException, NotExistContractException {
-		return customerEntityModel.getById(id);
+	public Customer getCustomerById(int id) throws NotExistException {
+		Customer customer = customerEntityModel.getById(id);
+		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		return customer;
 	}
 
 	public DefaultContractResponse getContractById(int contractId) throws NotExistContractException, NotExistException {
@@ -170,12 +169,13 @@ public class ContractManagementService {
 		return TerminationResponse.of(customerInfoResponse, termination);
 	}
 
-	public Termination getTerminatingContractById(int id) throws NotExistContractException, NotExistException {
-		return terminationEntityModel.getById(id);
+	public Termination getTerminatingContractById(int id) throws NotExistContractException {
+		Termination termination = terminationEntityModel.getById(id);
+		if (termination == null) throw new NotExistContractException();
+		return termination;
 	}
 
-	public List<TerminationResponse> getAllTerminatingContract()
-			throws NotExistContractException, NotExistException {
+	public List<TerminationResponse> getAllTerminatingContract() {
 		return terminationEntityModel.getAll().stream()
 				.map(termination -> TerminationResponse.of(
 						CustomerInfoResponse.from(customerEntityModel.getById(termination.getCustomerID())),
@@ -183,9 +183,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<TerminationResponse> getAllUnprocessedTerminatingContract() throws
-		NotExistContractException,
-		NotExistException {
+	public List<TerminationResponse> getAllUnprocessedTerminatingContract() {
 		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Unprocessed)
 				.map(termination -> TerminationResponse.of(
@@ -194,8 +192,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<TerminationResponse> getAllProcessedTerminatingContract()
-			throws NotExistContractException, NotExistException {
+	public List<TerminationResponse> getAllProcessedTerminatingContract() {
 		return terminationEntityModel.getAll().stream()
 				.filter(e -> e.getTerminationStatus() == TerminationStatus.Completed)
 				.map(termination -> TerminationResponse.of(
@@ -212,8 +209,7 @@ public class ContractManagementService {
 		return EndorsementResponse.of(customerInfoResponse, endorsement);
 	}
 
-	public List<EndorsementResponse> getAllEndorsementContract()
-			throws NotExistContractException, NotExistException {
+	public List<EndorsementResponse> getAllEndorsementContract() {
 		return endorsementEntityModel.getAll().stream()
 				.map(endorsement -> EndorsementResponse.of(
 						CustomerInfoResponse.from(customerEntityModel.getById(endorsement.getCustomerID())),
@@ -221,9 +217,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<EndorsementResponse> getAllUnprocessedEndorsementContract() throws
-		NotExistContractException,
-		NotExistException {
+	public List<EndorsementResponse> getAllUnprocessedEndorsementContract() {
 		return endorsementEntityModel.getAll().stream()
 				.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Unprocessed)
 				.map(endorsement -> EndorsementResponse.of(
@@ -232,8 +226,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<EndorsementResponse> getAllProcessedEndorsementContract()
-			throws NotExistContractException, NotExistException {
+	public List<EndorsementResponse> getAllProcessedEndorsementContract() {
 		return endorsementEntityModel.getAll().stream()
 				.filter(e -> e.getEndorsementStatus() == EndorsementStatus.Completed)
 				.map(endorsement -> EndorsementResponse.of(
@@ -250,8 +243,7 @@ public class ContractManagementService {
 		return ReContractResponse.of(customerInfoResponse, recontract);
 	}
 
-	public List<ReContractResponse> getAllReContract()
-			throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllReContract() {
 		return recontractEntityModel.getAll().stream()
 				.map(recontract -> ReContractResponse.of(
 						CustomerInfoResponse.from(customerEntityModel.getById(recontract.getCustomerID())),
@@ -259,8 +251,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<ReContractResponse> getAllUnprocessedReContract()
-			throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllUnprocessedReContract() {
 		return recontractEntityModel.getAll().stream()
 				.filter(e -> e.getRecontractStatus() == RecontractStatus.Unprocessed)
 				.map(recontract -> ReContractResponse.of(
@@ -269,8 +260,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<ReContractResponse> getAllProcessedReContract()
-			throws NotExistContractException, NotExistException {
+	public List<ReContractResponse> getAllProcessedReContract() {
 		return recontractEntityModel.getAll().stream()
 				.filter(e -> e.getRecontractStatus() == RecontractStatus.Completed)
 				.map(recontract -> ReContractResponse.of(
@@ -287,8 +277,7 @@ public class ContractManagementService {
 		return RevivalResponse.of(customerInfoResponse, revival);
 	}
 
-	public List<RevivalResponse> getAllRevivalContract()
-			throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllRevivalContract() {
 		return revivalEntityModel.getAll().stream()
 				.map(revival -> RevivalResponse.of(
 						CustomerInfoResponse.from(customerEntityModel.getById(revival.getCustomerID())),
@@ -296,7 +285,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<RevivalResponse> getAllUnprocessedRevival() throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllUnprocessedRevival() {
 		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Unprocessed)
 				.map(revival -> RevivalResponse.of(
@@ -305,7 +294,7 @@ public class ContractManagementService {
 				.collect(Collectors.toList());
 	}
 
-	public List<RevivalResponse> getAllProcessedRevival() throws NotExistContractException, NotExistException {
+	public List<RevivalResponse> getAllProcessedRevival() {
 		return revivalEntityModel.getAll().stream()
 				.filter(e -> e.getRevivalStatus() == RevivalStatus.Completed)
 				.map(revival -> RevivalResponse.of(

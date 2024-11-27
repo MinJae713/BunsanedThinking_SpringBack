@@ -25,25 +25,25 @@ public class CustomerController {
 	private CustomerService customerSModel;
 	@PatchMapping("/applyEndorsement")
 	public void applyEndorsement(@RequestParam int index, @RequestParam int contractId)
-				throws NotExistContractException, NotExistException {
+				throws NotExistContractException {
 		customerSModel.applyEndorsement(index, contractId);
 	}
 
 	@PatchMapping("/applyInsuranceRevival")
 	public void applyInsuranceRevival(@RequestParam int contractId)
-            	throws NotExistContractException, NotExistTerminatedContract, NotExistException {
+            	throws NotExistContractException, NotExistTerminatedContract{
 		customerSModel.applyInsuranceRevival(contractId);
 	}
 
 	@PatchMapping("/applyInsuranceTermination")
 	public void applyInsuranceTermination(@RequestParam int contractId)
-				throws NotExistContractException, NotExistMaintainedContract, NotExistException {
+				throws NotExistContractException, NotExistMaintainedContract {
 		customerSModel.applyInsuranceTermination(contractId);
 	}
 
 	@PatchMapping("/applyInsuranceRecontract")
 	public void applyInsuranceRecontract(@RequestParam int contractId)
-				throws NotExistContractException, NotExistExpiredContract, NotExistException {
+				throws NotExistContractException, NotExistExpiredContract {
 		customerSModel.applyRecontract(contractId);
 	}
 
@@ -53,13 +53,12 @@ public class CustomerController {
 		customerSModel.payInsurancefee(depositRequest);
 	}
 	@GetMapping("/getCustomerById")
-	// http://localhost:8080/customer/getCustomerById?id=2002 - Get Post Patch delete
-	public Customer getCustomerById(@RequestParam int id) throws NotExistException, NotExistContractException {
+	public Customer getCustomerById(@RequestParam int id) throws NotExistException {
 		return customerSModel.getCustomerById(id);
 	}
 
 	@GetMapping("/getAllInsurance")
-	public List<InsuranceListResponse> getAllInsurance() {
+	public List<InsuranceListResponse> getAllInsurance() throws NotExistException {
 		return customerSModel.getAllInsurance();
 	}
 

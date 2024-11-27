@@ -39,7 +39,6 @@ public class CompensationPlanningService {
 			if (partnerCompany.getName().equals(name))
 				throw new DuplicatePartnerCompanyException();
 		int id = NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), PARTNER_COMPANY_SERIAL_NUMBER);
-		// evaluation, reportList 지정X
 		PartnerCompany partnerCompany = new PartnerCompany(name, phoneNumber,
 				partnerCompanyType, headName, headPhoneNumber);
 		partnerCompany.setId(id);
@@ -50,13 +49,14 @@ public class CompensationPlanningService {
 
 	public void evaluatePartnerCompany(int evaluate, int partnerCompanyId) throws NotExistException {
 		PartnerCompany partnerCompany = getPartnerCompanyById(partnerCompanyId);
-		if (partnerCompany == null) return;
 		partnerCompany.setEvaluation(evaluate);
 		partnerCompanyEntityModel.update(partnerCompany);
 	}
 
 	public PartnerCompany getPartnerCompanyById(int id) throws NotExistException {
-		return partnerCompanyEntityModel.getById(id);
+		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
+		if (partnerCompany == null) throw new NotExistException("해당 협력업체가 없습니다");
+		return partnerCompany;
 	}
 
 	public PartnerCompanyDetailResponse getPartnerCompanyDetailById(int id) throws NotExistException {
@@ -76,7 +76,7 @@ public class CompensationPlanningService {
 		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
 
 		PartnerCompany partnerCompany = getPartnerCompanyById(partnerCompanyId);
-		if (partnerCompany == null) return;
+		if (partnerCompany == null) throw new NotExistException("해당 협력업체가 없습니다");
 		switch (index) {
 			case 1:
 				for (PartnerCompany e : partnerCompanyEntityModel.getAll())
@@ -101,6 +101,7 @@ public class CompensationPlanningService {
 	}
 
 	public void deletePartnerCompany(int id) throws NotExistException {
+		getPartnerCompanyById(id);
 		partnerCompanyEntityModel.delete(id);
 	}
 
