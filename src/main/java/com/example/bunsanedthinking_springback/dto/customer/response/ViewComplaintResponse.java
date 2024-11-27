@@ -1,11 +1,10 @@
 package com.example.bunsanedthinking_springback.dto.customer.response;
 
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
+import com.example.bunsanedthinking_springback.global.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.text.SimpleDateFormat;
 
 @Data
 @NoArgsConstructor
@@ -24,10 +23,8 @@ public class ViewComplaintResponse {
         String title = complaint.getTitle();
         String postDate = complaint.getPostDate();
         java.util.Date processingDate = complaint.getProcessingDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
         String status = complaint.getProcessStatus().getText();
         return new ViewComplaintResponse(type, complaintId,
-                title, postDate, formatter.format(processingDate), status);
+                title, postDate, DateUtils.toString(processingDate), status);
     }
 }

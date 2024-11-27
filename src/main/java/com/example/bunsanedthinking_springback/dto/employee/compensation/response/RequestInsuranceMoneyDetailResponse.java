@@ -3,12 +3,12 @@ package com.example.bunsanedthinking_springback.dto.employee.compensation.respon
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.global.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -29,13 +29,12 @@ public class RequestInsuranceMoneyDetailResponse {
         int id = insuranceMoney.getId();
         String productType = insurance.getInsuranceType().getName();
         Date applyDate = insuranceMoney.getApplyDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String customerName = customer.getName();
         String processStatus = insuranceMoney.getProcessStatus().getName();
         Image medicalCertificate = insuranceMoney.getMedicalCertificate();
         Image receipt = insuranceMoney.getReceipt();
         Image residentRegistrationCard = insuranceMoney.getResidentRegistrationCard();
-        return new RequestInsuranceMoneyDetailResponse(id, productType, formatter.format(applyDate),
+        return new RequestInsuranceMoneyDetailResponse(id, productType, DateUtils.toString(applyDate),
                 customerName, processStatus, medicalCertificate, receipt, residentRegistrationCard);
     }
 }

@@ -2,12 +2,12 @@ package com.example.bunsanedthinking_springback.dto.employee.contractManagement.
 
 import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos.CustomerInfoResponse;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
+import com.example.bunsanedthinking_springback.global.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -29,9 +29,8 @@ public class EndorsementResponse extends AbstractContractResponse {
         int id = endorsement.getId();
         int productId = endorsement.getProductId();
         Date applyDate = endorsement.getApplyDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String endorsementStatus = endorsement.getEndorsementStatus().getText();
         return new EndorsementResponse(id, customerInfoResponse, productId,
-                formatter.format(applyDate), endorsementStatus);
+                DateUtils.toString(applyDate), endorsementStatus);
     }
 }

@@ -11,6 +11,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.model.service.customer.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/payInsurancefee")
-	public void payInsurancefee(@RequestBody DepositRequest depositRequest)
+	public void payInsurancefee(@RequestBody @Valid DepositRequest depositRequest)
 			throws NotExistContractException, NotExistException {
 		customerSModel.payInsurancefee(depositRequest);
 	}
@@ -188,7 +189,7 @@ public class CustomerController {
 		return customerSModel.getComplaintRowById(id, customerId);
 	}
 	@PostMapping("/signUp")
-	public void signUp(@RequestBody SignUpRequest signUpRequest) throws DuplicateResidentRegistrationNumberException, ParseException {
+	public void signUp(@RequestBody @Valid SignUpRequest signUpRequest) throws DuplicateResidentRegistrationNumberException, ParseException {
 		customerSModel.signUp(signUpRequest);
 	}
 

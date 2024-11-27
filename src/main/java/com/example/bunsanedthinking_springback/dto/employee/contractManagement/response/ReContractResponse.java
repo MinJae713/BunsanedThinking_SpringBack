@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReContractResponse extends AbstractContractResponse {
-    private String expirationDate; // 만기 날짜
-    private String reContractStatus; // 접수 상태
+    private String expirationDate;
+    private String reContractStatus;
 
     public ReContractResponse(int id, CustomerInfoResponse customerInfoResponse, int productId, String expirationDate, String reContractStatus) {
         super(id, customerInfoResponse, productId);
