@@ -26,7 +26,17 @@ public class LoanRequestCollateralResponse extends LoanRequestResponse {
 		String collateralType,
 		int minimumValue) {
 		super(customerId, customerName, phoneNumber, job, age, gender, residentRegistrationNumber, property,
-			accidentHistoryList, diseaseHistoryList, surgeryHistoryList, address, bankName, bankAccount, loanName,
+			accidentHistoryList.stream()
+				.map(AccidentHistoryResponse::from)
+				.toList(),
+			diseaseHistoryList.stream()
+				.map(DiseaseHistoryResponse::from)
+				.toList(),
+			surgeryHistoryList.stream()
+				.map(SurgeryHistoryResponse::from)
+				.toList(),
+			address, bankName,
+			bankAccount, loanName,
 			loanType,
 			loanId, interestRate, maximumMoney, minimumAsset, contractId, contractStatus);
 		this.collateralType = collateralType;

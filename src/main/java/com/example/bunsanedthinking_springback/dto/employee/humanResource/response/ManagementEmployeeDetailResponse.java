@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.bunsanedthinking_springback.global.util.DateUtils;
 
 import lombok.Getter;
 
@@ -14,8 +14,7 @@ import lombok.Getter;
 public class ManagementEmployeeDetailResponse extends ManagementEmployeeResponse {
 	private String address;
 	private String bankAccount;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	protected Date employmentDate;
+	protected String employmentDate;
 	private String bankName;
 	private List<FamilyResponse> familyList;
 	private String phoneNumber;
@@ -27,7 +26,7 @@ public class ManagementEmployeeDetailResponse extends ManagementEmployeeResponse
 		super(id, name, position, departmentId, salary);
 		this.address = address;
 		this.bankAccount = bankAccount;
-		this.employmentDate = employmentDate;
+		this.employmentDate = DateUtils.toString(employmentDate);
 		this.bankName = bankName;
 		this.familyList = familyList.stream()
 			.map(FamilyResponse::from)

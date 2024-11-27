@@ -23,7 +23,16 @@ public class LoanRequestInsuranceContractResponse extends LoanRequestResponse {
 		String address, String bankName, String bankAccount, String loanName, String loanType, int loanId,
 		int interestRate, int maximumMoney, int minimumAsset, int contractId, String contractStatus, int insuranceId) {
 		super(customerId, customerName, phoneNumber, job, age, gender, residentRegistrationNumber, property,
-			accidentHistoryList, diseaseHistoryList, surgeryHistoryList, address, bankName, bankAccount, loanName,
+			accidentHistoryList.stream()
+				.map(AccidentHistoryResponse::from)
+				.toList(),
+			diseaseHistoryList.stream()
+				.map(DiseaseHistoryResponse::from)
+				.toList(),
+			surgeryHistoryList.stream()
+				.map(SurgeryHistoryResponse::from)
+				.toList(),
+			address, bankName, bankAccount, loanName,
 			loanType,
 			loanId, interestRate, maximumMoney, minimumAsset, contractId, contractStatus);
 		this.insuranceId = insuranceId;

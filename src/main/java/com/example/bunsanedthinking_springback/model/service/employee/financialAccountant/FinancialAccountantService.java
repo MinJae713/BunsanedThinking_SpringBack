@@ -1,7 +1,6 @@
 package com.example.bunsanedthinking_springback.model.service.employee.financialAccountant;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +112,6 @@ public class FinancialAccountantService {
 	public List<ViewDepositResponse> getAllDepositDetail() {
 		return depositDetailEntityModel.getAll().stream()
 			.map(ViewDepositResponse::from)
-			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
 	}
 

@@ -16,9 +16,8 @@ public class HandleComplaintDetailResponse extends HandleComplaintResponse {
 	public HandleComplaintDetailResponse(String complaintType, String customerName, String customerPhoneNumber,
 		String employeeName, int id, Date postDate, Date processingDate, String processStatus,
 		String title, String content) {
-		super(complaintType, customerName, customerPhoneNumber, employeeName, id, postDate, processingDate,
-			processStatus,
-			title);
+		super(complaintType, customerName, customerPhoneNumber, employeeName, id, DateUtils.toString(postDate),
+			DateUtils.toString(processingDate), processStatus, title);
 		this.content = content;
 	}
 

@@ -2,15 +2,12 @@ package com.example.bunsanedthinking_springback.dto.employee.loanManagement.resp
 
 import java.util.List;
 
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +23,9 @@ public class LoanRequestResponse {
 	String gender;
 	String residentRegistrationNumber;
 	long property;
-	List<AccidentHistory> accidentHistoryList;
-	List<DiseaseHistory> diseaseHistoryList;
-	List<SurgeryHistory> surgeryHistoryList;
+	List<AccidentHistoryResponse> accidentHistoryList;
+	List<DiseaseHistoryResponse> diseaseHistoryList;
+	List<SurgeryHistoryResponse> surgeryHistoryList;
 	String address;
 	String bankName;
 	String bankAccount;
@@ -45,8 +42,10 @@ public class LoanRequestResponse {
 		return new LoanRequestResponse(customer.getId(), customer.getName(), customer.getPhoneNumber(),
 			customer.getJob(), customer.getAge(), customer.getGender().getName(),
 			customer.getResidentRegistrationNumber(), customer.getProperty(),
-			customer.getAccidentHistoryList(), customer.getDiseaseHistoryList(),
-			customer.getSurgeryHistoryList(), customer.getAddress(), customer.getBankName(),
+			customer.getAccidentHistoryList().stream().map(AccidentHistoryResponse::from).toList(),
+			customer.getDiseaseHistoryList().stream().map(DiseaseHistoryResponse::from).toList(),
+			customer.getSurgeryHistoryList().stream().map(SurgeryHistoryResponse::from).toList(),
+			customer.getAddress(), customer.getBankName(),
 			customer.getBankAccount(), loan.getName(), loan.getLoanType().getName(), loan.getId(),
 			loan.getInterestRate(), loan.getMaximumMoney(), loan.getMinimumAsset(), contract.getId(),
 			contract.getContractStatus().getText());
