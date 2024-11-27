@@ -1,12 +1,13 @@
 package com.example.bunsanedthinking_springback.dto.employee.contractManagement.response;
 
+import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos.CustomerInfoResponse;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -14,11 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EndorsementResponse extends AbstractContractResponse {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date applyDate; // 신청 날짜
-    private String endorsementStatus; // 심사 상태
+    private String applyDate;
+    private String endorsementStatus;
 
-    public EndorsementResponse(int id, CustomerInfoResponse customerInfoResponse, int productId, Date applyDate, String endorsementStatus) {
+    public EndorsementResponse(int id, CustomerInfoResponse customerInfoResponse,
+                               int productId, String applyDate, String endorsementStatus) {
         super(id, customerInfoResponse, productId);
         this.applyDate = applyDate;
         this.endorsementStatus = endorsementStatus;
@@ -28,7 +29,9 @@ public class EndorsementResponse extends AbstractContractResponse {
         int id = endorsement.getId();
         int productId = endorsement.getProductId();
         Date applyDate = endorsement.getApplyDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String endorsementStatus = endorsement.getEndorsementStatus().getText();
-        return new EndorsementResponse(id, customerInfoResponse, productId, applyDate, endorsementStatus);
+        return new EndorsementResponse(id, customerInfoResponse, productId,
+                formatter.format(applyDate), endorsementStatus);
     }
 }

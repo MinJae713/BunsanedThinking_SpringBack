@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DepositDTO {
-//    private String depositorName;
-    private int contractId;
-    private int money;
-    private int depositPath;
+public class ComplainRequest {
+    private int complainType;
+    private String title;
+    private String content;
+    private int customerId;
 }

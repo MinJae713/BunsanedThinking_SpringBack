@@ -3,11 +3,11 @@ package com.example.bunsanedthinking_springback.dto.employee.compensation.respon
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.product.Product;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -16,8 +16,7 @@ import java.util.Date;
 public class RequestInsuranceMoneyResponse {
     private int id;
     private String productType;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date date;
+    private String date;
     private String customerName;
     private String status;
 
@@ -26,8 +25,9 @@ public class RequestInsuranceMoneyResponse {
         int id = insuranceMoney.getId();
         String productType = product.getName();
         Date date = insuranceMoney.getApplyDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String customerName = customer.getName();
         String status = insuranceMoney.getProcessStatus().getName();
-        return new RequestInsuranceMoneyResponse(id, productType, date, customerName, status);
+        return new RequestInsuranceMoneyResponse(id, productType, formatter.format(date), customerName, status);
     }
 }

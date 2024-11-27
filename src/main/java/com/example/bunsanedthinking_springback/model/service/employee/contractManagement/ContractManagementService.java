@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.employee.contractManagement;
 
 import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.*;
+import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos.CustomerInfoResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;

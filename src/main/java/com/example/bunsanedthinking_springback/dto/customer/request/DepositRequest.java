@@ -5,8 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class BuyInsuranceDTO {
-    private int insuranceId;
-    private int customerId;
-//    private Integer employeeId;
+public class DepositRequest {
+//    private String depositorName;
+    private int contractId;
+    private int money;
+    private int depositPath;
 }

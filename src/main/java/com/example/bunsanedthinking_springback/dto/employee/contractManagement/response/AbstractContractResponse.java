@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.employee.contractManagement.response;
 
+import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos.CustomerInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,11 @@
 package com.example.bunsanedthinking_springback.dto.customer.response;
 
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +15,7 @@ public class ViewComplaintResponse {
     private int id;
     private String title;
     private String postDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date processingDate;
+    private String processingDate; // Date -> String
     private String status;
 
     public static ViewComplaintResponse of(Complaint complaint) {
@@ -26,8 +24,10 @@ public class ViewComplaintResponse {
         String title = complaint.getTitle();
         String postDate = complaint.getPostDate();
         java.util.Date processingDate = complaint.getProcessingDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         String status = complaint.getProcessStatus().getText();
         return new ViewComplaintResponse(type, complaintId,
-                title, postDate, processingDate, status);
+                title, postDate, formatter.format(processingDate), status);
     }
 }
