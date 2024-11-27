@@ -10,10 +10,5 @@ import java.sql.Date;
 public class AskInsuranceCounselRequest {
     private int customerId;
     private int insuranceId;
-//    private String name;
-//    private String phoneNumber;
     private Date counselDate;
-//    private String job;
-//    private int age;
-//    private int gender;
 }

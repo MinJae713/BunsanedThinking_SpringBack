@@ -1,12 +1,11 @@
-package com.example.bunsanedthinking_springback.dto.employee.contractManagement.response;
+package com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos;
 
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,8 +21,8 @@ public class CustomerInfoResponse {
     private String job;
     private int age;
     private long property;
-    private List<AccidentHistory> accidentHistoryList;
-    private List<SurgeryHistory> surgeryHistoryList;
+    private List<AccidentHistoryInfoResponse> accidentHistoryList;
+    private List<SurgeryHistoryInfoResponse> surgeryHistoryList;
     private String bankAccount;
 
     public static CustomerInfoResponse from(Customer customer) {
@@ -36,11 +35,15 @@ public class CustomerInfoResponse {
         String job = customer.getJob();
         int age = customer.getAge();
         long property = customer.getProperty();
-        List<AccidentHistory> accidentHistoryList = customer.getAccidentHistoryList();
-        List<SurgeryHistory> surgeryHistoryList = customer.getSurgeryHistoryList();
+        List<AccidentHistoryInfoResponse> accidentHistoryInfoResponses = new ArrayList<AccidentHistoryInfoResponse>();
+        List<SurgeryHistoryInfoResponse> surgeryHistoryInfoResponses = new ArrayList<SurgeryHistoryInfoResponse>();
+        customer.getAccidentHistoryList().forEach(accidentHistory ->
+                accidentHistoryInfoResponses.add(AccidentHistoryInfoResponse.from(accidentHistory)));
+        customer.getSurgeryHistoryList().forEach(surgeryHistory ->
+                surgeryHistoryInfoResponses.add(SurgeryHistoryInfoResponse.from(surgeryHistory)));
         String bankAccount = customer.getBankAccount();
         return new CustomerInfoResponse(name, phoneNumber, gender,
                 residentRegistrationNumber, address, job, age, property,
-                accidentHistoryList, surgeryHistoryList, bankAccount);
+                accidentHistoryInfoResponses, surgeryHistoryInfoResponses, bankAccount);
     }
 }
