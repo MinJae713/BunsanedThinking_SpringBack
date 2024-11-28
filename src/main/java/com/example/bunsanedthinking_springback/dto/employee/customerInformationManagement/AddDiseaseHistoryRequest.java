@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddSurgeryHistoryDTO {
-    private String date;
-    private String hospitalName;
+public class AddDiseaseHistoryRequest {
+    private String dateOfDiagnosis;
     private String name;
 }

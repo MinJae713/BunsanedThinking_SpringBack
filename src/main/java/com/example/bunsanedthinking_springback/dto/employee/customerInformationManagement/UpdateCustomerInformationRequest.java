@@ -12,7 +12,7 @@ public class UpdateCustomerInformationRequest {
     private String input;
     private int id; // 고객 ID
 
-    private List<UpdateAccidentHistoryDTO> accidentHistoryList; // 사고 이력 업데이트 시 사용
-    private List<UpdateSurgeryHistoryDTO> surgeryHistoryList;  // 수술 이력 업데이트 시 사용
-    private List<UpdateDiseaseHistoryDTO> diseaseHistoryList;  // 병력 업데이트 시 사용
+    private List<UpdateAccidentHistoryRequest> accidentHistoryList; // 사고 이력 업데이트 시 사용
+    private List<UpdateSurgeryHistoryRequest> surgeryHistoryList;  // 수술 이력 업데이트 시 사용
+    private List<UpdateDiseaseHistoryRequest> diseaseHistoryList;  // 병력 업데이트 시 사용
 }

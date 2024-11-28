@@ -2,12 +2,15 @@ package com.example.bunsanedthinking_springback.controller.employee;
 
 import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentRequest;
 import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.response.DepartmentResponse;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -37,4 +40,10 @@ public class ManagementPlanningController {
 			throws DuplicateDepartmentException, NotExistException {
 		managementPlanningSModel.updateDepartment(updateDepartmentRequest);
 	}
+
+	@GetMapping("/getAllDepartment")
+	public List<DepartmentResponse> getAllDepartment() {
+		return managementPlanningSModel.getAllDepartment();
+	}
+
 }

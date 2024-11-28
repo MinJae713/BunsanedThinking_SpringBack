@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.response.DepartmentResponse;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,8 @@ import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
+
+import java.util.List;
 
 @Service
 public class ManagementPlanningService {
@@ -90,5 +93,11 @@ public class ManagementPlanningService {
 			default:
 				break;
 		}
+	}
+
+	public List<DepartmentResponse> getAllDepartment(){
+		return departmentEntityModel.getAll().stream()
+				.map(DepartmentResponse::from)
+				.toList();
 	}
 }
