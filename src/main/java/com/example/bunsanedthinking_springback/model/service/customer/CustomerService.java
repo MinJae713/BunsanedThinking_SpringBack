@@ -285,14 +285,13 @@ public class CustomerService {
 		return LoanListReponse.of(getLoanByProductId(id));
 	}
 
-	public List<Contract> getAllApprovedByCustomer() throws NotExistContractException, NotExistException {
+	public List<Contract> getAllApprovedByCustomer() {
 		return contractEntityModel.getAll().stream().filter(
 			e -> e.getContractStatus() != ContractStatus.ContractRequesting &&
 				e.getExpirationDate() != null).toList();
 	}
 
-	public List<ManagementContractResponse> getAllContractByCustomerId(int customerId)
-			throws NotExistContractException, NotExistException {
+	public List<ManagementContractResponse> getAllContractByCustomerId(int customerId) {
 		return contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId)
 				.map(this::getOneContractByCustomerId)
@@ -304,8 +303,7 @@ public class CustomerService {
 		if (!(product instanceof Insurance insurance)) return null;
 		return ManagementContractResponse.of(contract, insurance);
 	}
-	public List<ManagementContractResponse> getAllAutomobileContractByCustomerId(int customerId)
-			throws NotExistContractException {
+	public List<ManagementContractResponse> getAllAutomobileContractByCustomerId(int customerId) {
 		List<ManagementContractResponse> result = new ArrayList<ManagementContractResponse>();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId).toList();
@@ -317,8 +315,7 @@ public class CustomerService {
 		return result;
 	}
 
-	public List<ManagementContractResponse> getAllInjuryContractByCustomerId(int customerId)
-			throws NotExistContractException {
+	public List<ManagementContractResponse> getAllInjuryContractByCustomerId(int customerId) {
 		List<ManagementContractResponse> result = new ArrayList<ManagementContractResponse>();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId).toList();
@@ -330,7 +327,7 @@ public class CustomerService {
 		return result;
 	}
 
-	public List<ManagementContractResponse> getAllDiseaseContractByCustomerId(int customerId) throws NotExistContractException, NotExistException {
+	public List<ManagementContractResponse> getAllDiseaseContractByCustomerId(int customerId) {
 		List<ManagementContractResponse> result = new ArrayList<ManagementContractResponse>();
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == customerId).toList();
@@ -341,25 +338,27 @@ public class CustomerService {
 		}
 		return result;
 	}
-	public List<Contract> getAllContractByProductId(int id) throws NotExistContractException, NotExistException {
+	public List<Contract> getAllContractByProductId(int id) {
 		return contractEntityModel.getAll().stream().filter(e -> e.getProductId() == id).toList();
 	}
 
 	public Contract getContractById(int id, int customerId) throws NotExistContractException, IllegalArgumentException {
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null) throw new NotExistContractException();
-		if (contract.getCustomerID() != customerId) throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
+		if (contract.getCustomerID() != customerId)
+			throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
 		return contract;
 	}
 
 	public ManagementContractResponse getContractRowById(int id, int customerId) throws NotExistContractException, IllegalArgumentException {
 		Contract contract = getContractById(id, customerId);
 		Product product = productEntityModel.getById(contract.getProductId());
-		if (!(product instanceof Insurance insurance)) throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
+		if (!(product instanceof Insurance insurance))
+			throw new IllegalArgumentException("해당 고객이 신청한 계약이 아닙니다");
 		return ManagementContractResponse.of(contract, insurance);
 	}
 
-	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException, NotExistException {
+	public Contract getContractByOneAutomobileId(int id) throws NotExistContractException {
 		List<Contract> contracts = contractEntityModel.getAll().
 				stream().filter(e -> e.getCustomerID() == id).toList();
 		for (Contract contract : contracts) {
@@ -371,12 +370,12 @@ public class CustomerService {
 		throw new NotExistContractException();
 	}
 
-	public List<ViewAccidentResponse> getAllAccidentByCustomerId(int id) throws NotExistException {
+	public List<ViewAccidentResponse> getAllAccidentByCustomerId(int id) {
 		return accidentEntityModel.getAll().stream()
 				.filter(e -> e.getCustomerID() == id)
 				.map(ViewAccidentResponse::of)
 				.collect(Collectors.toList());
-	} // 추가
+	}
 
 	public Accident getAccidentById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
@@ -390,10 +389,9 @@ public class CustomerService {
 	public ViewAccidentResponse getAccidentRowById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		return ViewAccidentResponse.of(getAccidentById(id, customerId));
-	} // 추가
+	}
 
-	public List<ViewComplaintResponse> getAllComplaintsByCustomerId(int id)
-			throws NotExistException {
+	public List<ViewComplaintResponse> getAllComplaintsByCustomerId(int id) {
 		return complaintEntityModel.getAll().stream()
 				.filter(e -> e.getCustomerID() == id)
 				.map(ViewComplaintResponse::of)

@@ -59,7 +59,7 @@ public class CompensationPlanningController {
 
 	@PatchMapping("/updatePartnerCompany")
 	public void updatePartnerCompany(@RequestBody @Valid UpdatePartnerCompanyRequest partnerCompanyDTO)
-		throws DuplicatePartnerCompanyException, NotExistException {
+		throws DuplicatePartnerCompanyException, NotExistException, RuntimeException {
 		/*
 		{
 			"index": 2,

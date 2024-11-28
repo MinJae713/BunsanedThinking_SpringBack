@@ -70,7 +70,7 @@ public class CompensationPlanningService {
 	}
 
 	public void updatePartnerCompany(UpdatePartnerCompanyRequest partnerCompanyDTO)
-		throws DuplicatePartnerCompanyException, NotExistException {
+		throws DuplicatePartnerCompanyException, NotExistException, RuntimeException {
 		int index = partnerCompanyDTO.getIndex();
 		String input = partnerCompanyDTO.getInput();
 		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
@@ -82,16 +82,24 @@ public class CompensationPlanningService {
 				for (PartnerCompany e : partnerCompanyEntityModel.getAll())
 					if (e.getName().equals(input))
 						throw new DuplicatePartnerCompanyException();
+				if (!input.matches("^[a-zA-Z가-힣]+$"))
+					throw new RuntimeException("이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.");
 				partnerCompany.setName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 2:
+				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
+					throw new RuntimeException("핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx");
 				partnerCompany.setPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 3:
+				if (!input.matches("^[a-zA-Z가-힣]+$"))
+					throw new RuntimeException("이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.");
 				partnerCompany.setHeadName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 				break;
 			case 4:
+				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
+					throw new RuntimeException("핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx");
 				partnerCompany.setHeadPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 				break;

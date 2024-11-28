@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 public class BuyInsuranceRequest {
     private int insuranceId;
     private int customerId;
-//    private Integer employeeId;
 }

@@ -12,6 +12,7 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.compensation.CompensationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class CompensationController {
 	private CompensationService compensationSModel;
 
 	@PatchMapping("/requestCompensation")
-	public void requestCompensation(@RequestBody CompensationRequest compensationRequest)
+	public void requestCompensation(@RequestBody @Valid CompensationRequest compensationRequest)
             throws NotExistException, AlreadyProcessedException, NotExistContractException {
 		/*
 		{
@@ -37,12 +38,12 @@ public class CompensationController {
 	}
 
 	@PatchMapping("/requestInsuranceMoney")
-	public void requestInsuranceMoney(@RequestBody InsuranceMoneyRequest insuranceMoneyRequest)
+	public void requestInsuranceMoney(@RequestBody @Valid InsuranceMoneyRequest insuranceMoneyRequest)
             throws NotExistException, AlreadyProcessedException, NotExistContractException {
 		/*
 		{
 			"money": 185000,
-			"insuranceMoneyId": 2,
+			"insuranceMoneyId": 9302,
 			"paymentType": 0
 		}
 		 */
