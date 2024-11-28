@@ -8,18 +8,22 @@ import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerComp
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.compensationPlanning.CompensationPlanningService;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/employee/compensationPlanning")
 public class CompensationPlanningController {
 	@Autowired
 	private CompensationPlanningService compensationPlanningSModel;
 	@PostMapping("/addPartnerCompany")
-	public void addPartnerCompany(@RequestBody AddPartnerCompanyRequest partnerCompanyDTO)
+	public void addPartnerCompany(@RequestBody @Valid AddPartnerCompanyRequest partnerCompanyDTO)
 		throws DuplicatePartnerCompanyException {
 		/*
 		{
@@ -34,7 +38,7 @@ public class CompensationPlanningController {
 	}
 
 	@PatchMapping("/evaluatePartnerCompany")
-	public void evaluatePartnerCompany(@RequestParam int evaluate, @RequestParam int partnerCompanyId) throws NotExistException{
+	public void evaluatePartnerCompany(@Range(min = 1, max = 5, message = "1에서 5중에 입력해주세요") @RequestParam int evaluate, @RequestParam int partnerCompanyId) throws NotExistException{
 		compensationPlanningSModel.evaluatePartnerCompany(evaluate, partnerCompanyId);
 	}
 
@@ -54,7 +58,7 @@ public class CompensationPlanningController {
 	}
 
 	@PatchMapping("/updatePartnerCompany")
-	public void updatePartnerCompany(@RequestBody UpdatePartnerCompanyRequest partnerCompanyDTO)
+	public void updatePartnerCompany(@RequestBody @Valid UpdatePartnerCompanyRequest partnerCompanyDTO)
 		throws DuplicatePartnerCompanyException, NotExistException {
 		/*
 		{

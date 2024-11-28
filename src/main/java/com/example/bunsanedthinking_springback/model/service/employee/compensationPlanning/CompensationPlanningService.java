@@ -30,7 +30,7 @@ public class CompensationPlanningService {
 	public void addPartnerCompany(AddPartnerCompanyRequest partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
 		String phoneNumber = partnerCompanyDTO.getPhoneNumber();
-		PartnerCompanyType partnerCompanyType = PartnerCompanyType.values()[partnerCompanyDTO.getPartnerCompanyType()];
+		PartnerCompanyType partnerCompanyType = PartnerCompanyType.indexOf(partnerCompanyDTO.getPartnerCompanyType());
 		String headName = partnerCompanyDTO.getHeadName();
 		String headPhoneNumber = partnerCompanyDTO.getHeadPhoneNumber();
 

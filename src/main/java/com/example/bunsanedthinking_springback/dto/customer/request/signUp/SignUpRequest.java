@@ -16,6 +16,7 @@ public class SignUpRequest {
     private String job;
     private int age;
     private Gender gender;
+    @Pattern(regexp = "^\\d{2}[0-1]\\d[0-3]\\d-?[1-6]\\d{6}$", message = "주민등록번호 형식과 일치하지 않습니다")
     private String residentRegistrationNumber;
     private String address;
     private long property;
