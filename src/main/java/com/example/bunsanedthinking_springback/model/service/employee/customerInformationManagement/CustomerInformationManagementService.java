@@ -74,7 +74,7 @@ public class CustomerInformationManagementService {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
 			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, ACCIDENT_HISTORY_SERIAL_NUMBER);
 
-			for (AddAccidentHistoryDTO e : addCustomerInformationRequest.getAccidentHistoryList()) {
+			for (AddAccidentHistoryReuqest e : addCustomerInformationRequest.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 
@@ -96,7 +96,7 @@ public class CustomerInformationManagementService {
 			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
 			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, SURGERY_HISTORY_SERIAL_NUMBER);
 
-			for (AddSurgeryHistoryDTO e : addCustomerInformationRequest.getSurgeryHistoryList()) {
+			for (AddSurgeryHistoryRequest e : addCustomerInformationRequest.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
@@ -119,7 +119,7 @@ public class CustomerInformationManagementService {
 			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
 			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, DISEASE_HISTORY_SERIAL_NUMBER);
 
-			for (AddDiseaseHistoryDTO e : addCustomerInformationRequest.getDiseaseHistoryList()) {
+			for (AddDiseaseHistoryRequest e : addCustomerInformationRequest.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 
@@ -214,9 +214,9 @@ public class CustomerInformationManagementService {
 		}
 	}
 
-	private void updateAccidentHistories(List<UpdateAccidentHistoryDTO> accidentHistoryList, Customer customer) {
+	private void updateAccidentHistories(List<UpdateAccidentHistoryRequest> accidentHistoryList, Customer customer) {
 		if (accidentHistoryList != null) {
-			for (UpdateAccidentHistoryDTO dto : accidentHistoryList) {
+			for (UpdateAccidentHistoryRequest dto : accidentHistoryList) {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
@@ -252,9 +252,9 @@ public class CustomerInformationManagementService {
 			}
 		}
 	}
-	private void updateSurgeryHistories(List<UpdateSurgeryHistoryDTO> surgeryHistoryList, Customer customer) {
+	private void updateSurgeryHistories(List<UpdateSurgeryHistoryRequest> surgeryHistoryList, Customer customer) {
 		if (surgeryHistoryList != null) {
-			for (UpdateSurgeryHistoryDTO dto : surgeryHistoryList) {
+			for (UpdateSurgeryHistoryRequest dto : surgeryHistoryList) {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
@@ -293,9 +293,9 @@ public class CustomerInformationManagementService {
 			}
 		}
 	}
-	private void updateDiseaseHistories(List<UpdateDiseaseHistoryDTO> diseaseHistoryList, Customer customer) {
+	private void updateDiseaseHistories(List<UpdateDiseaseHistoryRequest> diseaseHistoryList, Customer customer) {
 		if (diseaseHistoryList != null) {
-			for (UpdateDiseaseHistoryDTO dto : diseaseHistoryList) {
+			for (UpdateDiseaseHistoryRequest dto : diseaseHistoryList) {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
