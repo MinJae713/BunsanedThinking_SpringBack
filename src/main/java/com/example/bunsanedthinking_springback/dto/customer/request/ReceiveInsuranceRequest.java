@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ReceiveInsuranceRequest {
     private int contractId;
-    private MultipartFile medicalCertificateImage;
-    private MultipartFile receiptImage;
-    private MultipartFile residentRegistrationCardImage;
+    private MultipartFile medicalCertificate;
+    private MultipartFile receipt;
+    private MultipartFile residentRegistrationCard;
 }

@@ -48,6 +48,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.recontract.Reco
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CustomerService {
 
@@ -479,8 +481,6 @@ public class CustomerService {
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(null);
 		contractEntityModel.add(contract);
-		// id, customerId, insurnace 이외에는 아무 정보도 지정X
-//		return customer.buyInsurance(insurance, contractList);
 	}
 
 	public void complain(ComplainRequest complainRequest) throws NotExistException {
@@ -493,7 +493,6 @@ public class CustomerService {
 		Complaint complaint = new Complaint(complainType, content, customerId, title);
 		complaint.setId(NextIdGetter.getNextId(complaintEntityModel.getMaxId(), COMPLAINT_SERIAL_NUMBER));
 		complaintEntityModel.add(complaint);
-//		customer.complain(complaintList, customerList, complainType, title, content);
 	}
 
 	public void loan(LoanRequest loanRequest) throws AlreadyRequestingException, NotExistException {
@@ -512,7 +511,6 @@ public class CustomerService {
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(null);
 		contractEntityModel.add(contract);
-//		return customer.loan(loan, contractList);
 	}
 
 	public void receiveInsurance(ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
@@ -521,14 +519,15 @@ public class CustomerService {
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
-		MultipartFile medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificateImage();
-		MultipartFile receiptImage = receiveInsuranceRequest.getReceiptImage();
-		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCardImage();
+		MultipartFile medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificate();
+		MultipartFile receiptImage = receiveInsuranceRequest.getReceipt();
+		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCard();
 		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
 			throw new NotExistException("해당 고객이 가입한 계약이 아닙니다");
-		System.out.println(medicalCertificateImage);
-		System.out.println(receiptImage);
-		System.out.println(residentRegistrationCardImage);
+		log.info(customer.getName());
+		log.info(medicalCertificateImage.getOriginalFilename());
+		log.info(receiptImage.getOriginalFilename());
+		log.info(residentRegistrationCardImage.getOriginalFilename());
 //		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
 //				customer.getBankAccount(), medicalCertificateImage,
 //				receiptImage, residentRegistrationCardImage);
@@ -548,7 +547,5 @@ public class CustomerService {
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
 		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), ACCIDENT_SERIAL_NUMBER));
 		accidentEntityModel.add(accident);
-//		customer.reportAccident(customerName, customerPhoneNumber, accidentDate, location, serviceType,
-//				accidentList);
 	}
 }
