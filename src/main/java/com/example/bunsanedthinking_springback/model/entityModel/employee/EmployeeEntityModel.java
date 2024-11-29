@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.employee;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,22 +32,36 @@ public class EmployeeEntityModel {
 		EmployeeVO employeeVO = employeeMapper.getById(id).orElse(null);
 		if (employeeVO == null)
 			return null;
-		ArrayList<Family> families = new ArrayList<Family>();
-		ArrayList<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
-		ArrayList<Contract> contracts = new ArrayList<Contract>();
-		familyDModel.getAll()
-			.stream()
-			.filter(e -> e.getEmployeeId() == id)
-			.forEach(families::add);
-		paymentDetailEntityModel.getAll()
-			.stream()
-			.filter(e -> e.getEmployeeId() != null && e.getEmployeeId() == id)
-			.forEach(paymentDetails::add);
-		contractEntityModel.getAll()
-			.stream()
-			.filter(e -> e.getEmployeeID() != null && e.getEmployeeID() == id)
-			.forEach(contracts::add);
-		return employeeVO.getEntity(families, paymentDetails, contracts);
+		// ArrayList<Family> families = new ArrayList<Family>();
+		// ArrayList<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
+		// ArrayList<Contract> contracts = new ArrayList<Contract>();
+		// familyDModel.getAll()
+		// 	.stream()
+		// 	.filter(e -> e.getEmployeeId() == id)
+		// 	.forEach(families::add);
+		// paymentDetailEntityModel.getAll()
+		// 	.stream()
+		// 	.filter(e -> e.getEmployeeId() != null && e.getEmployeeId() == id)
+		// 	.forEach(paymentDetails::add);
+		// contractEntityModel.getAll()
+		// 	.stream()
+		// 	.filter(e -> e.getEmployeeID() != null && e.getEmployeeID() == id)
+		// 	.forEach(contracts::add);
+		// return employeeVO.getEntity(families, paymentDetails, contracts);
+		return employeeVO.getEntity(
+			() -> familyDModel.getAll()
+				.stream()
+				.filter(e -> e.getEmployeeId() == id)
+				.collect(Collectors.toList()),
+			() -> paymentDetailEntityModel.getAll()
+				.stream()
+				.filter(e -> e.getEmployeeId() != null && e.getEmployeeId() == id)
+				.collect(Collectors.toList()),
+			() -> contractEntityModel.getAll()
+				.stream()
+				.filter(e -> e.getEmployeeID() != null && e.getEmployeeID() == id)
+				.collect(Collectors.toList())
+		);
 	}
 
 	public List<Employee> getAll() {

@@ -2,7 +2,8 @@ package com.example.bunsanedthinking_springback.vo;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
@@ -31,9 +32,9 @@ public class EmployeeVO {
 	private int department_id;
 
 	public Employee getEntity(
-		ArrayList<Family> families,
-		ArrayList<PaymentDetail> paymentDetails,
-		ArrayList<Contract> contracts) {
+		Supplier<List<Family>> families,
+		Supplier<List<PaymentDetail>> paymentDetails,
+		Supplier<List<Contract>> contracts) {
 		Employee employee = new Employee();
 		employee.setId(id);
 		employee.setAddress(address);
@@ -46,9 +47,12 @@ public class EmployeeVO {
 		employee.setResidentRegistrationNumber(resident_registration_number);
 		employee.setSalary(salary);
 		employee.setDepartmentId(department_id);
-		employee.setFamilyList(families);
-		employee.setPaymentDetailList(paymentDetails);
-		employee.setContractList(contracts);
+		// employee.setFamilyList(families);
+		// employee.setPaymentDetailList(paymentDetails);
+		// employee.setContractList(contracts);
+		employee.setFamilySupplier(families);
+		employee.setPaymentDetailSupplier(paymentDetails);
+		employee.setContractSupplier(contracts);
 		return employee;
 	}
 }
