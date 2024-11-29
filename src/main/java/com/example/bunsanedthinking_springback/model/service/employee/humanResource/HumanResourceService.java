@@ -62,8 +62,9 @@ public class HumanResourceService {
 		Employee employee = new Employee(addEmployeeRequest.getAddress(), addEmployeeRequest.getBankAccount(),
 			addEmployeeRequest.getDepartmentId(),
 			employmentDate, addEmployeeRequest.getBankName(), familyList, employeeId, addEmployeeRequest.getName(),
-			null, addEmployeeRequest.getPhoneNumber(), addEmployeeRequest.getEmployeePosition(),
-			addEmployeeRequest.getResidentRegistrationNumber(), addEmployeeRequest.getSalary(), null);
+			new ArrayList<>(), addEmployeeRequest.getPhoneNumber(), addEmployeeRequest.getEmployeePosition(),
+			addEmployeeRequest.getResidentRegistrationNumber(), addEmployeeRequest.getSalary(), new ArrayList<>(), null,
+			null, null);
 		employeeEntityModel.add(employee);
 	}
 

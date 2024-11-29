@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.family.Family;
@@ -41,6 +42,10 @@ public class Employee {
 	private int salary;
 	private List<Contract> contractList;
 
+	private Supplier<List<Family>> familySupplier;
+	private Supplier<List<PaymentDetail>> paymentDetailSupplier;
+	private Supplier<List<Contract>> contractSupplier;
+
 	public Employee(String name, EmployeePosition employeePosition, String address,
 		String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber,
 		int departmentId, int salary, Date dateOfemployment) {
@@ -54,6 +59,44 @@ public class Employee {
 		this.setDepartmentId(departmentId);
 		this.setSalary(salary);
 		this.setEmploymentDate(dateOfemployment);
+	}
+
+	public Employee(String name, EmployeePosition employeePosition, String address,
+		String phoneNumber, String bankName, String bankAccount, String residentRegistrationNumber,
+		int departmentId, int salary, Date dateOfemployment, Supplier<List<Family>> familySupplier,
+		Supplier<List<PaymentDetail>> paymentDetailSupplier, Supplier<List<Contract>> contractSupplier) {
+		this.setName(name);
+		this.setPosition(employeePosition);
+		this.setAddress(address);
+		this.setPhoneNumber(phoneNumber);
+		this.setBankName(bankName);
+		this.setBankAccount(bankAccount);
+		this.setResidentRegistrationNumber(residentRegistrationNumber);
+		this.setDepartmentId(departmentId);
+		this.setSalary(salary);
+		this.setEmploymentDate(dateOfemployment);
+
+		this.familySupplier = familySupplier;
+		this.paymentDetailSupplier = paymentDetailSupplier;
+		this.contractSupplier = contractSupplier;
+	}
+
+	public List<Family> getFamilyList() {
+		if (familyList == null)
+			familyList = familySupplier.get();
+		return familyList;
+	}
+
+	public List<PaymentDetail> getPaymentDetailList() {
+		if (paymentDetailList == null)
+			paymentDetailList = paymentDetailSupplier.get();
+		return paymentDetailList;
+	}
+
+	public List<Contract> getContractList() {
+		if (contractList == null)
+			contractList = contractSupplier.get();
+		return contractList;
 	}
 
 	public Employee(Employee employee) {
