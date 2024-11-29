@@ -16,13 +16,13 @@ public class InduceInsuranceProductRequest {
 	private String bankName;
 	private String phoneNumber;
 	private String job;
-	private long property;
+	private Long property;
 	private String residentRegistrationNumber;
-	private int age;
+	private Integer age;
 	private Gender gender;
 	private List<InduceDiseaseHistoryRequest> diseaseHistories;
 	private List<InduceSurgeryHistoryRequest> surgeryHistories;
 	private List<InduceAccidentHistoryRequest> accidentHistories;
-	private int productId;
-	private int employeeId;
+	private Integer productId;
+	private Integer employeeId;
 }
