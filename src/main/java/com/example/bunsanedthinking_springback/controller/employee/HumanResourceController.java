@@ -21,6 +21,8 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateResiden
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/employee/humanResource")
 public class HumanResourceController {
@@ -28,7 +30,7 @@ public class HumanResourceController {
 	private HumanResourceService humanResourceService;
 
 	@PostMapping("/addEmployee")
-	public void addEmployee(@RequestBody AddEmployeeRequest addEmployeeRequest) throws
+	public void addEmployee(@Valid @RequestBody AddEmployeeRequest addEmployeeRequest) throws
 		DuplicateResidentRegistrationNumberException,
 		ParseException {
 		humanResourceService.addEmployee(addEmployeeRequest);
@@ -59,7 +61,7 @@ public class HumanResourceController {
 	}
 
 	@PatchMapping("/updateEmployee")
-	public void updateEmployee(@RequestBody UpdateEmployeeRequest updateEmployeeRequest) throws
+	public void updateEmployee(@Valid @RequestBody UpdateEmployeeRequest updateEmployeeRequest) throws
 		NotExistException,
 		ParseException {
 		humanResourceService.updateEmployee(updateEmployeeRequest);
