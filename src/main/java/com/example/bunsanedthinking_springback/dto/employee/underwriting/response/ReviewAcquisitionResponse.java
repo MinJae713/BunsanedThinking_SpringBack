@@ -1,9 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.employee.underwriting.response;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

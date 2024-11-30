@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionAccidentHistoryDetailResponse.ReviewAcquisitionDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
