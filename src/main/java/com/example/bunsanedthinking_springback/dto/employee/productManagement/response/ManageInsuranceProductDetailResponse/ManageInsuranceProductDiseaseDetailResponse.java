@@ -14,7 +14,7 @@ public class ManageInsuranceProductDiseaseDetailResponse extends ManageInsurance
 	private Integer surgeriesLimit;
 
 	public static ManageInsuranceProductDetailResponse from(Disease disease){
-		return ManageInsuranceProductDiseaseDetailResponse.builder().id(disease.getId()).name(disease.getName()).insuranceType(disease.getInsuranceType())
+		return ManageInsuranceProductDiseaseDetailResponse.builder().id(disease.getId()).name(disease.getName()).insuranceType(disease.getInsuranceType().getName())
 			.ageRange(disease.getAgeRange()).coverage(disease.getCoverage()).monthlyPremium(disease.getMonthlyPremium())
 			.contractPeriod(disease.getContractPeriod()).diseaseLimit(disease.getDiseaseLimit())
 			.diseaseName(disease.getDiseaseName()).surgeriesLimit(disease.getSurgeriesLimit())

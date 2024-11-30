@@ -3,8 +3,6 @@ package com.example.bunsanedthinking_springback.dto.employee.productManagement.r
 import java.util.List;
 
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -14,13 +12,13 @@ import lombok.experimental.SuperBuilder;
 public class ManageInsuranceProductAutomobileDetailResponse extends ManageInsuranceProductDetailResponse {
 
 	private Integer accidentLimit;
-	private VehicleType vehicleType;
-	private List<ServiceType> serviceTypes;
+	private String vehicleType;
+	private List<String> serviceTypes;
 
 	public static ManageInsuranceProductDetailResponse from(Automobile automobile){
-		return ManageInsuranceProductAutomobileDetailResponse.builder().id(automobile.getId()).name(automobile.getName()).insuranceType(automobile.getInsuranceType())
+		return ManageInsuranceProductAutomobileDetailResponse.builder().id(automobile.getId()).name(automobile.getName()).insuranceType(automobile.getInsuranceType().getName())
 			.ageRange(automobile.getAgeRange()).coverage(automobile.getCoverage()).monthlyPremium(automobile.getMonthlyPremium())
 			.contractPeriod(automobile.getContractPeriod()).accidentLimit(automobile.getAccidentLimit())
-			.vehicleType(automobile.getVehicleType()).serviceTypes(automobile.getServiceList()).maximumMoney(automobile.getMaximumMoney()).build();
+			.vehicleType(automobile.getVehicleType().getName()).serviceTypes(automobile.getServiceListToString()).maximumMoney(automobile.getMaximumMoney()).build();
 	}
 }

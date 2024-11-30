@@ -17,12 +17,13 @@ import lombok.experimental.SuperBuilder;
 public class InduceLoanProductCollateralDetailResponse extends
 	InduceLoanProductDetailResponse {
 
-	private CollateralType collateralType;
+	private String collateralType;
 	private Integer minimumValue;
 
 	public static InduceLoanProductDetailResponse from(Collateral collateral){
 		return InduceLoanProductCollateralDetailResponse.builder().id(collateral.getId()).name(collateral.getName())
-			.loanType(collateral.getLoanType()).loanType(collateral.getLoanType()).interestRate(collateral.getInterestRate())
-			.maximumMoney(collateral.getMaximumMoney()).minimumAsset(collateral.getMinimumAsset()).minimumValue(collateral.getMinimumValue()).collateralType(collateral.getCollateralType()).build();
+			.loanType(collateral.getLoanType().getName()).interestRate(collateral.getInterestRate())
+			.maximumMoney(collateral.getMaximumMoney()).minimumAsset(collateral.getMinimumAsset()).minimumValue(collateral.getMinimumValue())
+			.collateralType(collateral.getCollateralType().getName()).build();
 	}
 }

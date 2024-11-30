@@ -15,13 +15,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ManageInsuranceProductInjuryDetailResponse extends ManageInsuranceProductDetailResponse {
 
-	private InjuryType injuryType;
+	private String injuryType;
 	private Integer surgeriesLimit;
 
 	public static ManageInsuranceProductDetailResponse from(Injury injury){
-		return ManageInsuranceProductInjuryDetailResponse.builder().id(injury.getId()).name(injury.getName()).insuranceType(injury.getInsuranceType())
+		return ManageInsuranceProductInjuryDetailResponse.builder().id(injury.getId()).name(injury.getName()).insuranceType(injury.getInsuranceType().getName())
 			.ageRange(injury.getAgeRange()).coverage(injury.getCoverage()).monthlyPremium(injury.getMonthlyPremium())
-			.contractPeriod(injury.getContractPeriod()).injuryType(injury.getInjuryType()).surgeriesLimit(injury.getSurgeriesLimit())
+			.contractPeriod(injury.getContractPeriod()).injuryType(injury.getInjuryType().getName()).surgeriesLimit(injury.getSurgeriesLimit())
 			.maximumMoney(injury.getMaximumMoney()).build();
 	}
 }

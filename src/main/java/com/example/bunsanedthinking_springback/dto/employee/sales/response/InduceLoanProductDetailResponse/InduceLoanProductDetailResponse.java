@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 public abstract class InduceLoanProductDetailResponse {
 	protected Integer id;
 	protected String name;
-	protected LoanType loanType;
+	protected String loanType;
 	protected Integer interestRate;
 	protected Integer maximumMoney;
 	protected Integer minimumAsset;

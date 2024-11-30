@@ -16,7 +16,7 @@ public class InduceLoanProductFixedDepositDetailResponse extends
 
 	public static InduceLoanProductDetailResponse from(FixedDeposit fixedDeposit){
 		return InduceLoanProductFixedDepositDetailResponse.builder().id(fixedDeposit.getId()).name(fixedDeposit.getName())
-			.loanType(fixedDeposit.getLoanType()).loanType(fixedDeposit.getLoanType()).interestRate(fixedDeposit.getInterestRate())
+			.loanType(fixedDeposit.getLoanType().getName()).interestRate(fixedDeposit.getInterestRate())
 			.maximumMoney(fixedDeposit.getMaximumMoney()).minimumAsset(fixedDeposit.getMinimumAsset()).minimumAmount(fixedDeposit.getMinimumAmount()).build();
 	}
 }

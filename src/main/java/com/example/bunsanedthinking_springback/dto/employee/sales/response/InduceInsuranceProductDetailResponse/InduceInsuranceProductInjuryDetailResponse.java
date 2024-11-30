@@ -14,7 +14,7 @@ public class InduceInsuranceProductInjuryDetailResponse extends InduceInsuranceP
 	private Integer surgeriesLimit;
 
 	public static InduceInsuranceProductDetailResponse from(Injury injury){
-		return InduceInsuranceProductInjuryDetailResponse.builder().id(injury.getId()).name(injury.getName()).insuranceType(injury.getInsuranceType())
+		return InduceInsuranceProductInjuryDetailResponse.builder().id(injury.getId()).name(injury.getName()).insuranceType(injury.getInsuranceType().getName())
 			.ageRange(injury.getAgeRange()).coverage(injury.getCoverage()).monthlyPremium(injury.getMonthlyPremium())
 			.contractPeriod(injury.getContractPeriod()).injuryType(injury.getInjuryType()).surgeriesLimit(injury.getSurgeriesLimit()).build();
 	}
