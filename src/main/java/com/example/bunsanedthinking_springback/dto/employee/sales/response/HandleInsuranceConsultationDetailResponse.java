@@ -5,6 +5,7 @@ import java.util.Date;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.global.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +21,7 @@ public class HandleInsuranceConsultationDetailResponse {
 	private Integer id;
 	private String name;
 	private String phoneNumber;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date counselDate;
+	private String counselDate;
 	private String gender;
 	private String processStatus;
 	private String job;
@@ -32,7 +32,7 @@ public class HandleInsuranceConsultationDetailResponse {
 			.id(counsel.getId())
 			.name(counsel.getName())
 			.phoneNumber(counsel.getPhoneNumber())
-			.counselDate(counsel.getCounselDate())
+			.counselDate(DateUtils.toString(counsel.getCounselDate()))
 			.gender(counsel.getGender().getName())
 			.processStatus(counsel.getProcessStatus().getName())
 			.job(counsel.getJob())
