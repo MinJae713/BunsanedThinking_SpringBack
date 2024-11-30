@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 public abstract class ManageInsuranceProductDetailResponse {
 	protected Integer id;
 	protected String name;
-	protected InsuranceType insuranceType;
+	protected String insuranceType;
 	protected Integer ageRange;
 	protected String coverage;
 	protected Integer monthlyPremium;

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InduceLoanProductResponse {
 	private String name;
-	private LoanType loanType;
+	private String loanType;
 	private Integer id;
 	private Integer interestRate;
 	private Integer maximumMoney;
@@ -22,7 +22,7 @@ public class InduceLoanProductResponse {
 	public static InduceLoanProductResponse from(Loan loan){
 		return InduceLoanProductResponse.builder()
 			.name(loan.getName())
-			.loanType(loan.getLoanType())
+			.loanType(loan.getLoanType().getName())
 			.id(loan.getId())
 			.interestRate(loan.getInterestRate())
 			.maximumMoney(loan.getMaximumMoney()).build();
