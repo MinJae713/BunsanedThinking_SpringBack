@@ -22,8 +22,8 @@ public class HandleInsuranceConsultationResponse {
 	private String phoneNumber;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date counselDate;
-	private Gender gender;
-	private CounselProcessStatus processStatus;
+	private String gender;
+	private String processStatus;
 
 	public static HandleInsuranceConsultationResponse from(Counsel counsel) {
 		return HandleInsuranceConsultationResponse.builder()
@@ -31,8 +31,8 @@ public class HandleInsuranceConsultationResponse {
 			.name(counsel.getName())
 			.phoneNumber(counsel.getPhoneNumber())
 			.counselDate(counsel.getCounselDate())
-			.gender(counsel.getGender())
-			.processStatus(counsel.getProcessStatus())
+			.gender(counsel.getGender().getName())
+			.processStatus(counsel.getProcessStatus().getName())
 			.build();
 	}
 }

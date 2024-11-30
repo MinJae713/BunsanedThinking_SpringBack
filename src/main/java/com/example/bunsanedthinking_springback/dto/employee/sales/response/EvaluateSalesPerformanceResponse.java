@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 public class EvaluateSalesPerformanceResponse {
 	private Integer id;
 	private String name;
-	private EmployeePosition position;
+	private String position;
 	private Integer contractCount;
 
 	public static EvaluateSalesPerformanceResponse from(Sales sales){
-		return EvaluateSalesPerformanceResponse.builder().id(sales.getId()).name(sales.getName()).position(sales.getPosition()).contractCount(sales.getContractCount()).build();
+		return EvaluateSalesPerformanceResponse.builder().id(sales.getId()).name(sales.getName()).position(sales.getPosition().getName()).contractCount(sales.getContractCount()).build();
 	}
 
 }

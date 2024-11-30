@@ -16,7 +16,7 @@ public class InduceLoanProductInsuranceContractDetailResponse extends InduceLoan
 
 	public static InduceLoanProductDetailResponse from(InsuranceContract insuranceContract){
 		return InduceLoanProductInsuranceContractDetailResponse.builder().id(insuranceContract.getId()).name(insuranceContract.getName())
-			.loanType(insuranceContract.getLoanType()).loanType(insuranceContract.getLoanType()).interestRate(insuranceContract.getInterestRate())
+			.loanType(insuranceContract.getLoanType().getName()).interestRate(insuranceContract.getInterestRate())
 			.maximumMoney(insuranceContract.getMaximumMoney()).minimumAsset(insuranceContract.getMinimumAsset()).productId(insuranceContract.getInsuranceId()).build();
 	}
 }

@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 public class InduceInsuranceProductResponse {
 
 	private String name;
-	private InsuranceType insuranceType;
+	private String insuranceType;
 	private Integer id;
 	private Integer ageRange;
 	private Integer monthlyPremium;
 
 	public static InduceInsuranceProductResponse from(Insurance insurance) {
-		return InduceInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium()).build();
+		return InduceInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType().getName()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium()).build();
 	}
 }
