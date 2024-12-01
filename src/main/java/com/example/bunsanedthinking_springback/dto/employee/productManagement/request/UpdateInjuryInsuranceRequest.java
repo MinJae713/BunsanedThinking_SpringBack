@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 public class UpdateInjuryInsuranceRequest {
 
 	@NotNull(message = "나이 범위는 필수 값입니다.")
+	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
+	@Max(value = 120, message = "나이의 값은 최대 120이어야 합니다.")
 	private Integer ageRange;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
