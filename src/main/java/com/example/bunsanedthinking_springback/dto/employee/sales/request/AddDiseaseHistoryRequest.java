@@ -17,8 +17,8 @@ public class AddDiseaseHistoryRequest {
 
 	@NotBlank
 	@Size(max = 20,
-		message = "이름은 최대 20자까지 허용됩니다.")
+		message = "질병 이름은 최대 20자까지 허용됩니다.")
 	@Pattern(regexp = "^[a-zA-Z가-힣]+$",
-		message = "이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
+		message = "질병 이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
 	private String name;
 }

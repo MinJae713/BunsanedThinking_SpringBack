@@ -51,6 +51,7 @@ public class InduceInsuranceProductRequest {
 	private String job;
 
 	@NotNull(message = "재산은 필수 입력 값입니다.")
+	@Min(value = 1, message = "재산의 값은 최소 1이어야 합니다.")
 	private Long property;
 
 	@NotBlank(message = "주민등록번호는 필수 입력 값입니다.")
