@@ -24,6 +24,7 @@ public class UpdateInjuryInsuranceRequest {
 	private Integer ageRange;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
+	@Min(value = 1, message = "계약 기간은 최소 1이어야 합니다.")
 	private Integer contractPeriod;
 
 	@NotNull(message = "보장 내용은 필수 값입니다.")
@@ -46,12 +47,15 @@ public class UpdateInjuryInsuranceRequest {
 	private InsuranceType insuranceType;
 
 	@NotNull(message = "월 보험료는 필수 값입니다.")
+	@Min(value = 1, message = "월 보험료는 최소 1이어야 합니다.")
 	private Integer monthlyPremium;
 
 	@NotNull(message = "수술 한도는 필수 값입니다.")
+	@Min(value = 1, message = "수술 한도는 최소 1이어야 합니다.")
 	private Integer surgeriesLimit;
 
-	@NotNull(message = "최대 금액은 필수 값입니다.")
+	@NotNull(message = "한도는 필수 값입니다.")
+	@Min(value = 1, message = "한도는 최소 1이어야 합니다.")
 	private Integer maximumMoney;
 
 	public Injury toEntity() {

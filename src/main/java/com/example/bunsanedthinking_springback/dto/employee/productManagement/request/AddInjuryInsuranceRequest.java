@@ -16,13 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddInjuryInsuranceRequest {
 
-	@NotBlank(message = "이름은 필수 값입니다.")
-	@Size(max = 20, message = "이름은 최대 20자까지 허용됩니다.")
+	@NotBlank(message = "보험 이름은 필수 값입니다.")
+	@Size(max = 20, message = "보험 이름은 최대 20자까지 허용됩니다.")
 	@Pattern(regexp = "^[a-zA-Z가-힣]+$",
 		message = "보험 이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
 	private String name;
 
-	@NotNull(message = "최대 금액은 필수 값입니다.")
+	@NotNull(message = "한도는 필수 값입니다.")
+	@Min(value = 1, message = "한도는 최소 1이어야 합니다.")
 	private Integer maximumMoney;
 
 	@NotNull(message = "보험 유형은 필수 값입니다.")
@@ -34,9 +35,11 @@ public class AddInjuryInsuranceRequest {
 	private Integer ageRange;
 
 	@NotNull(message = "월 보험료는 필수 값입니다.")
+	@Min(value = 1, message = "월 보험료는 최소 1이어야 합니다.")
 	private Integer monthlyPremium;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
+	@Min(value = 1, message = "계약 기간은 최소 1이어야 합니다.")
 	private Integer contractPeriod;
 
 	@NotBlank(message = "보장 내용은 필수 값입니다.")
@@ -47,5 +50,6 @@ public class AddInjuryInsuranceRequest {
 	private InjuryType injuryType;
 
 	@NotNull(message = "수술 횟수는 필수 값입니다.")
+	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
 	private Integer surgeriesLimit;
 }

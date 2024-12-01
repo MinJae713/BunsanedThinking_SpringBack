@@ -23,6 +23,7 @@ public class UpdateDiseaseInsuranceRequest {
 	private Integer ageRange;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
+	@Min(value = 1, message = "계약 기간은 최소 1이어야 합니다.")
 	private Integer contractPeriod;
 
 	@NotNull(message = "보장 내용은 필수 값입니다.")
@@ -30,6 +31,7 @@ public class UpdateDiseaseInsuranceRequest {
 	private String coverage;
 
 	@NotNull(message = "질병 한도는 필수 값입니다.")
+	@Min(value = 1, message = "질병 한도는 최소 1이어야 합니다.")
 	private Integer diseaseLimit;
 
 	@NotNull(message = "질병 이름은 필수 값입니다.")
@@ -51,12 +53,15 @@ public class UpdateDiseaseInsuranceRequest {
 	private String name;
 
 	@NotNull(message = "월 보험료는 필수 값입니다.")
+	@Min(value = 1, message = "월 보험료는 최소 1이어야 합니다.")
 	private Integer monthlyPremium;
 
 	@NotNull(message = "수술 한도는 필수 값입니다.")
+	@Min(value = 1, message = "수술 한도는 최소 1이어야 합니다.")
 	private Integer surgeriesLimit;
 
-	@NotNull(message = "최대 금액은 필수 값입니다.")
+	@NotNull(message = "한도는 필수 값입니다.")
+	@Min(value = 1, message = "한도는 최소 1이어야 합니다.")
 	private Integer maximumMoney;
 
 	public Disease toEntity() {

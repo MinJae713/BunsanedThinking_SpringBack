@@ -26,7 +26,8 @@ public class AddAutomobileInsuranceRequest {
 		message = "보험 이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
 	private String name;
 
-	@NotNull(message = "최대 금액은 필수 값입니다.")
+	@NotNull(message = "한도는 필수 값입니다.")
+	@Min(value = 1, message = "한도는 최소 1이어야 합니다.")
 	private Integer maximumMoney;
 
 	@NotNull(message = "보험 유형은 필수 값입니다.")
@@ -38,9 +39,11 @@ public class AddAutomobileInsuranceRequest {
 	private Integer ageRange;
 
 	@NotNull(message = "월 보험료는 필수 값입니다.")
+	@Min(value = 1, message = "월 보험료는 최소 1이어야 합니다.")
 	private Integer monthlyPremium;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
+	@Min(value = 1, message = "계약 기간은 최소 1이어야 합니다.")
 	private Integer contractPeriod;
 
 	@NotBlank(message = "보장 내용은 필수 값입니다.")
@@ -51,6 +54,7 @@ public class AddAutomobileInsuranceRequest {
 	private VehicleType vehicleType;
 
 	@NotNull(message = "사고 한도는 필수 값입니다.")
+	@Min(value = 1, message = "사고 한도는 최소 1이어야 합니다.")
 	private Integer accidentLimit;
 
 	private List<ServiceType> serviceTypes;
