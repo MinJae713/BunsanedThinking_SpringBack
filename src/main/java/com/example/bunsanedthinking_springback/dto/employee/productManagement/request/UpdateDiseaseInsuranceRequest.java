@@ -3,6 +3,8 @@ package com.example.bunsanedthinking_springback.dto.employee.productManagement.r
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class UpdateDiseaseInsuranceRequest {
 
 	@NotNull(message = "나이 범위는 필수 값입니다.")
+	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
+	@Max(value = 120, message = "나이의 값은 최대 120이어야 합니다.")
 	private Integer ageRange;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")

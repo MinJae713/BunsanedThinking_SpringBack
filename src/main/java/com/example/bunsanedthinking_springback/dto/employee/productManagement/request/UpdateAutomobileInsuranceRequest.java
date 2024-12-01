@@ -7,6 +7,8 @@ import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -21,6 +23,8 @@ import lombok.NoArgsConstructor;
 public class UpdateAutomobileInsuranceRequest {
 
 	@NotNull(message = "나이 범위는 필수 값입니다.")
+	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
+	@Max(value = 120, message = "나이의 값은 최대 120이어야 합니다.")
 	private Integer ageRange;
 
 	@NotNull(message = "계약 기간은 필수 값입니다.")
@@ -45,7 +49,6 @@ public class UpdateAutomobileInsuranceRequest {
 	@NotNull(message = "월 보험료는 필수 값입니다.")
 	private Integer monthlyPremium;
 
-	@NotNull(message = "서비스 유형 목록은 필수 값입니다.")
 	private ArrayList<ServiceType> serviceTypes;
 
 	@NotNull(message = "차량 유형은 필수 값입니다.")

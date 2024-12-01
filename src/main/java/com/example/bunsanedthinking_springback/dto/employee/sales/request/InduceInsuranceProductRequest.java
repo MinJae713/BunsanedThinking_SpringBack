@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.employee.sales.request;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -58,6 +60,8 @@ public class InduceInsuranceProductRequest {
 	private String residentRegistrationNumber;
 
 	@NotNull(message = "나이는 필수 입력 값입니다.")
+	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
+	@Max(value = 120, message = "나이의 값은 최대 120이어야 합니다.")
 	private Integer age;
 
 	@NotNull(message = "성별은 필수 입력 값입니다.")
