@@ -23,6 +23,8 @@ import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuran
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.productManagement.ProductManagementService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/employee/productManagement")
 public class ProductManagementController {
@@ -30,18 +32,18 @@ public class ProductManagementController {
 	private ProductManagementService productManagementSModel;
 
 	@PostMapping("/addDiseaseInsurance")
-	public void addDiseaseInsurance(@RequestBody AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws DuplicateInsuranceException {
+	public void addDiseaseInsurance(@Valid @RequestBody AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws DuplicateInsuranceException {
 		productManagementSModel.addDiseaseInsurance(addDiseaseInsuranceRequest);
 	}
 
 
 	@PostMapping("/addInjuryInsurance")
-	public void addInjuryInsurance(@RequestBody AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws DuplicateInsuranceException {
+	public void addInjuryInsurance(@Valid @RequestBody AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws DuplicateInsuranceException {
 		productManagementSModel.addInjuryInsurance(addInjuryInsuranceRequest);
 	}
 
 	@PostMapping("/addAutomobileInsurance")
-	public void addAutomobileInsurance(@RequestBody AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws DuplicateInsuranceException {
+	public void addAutomobileInsurance(@Valid @RequestBody AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws DuplicateInsuranceException {
 
 		productManagementSModel.addAutomobileInsurance(addAutomobileInsuranceRequest);
 	}
@@ -62,17 +64,17 @@ public class ProductManagementController {
 	}
 
 	@PatchMapping("/updateDiseaseInsurance")
-	public void updateDiseaseInsurance(@RequestBody UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws DuplicateInsuranceException{
+	public void updateDiseaseInsurance(@Valid @RequestBody UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws DuplicateInsuranceException{
 		productManagementSModel.updateDiseaseInsurance(updateDiseaseInsuranceRequest);
 	}
 
 	@PatchMapping("/updateInjuryInsurance")
-	public void updateInjuryInsurance(@RequestBody UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws DuplicateInsuranceException{
+	public void updateInjuryInsurance(@Valid @RequestBody UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws DuplicateInsuranceException{
 		productManagementSModel.updateInjuryInsurance(updateInjuryInsuranceRequest);
 	}
 
 	@PatchMapping("/updateAutomobileInsurance")
-	public void updateAutomobileInsurance(@RequestBody UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws DuplicateInsuranceException{
+	public void updateAutomobileInsurance(@Valid @RequestBody UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws DuplicateInsuranceException{
 		productManagementSModel.updateAutomobileInsurance(updateAutomobileInsuranceRequest);
 	}
 
