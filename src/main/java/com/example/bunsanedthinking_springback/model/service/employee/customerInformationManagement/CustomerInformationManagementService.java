@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement;
 
-import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.*;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.request.*;
+import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.response.CustomerResponse;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
@@ -334,7 +335,9 @@ public class CustomerInformationManagementService {
 		}
 	}
 
-	public List<Customer> getAll() {
-		return customerEntityModel.getAll();
+	public List<CustomerResponse> getAll() {
+		return customerEntityModel.getAll().stream()
+				.map(CustomerResponse::from)
+				.toList();
 	}
 }
