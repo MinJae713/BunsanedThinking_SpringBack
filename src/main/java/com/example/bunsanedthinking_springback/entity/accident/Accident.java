@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.accident;
 
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.AccidentVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -74,7 +75,7 @@ public class Accident {
 	}
 
 	public String getDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
         return dateFormat.format(this.date);
 	}
 

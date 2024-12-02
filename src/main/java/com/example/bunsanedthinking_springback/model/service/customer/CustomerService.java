@@ -24,6 +24,8 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CustomerServiceConstants;
 import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
@@ -64,6 +66,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CustomerService {
+
+	@Autowired
+	private Serial serial;
 
 	@Autowired
 	private InsuranceEntityModel insuranceEntityModel;
@@ -214,7 +219,7 @@ public class CustomerService {
 
 	public Customer getCustomerById(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
-		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		if (customer == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
 		return customer;
 	}
 
@@ -222,7 +227,7 @@ public class CustomerService {
 		List<InsuranceListResponse> result = insuranceEntityModel.getAll().stream()
 				.map(InsuranceListResponse::of)
 				.collect(Collectors.toList());
-		if (result.isEmpty()) throw new NotExistException("보험 정보가 아무것도 없습니다");
+		if (result.isEmpty()) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_INSURANCE);
 		return result;
 	}
 
@@ -246,7 +251,7 @@ public class CustomerService {
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
 		Insurance insurance = insuranceEntityModel.getById(id);
-		if (insurance == null) throw new NotExistException("해당 보험 정보가 없습니다");
+		if (insurance == null) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_INSURANCE);
 		return insurance;
 	}
 
@@ -280,7 +285,7 @@ public class CustomerService {
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
-		if (loan == null) throw new NotExistException("해당 대출 정보가 아무것도 없습니다");
+		if (loan == null) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_LOAN);
 		return loan;
 	}
 
@@ -509,7 +514,7 @@ public class CustomerService {
 			if (contract.getProductId() == loanId)
 				throw new AlreadyRequestingException();
 		Contract contract = new Contract(customerId, loanId);
-		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
+		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), serial.getContract()));
 		contract.setEmployeeID(null);
 		contractEntityModel.add(contract);
 	}
@@ -531,7 +536,7 @@ public class CustomerService {
 		log.info(residentRegistrationCardImage.getOriginalFilename());
 		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
 				customer.getBankAccount(), null, null, null);
-		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), INSURANCE_MONEY_SERIAL_NUMBER));
+		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), serial.getInsuranceMoney()));
 		insuranceMoneyEntityModel.add(insuranceMoney);
 
 	}
@@ -546,7 +551,7 @@ public class CustomerService {
 		if (customer == null) throw new NotExistException("해당 고객이 없습니다.");
 		Accident accident = new Accident();
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
-		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), ACCIDENT_SERIAL_NUMBER));
+		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), serial.getAccident()));
 		accidentEntityModel.add(accident);
 	}
 }

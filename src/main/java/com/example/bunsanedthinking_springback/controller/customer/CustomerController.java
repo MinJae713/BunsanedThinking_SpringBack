@@ -218,12 +218,6 @@ public class CustomerController {
 		customerSModel.loan(loanRequest);
 	}
 
-	// 얜 검증 미완
-//	@PostMapping("/receiveInsurance")
-//	public void receiveInsurance(@RequestBody ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
-//		customerSModel.receiveInsurance(receiveInsuranceRequest);
-//	}
-
 	@PostMapping("/receiveInsurance")
 	public void receiveInsurance(@RequestParam int contractId,
 								 @RequestParam MultipartFile medicalCertificate,

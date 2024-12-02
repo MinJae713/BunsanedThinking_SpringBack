@@ -1,35 +1,18 @@
 package com.example.bunsanedthinking_springback.entity.customer;
 
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
-import com.example.bunsanedthinking_springback.entity.accident.AccidentList;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintList;
-import com.example.bunsanedthinking_springback.entity.complaint.ComplaintType;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractList;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
-import com.example.bunsanedthinking_springback.entity.counsel.CounselList;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
-import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoneyList;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
-import com.example.bunsanedthinking_springback.global.exception.AlreadyRequestingException;
-import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
-import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -116,120 +99,6 @@ public class Customer implements Cloneable {
 			gender.ordinal(), job,
 			name, phoneNumber, property,
 			residentRegistrationNumber);
-	}
-
-	public void signUp(String name, String phoneNumber, String job, int age, Gender gender,
-		String residentRegistrationNumber, String address, long property,
-		ArrayList<AccidentHistory> tempAccidentHistoryList, ArrayList<SurgeryHistory> tempSurgeryHistoryList,
-		ArrayList<DiseaseHistory> tempDiseaseHistoryList, String bankName, String bankAccount,
-		CustomerList customerList) throws DuplicateResidentRegistrationNumberException {
-		for (Customer customer : customerList.getAll()) {
-			if (customer.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
-				throw new DuplicateResidentRegistrationNumberException();
-			}
-		}
-
-		this.setAccidentList(new ArrayList<>());
-		this.setComplaintList(new ArrayList<>());
-		this.setCounselList(new ArrayList<>());
-		this.setContractList(new ArrayList<>());
-		this.setName(name);
-		this.setPhoneNumber(phoneNumber);
-		this.setJob(job);
-		this.setAge(age);
-		this.setGender(gender);
-		this.setResidentRegistrationNumber(residentRegistrationNumber);
-		this.setAddress(address);
-		this.setProperty(property);
-		this.setBankName(bankName);
-		this.setBankAccount(bankAccount);
-
-		customerList.add(this);
-		if (tempAccidentHistoryList != null) {
-			for (AccidentHistory e : tempAccidentHistoryList) {
-				e.setCustomerID(this.getId());
-				accidentHistoryList.add(e);
-			}
-			this.setAccidentHistoryList(tempAccidentHistoryList);
-		}
-		if (tempSurgeryHistoryList != null) {
-			for (SurgeryHistory e : tempSurgeryHistoryList) {
-				e.setCustomerID(this.getId());
-				surgeryHistoryList.add(e);
-			}
-			this.setSurgeryHistoryList(tempSurgeryHistoryList);
-		}
-		if (tempDiseaseHistoryList != null) {
-			for (DiseaseHistory e : tempDiseaseHistoryList) {
-				e.setCustomer_id(this.getId());
-				diseaseHistoryList.add(e);
-			}
-			this.setDiseaseHistoryList(tempDiseaseHistoryList);
-		}
-	}
-
-	public void askInsuranceCounsel(Insurance insurance, String name, String phoneNumber,
-		Date counselDate, String job, int age, Gender gender, CounselList counselList) {
-		Counsel counsel = new Counsel(this.getId(), insurance.getId(), name, phoneNumber, counselDate, job, age,
-			gender);
-		this.counselList.add(counsel);
-		counselList.add(counsel);
-	}
-
-	public boolean buyInsurance(Insurance insurance, ContractList contractList) {
-		try {
-			Contract contract = new Contract(this.id, insurance.getId());
-			this.contractList.add(contract);
-			contractList.add(contract);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
-
-	public void complain(ComplaintList complaintList, CustomerList customerList, ComplaintType complainType,
-		String title, String content) {
-		Complaint complaint = new Complaint(complainType, content, this.id, title);
-		this.complaintList.add(complaint);
-		complaintList.add(complaint);
-	}
-
-	public boolean loan(Loan loan, ContractList contractList) throws AlreadyRequestingException {
-		ArrayList<Contract> myContractList = null;
-		try {
-			myContractList = contractList.getAllByCustomer(this.id);
-		} catch (NotExistContractException e) {
-			myContractList = new ArrayList<>();
-		}
-		for (Contract contract : myContractList) {
-			if (contract.getProductId() == loan.getId()) {
-				throw new AlreadyRequestingException();
-			}
-		}
-		Contract contract = new Contract(this.id, loan.getId());
-		this.contractList.add(contract);
-		contractList.add(contract);
-		return true;
-	}
-
-	public void receiveInsurance(Contract contract, Image medicalCertificateImage,
-		Image receiptImage, Image residentRegistrationCardImage, InsuranceMoneyList insuranceMoneyList)
-		throws IOException {
-		InsuranceMoney insuranceMoney = new InsuranceMoney(contract.getId(), this.bankName, this.bankAccount,
-			medicalCertificateImage, receiptImage, residentRegistrationCardImage);
-		insuranceMoneyList.add(insuranceMoney);
-	}
-
-	public void reportAccident(String customerName, String customerPhoneNumber, Date date, String location,
-		ServiceType serviceType, AccidentList accidentList) {
-		Accident accident = new Accident();
-		try {
-			accident.report(this.id, customerName, customerPhoneNumber, date, location, serviceType);
-			int accidentId = accidentList.add(accident);
-			this.accidentList.add(accidentList.get(accidentId));
-		} catch (NotExistException e) {
-			e.getMessage();
-		}
 	}
 
 	public Customer clone() {
