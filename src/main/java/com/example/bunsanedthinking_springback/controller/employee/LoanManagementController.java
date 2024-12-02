@@ -26,6 +26,8 @@ import com.example.bunsanedthinking_springback.global.exception.NotExistContract
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.loanManagement.LoanManagementService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/employee/loanManagement")
 public class LoanManagementController {
@@ -33,13 +35,15 @@ public class LoanManagementController {
 	private LoanManagementService loanManagementService;
 
 	@PostMapping("/addCollateralProduct")
-	public void addLoanProduct(@RequestBody AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
+	public void addLoanProduct(
+		@Valid @RequestBody AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
 		DuplicateLoanException {
 		loanManagementService.addLoanProduct(addCollateralLoanProductRequest);
 	}
 
 	@PostMapping("/addLoanProduct")
-	public void addLoanProduct(@RequestBody AddLoanProductRequest addLoanProductRequest) throws DuplicateLoanException {
+	public void addLoanProduct(@Valid @RequestBody AddLoanProductRequest addLoanProductRequest) throws
+		DuplicateLoanException {
 		loanManagementService.addLoanProduct(addLoanProductRequest);
 	}
 
@@ -88,14 +92,15 @@ public class LoanManagementController {
 	}
 
 	@PatchMapping("/updateCollateralProduct")
-	public void updateCollateralProduct(@RequestBody UpdateCollateralRequest updateCollateralRequest) throws
+	public void updateCollateralProduct(@Valid @RequestBody UpdateCollateralRequest updateCollateralRequest) throws
 		DuplicateLoanException,
 		NotExistException {
 		loanManagementService.updateLoanProduct(updateCollateralRequest);
 	}
 
 	@PatchMapping("/updateFixedDepositProduct")
-	public void updateFixedDepositProduct(@RequestBody UpdateFixedDepositRequest updateFixedDepositRequest) throws
+	public void updateFixedDepositProduct(
+		@Valid @RequestBody UpdateFixedDepositRequest updateFixedDepositRequest) throws
 		DuplicateLoanException,
 		NotExistException {
 		loanManagementService.updateLoanProduct(updateFixedDepositRequest);
@@ -103,7 +108,7 @@ public class LoanManagementController {
 
 	@PatchMapping("/updateInsuranceContractProduct")
 	public void updateInsuranceContractProduct(
-		@RequestBody UpdateInsuranceContractRequest updateInsuranceContractRequest) throws
+		@Valid @RequestBody UpdateInsuranceContractRequest updateInsuranceContractRequest) throws
 		DuplicateLoanException,
 		NotExistException {
 		loanManagementService.updateLoanProduct(updateInsuranceContractRequest);
