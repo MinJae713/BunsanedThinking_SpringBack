@@ -18,6 +18,7 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositPath;
 import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
 import com.example.bunsanedthinking_springback.entity.insurance.*;
+import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
@@ -528,11 +529,11 @@ public class CustomerService {
 		log.info(medicalCertificateImage.getOriginalFilename());
 		log.info(receiptImage.getOriginalFilename());
 		log.info(residentRegistrationCardImage.getOriginalFilename());
-//		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
-//				customer.getBankAccount(), medicalCertificateImage,
-//				receiptImage, residentRegistrationCardImage);
-//		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), INSURANCE_MONEY_SERIAL_NUMBER));
-//		insuranceMoneyEntityModel.add(insuranceMoney);
+		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
+				customer.getBankAccount(), null, null, null);
+		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), INSURANCE_MONEY_SERIAL_NUMBER));
+		insuranceMoneyEntityModel.add(insuranceMoney);
+
 	}
 
 	public void reportAccident(ReportAccidentRequest reportAccidentRequest) throws NotExistException {

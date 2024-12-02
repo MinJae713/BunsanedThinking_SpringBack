@@ -1,14 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.underwriting;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionAccidentHistoryDetailResponse.ReviewAcquisitionDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -20,6 +11,14 @@ import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessed
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.customer.CustomerEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UnderWritingService {
@@ -53,6 +52,9 @@ public class UnderWritingService {
 					.toInstant()));
 			}
 			contract.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			int day = LocalDate.now().getDayOfMonth();
+			if (29 <= day) contract.setPaymentDate(28); // 납부일 날짜 지정?!
+			else contract.setPaymentDate(day);
 			contract.setContractStatus(ContractStatus.Maintaining);
 		} else {
 			contract.setContractStatus(ContractStatus.Terminating);

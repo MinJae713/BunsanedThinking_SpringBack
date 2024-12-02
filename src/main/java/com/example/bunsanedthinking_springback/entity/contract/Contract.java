@@ -54,7 +54,7 @@ public class Contract {
 		this.lastPaidDate = null;
 		this.insuranceMoneyList = new ArrayList<>();
 		this.paymentDetailList = new ArrayList<>();
-		this.paymentDate = 10;
+		this.paymentDate = null;
 //		this.product = product;
 		this.productId = productId;
 		// 일단 프로덕트 아이디만 받것숨다 - 파라미터 건드리면 문제가 클듯
