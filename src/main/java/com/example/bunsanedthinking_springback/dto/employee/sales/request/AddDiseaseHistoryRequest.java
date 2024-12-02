@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddDiseaseHistoryRequest {
 
-	@NotBlank
+	@NotBlank(message = "날짜는 필수 값입니다.")
 	@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",
 		message = "날짜 형식은 yyyy-MM-dd 이어야 합니다.")
 	private String dateOfDiagnosis;
 
-	@NotBlank
+	@NotBlank(message = "질병 이름은 필수 값입니다.")
 	@Size(max = 20,
 		message = "질병 이름은 최대 20자까지 허용됩니다.")
 	@Pattern(regexp = "^[a-zA-Z가-힣]+$",
