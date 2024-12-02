@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionDetailResponse;
+import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionAccidentHistoryDetailResponse.ReviewAcquisitionDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.underwriting.response.ReviewAcquisitionResponse;
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.model.service.employee.underwriting.UnderWritingService;

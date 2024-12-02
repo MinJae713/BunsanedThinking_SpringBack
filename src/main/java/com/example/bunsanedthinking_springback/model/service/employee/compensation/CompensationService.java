@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -135,7 +136,8 @@ public class CompensationService {
 		return RequestInsuranceMoneyResponse.of(insuranceMoney, product, customer);
 	}
 
-	public RequestInsuranceMoneyDetailResponse getInsuranceMoneyById(int id) throws NotExistException, NotExistContractException {
+	public RequestInsuranceMoneyDetailResponse getInsuranceMoneyById(int id)
+			throws NotExistException, NotExistContractException, IOException {
 		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(id);
 		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
 		if (contract == null) throw new NotExistContractException();

@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.AddDepartmentRequest;
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.UpdateDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.request.AddDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.request.UpdateDepartmentRequest;
 import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.response.DepartmentResponse;
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;

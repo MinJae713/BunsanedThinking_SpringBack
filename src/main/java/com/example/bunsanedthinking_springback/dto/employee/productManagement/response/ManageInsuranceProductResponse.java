@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ManageInsuranceProductResponse {
 	private String name;
-	private InsuranceType insuranceType;
+	private String insuranceType;
 	private Integer id;
 	private Integer ageRange;
 	private Integer monthlyPremium;
 	private Integer maximumMoney;
 
 	public static ManageInsuranceProductResponse from(Insurance insurance){
-		return ManageInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium())
+		return ManageInsuranceProductResponse.builder().name(insurance.getName()).insuranceType(insurance.getInsuranceType().getName()).id(insurance.getId()).ageRange(insurance.getAgeRange()).monthlyPremium(insurance.getMonthlyPremium())
 			.maximumMoney(insurance.getMaximumMoney()).build();
 	}
 }

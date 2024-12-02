@@ -20,12 +20,13 @@ import com.example.bunsanedthinking_springback.dto.employee.sales.response.Induc
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.sales.SalesService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/employee/sales")
@@ -44,12 +45,12 @@ public class SalesController {
 	}
 
 	@PostMapping("/induceInsuranceProduct")
-	public void induceInsuranceProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+	public void induceInsuranceProduct(@Valid @RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
 		salesSModel.induceInsuranceProduct(induceInsuranceProductRequest);
 	}
 
 	@PostMapping("/induceLoanProduct")
-	public void induceLoanProduct(@RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
+	public void induceLoanProduct(@Valid @RequestBody InduceInsuranceProductRequest induceInsuranceProductRequest) {
 		salesSModel.induceLoanProduct(induceInsuranceProductRequest);
 	}
 
@@ -129,7 +130,7 @@ public class SalesController {
 	}
 
 	@PostMapping("/addDiseaseHistory")
-	public DiseaseHistory addDiseaseHistory(@RequestBody AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
+	public DiseaseHistory addDiseaseHistory(@Valid @RequestBody AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
 		return salesSModel.addDiseaseHistory(addDiseaseHistoryRequest);
 	}
 

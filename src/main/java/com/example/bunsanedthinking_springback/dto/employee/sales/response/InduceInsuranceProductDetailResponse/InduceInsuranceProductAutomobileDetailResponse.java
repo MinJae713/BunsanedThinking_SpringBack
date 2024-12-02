@@ -3,8 +3,6 @@ package com.example.bunsanedthinking_springback.dto.employee.sales.response.Indu
 import java.util.List;
 
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
-import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -14,13 +12,13 @@ import lombok.experimental.SuperBuilder;
 public class InduceInsuranceProductAutomobileDetailResponse extends InduceInsuranceProductDetailResponse {
 
 	private Integer accidentLimit;
-	private VehicleType vehicleType;
-	private List<ServiceType> serviceTypes;
+	private String vehicleType;
+	private List<String> serviceTypes;
 
 	public static InduceInsuranceProductDetailResponse from(Automobile automobile){
-		return InduceInsuranceProductAutomobileDetailResponse.builder().id(automobile.getId()).name(automobile.getName()).insuranceType(automobile.getInsuranceType())
+		return InduceInsuranceProductAutomobileDetailResponse.builder().id(automobile.getId()).name(automobile.getName()).insuranceType(automobile.getInsuranceType().getName())
 			.ageRange(automobile.getAgeRange()).coverage(automobile.getCoverage()).monthlyPremium(automobile.getMonthlyPremium())
 			.contractPeriod(automobile.getContractPeriod()).accidentLimit(automobile.getAccidentLimit())
-			.vehicleType(automobile.getVehicleType()).serviceTypes(automobile.getServiceList()).build();
+			.vehicleType(automobile.getVehicleType().getName()).serviceTypes(automobile.getServiceListToString()).build();
 	}
 }

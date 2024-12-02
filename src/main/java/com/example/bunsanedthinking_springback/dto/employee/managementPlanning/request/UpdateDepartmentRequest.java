@@ -1,4 +1,4 @@
-package com.example.bunsanedthinking_springback.dto.employee.managementPlanning;
+package com.example.bunsanedthinking_springback.dto.employee.managementPlanning.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

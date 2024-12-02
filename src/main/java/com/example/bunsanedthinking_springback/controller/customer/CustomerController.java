@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.List;
@@ -218,8 +219,22 @@ public class CustomerController {
 	}
 
 	// 얜 검증 미완
+//	@PostMapping("/receiveInsurance")
+//	public void receiveInsurance(@RequestBody ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
+//		customerSModel.receiveInsurance(receiveInsuranceRequest);
+//	}
+
 	@PostMapping("/receiveInsurance")
-	public void receiveInsurance(@RequestBody ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
+	public void receiveInsurance(@RequestParam int contractId,
+								 @RequestParam MultipartFile medicalCertificate,
+								 @RequestParam MultipartFile receipt,
+								 @RequestParam MultipartFile residentRegistrationCard)
+			throws NotExistContractException, NotExistException {
+		ReceiveInsuranceRequest receiveInsuranceRequest = new ReceiveInsuranceRequest();
+		receiveInsuranceRequest.setContractId(contractId);
+		receiveInsuranceRequest.setMedicalCertificate(medicalCertificate);
+		receiveInsuranceRequest.setReceipt(receipt);
+		receiveInsuranceRequest.setResidentRegistrationCard(residentRegistrationCard);
 		customerSModel.receiveInsurance(receiveInsuranceRequest);
 	}
 

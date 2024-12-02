@@ -19,7 +19,7 @@ public class SignUpRequest {
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx")
     private String phoneNumber;
     private String job;
-    @Range(min = 1, max = 130, message = "나이는 1~130 이내에서 입력해주세요")
+    @Range(min = 1, max = 120, message = "나이는 1~120 이내에서 입력해주세요")
     private int age;
     private Gender gender;
     @Pattern(regexp = "^\\d{2}[0-1]\\d[0-3]\\d-?[1-6]\\d{6}$", message = "주민등록번호 형식과 일치하지 않습니다")

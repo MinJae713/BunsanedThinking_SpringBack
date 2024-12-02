@@ -1,9 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.employee.underwriting.response;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +18,15 @@ public class ReviewAcquisitionResponse {
 	private String phoneNumber;
 	private String job;
 	private Integer age;
-	private Gender gender;
+	private String gender;
 	private String residentRegistrationNumber;
 	private String address;
 	private Integer productId;
-	private ContractStatus contractStatus;
+	private String contractStatus;
 
 	public static ReviewAcquisitionResponse of(Customer customer, Contract contract) {
 		return ReviewAcquisitionResponse.builder().id(contract.getId()).name(customer.getName()).phoneNumber(customer.getPhoneNumber()).job(customer.getJob())
-			.age(customer.getAge()).gender(customer.getGender()).residentRegistrationNumber(customer.getResidentRegistrationNumber()).address(customer.getAddress())
-			.productId(contract.getProductId()).contractStatus(contract.getContractStatus()).build();
+			.age(customer.getAge()).gender(customer.getGender().getName()).residentRegistrationNumber(customer.getResidentRegistrationNumber()).address(customer.getAddress())
+			.productId(contract.getProductId()).contractStatus(contract.getContractStatus().getText()).build();
 	}
 }

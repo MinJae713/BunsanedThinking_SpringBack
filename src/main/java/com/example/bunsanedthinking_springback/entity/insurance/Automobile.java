@@ -82,6 +82,10 @@ public class Automobile extends Insurance {
 		return new AutoMobileVO(getId(), vehicleType.ordinal(), accidentLimit);
 	}
 
+	public List<String> getServiceListToString(){
+		return new ArrayList<>(serviceList.stream().map(ServiceType::getName).toList());
+	}
+
 	@Override
 	public Product clone() {
 		Automobile cloneAutomobile =  new Automobile(getInsuranceType(),getName(), getMaximumMoney(), getAgeRange(), getCoverage(), getMonthlyPremium(), getContractPeriod(), getAccidentLimit(), getVehicleType(), getServiceList());
