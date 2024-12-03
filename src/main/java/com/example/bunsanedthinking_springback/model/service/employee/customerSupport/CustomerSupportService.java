@@ -48,6 +48,9 @@ public class CustomerSupportService {
 		NotExistException,
 		AlreadyProcessedException {
 		Complaint complaint = complaintEntityModel.getById(complaintId);
+		if (result == null || result.isBlank()) {
+			throw new IllegalArgumentException("결과 값이 입력되지 않았습니다.");
+		}
 		if (complaint == null)
 			throw new NotExistException("해당하는 민원 정보를 찾을 수 없습니다.");
 		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed)
