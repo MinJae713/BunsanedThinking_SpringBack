@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.EmployeePosition;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -27,24 +29,28 @@ public class UpdateEmployeeRequest {
 	@Size(max = 20, message = "이름이 20글자를 초과하였습니다.")
 	private String name;
 
+	@NotNull(message = "직급은 필수 입력 항목입니다.")
 	private EmployeePosition employeePosition;
 
+	@NotBlank(message = "주소는 필수 입력 항목입니다.")
 	@Size(max = 50, message = "주소가 50글자를 초과하였습니다.")
 	private String address;
 
 	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx")
 	private String phoneNumber;
 
+	@NotBlank(message = "은행명은 필수 입력 항목입니다.")
 	@Size(max = 10, message = "은행명이 10글자를 초과하였습니다.")
 	private String bankName;
 
+	@NotBlank(message = "계좌번호는 필수 입력 항목입니다.")
 	@Size(max = 20, message = "계좌번호가 20글자를 초과하였습니다.")
 	private String bankAccount;
 
 	@Positive(message = "급여가 0보다 작습니다.")
 	private int salary;
 
-	@Pattern(regexp = "\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])", message = "잘못된 날짜 형식입니다.")
+	@Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = "잘못된 날짜 형식입니다.")
 	private String employmentDate;
 
 	private List<UpdateFamilyRequest> tempFamilyList;

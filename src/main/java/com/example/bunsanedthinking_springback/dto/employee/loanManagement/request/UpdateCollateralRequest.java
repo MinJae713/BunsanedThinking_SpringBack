@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.loan.Collateral;
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class UpdateCollateralRequest implements UpdateLoanRequest {
+	@Positive(message = "잘못된 대출 번호입니다.")
 	private int id;
 
 	@Positive(message = "대출 가능 최대 금액 0보다 작습니다.")
@@ -25,6 +27,7 @@ public class UpdateCollateralRequest implements UpdateLoanRequest {
 	@Positive(message = "이자율이 0보다 작습니다.")
 	private int interestRate;
 
+	@NotNull(message = "대출 종류는 필수 입력 항목입니다.")
 	private LoanType loanType;
 
 	@Positive(message = "최소 자산이 0보다 작습니다.")
@@ -33,6 +36,7 @@ public class UpdateCollateralRequest implements UpdateLoanRequest {
 	@Positive(message = "월 수익이 0보다 작습니다.")
 	private int monthlyIncome;
 
+	@NotNull(message = "담보 종류는 필수 입력 항목입니다.")
 	private CollateralType collateralType;
 
 	@Positive(message = "최소 가치가 0보다 작습니다.")
