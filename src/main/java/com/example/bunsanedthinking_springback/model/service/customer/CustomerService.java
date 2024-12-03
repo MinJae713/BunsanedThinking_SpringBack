@@ -479,10 +479,13 @@ public class CustomerService {
 	public void buyInsurance(BuyInsuranceRequest buyInsuranceRequest) throws NotExistException {
 		int insuranceId = buyInsuranceRequest.getInsuranceId();
 		int customerId = buyInsuranceRequest.getCustomerId();
-
 		if (customerEntityModel.getById(customerId) == null) throw new NotExistException("해당 고객이 없습니다.");
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
 		if (insurance == null) throw new NotExistException("지정된 보험이 없습니다.");
+		List<Contract> contracts = contractEntityModel.getAll().stream().
+				filter(e -> e.getCustomerID() == customerId).
+				filter(e -> e.getProductId() == insuranceId).toList();
+		if (!contracts.isEmpty()) throw new IllegalArgumentException("이미 가입한 보험 상품입니다");
 		Contract contract = new Contract(customerId, insuranceId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER));
 		contract.setEmployeeID(null);
@@ -553,5 +556,16 @@ public class CustomerService {
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
 		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), serial.getAccident()));
 		accidentEntityModel.add(accident);
+	}
+
+	public boolean isAutomobileContract(int id)
+			throws NotExistContractException, IllegalArgumentException {
+		Contract contract = contractEntityModel.getById(id);
+		if (contract == null) throw new NotExistContractException();
+		Product product = productEntityModel.getById(contract.getProductId());
+		if (product instanceof Loan)
+			throw new IllegalArgumentException("보험 계약 상품이 아닙니다");
+		Insurance insurance = (Insurance) product;
+		return insurance.getInsuranceType() == InsuranceType.Automobile;
 	}
 }
