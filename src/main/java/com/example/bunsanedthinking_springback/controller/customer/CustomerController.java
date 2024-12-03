@@ -204,7 +204,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/buyInsurance")
-	public void buyInsurance(@RequestBody BuyInsuranceRequest buyInsuranceRequest) throws NotExistException {
+	public void buyInsurance(@RequestBody BuyInsuranceRequest buyInsuranceRequest) throws NotExistException, IllegalArgumentException {
 		customerSModel.buyInsurance(buyInsuranceRequest);
 	}
 
@@ -235,5 +235,11 @@ public class CustomerController {
 	@PostMapping("/reportAccident")
 	public void reportAccident(@RequestBody @Valid ReportAccidentRequest reportAccidentRequest) throws NotExistException {
 		customerSModel.reportAccident(reportAccidentRequest);
+	}
+
+	@GetMapping("/isAutomobileContract")
+	public boolean isAutomobileContract(@RequestParam int id)
+			throws NotExistContractException, IllegalArgumentException {
+		return customerSModel.isAutomobileContract(id);
 	}
 }
