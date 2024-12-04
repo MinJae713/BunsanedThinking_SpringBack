@@ -15,7 +15,7 @@
         from contract
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        INSERT INTO Contract (id,
+        INSERT INTO contract (id,
                               date,
                               expiration_date,
                               payment_date,
@@ -37,7 +37,7 @@
                 #{lastpaid_date})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.ContractVO">
-        UPDATE Contract
+        UPDATE contract
         SET date             = #{date},
             expiration_date  = #{expiration_date},
             payment_date     = #{payment_date},

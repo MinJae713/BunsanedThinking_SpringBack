@@ -15,7 +15,7 @@
         from customer
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CustomerVO">
-        INSERT INTO Customer (id, address, age, bank_account, bank_name, gender, job, name, phone_number, property,
+        INSERT INTO customer (id, address, age, bank_account, bank_name, gender, job, name, phone_number, property,
                               resident_registration_number)
         VALUES (#{id},
                 #{address},

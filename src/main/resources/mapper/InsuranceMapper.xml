@@ -13,7 +13,7 @@
         from insurance
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceVO">
-        insert into Insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
+        insert into insurance(product_id, insurance_type, age_range, monthly_premium, contract_period, coverage)
         values (
                    #{product_id},
                    #{insurance_type},

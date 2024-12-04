@@ -7,14 +7,14 @@
         where product_id=#{id}
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.ServiceVO">
-        insert into Service(product_id, service)
+        insert into service(product_id, service)
         values (
                    #{product_id},
                    #{service}
                )
     </insert>
     <delete id="deleteById" parameterType="int">
-        DELETE FROM Service
+        DELETE FROM service
         WHERE product_id = #{id}
     </delete>
 </mapper>
