@@ -15,13 +15,13 @@
         from automobile
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
-        insert into Automobile(product_id, vehicle_type, accident_limit)
+        insert into automobile(product_id, vehicle_type, accident_limit)
         values (#{product_id},
                 #{vehicle_type},
                 #{accident_limit})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AutoMobileVO">
-        UPDATE Automobile
+        UPDATE automobile
         SET vehicle_type   = #{vehicle_type},
             accident_limit = #{accident_limit}
         WHERE product_id = #{product_id}

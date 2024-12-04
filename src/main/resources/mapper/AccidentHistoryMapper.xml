@@ -2,29 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        select * from accidenthistory
+        select * from accidentHistory
         where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        select * from accidenthistory
+        select * from accidentHistory
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
         insert into accidentHistory (id, date, details_of_accident, customer_id)
         values (#{id}, #{date}, #{details_of_accident}, #{customer_id})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        update accidenthistory
+        update accidentHistory
         set details_of_accident = #{details_of_accident},
             date = #{date},
             customer_id = #{customer_id}
         where id = #{id}
     </update>
     <delete id="deleteById" parameterType="com.example.bunsanedthinking_springback.vo.AccidentHistoryVO">
-        delete from accidenthistory
+        delete from accidentHistory
         where id = #{id}
     </delete>
     <select id="getMaxId" resultType="Integer">
-        SELECT MAX(id) FROM accidenthistory
+        SELECT MAX(id) FROM accidentHistory
     </select>
 
 </mapper>

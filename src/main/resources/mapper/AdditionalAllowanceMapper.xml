@@ -3,29 +3,29 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.AdditionalAllowanceMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO">
         select *
-        from additionalallowance
+        from additionalAllowance
         where payment_detail_id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO">
         select *
-        from additionalallowance
+        from additionalAllowance
     </select>
     <select id="getMaxId" parameterType="Integer">
         select max(payment_detail_id)
-        from additionalallowance
+        from additionalAllowance
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO">
-        insert into additionalallowance (payment_detail_id, type)
+        insert into additionalAllowance (payment_detail_id, type)
         values (#{payment_detail_id}, #{type})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO">
-        update additionalallowance
+        update additionalAllowance
         set type = #{type}
         where payment_detail_id = #{payment_detail_id}
     </update>
     <delete id="deleteById" parameterType="int">
         delete
-        from additionalallowance
+        from additionalAllowance
         where payment_detail_id = #{id}
     </delete>
 </mapper>

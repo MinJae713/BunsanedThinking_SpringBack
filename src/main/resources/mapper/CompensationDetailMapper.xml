@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.CompensationDetailMapper">
     <select id="getById" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        select * from compensationdetail
+        select * from compensationDetail
         where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        select * from CompensationDetail
+        select * from compensationDetail
     </select>
     <select id="getMaxId" resultType="Integer">
         select max(id)
         from compensationdetail
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        insert into compensationdetail(id, money, payment_date, contract_id)
+        insert into compensationDetail(id, money, payment_date, contract_id)
         values (
                    #{id},
                    #{money},
@@ -22,7 +22,7 @@
                )
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.CompensationDetailVO">
-        update compensationdetail
+        update compensationDetail
         set
             money = #{money},
             payment_date = #{payment_date},
@@ -30,7 +30,7 @@
         where id = #{id}
     </update>
     <delete id="deleteById" parameterType="int">
-        delete from compensationdetail
+        delete from compensationDetail
         where id = #{id}
     </delete>
 </mapper>
