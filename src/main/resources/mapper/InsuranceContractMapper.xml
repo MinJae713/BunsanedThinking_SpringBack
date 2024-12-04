@@ -3,30 +3,30 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.InsuranceContractMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         select *
-        from insurancecontract
+        from insuranceContract
         where product_id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
         select *
-        from insurancecontract
+        from insuranceContract
     </select>
     <select id="getMaxId" parameterType="Integer">
         select max(product_id)
-        from insurancecontract
+        from insuranceContract
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
-        insert into insurancecontract(product_id, insurance_id)
+        insert into insuranceContract(product_id, insurance_id)
         values (#{product_id},
                 #{insurance_id})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceContractVO">
-        update insurancecontract
+        update insuranceContract
         set insurance_id=#{insurance_id}
         where product_id = #{product_id}
     </update>
     <delete id="deleteById">
         delete
-        from insurancecontract
+        from insuranceContract
         where product_id = #{id}
     </delete>
 </mapper>
