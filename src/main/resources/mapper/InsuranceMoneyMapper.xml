@@ -3,25 +3,25 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         select *
-        from insurancemoney
+        from insuranceMoney
         where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
         select *
-        from InsuranceMoney
+        from insuranceMoney
     </select>
     <select id="getMaxId" resultType="Integer">
         select max(id)
-        from insurancemoney
+        from insuranceMoney
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        insert into insurancemoney (id, bank_account, resident_registration_card, receipt, medical_certificate,
+        insert into insuranceMoney (id, bank_account, resident_registration_card, receipt, medical_certificate,
                                     contract_id, bank_name, process_status, apply_date)
         values (#{id}, #{bank_account}, #{resident_registration_card}, #{receipt}, #{medical_certificate},
                 #{contract_id}, #{bank_name}, #{process_status}, #{apply_date})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO">
-        update insurancemoney
+        update insuranceMoney
         set bank_account               = #{bank_account},
             resident_registration_card = #{resident_registration_card},
             receipt                    = #{receipt},
@@ -34,7 +34,7 @@
     </update>
     <delete id="deleteById" parameterType="int">
         delete
-        from insurancemoney
+        from insuranceMoney
         where id = #{id}
     </delete>
 </mapper>

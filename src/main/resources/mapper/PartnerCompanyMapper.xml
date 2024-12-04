@@ -3,19 +3,19 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         select *
-        from partnercompany
+        from partnerCompany
         where id=#{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
         select *
-        from partnercompany
+        from partnerCompany
     </select>
     <select id="getMaxId" resultType="Integer">
         select max(id)
-        from partnercompany
+        from partnerCompany
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
-        insert into partnercompany (id, head_name, head_phone_number, evaluation, name, partner_company_type, phone_number)
+        insert into partnerCompany (id, head_name, head_phone_number, evaluation, name, partner_company_type, phone_number)
         values (
                 #{id},
                 #{head_name},
@@ -27,7 +27,7 @@
                )
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.PartnerCompanyVO">
-        update partnercompany
+        update partnerCompany
         set head_name=#{head_name},
             head_phone_number=#{head_phone_number},
             evaluation=#{evaluation},
@@ -37,7 +37,7 @@
         where id=#{id}
     </update>
     <delete id="deleteById" parameterType="int">
-        delete from partnercompany
+        delete from partnerCompany
         where id=#{id}
     </delete>
 </mapper>

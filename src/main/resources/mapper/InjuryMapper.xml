@@ -15,13 +15,13 @@
         from injury
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.InjuryVO">
-        insert into Injury(product_id, injury_type, surgeries_limit)
+        insert into injury(product_id, injury_type, surgeries_limit)
         values (#{product_id},
                 #{injury_type},
                 #{surgeries_limit})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.InjuryVO">
-        UPDATE Injury
+        UPDATE injury
         SET injury_type     = #{injury_type},
             surgeries_limit = #{surgeries_limit}
         WHERE product_id = #{product_id}

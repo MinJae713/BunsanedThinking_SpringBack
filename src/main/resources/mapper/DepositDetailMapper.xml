@@ -3,23 +3,23 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.DepositDetailMapper">
     <select id="getById" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
-        from depositdetail
+        from depositDetail
         where id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
         select *
-        from depositdetail
+        from depositDetail
     </select>
     <select id="getMaxId" resultType="Integer">
         select max(id)
-        from depositdetail
+        from depositDetail
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        insert into depositdetail (id, depositor_name, date, money, path, contract_id)
+        insert into depositDetail (id, depositor_name, date, money, path, contract_id)
         values (#{id}, #{depositor_name}, #{date}, #{money}, #{path}, #{contract_id})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DepositDetailVO">
-        update depositdetail
+        update depositDetail
         set depositor_name = #{depositor_name},
             date           = #{date},
             money          = #{money},
@@ -29,7 +29,7 @@
     </update>
     <delete id="deleteById" parameterType="int">
         delete
-        from depositdetail
+        from depositDetail
         where id = #{id}
     </delete>
 </mapper>

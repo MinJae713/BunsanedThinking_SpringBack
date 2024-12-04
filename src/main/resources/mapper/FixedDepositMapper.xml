@@ -12,21 +12,21 @@
     </select>
     <select id="getMaxId" parameterType="Integer">
         select max(product_id)
-        from fixeddeposit
+        from fixedDeposit
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
-        insert into fixeddeposit (product_id, minimum_amount)
+        insert into fixedDeposit (product_id, minimum_amount)
         values (#{product_id},
                 #{minimum_amount})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.FixedDepositVO">
-        update fixeddeposit
+        update fixedDeposit
         set minimum_amount=#{minimum_amount}
         where product_id = #{product_id}
     </update>
     <delete id="deleteById">
         delete
-        from fixeddeposit
+        from fixedDeposit
         where product_id = #{id}
     </delete>
 </mapper>

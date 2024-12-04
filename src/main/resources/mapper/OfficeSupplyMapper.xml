@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bunsanedthinking_springback.repository.OfficeSupplyMapper">
     <select id="getById" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        SELECT * FROM officesupply
+        SELECT * FROM officeSupply
         WHERE id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        SELECT * FROM officesupply
+        SELECT * FROM officeSupply
     </select>
     <select id="getMaxId" resultType="Integer">
-        SELECT MAX(id) FROM officesupply
+        SELECT MAX(id) FROM officeSupply
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        INSERT INTO officesupply (id, name, description, inventory, total_inventory, department_id)
+        INSERT INTO officeSupply (id, name, description, inventory, total_inventory, department_id)
         VALUES (#{id},
                 #{name},
                 #{description},
@@ -21,7 +21,7 @@
                 #{department_id})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.OfficeSupplyVO">
-        UPDATE officesupply
+        UPDATE officeSupply
         SET
             inventory = #{inventory},
             name = #{name},
@@ -31,10 +31,10 @@
         WHERE id = #{id}
     </update>
     <delete id="deleteById" parameterType="int">
-        DELETE FROM officesupply
+        DELETE FROM officeSupply
         WHERE id = #{id}
     </delete>
     <select id="getTotalInventory" resultType="int">
-        SELECT SUM(inventory) FROM officesupply
+        SELECT SUM(inventory) FROM officeSupply
     </select>
 </mapper>

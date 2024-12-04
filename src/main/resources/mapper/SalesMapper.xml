@@ -3,12 +3,12 @@
 <mapper namespace="com.example.bunsanedthinking_springback.repository.SalesMapper">
     <select id="getById" parameterType="int" resultType="com.example.bunsanedthinking_springback.vo.SalesVO">
         select *
-        from Sales
+        from sales
         where employee_id = #{id}
     </select>
     <select id="getAll" resultType="com.example.bunsanedthinking_springback.vo.SalesVO">
         SELECT *
-        FROM Sales
+        FROM sales
     </select>
     <select id="getMaxId" parameterType="Integer">
         select max(employee_id)
@@ -19,7 +19,7 @@
         values (#{employee_id}, #{evaluate}, #{contract_count})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.SalesVO">
-        UPDATE Sales
+        UPDATE sales
         SET evaluate       = #{evaluate},
             contract_count = #{contract_count}
         WHERE employee_id = #{employee_id}

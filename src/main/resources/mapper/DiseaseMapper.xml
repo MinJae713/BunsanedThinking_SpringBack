@@ -15,14 +15,14 @@
         from disease
     </select>
     <insert id="insert" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseVO">
-        insert into Disease(product_id, disease_name, disease_limit, surgeries_limit)
+        insert into disease(product_id, disease_name, disease_limit, surgeries_limit)
         values (#{product_id},
                 #{disease_name},
                 #{disease_limit},
                 #{surgeries_limit})
     </insert>
     <update id="update" parameterType="com.example.bunsanedthinking_springback.vo.DiseaseVO">
-        UPDATE Disease
+        UPDATE disease
         SET disease_name    = #{disease_name},
             disease_limit   = #{disease_limit},
             surgeries_limit = #{surgeries_limit}
