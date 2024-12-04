@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.customer.request.signUp;
 
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.CustomerDTOConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
@@ -13,26 +15,26 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class SignUpRequest {
-    @Pattern(regexp = "^[a-zA-Z가-힣]+$", message = "이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
+    @Pattern(regexp = CommonConstants.NAME_PATTERN_REGEXP, message = CommonConstants.NAME_PATTERN_MESSAGE)
     private String name;
-    @NotBlank(message = "전화번호는 반드시 입력해주세요")
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx")
+    @NotBlank(message = CustomerDTOConstants.PHONE_NUMBER_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = CommonConstants.PHONE_NUMBER_PATTERN_REGEXP, message = CommonConstants.PHONE_NUMBER_PATTERN_MESSAGE)
     private String phoneNumber;
     private String job;
-    @Range(min = 1, max = 120, message = "나이는 1~120 이내에서 입력해주세요")
+    @Range(min = 1, max = 120, message = CustomerDTOConstants.AGE_RANGE_MESSAGE)
     private int age;
     private Gender gender;
-    @Pattern(regexp = "^\\d{2}[0-1]\\d[0-3]\\d-?[1-6]\\d{6}$", message = "주민등록번호 형식과 일치하지 않습니다")
+    @Pattern(regexp = CustomerDTOConstants.RESIDENT_REGISTRATION_NUMBER_REGEXP, message = CustomerDTOConstants.RESIDENT_REGISTRATION_NUMBER_MESSAGE)
     private String residentRegistrationNumber;
-    @NotBlank(message = "주소를 반드시 입력해주세요")
+    @NotBlank(message = CustomerDTOConstants.ADDRESS_NOT_BLANK_MESSAGE)
     private String address;
-    @Positive(message = "재산은 양수여야 합니다")
+    @Positive(message = CustomerDTOConstants.PROPERTY_POSITIVE_MESSAGE)
     private long property;
-    @NotBlank(message = "은행 이름을 반드시 입력해주세요")
-    @Pattern(regexp = "^[a-zA-Z가-힣]+$", message = "이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
+    @NotBlank(message = CustomerDTOConstants.BANK_NAME_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = CustomerDTOConstants.BANK_NAME_PATTERN_REGEXP, message = CustomerDTOConstants.BANK_NAME_PATTERN_MESSAGE)
     private String bankName;
-    @NotBlank(message = "계좌번호를 반드시 입력해주세요")
-    @Pattern(regexp = "^[\\d-]+$", message = "유효하지 않은 계좌번호입니다")
+    @NotBlank(message = CustomerDTOConstants.BANK_ACCOUNT_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = CustomerDTOConstants.BANK_ACCOUNT_PATTERN_REGEXP, message = CustomerDTOConstants.BANK_ACCOUNT_PATTERN_MESSAGE)
     private String bankAccount;
     private List<SignUpAccidentHistoryRequest> tempAccidentHistoryList;
     private List<SignUpSurgeryHistoryRequest> tempSurgeryHistoryList;

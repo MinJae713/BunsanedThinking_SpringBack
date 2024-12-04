@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.ProductManagementConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,9 @@ import com.example.bunsanedthinking_springback.model.entityModel.product.Product
 public class ProductManagementService {
 
 	@Autowired
+	private Serial serial;
+
+	@Autowired
 	private ProductEntityModel productEntityModel;
 	@Autowired
 	private InsuranceEntityModel insuranceEntityModel;
@@ -70,7 +76,7 @@ public class ProductManagementService {
 		}
 
 		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
-			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+			Integer.parseInt(CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getInsurance()));
 
 		Disease disease = new Disease();
 		disease.setId(insuranceId);
@@ -98,7 +104,7 @@ public class ProductManagementService {
 		}
 
 		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
-			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+			Integer.parseInt(CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getInsurance()));
 
 		Injury injury = new Injury();
 		injury.setId(insuranceId);
@@ -125,7 +131,7 @@ public class ProductManagementService {
 		}
 
 		int insuranceId = NextIdGetter.getNextId(insuranceEntityModel.getMaxId(),
-			Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + INSURANCE_SERIAL_NUMBER));
+			Integer.parseInt(CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getInsurance()));
 
 		Automobile automobile = new Automobile();
 		automobile.setId(insuranceId);
@@ -152,11 +158,11 @@ public class ProductManagementService {
 		try {
 			Insurance insurance = insuranceEntityModel.getById(id);
 			if (insurance == null) {
-				throw new NotExistException("해당하는 보험 상품 정보가 존재하지 않습니다.");
+				throw new NotExistException(ProductManagementConstants.INSURANCE_PRODUCT_NOT_FOUND);
 			}
 			return ManageInsuranceProductResponse.from(insurance);
 		} catch (NotExistException e) {
-			throw new NotExistException("해당하는 보험 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(ProductManagementConstants.INSURANCE_PRODUCT_NOT_FOUND);
 		}
 	}
 
