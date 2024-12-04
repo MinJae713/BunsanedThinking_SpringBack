@@ -4,6 +4,8 @@ import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.LoanManagementDTOConstants;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
@@ -14,29 +16,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class UpdateFixedDepositRequest implements UpdateLoanRequest {
-	@Positive(message = "잘못된 대출 번호입니다.")
+	@Positive(message = LoanManagementDTOConstants.ID_POSITIVE_MESSAGE)
 	private int id;
 
-	@Positive(message = "대출 가능 최대 금액 0보다 작습니다.")
+	@Positive(message = LoanManagementDTOConstants.MAXIMUM_MONEY_POSITIVE_MESSAGE)
 	private int maximumMoney;
 
-	@Pattern(regexp = "^[a-zA-Z가-힣]+$", message = "이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
-	@Size(max = 20, message = "이름이 20글자를 초과하였습니다.")
+	@Pattern(regexp = CommonConstants.NAME_PATTERN_REGEXP, message = CommonConstants.NAME_PATTERN_MESSAGE)
+	@Size(max = 20, message = CommonConstants.NAME_SIZE_MESSAGE)
 	private String name;
 
-	@Positive(message = "이자율이 0보다 작습니다.")
+	@Positive(message = LoanManagementDTOConstants.INTEREST_RATE_POSITIVE_MESSAGE)
 	private int interestRate;
 
-	@NotNull(message = "대출 종류는 필수 입력 항목입니다.")
+	@NotNull(message = LoanManagementDTOConstants.LOAN_TYPE_NOT_NULL_MESSAGE)
 	private LoanType loanType;
 
-	@Positive(message = "최소 자산이 0보다 작습니다.")
+	@Positive(message = LoanManagementDTOConstants.MINIMUM_ASSET_POSITIVE_MESSAGE)
 	private int minimumAsset;
 
-	@Positive(message = "월 수익이 0보다 작습니다.")
+	@Positive(message = LoanManagementDTOConstants.MONTHLY_INCOME_POSITIVE_MESSAGE)
 	private int monthlyIncome;
 
-	@Positive(message = "최소 예금이 0보다 작습니다.")
+	@Positive(message = LoanManagementDTOConstants.MINIMUM_AMOUNT_POSITIVE_MESSAGE)
 	private int minimumAmount;
 
 	public Loan toEntity() {

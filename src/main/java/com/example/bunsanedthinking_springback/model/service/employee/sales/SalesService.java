@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -78,6 +80,9 @@ import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.
 public class SalesService {
 
 	@Autowired
+	private Serial serial;
+
+	@Autowired
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
 	private AccidentHistoryEntityModel accidentHistoryEntityModel;
@@ -143,7 +148,7 @@ public class SalesService {
 
 	public void induceInsuranceProduct(InduceInsuranceProductRequest induceInsuranceProductRequest) {
 
-		Integer customerId = NextIdGetter.getNextId(customerEntityModel.getMaxId(), CUSTOMER_SERIAL_NUMBER);
+		Integer customerId = NextIdGetter.getNextId(customerEntityModel.getMaxId(), serial.getCustomer());
 
 		Customer customer = new Customer();
 		customer.setId(customerId);
@@ -163,52 +168,52 @@ public class SalesService {
 		customer.setContractList(new ArrayList<>());
 
 		if (induceInsuranceProductRequest.getAccidentHistories()!= null) {
-			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), ACCIDENT_HISTORY_SERIAL_NUMBER);
+			Integer accidentHistoryId = NextIdGetter.getNextId(accidentHistoryEntityModel.getMaxId(), serial.getAccidentHistory());
 			for (InduceAccidentHistoryRequest e : induceInsuranceProductRequest.getAccidentHistories()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
-				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				accidentHistory.setDate(date);
 				accidentHistory.setAccidentDetail(e.getAccidentDetail());
 				accidentHistory.setCustomerID(customerId);
 				customer.getAccidentHistoryList().add(accidentHistory);
-				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, serial.getAccidentHistory());
 			}
 		}
 
 		if (induceInsuranceProductRequest.getSurgeryHistories() != null) {
-			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), SURGERY_HISTORY_SERIAL_NUMBER);
+			Integer surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryEntityModel.getMaxId(), serial.getSurgeryHistory());
 			for (InduceSurgeryHistoryRequest e : induceInsuranceProductRequest.getSurgeryHistories()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
 				surgeryHistory.setId(surgeryHistoryId);
 				surgeryHistory.setHospitalName(e.getHospitalName());
 				surgeryHistory.setName(e.getName());
-				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				surgeryHistory.setDate(date);
 				surgeryHistory.setCustomerID(customerId);
 				customer.getSurgeryHistoryList().add(surgeryHistory);
-				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, serial.getSurgeryHistory());
 			}
 		}
 		if (induceInsuranceProductRequest.getDiseaseHistories() != null) {
-			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
+			Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), serial.getDiseaseHistory());
 			for (InduceDiseaseHistoryRequest e : induceInsuranceProductRequest.getDiseaseHistories()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				diseaseHistory.setDate_of_diagnosis(date);
 				diseaseHistory.setName(e.getName());
 				diseaseHistory.setCustomer_id(customerId);
 				customer.getDiseaseHistoryList().add(diseaseHistory);
-				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, serial.getDiseaseHistory());
 			}
 		}
 
-		int contractId = NextIdGetter.getNextId(contractEntityModel.getMaxId(), CONTRACT_SERIAL_NUMBER);
+		int contractId = NextIdGetter.getNextId(contractEntityModel.getMaxId(), serial.getContract());
 		Contract contract = new Contract();
 		contract.setId(contractId);
 		contract.setDate(new Date());
@@ -259,7 +264,7 @@ public class SalesService {
 	}
 
 	public List<HandleInsuranceConsultationResponse> getAllCounsel() {
-		List<Counsel> counsels =  counselEntityModel.getAll();
+		List<Counsel> counsels = counselEntityModel.getAll();
 		return counsels.stream().map(HandleInsuranceConsultationResponse::from).collect(Collectors.toList());
 	}
 
@@ -286,11 +291,11 @@ public class SalesService {
 	public DiseaseHistory addDiseaseHistory(AddDiseaseHistoryRequest addDiseaseHistoryRequest) {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 
-		Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), DISEASE_HISTORY_SERIAL_NUMBER);
+		Integer diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryEntityModel.getMaxId(), serial.getDiseaseHistory());
 
 		diseaseHistory.setId(diseaseHistoryId);
 		diseaseHistory.setDate_of_diagnosis(Date.from(
-			LocalDate.parse(addDiseaseHistoryRequest.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+			LocalDate.parse(addDiseaseHistoryRequest.getDateOfDiagnosis(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT))
 				.atStartOfDay(ZoneId.systemDefault())
 				.toInstant()
 		));

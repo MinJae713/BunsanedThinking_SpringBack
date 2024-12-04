@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.customer.request.signUp;
 
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ public class SignUpSurgeryHistoryRequest {
 		SurgeryHistory surgeryHistory = new SurgeryHistory();
 		surgeryHistory.setId(id);
 		surgeryHistory.setCustomerID(customerId);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		surgeryHistory.setDate(formatter.parse(date));
 		surgeryHistory.setHospitalName(hospitalName);
 		surgeryHistory.setName(name);

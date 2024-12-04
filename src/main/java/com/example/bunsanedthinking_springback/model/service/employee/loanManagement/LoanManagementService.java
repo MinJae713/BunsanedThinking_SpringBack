@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.LoanManagementConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,6 +52,10 @@ import com.example.bunsanedthinking_springback.model.entityModel.product.Product
 
 @Service
 public class LoanManagementService {
+
+	@Autowired
+	private Serial serial;
+
 	@Autowired
 	private ProductEntityModel productEntityModel;
 	@Autowired
@@ -82,7 +89,7 @@ public class LoanManagementService {
 		checkLoanName(addCollateralLoanProductRequest.getName());
 		int productId = createProductId();
 		if (addCollateralLoanProductRequest.getLoanType() != LoanType.Collateral) {
-			throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
+			throw new IllegalArgumentException(LoanManagementConstants.INVALID_LOAN_TYPE);
 		}
 		Collateral collateral = new Collateral(productId, LoanType.Collateral,
 			addCollateralLoanProductRequest.getName(), addCollateralLoanProductRequest.getInterestRate(),
@@ -115,7 +122,7 @@ public class LoanManagementService {
 				insuranceContractEntityModel.add(insuranceContract);
 			}
 			default -> {
-				throw new IllegalArgumentException("잘못된 LoanType이 입력되었습니다.");
+				throw new IllegalArgumentException(LoanManagementConstants.INVALID_LOAN_TYPE);
 			}
 		}
 	}
@@ -136,10 +143,10 @@ public class LoanManagementService {
 		Integer productMaxId = loanEntityModel.getMaxId();
 		int productId;
 		if (productMaxId == null) {
-			productId = Integer.parseInt("" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER + 1);
+			productId = Integer.parseInt(CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan() + 1);
 		} else {
-			String serial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
-			productId = NextIdGetter.getNextId(productMaxId, Integer.parseInt(serial));
+			String loan_serial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
+			productId = NextIdGetter.getNextId(productMaxId, Integer.parseInt(loan_serial));
 		}
 		return productId;
 	}
@@ -147,14 +154,14 @@ public class LoanManagementService {
 	public ManagementLoanProductResponse getLoanProduct(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
 		if (loan == null)
-			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
 		return ManagementLoanProductResponse.from(loan);
 	}
 
 	public ManagementLoanProductResponse getLoanProductDetail(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
 		if (loan == null)
-			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
 		return switch (loan.getLoanType()) {
 			case Collateral -> ManagementCollateralProductResponse.from((Collateral)loan);
 			case FixedDeposit -> ManagementFixedDepositProductResponse.from((FixedDeposit)loan);
@@ -176,7 +183,7 @@ public class LoanManagementService {
 			throw new AlreadyProcessedException();
 
 		if (result && (money == null || paymentType == null))
-			throw new IllegalArgumentException("Money 또는 Payment Type이 입력되지 않았습니다.");
+			throw new IllegalArgumentException(LoanManagementConstants.INVALID_MONEY_OR_PAYMENT_TYPE);
 
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (result) {
@@ -210,9 +217,9 @@ public class LoanManagementService {
 		Integer paymentMaxId = paymentDetailEntityModel.getMaxId();
 		int paymentId;
 		if (paymentMaxId == null) {
-			paymentId = Integer.parseInt("" + PAYMENT_DETAIL_SERIAL_NUMBER + 1);
+			paymentId = Integer.parseInt(CommonConstants.STRING_EMPTY + serial.getPaymentDetail() + 1);
 		} else {
-			paymentId = NextIdGetter.getNextId(paymentMaxId, PAYMENT_DETAIL_SERIAL_NUMBER);
+			paymentId = NextIdGetter.getNextId(paymentMaxId, serial.getPaymentDetail());
 		}
 		return new PaymentDetail(paymentId, PaymentProcessStatus.Unprocessed, customer.getName(),
 			customer.getBankName(), customer.getBankAccount(), money, paymentType, contractId, null);
@@ -233,7 +240,7 @@ public class LoanManagementService {
 		DuplicateLoanException {
 		Loan loan = loanEntityModel.getById(updateLoanRequest.getId());
 		if (loan == null)
-			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
 		boolean checkName = loanEntityModel.getAll().stream()
 			.filter(e -> e.getName().equals(updateLoanRequest.getName()))
 			.anyMatch(e -> e.getId() != loan.getId());
@@ -247,7 +254,7 @@ public class LoanManagementService {
 		throws DuplicateLoanException, NotExistException {
 		Loan loan = loanEntityModel.getById(loanId);
 		if (loan == null)
-			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
 		switch (index) {
 			case 1 -> {
 				checkLoanName(input);
@@ -284,7 +291,7 @@ public class LoanManagementService {
 				collateralEntityModel.update(collateral);
 				return;
 			}
-			default -> throw new IllegalArgumentException("잘못된 index가 입력되었습니다.");
+			default -> throw new IllegalArgumentException(LoanManagementConstants.INVALID_INDEX);
 		}
 		loanEntityModel.update(loan);
 	}
@@ -292,7 +299,7 @@ public class LoanManagementService {
 	public void deleteLoanProduct(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
 		if (loan == null)
-			throw new NotExistException("해당하는 대출 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
 		switch (loan.getLoanType()) {
 			case Collateral -> collateralEntityModel.delete(id);
 			case FixedDeposit -> fixedDepositEntityModel.delete(id);
@@ -312,7 +319,7 @@ public class LoanManagementService {
 			throw new NotExistContractException();
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (product == null)
-			throw new NotExistException("해당하는 상품 정보가 존재하지 않습니다.");
+			throw new NotExistException(LoanManagementConstants.PRODUCT_NOT_FOUND);
 		if (product instanceof Loan loan) {
 			return getLoanOutcome(contractId, loan);
 		} else if (product instanceof Insurance insurance) {
@@ -342,9 +349,9 @@ public class LoanManagementService {
 	}
 
 	public List<LoanRequestResponse> getAllLoanRequest() {
-		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		String loanProductSerial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
 		return contractEntityModel.getAll().stream()
-			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> (contract.getProductId() + CommonConstants.STRING_EMPTY).startsWith(loanProductSerial))
 			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
@@ -353,10 +360,10 @@ public class LoanManagementService {
 	}
 
 	public LoanRequestResponse getLoanRequest(int id) throws NotExistContractException {
-		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		String loanProductSerial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null
-			|| !(contract.getProductId() + "").startsWith(loanProductSerial)) {
+			|| !(contract.getProductId() + CommonConstants.STRING_EMPTY).startsWith(loanProductSerial)) {
 			throw new NotExistContractException();
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
@@ -365,10 +372,10 @@ public class LoanManagementService {
 	}
 
 	public LoanRequestResponse getLoanRequestDetail(int id) throws NotExistContractException {
-		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		String loanProductSerial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null
-			|| !(contract.getProductId() + "").startsWith(loanProductSerial)) {
+			|| !(contract.getProductId() + CommonConstants.STRING_EMPTY).startsWith(loanProductSerial)) {
 			throw new NotExistContractException();
 		}
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
@@ -377,9 +384,9 @@ public class LoanManagementService {
 	}
 
 	public List<LoanRequestResponse> getAllCompletedLoanRequest() {
-		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		String loanProductSerial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
 		return contractEntityModel.getAll().stream()
-			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> (contract.getProductId() + CommonConstants.STRING_EMPTY).startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() != ContractStatus.ContractRequesting)
 			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
@@ -389,15 +396,14 @@ public class LoanManagementService {
 	}
 
 	public List<LoanRequestResponse> getAllUnprocessedLoanRequest() {
-		String loanProductSerial = "" + PRODUCT_SERIAL_NUMBER + LOAN_SERIAL_NUMBER;
+		String loanProductSerial = CommonConstants.STRING_EMPTY + serial.getProduct() + serial.getLoan();
 		return contractEntityModel.getAll().stream()
-			.filter(contract -> (contract.getProductId() + "").startsWith(loanProductSerial))
+			.filter(contract -> (contract.getProductId() + CommonConstants.STRING_EMPTY).startsWith(loanProductSerial))
 			.filter(contract -> contract.getContractStatus() == ContractStatus.ContractRequesting)
 			.map(contract -> LoanRequestResponse.of(
 				loanEntityModel.getById(contract.getProductId()),
 				customerEntityModel.getById(contract.getCustomerID()),
 				contract))
 			.toList();
-
 	}
 }

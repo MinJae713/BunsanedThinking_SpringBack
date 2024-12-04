@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.employee.humanResource.response;
 
 import com.example.bunsanedthinking_springback.entity.family.Family;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.HumanResourceDTOConstants;
 import com.example.bunsanedthinking_springback.global.util.DateUtils;
 
 import lombok.AllArgsConstructor;
@@ -19,9 +20,9 @@ public class FamilyResponse {
 	public static FamilyResponse from(Family family) {
 		String survival;
 		if (family.isSurvival())
-			survival = "생존";
+			survival = HumanResourceDTOConstants.SURVIVAL_LIVE;
 		else
-			survival = "사망";
+			survival = HumanResourceDTOConstants.SURVIVAL_DEATH;
 		return new FamilyResponse(DateUtils.toString(family.getBirthDate()), family.getEmployeeId(), family.getId(),
 			family.getName(), family.getRelationship().getName(), survival);
 	}

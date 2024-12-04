@@ -7,6 +7,9 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CustomerInformationManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -26,6 +29,9 @@ import java.util.List;
 
 @Service
 public class CustomerInformationManagementService {
+
+	@Autowired
+	private Serial serial;
 
 	@Autowired
 	private CustomerEntityModel customerEntityModel;
@@ -53,7 +59,7 @@ public class CustomerInformationManagementService {
 			throw new DuplicateResidentRegistrationNumberException();
 
 		Integer maxId = customerEntityModel.getMaxId();
-		int id = NextIdGetter.getNextId(maxId, CUSTOMER_SERIAL_NUMBER);
+		int id = NextIdGetter.getNextId(maxId, serial.getCustomer());
 
 		Customer customer = new Customer(
 				addCustomerInformationRequest.getName(),
@@ -73,13 +79,13 @@ public class CustomerInformationManagementService {
 
 		if (addCustomerInformationRequest.getAccidentHistoryList() != null) {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
-			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, serial.getAccidentHistory());
 
 			for (AddAccidentHistoryReuqest e : addCustomerInformationRequest.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 
-				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				accidentHistory.setDate(date);
 
@@ -89,13 +95,13 @@ public class CustomerInformationManagementService {
 				customer.getAccidentHistoryList().add(accidentHistory);
 				accidentHistoryEntityModel.add(accidentHistory);
 
-				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, ACCIDENT_HISTORY_SERIAL_NUMBER);
+				accidentHistoryId = NextIdGetter.getNextId(accidentHistoryId, serial.getAccidentHistory());
 			}
 		}
 
 		if (addCustomerInformationRequest.getSurgeryHistoryList() != null) {
 			Integer surgeryHistoryMaxId = surgeryHistoryEntityModel.getMaxId();
-			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, SURGERY_HISTORY_SERIAL_NUMBER);
+			int surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryMaxId, serial.getSurgeryHistory());
 
 			for (AddSurgeryHistoryRequest e : addCustomerInformationRequest.getSurgeryHistoryList()) {
 				SurgeryHistory surgeryHistory = new SurgeryHistory();
@@ -103,7 +109,7 @@ public class CustomerInformationManagementService {
 				surgeryHistory.setHospitalName(e.getHospitalName());
 				surgeryHistory.setName(e.getName());
 
-				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				surgeryHistory.setDate(date);
 
@@ -112,19 +118,19 @@ public class CustomerInformationManagementService {
 				customer.getSurgeryHistoryList().add(surgeryHistory);
 				surgeryHistoryEntityModel.add(surgeryHistory);
 
-				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, SURGERY_HISTORY_SERIAL_NUMBER);
+				surgeryHistoryId = NextIdGetter.getNextId(surgeryHistoryId, serial.getSurgeryHistory());
 			}
 		}
 
 		if (addCustomerInformationRequest.getDiseaseHistoryList() != null) {
 			Integer diseaseHistoryMaxId = diseaseHistoryEntityModel.getMaxId();
-			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, DISEASE_HISTORY_SERIAL_NUMBER);
+			int diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryMaxId, serial.getDiseaseHistory());
 
 			for (AddDiseaseHistoryRequest e : addCustomerInformationRequest.getDiseaseHistoryList()) {
 				DiseaseHistory diseaseHistory = new DiseaseHistory();
 				diseaseHistory.setId(diseaseHistoryId);
 
-				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				LocalDate localDate = LocalDate.parse(e.getDateOfDiagnosis(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 				Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				diseaseHistory.setDate_of_diagnosis(date);
 
@@ -134,7 +140,7 @@ public class CustomerInformationManagementService {
 				customer.getDiseaseHistoryList().add(diseaseHistory);
 				diseaseHistoryEntityModel.add(diseaseHistory);
 
-				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, DISEASE_HISTORY_SERIAL_NUMBER);
+				diseaseHistoryId = NextIdGetter.getNextId(diseaseHistoryId, serial.getDiseaseHistory());
 			}
 		}
 	}
@@ -142,7 +148,7 @@ public class CustomerInformationManagementService {
 	public void deleteCustomerInformation(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerInformationManagementConstants.CUSTOMER_INFORMATION_NULL);
 		}
 		customerEntityModel.delete(id);
 	}
@@ -150,7 +156,7 @@ public class CustomerInformationManagementService {
 	public Customer getCustomerInformation(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerInformationManagementConstants.CUSTOMER_INFORMATION_NULL);
 		}
 		return customer;
 	}
@@ -162,7 +168,7 @@ public class CustomerInformationManagementService {
 		String input = updateCustomerInformationRequest.getInput();
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerInformationManagementConstants.CUSTOMER_INFORMATION_NULL);
 		}
 		switch (index) {
 			case 1:
@@ -221,23 +227,23 @@ public class CustomerInformationManagementService {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
-						System.err.println("유효하지 않은 ID로 인해 사고 이력 업데이트가 무시되었습니다: " + dto);
+						System.err.println(CustomerInformationManagementConstants.INVALID_ACCIDENT_ID + dto);
 						continue;
 					}
 					// 기존 사고 이력을 ID로 조회
 					AccidentHistory accidentHistory = accidentHistoryEntityModel.getById(dto.getId());
 					if (accidentHistory == null) {
-						System.err.println("ID로 사고 이력을 찾을 수 없습니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.ACCIDENT_HISTORY_NOT_FOUND + dto.getId());
 						continue;
 					}
 					if (accidentHistory.getCustomerID() != customer.getId()) {
-						System.err.println("해당 고객의 사고 이력이 아닙니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.NOT_CUSTOMER_ASSIGNED_ACCIDENT_HISTORY + dto.getId());
 						continue; // 해당 이력 무시
 					}
 					// 날짜 값이 유효한 경우 변환
 					Date date = null;
 					if (dto.getDate() != null && !dto.getDate().isEmpty()) {
-						LocalDate localDate = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+						LocalDate localDate = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 						date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 					}
 					// 기존 사고 이력 업데이트
@@ -247,7 +253,7 @@ public class CustomerInformationManagementService {
 					accidentHistory.setAccidentDetail(dto.getAccidentDetail());
 					accidentHistoryEntityModel.update(accidentHistory);
 				} catch (Exception e) {
-					System.err.println("사고 이력 업데이트 중 오류 발생: " + e.getMessage());
+					System.err.println(CustomerInformationManagementConstants.UPDATE_ACCIDENT_ERROR + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -259,24 +265,24 @@ public class CustomerInformationManagementService {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
-						System.err.println("유효하지 않은 ID로 인해 수술 이력 업데이트가 무시되었습니다: " + dto);
+						System.err.println(CustomerInformationManagementConstants.INVALID_SURGERY_ID + dto);
 						continue;
 					}
 					// 기존 수술 이력을 ID로 조회
 					SurgeryHistory surgeryHistory = surgeryHistoryEntityModel.getById(dto.getId());
 					if (surgeryHistory == null) {
-						System.err.println("ID로 수술 이력을 찾을 수 없습니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.SURGERY_HISTORY_NOT_FOUND + dto.getId());
 						continue;
 					}
 					// 고객 소유권 확인
 					if (surgeryHistory.getCustomerID() != customer.getId()) {
-						System.err.println("해당 고객의 수술 이력이 아닙니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.NOT_CUSTOMER_ASSIGNED_SURGERY_HISTORY + dto.getId());
 						continue; // 해당 이력 무시
 					}
 					// 날짜 값이 유효한 경우 변환
 					Date date = null;
 					if (dto.getDate() != null && !dto.getDate().isEmpty()) {
-						LocalDate localDate = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+						LocalDate localDate = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 						date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 					}
 					// 기존 수술 이력 업데이트
@@ -288,7 +294,7 @@ public class CustomerInformationManagementService {
 					surgeryHistoryEntityModel.update(surgeryHistory);
 
 				} catch (Exception e) {
-					System.err.println("수술 이력 업데이트 중 오류 발생: " + e.getMessage());
+					System.err.println(CustomerInformationManagementConstants.UPDATE_SURGERY_ERROR + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -300,24 +306,24 @@ public class CustomerInformationManagementService {
 				try {
 					// ID가 0 이하인 경우 무시 (업데이트만 수행)
 					if (dto.getId() <= 0) {
-						System.err.println("유효하지 않은 ID로 인해 병력 업데이트가 무시되었습니다: " + dto);
+						System.err.println(CustomerInformationManagementConstants.INVALID_DISEASE_ID + dto);
 						continue;
 					}
 					// 기존 병력을 ID로 조회
 					DiseaseHistory diseaseHistory = diseaseHistoryEntityModel.getById(dto.getId());
 					if (diseaseHistory == null) {
-						System.err.println("ID로 병력을 찾을 수 없습니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.DISEASE_HISTORY_NOT_FOUND + dto.getId());
 						continue;
 					}
 					// 고객 소유권 확인
 					if (diseaseHistory.getCustomer_id() != customer.getId()) {
-						System.err.println("해당 고객의 병력이 아닙니다: " + dto.getId());
+						System.err.println(CustomerInformationManagementConstants.NOT_CUSTOMER_ASSIGNED_DISEASE_HISTORY + dto.getId());
 						continue; // 해당 이력 무시
 					}
 					// 날짜 값이 유효한 경우 변환
 					Date dateOfDiagnosis = null;
 					if (dto.getDateOfDiagnosis() != null && !dto.getDateOfDiagnosis().isEmpty()) {
-						LocalDate localDate = LocalDate.parse(dto.getDateOfDiagnosis(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+						LocalDate localDate = LocalDate.parse(dto.getDateOfDiagnosis(), DateTimeFormatter.ofPattern(CommonConstants.DATE_FORMAT));
 						dateOfDiagnosis = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 					}
 					// 기존 병력 업데이트
@@ -328,7 +334,7 @@ public class CustomerInformationManagementService {
 					diseaseHistoryEntityModel.update(diseaseHistory); // 업데이트 호출
 
 				} catch (Exception e) {
-					System.err.println("병력 업데이트 중 오류 발생: " + e.getMessage());
+					System.err.println(CustomerInformationManagementConstants.UPDATE_DISEASE_ERROR + e.getMessage());
 					e.printStackTrace();
 				}
 			}

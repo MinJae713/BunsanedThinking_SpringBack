@@ -7,6 +7,8 @@ import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CompensationPlanningConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -21,6 +23,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompensationPlanningService {
+
+	@Autowired
+	private Serial serial;
+
 	@Autowired
 	private PartnerCompanyEntityModel partnerCompanyEntityModel;
 
@@ -38,7 +44,7 @@ public class CompensationPlanningService {
 		for (PartnerCompany partnerCompany : partnerCompanies)
 			if (partnerCompany.getName().equals(name))
 				throw new DuplicatePartnerCompanyException();
-		int id = NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), PARTNER_COMPANY_SERIAL_NUMBER);
+		int id = NextIdGetter.getNextId(partnerCompanyEntityModel.getMaxId(), serial.getPartnercompany());
 		PartnerCompany partnerCompany = new PartnerCompany(name, phoneNumber,
 				partnerCompanyType, headName, headPhoneNumber);
 		partnerCompany.setId(id);
@@ -55,13 +61,13 @@ public class CompensationPlanningService {
 
 	public PartnerCompany getPartnerCompanyById(int id) throws NotExistException {
 		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
-		if (partnerCompany == null) throw new NotExistException("해당 협력업체가 없습니다");
+		if (partnerCompany == null) throw new NotExistException(CompensationPlanningConstants.PARTNER_COMPANY_NULL);
 		return partnerCompany;
 	}
 
 	public PartnerCompanyDetailResponse getPartnerCompanyDetailById(int id) throws NotExistException {
 		PartnerCompany partnerCompany = getPartnerCompanyById(id);
-		if (partnerCompany == null) throw new NotExistException("아이디 해당 협력업체가 없습니다");
+		if (partnerCompany == null) throw new NotExistException(CompensationPlanningConstants.PARTNER_COMPANY_NULL);
 		return PartnerCompanyDetailResponse.of(partnerCompany);
 	}
 
@@ -76,30 +82,30 @@ public class CompensationPlanningService {
 		int partnerCompanyId = partnerCompanyDTO.getPartnerCompanyId();
 
 		PartnerCompany partnerCompany = getPartnerCompanyById(partnerCompanyId);
-		if (partnerCompany == null) throw new NotExistException("해당 협력업체가 없습니다");
+		if (partnerCompany == null) throw new NotExistException(CompensationPlanningConstants.PARTNER_COMPANY_NULL);
 		switch (index) {
 			case 1:
 				for (PartnerCompany e : partnerCompanyEntityModel.getAll())
 					if (e.getName().equals(input))
 						throw new DuplicatePartnerCompanyException();
 				if (!input.matches("^[a-zA-Z가-힣]+$"))
-					throw new RuntimeException("이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.");
+					throw new RuntimeException(CompensationPlanningConstants.INVALID_NAME_FORMAT);
 				partnerCompany.setName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 2:
 				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
-					throw new RuntimeException("핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx");
+					throw new RuntimeException(CompensationPlanningConstants.INVALID_PHONE_FORMAT);
 				partnerCompany.setPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 3:
 				if (!input.matches("^[a-zA-Z가-힣]+$"))
-					throw new RuntimeException("이름은 공백, 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.");
+					throw new RuntimeException(CompensationPlanningConstants.INVALID_NAME_FORMAT);
 				partnerCompany.setHeadName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 				break;
 			case 4:
 				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
-					throw new RuntimeException("핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx");
+					throw new RuntimeException(CompensationPlanningConstants.INVALID_PHONE_FORMAT);
 				partnerCompany.setHeadPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 				break;

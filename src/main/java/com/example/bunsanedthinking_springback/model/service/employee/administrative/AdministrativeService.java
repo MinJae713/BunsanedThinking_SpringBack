@@ -3,6 +3,8 @@ package com.example.bunsanedthinking_springback.model.service.employee.administr
 import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.service.AdministrativeConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -16,6 +18,9 @@ import java.util.List;
 
 @Service
 public class AdministrativeService {
+
+	@Autowired
+	private Serial serial;
 
 	@Autowired
 	private OfficeSupplyEntityModel officeSupplyEntityModel;
@@ -32,7 +37,7 @@ public class AdministrativeService {
 		}
 		// 현재 최대 ID를 가져와서 NextIdGetter를 사용하여 새로운 ID 생성
 		Integer maxId = officeSupplyEntityModel.getMaxId();
-		int id = NextIdGetter.getNextId(maxId, OFFICESUPPLY_SERIAL_NUMBER);
+		int id = NextIdGetter.getNextId(maxId, serial.getOfficesupply());
 
 		OfficeSupply officeSupply = new OfficeSupply(
 				id,
@@ -48,7 +53,7 @@ public class AdministrativeService {
 	public void deleteOfficeSupply(int id) throws NotExistException {
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		officeSupplyEntityModel.delete(id);
 	}
@@ -56,7 +61,7 @@ public class AdministrativeService {
 	public OfficeSupply getOfficeSupply(int id) throws NotExistException {
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null){
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		return officeSupply;
 	}
@@ -68,7 +73,7 @@ public class AdministrativeService {
 		String input = updateOfficeSupplyRequest.getInput();
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		switch (index) {
 			case 1:

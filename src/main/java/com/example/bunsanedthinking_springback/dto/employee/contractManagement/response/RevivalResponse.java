@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.dto.employee.contractManagement.
 
 import com.example.bunsanedthinking_springback.dto.employee.contractManagement.response.customerInfos.CustomerInfoResponse;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,6 @@ public class RevivalResponse extends AbstractContractResponse {
         String terminationDate = revival.getTerminationDate();
         String revivalStatus = revival.getRevivalStatus().getText();
         return new RevivalResponse(id, customerInfoResponse, productId,
-                terminationDate == null ? "" : terminationDate, revivalStatus);
+                terminationDate == null ? CommonConstants.STRING_EMPTY : terminationDate, revivalStatus);
     }
 }

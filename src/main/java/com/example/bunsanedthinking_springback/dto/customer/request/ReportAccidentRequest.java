@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.customer.request;
 
+import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.CustomerDTOConstants;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,9 @@ import java.sql.Date;
 @NoArgsConstructor
 public class ReportAccidentRequest {
     private Date accidentDate;
-    @NotBlank(message = "사고 위치는 반드시 입력해주세요")
+    @NotBlank(message = CustomerDTOConstants.LOCATION_NOT_BLANK_MESSAGE)
     private String location;
-    @Range(min = 0, max = 5, message = "6가지 유형중에 선택해주세요")
+    @Range(min = 0, max = 5, message = CustomerDTOConstants.SERVICE_TYPE_RANGE_MESSAGE)
     private int serviceType;
     private int customerId;
 }

@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.customer.request.signUp;
 
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ public class SignUpDiseaseHistoryRequest {
 		DiseaseHistory diseaseHistory = new DiseaseHistory();
 		diseaseHistory.setId(id);
 		diseaseHistory.setCustomer_id(customerId);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		diseaseHistory.setDate_of_diagnosis(formatter.parse(dateOfDiagnosis));
 		diseaseHistory.setName(name);
 		return diseaseHistory;
