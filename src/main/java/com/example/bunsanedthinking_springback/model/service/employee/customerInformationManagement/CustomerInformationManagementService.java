@@ -9,7 +9,7 @@ import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHist
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
 import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CustomerInformationManagementConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.customerInformationManagement.CustomerInformationManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -18,7 +18,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -41,15 +40,6 @@ public class CustomerInformationManagementService {
 	private SurgeryHistoryEntityModel surgeryHistoryEntityModel;
 	@Autowired
 	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
-
-	@Value("${serials.customer}")
-	public int CUSTOMER_SERIAL_NUMBER;
-	@Value("${serials.accidentHistory}")
-	public int ACCIDENT_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.surgeryHistory}")
-	public int SURGERY_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.diseaseHistory}")
-	public int DISEASE_HISTORY_SERIAL_NUMBER;
 
 	public void addCustomerInformation(AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
 

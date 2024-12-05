@@ -25,7 +25,7 @@ import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CustomerServiceConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.CustomerConstants;
 import com.example.bunsanedthinking_springback.global.exception.*;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
@@ -53,7 +53,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -116,27 +115,6 @@ public class CustomerService {
 	private CounselEntityModel counselEntityModel;
 	@Autowired
 	private ProductEntityModel productEntityModel;
-
-	@Value("${serials.customer}")
-	public Integer CUSTOMER_SERIAL_NUMBER;
-	@Value("${serials.depositDetail}")
-	public Integer DEPOSIT_DETAIL_SERIAL_NUMBER;
-	@Value("${serials.counsel}")
-	public Integer COUNSEL_SERIAL_NUMBER;
-	@Value("${serials.contract}")
-	public Integer CONTRACT_SERIAL_NUMBER;
-	@Value("${serials.complaint}")
-	public Integer COMPLAINT_SERIAL_NUMBER;
-	@Value("${serials.accident}")
-	public Integer ACCIDENT_SERIAL_NUMBER;
-	@Value("${serials.accidentHistory}")
-	public Integer ACCIDENT_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.surgeryHistory}")
-	public Integer SURGERY_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.diseaseHistory}")
-	public Integer DISEASE_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.insuranceMoney}")
-	public Integer INSURANCE_MONEY_SERIAL_NUMBER;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException {
 		Contract contract = contractEntityModel.getById(contractId);
@@ -219,7 +197,7 @@ public class CustomerService {
 
 	public Customer getCustomerById(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
-		if (customer == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customer == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		return customer;
 	}
 
@@ -227,7 +205,7 @@ public class CustomerService {
 		List<InsuranceListResponse> result = insuranceEntityModel.getAll().stream()
 				.map(InsuranceListResponse::of)
 				.collect(Collectors.toList());
-		if (result.isEmpty()) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_INSURANCE);
+		if (result.isEmpty()) throw new NotExistException(CustomerConstants.NOT_EXIST_INSURANCE);
 		return result;
 	}
 
@@ -251,7 +229,7 @@ public class CustomerService {
 
 	public Insurance getInsuranceByProductId(int id) throws NotExistException {
 		Insurance insurance = insuranceEntityModel.getById(id);
-		if (insurance == null) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_INSURANCE);
+		if (insurance == null) throw new NotExistException(CustomerConstants.NOT_EXIST_INSURANCE);
 		return insurance;
 	}
 
@@ -285,7 +263,7 @@ public class CustomerService {
 
 	public Loan getLoanByProductId(int id) throws NotExistException {
 		Loan loan = loanEntityModel.getById(id);
-		if (loan == null) throw new NotExistException(CustomerServiceConstants.NOT_EXIST_LOAN);
+		if (loan == null) throw new NotExistException(CustomerConstants.NOT_EXIST_LOAN);
 		return loan;
 	}
 
@@ -354,7 +332,7 @@ public class CustomerService {
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null) throw new NotExistContractException();
 		if (contract.getCustomerID() != customerId)
-			throw new IllegalArgumentException(CustomerServiceConstants.CUSTOMER_NOT_ASSIGNED_TO_CONTRACT);
+			throw new IllegalArgumentException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_CONTRACT);
 		return contract;
 	}
 
@@ -362,7 +340,7 @@ public class CustomerService {
 		Contract contract = getContractById(id, customerId);
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (!(product instanceof Insurance insurance))
-			throw new IllegalArgumentException(CustomerServiceConstants.CUSTOMER_NOT_ASSIGNED_TO_CONTRACT);
+			throw new IllegalArgumentException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_CONTRACT);
 		return ManagementContractResponse.of(contract, insurance);
 	}
 
@@ -388,9 +366,9 @@ public class CustomerService {
 	public Accident getAccidentById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		Accident accident = accidentEntityModel.getById(id);
-		if (accident == null) throw new NotExistException(CustomerServiceConstants.ACCIDENT_NULL);
+		if (accident == null) throw new NotExistException(CustomerConstants.ACCIDENT_NULL);
 		if (accident.getCustomerID() != customerId)
-			throw new IllegalArgumentException(CustomerServiceConstants.CUSTOMER_NOT_ASSIGNED_TO_ACCIDENT);
+			throw new IllegalArgumentException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_ACCIDENT);
 		return accident;
 	}
 
@@ -409,9 +387,9 @@ public class CustomerService {
 	public Complaint getComplaintById(int id, int customerId)
 			throws NotExistException, IllegalArgumentException {
 		Complaint complaint = complaintEntityModel.getById(id);
-		if (complaint == null) throw new NotExistException(CustomerServiceConstants.COMPLAINT_NULL);
+		if (complaint == null) throw new NotExistException(CustomerConstants.COMPLAINT_NULL);
 		if (complaint.getCustomerID() != customerId)
-			throw new IllegalArgumentException(CustomerServiceConstants.CUSTOMER_NOT_ASSIGNED_TO_COMPLAINT);
+			throw new IllegalArgumentException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_COMPLAINT);
 		return complaint;
 	}
 	public ViewComplaintResponse getComplaintRowById(int id, int customerId)
@@ -461,10 +439,10 @@ public class CustomerService {
 	public void askInsuranceCounsel(AskInsuranceCounselRequest askInsuranceCounselRequest) throws NotExistException {
 
 		int insuranceId = askInsuranceCounselRequest.getInsuranceId();
-		if (insuranceEntityModel.getById(insuranceId) == null) throw new NotExistException(CustomerServiceConstants.INSURANCE_NULL);
+		if (insuranceEntityModel.getById(insuranceId) == null) throw new NotExistException(CustomerConstants.INSURANCE_NULL);
 		int customerId = askInsuranceCounselRequest.getCustomerId();
 		Customer customer = customerEntityModel.getById(customerId);
-		if (customer == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customer == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		String name = customer.getName();
 		String phoneNumber = customer.getPhoneNumber();
 		String job = customer.getJob();
@@ -479,13 +457,13 @@ public class CustomerService {
 	public void buyInsurance(BuyInsuranceRequest buyInsuranceRequest) throws NotExistException {
 		int insuranceId = buyInsuranceRequest.getInsuranceId();
 		int customerId = buyInsuranceRequest.getCustomerId();
-		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		Insurance insurance = insuranceEntityModel.getById(insuranceId);
-		if (insurance == null) throw new NotExistException(CustomerServiceConstants.SPECIFIED_INSURANCE_NOT_FOUND);
+		if (insurance == null) throw new NotExistException(CustomerConstants.SPECIFIED_INSURANCE_NOT_FOUND);
 		List<Contract> contracts = contractEntityModel.getAll().stream().
 				filter(e -> e.getCustomerID() == customerId).
 				filter(e -> e.getProductId() == insuranceId).toList();
-		if (!contracts.isEmpty()) throw new IllegalArgumentException(CustomerServiceConstants.ALREADY_ENROLLED_INSURANCE);
+		if (!contracts.isEmpty()) throw new IllegalArgumentException(CustomerConstants.ALREADY_ENROLLED_INSURANCE);
 		Contract contract = new Contract(customerId, insuranceId);
 		contract.setId(NextIdGetter.getNextId(contractEntityModel.getMaxId(), serial.getContract()));
 		contract.setEmployeeID(null);
@@ -498,7 +476,7 @@ public class CustomerService {
 		String content = complainRequest.getContent();
 		int customerId = complainRequest.getCustomerId();
 
-		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		Complaint complaint = new Complaint(complainType, content, customerId, title);
 		complaint.setId(NextIdGetter.getNextId(complaintEntityModel.getMaxId(), serial.getComplaint()));
 		complaintEntityModel.add(complaint);
@@ -508,9 +486,9 @@ public class CustomerService {
 		int loanId = loanRequest.getLoanId();
 		int customerId = loanRequest.getCustomerId();
 
-		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customerEntityModel.getById(customerId) == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		Loan loan = loanEntityModel.getById(loanId);
-		if (loan == null) throw new NotExistException(CustomerServiceConstants.LOAN_NULL);
+		if (loan == null) throw new NotExistException(CustomerConstants.LOAN_NULL);
 		List<Contract> myContractList = contractEntityModel.getAll().stream().filter(e -> e.getCustomerID() == customerId).toList();
 		if (myContractList.isEmpty()) myContractList = new ArrayList<>();
 		for (Contract contract : myContractList)
@@ -527,12 +505,12 @@ public class CustomerService {
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
-		if (customer == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customer == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		MultipartFile medicalCertificateImage = receiveInsuranceRequest.getMedicalCertificate();
 		MultipartFile receiptImage = receiveInsuranceRequest.getReceipt();
 		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCard();
 		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
-			throw new NotExistException(CustomerServiceConstants.CUSTOMER_NOT_ASSIGNED_TO_THIS_CONTRACT);
+			throw new NotExistException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_THIS_CONTRACT);
 		log.info(customer.getName());
 		log.info(medicalCertificateImage.getOriginalFilename());
 		log.info(receiptImage.getOriginalFilename());
@@ -551,7 +529,7 @@ public class CustomerService {
 		int customerId = reportAccidentRequest.getCustomerId();
 
 		Customer customer = customerEntityModel.getById(customerId);
-		if (customer == null) throw new NotExistException(CustomerServiceConstants.CUSTOMER_NULL);
+		if (customer == null) throw new NotExistException(CustomerConstants.CUSTOMER_NULL);
 		Accident accident = new Accident();
 		accident.report(customerId, customer.getName(), customer.getPhoneNumber(), accidentDate, location, serviceType);
 		accident.setId(NextIdGetter.getNextId(accidentEntityModel.getMaxId(), serial.getAccident()));
@@ -564,7 +542,7 @@ public class CustomerService {
 		if (contract == null) throw new NotExistContractException();
 		Product product = productEntityModel.getById(contract.getProductId());
 		if (product instanceof Loan)
-			throw new IllegalArgumentException(CustomerServiceConstants.NOT_AN_INSURANCE_PRODUCT_CONTRACT);
+			throw new IllegalArgumentException(CustomerConstants.NOT_AN_INSURANCE_PRODUCT_CONTRACT);
 		Insurance insurance = (Insurance) product;
 		return insurance.getInsuranceType() == InsuranceType.Automobile;
 	}

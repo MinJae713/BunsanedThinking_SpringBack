@@ -1,13 +1,12 @@
 package com.example.bunsanedthinking_springback.entity.endorsment;
 
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.vo.EndorsementVO;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.vo.EndorsementVO;
-
-import lombok.Data;
 
 /**
  * @author Administrator
@@ -21,7 +20,6 @@ public class Endorsement extends Contract {
 		super(contract);
 		applyDate = new Date();
 		endorsementStatus = EndorsementStatus.Unprocessed;
-		// TODO Auto-generated constructor stub
 	}
 
 	private Date applyDate;

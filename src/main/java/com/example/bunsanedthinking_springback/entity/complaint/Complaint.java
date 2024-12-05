@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.complaint;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -75,7 +76,7 @@ public class Complaint {
 		this.customerID = complaint.getCustomerID();
 		this.employeeName = complaint.getEmployeeName();
 		this.id = complaint.getId();
-		SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat inputFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
         Date date = null;
         try {
             date = inputFormat.parse(complaint.getPostDate());
@@ -93,7 +94,7 @@ public class Complaint {
 	}
 
 	public String getPostDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
         return dateFormat.format(this.postDate);
 	}
 

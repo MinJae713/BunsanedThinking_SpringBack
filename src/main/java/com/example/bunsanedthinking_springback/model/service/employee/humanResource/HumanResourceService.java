@@ -1,19 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.humanResource;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.HumanResourceConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.AddEmployeeRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.CreateFamilyListRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
@@ -24,12 +10,24 @@ import com.example.bunsanedthinking_springback.dto.employee.humanResource.respon
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.humanResource.HumanResourceConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HumanResourceService {
@@ -43,12 +41,6 @@ public class HumanResourceService {
 	private FamilyEntityModel familyEntityModel;
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
-
-	@Value("${serials.employee}")
-	private int EMPLOYEE_SERIAL_NUMBER;
-
-	@Value("${serials.family}")
-	private int FAMILY_SERIAL_NUMBER;
 
 	public void addEmployee(AddEmployeeRequest addEmployeeRequest) throws DuplicateResidentRegistrationNumberException,
 		ParseException {
@@ -77,7 +69,6 @@ public class HumanResourceService {
 
 	private void checkResidentRegistrationNumber(String residentRegistrationNumber)
 		throws DuplicateResidentRegistrationNumberException {
-		// TODO isExist같은 SQL로 수정 해야됨
 		for (Employee employee : employeeEntityModel.getAll()) {
 			if (employee.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
 				throw new DuplicateResidentRegistrationNumberException();

@@ -1,22 +1,16 @@
 package com.example.bunsanedthinking_springback.dto.employee.productManagement.request;
 
-import java.util.ArrayList;
-
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
-
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.ProductManagementDTOConstants;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.productManagement.ProductManagementDTOConstants;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor

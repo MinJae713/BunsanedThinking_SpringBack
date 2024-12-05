@@ -7,14 +7,14 @@ import com.example.bunsanedthinking_springback.dto.employee.compensationPlanning
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CompensationPlanningConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.compensationPlanning.CompensationPlanningConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicatePartnerCompanyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,9 +29,6 @@ public class CompensationPlanningService {
 
 	@Autowired
 	private PartnerCompanyEntityModel partnerCompanyEntityModel;
-
-	@Value("${serials.partnercompany}")
-	public Integer PARTNER_COMPANY_SERIAL_NUMBER;
 
 	public void addPartnerCompany(AddPartnerCompanyRequest partnerCompanyDTO) throws DuplicatePartnerCompanyException {
 		String name = partnerCompanyDTO.getName();
@@ -88,23 +85,23 @@ public class CompensationPlanningService {
 				for (PartnerCompany e : partnerCompanyEntityModel.getAll())
 					if (e.getName().equals(input))
 						throw new DuplicatePartnerCompanyException();
-				if (!input.matches("^[a-zA-Z가-힣]+$"))
+				if (!input.matches(CommonConstants.NAME_PATTERN_REGEXP))
 					throw new RuntimeException(CompensationPlanningConstants.INVALID_NAME_FORMAT);
 				partnerCompany.setName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 2:
-				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
+				if (!input.matches(CommonConstants.PHONE_NUMBER_PATTERN_REGEXP))
 					throw new RuntimeException(CompensationPlanningConstants.INVALID_PHONE_FORMAT);
 				partnerCompany.setPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 			case 3:
-				if (!input.matches("^[a-zA-Z가-힣]+$"))
+				if (!input.matches(CommonConstants.NAME_PATTERN_REGEXP))
 					throw new RuntimeException(CompensationPlanningConstants.INVALID_NAME_FORMAT);
 				partnerCompany.setHeadName(input);
 				partnerCompanyEntityModel.update(partnerCompany);
 				break;
 			case 4:
-				if (!input.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$"))
+				if (!input.matches(CommonConstants.PHONE_NUMBER_PATTERN_REGEXP))
 					throw new RuntimeException(CompensationPlanningConstants.INVALID_PHONE_FORMAT);
 				partnerCompany.setHeadPhoneNumber(input);
 				partnerCompanyEntityModel.update(partnerCompany);

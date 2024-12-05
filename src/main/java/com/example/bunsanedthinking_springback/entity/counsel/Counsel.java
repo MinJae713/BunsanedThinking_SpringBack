@@ -23,7 +23,6 @@ public class Counsel implements Cloneable {
 	private int id;
 	private CounselProcessStatus processStatus;
 	private int productID;
-	// Customer쪽 정보인듯
 	private String name;
 	private String phoneNumber;
 	private String job;

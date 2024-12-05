@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.customer.request;
 
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.CustomerDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.CustomerDTOConstants;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;

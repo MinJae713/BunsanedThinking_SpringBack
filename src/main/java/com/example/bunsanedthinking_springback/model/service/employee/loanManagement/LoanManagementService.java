@@ -1,17 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.loanManagement;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.LoanManagementConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddCollateralLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.AddLoanProductRequest;
 import com.example.bunsanedthinking_springback.dto.employee.loanManagement.request.UpdateLoanRequest;
@@ -25,16 +13,14 @@ import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.loan.Collateral;
-import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
-import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
-import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
-import com.example.bunsanedthinking_springback.entity.loan.Loan;
-import com.example.bunsanedthinking_springback.entity.loan.LoanType;
+import com.example.bunsanedthinking_springback.entity.loan.*;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentType;
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.loanManagement.LoanManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateLoanException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
@@ -49,6 +35,13 @@ import com.example.bunsanedthinking_springback.model.entityModel.insuranceContra
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LoanManagementService {
@@ -75,17 +68,8 @@ public class LoanManagementService {
 	@Autowired
 	private CompensationDetailEntityModel compensationDetailEntityModel;
 
-	@Value("${serials.product}")
-	private int PRODUCT_SERIAL_NUMBER;
-
-	@Value("${serials.loan}")
-	private int LOAN_SERIAL_NUMBER;
-
-	@Value("${serials.paymentDetail}")
-	private int PAYMENT_DETAIL_SERIAL_NUMBER;
-
-	public void addLoanProduct(AddCollateralLoanProductRequest addCollateralLoanProductRequest) throws
-		DuplicateLoanException {
+	public void addLoanProduct(AddCollateralLoanProductRequest addCollateralLoanProductRequest)
+			throws DuplicateLoanException {
 		checkLoanName(addCollateralLoanProductRequest.getName());
 		int productId = createProductId();
 		if (addCollateralLoanProductRequest.getLoanType() != LoanType.Collateral) {
@@ -128,11 +112,6 @@ public class LoanManagementService {
 	}
 
 	private void checkLoanName(String name) throws DuplicateLoanException {
-		// TODO SQL 활용한 방법으로 변경 예정
-		// Integer isExistName = productMapper.isExistName(name);
-		// if (isExistName == 1) {
-		// 	throw new DuplicateLoanException();
-		// }
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(name))
 				throw new DuplicateLoanException();
@@ -236,8 +215,8 @@ public class LoanManagementService {
 		return new CompensationDetail(contractId, compensationId, money, Date.valueOf(LocalDate.now()));
 	}
 
-	public void updateLoanProduct(UpdateLoanRequest updateLoanRequest) throws NotExistException,
-		DuplicateLoanException {
+	public void updateLoanProduct(UpdateLoanRequest updateLoanRequest)
+			throws NotExistException, DuplicateLoanException {
 		Loan loan = loanEntityModel.getById(updateLoanRequest.getId());
 		if (loan == null)
 			throw new NotExistException(LoanManagementConstants.LOAN_PRODUCT_NOT_FOUND);
@@ -325,12 +304,6 @@ public class LoanManagementService {
 		} else if (product instanceof Insurance insurance) {
 			return insurance.getMonthlyPremium();
 		}
-		//		- 찬님 이거 contract에 product 빼면서 로직 수정했습니다...!
-		//		if (contract.getProduct() instanceof Loan loan) {
-		//			return getLoanOutcome(contractId, loan);
-		//		} else if (contract.getProduct() instanceof Insurance insurance) {
-		//			return insurance.getMonthlyPremium();
-		//		}
 		return 0;
 	}
 

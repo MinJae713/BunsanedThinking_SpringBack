@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public abstract class AbstractContractResponse {
     protected int id;
     protected CustomerInfoResponse customerInfoResponse;
-    protected int productId; // 보험 상품 번호
+    protected int productId;
 }

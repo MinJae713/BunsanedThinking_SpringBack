@@ -1,9 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.employee.humanResource.response;
 
 import com.example.bunsanedthinking_springback.entity.family.Family;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.HumanResourceDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.humanResource.HumanResourceDTOConstants;
 import com.example.bunsanedthinking_springback.global.util.DateUtils;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

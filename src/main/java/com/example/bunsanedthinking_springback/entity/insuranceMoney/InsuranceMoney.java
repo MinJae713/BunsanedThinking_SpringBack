@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.insuranceMoney;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,16 +52,16 @@ public class InsuranceMoney {
 		this.residentRegistrationCard = insuranceMoney.getResidentRegistrationCard();
 		this.processStatus = insuranceMoney.getProcessStatus();
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		try {
 			this.applyDate = dateFormat.parse(insuranceMoney.getApplyDateStr());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public InsuranceMoneyVO findVO() {
+		// S3 쓰면서 수정될 부분이라서 "" 분리는 일단 보류
 		String regiCardStr = residentRegistrationCard == null ? "reg_card" : residentRegistrationCard.toString();
 		String receiptStr = receipt == null ? "receipt" : receipt.toString();
 		String medicalCertificateStr = medicalCertificate == null ? "med_cert" : medicalCertificate.toString();
@@ -81,7 +82,7 @@ public class InsuranceMoney {
 	}
 
 	public String getApplyDateStr() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
         return dateFormat.format(this.applyDate);
 	}
 

@@ -2,7 +2,7 @@ package com.example.bunsanedthinking_springback.dto.customer.request.signUp;
 
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.CustomerDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.customer.CustomerDTOConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;

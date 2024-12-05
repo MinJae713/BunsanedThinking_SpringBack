@@ -1,19 +1,17 @@
 package com.example.bunsanedthinking_springback.model.service.employee.managementPlanning;
 
-import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.response.DepartmentResponse;
-import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.ManagementPlanningConstants;
-import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.request.AddDepartmentRequest;
 import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.request.UpdateDepartmentRequest;
+import com.example.bunsanedthinking_springback.dto.employee.managementPlanning.response.DepartmentResponse;
 import com.example.bunsanedthinking_springback.entity.department.Department;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.managementPlanning.ManagementPlanningConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
+import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -25,9 +23,6 @@ public class ManagementPlanningService {
 
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
-
-	@Value("${serials.department}")
-	public int DEPARTMENT_SERIAL_NUMBER;
 
 	public void addDepartment(AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException{
 		boolean isExistDepartmentName = departmentEntityModel.getAll().stream()

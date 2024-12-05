@@ -1,48 +1,21 @@
 package com.example.bunsanedthinking_springback.model.service.employee.sales;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductInjuryDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.request.AddDiseaseHistoryRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceAccidentHistoryRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceDiseaseHistoryRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceInsuranceProductRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.request.InduceSurgeryHistoryRequest;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.HandleInsuranceConsultationResponse;
+import com.example.bunsanedthinking_springback.dto.employee.sales.request.*;
+import com.example.bunsanedthinking_springback.dto.employee.sales.response.*;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductAutomobileDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductDiseaseDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductDetailResponse.InduceInsuranceProductInjuryDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceInsuranceProductResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.EvaluateSalesPerformanceResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductCollateralDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductFixedDepositDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductDetailResponse.InduceLoanProductInsuranceContractDetailResponse;
-import com.example.bunsanedthinking_springback.dto.employee.sales.response.InduceLoanProductResponse;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
@@ -55,6 +28,8 @@ import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -75,6 +50,16 @@ import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntity
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.sales.SalesEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SalesService {
@@ -118,17 +103,6 @@ public class SalesService {
 	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
-	@Value("${serials.customer}")
-	private Integer CUSTOMER_SERIAL_NUMBER;
-	@Value("${serials.diseaseHistory}")
-	private Integer DISEASE_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.accidentHistory}")
-	private Integer ACCIDENT_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.surgeryHistory}")
-	private Integer SURGERY_HISTORY_SERIAL_NUMBER;
-	@Value("${serials.contract}")
-	private Integer CONTRACT_SERIAL_NUMBER;
 
 	public void evaluateSalesPerformance(int evaluate, int id) {
 		Sales sales = salesEntityModel.getById(id);

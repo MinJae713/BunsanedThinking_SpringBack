@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.employee.compensationPlanning.request;
 
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.CompensationPlanningDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.compensationPlanning.CompensationPlanningDTOConstants;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

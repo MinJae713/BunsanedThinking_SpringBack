@@ -1,6 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.employee.sales.request;
 
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.SalesDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.sales.SalesDTOConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

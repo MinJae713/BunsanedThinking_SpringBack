@@ -1,19 +1,13 @@
 package com.example.bunsanedthinking_springback.dto.employee.sales.request;
 
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.SalesDTOConstants;
+import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.sales.SalesDTOConstants;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
-import com.example.bunsanedthinking_springback.entity.customer.Gender;
 
 @Data
 @NoArgsConstructor

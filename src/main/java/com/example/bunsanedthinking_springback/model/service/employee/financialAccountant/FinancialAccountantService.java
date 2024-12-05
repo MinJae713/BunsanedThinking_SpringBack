@@ -1,12 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.financialAccountant;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.FinancialAccountantConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.handlePaymentDetail.HandlePaymentResponse;
 import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.viewDepositDetail.ViewDepositResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -15,6 +8,7 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.financialAccountant.FinancialAccountantConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -23,6 +17,11 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FinancialAccountantService {
@@ -45,11 +44,9 @@ public class FinancialAccountantService {
 	}
 
 	public void getTaxPaymentDetail() {
-		//
 	}
 
 	public void handlePayment(int paymentDetailId, int employeeId) throws NotExistException, AlreadyProcessedException {
-		// TODO if문 - 보험사 운영시간이 아닙니다. 다른 시간에 다시 이용해주세요 - 데코레이터 추가
 		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(paymentDetailId);
 		if (paymentDetail == null) {
 			throw new NotExistException(FinancialAccountantConstants.PAYMENT_DETAIL_NOT_FOUND);

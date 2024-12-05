@@ -1,33 +1,16 @@
 package com.example.bunsanedthinking_springback.model.service.employee.productManagement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.ProductManagementConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddAutomobileInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddDiseaseInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.AddInjuryInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateAutomobileInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateDiseaseInsuranceRequest;
-import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.UpdateInjuryInsuranceRequest;
+import com.example.bunsanedthinking_springback.dto.employee.productManagement.request.*;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductAutomobileDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductDiseaseDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductDetailResponse.ManageInsuranceProductInjuryDetailResponse;
 import com.example.bunsanedthinking_springback.dto.employee.productManagement.response.ManageInsuranceProductResponse;
-import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
-import com.example.bunsanedthinking_springback.entity.insurance.Disease;
-import com.example.bunsanedthinking_springback.entity.insurance.Injury;
-import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
-import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
+import com.example.bunsanedthinking_springback.entity.insurance.*;
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.productManagement.ProductManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateInsuranceException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
@@ -36,6 +19,12 @@ import com.example.bunsanedthinking_springback.model.entityModel.disease.Disease
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -60,14 +49,8 @@ public class ProductManagementService {
 	@Autowired
 	private AutomobileEntityModel automobileEntityModel;
 
-	@Value("${serials.product}")
-	private Integer PRODUCT_SERIAL_NUMBER;
-
-	@Value("${serials.insurance}")
-	private Integer INSURANCE_SERIAL_NUMBER;
-
-	public void addDiseaseInsurance(AddDiseaseInsuranceRequest addDiseaseInsuranceRequest) throws
-		DuplicateInsuranceException {
+	public void addDiseaseInsurance(AddDiseaseInsuranceRequest addDiseaseInsuranceRequest)
+			throws DuplicateInsuranceException {
 
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addDiseaseInsuranceRequest.getName())) {
@@ -95,8 +78,8 @@ public class ProductManagementService {
 		diseaseEntityModel.add(disease);
 	}
 
-	public void addInjuryInsurance(AddInjuryInsuranceRequest addInjuryInsuranceRequest) throws
-		DuplicateInsuranceException {
+	public void addInjuryInsurance(AddInjuryInsuranceRequest addInjuryInsuranceRequest)
+			throws DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addInjuryInsuranceRequest.getName())) {
 				throw new DuplicateInsuranceException();
@@ -122,8 +105,8 @@ public class ProductManagementService {
 		injuryEntityModel.add(injury);
 	}
 
-	public void addAutomobileInsurance(AddAutomobileInsuranceRequest addAutomobileInsuranceRequest) throws
-		DuplicateInsuranceException {
+	public void addAutomobileInsurance(AddAutomobileInsuranceRequest addAutomobileInsuranceRequest)
+			throws DuplicateInsuranceException {
 		for (Product product : productEntityModel.getAll()) {
 			if (product.getName().equals(addAutomobileInsuranceRequest.getName())) {
 				throw new DuplicateInsuranceException();
@@ -166,9 +149,8 @@ public class ProductManagementService {
 		}
 	}
 
-	public void updateDiseaseInsurance(UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest) throws
-		DuplicateInsuranceException {
-
+	public void updateDiseaseInsurance(UpdateDiseaseInsuranceRequest updateDiseaseInsuranceRequest)
+			throws DuplicateInsuranceException {
 		Disease origin = diseaseEntityModel.getById(updateDiseaseInsuranceRequest.getId());
 		if (!updateDiseaseInsuranceRequest.getName().equals(origin.getName())) {
 			for (Product product : productEntityModel.getAll()) {
@@ -180,8 +162,8 @@ public class ProductManagementService {
 		diseaseEntityModel.update(updateDiseaseInsuranceRequest.toEntity());
 	}
 
-	public void updateInjuryInsurance(UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest) throws
-		DuplicateInsuranceException {
+	public void updateInjuryInsurance(UpdateInjuryInsuranceRequest updateInjuryInsuranceRequest)
+			throws DuplicateInsuranceException {
 
 		Injury origin = injuryEntityModel.getById(updateInjuryInsuranceRequest.getId());
 		if (!updateInjuryInsuranceRequest.getName().equals(origin.getName())) {
@@ -194,8 +176,8 @@ public class ProductManagementService {
 		injuryEntityModel.update(updateInjuryInsuranceRequest.toEntity());
 	}
 
-	public void updateAutomobileInsurance(UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest) throws
-		DuplicateInsuranceException {
+	public void updateAutomobileInsurance(UpdateAutomobileInsuranceRequest updateAutomobileInsuranceRequest)
+			throws DuplicateInsuranceException {
 		Automobile origin = automobileEntityModel.getById(updateAutomobileInsuranceRequest.getId());
 		if (!updateAutomobileInsuranceRequest.getName().equals(origin.getName())) {
 			for (Product product : productEntityModel.getAll()) {
@@ -227,7 +209,8 @@ public class ProductManagementService {
 		return diseases.stream().map(ManageInsuranceProductResponse::from).collect(Collectors.toList());
 	}
 
-	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id) throws NotExistException {
+	public ManageInsuranceProductDetailResponse getInsuranceProductDetail(int id)
+			throws NotExistException {
 		Insurance insurance = insuranceEntityModel.getById(id);
 		if (insurance instanceof Injury)
 			return ManageInsuranceProductInjuryDetailResponse.from((Injury)insurance);

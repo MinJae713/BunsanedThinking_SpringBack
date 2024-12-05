@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.compensationDetail.Compens
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.ContractVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,13 +34,13 @@ public class Contract {
 	private Date date;
 	private List<DepositDetail> depositDetailList;
 	private Integer employeeID;
-	private Integer paymentDate; // 월 납부일
+	private Integer paymentDate;
 	private Date expirationDate;
 	private int id;
 	private List<InsuranceMoney> insuranceMoneyList;
-	private Date lastPaidDate; // 최근 납부일
+	private Date lastPaidDate;
 	private int productId;
-	private Date terminationDate; // 해지일
+	private Date terminationDate;
 	private List<PaymentDetail> paymentDetailList;
 
 	public Contract(int customerID, int productId) {
@@ -55,9 +56,7 @@ public class Contract {
 		this.insuranceMoneyList = new ArrayList<>();
 		this.paymentDetailList = new ArrayList<>();
 		this.paymentDate = null;
-//		this.product = product;
 		this.productId = productId;
-		// 일단 프로덕트 아이디만 받것숨다 - 파라미터 건드리면 문제가 클듯
 	}
 
 	public Contract(Contract contract) {
@@ -90,7 +89,6 @@ public class Contract {
 		this.depositDetailList = contract.getDepositDetailList();
 		this.employeeID = contract.getEmployeeID();
 		this.insuranceMoneyList = contract.getInsuranceMoneyList();
-//		this.product = contract.getProduct();
 		this.productId = contract.getProductId();
 		this.paymentDetailList = contract.getPaymentDetailList();
 	}
@@ -104,7 +102,6 @@ public class Contract {
 		setCompensationDetailList(compensationDetails);
 		setDepositDetailList(depositDetails);
 		setPaymentDetailList(paymentDetails);
-//		setProduct(product);
 		setProductId(contractVO.getProduct_id());
 
 		setId(contractVO.getId());
@@ -147,7 +144,7 @@ public class Contract {
 	}
 
 	public String getDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		return dateFormat.format(this.date);
 	}
 
@@ -155,7 +152,7 @@ public class Contract {
 		if (this.expirationDate == null) {
 			return null;
 		}
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		return dateFormat.format(this.expirationDate);
 	}
 
@@ -163,7 +160,7 @@ public class Contract {
 		if (this.lastPaidDate == null) {
 			return null;
 		}
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		return dateFormat.format(this.lastPaidDate);
 	}
 
@@ -171,7 +168,7 @@ public class Contract {
 		if (this.terminationDate == null) {
 			return null;
 		}
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		return dateFormat.format(this.terminationDate);
 	}
 }

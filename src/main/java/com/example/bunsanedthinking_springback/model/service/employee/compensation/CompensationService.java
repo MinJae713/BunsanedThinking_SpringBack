@@ -17,7 +17,7 @@ import com.example.bunsanedthinking_springback.entity.product.Product;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
 import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.CompensationConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.compensation.CompensationConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -30,7 +30,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.P
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -57,9 +56,6 @@ public class CompensationService {
 	private AccidentEntityModel accidentEntityModel;
 	@Autowired
 	private ProductEntityModel productEntityModel;
-
-	@Value("${serials.paymentDetail}")
-	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestCompensation(CompensationRequest compensationRequest)
             throws NotExistException, AlreadyProcessedException, NotExistContractException {

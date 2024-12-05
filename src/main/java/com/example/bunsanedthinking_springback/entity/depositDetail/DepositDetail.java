@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.depositDetail;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.DepositDetailVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class DepositDetail {
 	private DepositDetail(DepositDetail depositDetail) {
 		this.contractId = depositDetail.getContractId();
 		this.date = (Date)depositDetail.date.clone();
-		this.depositorName = depositDetail.getDepositorName() + "";
+		this.depositorName = depositDetail.getDepositorName() + CommonConstants.STRING_EMPTY;
 		this.id = depositDetail.getId();
 		this.money = depositDetail.getMoney();
 		this.path = depositDetail.getPath();
@@ -54,7 +55,7 @@ public class DepositDetail {
 	}
 
 	public String getDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		return dateFormat.format(this.date);
 	}
 }

@@ -18,7 +18,7 @@ import com.example.bunsanedthinking_springback.entity.revival.RevivalStatus;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.entity.termination.TerminationStatus;
 import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.service.ContractManagementConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.contractManagement.ContractManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -32,7 +32,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.recontract.Reco
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -68,9 +67,6 @@ public class ContractManagementService {
 	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
 	private InsuranceEntityModel insuranceEntityModel;
-
-	@Value("${serials.paymentDetail}")
-	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
 
 	public void requestTerminationFee(int tercontractId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {

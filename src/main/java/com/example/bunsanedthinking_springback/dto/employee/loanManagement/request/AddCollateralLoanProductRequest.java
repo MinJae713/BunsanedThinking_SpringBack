@@ -2,9 +2,8 @@ package com.example.bunsanedthinking_springback.dto.employee.loanManagement.requ
 
 import com.example.bunsanedthinking_springback.entity.loan.CollateralType;
 import com.example.bunsanedthinking_springback.entity.loan.LoanType;
-
 import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
-import com.example.bunsanedthinking_springback.global.constants.service.customer.dto.LoanManagementDTOConstants;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.loanManagement.LoanManagementDTOConstants;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;

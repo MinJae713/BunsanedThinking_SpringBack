@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class AdditionalAllowance extends PaymentDetail {
 
-//	private int employeeID;
 	private AdditionalAllowanceType type;
 
 	public AdditionalAllowanceVO findVO() {

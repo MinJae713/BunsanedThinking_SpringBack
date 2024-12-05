@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.controller.employee;
 
-import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.request.AddOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.request.UpdateOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;

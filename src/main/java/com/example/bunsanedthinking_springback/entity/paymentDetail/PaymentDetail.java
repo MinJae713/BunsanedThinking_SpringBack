@@ -1,7 +1,7 @@
 package com.example.bunsanedthinking_springback.entity.paymentDetail;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,9 +40,9 @@ public class PaymentDetail {
 	}
 
 	private PaymentDetail(PaymentDetail paymentDetail) {
-		this.accountHolder = paymentDetail.getAccountHolder() + "";
-		this.bank = paymentDetail.getBank() + "";
-		this.bankAccount = paymentDetail.getBankAccount() + "";
+		this.accountHolder = paymentDetail.getAccountHolder() + CommonConstants.STRING_EMPTY;
+		this.bank = paymentDetail.getBank() + CommonConstants.STRING_EMPTY;
+		this.bankAccount = paymentDetail.getBankAccount() + CommonConstants.STRING_EMPTY;
 		this.money = paymentDetail.getMoney();
 		this.paymentType = paymentDetail.getPaymentType();
 		this.processStatus = paymentDetail.getProcessStatus();
