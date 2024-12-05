@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.financialAccountant;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.handlePaymentDetail.HandlePaymentResponse;
 import com.example.bunsanedthinking_springback.dto.employee.financialAccountant.response.viewDepositDetail.ViewDepositResponse;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
@@ -14,6 +8,7 @@ import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetai
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentProcessStatus;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.financialAccountant.FinancialAccountantConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -22,6 +17,11 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FinancialAccountantService {
@@ -39,26 +39,24 @@ public class FinancialAccountantService {
 	public ViewDepositResponse getDepositDetail(int id) throws NotExistException {
 		DepositDetail depositDetail = depositDetailEntityModel.getById(id);
 		if (depositDetail == null)
-			throw new NotExistException("해당하는 입금 내역 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.DEPOSIT_DETAIL_NOT_FOUND);
 		return ViewDepositResponse.from(depositDetail);
 	}
 
 	public void getTaxPaymentDetail() {
-		//
 	}
 
 	public void handlePayment(int paymentDetailId, int employeeId) throws NotExistException, AlreadyProcessedException {
-		// TODO if문 - 보험사 운영시간이 아닙니다. 다른 시간에 다시 이용해주세요 - 데코레이터 추가
 		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(paymentDetailId);
 		if (paymentDetail == null) {
-			throw new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.PAYMENT_DETAIL_NOT_FOUND);
 		}
 		if (paymentDetail.getProcessStatus() == PaymentProcessStatus.Completed) {
-			throw new AlreadyProcessedException("이미 지급이 완료되었습니다.");
+			throw new AlreadyProcessedException(FinancialAccountantConstants.PAYMENT_ALREADY_COMPLETED);
 		}
 		Employee employee = employeeEntityModel.getById(employeeId);
 		if (employee == null) {
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		}
 		paymentDetail.setProcessStatus(PaymentProcessStatus.Completed);
 		paymentDetail.setEmployeeId(employeeId);
@@ -90,7 +88,7 @@ public class FinancialAccountantService {
 	public HandlePaymentResponse getPaymentDetail(int id) throws NotExistException {
 		PaymentDetail paymentDetail = paymentDetailEntityModel.getById(id);
 		if (paymentDetail == null)
-			throw new NotExistException("해당하는 지급 사항 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.PAYMENT_DETAIL_NOT_FOUND);
 		return HandlePaymentResponse.from(paymentDetail);
 	}
 
@@ -105,7 +103,7 @@ public class FinancialAccountantService {
 	public Customer getCustomer(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null)
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.CUSTOMER_INFORMATION_NOT_FOUND);
 		return customer;
 	}
 
@@ -118,7 +116,7 @@ public class FinancialAccountantService {
 	public Employee getEmployee(int employeeId) throws NotExistException {
 		Employee employee = employeeEntityModel.getById(employeeId);
 		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(FinancialAccountantConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		return employee;
 	}
 }

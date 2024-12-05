@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.dto.customer.request.signUp;
 
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ public class SignUpAccidentHistoryRequest {
 		AccidentHistory accidentHistory = new AccidentHistory();
 		accidentHistory.setId(id);
 		accidentHistory.setCustomerID(customerId);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		accidentHistory.setDate(formatter.parse(date));
 		accidentHistory.setAccidentDetail(accidentDetail);
 		return accidentHistory;

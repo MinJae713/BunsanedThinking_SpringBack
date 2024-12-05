@@ -2,7 +2,6 @@ package com.example.bunsanedthinking_springback.entity.termination;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.TerminationVO;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +29,6 @@ public class Termination extends Contract {
 		this.applyDate = new Date();
 		this.setOriginalContract(contract);
 		this.terminationStatus = TerminationStatus.Unprocessed;
-		// TODO Auto-generated constructor stub
 	}
 
 	public TerminationVO findTerminationVO() {

@@ -1,14 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.customerSupport;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleComplaint.HandleComplaintResponse;
 import com.example.bunsanedthinking_springback.dto.employee.customerSupport.response.handleReport.HandleReportResponse;
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
@@ -20,6 +11,7 @@ import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
 import com.example.bunsanedthinking_springback.entity.report.ReportProcessStatus;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.customerSupport.CustomerSupportConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
@@ -28,6 +20,14 @@ import com.example.bunsanedthinking_springback.model.entityModel.customer.Custom
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerSupportService {
@@ -49,17 +49,17 @@ public class CustomerSupportService {
 		AlreadyProcessedException {
 		Complaint complaint = complaintEntityModel.getById(complaintId);
 		if (result == null || result.isBlank()) {
-			throw new IllegalArgumentException("결과 값이 입력되지 않았습니다.");
+			throw new IllegalArgumentException(CustomerSupportConstants.RESULT_NOT_PROVIDED);
 		}
 		if (complaint == null)
-			throw new NotExistException("해당하는 민원 정보를 찾을 수 없습니다.");
+			throw new NotExistException(CustomerSupportConstants.COMPLAINT_NOT_FOUND);
 		if (complaint.getProcessStatus() == ComplaintProcessStatus.Completed)
-			throw new AlreadyProcessedException("이미 민원 처리가 완료되었습니다.");
+			throw new AlreadyProcessedException(CustomerSupportConstants.COMPLAINT_ALREADY_PROCESSED);
 		boolean isExistEmployee = employeeEntityModel.getAll()
 			.stream()
 			.anyMatch(employee -> employee.getName().equals(employeeName));
 		if (!isExistEmployee)
-			throw new NotExistException("해당하는 직원 정보를 찾을 수 없습니다.");
+			throw new NotExistException(CustomerSupportConstants.EMPLOYEE_NOT_FOUND);
 		complaint.setEmployeeName(employeeName);
 		complaint.setResult(result);
 		complaint.setProcessingDate(Date.valueOf(LocalDate.now()));
@@ -74,8 +74,8 @@ public class CustomerSupportService {
 			return;
 		}
 		switch (accident.getProcessStatus()) {
-			case Completed -> throw new AlreadyProcessedException("이미 신고 처리가 완료되었습니다.");
-			case Processing -> throw new AlreadyProcessedException("신고 처리 중입니다.");
+			case Completed -> throw new AlreadyProcessedException(CustomerSupportConstants.ACCIDENT_ALREADY_COMPLETED);
+			case Processing -> throw new AlreadyProcessedException(CustomerSupportConstants.ACCIDENT_PROCESSING);
 		}
 		accident.setProcessStatus(AccidentProcessStatus.Processing);
 		accidentEntityModel.update(accident);
@@ -119,27 +119,27 @@ public class CustomerSupportService {
 	public HandleComplaintResponse getComplaint(int id) throws NotExistException {
 		Complaint complaint = complaintEntityModel.getById(id);
 		if (complaint == null)
-			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.COMPLAINT_INFORMATION_NOT_FOUND);
 		Customer customer = customerEntityModel.getById(complaint.getCustomerID());
 		if (customer == null)
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.CUSTOMER_INFORMATION_NOT_FOUND);
 		return HandleComplaintResponse.of(complaint, customer);
 	}
 
 	public HandleComplaintResponse getComplaintDetail(int id) throws NotExistException {
 		Complaint complaint = complaintEntityModel.getById(id);
 		if (complaint == null)
-			throw new NotExistException("해당하는 민원 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.COMPLAINT_INFORMATION_NOT_FOUND);
 		Customer customer = customerEntityModel.getById(complaint.getCustomerID());
 		if (customer == null)
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.CUSTOMER_INFORMATION_NOT_FOUND);
 		return HandleComplaintResponse.ofWithDetail(complaint, customer);
 	}
 
 	public Customer getCustomer(int customerID) throws NotExistException {
 		Customer customer = customerEntityModel.getById(customerID);
 		if (customer == null)
-			throw new NotExistException("해당하는 고객 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.CUSTOMER_INFORMATION_NOT_FOUND);
 		return customer;
 	}
 
@@ -174,7 +174,7 @@ public class CustomerSupportService {
 	public HandleReportResponse getAccident(int id) throws NotExistException {
 		Accident accident = accidentEntityModel.getById(id);
 		if (accident == null)
-			throw new NotExistException("해당하는 사고 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.ACCIDENT_INFORMATION_NOT_FOUND);
 		return HandleReportResponse.from(accident);
 	}
 
@@ -189,21 +189,21 @@ public class CustomerSupportService {
 	public PartnerCompany getRoadAssistanceCompany(int id) throws NotExistException {
 		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null)
-			throw new NotExistException("해당하는 긴급 출동 업체 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.ROAD_ASSISTANCE_COMPANY_INFORMATION_NOT_FOUND);
 		return partnerCompany;
 	}
 
 	public PartnerCompany getDamageAssessmentCompany(int id) throws NotExistException {
 		PartnerCompany partnerCompany = partnerCompanyEntityModel.getById(id);
 		if (partnerCompany == null)
-			throw new NotExistException("해당하는 손해 사정 업체 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.DAMAGE_ASSESSMENT_COMPANY_INFORMATION_NOT_FOUND);
 		return partnerCompany;
 	}
 
 	public Employee getEmployee(int employeeId) throws NotExistException {
 		Employee employee = employeeEntityModel.getById(employeeId);
 		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(CustomerSupportConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		return employee;
 	}
 }

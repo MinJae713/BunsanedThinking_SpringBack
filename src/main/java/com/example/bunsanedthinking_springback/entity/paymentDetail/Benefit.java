@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Benefit extends PaymentDetail {
 
-//	private int employeeID;
 	private BenefitType type;
-	// BenefitType으로 수정
 
 	public BenefitVO findVO() {
 		return new BenefitVO(getId(), type.ordinal());

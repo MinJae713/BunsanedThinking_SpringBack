@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.employee.compensation.request;
 
+import com.example.bunsanedthinking_springback.global.constants.service.employee.compensation.CompensationDTOConstants;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -9,10 +10,10 @@ import org.hibernate.validator.constraints.Range;
 @Data
 @NoArgsConstructor
 public class CompensationRequest {
-    @Min(value = 4000, message = "유효한 아이디가 아닙니다")
+    @Min(value = 4000, message = CompensationDTOConstants.REPORT_ID_MIN_MESSAGE)
     private int reportId;
-    @Positive(message = "금액은 양수로 입력해주세요")
+    @Positive(message = CompensationDTOConstants.MONEY_POSITIVE_MESSAGE)
     private int money;
-    @Range(min = 0, max = 1, message = "현금 혹은 계좌이체중에서 선택해주세요")
+    @Range(min = 0, max = 1, message = CompensationDTOConstants.PAYMENT_TYPE_RANGE_MESSAGE)
     private int paymentType;
 }

@@ -2,13 +2,11 @@ package com.example.bunsanedthinking_springback.entity.recontract;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.RecontractVO;
+import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import lombok.Data;
 
 /**
  * @author Administrator
@@ -27,7 +25,6 @@ public class Recontract extends Contract {
 		this.setOriginalContract(contract);
 		applyDate = new Date();
 		recontractStatus = RecontractStatus.Unprocessed;
-		// TODO Auto-generated constructor stub
 	}
 
 	public RecontractVO findRecontractVO() {

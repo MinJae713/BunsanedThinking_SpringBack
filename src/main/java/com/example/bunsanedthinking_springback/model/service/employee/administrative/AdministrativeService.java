@@ -1,15 +1,15 @@
 package com.example.bunsanedthinking_springback.model.service.employee.administrative;
 
-import com.example.bunsanedthinking_springback.dto.employee.administrative.AddOfficeSupplyRequest;
-import com.example.bunsanedthinking_springback.dto.employee.administrative.UpdateOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.request.AddOfficeSupplyRequest;
+import com.example.bunsanedthinking_springback.dto.employee.administrative.request.UpdateOfficeSupplyRequest;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.administrative.AdministrativeConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +18,10 @@ import java.util.List;
 public class AdministrativeService {
 
 	@Autowired
-	private OfficeSupplyEntityModel officeSupplyEntityModel;
+	private Serial serial;
 
-	@Value("${serials.officesupply}")
-	public int OFFICESUPPLY_SERIAL_NUMBER;
+	@Autowired
+	private OfficeSupplyEntityModel officeSupplyEntityModel;
 
 	public void addOfficeSupply(AddOfficeSupplyRequest addOfficeSupplyRequest) throws DuplicateOfficeSupplyException {
 		boolean isExistOfficeSupplyName = officeSupplyEntityModel.getAll().stream()
@@ -30,9 +30,10 @@ public class AdministrativeService {
 		if (isExistOfficeSupplyName) {
 			throw new DuplicateOfficeSupplyException();
 		}
+
 		// 현재 최대 ID를 가져와서 NextIdGetter를 사용하여 새로운 ID 생성
 		Integer maxId = officeSupplyEntityModel.getMaxId();
-		int id = NextIdGetter.getNextId(maxId, OFFICESUPPLY_SERIAL_NUMBER);
+		int id = NextIdGetter.getNextId(maxId, serial.getOfficesupply());
 
 		OfficeSupply officeSupply = new OfficeSupply(
 				id,
@@ -48,7 +49,7 @@ public class AdministrativeService {
 	public void deleteOfficeSupply(int id) throws NotExistException {
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		officeSupplyEntityModel.delete(id);
 	}
@@ -56,7 +57,7 @@ public class AdministrativeService {
 	public OfficeSupply getOfficeSupply(int id) throws NotExistException {
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null){
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		return officeSupply;
 	}
@@ -68,7 +69,7 @@ public class AdministrativeService {
 		String input = updateOfficeSupplyRequest.getInput();
 		OfficeSupply officeSupply = officeSupplyEntityModel.getById(id);
 		if (officeSupply == null) {
-			throw new NotExistException("해당하는 집기 비품 정보가 존재하지 않습니다.");
+			throw new NotExistException(AdministrativeConstants.OFFICE_SUPPLY_NULL);
 		}
 		switch (index) {
 			case 1:

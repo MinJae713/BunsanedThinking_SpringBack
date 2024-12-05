@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.diseaseHistory;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.DiseaseHistoryVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -19,10 +20,8 @@ import java.util.Date;
 @Data
 public class DiseaseHistory implements Cloneable {
 
-	//	diagnosisDate -> date_of_diagnosis
-	//	customerID -> customer_id
 	private int customer_id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstants.DATE_FORMAT)
 	private Date date_of_diagnosis;
 	private int id;
 	private String name;
@@ -54,43 +53,5 @@ public class DiseaseHistory implements Cloneable {
 		return diseaseHistory;
 
 	}
-
-	@Override
-	public String toString() {
-		return "DiseaseHistory{" +
-			"customerID=" + customer_id +
-			", diagnosisDate=" + date_of_diagnosis +
-			", id=" + id +
-			", name='" + name + '\'' +
-			'}';
-	}
-
-	//	뭐가 맞는지모르겠다
-	//public DiseaseHistoryVO findVO() {
-	//	if (date_of_diagnosis == null) {
-	//		throw new IllegalArgumentException("Date of diagnosis is null and cannot be converted to LocalDate.");
-	//	}
-	//	System.out.println("Converting date_of_diagnosis: " + date_of_diagnosis); // 디버깅용 로그 추가
-	//	// Date 객체를 안전하게 LocalDate로 변환
-	//	LocalDate lDate = date_of_diagnosis.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-	//	return new DiseaseHistoryVO(id, lDate, name, customer_id);
-	//}
-	//
-	//	public DiseaseHistoryVO finddiseaseVO() {
-	//		if (date_of_diagnosis == null) {
-	//			throw new IllegalArgumentException("Date of diagnosis is null and cannot be converted to LocalDate.");
-	//		}
-	//		System.out.println("Converting date_of_diagnosis in finddiseaseVO: " + date_of_diagnosis); // 디버깅용 로그 추가
-	//
-	//		DiseaseHistoryVO result = new DiseaseHistoryVO();
-	//		result.setId(id);
-	//		result.setName(name);
-	//		result.setCustomer_id(customer_id);
-	//		// Date 객체를 안전하게 LocalDate로 변환
-	//		LocalDate localDate = date_of_diagnosis.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-	//		result.setDate_of_diagnosis(localDate);
-	//
-	//		return result;
-	//	}
 
 }

@@ -1,16 +1,5 @@
 package com.example.bunsanedthinking_springback.model.service.employee.humanResource;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.AddEmployeeRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.CreateFamilyListRequest;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.request.UpdateEmployeeRequest;
@@ -21,15 +10,31 @@ import com.example.bunsanedthinking_springback.dto.employee.humanResource.respon
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.humanResource.HumanResourceConstants;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.global.util.NextIdGetter;
 import com.example.bunsanedthinking_springback.model.entityModel.department.DepartmentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HumanResourceService {
+
+	@Autowired
+	private Serial serial;
+
 	@Autowired
 	private EmployeeEntityModel employeeEntityModel;
 	@Autowired
@@ -37,24 +42,18 @@ public class HumanResourceService {
 	@Autowired
 	private DepartmentEntityModel departmentEntityModel;
 
-	@Value("${serials.employee}")
-	private int EMPLOYEE_SERIAL_NUMBER;
-
-	@Value("${serials.family}")
-	private int FAMILY_SERIAL_NUMBER;
-
 	public void addEmployee(AddEmployeeRequest addEmployeeRequest) throws DuplicateResidentRegistrationNumberException,
 		ParseException {
 		checkResidentRegistrationNumber(addEmployeeRequest.getResidentRegistrationNumber());
 		Integer employeeMaxId = employeeEntityModel.getMaxId();
 		int employeeId;
 		if (employeeMaxId == null) {
-			employeeId = Integer.parseInt(EMPLOYEE_SERIAL_NUMBER + "1");
+			employeeId = Integer.parseInt(serial.getEmployee() + HumanResourceConstants.ONE);
 		} else {
-			employeeId = NextIdGetter.getNextId(employeeMaxId, EMPLOYEE_SERIAL_NUMBER);
+			employeeId = NextIdGetter.getNextId(employeeMaxId, serial.getEmployee());
 		}
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(CommonConstants.DATE_FORMAT);
 		java.util.Date employmentDate = formatter.parse(addEmployeeRequest.getEmploymentDate());
 
 		ArrayList<Family> familyList = createFamilyList(employeeId, addEmployeeRequest.getTempFamilyList());
@@ -70,7 +69,6 @@ public class HumanResourceService {
 
 	private void checkResidentRegistrationNumber(String residentRegistrationNumber)
 		throws DuplicateResidentRegistrationNumberException {
-		// TODO isExist같은 SQL로 수정 해야됨
 		for (Employee employee : employeeEntityModel.getAll()) {
 			if (employee.getResidentRegistrationNumber().equals(residentRegistrationNumber)) {
 				throw new DuplicateResidentRegistrationNumberException();
@@ -82,9 +80,9 @@ public class HumanResourceService {
 		Integer familyMaxId = familyEntityModel.getMaxId();
 		int familyId;
 		if (familyMaxId == null) {
-			familyId = Integer.parseInt(("" + FAMILY_SERIAL_NUMBER) + 1);
+			familyId = Integer.parseInt((CommonConstants.STRING_EMPTY + serial.getFamily()) + 1);
 		} else {
-			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
+			familyId = NextIdGetter.getNextId(familyMaxId, serial.getFamily());
 		}
 		familyMaxId = familyId;
 		ArrayList<Family> familyList = new ArrayList<>();
@@ -93,7 +91,7 @@ public class HumanResourceService {
 				createFamilyListRequest.getName(), createFamilyListRequest.getRelationship(),
 				createFamilyListRequest.isSurvival());
 			familyList.add(family);
-			familyId = NextIdGetter.getNextId(familyMaxId, FAMILY_SERIAL_NUMBER);
+			familyId = NextIdGetter.getNextId(familyMaxId, serial.getFamily());
 			familyMaxId = familyId;
 		}
 		return familyList;
@@ -101,36 +99,36 @@ public class HumanResourceService {
 
 	public void deleteEmployee(int id) throws NotExistException {
 		if (employeeEntityModel.getById(id) == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(HumanResourceConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		employeeEntityModel.delete(id);
 	}
 
 	public ManagementEmployeeResponse getEmployee(int id) throws NotExistException {
 		Employee employee = employeeEntityModel.getById(id);
 		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(HumanResourceConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		return ManagementEmployeeResponse.from(employee);
 	}
 
 	public ManagementEmployeeDetailResponse getEmployeeDetail(int id) throws NotExistException {
 		Employee employee = employeeEntityModel.getById(id);
 		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(HumanResourceConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		return ManagementEmployeeResponse.fromWithDetail(employee);
 	}
 
 	public void requestAdditionalAllowance() {
-		System.out.println("Additional Allowance");
+		System.out.println(HumanResourceConstants.ADDITIONAL_ALLOWANCE);
 	}
 
 	public void requestBenefit() {
-		System.out.println("Request Benefit");
+		System.out.println(HumanResourceConstants.REQUEST_BENEFIT);
 	}
 
 	public void updateEmployee(UpdateEmployeeRequest updateEmployeeRequest) throws NotExistException, ParseException {
 		Employee employee = employeeEntityModel.getById(updateEmployeeRequest.getId());
 		if (employee == null)
-			throw new NotExistException("해당하는 직원 정보가 존재하지 않습니다.");
+			throw new NotExistException(HumanResourceConstants.EMPLOYEE_INFORMATION_NOT_FOUND);
 		List<UpdateFamilyRequest> updateFamilyRequestList = updateEmployeeRequest.getTempFamilyList();
 		for (UpdateFamilyRequest updateFamilyRequest : updateFamilyRequestList) {
 			System.out.println(updateFamilyRequest.getId());
@@ -161,7 +159,7 @@ public class HumanResourceService {
 	public DepartmentResponse get(int departmentID) throws NotExistException {
 		Department department = departmentEntityModel.getById(departmentID);
 		if (department == null)
-			throw new NotExistException("해당하는 부서 정보가 존재하지 않습니다.");
+			throw new NotExistException(HumanResourceConstants.DEPARTMENT_INFORMATION_NOT_FOUND);
 		return DepartmentResponse.from(department);
 	}
 }

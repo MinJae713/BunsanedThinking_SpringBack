@@ -2,13 +2,11 @@ package com.example.bunsanedthinking_springback.entity.revival;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.vo.RevivalVO;
+import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import lombok.Data;
 
 /**
  * @author Administrator
@@ -27,7 +25,6 @@ public class Revival extends Contract {
 		this.applyDate = new Date();
 		this.setOriginalContract(contract);
 		this.revivalStatus = RevivalStatus.Unprocessed;
-		// TODO Auto-generated constructor stub
 	}
 
 	public RevivalVO findRevivalVO() {

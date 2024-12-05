@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.entity.surgeryHistory;
 
+import com.example.bunsanedthinking_springback.global.constants.common.CommonConstants;
 import com.example.bunsanedthinking_springback.vo.SurgeryHistoryVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.util.Date;
 public class SurgeryHistory implements Cloneable {
 
 	private int customerID;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstants.DATE_FORMAT)
 	private Date date;
 	private String hospitalName;
 	private int id;
@@ -45,18 +46,6 @@ public class SurgeryHistory implements Cloneable {
 		return new SurgeryHistoryVO(id, hospitalName,
 				name, lDate, customerID);
 	}
-
-//	뭐가 맞는지모르겠다
-//public SurgeryHistoryVO findVO() {
-//	if (date == null) {
-//		throw new IllegalArgumentException("Date is null and cannot be converted to LocalDate.");
-//	}
-//	System.out.println("Converting date: " + date); // 디버깅용 로그 추가
-//	// Date 객체를 안전하게 LocalDate로 변환
-//	LocalDate lDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//	// SurgeryHistoryVO 객체 반환
-//	return new SurgeryHistoryVO(id, hospitalName, name, lDate, customerID);
-//}
 
 	public SurgeryHistory clone() {
 		SurgeryHistory surgeryHistory =new SurgeryHistory(getName(), getHospitalName(), this.date);

@@ -11,7 +11,7 @@ public class CustomerResponse {
     private String phoneNumber;
     private String job;
     private int age;
-    private String gender;  //String으로 변경
+    private String gender;
     private String residentRegistrationNumber;
     private String address;
     private String bankName;
@@ -25,7 +25,7 @@ public class CustomerResponse {
                 customer.getPhoneNumber(),
                 customer.getJob(),
                 customer.getAge(),
-                customer.getGender().getName(), // 한글로 변환
+                customer.getGender().getName(),
                 customer.getResidentRegistrationNumber(),
                 customer.getAddress(),
                 customer.getBankName(),

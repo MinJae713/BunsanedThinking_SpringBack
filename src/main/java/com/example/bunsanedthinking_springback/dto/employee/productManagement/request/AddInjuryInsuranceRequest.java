@@ -2,13 +2,8 @@ package com.example.bunsanedthinking_springback.dto.employee.productManagement.r
 
 import com.example.bunsanedthinking_springback.entity.insurance.InjuryType;
 import com.example.bunsanedthinking_springback.entity.insurance.InsuranceType;
-
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.productManagement.ProductManagementDTOConstants;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,40 +11,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddInjuryInsuranceRequest {
 
-	@NotBlank(message = "보험 이름은 필수 값입니다.")
-	@Size(max = 20, message = "보험 이름은 최대 20자까지 허용됩니다.")
-	@Pattern(regexp = "^[a-zA-Z가-힣]+$",
-		message = "보험 이름은 숫자나 특수문자를 포함할 수 없으며, 한글 또는 영문만 허용됩니다.")
+	@NotBlank(message = ProductManagementDTOConstants.NAME_NOT_BLANK_MESSAGE)
+	@Size(max = 20, message = ProductManagementDTOConstants.NAME_SIZE_MESSAGE)
+	@Pattern(regexp = ProductManagementDTOConstants.NAME_PATTERN_REGEXP,
+		message = ProductManagementDTOConstants.NAME_PATTERN_MESSAGE)
 	private String name;
 
-	@NotNull(message = "한도는 필수 값입니다.")
-	@Min(value = 1, message = "한도는 최소 1이어야 합니다.")
+	@NotNull(message = ProductManagementDTOConstants.MAXIMUM_MONEY_NOT_NULL_MESSAGE)
+	@Min(value = 1, message = ProductManagementDTOConstants.MAXIMUM_MONEY_MIN_MESSAGE)
 	private Integer maximumMoney;
 
-	@NotNull(message = "보험 유형은 필수 값입니다.")
+	@NotNull(message = ProductManagementDTOConstants.INSURANCE_TYPE_NOT_NULL_MESSAGE)
 	private InsuranceType insuranceType;
 
-	@NotNull(message = "나이 범위는 필수 값입니다.")
-	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
-	@Max(value = 120, message = "나이의 값은 최대 120이어야 합니다.")
+	@NotNull(message = ProductManagementDTOConstants.AGE_RANGE_NOT_NULL_MESSAGE)
+	@Min(value = 1, message = ProductManagementDTOConstants.AGE_RANGE_MIN_MESSAGE)
+	@Max(value = 120, message = ProductManagementDTOConstants.AGE_RANGE_MAX_MESSAGE)
 	private Integer ageRange;
 
-	@NotNull(message = "월 보험료는 필수 값입니다.")
-	@Min(value = 1, message = "월 보험료는 최소 1이어야 합니다.")
+	@NotNull(message = ProductManagementDTOConstants.MONTHLY_PREMIUM_NOT_NULL_MESSAGE)
+	@Min(value = 1, message = ProductManagementDTOConstants.MONTHLY_PREMIUM_MIN_MESSAGE)
 	private Integer monthlyPremium;
 
-	@NotNull(message = "계약 기간은 필수 값입니다.")
-	@Min(value = 1, message = "계약 기간은 최소 1이어야 합니다.")
+	@NotNull(message = ProductManagementDTOConstants.CONTRACT_PERIOD_NOT_NULL_MESSAGE)
+	@Min(value = 1, message = ProductManagementDTOConstants.CONTRACT_PERIOD_MIN_MESSAGE)
 	private Integer contractPeriod;
 
-	@NotBlank(message = "보장 내용은 필수 값입니다.")
-	@Size(max = 120, message = "보장 내용은 최대 120자까지 허용됩니다.")
+	@NotBlank(message = ProductManagementDTOConstants.COVERAGE_NOT_BLANK_MESSAGE)
+	@Size(max = 120, message = ProductManagementDTOConstants.COVERAGE_SIZE_MESSAGE)
 	private String coverage;
 
-	@NotNull(message = "상해 유형은 필수 값입니다.")
+	@NotNull(message = ProductManagementDTOConstants.INJURY_TYPE_NOT_NULL)
 	private InjuryType injuryType;
 
-	@NotNull(message = "수술 횟수는 필수 값입니다.")
-	@Min(value = 1, message = "나이의 값은 최소 1이어야 합니다.")
+	@NotNull(message = ProductManagementDTOConstants.SURGERIES_LIMIT_NOT_NULL)
+	@Min(value = 1, message = ProductManagementDTOConstants.SURGERIES_LIMIT_MIN_MESSAGE)
 	private Integer surgeriesLimit;
 }

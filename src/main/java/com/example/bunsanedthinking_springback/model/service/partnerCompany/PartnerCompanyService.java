@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.service.partnerCompany;
 
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.global.constants.service.partnerCompany.PartnerCompanyConstants;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.entityModel.partnerCompany.PartnerCompanyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
@@ -26,7 +27,7 @@ public class PartnerCompanyService {
 	}
 
 	public List<Report> getAllReportByDamageAssessmentCompanyID(int id) throws NotExistException {
-		if (partnerCompanyEntityModel.getById(id) == null) throw new NotExistException("해당 업체가 없습니다");
+		if (partnerCompanyEntityModel.getById(id) == null) throw new NotExistException(PartnerCompanyConstants.PARTNER_COMPANY_NULL);
 		return reportEntityModel.getAll().stream().filter(e -> e.getDamageAssessmentCompanyID() == id).toList();
 	}
 
@@ -38,19 +39,10 @@ public class PartnerCompanyService {
 		return report;
 	}
 
-//	public void update(UpdateReportDTO updateReportDTO) throws NotExistException {
-//		Report report = reportDModel.getById(updateReportDTO.getAccident_id());
-//		if (report == null) {
-//			throw new NotExistException();
-//		}
-//		report.setDamageAssessmentMoney(updateReportDTO.getDamage_assessment_money());
-//		reportDModel.update(report);
-//	} // 사용안되는 것 같아서 일단 막아둠
-
 	public void setDamageAssessmentMoney(int accidentId, int damageAssessmentMoney) throws NotExistException {
 		Report report = reportEntityModel.getById(accidentId);
 		if (report == null) {
-			throw new NotExistException("해당하는 신고 정보가 존재하지 않습니다.");
+			throw new NotExistException(PartnerCompanyConstants.REPORT_NOT_FOUND);
 		}
 		report.setDamageAssessmentMoney(damageAssessmentMoney);
 		reportEntityModel.update(report);

@@ -17,6 +17,8 @@ import com.example.bunsanedthinking_springback.entity.revival.Revival;
 import com.example.bunsanedthinking_springback.entity.revival.RevivalStatus;
 import com.example.bunsanedthinking_springback.entity.termination.Termination;
 import com.example.bunsanedthinking_springback.entity.termination.TerminationStatus;
+import com.example.bunsanedthinking_springback.global.constants.serial.Serial;
+import com.example.bunsanedthinking_springback.global.constants.service.employee.contractManagement.ContractManagementConstants;
 import com.example.bunsanedthinking_springback.global.exception.AlreadyProcessedException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistContractException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
@@ -30,7 +32,6 @@ import com.example.bunsanedthinking_springback.model.entityModel.recontract.Reco
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,6 +47,10 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ContractManagementService {
+
+	@Autowired
+	private Serial serial;
+
 	@Autowired
 	private CustomerEntityModel customerEntityModel;
 	@Autowired
@@ -63,9 +68,6 @@ public class ContractManagementService {
 	@Autowired
 	private InsuranceEntityModel insuranceEntityModel;
 
-	@Value("${serials.paymentDetail}")
-	public Integer PAYMENT_DETAIL_SERIAL_NUMBER;
-
 	public void requestTerminationFee(int tercontractId)
 		throws NotExistContractException, AlreadyProcessedException, NotExistException {
 		Termination tercontract = terminationEntityModel.getById(tercontractId);
@@ -73,13 +75,13 @@ public class ContractManagementService {
 		if (tercontract.getTerminationStatus() == TerminationStatus.Completed)
 			throw new AlreadyProcessedException();
 		Customer customer = customerEntityModel.getById(tercontract.getCustomerID());
-		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		if (customer == null) throw new NotExistException(ContractManagementConstants.CUSTOMER_NULL);
 		List<DepositDetail> depositDetailList = tercontract.getDepositDetailList();
 		int totalMoney = 0;
 		for (DepositDetail depositDetail : depositDetailList)
 			totalMoney += depositDetail.getMoney();
 		totalMoney = (int) (totalMoney * 0.3);
-		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), PAYMENT_DETAIL_SERIAL_NUMBER);
+		int paymentId = NextIdGetter.getNextId(paymentDetailEntityModel.getMaxId(), serial.getPaymentDetail());
 		PaymentDetail paymentDetail = new PaymentDetail(customer.getName(), customer.getBankName(),
 			customer.getBankAccount(), totalMoney, PaymentType.AccountTransfer, tercontract.getId());
 		paymentDetail.setId(paymentId);
@@ -149,7 +151,7 @@ public class ContractManagementService {
 
 	public Customer getCustomerById(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
-		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		if (customer == null) throw new NotExistException(ContractManagementConstants.CUSTOMER_NULL);
 		return customer;
 	}
 
