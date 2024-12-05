@@ -68,10 +68,4 @@ public class CustomerInformationManagementDTOConstants {
     public static final String DISEASE_ID_MIN_MESSAGE = "이력 ID는 5100 이상의 숫자여야 합니다.";
     public static final String SURGERY_ID_MIN_MESSAGE = "이력 ID는 6100 이상의 숫자여야 합니다.";
 
-
-
-
-
-
-
 }
