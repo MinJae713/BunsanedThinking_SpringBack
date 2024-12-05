@@ -7,6 +7,7 @@ import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateDepartmentException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.managementPlanning.ManagementPlanningService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ManagementPlanningController {
 	private ManagementPlanningService managementPlanningSModel;
 
 	@PostMapping("/addDepartment")
-	public void addDepartment(@RequestBody AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException {
+	public void addDepartment(@Valid @RequestBody AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException {
 		managementPlanningSModel.addDepartment(addDepartmentRequest);
 	}
 

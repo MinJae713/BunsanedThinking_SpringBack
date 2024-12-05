@@ -9,16 +9,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddDiseaseHistoryRequest {
+public class AddAccidentHistoryRequest {
 
     @NotBlank(message = CustomerInformationManagementDTOConstants.DATE_NOT_BLANK_MESSAGE)
     @Pattern(regexp = CustomerInformationManagementDTOConstants.DATE_PATTERN_REGEXP,
             message = CustomerInformationManagementDTOConstants.DATE_PATTERN_MESSAGE)
-    private String dateOfDiagnosis;
+    private String date;
 
-    @NotBlank(message = CustomerInformationManagementDTOConstants.DISEASE_NAME_NOT_BLANK_MESSAGE)
-    @Size(max = 20, message = CustomerInformationManagementDTOConstants.DISEASE_NAME_SIZE_MESSAGE)
-    @Pattern(regexp = CustomerInformationManagementDTOConstants.DISEASE_NAME_PATTERN_REGEXP,
-            message = CustomerInformationManagementDTOConstants.DISEASE_NAME_PATTERN_MESSAGE)
-    private String name;
+    @NotBlank(message = CustomerInformationManagementDTOConstants.ACCIDENT_DETAIL_NOT_BLANK_MESSAGE)
+    @Size(max = 120,
+        message = CustomerInformationManagementDTOConstants.ACCIDENT_DETAIL_SIZE_MESSAGE)
+    private String accidentDetail;
 }

@@ -7,6 +7,7 @@ import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class CustomerInformationManagementController {
 	private CustomerInformationManagementService customerInformationManagementSModel;
 
 	@PostMapping("/addCustomerInformation")
-	public void addCustomerInformation(@RequestBody AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
+	public void addCustomerInformation(@Valid @RequestBody AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
 		customerInformationManagementSModel.addCustomerInformation(addCustomerInformationRequest);
 	}
 
@@ -35,7 +36,7 @@ public class CustomerInformationManagementController {
 	}
 
 	@PatchMapping("/updateCustomerInformation")
-	public void updateCustomerInformation(@RequestBody UpdateCustomerInformationRequest updateCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException, NotExistException{
+	public void updateCustomerInformation(@Valid @RequestBody UpdateCustomerInformationRequest updateCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException, NotExistException{
 		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationRequest);
 	}
 
