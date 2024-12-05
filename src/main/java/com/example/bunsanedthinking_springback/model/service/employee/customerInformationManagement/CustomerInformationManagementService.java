@@ -71,7 +71,7 @@ public class CustomerInformationManagementService {
 			Integer accidentHistoryMaxId = accidentHistoryEntityModel.getMaxId();
 			int accidentHistoryId = NextIdGetter.getNextId(accidentHistoryMaxId, serial.getAccidentHistory());
 
-			for (AddAccidentHistoryReuqest e : addCustomerInformationRequest.getAccidentHistoryList()) {
+			for (AddAccidentHistoryRequest e : addCustomerInformationRequest.getAccidentHistoryList()) {
 				AccidentHistory accidentHistory = new AccidentHistory();
 				accidentHistory.setId(accidentHistoryId);
 

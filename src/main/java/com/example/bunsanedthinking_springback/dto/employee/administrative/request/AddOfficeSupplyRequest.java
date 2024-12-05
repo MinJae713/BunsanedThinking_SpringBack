@@ -1,5 +1,6 @@
 package com.example.bunsanedthinking_springback.dto.employee.administrative.request;
 
+import com.example.bunsanedthinking_springback.global.constants.service.employee.administrative.AdministrativeDTOConstants;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,24 +9,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddOfficeSupplyRequest {
 
-    @NotBlank(message = "비품 이름은 필수 입력 항목입니다.")
-    @Size(max=20, message = "비품 이름이 20글자를 초과하였습니다.")
-    @Pattern(regexp = "^[a-zA-Z가-힣]+$", message = "비품 이름은 한글 또는 영문만 입력 가능합니다.")
+    @NotBlank(message = AdministrativeDTOConstants.NAME_NOT_BLANK_MESSAGE)
+    @Size(max=10, message = AdministrativeDTOConstants.NAME_SIZE_MESSAGE)
+    @Pattern(regexp = AdministrativeDTOConstants.NAME_PATTERN_REGEXP,
+            message = AdministrativeDTOConstants.NAME_PATTERN_MESSAGE)
     private String name;
 
-    @NotBlank(message = "설명은 필수 입력 항목입니다.")
-    @Pattern(regexp = "^[가-힣a-zA-Z0-9.,!?\\s]+$", message = "설명에는 한글, 영문, 숫자, 공백, 일부 특수문자(.,!?)만 입력 가능합니다.")
+    @NotBlank(message = AdministrativeDTOConstants.DESCRIPTION_NOT_BLANK_MESSAGE)
+    @Size(max=20, message = AdministrativeDTOConstants.DESCRIPTION_SIZE_MESSAGE)
+    @Pattern(regexp = AdministrativeDTOConstants.DESCRIPTION_PATTERN_REGEXP,
+            message = AdministrativeDTOConstants.DESCRIPTION_PATTERN_MESSAGE)
     private String description;
 
-    @NotNull(message = "현재 재고는 필수 입력 항목입니다.")
-    @Positive(message = "현재 재고는 최소 1이어야 합니다.")
+    @NotNull(message = AdministrativeDTOConstants.INVENTORY_NOT_NULL_MESSAGE)
+    @Positive(message = AdministrativeDTOConstants.INVENTORY_POSITIVE_MESSAGE)
     private Integer inventory;
 
-    @NotNull(message = "총 재고는 필수 입력 항목입니다.")
-    @Positive(message = "현재 재고는 최소 1이어야 합니다.")
+    @NotNull(message = AdministrativeDTOConstants.TOTAL_INVENTORY_NOT_NULL_MESSAGE)
+    @Positive(message = AdministrativeDTOConstants.TOTAL_INVENTORY_POSITIVE_MESSAGE)
     private Integer total_inventory;
 
-    @NotNull(message = "부서 ID는 필수 입력 항목입니다.")
-    @Min(value = 9100, message = "부서 ID는 9100 이상의 숫자여야 합니다.")
+    @NotNull(message = AdministrativeDTOConstants.DEPARTMENT_ID_NOT_NULL_MESSAGE)
+    @Min(value = 9100,
+            message = AdministrativeDTOConstants.DEPARTMENT_ID_MIN_MESSAGE)
     private Integer department_id;
 }
