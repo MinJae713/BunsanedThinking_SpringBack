@@ -30,6 +30,7 @@ public class AdministrativeService {
 		if (isExistOfficeSupplyName) {
 			throw new DuplicateOfficeSupplyException();
 		}
+
 		// 현재 최대 ID를 가져와서 NextIdGetter를 사용하여 새로운 ID 생성
 		Integer maxId = officeSupplyEntityModel.getMaxId();
 		int id = NextIdGetter.getNextId(maxId, serial.getOfficesupply());

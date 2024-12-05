@@ -6,6 +6,7 @@ import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateOfficeSupplyException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.administrative.AdministrativeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class AdministrativeController {
 	private AdministrativeService administrativeSModel;
 
 	@PostMapping("/addOfficeSupply")
-	public void addOfficeSupply(@RequestBody AddOfficeSupplyRequest addOfficeSupplyRequest) throws DuplicateOfficeSupplyException {
+	public void addOfficeSupply(@Valid @RequestBody AddOfficeSupplyRequest addOfficeSupplyRequest) throws DuplicateOfficeSupplyException {
 		administrativeSModel.addOfficeSupply(addOfficeSupplyRequest);
 	}
 
