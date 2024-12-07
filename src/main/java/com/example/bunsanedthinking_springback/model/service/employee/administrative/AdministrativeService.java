@@ -63,7 +63,7 @@ public class AdministrativeService {
 	}
 
 	public void updateOfficeSupply(UpdateOfficeSupplyRequest updateOfficeSupplyRequest)
-			throws NotExistException, DuplicateOfficeSupplyException{
+			throws NotExistException, DuplicateOfficeSupplyException, RuntimeException{
 		int id = updateOfficeSupplyRequest.getId();
 		int index = updateOfficeSupplyRequest.getIndex();
 		String input = updateOfficeSupplyRequest.getInput();
@@ -78,6 +78,8 @@ public class AdministrativeService {
 						throw new DuplicateOfficeSupplyException();
 					}
 				}
+				if (!input.matches("^[a-zA-Z가-힣]+$"))
+					throw new RuntimeException("비품 이름은 한글 또는 영문만 입력 가능합니다.");
 				officeSupply.setName(input);
 				officeSupplyEntityModel.update(officeSupply);
 				break;

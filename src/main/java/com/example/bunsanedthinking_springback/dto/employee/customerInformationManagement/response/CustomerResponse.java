@@ -23,6 +23,7 @@ public class CustomerResponse {
     private String address;
     private String bankName;
     private String bankAccount;
+    private long property;
     private int id;
     private List<AccidentHistoryDetailResponse> accidentHistoryList;
     private List<SurgeryHistoryDetailResponse> surgeryHistoryList;
@@ -39,6 +40,7 @@ public class CustomerResponse {
                 .address(customer.getAddress())
                 .bankName(customer.getBankName())
                 .bankAccount(customer.getBankAccount())
+                .property(customer.getProperty())
                 .id(customer.getId())
                 .accidentHistoryList(customer.getAccidentHistoryList().stream()
                         .map(AccidentHistoryDetailResponse::from)

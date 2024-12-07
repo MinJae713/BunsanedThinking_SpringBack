@@ -143,12 +143,12 @@ public class CustomerInformationManagementService {
 		customerEntityModel.delete(id);
 	}
 
-	public Customer getCustomerInformation(int id) throws NotExistException {
+	public CustomerResponse getCustomerInformation(int id) throws NotExistException {
 		Customer customer = customerEntityModel.getById(id);
 		if (customer == null) {
 			throw new NotExistException(CustomerInformationManagementConstants.CUSTOMER_INFORMATION_NULL);
 		}
-		return customer;
+		return CustomerResponse.from(customer);
 	}
 
 	public void updateCustomerInformation(UpdateCustomerInformationRequest updateCustomerInformationRequest)

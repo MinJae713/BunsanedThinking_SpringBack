@@ -36,7 +36,7 @@ public class AdministrativeController {
 
 	@PatchMapping("/updateOfficeSupply")
 	public void updateOfficeSupply(@RequestBody UpdateOfficeSupplyRequest updateOfficeSupplyRequest)
-			throws NotExistException, DuplicateOfficeSupplyException {
+			throws NotExistException, DuplicateOfficeSupplyException, RuntimeException {
 		administrativeSModel.updateOfficeSupply(updateOfficeSupplyRequest);
 	}
 

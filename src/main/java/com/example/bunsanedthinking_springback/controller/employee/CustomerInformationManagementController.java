@@ -3,7 +3,6 @@ package com.example.bunsanedthinking_springback.controller.employee;
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.request.AddCustomerInformationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.request.UpdateCustomerInformationRequest;
 import com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.response.CustomerResponse;
-import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.global.exception.DuplicateResidentRegistrationNumberException;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.employee.customerInformationManagement.CustomerInformationManagementService;
@@ -31,7 +30,7 @@ public class CustomerInformationManagementController {
 	}
 
 	@GetMapping("/getCustomerInformation")
-	public Customer getCustomerInformation(@RequestParam int id) throws NotExistException{
+	public CustomerResponse getCustomerInformation(@RequestParam int id) throws NotExistException{
 		return customerInformationManagementSModel.getCustomerInformation(id);
 	}
 
