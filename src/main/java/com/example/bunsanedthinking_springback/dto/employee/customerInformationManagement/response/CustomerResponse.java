@@ -25,7 +25,8 @@ public class CustomerResponse {
     private String bankAccount;
     private int id;
     private List<AccidentHistoryDetailResponse> accidentHistoryList;
-
+    private List<SurgeryHistoryDetailResponse> surgeryHistoryList;
+    private List<DiseaseHistoryDetailResponse> diseaseHistoryList;
 
     public static CustomerResponse from(Customer customer) {
         return CustomerResponse.builder()
@@ -41,6 +42,12 @@ public class CustomerResponse {
                 .id(customer.getId())
                 .accidentHistoryList(customer.getAccidentHistoryList().stream()
                         .map(AccidentHistoryDetailResponse::from)
+                        .collect(Collectors.toList()))
+                .surgeryHistoryList(customer.getSurgeryHistoryList().stream()
+                        .map(SurgeryHistoryDetailResponse::from)
+                        .collect(Collectors.toList()))
+                .diseaseHistoryList(customer.getDiseaseHistoryList().stream()
+                        .map(DiseaseHistoryDetailResponse::from)
                         .collect(Collectors.toList()))
                 .build();
     }
