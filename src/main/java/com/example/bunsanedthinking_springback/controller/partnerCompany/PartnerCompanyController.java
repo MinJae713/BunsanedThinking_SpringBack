@@ -17,17 +17,20 @@ public class PartnerCompanyController {
 	private PartnerCompanyService partnerCompanySModel;
 
 	@GetMapping("/getPartnerCompanyById")
-	public PartnerCompany getPartnerCompanyById(@RequestParam int id) throws NotExistException {
+	public PartnerCompany getPartnerCompanyById(@RequestParam int id)
+			throws NotExistException {
 		return partnerCompanySModel.getPartnerCompanyById(id);
 	}
 
 	 @GetMapping("/getAllReportByDamageAssessmentCompanyID")
-	 public List<Report> getAllReportByDamageAssessmentCompanyID(@RequestParam int id) throws NotExistException {
+	 public List<Report> getAllReportByDamageAssessmentCompanyID(@RequestParam int id)
+			 throws NotExistException {
 	 	return partnerCompanySModel.getAllReportByDamageAssessmentCompanyID(id);
 	 }
 
 	 @GetMapping("/getReport")
-	 public Report getReport(@RequestParam int id) throws NotExistException {
+	 public Report getReport(@RequestParam int id)
+			 throws NotExistException {
 	 	return partnerCompanySModel.getReport(id);
 	 }
 
@@ -39,7 +42,8 @@ public class PartnerCompanyController {
 
 	@PatchMapping("/setDamageAssessmentMoney")
 	public void setDamageAssessmentMoney(@RequestParam("accidentId") int accidentId,
-										 @RequestParam("damageAssessmentMoney") int damageAssessmentMoney) throws NotExistException {
+										 @RequestParam("damageAssessmentMoney") int damageAssessmentMoney)
+			throws NotExistException {
 		partnerCompanySModel.setDamageAssessmentMoney(accidentId, damageAssessmentMoney);
 	}
 

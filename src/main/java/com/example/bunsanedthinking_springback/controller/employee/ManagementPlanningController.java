@@ -22,7 +22,8 @@ public class ManagementPlanningController {
 	private ManagementPlanningService managementPlanningSModel;
 
 	@PostMapping("/addDepartment")
-	public void addDepartment(@Valid @RequestBody AddDepartmentRequest addDepartmentRequest) throws DuplicateDepartmentException {
+	public void addDepartment(@Valid @RequestBody AddDepartmentRequest addDepartmentRequest)
+			throws DuplicateDepartmentException {
 		managementPlanningSModel.addDepartment(addDepartmentRequest);
 	}
 
@@ -38,7 +39,7 @@ public class ManagementPlanningController {
 
 	@PatchMapping("/updateDepartment")
 	public void updateDepartment(@RequestBody UpdateDepartmentRequest updateDepartmentRequest)
-			throws DuplicateDepartmentException, NotExistException {
+			throws DuplicateDepartmentException, NotExistException, RuntimeException {
 		managementPlanningSModel.updateDepartment(updateDepartmentRequest);
 	}
 

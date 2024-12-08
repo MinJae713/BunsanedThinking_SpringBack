@@ -20,4 +20,5 @@ public class AdministrativeDTOConstants {
     public static final String DEPARTMENT_ID_NOT_NULL_MESSAGE = "부서 ID는 필수 입력 항목입니다.";
     public static final String DEPARTMENT_ID_MIN_MESSAGE = "부서 ID는 9100 이상의 숫자여야 합니다.";
 
+    public static final String INPUT_NOT_BLANK_MESSAGE = "수정할 값은 반드시 입력해주세요.";
 }

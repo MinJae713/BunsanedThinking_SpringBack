@@ -1,6 +1,8 @@
 package com.example.bunsanedthinking_springback.dto.employee.customerInformationManagement.request;
 
+import com.example.bunsanedthinking_springback.global.constants.service.employee.customerInformationManagement.CustomerInformationManagementDTOConstants;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateCustomerInformationRequest {
     private int index;
+    @NotBlank(message = CustomerInformationManagementDTOConstants.INPUT_NOT_BLANK_MESSAGE)
     private String input;
     private int id; // 고객 ID
 

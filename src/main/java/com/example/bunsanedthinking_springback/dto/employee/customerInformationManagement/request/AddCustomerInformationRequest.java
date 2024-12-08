@@ -69,5 +69,7 @@ public class AddCustomerInformationRequest {
 
     @NotBlank(message = CustomerInformationManagementDTOConstants.BANK_ACCOUNT_NOT_BLANK_MESSAGE)
     @Size(max = 20, message = CustomerInformationManagementDTOConstants.BANK_ACCOUNT_SIZE_MESSAGE)
+    @Pattern(regexp = CustomerInformationManagementDTOConstants.BANK_ACCOUNT_PATTERN_REGEXP,
+            message = CustomerInformationManagementDTOConstants.BANK_ACCOUNT_PATTERN_MESSAGE)
     private String bankAccount;
 }
