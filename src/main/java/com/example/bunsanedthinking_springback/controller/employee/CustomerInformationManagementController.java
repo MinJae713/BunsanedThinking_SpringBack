@@ -20,7 +20,8 @@ public class CustomerInformationManagementController {
 	private CustomerInformationManagementService customerInformationManagementSModel;
 
 	@PostMapping("/addCustomerInformation")
-	public void addCustomerInformation(@Valid @RequestBody AddCustomerInformationRequest addCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException {
+	public void addCustomerInformation(@Valid @RequestBody AddCustomerInformationRequest addCustomerInformationRequest)
+			throws DuplicateResidentRegistrationNumberException {
 		customerInformationManagementSModel.addCustomerInformation(addCustomerInformationRequest);
 	}
 
@@ -35,7 +36,8 @@ public class CustomerInformationManagementController {
 	}
 
 	@PatchMapping("/updateCustomerInformation")
-	public void updateCustomerInformation(@Valid @RequestBody UpdateCustomerInformationRequest updateCustomerInformationRequest) throws DuplicateResidentRegistrationNumberException, NotExistException{
+	public void updateCustomerInformation(@Valid @RequestBody UpdateCustomerInformationRequest updateCustomerInformationRequest)
+			throws DuplicateResidentRegistrationNumberException, NotExistException, RuntimeException {
 		customerInformationManagementSModel.updateCustomerInformation(updateCustomerInformationRequest);
 	}
 

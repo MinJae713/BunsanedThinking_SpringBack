@@ -61,7 +61,7 @@ public class ManagementPlanningService {
 	}
 
 	public void updateDepartment(UpdateDepartmentRequest updateDepartmentRequest)
-			throws DuplicateDepartmentException, NotExistException {
+			throws DuplicateDepartmentException, NotExistException, RuntimeException {
 		int id = updateDepartmentRequest.getId();
 		int index = updateDepartmentRequest.getIndex();
 		String input = updateDepartmentRequest.getInput();
@@ -76,22 +76,40 @@ public class ManagementPlanningService {
 						throw new DuplicateDepartmentException();
 					}
 				}
+				if (input.length() > 10){
+					throw new RuntimeException(ManagementPlanningConstants.NAME_LENGTH_MESSAGE);
+				}
+				if (!input.matches(ManagementPlanningConstants.NAME_FORMAT_REGEXP))
+					throw new RuntimeException(ManagementPlanningConstants.NAME_FORMAT_MESSAGE);
 				department.setName(input);
 				departmentEntityModel.update(department);
 				break;
 			case 2:
+				if (input.length() > 100){
+					throw new RuntimeException(ManagementPlanningConstants.TASK_LENGTH_MESSAGE);
+				}
+				if (!input.matches(ManagementPlanningConstants.TASK_FORMAT_REGEXP))
+					throw new RuntimeException(ManagementPlanningConstants.TASK_FORMAT_MESSAGE);
 				department.setTask(input);
 				departmentEntityModel.update(department);
 				break;
 			case 3:
+				if (input.length() > 25){
+					throw new RuntimeException(ManagementPlanningConstants.PURPOSE_LENGTH_MESSAGE);
+				}
+				if (!input.matches(ManagementPlanningConstants.PURPOSE_FORMAT_REGEXP))
+					throw new RuntimeException(ManagementPlanningConstants.PURPOSE_FORMAT_MESSAGE);
 				department.setPurpose(input);
 				departmentEntityModel.update(department);
 				break;
 			case 4:
+				if (input.length() > 20){
+					throw new RuntimeException(ManagementPlanningConstants.HEAD_NAME_LENGTH_MESSAGE);
+				}
+				if (!input.matches(ManagementPlanningConstants.HEAD_NAME_FORMAT_REGEXP))
+					throw new RuntimeException(ManagementPlanningConstants.HEAD_NAME_FORMAT_MESSAGE);
 				department.setHeadName(input);
 				departmentEntityModel.update(department);
-				break;
-			default:
 				break;
 		}
 	}

@@ -162,19 +162,48 @@ public class CustomerInformationManagementService {
 		}
 		switch (index) {
 			case 1:
+				if (input.length() > 20) {
+					throw new RuntimeException(CustomerInformationManagementConstants.NAME_LENGTH_MESSAGE);
+				}
+				if (!input.matches(CustomerInformationManagementConstants.NAME_FORMAT_REGEXP))
+					throw new RuntimeException(CustomerInformationManagementConstants.NAME_FORMAT_MESSAGE);
 				customer.setName(input);
 				customerEntityModel.update(customer);
 				break;
 			case 2:
+				if (input.length() != 13) {
+					throw new RuntimeException(CustomerInformationManagementConstants.PHONE_NUMBER_LENGTH_MESSAGE);
+				}
+				if (!input.matches(CustomerInformationManagementConstants.PHONE_NUMBER_FORMAT_REGEXP)) {
+					throw new RuntimeException(CustomerInformationManagementConstants.PHONE_NUMBER_FORMAT_MESSAGE);
+				}
 				customer.setPhoneNumber(input);
 				customerEntityModel.update(customer);
 				break;
 			case 3:
+				if (input.length() > 20) {
+					throw new RuntimeException(CustomerInformationManagementConstants.JOB_LENGTH_MESSAGE);
+				}
+				if (!input.matches(CustomerInformationManagementConstants.JOB_FORMAT_REGEXP)) {
+					throw new RuntimeException(CustomerInformationManagementConstants.JOB_FORMAT_MESSAGE);
+				}
 				customer.setJob(input);
 				customerEntityModel.update(customer);
 				break;
 			case 4:
-				customer.setAge(Integer.parseInt(input));
+				int age;
+				try {
+					age = Integer.parseInt(input);
+				} catch (NumberFormatException e) {
+					throw new RuntimeException(CustomerInformationManagementConstants.AGE_INVALID_MESSAGE);
+				}
+				if (age < 1) {
+					throw new RuntimeException(CustomerInformationManagementConstants.AGE_MIN_VALUE);
+				}
+				if (age > 120) {
+					throw new RuntimeException(CustomerInformationManagementConstants.AGE_MAX_VALUE);
+				}
+				customer.setAge(age);
 				customerEntityModel.update(customer);
 				break;
 			case 5:
@@ -182,18 +211,42 @@ public class CustomerInformationManagementService {
 				customerEntityModel.update(customer);
 				break;
 			case 6:
+				if (input.length() > 100) {
+					throw new RuntimeException(CustomerInformationManagementConstants.ADDRESS_LENGTH_MESSAGE);
+				}
 				customer.setAddress(input);
 				customerEntityModel.update(customer);
 				break;
 			case 7:
-				customer.setProperty((long)(Integer.parseInt(input)));
+				long property;
+				try {
+					property = Long.parseLong(input);
+				} catch (NumberFormatException e) {
+					throw new RuntimeException(CustomerInformationManagementConstants.PROPERTY_INVALID_MESSAGE);
+				}
+				if (property < 1) {
+					throw new RuntimeException(CustomerInformationManagementConstants.PROPERTY_MIN_VALUE);
+				}
+				customer.setProperty(property);
 				customerEntityModel.update(customer);
 				break;
 			case 8:
+				if (input.length() > 10) {
+					throw new RuntimeException(CustomerInformationManagementConstants.BANK_NAME_LENGTH_MESSAGE);
+				}
+				if (!input.matches(CustomerInformationManagementConstants.BANK_NAME_FORMAT_REGEXP)) {
+					throw new RuntimeException(CustomerInformationManagementConstants.BANK_NAME_FORMAT_MESSAGE);
+				}
 				customer.setBankName(input);
 				customerEntityModel.update(customer);
 				break;
 			case 9:
+				if (input.length() > 20) {
+					throw new RuntimeException(CustomerInformationManagementConstants.BANK_ACCOUNT_LENGTH_MESSAGE);
+				}
+				if (!input.matches(CustomerInformationManagementConstants.BANK_ACCOUNT_FORMAT_REGEXP)) {
+					throw new RuntimeException(CustomerInformationManagementConstants.BANK_ACCOUNT_FORMAT_MESSAGE);
+				}
 				customer.setBankAccount(input);
 				customerEntityModel.update(customer);
 				break;
@@ -205,8 +258,6 @@ public class CustomerInformationManagementService {
 				break;
 			case 12:
 				updateDiseaseHistories(updateCustomerInformationRequest.getDiseaseHistoryList(), customer);
-				break;
-			default:
 				break;
 		}
 	}

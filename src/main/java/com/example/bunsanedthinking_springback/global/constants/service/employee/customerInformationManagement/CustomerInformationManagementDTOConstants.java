@@ -40,6 +40,8 @@ public class CustomerInformationManagementDTOConstants {
 
     public static final String BANK_ACCOUNT_NOT_BLANK_MESSAGE = "계좌번호는 필수 입력 값입니다.";
     public static final String BANK_ACCOUNT_SIZE_MESSAGE = "계좌번호는 최대 20자 이내로 작성해야 합니다.";
+    public static final String BANK_ACCOUNT_PATTERN_REGEXP = "^[0-9-]+$";
+    public static final String BANK_ACCOUNT_PATTERN_MESSAGE = "계좌번호는 숫자와 '-' 기호만 입력 가능합니다.";
 
     public static final String DATE_NOT_BLANK_MESSAGE = "날짜는 필수 입력 값입니다.";
     public static final String DATE_PATTERN_REGEXP = "^\\d{4}-\\d{2}-\\d{2}$";
@@ -68,4 +70,5 @@ public class CustomerInformationManagementDTOConstants {
     public static final String DISEASE_ID_MIN_MESSAGE = "이력 ID는 5100 이상의 숫자여야 합니다.";
     public static final String SURGERY_ID_MIN_MESSAGE = "이력 ID는 6100 이상의 숫자여야 합니다.";
 
+    public static final String INPUT_NOT_BLANK_MESSAGE = "수정할 값은 반드시 입력해주세요.";
 }

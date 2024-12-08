@@ -40,6 +40,9 @@ public class PartnerCompanyService {
 	}
 
 	public void setDamageAssessmentMoney(int accidentId, int damageAssessmentMoney) throws NotExistException {
+		if (damageAssessmentMoney < 0) {
+			throw new IllegalArgumentException(PartnerCompanyConstants.DAMAGE_ASSESSMENT_MONEY_NEGATIVE_MESSAGE);
+		}
 		Report report = reportEntityModel.getById(accidentId);
 		if (report == null) {
 			throw new NotExistException(PartnerCompanyConstants.REPORT_NOT_FOUND);

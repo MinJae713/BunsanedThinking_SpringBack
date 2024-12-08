@@ -20,4 +20,6 @@ public class ManagementPlanningDTOConstants {
     public static final String TASK_SIZE_MESSAGE = "주 업무는 최대 100자 이내로 작성해야 합니다.";
     public static final String TASK_PATTERN_REGEXP = "^[a-zA-Z가-힣,\\s]+$";
     public static final String TASK_PATTERN_MESSAGE = "주 업무는 한글, 영문, 공백, 쉼표(,)만 입력 가능합니다.";
+
+    public static final String INPUT_NOT_BLANK_MESSAGE = "수정할 값은 반드시 입력해주세요.";
 }

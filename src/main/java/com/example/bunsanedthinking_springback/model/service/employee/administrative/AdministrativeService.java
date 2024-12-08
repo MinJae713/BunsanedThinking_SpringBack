@@ -63,7 +63,7 @@ public class AdministrativeService {
 	}
 
 	public void updateOfficeSupply(UpdateOfficeSupplyRequest updateOfficeSupplyRequest)
-			throws NotExistException, DuplicateOfficeSupplyException, RuntimeException{
+			throws NotExistException, DuplicateOfficeSupplyException, RuntimeException {
 		int id = updateOfficeSupplyRequest.getId();
 		int index = updateOfficeSupplyRequest.getIndex();
 		String input = updateOfficeSupplyRequest.getInput();
@@ -78,16 +78,36 @@ public class AdministrativeService {
 						throw new DuplicateOfficeSupplyException();
 					}
 				}
-				if (!input.matches("^[a-zA-Z가-힣]+$"))
-					throw new RuntimeException("비품 이름은 한글 또는 영문만 입력 가능합니다.");
+				if (input.length() > 10){
+					throw new RuntimeException(AdministrativeConstants.NAME_LENGTH_MESSAGE);
+				}
+				if (!input.matches(AdministrativeConstants.NAME_FORMAT_REGEXP))
+					throw new RuntimeException(AdministrativeConstants.NAME_FORMAT_MESSAGE);
 				officeSupply.setName(input);
 				officeSupplyEntityModel.update(officeSupply);
 				break;
 			case 2:
+				if (input.length() > 20) {
+					throw new RuntimeException(AdministrativeConstants.DESCRIPTION_LENGTH_MESSAGE);
+				}
+				if (!input.matches(AdministrativeConstants.DESCRIPTION_FORMAT_REGEXP)) {
+					throw new RuntimeException(AdministrativeConstants.DESCRIPTION_FORMAT_MESSAGE);
+				}
 				officeSupply.setDescription(input);
 				officeSupplyEntityModel.update(officeSupply);
 				break;
 			case 3:
+				if (!input.matches(AdministrativeConstants.INVENTORY_FORMAT_REGEXP)) {
+					throw new RuntimeException(AdministrativeConstants.INVENTORY_FORMAT_MESSAGE);
+				}
+				int inventory = Integer.parseInt(input);
+				int total_inventory = officeSupply.getTotalInventory();
+				if (inventory < 1) {
+					throw new RuntimeException(AdministrativeConstants.INVENTORY_MIN_VALUE_MESSAGE);
+				}
+				if (inventory > total_inventory) {
+					throw new RuntimeException(AdministrativeConstants.INVENTORY_EXCEEDS_TOTAL_MESSAGE);
+				}
 				officeSupply.setInventory(Integer.parseInt(input));
 				officeSupplyEntityModel.update(officeSupply);
 				break;
