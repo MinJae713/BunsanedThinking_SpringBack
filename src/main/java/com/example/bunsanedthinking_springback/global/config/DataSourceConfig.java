@@ -21,10 +21,16 @@ public class DataSourceConfig {
 	// @ConfigurationProperties(prefix = "spring.datasource.write")
 	public DataSource writeDataSource() {
 		HikariDataSource dataSource = new HikariDataSource();
+		// dataSource.setJdbcUrl(
+		// 	"jdbc:mysql://bunsaned-thinking-rds-cluster-test.cluster-cpkqc6so4dk4.ap-northeast-2.rds.amazonaws.com/bunsanedthinking");
+		// dataSource.setUsername("admin");
+		// dataSource.setPassword("qnstkstodrkr");
+
 		dataSource.setJdbcUrl(
-			"jdbc:mysql://bunsaned-thinking-rds-cluster.cluster-cpkqc6so4dk4.ap-northeast-2.rds.amazonaws.com/bunsanedthinking");
-		dataSource.setUsername("admin");
-		dataSource.setPassword("qnstkstodrkr");
+			"jdbc:mysql://localhost:3306/bunsanedthinking");
+		dataSource.setUsername("root");
+		dataSource.setPassword("rlacks123");
+
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		return dataSource;
 	}
@@ -32,10 +38,16 @@ public class DataSourceConfig {
 	@Bean(name = "readDataSource")
 	public DataSource readDataSource() {
 		HikariDataSource dataSource = new HikariDataSource();
+		// dataSource.setJdbcUrl(
+		// 	"jdbc:mysql://bunsaned-thinking-rds-cluster-test.cluster-ro-cpkqc6so4dk4.ap-northeast-2.rds.amazonaws.com/bunsanedthinking");
+		// dataSource.setUsername("admin");
+		// dataSource.setPassword("qnstkstodrkr");
+
 		dataSource.setJdbcUrl(
-			"jdbc:mysql://bunsaned-thinking-rds-cluster.cluster-ro-cpkqc6so4dk4.ap-northeast-2.rds.amazonaws.com/bunsanedthinking");
-		dataSource.setUsername("admin");
-		dataSource.setPassword("qnstkstodrkr");
+			"jdbc:mysql://localhost:3306/bunsanedthinking");
+		dataSource.setUsername("root");
+		dataSource.setPassword("rlacks123");
+		
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		return dataSource;
 	}

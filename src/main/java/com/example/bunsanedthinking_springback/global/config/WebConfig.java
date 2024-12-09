@@ -19,7 +19,7 @@ public class WebConfig {
 			@Override
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedOrigins("*")
+					// .allowedOrigins("*")
 					.allowedMethods("*")  // 모든 HTTP 메서드 허용
 					.allowedHeaders("*")
 					.allowCredentials(false)
