@@ -1,18 +1,16 @@
 package com.example.bunsanedthinking_springback.global.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
+import com.example.bunsanedthinking_springback.global.common.RoutingDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import com.example.bunsanedthinking_springback.global.common.RoutingDataSource;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableConfigurationProperties
@@ -27,9 +25,9 @@ public class DataSourceConfig {
 		// dataSource.setPassword("qnstkstodrkr");
 
 		dataSource.setJdbcUrl(
-			"jdbc:mysql://localhost:3306/bunsanedthinking");
+			"jdbc:mysql://localhost:3306/bunsaninsurance");
 		dataSource.setUsername("root");
-		dataSource.setPassword("rlacks123");
+		dataSource.setPassword("Godyell713!");
 
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		return dataSource;
@@ -44,9 +42,9 @@ public class DataSourceConfig {
 		// dataSource.setPassword("qnstkstodrkr");
 
 		dataSource.setJdbcUrl(
-			"jdbc:mysql://localhost:3306/bunsanedthinking");
+			"jdbc:mysql://localhost:3306/bunsaninsurance");
 		dataSource.setUsername("root");
-		dataSource.setPassword("rlacks123");
+		dataSource.setPassword("Godyell713!");
 		
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		return dataSource;

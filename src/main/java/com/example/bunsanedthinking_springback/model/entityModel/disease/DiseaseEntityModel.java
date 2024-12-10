@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.disease;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -36,7 +37,7 @@ public class DiseaseEntityModel {
 	@Autowired
 	private RecontractMapper recontractMapper;
 
-
+	@ReadOnly
 	public Disease getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -53,14 +54,14 @@ public class DiseaseEntityModel {
 				stream().filter(e -> e.getProductID() == id).toList();
 		return diseaseVO.getEntity(productVO, insuranceVO, contracts, counsels);
 	}
-
+	@ReadOnly
 	public List<Disease> getAll() {
 		List<Disease> diseases = new ArrayList<Disease>();
 		diseaseMapper.getAll()
 			.forEach(e -> diseases.add(getById(e.getProduct_id())));
 		return diseases;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return diseaseMapper.getMaxId();
 	}
@@ -94,7 +95,7 @@ public class DiseaseEntityModel {
 		if (diseaseMapper.getById(id).isEmpty()) return;
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
-				forEach(e -> deleteContract(e));
+				forEach(this::deleteContract);
 		counselEntityModel.getAll().stream().
 				filter(e -> e.getProductID() == id).
 				forEach(e -> counselEntityModel.delete(e.getId()));

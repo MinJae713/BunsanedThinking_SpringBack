@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.injury;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -35,7 +36,7 @@ public class InjuryEntityModel {
 	private TerminationMapper terminationMapper;
 	@Autowired
 	private RecontractMapper recontractMapper;
-
+	@ReadOnly
 	public Injury getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -52,20 +53,19 @@ public class InjuryEntityModel {
 				stream().filter(e -> e.getProductID() == id).toList();
 		return injuryVO.getEntity(productVO, insuranceVO, contracts, counsels);
 	}
-
+	@ReadOnly
 	public List<Injury> getAll() {
 		List<Injury> injuries = new ArrayList<Injury>();
 		injuryMapper.getAll()
 			.forEach(e -> injuries.add(getById(e.getProduct_id())));
 		return injuries;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return injuryMapper.getMaxId();
 	}
 
 	public void add(Injury injury) {
-		// 참조 무결성 제약조건 생각해서 product, insurance, injury 순서대로 데이터 추가함
 		if (injury == null) return;
 		if (injuryMapper.getById(injury.getId()).isPresent()) return;
 		productMapper.insert(injury.findProductVO());
@@ -95,7 +95,7 @@ public class InjuryEntityModel {
 		if (injuryMapper.getById(id).isEmpty()) return;
 		contractEntityModel.getAll().stream().
 				filter(e -> e.getProductId() == id).
-				forEach(e -> deleteContract(e));
+				forEach(this::deleteContract);
 		counselEntityModel.getAll().stream().
 				filter(e -> e.getProductID() == id).
 				forEach(e -> counselEntityModel.delete(e.getId()));

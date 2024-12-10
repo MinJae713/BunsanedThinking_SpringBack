@@ -1,16 +1,15 @@
 package com.example.bunsanedthinking_springback.model.entityModel.additionalAllowance;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.paymentDetail.AdditionalAllowance;
 import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.AdditionalAllowanceMapper;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.AdditionalAllowanceVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdditionalAllowanceEntityModel {
@@ -27,14 +26,14 @@ public class AdditionalAllowanceEntityModel {
 					.map(additionalAllowanceVO -> additionalAllowanceVO.getEntity(detailVO)))
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<AdditionalAllowance> getAll() {
 		List<AdditionalAllowance> additionalAllowances = new ArrayList<AdditionalAllowance>();
 		List<AdditionalAllowanceVO> additionalAllowanceVOS = additionalAllowanceMapper.getAll();
 		additionalAllowanceVOS.forEach(e -> additionalAllowances.add(getById(e.getPayment_detail_id())));
 		return additionalAllowances;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return additionalAllowanceMapper.getMaxId();
 	}

@@ -1,21 +1,21 @@
 package com.example.bunsanedthinking_springback.model.entityModel.employee;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.family.Family;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.family.FamilyEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.repository.EmployeeMapper;
 import com.example.bunsanedthinking_springback.vo.EmployeeVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeEntityModel {
@@ -27,7 +27,7 @@ public class EmployeeEntityModel {
 	private PaymentDetailEntityModel paymentDetailEntityModel;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
+	@ReadOnly
 	public Employee getById(int id) {
 		EmployeeVO employeeVO = employeeMapper.getById(id).orElse(null);
 		if (employeeVO == null)
@@ -63,13 +63,13 @@ public class EmployeeEntityModel {
 				.collect(Collectors.toList())
 		);
 	}
-
+	@ReadOnly
 	public List<Employee> getAll() {
 		List<Employee> employees = new ArrayList<Employee>();
-		employeeMapper.getAll().stream().forEach(e -> employees.add(getById(e.getId())));
+		employeeMapper.getAll().forEach(e -> employees.add(getById(e.getId())));
 		return employees;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return employeeMapper.getMaxId();
 	}

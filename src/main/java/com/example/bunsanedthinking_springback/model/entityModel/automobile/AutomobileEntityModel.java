@@ -5,6 +5,7 @@ import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.ServiceType;
 import com.example.bunsanedthinking_springback.entity.insurance.VehicleType;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -41,7 +42,7 @@ public class AutomobileEntityModel {
 	@Autowired
 	private RecontractMapper recontractMapper;
 
-
+	@ReadOnly
 	public Automobile getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -66,14 +67,14 @@ public class AutomobileEntityModel {
 				stream().filter(e -> e.getProductID() == id).toList();
 		return new Automobile(productVO, insuranceVO, accidentLimit, vehicleType, serviceTypeList, contracts, counsels);
 	}
-
+	@ReadOnly
 	public List<Automobile> getAll() {
 		List<Automobile> automobiles = new ArrayList<>();
 		automobileMapper.getAll()
 			.forEach(e -> automobiles.add(getById(e.getProduct_id())));
 		return automobiles;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return automobileMapper.getMaxId();
 	}

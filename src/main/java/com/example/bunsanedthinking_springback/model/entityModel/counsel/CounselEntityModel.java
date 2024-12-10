@@ -1,18 +1,18 @@
 package com.example.bunsanedthinking_springback.model.entityModel.counsel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.counsel.CounselProcessStatus;
 import com.example.bunsanedthinking_springback.entity.customer.Gender;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.CounselMapper;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CounselVO;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CounselEntityModel {
@@ -20,7 +20,7 @@ public class CounselEntityModel {
 	private CounselMapper counselMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
-
+	@ReadOnly
 	public Counsel getById(int id) {
 		CounselVO counselVO = counselMapper.getById(id).orElse(null);
 		if (counselVO == null)
@@ -35,13 +35,13 @@ public class CounselEntityModel {
 		Gender gender = Gender.fromInt(customerVO.getGender());
 		return new Counsel(counselVO, name, phoneNumber, job, age, gender);
 	}
-
+	@ReadOnly
 	public List<Counsel> getAll() {
 		List<Counsel> counsels = new ArrayList<Counsel>();
 		counselMapper.getAll().forEach(e -> counsels.add(getById(e.getId())));
 		return counsels;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return counselMapper.getMaxId();
 	}
@@ -59,13 +59,13 @@ public class CounselEntityModel {
 			return;
 		counselMapper.deleteById(id);
 	}
-
+	@ReadOnly
 	public List<Counsel> getAllCompleted() {
 		List<Counsel> counsels = new ArrayList<Counsel>();
 		counselMapper.getAll().stream().filter(e-> e.getProcess_status() == CounselProcessStatus.Completed.getValue()).forEach(e -> counsels.add(getById(e.getId())));
 		return counsels;
 	}
-
+	@ReadOnly
 	public List<Counsel> getAllUnprocessed() {
 		List<Counsel> counsels = new ArrayList<Counsel>();
 		counselMapper.getAll().stream().filter(e-> e.getProcess_status() == CounselProcessStatus.Unprocessed.getValue()).forEach(e -> counsels.add(getById(e.getId())));

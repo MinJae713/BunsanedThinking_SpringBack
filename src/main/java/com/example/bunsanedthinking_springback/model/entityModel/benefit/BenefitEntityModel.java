@@ -1,16 +1,15 @@
 package com.example.bunsanedthinking_springback.model.entityModel.benefit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.paymentDetail.Benefit;
 import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.BenefitMapper;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.BenefitVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BenefitEntityModel {
@@ -26,14 +25,14 @@ public class BenefitEntityModel {
 				.map(benefitVO -> benefitVO.getEntity(detailVO)))
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Benefit> getAll() {
 		List<Benefit> benefits = new ArrayList<Benefit>();
 		List<BenefitVO> benefitVOS = benefitMapper.getAll();
 		benefitVOS.forEach(e -> benefits.add(getById(e.getPayment_detail_id())));
 		return benefits;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return benefitMapper.getMaxId();
 	}

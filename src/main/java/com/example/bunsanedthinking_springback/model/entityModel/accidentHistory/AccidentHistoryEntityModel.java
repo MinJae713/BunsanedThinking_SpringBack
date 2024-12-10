@@ -1,31 +1,31 @@
 package com.example.bunsanedthinking_springback.model.entityModel.accidentHistory;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
+import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
-import com.example.bunsanedthinking_springback.repository.AccidentHistoryMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AccidentHistoryEntityModel {
 	@Autowired
 	private AccidentHistoryMapper accidentHistoryMapper;
-
+	@ReadOnly
 	public AccidentHistory getById(int id) {
 		return accidentHistoryMapper.getById(id)
 			.map(AccidentHistory::new)
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<AccidentHistory> getAll() {
 		List<AccidentHistory> accidentHistories = new ArrayList<AccidentHistory>();
 		accidentHistoryMapper.getAll().forEach(e -> accidentHistories.add(getById(e.getId())));
 		return accidentHistories;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return accidentHistoryMapper.getMaxId();
 	}

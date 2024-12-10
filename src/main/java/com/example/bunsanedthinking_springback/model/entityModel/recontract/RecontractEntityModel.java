@@ -1,15 +1,15 @@
 package com.example.bunsanedthinking_springback.model.entityModel.recontract;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.repository.RecontractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.recontract.Recontract;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.repository.RecontractMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RecontractEntityModel {
@@ -17,7 +17,7 @@ public class RecontractEntityModel {
 	private RecontractMapper recontractMapper;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
+	@ReadOnly
 	public Recontract getById(int id) {
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
@@ -26,7 +26,7 @@ public class RecontractEntityModel {
 			.map(recontractVO -> recontractVO.getEntity(contract))
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Recontract> getAll() {
 		List<Recontract> recontracts = new ArrayList<Recontract>();
 		recontractMapper.getAll()
@@ -35,7 +35,7 @@ public class RecontractEntityModel {
 			);
 		return recontracts;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return recontractMapper.getMaxId();
 	}

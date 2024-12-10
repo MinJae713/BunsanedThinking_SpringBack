@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.entityModel.family;
 
 import com.example.bunsanedthinking_springback.entity.family.Family;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.FamilyMapper;
 import com.example.bunsanedthinking_springback.vo.FamilyVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +14,20 @@ import java.util.List;
 public class FamilyEntityModel {
 	@Autowired
 	private FamilyMapper familyMapper;
-
+	@ReadOnly
 	public Family getById(int id) {
 		return familyMapper.getById(id)
 			.map(FamilyVO::getEntity)
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Family> getAll() {
 		List<Family> families = new ArrayList<Family>();
 		familyMapper.getAll()
 			.forEach(e -> families.add(e.getEntity()));
 		return families;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return familyMapper.getMaxId();
 	}

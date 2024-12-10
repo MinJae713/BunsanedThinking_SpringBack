@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.sales;
 
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.employee.Sales;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.repository.SalesMapper;
 import com.example.bunsanedthinking_springback.vo.SalesVO;
@@ -17,26 +18,25 @@ public class SalesEntityModel {
 	private EmployeeEntityModel employeeEntityModel;
 	@Autowired
 	private SalesMapper salesMapper;
-
+	@ReadOnly
 	public Sales getById(int id) {
-		SalesVO salesVO = salesMapper.getById(id).orElse(null); // Optional 수정 필요
+		SalesVO salesVO = salesMapper.getById(id).orElse(null);
 		if (salesVO == null)
 			return null;
 		Employee employee = employeeEntityModel.getById(id);
 		return salesVO.getEntity(employee);
 	}
-
+	@ReadOnly
 	public List<Sales> getAll() {
 		List<Sales> sales = new ArrayList<Sales>();
 		salesMapper.getAll().forEach(e -> sales.add(getById(e.getEmployee_id())));
 		return sales;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return salesMapper.getMaxId();
 	}
 
-	// 아래들 Optional 아니라서 그냥 등가비교
 	public void add(Sales sales) {
 		if (sales == null) return;
 		if (salesMapper.getById(sales.getId()).isPresent()) return;

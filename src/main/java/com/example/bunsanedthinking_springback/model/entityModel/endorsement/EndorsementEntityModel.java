@@ -1,15 +1,15 @@
 package com.example.bunsanedthinking_springback.model.entityModel.endorsement;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.bunsanedthinking_springback.entity.contract.Contract;
+import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
+import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
+import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bunsanedthinking_springback.entity.contract.Contract;
-import com.example.bunsanedthinking_springback.entity.endorsment.Endorsement;
-import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
-import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EndorsementEntityModel {
@@ -17,7 +17,7 @@ public class EndorsementEntityModel {
 	private EndorsementMapper endorsementMapper;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
+	@ReadOnly
 	public Endorsement getById(int id) {
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
@@ -26,7 +26,7 @@ public class EndorsementEntityModel {
 			.map(endorsementVO -> endorsementVO.getEntity(contract))
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Endorsement> getAll() {
 		List<Endorsement> endorsements = new ArrayList<>();
 		endorsementMapper.getAll()
@@ -35,7 +35,7 @@ public class EndorsementEntityModel {
 			);
 		return endorsements;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return endorsementMapper.getMaxId();
 	}

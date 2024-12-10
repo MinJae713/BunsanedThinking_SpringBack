@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.insuranceContr
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.InsuranceContract;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -36,7 +37,7 @@ public class InsuranceContractEntityModel {
 	@Autowired
 	private RecontractMapper recontractMapper;
 
-
+	@ReadOnly
 	public InsuranceContract getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -52,16 +53,15 @@ public class InsuranceContractEntityModel {
 		List<Counsel> counsels = counselEntityModel.getAll().
 				stream().filter(e -> e.getProductID() == id).toList();
 		return insuranceContractVO.getEntity(productVO, loanVO, contracts, counsels);
-//		return new InsuranceContract(productVO, loanVO, insuranceId);
 	}
-
+	@ReadOnly
 	public List<InsuranceContract> getAll() {
 		List<InsuranceContract> insuranceContracts = new ArrayList<InsuranceContract>();
 		insuranceContractMapper.getAll()
 			.forEach(e -> insuranceContracts.add(getById(e.getProduct_id())));
 		return insuranceContracts;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return insuranceContractMapper.getMaxId();
 	}

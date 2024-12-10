@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.product;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
 import com.example.bunsanedthinking_springback.entity.loan.Loan;
 import com.example.bunsanedthinking_springback.entity.product.Product;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.insurance.InsuranceEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.loan.LoanEntityModel;
 import com.example.bunsanedthinking_springback.repository.ProductMapper;
@@ -20,7 +21,7 @@ public class ProductEntityModel {
 	private InsuranceEntityModel insuranceEntityModel;
 	@Autowired
 	private LoanEntityModel loanEntityModel;
-
+	@ReadOnly
 	public Product getById(int id) {
 		Product product = insuranceEntityModel.getById(id);
 		if (product != null)
@@ -28,14 +29,14 @@ public class ProductEntityModel {
 		product = loanEntityModel.getById(id);
 		return product;
 	}
-
+	@ReadOnly
 	public List<Product> getAll() {
 		List<Product> products = new ArrayList<Product>();
 		productMapper.getAll()
 			.forEach(e -> products.add(getById(e.getId())));
 		return products;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		// 이건 무조건 loan나와서 의미 없을듯염
 		return 0;

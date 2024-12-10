@@ -2,6 +2,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.revival;
 
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.revival.Revival;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.repository.RevivalMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class RevivalEntityModel {
 	private RevivalMapper revivalMapper;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
+	@ReadOnly
 	public Revival getById(int id) {
 		Contract contract = contractEntityModel.getById(id);
 		if (contract == null)
@@ -25,7 +26,7 @@ public class RevivalEntityModel {
 			.map(revivalVO -> revivalVO.getEntity(contract))
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Revival> getAll() {
 		List<Revival> revivals = new ArrayList<Revival>();
 		revivalMapper.getAll()
@@ -34,7 +35,7 @@ public class RevivalEntityModel {
 			);
 		return revivals;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return revivalMapper.getMaxId();
 	}

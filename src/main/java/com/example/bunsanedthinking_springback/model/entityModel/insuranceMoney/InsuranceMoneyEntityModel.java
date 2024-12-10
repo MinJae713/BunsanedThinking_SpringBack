@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney;
 
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.InsuranceMoneyMapper;
 import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +14,20 @@ import java.util.List;
 public class InsuranceMoneyEntityModel {
 	@Autowired
 	private InsuranceMoneyMapper insuranceMoneyMapper;
-
+	@ReadOnly
 	public InsuranceMoney getById(int id) {
 		return insuranceMoneyMapper.getById(id)
 			.map(InsuranceMoneyVO::getEntity)
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<InsuranceMoney> getAll() {
 		List<InsuranceMoney> insuranceMonies = new ArrayList<InsuranceMoney>();
 		insuranceMoneyMapper.getAll()
 			.forEach(e -> insuranceMonies.add(getById(e.getId())));
 		return insuranceMonies;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return insuranceMoneyMapper.getMaxId();
 	}

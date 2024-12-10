@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.collateral;
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.Collateral;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.repository.*;
@@ -35,7 +36,7 @@ public class CollateralEntityModel {
 	private TerminationMapper terminationMapper;
 	@Autowired
 	private RecontractMapper recontractMapper;
-
+	@ReadOnly
 	public Collateral getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -53,14 +54,14 @@ public class CollateralEntityModel {
 		return collateralVO.getEntity(productVO, loanVO, contracts, counsels);
 //		return new Collateral(productVO, loanVO, collateralType, minimumValue);
 	}
-
+	@ReadOnly
 	public List<Collateral> getAll() {
 		List<Collateral> collaterals = new ArrayList<Collateral>();
 		collateralMapper.getAll()
 			.forEach(e -> collaterals.add(getById(e.getProduct_id())));
 		return collaterals;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return collateralMapper.getMaxId();
 	}

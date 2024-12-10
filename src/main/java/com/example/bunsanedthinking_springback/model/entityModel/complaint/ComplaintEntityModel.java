@@ -1,6 +1,7 @@
 package com.example.bunsanedthinking_springback.model.entityModel.complaint;
 
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.repository.ComplaintMapper;
 import com.example.bunsanedthinking_springback.vo.ComplaintVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,19 @@ import java.util.List;
 public class ComplaintEntityModel {
 	@Autowired
 	private ComplaintMapper complaintMapper;
-
+	@ReadOnly
 	public Complaint getById(int id) {
 		return complaintMapper.getById(id)
 			.map(ComplaintVO::getEntity)
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<Complaint> getAll() {
 		List<Complaint> complaints = new ArrayList<Complaint>();
 		complaintMapper.getAll().forEach(e -> complaints.add(getById(e.getId())));
 		return complaints;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return complaintMapper.getMaxId();
 	}

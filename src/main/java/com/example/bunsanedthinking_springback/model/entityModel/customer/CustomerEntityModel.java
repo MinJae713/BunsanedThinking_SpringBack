@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.entityModel.customer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.accident.Accident;
 import com.example.bunsanedthinking_springback.entity.accidentHistory.AccidentHistory;
 import com.example.bunsanedthinking_springback.entity.complaint.Complaint;
@@ -14,15 +8,21 @@ import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.diseaseHistory.DiseaseHistory;
 import com.example.bunsanedthinking_springback.entity.surgeryHistory.SurgeryHistory;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.accident.AccidentEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.accidentHistory.AccidentHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.complaint.ComplaintEntityModel;
-import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.diseaseHistory.DiseaseHistoryEntityModel;
+import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.repository.CustomerMapper;
 import com.example.bunsanedthinking_springback.vo.CustomerVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerEntityModel {
@@ -42,7 +42,7 @@ public class CustomerEntityModel {
 	private DiseaseHistoryEntityModel diseaseHistoryEntityModel;
 	@Autowired
 	private ContractEntityModel contractEntityModel;
-
+	@ReadOnly
 	public Customer getById(int id) {
 		CustomerVO customerVO = customerMapper.getById(id).orElse(null);
 		if (customerVO == null)
@@ -79,14 +79,14 @@ public class CustomerEntityModel {
 			accidents, complaints, contracts,
 			counsels, diseaseHistories, surgeryHistories);
 	}
-
+	@ReadOnly
 	public List<Customer> getAll() {
 		List<Customer> customers = new ArrayList<Customer>();
 		customerMapper.getAll()
 			.forEach(e -> customers.add(getById(e.getId())));
 		return customers;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return customerMapper.getMaxId();
 	}

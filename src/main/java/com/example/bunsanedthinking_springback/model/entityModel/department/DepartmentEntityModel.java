@@ -1,18 +1,18 @@
 package com.example.bunsanedthinking_springback.model.entityModel.department;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.department.Department;
 import com.example.bunsanedthinking_springback.entity.employee.Employee;
 import com.example.bunsanedthinking_springback.entity.officeSupply.OfficeSupply;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.employee.EmployeeEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.officeSupply.OfficeSupplyEntityModel;
 import com.example.bunsanedthinking_springback.repository.DepartmentMapper;
 import com.example.bunsanedthinking_springback.vo.DepartmentVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DepartmentEntityModel {
@@ -22,7 +22,7 @@ public class DepartmentEntityModel {
 	private OfficeSupplyEntityModel officeSupplyDModel;
 	@Autowired
 	private EmployeeEntityModel employeeEntityModel;
-
+	@ReadOnly
 	public Department getById(int id) {
 		DepartmentVO departmentVO = departmentMapper.getById(id).orElse(null);
 		if (departmentVO == null)
@@ -33,13 +33,13 @@ public class DepartmentEntityModel {
 		employeeEntityModel.getAll().stream().filter(e -> e.getDepartmentId() == id).forEach(employees::add);
 		return departmentVO.getEntity(officeSupplies, employees);
 	}
-
+	@ReadOnly
 	public List<Department> getAll() {
 		List<Department> departments = new ArrayList<Department>();
 		departmentMapper.getAll().forEach(e -> departments.add(getById(e.getId())));
 		return departments;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return departmentMapper.getMaxId();
 	}

@@ -1,11 +1,5 @@
 package com.example.bunsanedthinking_springback.model.entityModel.paymentDetail;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.paymentDetail.AdditionalAllowance;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.Benefit;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
@@ -14,6 +8,11 @@ import com.example.bunsanedthinking_springback.model.entityModel.additionalAllow
 import com.example.bunsanedthinking_springback.model.entityModel.benefit.BenefitEntityModel;
 import com.example.bunsanedthinking_springback.repository.PaymentDetailMapper;
 import com.example.bunsanedthinking_springback.vo.PaymentDetailVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PaymentDetailEntityModel {
@@ -36,14 +35,14 @@ public class PaymentDetailEntityModel {
 			.map(PaymentDetailVO::getEntity)
 			.orElse(null);
 	}
-
+	@ReadOnly
 	public List<PaymentDetail> getAll() {
 		List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
 		paymentDetailMapper.getAll()
 			.forEach(e -> paymentDetails.add(getById(e.getId())));
 		return paymentDetails;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return paymentDetailMapper.getMaxId();
 	}

@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.entityModel.partnerCompany
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompanyType;
 import com.example.bunsanedthinking_springback.entity.report.Report;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
 import com.example.bunsanedthinking_springback.repository.PartnerCompanyMapper;
 import com.example.bunsanedthinking_springback.vo.PartnerCompanyVO;
@@ -18,7 +19,7 @@ public class PartnerCompanyEntityModel {
 	private PartnerCompanyMapper partnerCompanyMapper;
 	@Autowired
 	private ReportEntityModel reportEntityModel;
-
+	@ReadOnly
 	public PartnerCompany getById(int id) {
 		PartnerCompanyVO partnerCompanyVO = partnerCompanyMapper.getById(id).orElse(null);
 		if (partnerCompanyVO == null) return null;
@@ -35,14 +36,14 @@ public class PartnerCompanyEntityModel {
 		}
 		return partnerCompanyVO.getEntity(reports);
 	}
-
+	@ReadOnly
 	public List<PartnerCompany> getAll() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
 		partnerCompanyMapper.getAll()
 				.forEach(e -> partnerCompanies.add(getById(e.getId())));
 		return partnerCompanies;
 	}
-	// 찬님 이거 아래 두개 돌려보고 뭔가 로직 이상한거 같으면 알려주십쇼
+	@ReadOnly
 	public List<PartnerCompany> getAll_RoadsideCompany() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
 		List<PartnerCompanyVO> partnerCompanyVOS = partnerCompanyMapper.getAll().
@@ -53,6 +54,7 @@ public class PartnerCompanyEntityModel {
 					filter(e -> e.getRoadsideAssistanceCompanyID() == partnerCompanyVO.getId()).toList()));
 		return partnerCompanies;
 	}
+	@ReadOnly
 	public List<PartnerCompany> getAll_DamageAssesmentCompany() {
 		List<PartnerCompany> partnerCompanies = new ArrayList<PartnerCompany>();
 		List<PartnerCompanyVO> partnerCompanyVOS = partnerCompanyMapper.getAll().
@@ -62,7 +64,7 @@ public class PartnerCompanyEntityModel {
 					filter(e -> e.getDamageAssessmentCompanyID() == partnerCompanyVO.getId()).toList()));
 		return partnerCompanies;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return partnerCompanyMapper.getMaxId();
 	}

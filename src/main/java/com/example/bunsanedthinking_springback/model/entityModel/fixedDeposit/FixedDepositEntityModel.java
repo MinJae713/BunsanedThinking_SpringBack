@@ -1,26 +1,20 @@
 package com.example.bunsanedthinking_springback.model.entityModel.fixedDeposit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.entity.contract.Contract;
 import com.example.bunsanedthinking_springback.entity.counsel.Counsel;
 import com.example.bunsanedthinking_springback.entity.loan.FixedDeposit;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.contract.ContractEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.counsel.CounselEntityModel;
-import com.example.bunsanedthinking_springback.repository.EndorsementMapper;
-import com.example.bunsanedthinking_springback.repository.FixedDepositMapper;
-import com.example.bunsanedthinking_springback.repository.LoanMapper;
-import com.example.bunsanedthinking_springback.repository.ProductMapper;
-import com.example.bunsanedthinking_springback.repository.RecontractMapper;
-import com.example.bunsanedthinking_springback.repository.RevivalMapper;
-import com.example.bunsanedthinking_springback.repository.TerminationMapper;
+import com.example.bunsanedthinking_springback.repository.*;
 import com.example.bunsanedthinking_springback.vo.FixedDepositVO;
 import com.example.bunsanedthinking_springback.vo.LoanVO;
 import com.example.bunsanedthinking_springback.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FixedDepositEntityModel {
@@ -42,7 +36,7 @@ public class FixedDepositEntityModel {
 	private TerminationMapper terminationMapper;
 	@Autowired
 	private RecontractMapper recontractMapper;
-
+	@ReadOnly
 	public FixedDeposit getById(int id) {
 		ProductVO productVO = productMapper.getById(id).orElse(null);
 		if (productVO == null)
@@ -60,14 +54,14 @@ public class FixedDepositEntityModel {
 		return fixedDepositVO.getEntity(productVO, loanVO, contracts, counsels);
 		//		return new FixedDeposit(productVO, loanVO, minimumAmount);
 	}
-
+	@ReadOnly
 	public List<FixedDeposit> getAll() {
 		List<FixedDeposit> fixedDeposits = new ArrayList<FixedDeposit>();
 		fixedDepositMapper.getAll()
 			.forEach(e -> fixedDeposits.add(getById(e.getProduct_id())));
 		return fixedDeposits;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return fixedDepositMapper.getMaxId();
 	}
@@ -107,7 +101,7 @@ public class FixedDepositEntityModel {
 			return;
 		contractEntityModel.getAll().stream().
 			filter(e -> e.getProductId() == id).
-			forEach(e -> deleteContract(e));
+			forEach(this::deleteContract);
 		counselEntityModel.getAll().stream().
 			filter(e -> e.getProductID() == id).
 			forEach(e -> counselEntityModel.delete(e.getId()));

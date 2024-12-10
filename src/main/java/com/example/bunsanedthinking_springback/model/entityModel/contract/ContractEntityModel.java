@@ -6,6 +6,7 @@ import com.example.bunsanedthinking_springback.entity.contract.ContractStatus;
 import com.example.bunsanedthinking_springback.entity.depositDetail.DepositDetail;
 import com.example.bunsanedthinking_springback.entity.insuranceMoney.InsuranceMoney;
 import com.example.bunsanedthinking_springback.entity.paymentDetail.PaymentDetail;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.compensationDetail.CompensationDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.depositDetail.DepositDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.InsuranceMoneyEntityModel;
@@ -31,9 +32,7 @@ public class ContractEntityModel {
 	private DepositDetailEntityModel depositDetailEntityModel;
 	@Autowired
 	private PaymentDetailEntityModel paymentDetailEntityModel;
-//	@Autowired
-//	private ProductEntityModel productEntityModel;
-
+	@ReadOnly
 	public Contract getById(int id) {
 		Optional<ContractVO> optionalContractVO = contractMapper.getById(id);
 		if (optionalContractVO.isEmpty())
@@ -59,13 +58,13 @@ public class ContractEntityModel {
 //		Product product = productEntityModel.getById(contractVO.getProduct_id());
 		return new Contract(insuranceMonies, compensationDetails, depositDetails, paymentDetails, contractVO);
 	}
-
+	@ReadOnly
 	public List<Contract> getAll() {
 		List<Contract> contracts = new ArrayList<>();
 		contractMapper.getAll().forEach(e -> contracts.add(getById(e.getId())));
 		return contracts;
 	}
-
+	@ReadOnly
 	public List<Contract> getAllRequestingInsurance() {
 		List<Contract> contracts = new ArrayList<>();
 		List<Contract> requestingInsurances = new ArrayList<>();
@@ -77,7 +76,7 @@ public class ContractEntityModel {
 		}
 		return requestingInsurances;
 	}
-
+	@ReadOnly
 	public List<Contract> getAllNotRequestingInsurance() {
 		List<Contract> contracts = new ArrayList<>();
 		List<Contract> notRequestingInsurances = new ArrayList<>();
@@ -89,7 +88,7 @@ public class ContractEntityModel {
 		}
 		return notRequestingInsurances;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return contractMapper.getMaxId();
 	}

@@ -4,6 +4,7 @@ import com.example.bunsanedthinking_springback.entity.insurance.Automobile;
 import com.example.bunsanedthinking_springback.entity.insurance.Disease;
 import com.example.bunsanedthinking_springback.entity.insurance.Injury;
 import com.example.bunsanedthinking_springback.entity.insurance.Insurance;
+import com.example.bunsanedthinking_springback.global.common.ReadOnly;
 import com.example.bunsanedthinking_springback.model.entityModel.automobile.AutomobileEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.disease.DiseaseEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.injury.InjuryEntityModel;
@@ -27,7 +28,7 @@ public class InsuranceEntityModel {
 	private AutomobileEntityModel automobileEntityModel;
 	@Autowired
 	private InsuranceContractEntityModel insuranceContractEntityModel;
-
+	@ReadOnly
 	public Insurance getById(int id) {
 		Insurance insurance = diseaseEntityModel.getById(id);
 		if (insurance != null)
@@ -38,14 +39,14 @@ public class InsuranceEntityModel {
 		insurance = automobileEntityModel.getById(id);
 		return insurance;
 	}
-
+	@ReadOnly
 	public List<Insurance> getAll() {
 		List<Insurance> insurances = new ArrayList<Insurance>();
 		insuranceMapper.getAll()
 			.forEach(e -> insurances.add(getById(e.getProduct_id())));
 		return insurances;
 	}
-
+	@ReadOnly
 	public Integer getMaxId() {
 		return insuranceMapper.getMaxId();
 	}
