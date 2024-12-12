@@ -1,18 +1,17 @@
 package com.example.bunsanedthinking_springback.model.service.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.bunsanedthinking_springback.dto.authentication.LoginResponse;
 import com.example.bunsanedthinking_springback.dto.employee.humanResource.response.ManagementEmployeeResponse;
 import com.example.bunsanedthinking_springback.entity.customer.Customer;
 import com.example.bunsanedthinking_springback.entity.partnerCompany.PartnerCompany;
+import com.example.bunsanedthinking_springback.global.constants.service.authentication.AuthenticationConstants;
 import com.example.bunsanedthinking_springback.global.exception.NotExistException;
 import com.example.bunsanedthinking_springback.model.service.customer.CustomerService;
 import com.example.bunsanedthinking_springback.model.service.employee.humanResource.HumanResourceService;
 import com.example.bunsanedthinking_springback.model.service.partnerCompany.PartnerCompanyService;
-
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
@@ -50,7 +49,7 @@ public class AuthenticationService {
 
 	public LoginResponse loginCustomer(int id) throws NotExistException {
 		Customer customer = customerService.getCustomerById(id);
-		if (customer == null) throw new NotExistException("해당 고객이 없습니다");
+		if (customer == null) throw new NotExistException(AuthenticationConstants.CUSTOMER_NULL);
 		return new LoginResponse(customer.getName(), UserType.CUSTOMER.name());
 	}
 
@@ -59,7 +58,7 @@ public class AuthenticationService {
 		for (UserType userType : UserType.values())
 			if (userType.getDepartmentId() == employee.getDepartmentId())
 				return new LoginResponse(employee.getName(), userType.name());
-		throw new NotExistException("해당 직원이 없습니다");
+		throw new NotExistException(AuthenticationConstants.EMPLOYEE_NULL);
 	}
 
 	public LoginResponse loginPartnerCompany(int id) throws NotExistException {
@@ -67,7 +66,7 @@ public class AuthenticationService {
 			PartnerCompany partnerCompany = partnerCompanyService.getPartnerCompanyById(id);
 			return new LoginResponse(partnerCompany.getName(), UserType.PARTNERCOMPANY.name());
 		} catch (NotExistException e) {
-			throw new NotExistException("해당 협력업체 정보가 존재하지 않습니다");
+			throw new NotExistException(AuthenticationConstants.PARTNER_COMPANY_NULL);
 		}
 	}
 }

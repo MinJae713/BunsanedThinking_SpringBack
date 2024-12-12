@@ -3,6 +3,7 @@ package com.example.bunsanedthinking_springback.model.service.common;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.example.bunsanedthinking_springback.global.constants.service.common.S3Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,20 +34,20 @@ public class S3Service {
     public String upload(InputStream inputStream) throws IOException {
         String fileName = createFileName();
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/png");
+        metadata.setContentType(S3Constants.META_CONTENT_TYPE);
         s3Client.putObject(bucket, fileName, inputStream, metadata);
         return fileName;
     }
 
     private String createFileName() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        return UUID.randomUUID() + "_" + LocalDateTime.now().format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(S3Constants.TIME_FORMAT);
+        return UUID.randomUUID() + S3Constants.UNDER_BAR + LocalDateTime.now().format(formatter);
     }
 
     public String getObjectUrl(String objectKey) throws UnsupportedEncodingException {
-        String region = "ap-northeast-2";
-        String encodedKey = URLEncoder.encode(objectKey, "UTF-8");
-        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucket, region, encodedKey);
+        String region = S3Constants.REGION;
+        String encodedKey = URLEncoder.encode(objectKey, S3Constants.ENCODE);
+        return String.format(S3Constants.URL_FORMAT, bucket, region, encodedKey);
     }
 
     public String generatePresignedUrl(String objectKey, int durationInSeconds) {
@@ -68,7 +69,7 @@ public class S3Service {
         try {
             s3Client.deleteObject(bucket, objectKey);
         } catch (SdkClientException e) {
-            throw new IllegalStateException("[Error] AWS S3 서비스 접근에 실패했습니다.");
+            throw new IllegalStateException(S3Constants.DELETE_STATE_EXCEPTION);
         }
     }
 }

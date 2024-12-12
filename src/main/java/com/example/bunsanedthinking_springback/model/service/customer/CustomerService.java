@@ -514,11 +514,9 @@ public class CustomerService {
 		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCard();
 		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
 			throw new NotExistException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_THIS_CONTRACT);
-
 		String medicalId = s3Service.upload(medicalCertificateImage.getInputStream());
 		String receiptId = s3Service.upload(receiptImage.getInputStream());
 		String registrationId = s3Service.upload(residentRegistrationCardImage.getInputStream());
-
 		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
 				customer.getBankAccount(), medicalId, receiptId, registrationId);
 		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), serial.getInsuranceMoney()));
