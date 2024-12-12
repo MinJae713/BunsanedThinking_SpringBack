@@ -5,7 +5,6 @@ import com.example.bunsanedthinking_springback.vo.InsuranceMoneyVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,13 +24,13 @@ public class InsuranceMoney {
 	private String bankAccount;
 	private int contractID;
 	private int id;
-	private Image medicalCertificate;
-	private Image receipt;
-	private Image residentRegistrationCard;
+	private String medicalCertificate;
+	private String receipt;
+	private String residentRegistrationCard;
 	private InsuranceMoneyStatus processStatus;
 	private Date applyDate;
 
-	public InsuranceMoney(int contractId, String bankName, String bankAccount, Image medicalCertificate, Image receipt, Image residentRegistrationCard){
+	public InsuranceMoney(int contractId, String bankName, String bankAccount, String medicalCertificate, String receipt, String residentRegistrationCard){
 		this.contractID = contractId;
 		this.bankName = bankName;
 		this.bankAccount = bankAccount;
@@ -61,14 +60,10 @@ public class InsuranceMoney {
 	}
 
 	public InsuranceMoneyVO findVO() {
-		// S3 쓰면서 수정될 부분이라서 "" 분리는 일단 보류
-		String regiCardStr = residentRegistrationCard == null ? "reg_card" : residentRegistrationCard.toString();
-		String receiptStr = receipt == null ? "receipt" : receipt.toString();
-		String medicalCertificateStr = medicalCertificate == null ? "med_cert" : medicalCertificate.toString();
 		LocalDate lApplyDate = new java.util.Date(applyDate.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return new InsuranceMoneyVO(id, bankAccount,
-				bankName, regiCardStr,
-				receiptStr, medicalCertificateStr,
+				bankName, residentRegistrationCard,
+				receipt, medicalCertificate,
 				contractID, processStatus.ordinal(),
 				lApplyDate);
 	}

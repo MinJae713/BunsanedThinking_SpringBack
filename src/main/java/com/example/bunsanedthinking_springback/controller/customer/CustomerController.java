@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -223,7 +224,7 @@ public class CustomerController {
 								 @RequestParam MultipartFile medicalCertificate,
 								 @RequestParam MultipartFile receipt,
 								 @RequestParam MultipartFile residentRegistrationCard)
-			throws NotExistContractException, NotExistException {
+            throws NotExistContractException, NotExistException, IOException {
 		ReceiveInsuranceRequest receiveInsuranceRequest = new ReceiveInsuranceRequest();
 		receiveInsuranceRequest.setContractId(contractId);
 		receiveInsuranceRequest.setMedicalCertificate(medicalCertificate);

@@ -25,6 +25,7 @@ public class ViewComplaintResponse {
         java.util.Date processingDate = complaint.getProcessingDate();
         String status = complaint.getProcessStatus().getText();
         return new ViewComplaintResponse(type, complaintId,
-                title, postDate, DateUtils.toString(processingDate), status);
+                title, postDate, processingDate == null ? "" :
+                DateUtils.toString(processingDate), status);
     }
 }

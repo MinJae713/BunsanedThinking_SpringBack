@@ -51,18 +51,18 @@ import com.example.bunsanedthinking_springback.model.entityModel.recontract.Reco
 import com.example.bunsanedthinking_springback.model.entityModel.revival.RevivalEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.surgeryHistory.SurgeryHistoryEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.termination.TerminationEntityModel;
-import lombok.extern.slf4j.Slf4j;
+import com.example.bunsanedthinking_springback.model.service.common.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class CustomerService {
 
@@ -115,6 +115,8 @@ public class CustomerService {
 	private CounselEntityModel counselEntityModel;
 	@Autowired
 	private ProductEntityModel productEntityModel;
+	@Autowired
+	private S3Service s3Service;
 
 	public void applyEndorsement(int index, int contractId) throws NotExistContractException {
 		Contract contract = contractEntityModel.getById(contractId);
@@ -500,7 +502,8 @@ public class CustomerService {
 		contractEntityModel.add(contract);
 	}
 
-	public void receiveInsurance(ReceiveInsuranceRequest receiveInsuranceRequest) throws NotExistContractException, NotExistException {
+	public void receiveInsurance(ReceiveInsuranceRequest receiveInsuranceRequest)
+			throws NotExistContractException, NotExistException, IOException {
 		int contractId = receiveInsuranceRequest.getContractId();
 		Contract contract = contractEntityModel.getById(contractId);
 		if (contract == null) throw new NotExistContractException();
@@ -511,12 +514,13 @@ public class CustomerService {
 		MultipartFile residentRegistrationCardImage = receiveInsuranceRequest.getResidentRegistrationCard();
 		if (contractEntityModel.getById(contractId).getCustomerID() != customer.getId())
 			throw new NotExistException(CustomerConstants.CUSTOMER_NOT_ASSIGNED_TO_THIS_CONTRACT);
-		log.info(customer.getName());
-		log.info(medicalCertificateImage.getOriginalFilename());
-		log.info(receiptImage.getOriginalFilename());
-		log.info(residentRegistrationCardImage.getOriginalFilename());
+
+		String medicalId = s3Service.upload(medicalCertificateImage.getInputStream());
+		String receiptId = s3Service.upload(receiptImage.getInputStream());
+		String registrationId = s3Service.upload(residentRegistrationCardImage.getInputStream());
+
 		InsuranceMoney insuranceMoney = new InsuranceMoney(contractId, customer.getBankName(),
-				customer.getBankAccount(), null, null, null);
+				customer.getBankAccount(), medicalId, receiptId, registrationId);
 		insuranceMoney.setId(NextIdGetter.getNextId(insuranceMoneyEntityModel.getMaxId(), serial.getInsuranceMoney()));
 		insuranceMoneyEntityModel.add(insuranceMoney);
 

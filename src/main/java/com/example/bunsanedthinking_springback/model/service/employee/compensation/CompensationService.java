@@ -29,6 +29,7 @@ import com.example.bunsanedthinking_springback.model.entityModel.insuranceMoney.
 import com.example.bunsanedthinking_springback.model.entityModel.paymentDetail.PaymentDetailEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.product.ProductEntityModel;
 import com.example.bunsanedthinking_springback.model.entityModel.report.ReportEntityModel;
+import com.example.bunsanedthinking_springback.model.service.common.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,8 @@ public class CompensationService {
 	private AccidentEntityModel accidentEntityModel;
 	@Autowired
 	private ProductEntityModel productEntityModel;
+	@Autowired
+	private S3Service s3Service;
 
 	public void requestCompensation(CompensationRequest compensationRequest)
             throws NotExistException, AlreadyProcessedException, NotExistContractException {
@@ -141,6 +144,9 @@ public class CompensationService {
 	public RequestInsuranceMoneyDetailResponse getInsuranceMoneyById(int id)
 			throws NotExistException, NotExistContractException, IOException {
 		InsuranceMoney insuranceMoney = insuranceMoneyEntityModel.getById(id);
+		insuranceMoney.setMedicalCertificate(s3Service.getObjectUrl(insuranceMoney.getMedicalCertificate()));
+		insuranceMoney.setReceipt(s3Service.getObjectUrl(insuranceMoney.getReceipt()));
+		insuranceMoney.setResidentRegistrationCard(s3Service.getObjectUrl(insuranceMoney.getResidentRegistrationCard()));
 		Contract contract = contractEntityModel.getById(insuranceMoney.getContractID());
 		if (contract == null) throw new NotExistContractException();
 		Customer customer = customerEntityModel.getById(contract.getCustomerID());
